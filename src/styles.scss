@@ -1,0 +1,97 @@
+@import "variables.scss";
+
+//MARGIN
+@for $mincrement from 1 through 6{
+    .cmd-m-#{$mincrement}{
+        margin: #{$mincrement}rem !important;
+    }
+}
+
+@for $mrincrement from 1 through 6{
+    .cmd-mr-#{$mrincrement}{
+        margin-right: #{$mrincrement}rem !important;
+    }
+}
+
+@for $mlincrement from 1 through 6{
+    .cmd-ml-#{$mlincrement}{
+        margin-left: #{$mlincrement}rem !important;
+    }
+}
+
+@for $mtincrement from 1 through 6{
+    .cmd-mt-#{$mtincrement}{
+        margin-top: #{$mtincrement}rem !important;
+    }
+}
+
+@for $mbincrement from 1 through 6{
+    .cmd-mb-#{$mbincrement}{
+        margin-bottom: #{$mbincrement}rem !important;
+    }
+}
+
+//PADDING
+@for $pincrement from 1 through 6{
+    .cmd-p-#{$pincrement}{
+        padding: #{$pincrement}rem !important;
+    }
+}
+
+@for $princrement from 1 through 6{
+    .cmd-pr-#{$princrement}{
+        padding-right: #{$princrement}rem !important;
+    }
+}
+
+@for $plincrement from 1 through 6{
+    .cmd-pl-#{$plincrement}{
+        padding-left: #{$plincrement}rem !important;
+    }
+}
+
+@for $ptincrement from 1 through 6{
+    .cmd-pt-#{$ptincrement}{
+        padding-top: #{$ptincrement}rem !important;
+    }
+}
+
+@for $pbincrement from 1 through 6{
+    .cmd-pb-#{$pbincrement}{
+        padding-bottom: #{$pbincrement}rem !important;
+    }
+}
+
+//POSITION
+.cmd-position-fixed{
+    position: fixed !important;
+}
+
+//DISPLAY
+.cmd-flex{
+    display: flex !important;
+}
+
+//HEIGHT
+@for $hincrement from 1 through 20{
+    $height: $hincrement * 5;
+    .cmd-h-#{$height}{
+        height: percentage(($height)*1/100)  !important;
+    }
+}
+
+//WIDTH
+@for $wincrement from 1 through 20{
+    $width: $wincrement * 5;
+    .cmd-w-#{$width}{
+        width: percentage(($width)*1/100)  !important;
+    }
+}
+
+//ICONS
+a.europair-icon-blue{
+    background-color: $europair-color-blue-dark-2;
+}
+a.europair-icon-blue:hover{
+    background-color: $europair-color-blue-dark-2;
+}
