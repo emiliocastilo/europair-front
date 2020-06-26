@@ -8,18 +8,20 @@ import { InputTextComponent } from './components/basic/input-text/input-text.com
 import { LeftSidebarComponent } from './components/menus/left-sidebar/left-sidebar.component';
 import { PageBarComponent } from './components/menus/page-bar/page-bar.component';
 
-
-
-
 @NgModule({
-  declarations: [TableComponent, CheckboxComponent
-    , InputTextComponent, LeftSidebarComponent, PageBarComponent],
-  imports: [
-    CommonModule,
-    RouterModule
+  declarations: [
+    TableComponent,
+    CheckboxComponent,
+    InputTextComponent,
+    LeftSidebarComponent,
+    PageBarComponent,
   ],
+  imports: [CommonModule, RouterModule],
   exports: [
-    TableComponent, LeftSidebarComponent, PageBarComponent
-  ]
+    TableComponent,
+    LeftSidebarComponent,
+    PageBarComponent,
+    InputTextComponent,
+  ],
 })
-export class CoreModule { }
+export class CoreModule {}

@@ -1,0 +1,41 @@
+<div class="login-wrapper valign-wrapper">
+  <div class="row">
+    <div class="col s12 m6 offset-m3">
+      <div class="flex-login-card">
+        <div class="card">
+          <div class="card-image">
+            <img src="assets/images/europair_logo.svg" class="logo-image" />
+          </div>
+          <div class="card-content">
+            <form>
+              <div class="cmd-mb-1">
+                <core-basic-input-text
+                  id="user"
+                  label="Usuario"
+                  icon="person"
+                ></core-basic-input-text>
+              </div>
+              <div>
+                <core-basic-input-text
+                  id="password"
+                  label="Contraseña"
+                  type="password"
+                  icon="vpn_key"
+                ></core-basic-input-text>
+              </div>
+            </form>
+          </div>
+          <div class="card-action">
+            <a
+              class="waves-effect waves-light btn-large europair-icon-blue-1"
+              (click)="onLogin()"
+            >
+              <i class="material-icons">play_circle_outline</i>
+              <span class="login-text-btn">Login</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
