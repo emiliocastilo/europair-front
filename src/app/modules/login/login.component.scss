@@ -1,0 +1,45 @@
+@import "variables";
+
+.login-wrapper {
+  min-height: 100vh;
+  background-image: url("/assets/images/europair_background_mobile.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: $europair-color-blue-light-2;
+}
+
+.card-action {
+  padding: 0 !important;
+}
+
+.logo-image {
+  padding: 1rem;
+}
+
+.btn-large {
+  width: 100%;
+}
+
+.login-text-btn {
+  position: relative;
+  top: -0.4rem;
+}
+
+.flex-login-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+@media #{$medium-and-up} {
+  .card {
+    max-width: 70%;
+  }
+
+  .login-wrapper {
+    background-image: url("/assets/images/europair_background.png");
+  }
+}
