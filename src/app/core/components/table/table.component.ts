@@ -16,6 +16,7 @@ export class TableComponent implements OnInit {
   //COLUMN OUTPUT EVENTS
   @Output() selectedItem:EventEmitter<number> = new EventEmitter();
   @Output() switchChangesStatus:EventEmitter<any> = new EventEmitter();
+  @Output() executeActionEmitter:EventEmitter<any> = new EventEmitter();
   public internalSelectedItem:number;
 
   constructor() { }
@@ -26,8 +27,6 @@ export class TableComponent implements OnInit {
 
   ngOnChanges(){
   }
-
-  public
 
   public activate(selectedItem:number): void{
     this.selectedItem.emit(selectedItem);
@@ -41,6 +40,13 @@ export class TableComponent implements OnInit {
         selectedItem: this.internalSelectedItem
       }
     );
+  }
+
+  public executeAction(id:string, selectedItem:number){
+    this.executeActionEmitter.emit({
+      actionId: id,
+      selectedItem: selectedItem
+    });
   }
 
 }
