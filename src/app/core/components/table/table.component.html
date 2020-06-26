@@ -56,8 +56,11 @@
         <!--ACTIONS-->
         <article *ngSwitchCase="'actions'" class="actions col center-align"
           [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
-          <a class="btn-floating btn-small waves-effect waves-light europair-icon-blue"><i class="material-icons">create</i></a>
-          <a class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete</i></a>
+          <a *ngFor="let action of item.value;" 
+            class="btn-floating btn-small waves-effect waves-light"
+            [ngClass]="action.color"
+            (click)="executeAction(action.id, rowDataIndex)">
+            <i class="material-icons">{{action.icon}}</i></a>
         </article>
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">{{item.value}}
