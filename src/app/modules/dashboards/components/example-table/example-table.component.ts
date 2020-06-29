@@ -19,7 +19,9 @@ export class ExampleTableComponent implements OnInit {
     new ColumnHeaderModel('actions-header','text', '', '2')
   ];
   public columnsData:Array<RowDataModel> = [];
-
+  public pageTitle = 'Usuarios';
+  public userData = { userName: 'Usuario', userRole: 'Administrador'};
+  
   constructor() { }
 
   ngOnInit(): void {
