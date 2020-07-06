@@ -1,0 +1,28 @@
+<div class="master-letters hide-on-med-and-up">
+    <section class="letter-block row" *ngFor="let columnData of columnsData; index as rowDataIndex">
+        <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
+        <ng-container *ngIf="columnsHeader[colDataIndex].size.small">
+            <ng-container [ngSwitch]="item.type">
+                <article *ngSwitchCase="'checkbox'" class="col"
+                [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    <core-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
+                        [label]="item.value.label" [link]="item.value.link" (click)="$event.preventDefault()">
+                    </core-checkbox>
+                    <core-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
+                        [label]="item.value.label" [link]="item.value.link">
+                    </core-checkbox>
+                </article>
+                <article *ngSwitchCase="'actions'" class="col"
+                [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    <core-table-column-actions [actions]="item.value" [rowDataIndex]="rowDataIndex"
+                        ></core-table-column-actions>
+                </article>
+                <article *ngSwitchDefault class="col"
+                    [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    {{item.value}}
+                </article>
+            </ng-container>
+        </ng-container>
+        </ng-container>
+    </section>
+</div>

@@ -1,15 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'core-checkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss']
+  selector: 'core-table-column-checkbox',
+  templateUrl: './column-checkbox.component.html',
+  styleUrls: ['./column-checkbox.component.scss']
 })
-export class CheckboxComponent implements OnInit {
+export class ColumnCheckboxComponent implements OnInit {
   @Input() id:string;
   @Input() link:string;
   @Input() label:string;
   @Input() value:string;
+  @Input() checked:boolean;
   @Output() selectedValueEvent:EventEmitter<any> = new EventEmitter();
 
   constructor() { }
@@ -24,5 +25,5 @@ export class CheckboxComponent implements OnInit {
       value: this.value  
     });
   }
-
+  
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/column-header.model';
 
+import M from 'materialize-css';
+
 @Component({
   selector: 'core-table',
   templateUrl: './table.component.html',
@@ -21,8 +23,15 @@ export class TableComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    debugger
+  ngOnInit(): void { }
+
+  ngAfterViewInit(){
+    //var elems = document.querySelectorAll('.fixed-action-btn-0');
+    //var instances = M.FloatingActionButton.init(elems, {
+    //  direction: 'top'
+    //});
+    var elems = document.querySelectorAll('.actions-trigger');
+    var instances = M.Dropdown.init(elems, {});
   }
 
   ngOnChanges(){

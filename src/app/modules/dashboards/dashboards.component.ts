@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import M from 'materialize-css'
+import M from 'materialize-css';
 
 @Component({
   selector: 'dashboards',

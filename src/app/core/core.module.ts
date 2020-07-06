@@ -7,6 +7,9 @@ import { CheckboxComponent } from './components/basic/checkbox/checkbox.componen
 import { InputTextComponent } from './components/basic/input-text/input-text.component';
 import { LeftSidebarComponent } from './components/menus/left-sidebar/left-sidebar.component';
 import { PageBarComponent } from './components/menus/page-bar/page-bar.component';
+import { LetterTableComponent } from './components/table/components/letter-table/letter-table.component';
+import { ColumnActionsComponent } from './components/table/components/column-actions/column-actions.component';
+import { ColumnCheckboxComponent } from './components/table/components/column-checkbox/column-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,9 @@ import { PageBarComponent } from './components/menus/page-bar/page-bar.component
     InputTextComponent,
     LeftSidebarComponent,
     PageBarComponent,
+    LetterTableComponent,
+    ColumnActionsComponent,
+    ColumnCheckboxComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [

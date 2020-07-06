@@ -17,14 +17,19 @@
         }
     }
     .master-table-data-row{
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
         border-bottom: 1px solid $europair-color-blue-light-4;
         article.col:nth-child(1){
             background-color: $europair-color-blue-light-2;
         }
-        article.actions a{
-            margin-right: 1rem;
+        article.actions{
+            .mobile-actions{
+                ul, li, li>a{
+                    padding: 0 !important;
+                }
+                ul li>a i{
+                    margin: 0;
+                }
+            }
         }
     }
     .master-table-data-row:hover{
