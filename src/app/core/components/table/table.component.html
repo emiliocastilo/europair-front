@@ -1,50 +1,66 @@
-<div class="master-table">
+<div class="master-table hide-on-small-only">
   <section class="row master-table-column-headers">
     <ng-container *ngFor="let columnHeader of columnsHeader; index as headerIndex">
       <ng-container [ngSwitch]="columnHeader.type">
         <!--SEARCH HEADER-->
-        <article *ngSwitchCase="'search'" class="col" [ngClass]="['master-table-column-header-'+headerIndex, 's'+columnHeader.size]">
+        <article *ngSwitchCase="'search'" class="col"
+          [ngClass]="['master-table-column-header-'+headerIndex
+            , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
             <i class="material-icons">search</i>
-            <core-basic-input-text [id]="columnHeader.identifier"
-            [label]="columnHeader.label"></core-basic-input-text>
+            <core-basic-input-text [id]="columnHeader.identifier" [label]="columnHeader.label"></core-basic-input-text>
           </div>
         </article>
         <!--TEST HEADER-->
-        <article *ngSwitchDefault class="col" [ngClass]="['master-table-column-header-'+headerIndex, 's'+columnHeader.size]">
+        <article *ngSwitchDefault class="col"
+          [ngClass]="['master-table-column-header-'+headerIndex
+            , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           {{columnHeader.label}}
         </article>
       </ng-container>
     </ng-container>
   </section>
-  <section class="row master-table-data-row valign-wrapper" [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
+  <section class="row master-table-data-row valign-wrapper"
+    [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
     *ngFor="let columnData of columnsData; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
       <ng-container [ngSwitch]="item.type">
         <article *ngSwitchCase="'checkbox'" class="col"
-        [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
-          <core-checkbox></core-checkbox>
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+          <core-table-column-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
+            [label]="item.value.label" [link]="item.value.link" [checked]="rowDataIndex === internalSelectedItem"
+            (click)="$event.preventDefault()"></core-table-column-checkbox>
+          <core-table-column-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
+            [label]="item.value.label" [link]="item.value.link">
+          </core-table-column-checkbox>
         </article>
         <article *ngSwitchCase="'date'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           {{item.value | date:'dd/MM'}}</article>
         <article *ngSwitchCase="'hour'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's-'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           {{item.value | date:'HH:mm'}}</article>
         <article *ngSwitchCase="'number'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           {{item.value | number:'.1-2'}} seg</article>
         <article *ngSwitchCase="'link'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <a href="#" (click)="$event.preventDefault()" [routerLink]="item.value.link">{{item.value.label}}</a>
         </article>
         <article *ngSwitchCase="'linksGroup'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <a *ngFor="let employeeLink of item.value" href="#" (click)="$event.preventDefault()"
             [routerLink]="employeeLink.link" class="mr-3">{{employeeLink.label}}</a>
         </article>
         <article *ngSwitchCase="'switch'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <div class="custom-switch">
             <input *ngIf="item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
               class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
@@ -55,17 +71,33 @@
         </article>
         <!--ACTIONS-->
         <article *ngSwitchCase="'actions'" class="actions col center-align"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">
-          <a *ngFor="let action of item.value;" 
-            class="btn-floating btn-small waves-effect waves-light"
-            [ngClass]="action.color"
-            (click)="executeAction(action.id, rowDataIndex)">
-            <i class="material-icons">{{action.icon}}</i></a>
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+          <section class="desktop-actions hide-on-med-and-down">
+            <a *ngFor="let action of item.value;" class="btn-floating btn-small waves-effect waves-light cmd-mr-1"
+              [ngClass]="action.color" (click)="executeAction(action.id, rowDataIndex)">
+              <i class="material-icons">{{action.icon}}</i></a>
+          </section>
+          <section class="mobile-actions hide-on-large-only">
+            <a class="actions-trigger btn-floating btn-small waves-effect 
+              waves-light icon-blue-light-3" data-target="'actions'+rowDataIndex">
+              <i class="material-icons">menu</i></a>
+            <ul id="'actions'+rowDataIndex" class='dropdown-content'>
+              <li *ngFor="let action of item.value;" class="valign-wrapper">
+                <a (click)="executeAction(action.id, rowDataIndex)">
+                  <i class="material-icons">{{action.icon}}</i>{{action.label}}
+                </a>
+              </li>
+            </ul>
+          </section>
         </article>
         <article *ngSwitchDefault class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size]">{{item.value}}
+          [ngClass]="['master-table-data-col-'+colDataIndex
+            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
         </article>
       </ng-container>
     </ng-container>
   </section>
 </div>
+
+<core-letter-table [columnsData]="columnsData" [columnsHeader]="columnsHeader"></core-letter-table>

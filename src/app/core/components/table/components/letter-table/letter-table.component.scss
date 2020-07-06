@@ -1,0 +1,10 @@
+@import "~src/variables.scss";
+
+.master-letters{
+    border-top: 2px solid $europair-color-blue-light-3;
+    .letter-block{
+        margin: 0;
+        background-color: $europair-color-blue-light-1;
+        border-bottom: 1px solid $europair-color-blue-light-3;
+    }
+}
