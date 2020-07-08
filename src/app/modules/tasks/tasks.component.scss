@@ -1,0 +1,30 @@
+@import "variables";
+
+.tasks-tables-container {
+  display: flex;
+  justify-content: center;
+}
+.tasks-table {
+  width: 50%;
+  margin: 0 1rem 0 0;
+}
+.screens-table {
+  width: 50%;
+  margin: 0 0 0 1rem;
+}
+
+@media #{$small-and-down} {
+  .tasks-tables-container {
+    display: block;
+  }
+  .tasks-table {
+    overflow: scroll;
+    width: 100%;
+    margin: 0 0 1rem 0;
+  }
+  .screens-table {
+    overflow: scroll;
+    width: 100%;
+    margin: 1rem 0 0 0;
+  }
+}

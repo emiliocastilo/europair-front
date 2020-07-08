@@ -62,11 +62,13 @@
           [ngClass]="['master-table-data-col-'+colDataIndex
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <div class="custom-switch">
+            <label class="custom-control-label" [for]="item.value.id">
             <input *ngIf="item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
               class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
             <input *ngIf="!item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
               class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable">
-            <label class="custom-control-label" [for]="item.value.id"></label>
+              <span></span>
+            </label>
           </div>
         </article>
         <!--ACTIONS-->
