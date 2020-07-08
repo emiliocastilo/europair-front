@@ -10,6 +10,8 @@ import { PageBarComponent } from './components/menus/page-bar/page-bar.component
 import { LetterTableComponent } from './components/table/components/letter-table/letter-table.component';
 import { ColumnActionsComponent } from './components/table/components/column-actions/column-actions.component';
 import { ColumnCheckboxComponent } from './components/table/components/column-checkbox/column-checkbox.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { ButtonBarComponent } from './components/menus/button-bar/button-bar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ColumnCheckboxComponent } from './components/table/components/column-ch
     LetterTableComponent,
     ColumnActionsComponent,
     ColumnCheckboxComponent,
+    ModalComponent,
+    ButtonBarComponent,
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -28,6 +32,8 @@ import { ColumnCheckboxComponent } from './components/table/components/column-ch
     LeftSidebarComponent,
     PageBarComponent,
     InputTextComponent,
+    ModalComponent,
+    ButtonBarComponent,
   ],
 })
 export class CoreModule {}

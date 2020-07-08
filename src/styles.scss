@@ -1,4 +1,4 @@
-@import "variables.scss";
+@import "variables";
 
 //MARGIN
 @for $mincrement from 1 through 6 {
@@ -126,8 +126,34 @@ a.europair-icon-blue-1:hover {
   background-color: $europair-color-blue-dark-1;
 }
 
+a.europair-icon-red-1 {
+  background-color: $europair-color-red-1;
+}
+a.europair-icon-red-1:hover {
+  background-color: $europair-color-red-1;
+}
+
+a.europair-button-blue-1 {
+  color: $europair-color-blue-dark-1;
+}
+a.europair-button-blue-1:hover {
+  color: $europair-color-blue-dark-1;
+}
+
 // INPUT
 
 input {
   color: $europair-color-blue-dark-2;
+}
+
+// BUTTONS
+.full-width-btn-text {
+  position: relative;
+  top: -0.4rem;
+}
+
+// MODALS
+.modal-header {
+  display: flex;
+  justify-content: space-between;
 }
