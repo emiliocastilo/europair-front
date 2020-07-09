@@ -12,7 +12,7 @@ import {
 export class ButtonBarComponent implements OnInit {
   @Input()
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva tarea' },
+    { type: BarButtonType.NEW, text: 'Nuevo' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
   @Input()

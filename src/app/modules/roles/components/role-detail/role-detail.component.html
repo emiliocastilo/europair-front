@@ -1,0 +1,37 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="role-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <core-basic-input-text [id]="'task-name'" [label]="'Rol'" [formControl]="roleNameControl" [hasErrors]="hasRoleNameControlErrors()">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasRoleNameControlErrors()">
+            <span *ngIf="roleNameControl.errors.required" class="helper-text" data-error="Debe indicar el nombre del rol">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-basic-input-text>
+    </section>
+    <section class="role-detail-table">
+      <core-table
+      [columnsHeader]="taskColumnsHeader"
+      [columnsData]="taskColumnsData"
+      (switchChangesStatus)="taskAssignedChanged($event)"
+      ></core-table>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    [ngClass]="{'disabled': !roleNameControl.valid}" (click)="onSaveRole()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>
+

@@ -1,0 +1,30 @@
+@import "variables";
+
+.roles-tables-container {
+  display: flex;
+  justify-content: center;
+}
+.roles-table {
+  width: 50%;
+  margin: 0 1rem 0 0;
+}
+.tasks-table {
+  width: 50%;
+  margin: 0 0 0 1rem;
+}
+
+@media #{$small-and-down} {
+  .roles-tables-container {
+    display: block;
+  }
+  .roles-table {
+    overflow: scroll;
+    width: 100%;
+    margin: 0 0 1rem 0;
+  }
+  .tasks-table {
+    overflow: scroll;
+    width: 100%;
+    margin: 1rem 0 0 0;
+  }
+}
