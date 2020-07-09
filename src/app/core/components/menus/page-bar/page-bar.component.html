@@ -5,7 +5,7 @@
     </section>
     <section *ngIf="userData" class="valign-wrapper hide-on-small-only">
       <section class="user-menu-btn">
-        <a class="btn-floating waves-effect waves-light europair-icon-blue-light-4">
+        <a class="btn-floating waves-effect waves-light icon-blue-light-4">
           <i class="material-icons">account_circle</i>
         </a>
       </section>
@@ -13,7 +13,7 @@
         <div class="user-name">{{ userData?.userName }}</div>
       </section>
       <section class="logout-btn">
-        <a class="btn-flat waves-effect waves-light">
+        <a class="btn-flat waves-effect waves-light" (click)="logout()">
           <i class="material-icons europair-icon-blue">power_settings_new</i>
         </a>
       </section>

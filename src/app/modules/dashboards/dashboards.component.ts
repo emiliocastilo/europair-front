@@ -9,7 +9,10 @@ export class DashboardsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    var elems = document.querySelectorAll('.menu');
+  }
+
+  ngAfterViewInit(): void {
+    var elems = document.querySelectorAll('.left-sidebar');
     var instances = M.Pushpin.init(elems, {
       top: 0,
       offset: 0,

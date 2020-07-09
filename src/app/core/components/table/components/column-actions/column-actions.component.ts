@@ -7,6 +7,7 @@ import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-act
   styleUrls: ['./column-actions.component.scss']
 })
 export class ColumnActionsComponent implements OnInit {
+  @Input() prefix: string;
   @Input() rowDataIndex: number;
   @Input() actions:ColumnActionsModel;
   @Output() executeActionEmitter:EventEmitter<any> = new EventEmitter();

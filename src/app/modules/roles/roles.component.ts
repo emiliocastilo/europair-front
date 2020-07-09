@@ -12,6 +12,7 @@ import { Task } from '../tasks/models/task';
 import { RolesTableAdapterService } from './services/roles-table-adapter.service';
 import { RolesService } from './services/roles.service';
 import { RoleDetailComponent } from './components/role-detail/role-detail.component';
+import { TasksService } from '../tasks/services/tasks.service';
 
 @Component({
   selector: 'app-roles',
@@ -72,6 +73,7 @@ export class RolesComponent implements OnInit {
   };
   constructor(
     private modalService: ModalService,
+    private taskService: TasksService,
     private rolesService: RolesService,
     private rolesTableAdapterService: RolesTableAdapterService
   ) {}
@@ -83,24 +85,19 @@ export class RolesComponent implements OnInit {
 
   private initializeRoleTable() {
     this.roleColumnsHeader = this.rolesTableAdapterService.getRoleColumnsHeader();
-    this.roles = this.rolesService.getMockRoles();
-    this.roleColumnsData = this.rolesTableAdapterService.getRoleTableDataFromRoles(
-      this.roles
-    );
-    // this.taskService.getTasks().subscribe((tasks) => {
-    //   this.tasks = tasks;
-    //   this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
-    //     tasks
-    //   );
-    // });
+    this.rolesService.getRoles().subscribe((roles) => {
+    this.roles = roles['content'];
+      this.roleColumnsData = this.rolesTableAdapterService.getRoleTableDataFromRoles(
+        roles['content']
+      );
+    });
   }
 
   private initializeTaskTable() {
     this.taskColumnsHeader = this.rolesTableAdapterService.getTaskColumnsHeader();
-    this.tasks = this.rolesService.getMockTasks();
-    // this.taskService
-    //   .getScreens()
-    //   .subscribe((screens) => (this.screens = screens));
+    this.taskService
+      .getTasks()
+      .subscribe((tasks) => (this.tasks = tasks['content']));
   }
 
   private initializeRoleDetailModal(
@@ -150,7 +147,9 @@ export class RolesComponent implements OnInit {
 
   public onSaveRole(role: Role) {
     this.modalService.closeModal();
-    this.rolesService.saveMockRole(role);
+    this.rolesService.saveRole(role).subscribe(
+      (role) => console.log(role)
+    );
     this.initializeRoleTable();
     this.onRoleSelected(this.selectedItem);
   }

@@ -215,13 +215,23 @@ export class TasksService {
   constructor(private http: HttpClient) {}
 
   public getTasks(): Observable<Task[]> {
-    const url = environment.apiUrl + 'tasks.json';
+    const url = environment.apiUrl + 'tasks';
     return this.http.get<Task[]>(url);
   }
 
   public getScreens(): Observable<Screen[]> {
-    const url = environment.apiUrl + 'screens.json';
+    const url = environment.apiUrl + 'screens';
     return this.http.get<Screen[]>(url);
+  }
+
+  public saveTask(task: Task):Observable<Task> {
+    const url = environment.apiUrl + 'tasks';
+    return this.http.post<Task>(url, task);
+  }
+
+  public deleteTask(task:Task):Observable<any>{
+    const url = environment.apiUrl + 'tasks';
+    return this.http.delete<Task>(url+ '/' + task.id);
   }
 
   public getMockTasks(): Task[] {

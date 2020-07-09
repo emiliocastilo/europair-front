@@ -75,24 +75,8 @@
         <article *ngSwitchCase="'actions'" class="actions col center-align"
           [ngClass]="['master-table-data-col-'+colDataIndex
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          <section class="desktop-actions hide-on-med-and-down">
-            <a *ngFor="let action of item.value;" class="btn-floating btn-small waves-effect waves-light cmd-mr-1"
-              [ngClass]="action.color" (click)="executeAction(action.id, rowDataIndex)">
-              <i class="material-icons">{{action.icon}}</i></a>
-          </section>
-          <section class="mobile-actions hide-on-large-only">
-            <a class="actions-trigger btn-floating btn-small waves-effect 
-              waves-light icon-blue-light-3" data-target="'actions'+rowDataIndex">
-              <i class="material-icons">menu</i></a>
-            <ul id="'actions'+rowDataIndex" class='dropdown-content'>
-              <li *ngFor="let action of item.value;" class="valign-wrapper">
-                <a (click)="executeAction(action.id, rowDataIndex)">
-                  <i class="material-icons">{{action.icon}}</i>{{action.label}}
-                </a>
-              </li>
-            </ul>
-          </section>
-        </article>
+            <core-table-column-actions [prefix]="'desktop-table'" [actions]="item.value" [rowDataIndex]="rowDataIndex"></core-table-column-actions>
+            </article>
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-data-col-'+colDataIndex
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
@@ -102,4 +86,6 @@
   </section>
 </div>
 
-<core-letter-table [columnsData]="columnsData" [columnsHeader]="columnsHeader"></core-letter-table>
+<core-letter-table [columnsData]="columnsData" 
+  [columnsHeader]="columnsHeader" [internalSelectedItem]="internalSelectedItem"
+  (selectedValue)="activate($event.value)"></core-letter-table>

@@ -62,6 +62,7 @@ export class TasksComponent implements OnInit {
     this.modalService.openModal();
   };
   private deleteTask = (selectedItem: number) => {
+    debugger
     this.selectedItem = selectedItem;
     this.initializeModal(this.confirmDeleteModal);
     this.modalService.openModal();
@@ -84,24 +85,19 @@ export class TasksComponent implements OnInit {
 
   private initializeTaskTable() {
     this.taskColumnsHeader = this.taskTableAdapterService.getTaskColumnsHeader();
-    this.tasks = this.taskService.getMockTasks();
-    this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
-      this.tasks
-    );
-    // this.taskService.getTasks().subscribe((tasks) => {
-    //   this.tasks = tasks;
-    //   this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
-    //     tasks
-    //   );
-    // });
+    this.taskService.getTasks().subscribe((tasks) => {
+      this.tasks = tasks['content'];
+      this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
+        tasks['content']
+      );
+    });
   }
 
   private initializeScreenTable() {
     this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
-    this.screens = this.taskService.getMockScreens();
-    // this.taskService
-    //   .getScreens()
-    //   .subscribe((screens) => (this.screens = screens));
+    this.taskService
+       .getScreens()
+       .subscribe((screens) => (this.screens = screens['content']));
   }
 
   private initializeTaskDetailModal(
@@ -110,6 +106,7 @@ export class TasksComponent implements OnInit {
   ) {
     this.taskDetailTitle = taskDetailTitle;
     this.taskSelected = taskSelected;
+    debugger
     this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
       this.screens,
       this.taskSelected,
@@ -144,14 +141,16 @@ export class TasksComponent implements OnInit {
   }
 
   public onConfirmDeleteTask() {
-    this.taskService.deleteMockTask(this.tasks[this.selectedItem]);
+    this.taskService.deleteTask(this.tasks[this.selectedItem]);
     this.initializeTaskTable();
     this.screenColumnsData = [];
   }
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
-    this.taskService.saveMockTask(task);
+    this.taskService.saveTask(task).subscribe(
+      (task) => console.log(task)
+    );
     this.initializeTaskTable();
     this.onTaskSelected(this.selectedItem);
   }

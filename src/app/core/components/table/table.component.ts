@@ -22,18 +22,15 @@ export class TableComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit() {
-    //var elems = document.querySelectorAll('.fixed-action-btn-0');
-    //var instances = M.FloatingActionButton.init(elems, {
-    //  direction: 'top'
-    //});
-    var elems = document.querySelectorAll('.actions-trigger');
-    var instances = M.Dropdown.init(elems, {});
+  ngAfterViewInit(): void {
+    debugger
+    var letterElems = document.querySelectorAll('a[id^=letter-actions-');
+    M.Dropdown.init(letterElems, {});
+    var tableElems = document.querySelectorAll('a[id^=desktop-table-actions-');
+    M.Dropdown.init(tableElems, {});
   }
 
-  ngOnChanges() {}
-
-  public activate(selectedItem: number): void {
+  public activate(selectedItem:number): void{
     this.selectedItem.emit(selectedItem);
     this.internalSelectedItem = selectedItem;
   }
