@@ -3,7 +3,10 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
-import { BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
+import {
+  BarButtonType,
+  BarButton,
+} from 'src/app/core/models/menus/button-bar/bar-button';
 import { TasksTableAdapterService } from './services/tasks-table-adapter.service';
 import { TasksService } from './services/tasks.service';
 import { Screen } from './models/screen';
@@ -35,6 +38,10 @@ export class TasksComponent implements OnInit {
   public taskDetailTitle: string;
   public taskSelected: Task = EMPTY_TASK;
   private selectedItem: number;
+  public barButtons: BarButton[] = [
+    { type: BarButtonType.NEW, text: 'Nueva tarea' },
+    { type: BarButtonType.DELETE, text: 'Borrar' },
+  ];
 
   private readonly EDIT_TASK_TITLE = 'Editar tarea';
   private readonly CREATE_TASK_TITLE = 'Crear tarea';
