@@ -1,3 +1,22 @@
-.dashboards-wrapper{
-    padding-left: 15%;
+@import "~src/variables.scss";
+
+@media #{$large-and-up}{
+    .dashboards-wrapper{
+        padding-left: 18%;
+        padding-right: 3%;
+    }
+}
+
+@media #{$medium-only}{
+    .dashboards-wrapper{
+        padding-left: 23%;
+        padding-right: 3%;
+    }
+}
+
+@media #{$small-and-down} {
+    .dashboards-wrapper{
+        padding-left: 0%;
+        padding-right: 0%;
+    }
 }

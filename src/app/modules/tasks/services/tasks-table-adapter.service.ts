@@ -20,19 +20,19 @@ export class TasksTableAdapterService implements OnDestroy {
         'selector-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('1', '2', '1')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
         'Tarea',
-        new ColumnHeaderSizeModel('5', '7', '7')
+        new ColumnHeaderSizeModel('9', '6', '7')
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('6', '4', '4')
+        new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
   }
@@ -43,13 +43,13 @@ export class TasksTableAdapterService implements OnDestroy {
         'screen-header',
         'text',
         'Pantalla',
-        new ColumnHeaderSizeModel('8', '8', '8')
+        new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
         'Asignado',
-        new ColumnHeaderSizeModel('4', '4', '4')
+        new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
   }

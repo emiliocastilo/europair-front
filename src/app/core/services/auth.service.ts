@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _httpClient: HttpClient) {}
+  constructor(private _httpClient: HttpClient,
+    private _router: Router) {}
 
   public login(userData: {
     username: string;
@@ -20,5 +22,6 @@ export class AuthService {
 
   public closeSession() {
     sessionStorage.removeItem('AUTH-TOKEN');
+    this._router.navigate(['/login']);
   }
 }

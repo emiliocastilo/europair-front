@@ -4,10 +4,10 @@
         <i class="material-icons">{{action.icon}}</i></a>
 </section>
 <section class="mobile-actions hide-on-large-only">
-    <a class="actions-trigger btn-floating btn-small waves-effect 
-      waves-light icon-blue-light-3" data-target="'actions'+rowDataIndex">
+    <a [id]="prefix+'-actions-'+rowDataIndex+'-trigger'" class="actions-trigger btn-floating btn-small waves-effect 
+      waves-light icon-blue-light-3" [attr.data-target]="prefix+'-actions-'+rowDataIndex">
         <i class="material-icons">menu</i></a>
-    <ul id="'actions'+rowDataIndex" class='dropdown-content'>
+    <ul [id]="prefix+'-actions-'+rowDataIndex" class='dropdown-content'>
         <li *ngFor="let action of actions;" class="valign-wrapper">
             <a (click)="executeAction(action.id, rowDataIndex)">
                 <i class="material-icons">{{action.icon}}</i>{{action.label}}

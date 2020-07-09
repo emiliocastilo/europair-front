@@ -1,10 +1,49 @@
 <div class="left-sidebar cmd-h-100">
+    <!--First column-->
     <div class="row">
-        <section class="left-sidebar-icons col s3 m3 l3">
-            <article class="left-sidebar-main-button">sadsadasd</article>
+        <section class="left-sidebar-icons col m4 l3 cmd-h-100">
+            <div class="row">
+                <article class="left-sidebar-main-icon valign-wrapper col m12 l12">
+                    <i class="material-icons oc icon-blue-light-4">keyboard_arrow_left</i>
+                </article>
+            </div>
+            <div class="row">
+                <article class="icon-block col m12 l12 center-align">
+                    <a class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"><i class="material-icons">import_contacts</i></a>
+                </article>
+            </div>
+            <div class="row">
+                <article class="icon-block col m12 l12 center-align">
+                    <span>.</span>
+                </article>
+            </div>
+            <div class="row">
+                <article class="icon-block col m12 l12 center-align">
+                    <span>.</span>
+                </article>
+            </div>
         </section>
-        <section class="left-sidebar-links col s9 m9 l9">
-            <article class="left-sidebar-main-logo">asdsada</article>
+        <section class="left-sidebar-links col m8 l9">
+            <div class="row">
+                <article class="left-sidebar-main-logo valign-wrapper col m12 l12">
+                    <img href="#" src="assets/images/brand-left-sidebar.svg"/>
+                </article>
+            </div>
+            <div class="row">
+                <article class="text-block col m12 l12">
+                    <span>Maestros</span>
+                </article>
+            </div>
+            <div class="row">
+                <article class="text-block cmd-pl-2 col m12 l12">
+                    <a [routerLink]="['/roles']"  routerLinkActive="active-link">Roles</a>
+                </article>
+            </div>
+            <div class="row">
+                <article class="text-block cmd-pl-2 col m12 l12">
+                    <a [routerLink]="['/tasks']"  routerLinkActive="active-link">Tareas</a>
+                </article>
+            </div>
         </section>
     </div>
 </div>

@@ -1,5 +1,49 @@
 @import "~src/variables.scss";
 
+@media #{$large-and-up}{
+    .left-sidebar{
+        width: 15%;
+    }
+}
+
+@media #{$medium-and-down}{
+    .left-sidebar{
+        width: 20%;
+    }
+}
+
 .left-sidebar{
     background-color: $europair-color-blue-dark-3;
+    .left-sidebar-main-icon{
+        height: 6rem;
+    }
+    .left-sidebar-main-logo{
+        height: 6rem;
+    }
+    .left-sidebar-icons{
+        border-right: 1px solid $europair-color-blue-dark-5;
+        .icon-block{
+            height: 2rem;
+        }
+    }
+    .left-sidebar-links{
+        .text-block{
+            height: 2rem;
+            padding: 0;
+            span{
+                color: white;
+            }
+            a{
+                display: block;
+                color: $europair-color-blue-light-4;
+            }
+            .active-link{
+                color: white;
+                font-style: italic;
+                background-image: linear-gradient(to right
+                    , $europair-color-blue-dark-3, $europair-color-blue-dark-7);
+                border-right: 3px solid $europair-color-blue-light-5;
+            }
+        }
+    }
 }

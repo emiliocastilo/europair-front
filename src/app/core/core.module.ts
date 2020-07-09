@@ -12,6 +12,7 @@ import { ColumnActionsComponent } from './components/table/components/column-act
 import { ColumnCheckboxComponent } from './components/table/components/column-checkbox/column-checkbox.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ButtonBarComponent } from './components/menus/button-bar/button-bar.component';
+import { MobileBarComponent } from './components/menus/mobile-bar/mobile-bar.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ButtonBarComponent } from './components/menus/button-bar/button-bar.com
     ColumnCheckboxComponent,
     ModalComponent,
     ButtonBarComponent,
+    MobileBarComponent
   ],
   imports: [CommonModule, RouterModule],
   exports: [
@@ -34,6 +36,7 @@ import { ButtonBarComponent } from './components/menus/button-bar/button-bar.com
     InputTextComponent,
     ModalComponent,
     ButtonBarComponent,
+    MobileBarComponent
   ],
 })
 export class CoreModule {}
