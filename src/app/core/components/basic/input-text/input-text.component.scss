@@ -1,0 +1,23 @@
+@import "~src/variables.scss";
+
+.core-basic-input-field.input-field {
+  margin: 0;
+  padding: 0;
+  input[type="text"],
+  input[type="password"] {
+    border-bottom: 1px solid $europair-color-blue-dark-2;
+  }
+  input.valid[type="text"]:not(.browser-default),
+  input[type="text"]:focus,
+  input.valid[type="password"]:not(.browser-default),
+  input[type="password"]:focus {
+    box-shadow: 0 1px 0 0 $europair-color-blue-dark-2;
+  }
+  input[type="text"] + label,
+  input[type="password"] + label {
+    color: $europair-color-blue-dark-2;
+  }
+  .prefix.right {
+    right: 0;
+  }
+}

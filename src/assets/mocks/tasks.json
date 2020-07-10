@@ -1,0 +1,158 @@
+[
+  {
+    "id": 1,
+    "name": "Gestión de expedientes",
+    "description": "",
+    "screens": [
+      {
+        "id": 6,
+        "name": "Expedientes",
+        "description": ""
+      },
+      {
+        "id": 7,
+        "name": "Cotizaciones",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Gestión contactos",
+    "description": "",
+    "screens": [
+      {
+        "id": 2,
+        "name": "Aeropuertos",
+        "description": ""
+      },
+      {
+        "id": 4,
+        "name": "Franjas horarias",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Configuración de usuarios",
+    "description": "",
+    "screens": [
+      {
+        "id": 1,
+        "name": "Usuarios",
+        "description": ""
+      },
+      {
+        "id": 8,
+        "name": "Configuracion",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Configuración de la herramienta",
+    "description": "",
+    "screens": [
+      {
+        "id": 8,
+        "name": "Configuracion",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Creación de cotizaciones",
+    "description": "",
+    "screens": [
+      {
+        "id": 5,
+        "name": "Tipos de impuesto",
+        "description": ""
+      },
+      {
+        "id": 6,
+        "name": "Expedientes",
+        "description": ""
+      },
+      {
+        "id": 7,
+        "name": "Cotizaciones",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Envío de facturas",
+    "description": "",
+    "screens": [
+      {
+        "id": 5,
+        "name": "Tipos de impuesto",
+        "description": ""
+      },
+      {
+        "id": 6,
+        "name": "Expedientes",
+        "description": ""
+      },
+      {
+        "id": 7,
+        "name": "Cotizaciones",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Seguimiento de vuelos",
+    "description": "",
+    "screens": [
+      {
+        "id": 2,
+        "name": "Aeropuertos",
+        "description": ""
+      },
+      {
+        "id": 3,
+        "name": "Flota",
+        "description": ""
+      },
+      {
+        "id": 4,
+        "name": "Franjas horarias",
+        "description": ""
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Recálculo de tasas",
+    "description": "",
+    "screens": [
+      {
+        "id": 4,
+        "name": "Franjas horarias",
+        "description": ""
+      },
+      {
+        "id": 5,
+        "name": "Tipos de impuesto",
+        "description": ""
+      },
+      {
+        "id": 6,
+        "name": "Expedientes",
+        "description": ""
+      },
+      {
+        "id": 7,
+        "name": "Cotizaciones",
+        "description": ""
+      }
+    ]
+  }
+]

@@ -1,0 +1,41 @@
+<div class="master-letters hide-on-med-and-up">
+    <section class="letter-block row" *ngFor="let columnData of columnsData; index as rowDataIndex">
+        <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
+        <ng-container *ngIf="columnsHeader[colDataIndex].size.small">
+            <ng-container [ngSwitch]="item.type">
+                <article *ngSwitchCase="'checkbox'" class="col"
+                [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    <core-table-column-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
+                        [label]="item.value.label" [link]="item.value.link" (click)="$event.preventDefault()"
+                        [checked]="rowDataIndex === internalSelectedItem" (selectedValueEvent)="onSelectedValue($event)">
+                    </core-table-column-checkbox>
+                    <core-table-column-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
+                        [label]="item.value.label" [link]="item.value.link" (selectedValueEvent)="onSelectedValue($event)">
+                    </core-table-column-checkbox>
+                </article>
+                <article *ngSwitchCase="'switch'" class="col"
+                [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    <div class="custom-switch">
+                        <label class="custom-control-label" [for]="item.value.id">
+                        <input *ngIf="item.value.check" type="checkbox"
+                          class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
+                        <input *ngIf="!item.value.check" type="checkbox"
+                          class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable">
+                          <span></span>
+                        </label>
+                      </div>
+                </article>
+                <article *ngSwitchCase="'actions'" class="col"
+                [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    <core-table-column-actions [prefix]="'letter'" [actions]="item.value" [rowDataIndex]="rowDataIndex"
+                        ></core-table-column-actions>
+                </article>
+                <article *ngSwitchDefault class="col"
+                    [ngClass]="['letter-block-col-'+colDataIndex, 's'+columnsHeader[colDataIndex].size.small]">
+                    {{item.value}}
+                </article>
+            </ng-container>
+        </ng-container>
+        </ng-container>
+    </section>
+</div>

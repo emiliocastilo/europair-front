@@ -1,0 +1,23 @@
+<div class="page-bar-wrapper">
+  <div class="page-bar-content cmd-flex">
+    <section class="valign-wrapper">
+      <h1 class="title">{{ pageTitle }}</h1>
+    </section>
+    <section class="valign-wrapper hide-on-small-only">
+      <section class="user-menu-btn">
+        <a class="btn-floating waves-effect waves-light icon-blue-light-4">
+          <i class="material-icons">account_circle</i>
+        </a>
+      </section>
+      <section class="user-data">
+        <div class="user-name">{{ userName }}</div>
+      </section>
+      <section class="logout-btn">
+        <a class="btn-flat waves-effect waves-light" (click)="logout()">
+          <i class="material-icons europair-icon-blue">power_settings_new</i>
+        </a>
+      </section>
+    </section>
+  </div>
+  <div class="divider"></div>
+</div>

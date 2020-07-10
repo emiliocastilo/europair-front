@@ -1,0 +1,52 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar
+  [barButtons]="barButtons"
+  [itemsSelectedCount]="tasksSelectedCount"
+  (executeAction)="onBarButtonClicked($event)">
+</core-button-bar>
+<section class="tasks-tables-container cmd-mt-1">
+  <section class="tasks-table">
+    <core-table
+      [columnsHeader]="taskColumnsHeader"
+      [columnsData]="taskColumnsData"
+      (selectedItem)="onTaskSelected($event)"
+      (executeActionEmitter)="onTaskAction($event)">
+    </core-table>
+  </section>
+  <section class="screens-table">
+    <core-table
+      [columnsHeader]="screenColumnsHeader"
+      [columnsData]="screenColumnsData">
+    </core-table>
+  </section>
+</section>
+
+<app-task-detail
+  [title]="taskDetailTitle"
+  [screenColumnsHeader]="screenColumnsHeader"
+  [screenColumnsData]="taskDetailScreenColumnsData"
+  [screens]="screens"
+  [taskDetail]="taskSelected"
+  (saveTask)="onSaveTask($event)">
+</app-task-detail>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar este registro?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteTask()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

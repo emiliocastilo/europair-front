@@ -1,0 +1,13 @@
+@import "~src/variables.scss";
+
+.mobile-menu{
+    nav{
+        background-color: $europair-color-blue-dark-3;
+        .user-identity{
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+}
