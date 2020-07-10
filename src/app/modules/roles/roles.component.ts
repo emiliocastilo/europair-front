@@ -148,9 +148,11 @@ export class RolesComponent implements OnInit {
   public onSaveRole(role: Role) {
     this.modalService.closeModal();
     this.rolesService.saveRole(role).subscribe(
-      (role) => console.log(role)
+      (role) => {
+        console.log(role);
+        this.initializeRoleTable();
+        this.onRoleSelected(this.selectedItem);
+      }
     );
-    this.initializeRoleTable();
-    this.onRoleSelected(this.selectedItem);
   }
 }
