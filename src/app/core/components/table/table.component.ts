@@ -43,6 +43,7 @@ export class TableComponent implements OnInit {
   }
 
   public executeAction(id: string, selectedItem: number) {
+    debugger
     this.executeActionEmitter.emit({
       actionId: id,
       selectedItem: selectedItem,

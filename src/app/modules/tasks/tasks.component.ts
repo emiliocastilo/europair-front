@@ -62,7 +62,6 @@ export class TasksComponent implements OnInit {
     this.modalService.openModal();
   };
   private deleteTask = (selectedItem: number) => {
-    debugger
     this.selectedItem = selectedItem;
     this.initializeModal(this.confirmDeleteModal);
     this.modalService.openModal();
@@ -106,7 +105,6 @@ export class TasksComponent implements OnInit {
   ) {
     this.taskDetailTitle = taskDetailTitle;
     this.taskSelected = taskSelected;
-    debugger
     this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
       this.screens,
       this.taskSelected,
@@ -141,17 +139,24 @@ export class TasksComponent implements OnInit {
   }
 
   public onConfirmDeleteTask() {
-    this.taskService.deleteTask(this.tasks[this.selectedItem]);
-    this.initializeTaskTable();
-    this.screenColumnsData = [];
+    this.taskService.deleteTask(this.tasks[this.selectedItem]).subscribe(
+      (response) => {
+        console.log(response);
+        this.initializeTaskTable();
+        this.screenColumnsData = [];
+      }
+    );
   }
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
     this.taskService.saveTask(task).subscribe(
-      (task) => console.log(task)
+      (task) => {
+        console.log(task)
+        this.initializeTaskTable();
+        this.initializeScreenTable();
+        this.onTaskSelected(this.selectedItem);
+      }
     );
-    this.initializeTaskTable();
-    this.onTaskSelected(this.selectedItem);
   }
 }

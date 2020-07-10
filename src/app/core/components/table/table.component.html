@@ -75,7 +75,8 @@
         <article *ngSwitchCase="'actions'" class="actions col center-align"
           [ngClass]="['master-table-data-col-'+colDataIndex
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-            <core-table-column-actions [prefix]="'desktop-table'" [actions]="item.value" [rowDataIndex]="rowDataIndex"></core-table-column-actions>
+            <core-table-column-actions [prefix]="'desktop-table'" [actions]="item.value" 
+              [rowDataIndex]="rowDataIndex" (executeActionEmitter)="executeAction($event.actionId, $event.selectedItem)"></core-table-column-actions>
             </article>
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-data-col-'+colDataIndex
