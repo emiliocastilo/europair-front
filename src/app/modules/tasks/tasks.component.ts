@@ -31,13 +31,12 @@ export class TasksComponent implements OnInit {
   public screenColumnsData: RowDataModel[] = [];
   public taskDetailScreenColumnsData: RowDataModel[] = [];
   public pageTitle = 'Tareas';
-  public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public tasksSelectedCount = 0;
   public screens: Screen[];
   private tasks: Task[];
   public taskDetailTitle: string;
   public taskSelected: Task = EMPTY_TASK;
-  private selectedItem: number;
+  private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva tarea' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
@@ -89,14 +88,17 @@ export class TasksComponent implements OnInit {
       this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
         tasks['content']
       );
+      if (this.selectedItem >= 0) {
+        this.onTaskSelected(this.selectedItem);
+      }
     });
   }
 
   private initializeScreenTable() {
     this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
     this.taskService
-       .getScreens()
-       .subscribe((screens) => (this.screens = screens['content']));
+      .getScreens()
+      .subscribe((screens) => (this.screens = screens['content']));
   }
 
   private initializeTaskDetailModal(
@@ -139,24 +141,21 @@ export class TasksComponent implements OnInit {
   }
 
   public onConfirmDeleteTask() {
-    this.taskService.deleteTask(this.tasks[this.selectedItem]).subscribe(
-      (response) => {
+    this.taskService
+      .deleteTask(this.tasks[this.selectedItem])
+      .subscribe((response) => {
         console.log(response);
         this.initializeTaskTable();
         this.screenColumnsData = [];
-      }
-    );
+      });
   }
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
-    this.taskService.saveTask(task).subscribe(
-      (task) => {
-        console.log(task)
-        this.initializeTaskTable();
-        this.initializeScreenTable();
-        this.onTaskSelected(this.selectedItem);
-      }
-    );
+    this.taskService.saveTask(task).subscribe((task) => {
+      console.log(task);
+      this.initializeTaskTable();
+      this.initializeScreenTable();
+    });
   }
 }

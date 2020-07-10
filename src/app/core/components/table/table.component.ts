@@ -23,14 +23,13 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
-    debugger
     var letterElems = document.querySelectorAll('a[id^=letter-actions-');
     M.Dropdown.init(letterElems, {});
     var tableElems = document.querySelectorAll('a[id^=desktop-table-actions-');
     M.Dropdown.init(tableElems, {});
   }
 
-  public activate(selectedItem:number): void{
+  public activate(selectedItem: number): void {
     this.selectedItem.emit(selectedItem);
     this.internalSelectedItem = selectedItem;
   }
@@ -43,7 +42,6 @@ export class TableComponent implements OnInit {
   }
 
   public executeAction(id: string, selectedItem: number) {
-    debugger
     this.executeActionEmitter.emit({
       actionId: id,
       selectedItem: selectedItem,
