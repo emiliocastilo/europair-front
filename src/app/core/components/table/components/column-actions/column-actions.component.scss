@@ -1,0 +1,15 @@
+@import "~src/variables.scss";
+    
+.mobile-actions{
+    ul, li, li>a{
+        padding: 0 !important;
+    }
+    ul li>a i{
+        margin: 0;
+    }
+    .dropdown-content li>a, .dropdown-content li>span{
+        color: $europair-color-blue-dark-1 !important;
+    }
+}
+
+    

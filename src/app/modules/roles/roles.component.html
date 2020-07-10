@@ -1,0 +1,53 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar
+  [barButtons]="barButtons"
+  [itemsSelectedCount]="rolesSelectedCount"
+  (executeAction)="onBarButtonClicked($event)">
+</core-button-bar>
+<section class="roles-tables-container cmd-mt-1">
+  <section class="roles-table">
+    <core-table
+      [columnsHeader]="roleColumnsHeader"
+      [columnsData]="roleColumnsData"
+      (selectedItem)="onRoleSelected($event)"
+      (executeActionEmitter)="onRoleAction($event)">
+    </core-table>
+  </section>
+  <section class="tasks-table">
+    <core-table
+      [columnsHeader]="taskColumnsHeader"
+      [columnsData]="taskColumnsData">
+    </core-table>
+  </section>
+</section>
+
+<app-role-detail
+  [title]="roleDetailTitle"
+  [taskColumnsHeader]="taskColumnsHeader"
+  [taskColumnsData]="roleDetailTaskColumnsData"
+  [tasks]="tasks"
+  [roleDetail]="roleSelected"
+  (saveRole)="onSaveRole($event)">
+</app-role-detail>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar este registro?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteRole()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>
+

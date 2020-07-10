@@ -1,0 +1,47 @@
+@import "~src/variables.scss";
+
+.master-table{
+    background-color: $europair-color-blue-light-1;
+    color: $europair-color-blue-dark-2;
+    .row{
+        margin-bottom: 0;
+    }
+    .col{
+        border-right: 1px solid $europair-color-blue-light-3; 
+    }
+    .master-table-column-headers{
+        border-bottom: 2px solid $europair-color-blue-light-4;
+        font-weight: bold;
+        article.col:nth-child(1){
+            background-color: $europair-color-blue-light-2;
+        }
+    }
+    .master-table-data-row{
+        border-bottom: 1px solid $europair-color-blue-light-4;
+        article.col:nth-child(1){
+            background-color: $europair-color-blue-light-2;
+        }
+        article.actions{
+            .mobile-actions{
+                ul, li, li>a{
+                    padding: 0 !important;
+                }
+                ul li>a i{
+                    margin: 0;
+                }
+            }
+        }
+    }
+    .master-table-data-row:hover{
+        background-color: $europair-color-blue-light-2;
+    }
+    .row.master-table-data-row.activate {
+        border: 1px solid $europair-color-blue-light-4;
+        background-color: $europair-color-blue-light-3;
+        article.col:nth-child(1){
+            background-color: $europair-color-blue-light-3;
+        }
+    }
+    
+}
+    

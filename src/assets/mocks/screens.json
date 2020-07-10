@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Usuarios",
+    "description": ""
+  },
+  {
+    "id": 2,
+    "name": "Aeropuertos",
+    "description": ""
+  },
+  {
+    "id": 3,
+    "name": "Flota",
+    "description": ""
+  },
+  {
+    "id": 4,
+    "name": "Franjas horarias",
+    "description": ""
+  },
+  {
+    "id": 5,
+    "name": "Tipos de impuesto",
+    "description": ""
+  },
+  {
+    "id": 6,
+    "name": "Expedientes",
+    "description": ""
+  },
+  {
+    "id": 7,
+    "name": "Cotizaciones",
+    "description": ""
+  },
+  {
+    "id": 8,
+    "name": "Configuracion",
+    "description": ""
+  }
+]
