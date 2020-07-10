@@ -26,7 +26,6 @@ export class ExampleTableComponent implements OnInit {
   ];
   public columnsData:Array<RowDataModel> = [];
   public pageTitle = 'Usuarios';
-  public userData = { userName: 'Usuario', userRole: 'Administrador'};
   
   constructor() { }
 

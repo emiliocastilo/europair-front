@@ -4,25 +4,22 @@ import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-act
 @Component({
   selector: 'core-table-column-actions',
   templateUrl: './column-actions.component.html',
-  styleUrls: ['./column-actions.component.scss']
+  styleUrls: ['./column-actions.component.scss'],
 })
 export class ColumnActionsComponent implements OnInit {
   @Input() prefix: string;
   @Input() rowDataIndex: number;
-  @Input() actions:ColumnActionsModel;
-  @Output() executeActionEmitter:EventEmitter<any> = new EventEmitter();
+  @Input() actions: ColumnActionsModel;
+  @Output() executeActionEmitter: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  public executeAction(id:string, selectedItem:number){
-    debugger
+  public executeAction(id: string, selectedItem: number) {
     this.executeActionEmitter.emit({
       actionId: id,
-      selectedItem: selectedItem
+      selectedItem: selectedItem,
     });
   }
-
 }

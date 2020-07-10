@@ -32,13 +32,12 @@ export class RolesComponent implements OnInit {
   public taskColumnsData: RowDataModel[] = [];
   public roleDetailTaskColumnsData: RowDataModel[] = [];
   public pageTitle = 'Roles';
-  public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public rolesSelectedCount = 0;
   private roles: Role[];
   public tasks: Task[];
   public roleDetailTitle: string;
   public roleSelected: Role = EMPTY_ROLE;
-  private selectedItem: number;
+  private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo rol' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
@@ -86,10 +85,13 @@ export class RolesComponent implements OnInit {
   private initializeRoleTable() {
     this.roleColumnsHeader = this.rolesTableAdapterService.getRoleColumnsHeader();
     this.rolesService.getRoles().subscribe((roles) => {
-    this.roles = roles['content'];
+      this.roles = roles['content'];
       this.roleColumnsData = this.rolesTableAdapterService.getRoleTableDataFromRoles(
         roles['content']
       );
+      if (this.selectedItem >= 0) {
+        this.onRoleSelected(this.selectedItem);
+      }
     });
   }
 
@@ -140,19 +142,20 @@ export class RolesComponent implements OnInit {
   }
 
   public onConfirmDeleteRole() {
-    this.rolesService.deleteMockRole(this.roles[this.selectedItem]);
-    this.initializeRoleTable();
-    this.taskColumnsData = [];
+    this.rolesService
+      .deleteRole(this.roles[this.selectedItem])
+      .subscribe((response) => {
+        console.log(response);
+        this.initializeRoleTable();
+        this.taskColumnsData = [];
+      });
   }
 
   public onSaveRole(role: Role) {
     this.modalService.closeModal();
-    this.rolesService.saveRole(role).subscribe(
-      (role) => {
-        console.log(role);
-        this.initializeRoleTable();
-        this.onRoleSelected(this.selectedItem);
-      }
-    );
+    this.rolesService.saveRole(role).subscribe((role) => {
+      console.log(role);
+      this.initializeRoleTable();
+    });
   }
 }

@@ -10,14 +10,16 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class PageBarComponent implements OnInit {
   @Input()
   public pageTitle: string;
-  @Input()
-  public userData: any;
 
-  constructor(private _authService: AuthService, private _router:Router) {}
+  public userName: string;
 
-  ngOnInit(): void {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
-  public logout():void{
+  ngOnInit(): void {
+    this.userName = sessionStorage.getItem('USER-NAME');
+  }
+
+  public logout(): void {
     this._authService.closeSession();
     this._router.navigate(['/login']);
   }
