@@ -15,7 +15,8 @@ const routes: Routes = [
         component: ExampleTableComponent
       },
       { path: 'tasks', loadChildren: () => import('../tasks/tasks.module').then(m => m.TasksModule) },
-      { path: 'roles', loadChildren: () => import('../roles/roles.module').then(m => m.RolesModule) }
+      { path: 'roles', loadChildren: () => import('../roles/roles.module').then(m => m.RolesModule) },
+      { path: 'cities', loadChildren: () => import('../cities/cities.module').then(m => m.CitiesModule) }
     ]
   },
 ];
