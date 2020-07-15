@@ -30,8 +30,12 @@ export class CountriesService {
   }
 
   public editCountry(country: SaveCountry): Observable<Country[]> {
-    const url: string = `${environment.apiUrl}country`;
-    return this.httpClient.post<Country[]>(url, country);
+    const url: string = `${environment.apiUrl}country/${country.oldCode}`;
+    const param: Country = {
+      code: country.code,
+      name: country.name
+    };
+    return this.httpClient.put<Country[]>(url, param);
   }
 
   public deleteCountry(country: Country): Observable<void> {
