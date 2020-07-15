@@ -1,0 +1,51 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="city-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <core-basic-input-text [id]="'city-code'" [label]="'Código del Ciudad'" [formControl]="cityCodeControl"
+        [hasErrors]="hasCityCodeControlErrors()">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasCityCodeControlErrors()">
+            <span *ngIf="cityCodeControl.errors.required" class="helper-text"
+              data-error="Debe indicar el código de la Ciudad">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-basic-input-text>
+      <core-basic-input-text [id]="'city-name'" [label]="'Ciudad'" [formControl]="cityNameControl"
+        [hasErrors]="hasCityNameControlErrors()">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasCityNameControlErrors()">
+            <span *ngIf="cityNameControl.errors.required" class="helper-text"
+              data-error="Debe indicar el nombre de la Ciudad">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-basic-input-text>
+      <core-basic-input-text [id]="'country-code'" [label]="'País'" [formControl]="countryCodeControl"
+        [hasErrors]="hasCountryControlErrors()">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasCountryControlErrors()">
+            <span *ngIf="cityNameControl.errors.required" class="helper-text"
+              data-error="Debe indicar el país de la Ciudad">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-basic-input-text>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
+      (click)="onSaveCity()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>
