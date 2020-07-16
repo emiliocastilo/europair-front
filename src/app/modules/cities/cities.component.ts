@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { BarButtonType, BarButton, } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
@@ -7,7 +7,7 @@ import { CitiesService } from './services/cities.service';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
-import { City, EMPTY_CITY, SaveCity } from './models/city';
+import { City, EMPTY_CITY } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
 
 @Component({
@@ -64,14 +64,14 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  public onSaveCity(city: SaveCity): void {
-    let saveCity: Observable<City[]>;
-    if (!city.oldCode) {
-      saveCity = this.citiesService.addCity(city);
+  public onCity(city: City): void {
+    let city$: Observable<City[]>;
+    if (city.id === undefined) {
+      city$ = this.citiesService.addCity(city);
     } else {
-      saveCity = this.citiesService.editCity(city);
+      city$ = this.citiesService.editCity(city);
     }
-    saveCity.subscribe((data: Array<City>) => {
+    city$.subscribe((data: Array<City>) => {
       this.citiesList = data;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.citiesList);
     });
