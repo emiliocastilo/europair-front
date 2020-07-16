@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { City, SaveCity, Country } from '../../models/city';
+import { City, Country } from '../../models/city';
 import { CitiesService } from '../../services/cities.service';
 
 @Component({
@@ -23,12 +23,12 @@ export class CityDetailComponent implements OnInit {
     } else {
       this.cityNameControl.reset();
       this.cityCodeControl.reset();
-      this.countryCodeControl.reset();
+      this.countryIdControl.reset();
     }
   }
 
   @Output()
-  public saveCity: EventEmitter<SaveCity> = new EventEmitter();
+  public City: EventEmitter<City> = new EventEmitter();
 
   public cityNameControl: FormControl = this.fb.control(
     { value: '', disabled: false },
@@ -38,13 +38,12 @@ export class CityDetailComponent implements OnInit {
     { value: '', disabled: false },
     Validators.required
   );
-  public countryCodeControl: FormControl = this.fb.control(
+  public countryIdControl: FormControl = this.fb.control(
     { value: '', disabled: false },
     Validators.required
   );
   public countrySelected: Country;
 
-  private countries: Array<Country> = [];
   private _cityDetail: City;
   constructor(
     private readonly fb: FormBuilder,
@@ -54,10 +53,9 @@ export class CityDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.citiesService.getCountries().subscribe((countries: Array<Country>) => {
-      this.countries = countries;
       this.countrySelected = countries.find((country: Country) => country.code === this._cityDetail.country.code);
       if (this.countrySelected) {
-        this.countryCodeControl.setValue(this._cityDetail.country.code);
+        this.countryIdControl.setValue(this._cityDetail.country.code);
       }
     });
   }
@@ -78,22 +76,22 @@ export class CityDetailComponent implements OnInit {
 
   public hasCountryControlErrors(): boolean {
     return (
-      this.countryCodeControl.invalid &&
-      (this.countryCodeControl.dirty || this.countryCodeControl.touched)
+      this.countryIdControl.invalid &&
+      (this.countryIdControl.dirty || this.countryIdControl.touched)
     );
   }
 
   public anyFieldInvalid(): boolean {
-    return !this.cityNameControl.valid || !this.cityCodeControl.valid || !this.countryCodeControl.valid;
+    return this.cityNameControl.invalid || this.cityCodeControl.invalid || this.countryIdControl.invalid;
   }
 
-  public onSaveCity(): void {
-    this.saveCity.next({
+  public onCity(): void {
+    this.City.next({
+      id: this._cityDetail.id,
       name: this.cityNameControl.value,
       code: this.cityCodeControl.value,
-      oldCode: this._cityDetail.code,
       country: {
-        code: this.countryCodeControl.value
+        id: this.countryIdControl.value
       }
     });
   }

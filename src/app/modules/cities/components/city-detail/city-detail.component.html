@@ -28,7 +28,7 @@
           </ng-container>
         </ng-container>
       </core-basic-input-text>
-      <core-basic-input-text [id]="'country-code'" [label]="'País'" [formControl]="countryCodeControl"
+      <core-basic-input-text [id]="'country-code'" [label]="'País'" [formControl]="countryIdControl"
         [hasErrors]="hasCountryControlErrors()">
         <ng-container inputErrors>
           <ng-container *ngIf="hasCountryControlErrors()">
@@ -43,7 +43,7 @@
 
   <div class="modal-footer">
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
-      (click)="onSaveCity()">
+      (click)="onCity()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">Guardar</span>
     </a>

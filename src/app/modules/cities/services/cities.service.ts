@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { City, SaveCity, Country } from '../models/city';
+import { City, Country } from '../models/city';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,47 +9,29 @@ import { environment } from 'src/environments/environment';
 })
 export class CitiesService {
   private readonly mocked: boolean = true;
+  private readonly url = `${environment.apiUrl}cities`;
+
   constructor(private readonly httpClient: HttpClient) { }
 
   public getCities(): Observable<City[]> {
-    let url: string;
-    if (this.mocked) {
-      url = '/assets/mocks/cities.json';
-    } else {
-      url += `${environment.apiUrl}city`;
-    }
+    const url: string = this.mocked ? '/assets/mocks/cities.json' : this.url;
     return this.httpClient.get<City[]>(url);
   }
 
-  public addCity(city: SaveCity): Observable<City[]> {
-    const url: string = `${environment.apiUrl}city`;
-    const param: City = {
-      code: city.code,
-      name: city.name,
-      country: {
-        code: city.country.code
-      }
-    };
-    return this.httpClient.post<City[]>(url, param);
+  public addCity(city: City): Observable<City[]> {
+    return this.httpClient.post<City[]>(this.url, city);
   }
 
-  public editCity(city: SaveCity): Observable<City[]> {
-    const url: string = `${environment.apiUrl}city/code=${city.code}`;
-    const param: City = {
-      name: city.name,
-      code: city.code,
-      country: city.country
-    };
-    return this.httpClient.put<City[]>(url, param);
+  public editCity(city: City): Observable<City[]> {
+    return this.httpClient.put<City[]>(`${this.url}/${city.id}`, city);
   }
 
   public deleteCity(city: City): Observable<void> {
-    return this.httpClient.delete<void>(`${environment.apiUrl}city/code=${city.code}`);
+    return this.httpClient.delete<void>(`${this.url}/${city.id}`);
   }
 
   // TODO: usar countriesService cuando esté integrado (cambiar tambien el modelo)
   public getCountries(): Observable<Country[]> {
-    const url: string = '/assets/mocks/countries.json';
-    return this.httpClient.get<Country[]>(url);
+    return this.httpClient.get<Country[]>('/assets/mocks/countries.json');
   }
 }
