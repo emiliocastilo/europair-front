@@ -7,7 +7,7 @@ import { CitiesService } from './services/cities.service';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
-import { City, EMPTY_CITY, Pageable } from './models/city';
+import { City, EMPTY_CITY } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+<<<<<<< HEAD
 import { City, Pageable } from '../models/city';
+=======
+import { City, Country } from '../models/city';
+>>>>>>> #159605 Añadimos id para gestion
 import { environment } from 'src/environments/environment';
 
 @Injectable({
