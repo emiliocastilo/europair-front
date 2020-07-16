@@ -5,7 +5,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { CountryTableAdapterService } from './services/country-table-adapter.service';
 import { CountriesService } from './services/countries.service';
-import { Country, EMPTY_COUNTRY, SaveCountry } from './models/country';
+import { Country, EMPTY_COUNTRY } from './models/country';
 import { CountryDetailComponent } from './components/country-detail/country-detail.component';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
@@ -64,9 +64,9 @@ export class CountriesComponent implements OnInit {
     });
   }
 
-  public onSaveCountry(country: SaveCountry): void {
+  public onSaveCountry(country: Country): void {
     let saveCountry: Observable<Country[]>;
-    if (!country.oldCode) {
+    if (country.id === undefined) {
       saveCountry = this.countriesService.addCountry(country);
     } else {
       saveCountry = this.countriesService.editCountry(country);

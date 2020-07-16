@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Country, SaveCountry } from '../../models/country';
+import { Country } from '../../models/country';
 
 @Component({
   selector: 'app-country-detail',
@@ -26,7 +26,7 @@ export class CountryDetailComponent {
   }
 
   @Output()
-  public saveCountry: EventEmitter<SaveCountry> = new EventEmitter();
+  public saveCountry: EventEmitter<Country> = new EventEmitter();
 
   public countryNameControl: FormControl = this.fb.control(
     { value: '', disabled: false },
@@ -61,9 +61,9 @@ export class CountryDetailComponent {
 
   public onSaveCountry(): void {
     this.saveCountry.next({
+      id: this._countryDetail.id,
       name: this.countryNameControl.value,
-      code: this.countryCodeControl.value,
-      oldCode: this._countryDetail.code
+      code: this.countryCodeControl.value
     });
   }
 }
