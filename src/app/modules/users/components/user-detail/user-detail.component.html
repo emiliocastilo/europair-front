@@ -1,0 +1,112 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }} {{_userDetail?.username}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="userForm">
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'user-username'" [label]="'Usuario'" formControlName="username" [hasErrors]="hasControlAnyError('username')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('username')">
+                <span *ngIf="hasControlSpecificError('userForm', 'required')" class="helper-text" data-error="Debe indicar el nombre de usuario">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'user-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('name')">
+                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" data-error="Debe indicar un nombre">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'user-surname'" [label]="'Apellidos'" formControlName="surname" [hasErrors]="hasControlAnyError('surname')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('surname')">
+                <span *ngIf="hasControlSpecificError('surname', 'required')" class="helper-text" data-error="Debe indicar los apellidos">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'user-email'" [label]="'Email'" formControlName="email" [hasErrors]="hasControlAnyError('email')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('email')">
+                <span *ngIf="hasControlSpecificError('email', 'required')" class="helper-text" data-error="Debe indicar un email">
+                </span>
+              </ng-container>
+              <ng-container *ngIf="hasControlAnyError('email')">
+                <span *ngIf="hasControlSpecificError('email', 'email')" class="helper-text" data-error="El formato del email no es correcto">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'user-timezone'" [label]="'Zona horaria'" formControlName="timeZone" [hasErrors]="hasControlAnyError('timeZone')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('timeZone')">
+                <span *ngIf="hasControlSpecificError('timeZone', 'required')" class="helper-text" data-error="Debe indicar una zona horaria">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+    <ul class="collapsible expandable" appMatCollapsible>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">details</i>Roles</div>
+        <div class="collapsible-body"><span>
+          <section class="user-role-detail-table">
+            <core-table
+            [columnsHeader]="userRoleColumnsHeader"
+            [columnsData]="userRoleColumnsData"
+            (switchChangesStatus)="userRoleAssignedChanged($event)"
+            ></core-table>
+          </section>
+        </span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">details</i>Tareas</div>
+        <div class="collapsible-body"><span>
+          <section class="user-task-detail-table">
+            <core-table
+            [columnsHeader]="userTaskColumnsHeader"
+            [columnsData]="userTaskColumnsData"
+            (switchChangesStatus)="userTaskAssignedChanged($event)"
+            ></core-table>
+          </section>
+        </span></div>
+      </li>
+    </ul>
+    <pre>
+      {{userDetail|json}}
+    </pre>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+      *ngIf="userForm.disabled;else saveBtn">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text" *ngIf="userForm.disabled;else saveBtn">Confirmar</span>
+    </a>
+    <ng-template #saveBtn>
+      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+      [ngClass]="{'disabled': !userForm.valid }" (click)="onSaveUser()">
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text" >Guardar</span>
+      </a>
+    </ng-template>
+  </div>
+</div>
