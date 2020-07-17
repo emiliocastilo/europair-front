@@ -5,7 +5,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { CountryTableAdapterService } from './services/country-table-adapter.service';
 import { CountriesService } from './services/countries.service';
-import { Country, EMPTY_COUNTRY } from './models/country';
+import { Country, CountryPageable, EMPTY_COUNTRY } from './models/country';
 import { CountryDetailComponent } from './components/country-detail/country-detail.component';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
@@ -58,8 +58,8 @@ export class CountriesComponent implements OnInit {
 
   private initializeCountryTable(): void {
     this.countryColumnsHeader = this.countryTableAdapterService.getCountryColumnsHeader();
-    this.countriesService.getCountries().subscribe((data: Array<Country>) => {
-      this.countriesList = data;
+    this.countriesService.getCountries().subscribe((data: CountryPageable) => {
+      this.countriesList = data.content;
       this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countriesList);
     });
   }
