@@ -7,7 +7,7 @@ import { CitiesService } from './services/cities.service';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
-import { City, EMPTY_CITY } from './models/city';
+import { City, EMPTY_CITY, Pageable } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
 
 @Component({
@@ -58,23 +58,20 @@ export class CitiesComponent implements OnInit {
 
   private initializeCityTable(): void {
     this.cityColumnsHeader = this.cityTableAdapterService.getCityColumnsHeader();
-    this.citiesService.getCities().subscribe((data: Array<City>) => {
-      this.citiesList = data;
+    this.citiesService.getCities().subscribe((data: Pageable<City>) => {
+      this.citiesList = data.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.citiesList);
     });
   }
 
   public onCity(city: City): void {
-    let city$: Observable<City[]>;
+    let city$: Observable<City>;
     if (city.id === undefined) {
       city$ = this.citiesService.addCity(city);
     } else {
       city$ = this.citiesService.editCity(city);
     }
-    city$.subscribe((data: Array<City>) => {
-      this.citiesList = data;
-      this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.citiesList);
-    });
+    city$.subscribe((data: City) => this.initializeCityTable());
   }
 
   public getCities(): Array<City> {

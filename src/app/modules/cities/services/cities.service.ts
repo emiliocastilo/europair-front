@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { City, Country } from '../models/city';
+import { City, Country, Pageable } from '../models/city';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,17 +13,17 @@ export class CitiesService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  public getCities(): Observable<City[]> {
+  public getCities(): Observable<Pageable<City>> {
     const url: string = this.mocked ? '/assets/mocks/cities.json' : this.url;
-    return this.httpClient.get<City[]>(url);
+    return this.httpClient.get<Pageable<City>>(url);
   }
 
-  public addCity(city: City): Observable<City[]> {
-    return this.httpClient.post<City[]>(this.url, city);
+  public addCity(city: City): Observable<City> {
+    return this.httpClient.post<City>(this.url, city);
   }
 
-  public editCity(city: City): Observable<City[]> {
-    return this.httpClient.put<City[]>(`${this.url}/${city.id}`, city);
+  public editCity(city: City): Observable<City> {
+    return this.httpClient.put<City>(`${this.url}/${city.id}`, city);
   }
 
   public deleteCity(city: City): Observable<void> {
@@ -31,7 +31,7 @@ export class CitiesService {
   }
 
   // TODO: usar countriesService cuando esté integrado (cambiar tambien el modelo)
-  public getCountries(): Observable<Country[]> {
-    return this.httpClient.get<Country[]>('/assets/mocks/countries.json');
+  public getCountries(): Observable<Pageable<Country>> {
+    return this.httpClient.get<Pageable<Country>>('/assets/mocks/countries.json');
   }
 }
