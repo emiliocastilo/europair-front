@@ -1,0 +1,140 @@
+[
+  {
+    "id": 1,
+    "username": "paco.rodriguez",
+    "name": "Paco",
+    "surname": "Rodriguez Rato",
+    "email": "paco.rodriguez@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 1,
+        "name": "Administrador",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 2,
+    "username": "domingo.suarez",
+    "name": "Domingo",
+    "surname": "Suarez Lopez",
+    "email": "domingo.suarez@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 2,
+        "name": "Gerente",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 3,
+    "username": "veronica.lopez",
+    "name": "Veronica",
+    "surname": "Lopez Castro",
+    "email": "veronica.lopez@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 3,
+        "name": "IT",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 4,
+    "username": "sofia.rienda",
+    "name": "Sofia",
+    "surname": "Rienda Suela",
+    "email": "sofia.rienda@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 3,
+        "name": "IT",
+        "description": ""
+      },
+      {
+        "id": 4,
+        "name": "Director comercial",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 5,
+    "username": "benito.espiritu",
+    "name": "Benito",
+    "surname": "Espiritu Robles",
+    "email": "benito.espiritu@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 5,
+        "name": "Comercial",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 6,
+    "username": "tania.perez",
+    "name": "Tania",
+    "surname": "Perez Treso",
+    "email": "tania.perez@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 5,
+        "name": "Comercial",
+        "description": ""
+      },
+      {
+        "id": 6,
+        "name": "Operaciones",
+        "description": ""
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "id": 7,
+    "username": "rios.tareas",
+    "name": "Rios",
+    "surname": "Tareas Cortes",
+    "email": "rios.tareas@europair.com",
+    "timeZone": "GMT+1",
+    "roles": [
+      {
+        "id": 8,
+        "name": "Guardias",
+        "description": ""
+      }
+    ],
+    "tasks": [
+      {
+        "id": 1,
+        "name": "Gestión de expedientes",
+        "description": ""
+      },
+      {
+        "id": 2,
+        "name": "Gestión contactos",
+        "description": ""
+      },
+      {
+        "id": 8,
+        "name": "Recálculo de tasas",
+        "description": ""
+      }
+    ]
+  }
+]

@@ -15,9 +15,11 @@ const routes: Routes = [
         component: ExampleTableComponent
       },
       { path: 'tasks', loadChildren: () => import('../tasks/tasks.module').then(m => m.TasksModule) },
-      { path: 'roles', loadChildren: () => import('../roles/roles.module').then(m => m.RolesModule) }
+      { path: 'roles', loadChildren: () => import('../roles/roles.module').then(m => m.RolesModule) },
+      { path: 'users', loadChildren: () => import('../users/users.module').then(m => m.UsersModule) },
     ]
   },
+
 ];
 
 @NgModule({
