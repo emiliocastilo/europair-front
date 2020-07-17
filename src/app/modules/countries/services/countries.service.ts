@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Country, CountryPageable } from '../models/country';
 import { environment } from 'src/environments/environment';
 
@@ -18,12 +18,21 @@ export class CountriesService {
     return this.httpClient.get<CountryPageable>(url);
   }
 
-  public addCountry(country: Country): Observable<Country[]> {
-    return this.httpClient.post<Country[]>(this.url, country);
+  public addCountry(country: Country): Observable<Country> {
+    if (this.mocked) {
+      country.id = Math.floor(1000);
+      return of(country);
+    } else {
+      return this.httpClient.post<Country>(this.url, country);
+    }
   }
 
-  public editCountry(country: Country): Observable<Country[]> {
-    return this.httpClient.put<Country[]>(`${this.url}/${country.id}`, country);
+  public editCountry(country: Country): Observable<Country> {
+    if (this.mocked) {
+      return of(country);
+    } else {
+      return this.httpClient.put<Country>(`${this.url}/${country.id}`, country);
+    }
   }
 
   public deleteCountry(country: Country): Observable<void> {

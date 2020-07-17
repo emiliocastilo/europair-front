@@ -26,11 +26,9 @@ export class CountriesComponent implements OnInit {
   private readonly CREATE_COUNTRY_TITLE = 'Crear país';
 
   public pageTitle = 'Países';
-  public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public countryColumnsHeader: Array<ColumnHeaderModel>;
   public countriesColumnsData: Array<RowDataModel>;
   public countriesSelectedCount = 0;
-  public countryDetailColumnsData: Array<RowDataModel>;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo país' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
@@ -65,20 +63,13 @@ export class CountriesComponent implements OnInit {
   }
 
   public onSaveCountry(country: Country): void {
-    let saveCountry: Observable<Country[]>;
+    let saveCountry: Observable<Country>;
     if (country.id === undefined) {
       saveCountry = this.countriesService.addCountry(country);
     } else {
       saveCountry = this.countriesService.editCountry(country);
     }
-    saveCountry.subscribe((data: Array<Country>) => {
-      this.countriesList = data;
-      this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countriesList);
-    });
-  }
-
-  public getCountries(): Array<Country> {
-    return this.countriesList;
+    saveCountry.subscribe((data: Country) => this.initializeCountryTable());
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType): void {
