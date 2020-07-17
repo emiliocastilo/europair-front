@@ -53,8 +53,8 @@ export class CityDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.countriesService.getCountries().subscribe((data: Pageable<Country>) => {
-      this.countries = data.content;
-      this.countrySelected = this.countries.find((country: Country) => country.id === this._cityDetail.country.id);
+      const countries: Array<Country> = data.content;
+      this.countrySelected = countries.find((country: Country) => country.id === this._cityDetail.country.id);
       if (this.countrySelected) {
         this.countryIdControl.setValue(this._cityDetail.country.id);
       }
