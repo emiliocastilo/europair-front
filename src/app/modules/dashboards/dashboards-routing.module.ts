@@ -17,7 +17,8 @@ const routes: Routes = [
       { path: 'tasks', loadChildren: () => import('../tasks/tasks.module').then(m => m.TasksModule) },
       { path: 'roles', loadChildren: () => import('../roles/roles.module').then(m => m.RolesModule) },
       { path: 'users', loadChildren: () => import('../users/users.module').then(m => m.UsersModule) },
-      { path: 'countries', loadChildren: () => import('../countries/countries.module').then(m => m.CountriesModule) }
+      { path: 'countries', loadChildren: () => import('../countries/countries.module').then(m => m.CountriesModule) },
+      { path: 'regions', loadChildren: () => import('../regions/regions.module').then(m => m.RegionsModule) },
     ]
   },
 
