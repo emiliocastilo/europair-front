@@ -7,6 +7,7 @@ import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-ch
 import { Task } from '../models/task';
 import { Screen } from '../models/screen';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Injectable()
 export class TasksTableAdapterService implements OnDestroy {
@@ -52,6 +53,10 @@ export class TasksTableAdapterService implements OnDestroy {
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
+  }
+
+  public getPagination(){
+    return new PaginationModel(true,1,3,5,10);
   }
 
   public getTaskTableDataFromTasks(tasks: Task[]): RowDataModel[] {

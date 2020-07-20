@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { User, EMPTY_USER } from '../../models/user';
-import { Task } from 'src/app/modules/tasks/models/task';
-import { Role } from 'src/app/modules/roles/models/role';
+import { Role } from '../../../roles/models/role';
+import { Task } from '../../../tasks/models/task';
 
 @Component({
   selector: 'app-user-detail',

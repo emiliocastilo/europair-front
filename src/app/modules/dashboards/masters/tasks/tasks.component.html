@@ -9,6 +9,7 @@
     <core-table
       [columnsHeader]="taskColumnsHeader"
       [columnsData]="taskColumnsData"
+      [pagination]="taskColumnsPagination"
       (selectedItem)="onTaskSelected($event)"
       (executeActionEmitter)="onTaskAction($event)">
     </core-table>
@@ -16,7 +17,8 @@
   <section class="screens-table">
     <core-table
       [columnsHeader]="screenColumnsHeader"
-      [columnsData]="screenColumnsData">
+      [columnsData]="screenColumnsData"
+      [pagination]="screenColumnsPagination">
     </core-table>
   </section>
 </section>
@@ -26,6 +28,7 @@
   [screenColumnsHeader]="screenColumnsHeader"
   [screenColumnsData]="taskDetailScreenColumnsData"
   [screens]="screens"
+  [pagination]="screenColumnsPagination"
   [taskDetail]="taskSelected"
   (saveTask)="onSaveTask($event)">
 </app-task-detail>

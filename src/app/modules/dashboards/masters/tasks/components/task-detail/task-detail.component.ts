@@ -4,6 +4,7 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Task } from '../../models/task';
 import { Screen } from '../../models/screen';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-task-detail',
@@ -28,9 +29,9 @@ export class TaskDetailComponent implements OnInit {
       this.taskNameControl.reset();
     }
   }
+  @Input() pagination: PaginationModel;
   @Output()
   public saveTask: EventEmitter<Task> = new EventEmitter();
-
   private _taskDetail: Task;
 
   public taskNameControl: FormControl = this.fb.control(
@@ -40,7 +41,8 @@ export class TaskDetailComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public hasTaskNameControlErrors() {
     return (

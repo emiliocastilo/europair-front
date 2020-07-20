@@ -13,6 +13,7 @@ import { ColumnCheckboxComponent } from './components/table/components/column-ch
 import { ModalComponent } from './components/modal/modal.component';
 import { ButtonBarComponent } from './components/menus/button-bar/button-bar.component';
 import { MobileBarComponent } from './components/menus/mobile-bar/mobile-bar.component';
+import { PaginationComponent } from './components/table/components/pagination/pagination.component';
 import { MatCollapsibleDirective } from './directives/mat-collapsible.directive';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
     ModalComponent,
     ButtonBarComponent,
     MobileBarComponent,
+    PaginationComponent,
     MatCollapsibleDirective
   ],
   imports: [CommonModule, RouterModule],
