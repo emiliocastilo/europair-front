@@ -5,6 +5,7 @@
 <section class="cities-tables-container cmd-mt-1">
   <section class="cities-table">
     <core-table [columnsHeader]="cityColumnsHeader" [columnsData]="citiesColumnsData"
+      [pagination]="cityPagination"
       (selectedItem)="onCitySelected($event)" (executeActionEmitter)="onCityAction($event)">
     </core-table>
   </section>

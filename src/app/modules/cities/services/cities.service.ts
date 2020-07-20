@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { City, Country, Pageable } from '../models/city';
+import { City, Pageable } from '../models/city';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -28,10 +28,5 @@ export class CitiesService {
 
   public deleteCity(city: City): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}/${city.id}`);
-  }
-
-  // TODO: usar countriesService cuando esté integrado (cambiar tambien el modelo)
-  public getCountries(): Observable<Pageable<Country>> {
-    return this.httpClient.get<Pageable<Country>>('/assets/mocks/countries.json');
   }
 }

@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
 import { City, EMPTY_CITY, Pageable } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-cities',
@@ -31,15 +32,16 @@ export class CitiesComponent implements OnInit {
   public citiesColumnsData: Array<RowDataModel>;
   public citiesSelectedCount = 0;
   public cityDetailColumnsData: Array<RowDataModel>;
+  public cityPagination: PaginationModel;
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo Ciudad' },
+    { type: BarButtonType.NEW, text: 'Nueva Ciudad' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
   public cityDetailTitle: string;
   public citySelected: City = EMPTY_CITY;
 
   private selectedItem: number;
-  private citiesList: Array<City>;
+  private cities: Array<City>;
   private readonly barButtonActions = { new: this.newCity.bind(this) };
   private readonly cityTableActions = {
     edit: this.editCity.bind(this),
@@ -59,8 +61,10 @@ export class CitiesComponent implements OnInit {
   private initializeCityTable(): void {
     this.cityColumnsHeader = this.cityTableAdapterService.getCityColumnsHeader();
     this.citiesService.getCities().subscribe((data: Pageable<City>) => {
-      this.citiesList = data.content;
-      this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.citiesList);
+      this.cities = data.content;
+      this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
+      this.cityPagination = this.cityTableAdapterService.getPagination();
+      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elememtsPerpage;
     });
   }
 
@@ -75,7 +79,7 @@ export class CitiesComponent implements OnInit {
   }
 
   public getCities(): Array<City> {
-    return this.citiesList;
+    return this.cities;
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType): void {
@@ -111,7 +115,7 @@ export class CitiesComponent implements OnInit {
 
   private editCity(selectedItem: number): void {
     this.initializeCityDetailModal(this.EDIT_COUNTRY_TITLE, {
-      ...this.citiesList[selectedItem],
+      ...this.cities[selectedItem],
     });
     this.modalService.openModal();
   }
@@ -123,7 +127,7 @@ export class CitiesComponent implements OnInit {
   }
 
   public onConfirmDeleteCity(): void {
-    this.citiesService.deleteCity(this.citiesList[this.selectedItem]).subscribe(() => {
+    this.citiesService.deleteCity(this.cities[this.selectedItem]).subscribe(() => {
       this.initializeCityTable();
     });
   }

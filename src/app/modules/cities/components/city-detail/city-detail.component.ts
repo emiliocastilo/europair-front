@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { City, Country, Pageable } from '../../models/city';
-import { CitiesService } from '../../services/cities.service';
+import { CountriesService } from 'src/app/modules/countries/services/countries.service';
 
 @Component({
   selector: 'app-city-detail',
@@ -43,18 +43,18 @@ export class CityDetailComponent implements OnInit {
     Validators.required
   );
   public countrySelected: Country;
+  public countries: Array<Country>;
 
   private _cityDetail: City;
   constructor(
     private readonly fb: FormBuilder,
-    private readonly citiesService: CitiesService/*,
-    private readonly countriesService: CountriesService*/
+    private readonly countriesService: CountriesService
   ) { }
 
   ngOnInit(): void {
-    this.citiesService.getCountries().subscribe((data: Pageable<Country>) => {
-      const countries: Array<Country> = data.content;
-      this.countrySelected = countries.find((country: Country) => country.id === this._cityDetail.country.id);
+    this.countriesService.getCountries().subscribe((data: Pageable<Country>) => {
+      this.countries = data.content;
+      this.countrySelected = this.countries.find((country: Country) => country.id === this._cityDetail.country.id);
       if (this.countrySelected) {
         this.countryIdControl.setValue(this._cityDetail.country.id);
       }

@@ -6,6 +6,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { City } from '../models/city';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Injectable()
 export class CityTableAdapterService {
@@ -65,5 +66,14 @@ export class CityTableAdapterService {
       cityTableData.push(cityRow);
     });
     return cityTableData;
+  }
+
+  public getPagination(){
+    const clientPagination: boolean = true;
+    const initPage: number = 1;
+    const visiblePages: number = 4;
+    const lastPage: number = 5;
+    const elememtsPerpage: number = 20;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elememtsPerpage);
   }
 }
