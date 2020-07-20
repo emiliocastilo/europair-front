@@ -13,12 +13,12 @@ export class TasksService {
 
   public getTasks(): Observable<Task[]> {
     const url = environment.apiUrl + 'tasks';
-    return this.http.get<Task[]>(url);
+    return this.http.get<Task[]>(url+'?size=2000');
   }
 
   public getScreens(): Observable<Screen[]> {
     const url = environment.apiUrl + 'screens';
-    return this.http.get<Screen[]>(url);
+    return this.http.get<Screen[]>(url+'?size=2000');
   }
 
   public saveTask(task: Task): Observable<Task> {

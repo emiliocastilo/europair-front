@@ -13,6 +13,7 @@ import { RolesTableAdapterService } from './services/roles-table-adapter.service
 import { RolesService } from './services/roles.service';
 import { RoleDetailComponent } from './components/role-detail/role-detail.component';
 import { TasksService } from '../tasks/services/tasks.service';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-roles',
@@ -31,6 +32,8 @@ export class RolesComponent implements OnInit {
   public roleColumnsData: RowDataModel[] = [];
   public taskColumnsData: RowDataModel[] = [];
   public roleDetailTaskColumnsData: RowDataModel[] = [];
+  public rolePagination: PaginationModel;
+  public taskPagination: PaginationModel;
   public pageTitle = 'Roles';
   public rolesSelectedCount = 0;
   private roles: Role[];
@@ -89,6 +92,8 @@ export class RolesComponent implements OnInit {
       this.roleColumnsData = this.rolesTableAdapterService.getRoleTableDataFromRoles(
         roles['content']
       );
+      this.rolePagination = this.rolesTableAdapterService.getPagination();
+      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elememtsPerpage
       if (this.selectedItem >= 0) {
         this.onRoleSelected(this.selectedItem);
       }
@@ -99,7 +104,11 @@ export class RolesComponent implements OnInit {
     this.taskColumnsHeader = this.rolesTableAdapterService.getTaskColumnsHeader();
     this.taskService
       .getTasks()
-      .subscribe((tasks) => (this.tasks = tasks['content']));
+      .subscribe((tasks) => {
+        this.tasks = tasks['content']
+        this.taskPagination = this.rolesTableAdapterService.getPagination();
+        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elememtsPerpage;
+      });
   }
 
   private initializeRoleDetailModal(

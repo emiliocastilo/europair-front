@@ -3,7 +3,8 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { Role } from '../../models/role';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Task } from 'src/app/modules/tasks/models/task';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Task } from '../../../tasks/models/task';
 
 @Component({
   selector: 'app-role-detail',
@@ -28,6 +29,8 @@ export class RoleDetailComponent implements OnInit {
       this.roleNameControl.reset();
     }
   }
+  @Input()
+  public pagination:PaginationModel;
   @Output()
   public saveRole: EventEmitter<Role> = new EventEmitter();
 

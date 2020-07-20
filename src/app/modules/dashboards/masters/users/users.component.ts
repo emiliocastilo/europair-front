@@ -11,13 +11,13 @@ import { UsersTableAdapterService } from './services/users-table-adapter.service
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TasksService } from '../tasks/services/tasks.service';
-import { RolesService } from '../roles/services/roles.service';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Task } from '../tasks/models/task';
-import { Role } from '../roles/models/role';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { Role } from '../roles/models/role';
+import { Task } from '../tasks/models/task';
+import { TasksService } from '../tasks/services/tasks.service';
+import { RolesService } from '../roles/services/roles.service';
 
 @Component({
   selector: 'app-users',

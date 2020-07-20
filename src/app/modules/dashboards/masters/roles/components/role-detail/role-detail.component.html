@@ -21,6 +21,7 @@
       <core-table
       [columnsHeader]="taskColumnsHeader"
       [columnsData]="taskColumnsData"
+      [pagination]="pagination"
       (switchChangesStatus)="taskAssignedChanged($event)"
       ></core-table>
     </section>

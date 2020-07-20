@@ -12,6 +12,7 @@ import { TasksService } from './services/tasks.service';
 import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-tasks',
@@ -30,6 +31,8 @@ export class TasksComponent implements OnInit {
   public taskColumnsData: RowDataModel[] = [];
   public screenColumnsData: RowDataModel[] = [];
   public taskDetailScreenColumnsData: RowDataModel[] = [];
+  public taskColumnsPagination: PaginationModel;
+  public screenColumnsPagination: PaginationModel;
   public pageTitle = 'Tareas';
   public tasksSelectedCount = 0;
   public screens: Screen[];
@@ -91,6 +94,8 @@ export class TasksComponent implements OnInit {
       if (this.selectedItem >= 0) {
         this.onTaskSelected(this.selectedItem);
       }
+      this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
+      this.taskColumnsPagination.lastPage = this.taskColumnsData.length/this.taskColumnsPagination.elememtsPerpage;
     });
   }
 
@@ -98,7 +103,11 @@ export class TasksComponent implements OnInit {
     this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
     this.taskService
       .getScreens()
-      .subscribe((screens) => (this.screens = screens['content']));
+      .subscribe((screens) => {
+        this.screens = screens['content'];
+        this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
+        this.screenColumnsPagination.lastPage = this.screens.length/this.taskColumnsPagination.elememtsPerpage
+      });
   }
 
   private initializeTaskDetailModal(

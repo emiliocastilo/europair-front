@@ -7,6 +7,7 @@ import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-act
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { Task } from '../../tasks/models/task';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Injectable()
 export class RolesTableAdapterService {
@@ -91,6 +92,10 @@ export class RolesTableAdapterService {
       taskTableData.push(screenRow);
     });
     return taskTableData;
+  }
+
+  public getPagination(){
+    return new PaginationModel(true,1,3,5,10);
   }
 
   private hasRoleAssignedTask(role: Role, task: Task): boolean {
