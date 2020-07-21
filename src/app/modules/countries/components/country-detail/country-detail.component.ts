@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Country } from '../../models/country';
+import { Country, CountryPageable } from '../../models/country';
+import { CountriesService } from '../../services/countries.service';
 
 @Component({
   selector: 'app-country-detail',
@@ -23,11 +24,13 @@ export class CountryDetailComponent {
       this.countryNameControl.reset();
       this.countryCodeControl.reset();
     }
+    this.numbersControl.reset();
   }
 
   @Output()
   public saveCountry: EventEmitter<Country> = new EventEmitter();
 
+  public showErrors: boolean = false;
   public countryNameControl: FormControl = this.fb.control(
     { value: '', disabled: false },
     Validators.required
@@ -37,9 +40,23 @@ export class CountryDetailComponent {
     Validators.required
   );
 
+  public numbersControl: FormControl = this.fb.control(
+    { value: '', disabled: false },
+    Validators.required
+  );
+  public countries: Array<Country>;
+  public number: Array<{id: number, att: string, name: string}> = [{id: 1, att: 'asdasd', name: 'uno'},{id: 2, att: 'asdasd', name: 'dos'},{id: 3, att: 'asdasd', name: 'tres'},{id: 4, att: 'asdasd', name: 'cuatro'}];
+
   private _countryDetail: Country;
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(private readonly fb: FormBuilder, private readonly countriesService: CountriesService) {
+    this.countriesService.getCountries().subscribe((countries: CountryPageable) => this.countries =  countries.content);
+  }
+
+  public select($event): void {
+    console.log($event);
+  }
+
 
   public hasCountryNameControlErrors(): boolean {
     return (
@@ -52,6 +69,13 @@ export class CountryDetailComponent {
     return (
       this.countryCodeControl.invalid &&
       (this.countryCodeControl.dirty || this.countryCodeControl.touched)
+    );
+  }
+
+  public hasError(): boolean {
+    return (
+      this.numbersControl.invalid &&
+      (this.numbersControl.dirty || this.numbersControl.touched)
     );
   }
 
