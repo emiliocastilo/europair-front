@@ -1,0 +1,8 @@
+<div class="core-basic-select-field select-field">
+    <select id="{{id}}" class="invalid" [disabled]="isDisabled" [ngClass]="{ 'invalid': hasErrors }" (change)="changeSelect($event.target.value)" [value]="value">
+        <option value="" disabled selected>{{getPlaceholder()}}</option>
+        <option *ngFor="let item of items" [value]="getItemValue(item)">{{getItemDescription(item)}}</option>
+    </select>
+    <label for="{{id}}">{{label}}</label>
+    <ng-content select="[inputErrors]"></ng-content>
+</div>

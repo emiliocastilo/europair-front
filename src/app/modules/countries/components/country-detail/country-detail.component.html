@@ -19,15 +19,26 @@
         </ng-container>
       </core-basic-input-text>
       <core-basic-input-text [id]="'country-name'" [label]="'País'" [formControl]="countryNameControl"
-        [hasErrors]="hasCountryNameControlErrors()">
+        [hasErrors]="showErrors">
         <ng-container inputErrors>
-          <ng-container *ngIf="hasCountryNameControlErrors()">
-            <span *ngIf="countryNameControl.errors.required" class="helper-text"
-              data-error="Debe indicar el nombre del país">
+          <ng-container *ngIf="showErrors">
+            <span *ngIf="showErrors" class="helper-text" data-error="Debe indicar el nombre del país">
             </span>
           </ng-container>
         </ng-container>
       </core-basic-input-text>
+      <core-select (selectedValueEvent)="select($event)" [id]="'mi-select'" [label]="'Nombre select'"
+        [items]="number" [formControl]="numbersControl" [hasErrors]="showErrors">
+      <!-- <core-select (selectedValueEvent)="select($event)" [id]="'mi-select'" [label]="'País'"
+        [items]="countries" [hasErrors]="showErrors"> -->
+        <ng-container inputErrors>
+          <ng-container *ngIf="showErrors">
+            <span *ngIf="showErrors" class="helper-text" data-error="Debe indicar el nombre del país">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-select>
+      <button (click)="showErrors = !showErrors">Mostrar/ocultar errores</button>
     </section>
   </div>
 
