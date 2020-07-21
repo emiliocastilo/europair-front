@@ -1,0 +1,7 @@
+@import "~src/variables.scss";
+
+.pagination-wrapper{
+    .pagination li.active{
+        background-color: $europair-color-blue-dark-2;
+    }
+}

@@ -22,7 +22,7 @@
   </section>
   <section class="row master-table-data-row valign-wrapper"
     [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
-    *ngFor="let columnData of columnsData; index as rowDataIndex" (click)="activate(rowDataIndex)">
+    *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
       <ng-container [ngSwitch]="item.type">
         <article *ngSwitchCase="'checkbox'" class="col"
@@ -87,6 +87,10 @@
   </section>
 </div>
 
-<core-letter-table [columnsData]="columnsData" 
+<core-letter-table [columnsData]="columnsDataToShow" 
   [columnsHeader]="columnsHeader" [internalSelectedItem]="internalSelectedItem"
   (selectedValue)="activate($event.value)"></core-letter-table>
+
+<core-table-pagination 
+  [pagination]="pagination"
+  (changePage)="onChangePage($event)"></core-table-pagination>
