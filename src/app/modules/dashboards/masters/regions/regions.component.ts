@@ -17,6 +17,7 @@ import { tap } from 'rxjs/operators';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Country } from 'src/app/modules/countries/models/country';
 import { CountriesService } from 'src/app/modules/countries/services/countries.service';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-regions',
@@ -35,10 +36,13 @@ export class RegionsComponent implements OnInit {
 
   public regionColumnsHeader: ColumnHeaderModel[] = [];
   public regionColumnsData: RowDataModel[] = [];
-  public regionContryColumnsHeader: ColumnHeaderModel[] = [];
-  public regionContryColumnsData: RowDataModel[] = [];
+  public regionColumnsPagination: PaginationModel;
+  public regionCountryColumnsHeader: ColumnHeaderModel[] = [];
+  public regionCountryColumnsData: RowDataModel[] = [];
+  public regionCountryColumnsPagination: PaginationModel;
   public regionAirportColumnsHeader: ColumnHeaderModel[] = [];
   public regionAirportColumnsData: RowDataModel[] = [];
+  public regionAirportColumnsPagination: PaginationModel;
   public countries: Country[];
   public airports: Airport[];
   public regions: Region[];
@@ -60,7 +64,7 @@ export class RegionsComponent implements OnInit {
 
   constructor(
     private regionsService: RegionsService,
-    private regionsTableAdapter: RegionsTableAdapterService,
+    private regionsTableAdapterService: RegionsTableAdapterService,
     private modalService: ModalService,
     private fb: FormBuilder,
     private countriesService: CountriesService
@@ -72,20 +76,23 @@ export class RegionsComponent implements OnInit {
   }
 
   private initializeTablesColumnsHeader() {
-    this.regionColumnsHeader = this.regionsTableAdapter.getRegionColumnsHeader();
-    this.regionContryColumnsHeader = this.regionsTableAdapter.getRegionCountryColumnsHeader();
-    this.regionAirportColumnsHeader = this.regionsTableAdapter.getRegionAirportColumnsHeader();
+    this.regionColumnsHeader = this.regionsTableAdapterService.getRegionColumnsHeader();
+    this.regionCountryColumnsHeader = this.regionsTableAdapterService.getRegionCountryColumnsHeader();
+    this.regionAirportColumnsHeader = this.regionsTableAdapterService.getRegionAirportColumnsHeader();
   }
 
   private initializeRegionsTable() {
     // this.regionsService.getRegions().subscribe(this.getRegionTabeData);
-    this.getRegionTabeData(this.mockRegions);
+    this.getRegionTableData(this.mockRegions);
   }
 
-  private getRegionTabeData = (regions: Region[]) => {
+  private getRegionTableData = (regions: Region[]) => {
     this.regions = regions;
-    this.regionColumnsData = this.regionsTableAdapter.getRegionTableDataFromRegions(
+    this.regionColumnsData = this.regionsTableAdapterService.getRegionTableDataFromRegions(
       regions
+    );
+    this.regionColumnsPagination = this.initializeClientTablePagination(
+      this.regionColumnsData
     );
   };
 
@@ -185,16 +192,26 @@ export class RegionsComponent implements OnInit {
     regionSelected: Region,
     editable = true
   ) => {
-    this.regionContryColumnsData = this.getRegionCountryTableDataForRegion(
+    this.regionCountryColumnsData = this.getRegionCountryTableDataForRegion(
       regionSelected,
       data.countries.content,
       editable
+    );
+    this.regionCountryColumnsPagination = this.initializeClientTablePagination(
+      this.regionCountryColumnsData
     );
     this.regionAirportColumnsData = this.getRegionAirportTableDataForRegion(
       regionSelected,
       data.airports,
       editable
     );
+    this.regionAirportColumnsPagination = this.initializeClientTablePagination(
+      this.regionAirportColumnsData
+    );
+    this.regionCountryColumnsPagination = this.regionsTableAdapterService.getPagination();
+    this.regionCountryColumnsPagination.lastPage =
+      this.regionCountryColumnsData.length /
+      this.regionCountryColumnsPagination.elememtsPerpage;
     this.regionDetailTitle = regionDetailTitle;
     this.initializeModal(this.regionDetailModal);
     this.modalService.openModal();
@@ -206,7 +223,7 @@ export class RegionsComponent implements OnInit {
     editable = true
   ): RowDataModel[] {
     const regionCountries = region ? region.countries : [];
-    return this.regionsTableAdapter.getRegionCountryTableData(
+    return this.regionsTableAdapterService.getRegionCountryTableData(
       countries,
       regionCountries,
       'assigned-country-',
@@ -220,7 +237,7 @@ export class RegionsComponent implements OnInit {
     editable = true
   ): RowDataModel[] {
     const regionAirports = region ? region.airports : [];
-    return this.regionsTableAdapter.getRegionAirportTableData(
+    return this.regionsTableAdapterService.getRegionAirportTableData(
       airports,
       regionAirports,
       'assigned-airport-',
@@ -244,5 +261,13 @@ export class RegionsComponent implements OnInit {
         this.airports = data.airports;
       })
     );
+  }
+
+  private initializeClientTablePagination(
+    model: RowDataModel[]
+  ): PaginationModel {
+    let pagination = this.regionsTableAdapterService.getPagination();
+    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    return pagination;
   }
 }

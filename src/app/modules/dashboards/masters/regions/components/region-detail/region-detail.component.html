@@ -29,6 +29,7 @@
             <core-table
             [columnsHeader]="regionCountryColumnsHeader"
             [columnsData]="regionCountryColumnsData"
+            [pagination]="regionCountryColumnsPagination"
             (switchChangesStatus)="regionCountryAssignedChanged($event)"
             ></core-table>
           </section>
@@ -41,6 +42,7 @@
             <core-table
             [columnsHeader]="regionAirportColumnsHeader"
             [columnsData]="regionAirportColumnsData"
+            [pagination]="regionAirportColumnsPagination"
             (switchChangesStatus)="regionAirportAssignedChanged($event)"
             ></core-table>
           </section>

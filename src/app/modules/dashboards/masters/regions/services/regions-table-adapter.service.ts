@@ -8,6 +8,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { Airport } from '../models/airport';
 import { Country } from 'src/app/modules/countries/models/country';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Injectable({
   providedIn: 'root',
@@ -158,5 +159,9 @@ export class RegionsTableAdapterService {
         (regionAirport: Airport) => regionAirport.id === airport.id
       )
     );
+  }
+
+  public getPagination() {
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 }

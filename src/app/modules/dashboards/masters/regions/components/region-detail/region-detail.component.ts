@@ -5,6 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { Region, EMPTY_REGION } from '../../models/region';
 import { Country } from 'src/app/modules/countries/models/country';
 import { Airport } from '../../models/airport';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-region-detail',
@@ -19,9 +20,13 @@ export class RegionDetailComponent implements OnInit {
   @Input()
   public regionCountryColumnsData: RowDataModel[] = [];
   @Input()
+  public regionCountryColumnsPagination: PaginationModel;
+  @Input()
   public regionAirportColumnsHeader: ColumnHeaderModel[] = [];
   @Input()
   public regionAirportColumnsData: RowDataModel[] = [];
+  @Input()
+  public regionAirportColumnsPagination: PaginationModel;
   @Input()
   public regionForm: FormGroup;
   @Input()

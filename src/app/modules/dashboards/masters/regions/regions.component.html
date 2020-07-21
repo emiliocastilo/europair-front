@@ -8,6 +8,7 @@
   <core-table
     [columnsHeader]="regionColumnsHeader"
     [columnsData]="regionColumnsData"
+    [pagination]="regionColumnsPagination"
     (executeActionEmitter)="onRegionAction($event)">
   </core-table>
 </section>
@@ -18,10 +19,12 @@
 [regionDetail]="regionSelected"
 [countries]="countries"
 [airports]="airports"
-[regionCountryColumnsHeader]="regionContryColumnsHeader"
-[regionCountryColumnsData]="regionContryColumnsData"
+[regionCountryColumnsHeader]="regionCountryColumnsHeader"
+[regionCountryColumnsData]="regionCountryColumnsData"
+[regionCountryColumnsPagination]="regionCountryColumnsPagination"
 [regionAirportColumnsHeader]="regionAirportColumnsHeader"
 [regionAirportColumnsData]="regionAirportColumnsData"
+[regionAirportColumnsPagination]="regionAirportColumnsPagination"
 (saveRegion)="onSaveRegion($event)">
 </app-region-detail>
 
