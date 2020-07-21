@@ -12,11 +12,11 @@ import { RegionDetailComponent } from './components/region-detail/region-detail.
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Airport } from './models/airport';
-import { Country } from '../countries/models/country';
-import { CountriesService } from '../countries/services/countries.service';
 import { forkJoin } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { Country } from 'src/app/modules/countries/models/country';
+import { CountriesService } from 'src/app/modules/countries/services/countries.service';
 
 @Component({
   selector: 'app-regions',

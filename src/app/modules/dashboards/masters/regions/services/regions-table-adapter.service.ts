@@ -6,8 +6,8 @@ import { Region } from '../models/region';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
-import { Country } from '../../countries/models/country';
 import { Airport } from '../models/airport';
+import { Country } from 'src/app/modules/countries/models/country';
 
 @Injectable({
   providedIn: 'root',
