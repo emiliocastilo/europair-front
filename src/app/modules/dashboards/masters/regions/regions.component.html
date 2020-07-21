@@ -1,0 +1,50 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar
+  [barButtons]="barButtons"
+  [itemsSelectedCount]="0"
+  (executeAction)="onBarButtonClicked($event)">
+</core-button-bar>
+<section class="users-tables cmd-mt-1">
+  <core-table
+    [columnsHeader]="regionColumnsHeader"
+    [columnsData]="regionColumnsData"
+    [pagination]="regionColumnsPagination"
+    (executeActionEmitter)="onRegionAction($event)">
+  </core-table>
+</section>
+
+<app-region-detail
+[title]="regionDetailTitle"
+[regionForm]="regionForm"
+[regionDetail]="regionSelected"
+[countries]="countries"
+[airports]="airports"
+[regionCountryColumnsHeader]="regionCountryColumnsHeader"
+[regionCountryColumnsData]="regionCountryColumnsData"
+[regionCountryColumnsPagination]="regionCountryColumnsPagination"
+[regionAirportColumnsHeader]="regionAirportColumnsHeader"
+[regionAirportColumnsData]="regionAirportColumnsData"
+[regionAirportColumnsPagination]="regionAirportColumnsPagination"
+(saveRegion)="onSaveRegion($event)">
+</app-region-detail>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar la región <b>{{regionSelected?.name}}</b>?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteRegion()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

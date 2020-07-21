@@ -1,0 +1,67 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }} {{_regionDetail?.name}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="region-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="regionForm">
+        <div class="input-field col s12">
+          <core-basic-input-text [id]="'region-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('name')">
+                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" data-error="Debe indicar el nombre de la región">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+    <ul class="collapsible expandable" appMatCollapsible>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">details</i>Paises</div>
+        <div class="collapsible-body"><span>
+          <section class="region-country-detail-table">
+            <core-table
+            [columnsHeader]="regionCountryColumnsHeader"
+            [columnsData]="regionCountryColumnsData"
+            [pagination]="regionCountryColumnsPagination"
+            (switchChangesStatus)="regionCountryAssignedChanged($event)"
+            ></core-table>
+          </section>
+        </span></div>
+      </li>
+      <li>
+        <div class="collapsible-header"><i class="material-icons">details</i>Aeropuertos</div>
+        <div class="collapsible-body"><span>
+          <section class="region-airport-detail-table">
+            <core-table
+            [columnsHeader]="regionAirportColumnsHeader"
+            [columnsData]="regionAirportColumnsData"
+            [pagination]="regionAirportColumnsPagination"
+            (switchChangesStatus)="regionAirportAssignedChanged($event)"
+            ></core-table>
+          </section>
+        </span></div>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+      *ngIf="regionForm.disabled;else saveBtn">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text" *ngIf="regionForm.disabled;else saveBtn">Confirmar</span>
+    </a>
+    <ng-template #saveBtn>
+      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+      [ngClass]="{'disabled': !regionForm.valid }" (click)="onSaveRegion()">
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text" >Guardar</span>
+      </a>
+    </ng-template>
+  </div>
+</div>
