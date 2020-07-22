@@ -12,7 +12,7 @@
                 <core-basic-input-text
                   id="user"
                   label="Usuario"
-                  icon="person"
+                  [iconConfig]="userIconConfig"
                   formControlName="userName"
                 ></core-basic-input-text>
               </div>
@@ -21,7 +21,7 @@
                   id="password"
                   label="Contraseña"
                   type="password"
-                  icon="vpn_key"
+                  [iconConfig]="passwordIconConfig"
                   formControlName="password"
                 ></core-basic-input-text>
               </div>

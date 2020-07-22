@@ -7,8 +7,10 @@
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
-            <i class="material-icons">search</i>
-            <core-basic-input-text [id]="columnHeader.identifier" [label]="columnHeader.label"></core-basic-input-text>
+            <core-basic-input-text 
+              [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig"
+              (onSearchChanged)="onSearchHeaderChanged($event, columnHeader.identifier)">
+            </core-basic-input-text>
           </div>
         </article>
         <!--TEST HEADER-->

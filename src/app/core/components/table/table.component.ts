@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/column-header.model';
 import { PaginationModel } from '../../models/table/pagination/pagination.model';
+import { InputTextIcon, InputTextIconPositions } from '../../models/basic/input-text/input-text-icon';
 @Component({
   selector: 'core-table',
   templateUrl: './table.component.html',
@@ -22,10 +23,13 @@ export class TableComponent implements OnInit {
   public internalSelectedItem: number;
   public columnsDataToShow: Array<RowDataModel>;
   public lastPage:number;
+  public iconConfig: InputTextIcon;
 
   constructor() {}
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { 
+    this.iconConfig = {icon: 'search', position: InputTextIconPositions.PREFIX}
+   }
 
   ngAfterViewInit(): void {
     var letterElems = document.querySelectorAll('a[id^=letter-actions-');
@@ -93,5 +97,9 @@ export class TableComponent implements OnInit {
     } else{
       return selectedItem;
     }
+  }
+
+  public onSearchHeaderChanged(searchTerm: string, identifier: string) {
+    console.log(searchTerm, identifier);
   }
 }

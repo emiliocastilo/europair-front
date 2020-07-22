@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import {
+  InputTextIcon,
+  InputTextIconPositions,
+} from 'src/app/core/models/basic/input-text/input-text-icon';
 
 @Component({
   selector: 'login',
@@ -10,6 +14,8 @@ import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
+  public userIconConfig: InputTextIcon;
+  public passwordIconConfig: InputTextIcon;
 
   constructor(
     private _authService: AuthService,
@@ -22,7 +28,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userIconConfig = {
+      icon: 'person',
+      position: InputTextIconPositions.RIGHT,
+    };
+    this.passwordIconConfig = {
+      icon: 'vpn_key',
+      position: InputTextIconPositions.RIGHT,
+    };
+  }
 
   public onLogin() {
     console.log(this.loginForm.value);

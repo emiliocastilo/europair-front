@@ -25,7 +25,7 @@ export class TasksTableAdapterService implements OnDestroy {
       ),
       new ColumnHeaderModel(
         'task-header',
-        'text',
+        'search',
         'Tarea',
         new ColumnHeaderSizeModel('9', '6', '7')
       ),
@@ -55,8 +55,8 @@ export class TasksTableAdapterService implements OnDestroy {
     ];
   }
 
-  public getPagination(){
-    return new PaginationModel(true,1,3,5,10);
+  public getPagination() {
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 
   public getTaskTableDataFromTasks(tasks: Task[]): RowDataModel[] {

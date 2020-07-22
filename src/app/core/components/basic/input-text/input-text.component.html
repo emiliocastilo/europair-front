@@ -1,6 +1,12 @@
 <div class="core-basic-input-field input-field">
-    <i class="material-icons prefix right europair-icon-blue">{{icon}}</i>
-    <input [id]="id" [type]="type" class="invalid" [ngClass]="{ 'invalid': hasErrors }" [value]="value" [disabled]="isDisabled" 
+  <ng-container *ngIf="iconConfig">
+    <ng-container [ngSwitch]="iconConfig.position">
+      <i *ngSwitchCase="ICON_POSITION.PREFIX" class="material-icons prefix">{{iconConfig.icon}}</i>
+      <i *ngSwitchCase="ICON_POSITION.RIGHT" class="material-icons prefix right europair-icon-blue">{{iconConfig.icon}}</i>
+      <i *ngSwitchDefault class="material-icons prefix">{{iconConfig.icon}}</i>
+    </ng-container>
+  </ng-container>
+    <input #searchInput [id]="id" [type]="type" class="invalid" [ngClass]="{ 'invalid': hasErrors }" [value]="value" [disabled]="isDisabled" 
       (input)="onInput($event.target.value)">
     <label [for]="id" [ngClass]="{'active': value !== ''}">{{label}}</label>
     <ng-content select="[inputErrors]"></ng-content>

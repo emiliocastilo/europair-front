@@ -1,5 +1,8 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { InputTextIcon, InputTextIconPositions } from 'src/app/core/models/basic/input-text/input-text-icon';
+import { fromEvent, Subject } from 'rxjs';
+import { map, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'core-basic-input-text',
@@ -13,21 +16,45 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class InputTextComponent implements OnInit, ControlValueAccessor {
+export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestroy {
+  @ViewChild('searchInput', {static: true}) searchInput: ElementRef
   @Input() id: string;
   @Input() label: string;
   @Input() icon: string;
   @Input() type: string = 'text';
   @Input() hasErrors: boolean;
+  @Input() iconConfig: InputTextIcon;
+  @Output() onSearchChanged: EventEmitter<string> = new EventEmitter();
 
+  public ICON_POSITION = InputTextIconPositions;
   public value: string = '';
   public isDisabled: boolean;
   public onChange = (_: any) => {};
   public onTouch = () => {};
+  private unsubscriber$: Subject<void> = new Subject();
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const terms$ = fromEvent<any>(this.searchInput.nativeElement, 'keyup')
+    .pipe(
+      map(event => event.target.value),
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntil(this.unsubscriber$)
+    );
+   terms$
+    .subscribe(
+      criterion => {
+        this.onSearchChanged.emit(criterion);
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscriber$.next();
+    this.unsubscriber$.complete();
+  }
 
   public onInput(value: string) {
     this.value = value;
