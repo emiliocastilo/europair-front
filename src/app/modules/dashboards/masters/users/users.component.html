@@ -8,6 +8,7 @@
   <core-table
     [columnsHeader]="userColumnsHeader"
     [columnsData]="userColumnsData"
+    [pagination]="userColumnsPagination"
     (selectedItem)="onUserSelected($event)"
     (executeActionEmitter)="onUserAction($event)">
   </core-table>
@@ -22,8 +23,10 @@
   [tasks]="tasks"
   [userRoleColumnsHeader]="userRoleColumnsHeader"
   [userRoleColumnsData]="userRoleColumnsData"
+  [userRoleColumnsPagination]="userRoleColumnsPagination"
   [userTaskColumnsHeader]="userTaskColumnsHeader"
   [userTaskColumnsData]="userTaskColumnsData"
+  [userTaskColumnsPagination]="userTaskColumnsPagination"
   (saveUser)="onSaveUser($event)">
 </app-user-detail>
 

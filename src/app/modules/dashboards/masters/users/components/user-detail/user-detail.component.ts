@@ -5,6 +5,7 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { User, EMPTY_USER } from '../../models/user';
 import { Role } from '../../../roles/models/role';
 import { Task } from '../../../tasks/models/task';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-user-detail',
@@ -19,9 +20,13 @@ export class UserDetailComponent implements OnInit {
   @Input()
   public userTaskColumnsData: RowDataModel[] = [];
   @Input()
+  public userTaskColumnsPagination: PaginationModel;
+  @Input()
   public userRoleColumnsHeader: ColumnHeaderModel[] = [];
   @Input()
   public userRoleColumnsData: RowDataModel[] = [];
+  @Input()
+  public userRoleColumnsPagination: PaginationModel;
   @Input()
   public userForm: FormGroup;
   @Input()

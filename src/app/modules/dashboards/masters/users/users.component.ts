@@ -18,6 +18,8 @@ import { Role } from '../roles/models/role';
 import { Task } from '../tasks/models/task';
 import { TasksService } from '../tasks/services/tasks.service';
 import { RolesService } from '../roles/services/roles.service';
+import { Page } from 'src/app/core/models/table/pagination/page';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-users',
@@ -37,10 +39,13 @@ export class UsersComponent implements OnInit {
 
   public userColumnsHeader: ColumnHeaderModel[] = [];
   public userColumnsData: RowDataModel[] = [];
+  public userColumnsPagination: PaginationModel;
   public userRoleColumnsHeader: ColumnHeaderModel[] = [];
   public userRoleColumnsData: RowDataModel[] = [];
+  public userRoleColumnsPagination: PaginationModel;
   public userTaskColumnsHeader: ColumnHeaderModel[] = [];
   public userTaskColumnsData: RowDataModel[] = [];
+  public userTaskColumnsPagination: PaginationModel;
   public usersSelectedCount = 0;
   public users: User[];
   public roles: Role[];
@@ -61,9 +66,6 @@ export class UsersComponent implements OnInit {
     timeZone: ['', Validators.required],
   });
 
-  private mockUsers: User[] = [];
-  private idMockUser: number = 1;
-
   constructor(
     private modalService: ModalService,
     private usersService: UsersService,
@@ -79,8 +81,7 @@ export class UsersComponent implements OnInit {
   }
 
   private initializeUsersTable() {
-    // this.usersService.getUsers().subscribe(this.getUserTableData);
-    this.getUserTableData(this.mockUsers);
+    this.usersService.getUsers().subscribe(this.getUserTableData);
   }
 
   private initializeTablesColumnsHeader() {
@@ -89,10 +90,13 @@ export class UsersComponent implements OnInit {
     this.userTaskColumnsHeader = this.usersTableAdapterService.getUserTaskColumnsHeader();
   }
 
-  private getUserTableData = (users: User[]) => {
-    this.users = users;
+  private getUserTableData = (users: Page<User>) => {
+    this.users = users.content;
     this.userColumnsData = this.usersTableAdapterService.getUserTableDataFromUsers(
-      users
+      users.content
+    );
+    this.userColumnsPagination = this.initializeClientTablePagination(
+      this.userColumnsData
     );
   };
 
@@ -154,11 +158,9 @@ export class UsersComponent implements OnInit {
   };
 
   public onConfirmDeleteUser() {
-    console.log('USUARIO ELIMINADO', this.userSelected);
-    this.mockUsers = this.mockUsers.filter(
-      (mockUser: User) => mockUser.id !== this.userSelected.id
-    );
-    this.initializeUsersTable();
+    this.usersService
+      .removeUser(this.userSelected)
+      .subscribe((_) => this.initializeUsersTable());
   }
 
   private userTableActions = {
@@ -178,10 +180,16 @@ export class UsersComponent implements OnInit {
       data.roles.content,
       editable
     );
+    this.userRoleColumnsPagination = this.initializeClientTablePagination(
+      this.userRoleColumnsData
+    );
     this.userTaskColumnsData = this.getUserTaskTableDataForUser(
       userSelected,
       data.tasks.content,
       editable
+    );
+    this.userTaskColumnsPagination = this.initializeClientTablePagination(
+      this.userTaskColumnsData
     );
     this.userDetailTitle = userDetailTitle;
     this.initializeModal(this.userDetailModal);
@@ -189,7 +197,6 @@ export class UsersComponent implements OnInit {
   };
 
   public onUserAction(action: { actionId: string; selectedItem: number }) {
-    console.log('onUserAction', action);
     this.userSelected = { ...this.users[action.selectedItem] };
     this.userTableActions[action.actionId](action.selectedItem);
   }
@@ -245,15 +252,16 @@ export class UsersComponent implements OnInit {
   }
 
   public onSaveUser(newUser: User) {
-    if (newUser.id) {
-      this.mockUsers = this.mockUsers.map((mockUser: User) => {
-        return mockUser.id !== newUser.id ? mockUser : { ...newUser };
-      });
-    } else {
-      this.mockUsers = [...this.mockUsers, { ...newUser, id: this.idMockUser }];
-      console.log(this.mockUsers);
-      this.idMockUser++;
-    }
-    this.initializeUsersTable();
+    this.usersService
+      .saveUser(newUser)
+      .subscribe(() => this.initializeUsersTable());
+  }
+
+  private initializeClientTablePagination(
+    model: RowDataModel[]
+  ): PaginationModel {
+    let pagination = this.usersTableAdapterService.getPagination();
+    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    return pagination;
   }
 }
