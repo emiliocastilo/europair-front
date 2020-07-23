@@ -22,8 +22,7 @@
         [hasErrors]="hasCountryNameControlErrors()">
         <ng-container inputErrors>
           <ng-container *ngIf="hasCountryNameControlErrors()">
-            <span *ngIf="countryNameControl.errors.required" class="helper-text"
-              data-error="Debe indicar el nombre del país">
+            <span *ngIf="hasCountryNameControlErrors()" class="helper-text" data-error="Debe indicar el nombre del país">
             </span>
           </ng-container>
         </ng-container>

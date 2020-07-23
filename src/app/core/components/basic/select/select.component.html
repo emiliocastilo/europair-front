@@ -1,0 +1,7 @@
+<div class="core-basic-select-field select-field" [ngClass]="{ 'invalid': hasErrors }">
+    <label for="{{id}}">{{label}}</label>
+    <ng-select id="{id}" [bindLabel]="itemDescription" [bindValue]="itemValue" [searchable]="searchable"
+        [placeholder]="placeholder" [items]="items" [loading]="loading"
+        (change)="changeSelect($event)"></ng-select>
+    <ng-content select="[inputErrors]"></ng-content>
+</div>

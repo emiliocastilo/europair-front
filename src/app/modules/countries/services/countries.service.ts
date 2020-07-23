@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class CountriesService {
-  private readonly mocked: boolean = false;
+  private readonly mocked: boolean = true;
   private readonly url = `${environment.apiUrl}countries`;
 
   constructor(private readonly httpClient: HttpClient) { }

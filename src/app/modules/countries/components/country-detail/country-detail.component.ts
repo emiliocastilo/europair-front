@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Country } from '../../models/country';
+import { Country, CountryPageable } from '../../models/country';
+import { CountriesService } from '../../services/countries.service';
 
 @Component({
   selector: 'app-country-detail',
@@ -36,10 +37,10 @@ export class CountryDetailComponent {
     { value: '', disabled: false },
     Validators.required
   );
-
   private _countryDetail: Country;
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(private readonly fb: FormBuilder ) { }
+
 
   public hasCountryNameControlErrors(): boolean {
     return (
