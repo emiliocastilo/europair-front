@@ -73,6 +73,7 @@
             <core-table
             [columnsHeader]="userRoleColumnsHeader"
             [columnsData]="userRoleColumnsData"
+            [pagination]="userRoleColumnsPagination"
             (switchChangesStatus)="userRoleAssignedChanged($event)"
             ></core-table>
           </section>
@@ -85,6 +86,7 @@
             <core-table
             [columnsHeader]="userTaskColumnsHeader"
             [columnsData]="userTaskColumnsData"
+            [pagination]="userTaskColumnsPagination"
             (switchChangesStatus)="userTaskAssignedChanged($event)"
             ></core-table>
           </section>

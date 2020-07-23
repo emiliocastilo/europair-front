@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.loginForm = this.fb.group({
-      userName: [''],
+      username: [''],
       password: [''],
     });
   }
@@ -27,17 +27,17 @@ export class LoginComponent implements OnInit {
   public onLogin() {
     console.log(this.loginForm.value);
     this._authService
-      .login({ username: 'prueba', password: 'prueba' })
+      .login(this.loginForm.value)
       .subscribe(this.setTokenOnSessionStorage);
   }
 
   private setTokenOnSessionStorage = (response) => {
-    sessionStorage.setItem('AUTH-TOKEN', response.token);
+    sessionStorage.setItem('AUTH-TOKEN', response.jwtToken);
     sessionStorage.setItem('USER-NAME', this.userNameControl.value);
     this._router.navigate(['/tasks']);
   };
 
   private get userNameControl(): AbstractControl {
-    return this.loginForm.get('userName');
+    return this.loginForm.get('username');
   }
 }

@@ -2,22 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private _httpClient: HttpClient,
-    private _router: Router) {}
+  private readonly url = `${environment.apiUrl}login`;
+
+  constructor(private _httpClient: HttpClient, private _router: Router) {}
 
   public login(userData: {
     username: string;
     password: string;
   }): Observable<any> {
-    return this._httpClient.post(
-      'https://run.mocky.io/v3/f7ea2067-b8b5-4a4e-aa32-80b52add2472',
-      userData
-    );
+    return this._httpClient.post(this.url, userData);
   }
 
   public closeSession() {
