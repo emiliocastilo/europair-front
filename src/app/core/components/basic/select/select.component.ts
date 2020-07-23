@@ -29,7 +29,7 @@ export class SelectComponent implements ControlValueAccessor {
 
   public onChange = (_: any) => { };
   public onTouch = () => { };
-  public value: any = '';
+  public value: any;
 
   constructor() { }
 

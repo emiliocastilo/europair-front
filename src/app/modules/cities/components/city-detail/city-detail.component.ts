@@ -20,10 +20,11 @@ export class CityDetailComponent implements OnInit {
     if (city.code) {
       this.cityNameControl.setValue(this._cityDetail.name);
       this.cityCodeControl.setValue(this._cityDetail.code);
+      this.countryControl.setValue(this._cityDetail.country);
     } else {
       this.cityNameControl.reset();
       this.cityCodeControl.reset();
-      this.countryIdControl.reset();
+      this.countryControl.reset();
     }
   }
 
@@ -38,12 +39,13 @@ export class CityDetailComponent implements OnInit {
     { value: '', disabled: false },
     Validators.required
   );
-  public countryIdControl: FormControl = this.fb.control(
+  public countryControl: FormControl = this.fb.control(
     { value: '', disabled: false },
     Validators.required
   );
   public countrySelected: Country;
   public countries: Array<Country>;
+  public loadingCountries: boolean;
 
   private _cityDetail: City;
   constructor(
@@ -52,12 +54,10 @@ export class CityDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadingCountries = true;
     this.countriesService.getCountries().subscribe((data: Pageable<Country>) => {
-      const countries: Array<Country> = data.content;
-      this.countrySelected = countries.find((country: Country) => country.id === this._cityDetail.country.id);
-      if (this.countrySelected) {
-        this.countryIdControl.setValue(this._cityDetail.country.id);
-      }
+      this.countries = data.content;
+      this.loadingCountries = false;
     });
   }
 
@@ -77,13 +77,13 @@ export class CityDetailComponent implements OnInit {
 
   public hasCountryControlErrors(): boolean {
     return (
-      this.countryIdControl.invalid &&
-      (this.countryIdControl.dirty || this.countryIdControl.touched)
+      this.countryControl.invalid &&
+      (this.countryControl.dirty || this.countryControl.touched)
     );
   }
 
   public anyFieldInvalid(): boolean {
-    return this.cityNameControl.invalid || this.cityCodeControl.invalid || this.countryIdControl.invalid;
+    return this.cityNameControl.invalid || this.cityCodeControl.invalid || this.countryControl.invalid;
   }
 
   public onCity(): void {
@@ -92,7 +92,7 @@ export class CityDetailComponent implements OnInit {
       name: this.cityNameControl.value,
       code: this.cityCodeControl.value,
       country: {
-        id: this.countryIdControl.value
+        id: this.countryControl.value.id
       }
     });
   }

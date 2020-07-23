@@ -3,7 +3,8 @@
     {
        "country":{
           "name":"Afghanistan",
-          "code":"--"
+          "code":"AF",
+          "id": 0
        },
        "code":"KA",
        "name":"Kabul",

@@ -14,8 +14,9 @@ import { ButtonBarComponent } from './components/menus/button-bar/button-bar.com
 import { MobileBarComponent } from './components/menus/mobile-bar/mobile-bar.component';
 import { PaginationComponent } from './components/table/components/pagination/pagination.component';
 import { MatCollapsibleDirective } from './directives/mat-collapsible.directive';
-import { SelectComponent } from './components/basic/select/select.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SelectComponent } from './components/basic/select/select.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MatCollapsibleDirective,
     SelectComponent
   ],
-  imports: [CommonModule, RouterModule, NgSelectModule ],
+  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
   exports: [
     TableComponent,
     LeftSidebarComponent,

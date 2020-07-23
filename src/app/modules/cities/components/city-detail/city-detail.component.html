@@ -28,12 +28,17 @@
           </ng-container>
         </ng-container>
       </core-basic-input-text>
-      <div>
-        <label for="select-country">País</label>
-        <select id="select-country" [(ngModel)]="countrySelected" style="display: block;">
-          <option *ngFor="let country of countries" [value]="country.id">{{country.name}}</option>
-        </select>
-      </div>
+      <core-select [items]="countries" [itemValue]="'id'" [itemDescription]="'name'"
+        [hasErrors]="hasCountryControlErrors()" [id]="'country'" [label]="'País'" [placeholder]="'Selecciona un país'"
+        [formControl]="countryControl" [loading]="loadingCountries">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasCountryControlErrors()">
+            <span *ngIf="countryControl.errors.required" class="helper-text"
+              data-error="Debe indicar el nombre de la Ciudad">
+            </span>
+          </ng-container>
+        </ng-container>
+      </core-select>
     </section>
   </div>
 
