@@ -1,7 +1,7 @@
 export interface Country {
     id: number;
-    code: string;
-    name: string;
+    code?: string;
+    name?: string;
 }
 
 export const EMPTY_COUNTRY: Country = {
