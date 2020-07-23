@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -13,32 +13,28 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
     },
   ]
 })
-export class SelectComponent implements AfterViewInit, ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor {
   @Input() public id: string;
   @Input() public label: string;
-  @Input() public items: Array<any>;
   @Input() public itemValue: string = 'id';
   @Input() public itemDescription: string = 'name';
   @Input() public placeholder: string;
   @Input() public isDisabled: boolean;
   @Input() public hasErrors: boolean;
+  @Input() public searchable: boolean;
+  @Input() public loading: boolean;
+  @Input() public items: Array<any>;
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 
   public onChange = (_: any) => { };
   public onTouch = () => { };
-
   public value: any = '';
 
   constructor() { }
 
-  ngAfterViewInit(): void {
-    const elems: NodeListOf<HTMLSelectElement> = document.querySelectorAll('select');
-    const init = M.FormSelect.init(elems);
-  }
-
-  public changeSelect(selectValue: string) {
-    this.value = this.items.find(item => this.getItemValue(item) === selectValue);
+  public changeSelect(selectValue: any) {
+    this.value = selectValue;
     this.onTouch();
     this.onChange(this.value);
     this.selectedValueEvent.emit(this.value);
@@ -51,10 +47,6 @@ export class SelectComponent implements AfterViewInit, ControlValueAccessor {
 
   public getItemDescription(item: any): string {
     return String(item[this.itemDescription]);
-  }
-
-  public getPlaceholder(): string {
-    return this.placeholder ? this.placeholder : 'Selecciona una opción';
   }
 
   writeValue(value: any): void {

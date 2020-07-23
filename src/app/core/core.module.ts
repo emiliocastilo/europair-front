@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { TableComponent } from './components/table/table.component';
 import { RouterModule } from '@angular/router';
 import { CheckboxComponent } from './components/basic/checkbox/checkbox.component';
@@ -16,6 +15,8 @@ import { MobileBarComponent } from './components/menus/mobile-bar/mobile-bar.com
 import { PaginationComponent } from './components/table/components/pagination/pagination.component';
 import { MatCollapsibleDirective } from './directives/mat-collapsible.directive';
 import { SelectComponent } from './components/basic/select/select.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
   declarations: [
@@ -34,7 +35,7 @@ import { SelectComponent } from './components/basic/select/select.component';
     MatCollapsibleDirective,
     SelectComponent
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, NgSelectModule ],
   exports: [
     TableComponent,
     LeftSidebarComponent,
