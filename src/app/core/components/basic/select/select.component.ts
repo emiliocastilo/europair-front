@@ -27,26 +27,23 @@ export class SelectComponent implements ControlValueAccessor {
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 
+  public value: any;
   public onChange = (_: any) => { };
   public onTouch = () => { };
-  public value: any;
+
+  private compare = (itemA: any, itemB: any): boolean => itemA && itemB && itemA[this.itemValue] === itemB[this.itemValue];
 
   constructor() { }
+
+  public readonly compareItems = {
+    compare: this.compare,
+  };
 
   public changeSelect(selectValue: any) {
     this.value = selectValue;
     this.onTouch();
     this.onChange(this.value);
     this.selectedValueEvent.emit(this.value);
-  }
-
-
-  public getItemValue(item: any): string {
-    return String(item[this.itemValue]);
-  }
-
-  public getItemDescription(item: any): string {
-    return String(item[this.itemDescription]);
   }
 
   writeValue(value: any): void {
@@ -67,9 +64,5 @@ export class SelectComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
-  }
-
-  compareItems(itemA: any, itemB: any): boolean {
-    return itemA && itemB && itemA[this.itemValue] == itemB[this.itemValue];
   }
 }

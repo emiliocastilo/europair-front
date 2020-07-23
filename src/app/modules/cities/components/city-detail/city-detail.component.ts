@@ -10,6 +10,12 @@ import { CountriesService } from 'src/app/modules/countries/services/countries.s
   styleUrls: ['./city-detail.component.scss']
 })
 export class CityDetailComponent implements OnInit {
+  public readonly selectItemValue: string = 'id';
+  public readonly selectItemDescription: string ='name';
+  public readonly selectId: string = 'country';
+  public readonly selectLabel: string = 'País';
+  public readonly selectPlaceholder: string = 'Selecciona un país';
+
   @Input()
   public citiesColumnsHeader: Array<ColumnHeaderModel> = [];
   @Input()
@@ -43,9 +49,7 @@ export class CityDetailComponent implements OnInit {
     { value: '', disabled: false },
     Validators.required
   );
-  public countrySelected: Country;
   public countries: Array<Country>;
-  public loadingCountries: boolean;
 
   private _cityDetail: City;
   constructor(
@@ -54,11 +58,7 @@ export class CityDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadingCountries = true;
-    this.countriesService.getCountries().subscribe((data: Pageable<Country>) => {
-      this.countries = data.content;
-      this.loadingCountries = false;
-    });
+    this.countriesService.getCountries().subscribe((data: Pageable<Country>) => this.countries = data.content);
   }
 
   public hasCityNameControlErrors(): boolean {

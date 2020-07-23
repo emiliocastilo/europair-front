@@ -28,9 +28,9 @@
           </ng-container>
         </ng-container>
       </core-basic-input-text>
-      <core-select [items]="countries" [itemValue]="'id'" [itemDescription]="'name'"
-        [hasErrors]="hasCountryControlErrors()" [id]="'country'" [label]="'País'" [placeholder]="'Selecciona un país'"
-        [formControl]="countryControl" [loading]="loadingCountries">
+      <core-select [items]="countries" [itemValue]="selectItemValue" [itemDescription]="selectItemDescription"
+        [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="selectLabel" [placeholder]="selectPlaceholder"
+        [formControl]="countryControl">
         <ng-container inputErrors>
           <ng-container *ngIf="hasCountryControlErrors()">
             <span *ngIf="countryControl.errors.required" class="helper-text"
