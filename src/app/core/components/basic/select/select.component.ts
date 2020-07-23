@@ -53,7 +53,7 @@ export class SelectComponent implements ControlValueAccessor {
     if (value) {
       this.value = value;
     } else {
-      this.value = '';
+      this.value = undefined;
     }
   }
 
@@ -69,4 +69,7 @@ export class SelectComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
+  compareItems(itemA: any, itemB: any): boolean {
+    return itemA && itemB && itemA[this.itemValue] == itemB[this.itemValue];
+  }
 }

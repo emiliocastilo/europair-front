@@ -96,7 +96,6 @@ $ng-select-value-font-size: 0.9em !default;
             }
             .ng-value-container {
                 align-items: center;
-                padding-left: $ng-select-value-padding-left;
                 @include rtl {
                     padding-right: $ng-select-value-padding-left;
                     padding-left: 0;
