@@ -7,9 +7,10 @@ import { CitiesService } from './services/cities.service';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
-import { City, EMPTY_CITY, Pageable } from './models/city';
+import { City, EMPTY_CITY } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Component({
   selector: 'app-cities',
@@ -60,7 +61,7 @@ export class CitiesComponent implements OnInit {
 
   private initializeCityTable(): void {
     this.cityColumnsHeader = this.cityTableAdapterService.getCityColumnsHeader();
-    this.citiesService.getCities().subscribe((data: Pageable<City>) => {
+    this.citiesService.getCities().subscribe((data: Page<City>) => {
       this.cities = data.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
       this.cityPagination = this.cityTableAdapterService.getPagination();

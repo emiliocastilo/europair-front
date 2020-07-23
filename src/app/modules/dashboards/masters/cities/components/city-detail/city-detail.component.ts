@@ -1,8 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { City, Country, Pageable } from '../../models/city';
+import { City } from '../../models/city';
 import { CountriesService } from 'src/app/modules/countries/services/countries.service';
+import { Country } from 'src/app/modules/countries/models/country';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Component({
   selector: 'app-city-detail',
@@ -58,7 +60,7 @@ export class CityDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.countriesService.getCountries().subscribe((data: Pageable<Country>) => this.countries = data.content);
+    this.countriesService.getCountries().subscribe((data: Page<Country>) => this.countries = data.content);
   }
 
   public hasCityNameControlErrors(): boolean {

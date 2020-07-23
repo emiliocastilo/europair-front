@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { City, Pageable } from '../models/city';
+import { City } from '../models/city';
 import { environment } from 'src/environments/environment';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,9 @@ export class CitiesService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  public getCities(): Observable<Pageable<City>> {
+  public getCities(): Observable<Page<City>> {
     const url: string = this.mocked ? '/assets/mocks/cities.json' : this.url;
-    return this.httpClient.get<Pageable<City>>(url);
+    return this.httpClient.get<Page<City>>(url);
   }
 
   public addCity(city: City): Observable<City> {
