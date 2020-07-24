@@ -2,14 +2,22 @@
 
 @media #{$large-and-up}{
     .dashboards-wrapper{
-        padding-left: 18%;
+        padding-left: 21%;
+        padding-right: 3%;
+    }
+    .dashboards-wrapper.expand{
+        padding-left:  8%;
         padding-right: 3%;
     }
 }
 
 @media #{$medium-only}{
     .dashboards-wrapper{
-        padding-left: 23%;
+        padding-left: 26%;
+        padding-right: 3%;
+    }
+    .dashboards-wrapper.expand{
+        padding-left:  8%;
         padding-right: 3%;
     }
 }
@@ -17,6 +25,10 @@
 @media #{$small-and-down} {
     .dashboards-wrapper{
         padding-left: 0%;
+        padding-right: 0%;
+    }
+    .dashboards-wrapper.expand{
+        padding-left:  0%;
         padding-right: 0%;
     }
 }

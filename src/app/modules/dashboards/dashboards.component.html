@@ -1,9 +1,9 @@
 <core-mobile-bar></core-mobile-bar>
 <div class="desktop-menu hide-on-small-only cmd-h-100">
-  <core-left-sidebar></core-left-sidebar>
+  <core-left-sidebar (collapseClick)="onCollapseClick($event)"></core-left-sidebar>
 </div>
 
-<div class="dashboards-wrapper cmd-w-100">
+<div class="dashboards-wrapper cmd-w-100" [ngClass]="{'expand':menuCollapsed}">
     <section class="content">
       <router-outlet></router-outlet>
     </section>

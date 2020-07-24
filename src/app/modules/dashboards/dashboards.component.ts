@@ -6,9 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboards.component.scss'],
 })
 export class DashboardsComponent implements OnInit {
+  public menuCollapsed: boolean;
   constructor() {}
 
   ngOnInit(): void {
+    this.menuCollapsed = false;
   }
 
   ngAfterViewInit(): void {
@@ -17,5 +19,14 @@ export class DashboardsComponent implements OnInit {
       top: 0,
       offset: 0,
     });
+  }
+
+  public onCollapseClick(event:any): void{
+    debugger
+    if(event){
+      this.menuCollapsed = true;
+    } else{
+      this.menuCollapsed = false;
+    }
   }
 }

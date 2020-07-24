@@ -1,70 +1,50 @@
-<div class="left-sidebar cmd-h-100">
-    <!--First column-->
-    <div class="row">
-        <section class="left-sidebar-icons col m4 l3 cmd-h-100">
-            <div class="row">
-                <article class="left-sidebar-main-icon valign-wrapper col m12 l12">
-                    <i class="material-icons oc icon-blue-light-4">keyboard_arrow_left</i>
+<div class="left-sidebar cmd-h-100" [ngClass]="{'collapsed': collapseMenu}">
+    <section class="left-sidebar-icons cmd-h-100">
+        <div class="row">
+            <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
+                <article *ngIf="collapseMenu" class="left-sidebar-main-icon">
+                    <a (click)="expandReduceMenu()">
+                        <i class="material-icons oc icon-blue-light-4">keyboard_arrow_right</i>
+                    </a>
                 </article>
-            </div>
-            <div class="row">
-                <article class="icon-block col m12 l12 center-align">
-                    <a class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"><i
-                            class="material-icons">import_contacts</i></a>
+                <article *ngIf="!collapseMenu" class="left-sidebar-main-logo">
+                    <a (click)="expandReduceMenu()">
+                        <i class="material-icons oc icon-blue-light-4">keyboard_arrow_left</i>
+                    </a>
                 </article>
-            </div>
-            <div class="row">
-                <article class="icon-block col m12 l12 center-align">
-                    <span>.</span>
-                </article>
-            </div>
-            <div class="row">
-                <article class="icon-block col m12 l12 center-align">
-                    <span>.</span>
-                </article>
-            </div>
-        </section>
-        <section class="left-sidebar-links col m8 l9">
-            <div class="row">
-                <article class="left-sidebar-main-logo valign-wrapper col m12 l12">
+            </section>
+            <section *ngIf="!collapseMenu" class="col m8 l8">
+                <article class="left-sidebar-main-logo valign-wrapper">
                     <img href="#" src="assets/images/brand-left-sidebar.svg" />
                 </article>
-            </div>
+            </section>
+        </div>
+        <ng-container *ngFor="let menuItem of menu.childs">
             <div class="row">
-                <article class="text-block col m12 l12">
-                    <span>Maestros</span>
-                </article>
+                <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
+                    <article class="icon-block center-align">
+                        <a class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"><i
+                                class="material-icons">{{menuItem.icon}}</i></a>
+                    </article>
+                </section>
+                <section *ngIf="!collapseMenu" class="col m8 l8">
+                    <article class="text-block">
+                        <span>{{menuItem.label}}</span>
+                    </article>
+                </section>
             </div>
-            <div class="row">
-                <article class="text-block cmd-pl-2 col m12 l12">
-                    <a [routerLink]="['/roles']" routerLinkActive="active-link">Roles</a>
-                </article>
+            <div *ngFor="let child of menuItem.childs" class="row">
+                <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
+                    <article class="dot-block center-align">
+                        <a [routerLink]="[child.route]" routerLinkActive="active-link"><span>.</span></a>
+                    </article>
+                </section>
+                <section *ngIf="!collapseMenu" class="col m8 l8">
+                    <article class="text-block cmd-pl-2">
+                        <a [routerLink]="[child.route]" routerLinkActive="active-link">{{child.label}}</a>
+                    </article>
+                </section>
             </div>
-            <div class="row">
-                <article class="text-block cmd-pl-2 col m12 l12">
-                    <a [routerLink]="['/tasks']" routerLinkActive="active-link">Tareas</a>
-                </article>
-            </div>
-            <div class="row">
-              <article class="text-block cmd-pl-2 col m12 l12">
-                  <a [routerLink]="['/users']"  routerLinkActive="active-link">Usuarios</a>
-              </article>
-            </div>
-            <div class="row">
-                <article class="text-block cmd-pl-2 col m12 l12">
-                    <a [routerLink]="['/countries']" routerLinkActive="active-link">Países</a>
-                </article>
-            </div>
-            <div class="row">
-                <article class="text-block cmd-pl-2 col m12 l12">
-                    <a [routerLink]="['/regions']" routerLinkActive="active-link">Regiones</a>
-                </article>
-            </div>
-            <div class="row">
-                <article class="text-block cmd-pl-2 col m12 l12">
-                    <a [routerLink]="['/cities']"  routerLinkActive="active-link">Ciudades</a>
-                </article>
-            </div>
-        </section>
-    </div>
+        </ng-container>
+    </section>
 </div>
