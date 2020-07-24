@@ -11,14 +11,10 @@ export class RegionsService {
   constructor(private http: HttpClient) {}
 
   public getRegions(): Observable<Region[]> {
-    return this.http.get<Region[]>(
-      'http://localhost:4200/assets/mocks/regions.json'
-    );
+    return this.http.get<Region[]>('/assets/mocks/regions.json');
   }
 
   public getAirports(): Observable<Airport[]> {
-    return this.http.get<Airport[]>(
-      'http://localhost:4200/assets/mocks/airports.json'
-    );
+    return this.http.get<Airport[]>('/assets/mocks/airports.json');
   }
 }
