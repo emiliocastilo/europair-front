@@ -1,4 +1,5 @@
-import { Country } from 'src/app/modules/countries/models/country';
+import { Country } from '../../countries/models/country';
+
 
 export interface City {
     id: number;
