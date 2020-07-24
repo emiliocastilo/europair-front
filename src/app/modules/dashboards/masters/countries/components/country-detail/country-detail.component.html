@@ -8,6 +8,7 @@
       </a>
     </section>
     <section class="country-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <div class="input-field col s12">
       <core-basic-input-text [id]="'country-code'" [label]="'Código del país'" [formControl]="countryCodeControl"
         [hasErrors]="hasCountryCodeControlErrors()">
         <ng-container inputErrors>
@@ -18,6 +19,8 @@
           </ng-container>
         </ng-container>
       </core-basic-input-text>
+      </div>
+      <div class="input-field col s12">
       <core-basic-input-text [id]="'country-name'" [label]="'País'" [formControl]="countryNameControl"
         [hasErrors]="hasCountryNameControlErrors()">
         <ng-container inputErrors>
@@ -27,6 +30,7 @@
           </ng-container>
         </ng-container>
       </core-basic-input-text>
+    </div>
     </section>
   </div>
 
