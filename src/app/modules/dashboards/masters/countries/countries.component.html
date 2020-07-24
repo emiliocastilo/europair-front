@@ -5,7 +5,8 @@
 <section class="countries-tables-container cmd-mt-1">
   <section class="countries-table">
     <core-table [columnsHeader]="countryColumnsHeader" [columnsData]="countriesColumnsData"
-      (selectedItem)="onCountrySelected($event)" (executeActionEmitter)="onCountryAction($event)">
+      [pagination]="countryPagination" (selectedItem)="onCountrySelected($event)"
+      (executeActionEmitter)="onCountryAction($event)">
     </core-table>
   </section>
 </section>

@@ -2,9 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { City } from '../../models/city';
-import { CountriesService } from 'src/app/modules/countries/services/countries.service';
-import { Country } from 'src/app/modules/countries/models/country';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { Country } from '../../../countries/models/country';
+import { CountriesService } from '../../../countries/services/countries.service';
 
 @Component({
   selector: 'app-city-detail',

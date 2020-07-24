@@ -9,7 +9,7 @@ import { Page } from 'src/app/core/models/table/pagination/page';
   providedIn: 'root',
 })
 export class CitiesService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}cities`;
 
   constructor(private readonly httpClient: HttpClient) { }

@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Country, CountryPageable } from '../models/country';
+import { Country } from '../models/country';
 import { environment } from 'src/environments/environment';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountriesService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}countries`;
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  public getCountries(): Observable<CountryPageable> {
+  public getCountries(): Observable<Page<Country>> {
     const url: string = this.mocked ? '/assets/mocks/countries.json' : this.url;
-    return this.httpClient.get<CountryPageable>(url);
+    return this.httpClient.get<Page<Country>>(url);
   }
 
   public addCountry(country: Country): Observable<Country> {
