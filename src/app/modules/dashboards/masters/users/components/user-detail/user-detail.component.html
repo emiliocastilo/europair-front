@@ -9,7 +9,7 @@
     </section>
     <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="userForm">
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'user-username'" [label]="'Usuario'" formControlName="username" [hasErrors]="hasControlAnyError('username')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('username')">
@@ -19,7 +19,7 @@
             </ng-container>
           </core-basic-input-text>
         </div>
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'user-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
@@ -29,7 +29,7 @@
             </ng-container>
           </core-basic-input-text>
         </div>
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'user-surname'" [label]="'Apellidos'" formControlName="surname" [hasErrors]="hasControlAnyError('surname')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('surname')">
@@ -39,7 +39,7 @@
             </ng-container>
           </core-basic-input-text>
         </div>
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'user-email'" [label]="'Email'" formControlName="email" [hasErrors]="hasControlAnyError('email')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('email')">
@@ -53,7 +53,7 @@
             </ng-container>
           </core-basic-input-text>
         </div>
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'user-timezone'" [label]="'Zona horaria'" formControlName="timeZone" [hasErrors]="hasControlAnyError('timeZone')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('timeZone')">
