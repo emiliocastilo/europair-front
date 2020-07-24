@@ -20,6 +20,9 @@
 
 .left-sidebar{
     background-color: $europair-color-blue-dark-3;
+        .col.m8.l8{
+            padding-right: 0;
+        }
         .left-sidebar-main-icon, .left-sidebar-main-logo{
             height: 6rem;
         }
