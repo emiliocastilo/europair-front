@@ -23,7 +23,6 @@ $ng-select-value-font-size: 0.9em !default;
     label {
         margin-left: 3rem;
         color: $europair-color-blue-dark-2;
-        position: relative;
     }
     &.invalid {
         .ng-select::ng-deep .ng-select-container{
