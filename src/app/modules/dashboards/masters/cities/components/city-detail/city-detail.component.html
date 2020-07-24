@@ -8,7 +8,7 @@
       </a>
     </section>
     <section class="city-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-      <div class="input-field col s12">
+      <div class="row">
         <core-basic-input-text [id]="'city-code'" [label]="'Código del Ciudad'" [formControl]="cityCodeControl"
           [hasErrors]="hasCityCodeControlErrors()">
           <ng-container inputErrors>
@@ -20,7 +20,7 @@
           </ng-container>
         </core-basic-input-text>
       </div>
-      <div class="input-field col s12">
+      <div class="row">
         <core-basic-input-text [id]="'city-name'" [label]="'Ciudad'" [formControl]="cityNameControl"
           [hasErrors]="hasCityNameControlErrors()">
           <ng-container inputErrors>
@@ -32,7 +32,7 @@
           </ng-container>
         </core-basic-input-text>
       </div>
-      <div class="input-field col s12">
+      <div class="row">
         <core-select [items]="countries" [itemValue]="selectItemValue" [itemDescription]="selectItemDescription"
           [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="selectLabel"
           [placeholder]="selectPlaceholder" [formControl]="countryControl">
