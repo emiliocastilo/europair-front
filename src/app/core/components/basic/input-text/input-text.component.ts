@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, forwardRef, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MaskType } from 'src/app/core/directives/mask-input.directive';
 
 @Component({
   selector: 'core-basic-input-text',
@@ -19,6 +20,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor {
   @Input() icon: string;
   @Input() type: string = 'text';
   @Input() hasErrors: boolean;
+  @Input() mask: MaskType;
 
   public value: string = '';
   public isDisabled: boolean;
