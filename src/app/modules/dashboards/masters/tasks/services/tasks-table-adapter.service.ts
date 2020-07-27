@@ -27,7 +27,8 @@ export class TasksTableAdapterService implements OnDestroy {
         'task-header',
         'search',
         'Tarea',
-        new ColumnHeaderSizeModel('9', '6', '7')
+        new ColumnHeaderSizeModel('9', '6', '7'),
+        'name'
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -42,9 +43,10 @@ export class TasksTableAdapterService implements OnDestroy {
     return [
       new ColumnHeaderModel(
         'screen-header',
-        'text',
+        'search',
         'Pantalla',
-        new ColumnHeaderSizeModel('10', '8', '8')
+        new ColumnHeaderSizeModel('10', '8', '8'),
+        'name'
       ),
       new ColumnHeaderModel(
         'assigned-header',
@@ -76,6 +78,24 @@ export class TasksTableAdapterService implements OnDestroy {
       taskTableData.push(taskRow);
     });
     return taskTableData;
+  }
+
+  public getTaskDetailScreenColumnsHeader(): ColumnHeaderModel[] {
+    return [
+      new ColumnHeaderModel(
+        'detail-screen-header',
+        'search',
+        'Pantalla',
+        new ColumnHeaderSizeModel('10', '8', '8'),
+        'name'
+      ),
+      new ColumnHeaderModel(
+        'assigned-header',
+        'text',
+        'Asignado',
+        new ColumnHeaderSizeModel('2', '4', '4')
+      ),
+    ];
   }
 
   public getScreenTableDataForTask(

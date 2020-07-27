@@ -31,6 +31,7 @@ export class TasksComponent implements OnInit {
   public taskColumnsData: RowDataModel[] = [];
   public screenColumnsData: RowDataModel[] = [];
   public taskDetailScreenColumnsData: RowDataModel[] = [];
+  public taskDetailScreenColumnsHeader: ColumnHeaderModel[] = [];
   public taskColumnsPagination: PaginationModel;
   public screenColumnsPagination: PaginationModel;
   public pageTitle = 'Tareas';
@@ -95,19 +96,20 @@ export class TasksComponent implements OnInit {
         this.onTaskSelected(this.selectedItem);
       }
       this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
-      this.taskColumnsPagination.lastPage = this.taskColumnsData.length/this.taskColumnsPagination.elememtsPerpage;
+      this.taskColumnsPagination.lastPage =
+        this.taskColumnsData.length /
+        this.taskColumnsPagination.elememtsPerpage;
     });
   }
 
   private initializeScreenTable() {
     this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
-    this.taskService
-      .getScreens()
-      .subscribe((screens) => {
-        this.screens = screens['content'];
-        this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
-        this.screenColumnsPagination.lastPage = this.screens.length/this.screenColumnsPagination.elememtsPerpage
-      });
+    this.taskService.getScreens().subscribe((screens) => {
+      this.screens = screens['content'];
+      this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
+      this.screenColumnsPagination.lastPage =
+        this.screens.length / this.screenColumnsPagination.elememtsPerpage;
+    });
   }
 
   private initializeTaskDetailModal(
@@ -116,6 +118,7 @@ export class TasksComponent implements OnInit {
   ) {
     this.taskDetailTitle = taskDetailTitle;
     this.taskSelected = taskSelected;
+    this.taskDetailScreenColumnsHeader = this.taskTableAdapterService.getTaskDetailScreenColumnsHeader();
     this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
       this.screens,
       this.taskSelected,
