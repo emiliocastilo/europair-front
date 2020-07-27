@@ -8,20 +8,20 @@
           </div>
           <div class="card-content">
             <form [formGroup]="loginForm">
-              <div class="cmd-mb-1">
+              <div class="row">
                 <core-basic-input-text
-                  id="user"
-                  label="Usuario"
-                  icon="person"
-                  formControlName="userName"
+                  [id]="'user'"
+                  [label]="'Usuario'"
+                  [icon]="'person'"
+                  formControlName="username"
                 ></core-basic-input-text>
               </div>
-              <div>
+              <div class="row">
                 <core-basic-input-text
-                  id="password"
-                  label="Contraseña"
-                  type="password"
-                  icon="vpn_key"
+                  [id]="'password'"
+                  [label]="'Contraseña'"
+                  [type]="'password'"
+                  [icon]="'vpn_key'"
                   formControlName="password"
                 ></core-basic-input-text>
               </div>

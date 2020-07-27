@@ -106,7 +106,7 @@ export class TasksComponent implements OnInit {
       .subscribe((screens) => {
         this.screens = screens['content'];
         this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
-        this.screenColumnsPagination.lastPage = this.screens.length/this.taskColumnsPagination.elememtsPerpage
+        this.screenColumnsPagination.lastPage = this.screens.length/this.screenColumnsPagination.elememtsPerpage
       });
   }
 

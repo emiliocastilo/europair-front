@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
-import { Country, CountryPageable } from '../../models/country';
-import { CountriesService } from '../../services/countries.service';
+import { Country } from '../../models/country';
 
 @Component({
   selector: 'app-country-detail',

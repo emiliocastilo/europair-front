@@ -5,10 +5,12 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { CountryTableAdapterService } from './services/country-table-adapter.service';
 import { CountriesService } from './services/countries.service';
-import { Country, CountryPageable, EMPTY_COUNTRY } from './models/country';
+import { Country, EMPTY_COUNTRY } from './models/country';
 import { CountryDetailComponent } from './components/country-detail/country-detail.component';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable } from 'rxjs';
+import { Page } from 'src/app/core/models/table/pagination/page';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Component({
   selector: 'app-countries',
@@ -33,11 +35,12 @@ export class CountriesComponent implements OnInit {
     { type: BarButtonType.NEW, text: 'Nuevo país' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
+  public countryPagination: PaginationModel;
   public countryDetailTitle: string;
   public countrySelected: Country = EMPTY_COUNTRY;
 
   private selectedItem: number;
-  private countriesList: Array<Country>;
+  private countries: Array<Country>;
   private readonly barButtonActions = { new: this.newCountry.bind(this) };
   private readonly countryTableActions = {
     edit: this.editCountry.bind(this),
@@ -56,9 +59,11 @@ export class CountriesComponent implements OnInit {
 
   private initializeCountryTable(): void {
     this.countryColumnsHeader = this.countryTableAdapterService.getCountryColumnsHeader();
-    this.countriesService.getCountries().subscribe((data: CountryPageable) => {
-      this.countriesList = data.content;
-      this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countriesList);
+    this.countriesService.getCountries().subscribe((data: Page<Country>) => {
+      this.countries = data.content;
+      this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countries);
+      this.countryPagination = this.countryTableAdapterService.getPagination();
+      this.countryPagination.lastPage = this.countries.length / this.countryPagination.elememtsPerpage;
     });
   }
 
@@ -105,7 +110,7 @@ export class CountriesComponent implements OnInit {
 
   private editCountry(selectedItem: number): void {
     this.initializeCountryDetailModal(this.EDIT_COUNTRY_TITLE, {
-      ...this.countriesList[selectedItem],
+      ...this.countries[selectedItem],
     });
     this.modalService.openModal();
   }
@@ -117,7 +122,7 @@ export class CountriesComponent implements OnInit {
   }
 
   public onConfirmDeleteCountry(): void {
-    this.countriesService.deleteCountry(this.countriesList[this.selectedItem]).subscribe(() => {
+    this.countriesService.deleteCountry(this.countries[this.selectedItem]).subscribe(() => {
       this.initializeCountryTable();
     });
   }
