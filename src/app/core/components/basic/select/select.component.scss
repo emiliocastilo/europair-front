@@ -163,7 +163,7 @@ $ng-select-value-font-size: 0.9em !default;
                 border-bottom-right-radius: 4px;
                 border-bottom-left-radius: 4px;
                 border-top-color: lighten($ng-select-border, 10);
-                margin-top: -10px;
+                margin-top: -9px;
                 .ng-dropdown-panel-items {
                     .ng-option {
                         padding: 1rem;
@@ -182,6 +182,7 @@ $ng-select-value-font-size: 0.9em !default;
                 margin-bottom: -1px;
                 .ng-dropdown-panel-items {
                     .ng-option {
+                        padding: 1rem;
                         &:first-child {
                             border-top-right-radius: 4px;
                             border-top-left-radius: 4px;
@@ -335,6 +336,9 @@ $ng-select-value-font-size: 0.9em !default;
                     }
                 }
             }
+        }
+        .ng-dropdown-panel.ng-select-bottom {
+            margin-top: 13px;
         }
     }
 }
