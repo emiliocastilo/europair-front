@@ -8,6 +8,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { Role } from '../../roles/models/role';
 import { Task } from '../../tasks/models/task';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 
 @Injectable()
 export class UsersTableAdapterService {
@@ -166,5 +167,9 @@ export class UsersTableAdapterService {
     return !!(
       userTasks && userTasks.find((userTask) => userTask.id === task.id)
     );
+  }
+
+  public getPagination() {
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 }

@@ -1,0 +1,45 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="country-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <div class="row">
+        <core-basic-input-text [id]="'country-code'" [label]="'Código del país'" [formControl]="countryCodeControl"
+          [hasErrors]="hasCountryCodeControlErrors()">
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasCountryCodeControlErrors()">
+              <span *ngIf="countryCodeControl.errors.required" class="helper-text"
+                data-error="Debe indicar el código del país">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-basic-input-text>
+      </div>
+      <div class="row">
+        <core-basic-input-text [id]="'country-name'" [label]="'País'" [formControl]="countryNameControl"
+          [hasErrors]="hasCountryNameControlErrors()">
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasCountryNameControlErrors()">
+              <span *ngIf="hasCountryNameControlErrors()" class="helper-text"
+                data-error="Debe indicar el nombre del país">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-basic-input-text>
+      </div>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
+      (click)="onSaveCountry()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>

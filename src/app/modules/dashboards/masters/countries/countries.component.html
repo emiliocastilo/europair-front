@@ -1,0 +1,36 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="countriesSelectedCount"
+  (executeAction)="onBarButtonClicked($event)">
+</core-button-bar>
+<section class="countries-tables-container cmd-mt-1">
+  <section class="countries-table">
+    <core-table [columnsHeader]="countryColumnsHeader" [columnsData]="countriesColumnsData"
+      [pagination]="countryPagination" (selectedItem)="onCountrySelected($event)"
+      (executeActionEmitter)="onCountryAction($event)">
+    </core-table>
+  </section>
+</section>
+
+<app-country-detail [title]="countryDetailTitle" [countriesColumnsHeader]="countryColumnsHeader"
+  [countryDetail]="countrySelected" (saveCountry)="onSaveCountry($event)"></app-country-detail>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar este registro?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCountry()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

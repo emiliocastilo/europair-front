@@ -1,5 +1,5 @@
 import { Airport } from './airport';
-import { Country } from 'src/app/modules/countries/models/country';
+import { Country } from '../../countries/models/country';
 
 export interface Region {
   id: number;

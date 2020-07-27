@@ -3,9 +3,9 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { FormGroup } from '@angular/forms';
 import { Region, EMPTY_REGION } from '../../models/region';
-import { Country } from 'src/app/modules/countries/models/country';
 import { Airport } from '../../models/airport';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Country } from '../../../countries/models/country';
 
 @Component({
   selector: 'app-region-detail',

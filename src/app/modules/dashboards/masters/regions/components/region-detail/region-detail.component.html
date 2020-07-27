@@ -9,7 +9,7 @@
     </section>
     <section class="region-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="regionForm">
-        <div class="input-field col s12">
+        <div class="row">
           <core-basic-input-text [id]="'region-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">

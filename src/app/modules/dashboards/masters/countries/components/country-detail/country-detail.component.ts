@@ -36,10 +36,10 @@ export class CountryDetailComponent {
     { value: '', disabled: false },
     Validators.required
   );
-
   private _countryDetail: Country;
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(private readonly fb: FormBuilder ) { }
+
 
   public hasCountryNameControlErrors(): boolean {
     return (

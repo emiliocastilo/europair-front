@@ -2,31 +2,40 @@
 
 @media #{$large-and-up}{
     .left-sidebar{
-        width: 15%;
+        width: 18%;
+    }
+    .left-sidebar.collapsed{
+        width: 5%;
     }
 }
 
-@media #{$medium-and-down}{
+@media #{$medium-only}{
     .left-sidebar{
-        width: 20%;
+        width: 23%;
+    }
+    .left-sidebar.collapsed{
+        width: 5%;
     }
 }
 
 .left-sidebar{
     background-color: $europair-color-blue-dark-3;
-    .left-sidebar-main-icon{
-        height: 6rem;
-    }
-    .left-sidebar-main-logo{
-        height: 6rem;
-    }
-    .left-sidebar-icons{
-        border-right: 1px solid $europair-color-blue-dark-5;
-        .icon-block{
-            height: 2rem;
+        .col.m8.l8{
+            padding-right: 0;
         }
-    }
-    .left-sidebar-links{
+        .left-sidebar-main-icon, .left-sidebar-main-logo{
+            height: 6rem;
+        }
+        .dot-block{
+            height: 2rem;
+            font-weight: bold;
+            a{
+                color: $europair-color-blue-dark-5;
+            }
+            a.active-link{
+                color: white;
+            }
+        }
         .text-block{
             height: 2rem;
             padding: 0;
@@ -45,5 +54,4 @@
                 border-right: 3px solid $europair-color-blue-light-5;
             }
         }
-    }
 }

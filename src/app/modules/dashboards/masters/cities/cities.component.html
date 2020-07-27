@@ -1,17 +1,18 @@
 <core-page-bar [pageTitle]="pageTitle"></core-page-bar>
-<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="countriesSelectedCount"
+<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="citiesSelectedCount"
   (executeAction)="onBarButtonClicked($event)">
 </core-button-bar>
-<section class="countries-tables-container cmd-mt-1">
-  <section class="countries-table">
-    <core-table [columnsHeader]="countryColumnsHeader" [columnsData]="countriesColumnsData"
-      (selectedItem)="onCountrySelected($event)" (executeActionEmitter)="onCountryAction($event)">
+<section class="cities-tables-container cmd-mt-1">
+  <section class="cities-table">
+    <core-table [columnsHeader]="cityColumnsHeader" [columnsData]="citiesColumnsData"
+      [pagination]="cityPagination"
+      (selectedItem)="onCitySelected($event)" (executeActionEmitter)="onCityAction($event)">
     </core-table>
   </section>
 </section>
 
-<app-country-detail [title]="countryDetailTitle" [countriesColumnsHeader]="countryColumnsHeader"
-  [countryDetail]="countrySelected" (saveCountry)="onSaveCountry($event)"></app-country-detail>
+<app-city-detail [title]="cityDetailTitle" [citiesColumnsHeader]="cityColumnsHeader"
+  [cityDetail]="citySelected" (City)="onCity($event)"></app-city-detail>
 
 <core-modal>
   <ng-container content>
@@ -27,7 +28,7 @@
     </section>
   </ng-container>
   <ng-container footer>
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCountry()">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCity()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">Confirmar</span>
     </a>
