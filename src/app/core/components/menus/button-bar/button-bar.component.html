@@ -26,6 +26,12 @@
           <span class="delete-info">({{ itemsSelectedCount }})</span>
         </span>
       </ng-container>
+      <ng-container *ngSwitchCase="'search'">
+        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up" 
+        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.SEARCH)">
+          <i class="material-icons">{{ barButton.icon || 'search' }}</i>
+        </a>
+      </ng-container>
     </ng-container>
   </ng-container>
 </section>

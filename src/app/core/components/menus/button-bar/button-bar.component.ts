@@ -24,9 +24,9 @@ export class ButtonBarComponent implements OnInit {
   BAR_BUTTON_TYPE = BarButtonType;
   constructor() {}
 
+  ngOnInit(): void {}
+
   public onBarButtonClicked(type: BarButtonType) {
     this.executeAction.next(type);
   }
-
-  ngOnInit(): void {}
 }

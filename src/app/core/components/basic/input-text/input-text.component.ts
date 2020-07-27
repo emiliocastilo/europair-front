@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputTextIcon, InputTextIconPositions } from 'src/app/core/models/basic/input-text/input-text-icon';
 import { fromEvent, Subject } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { isString } from 'util';
 
 @Component({
   selector: 'core-basic-input-text',
@@ -24,6 +25,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
   @Input() type: string = 'text';
   @Input() hasErrors: boolean;
   @Input() iconConfig: InputTextIcon;
+  @Input() clearable: boolean = false;
   @Output() onSearchChanged: EventEmitter<string> = new EventEmitter();
 
   public ICON_POSITION = InputTextIconPositions;
@@ -56,10 +58,21 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
     this.unsubscriber$.complete();
   }
 
-  public onInput(value: string) {
+  public clearInput(): void {
+    this.value = '';
+    this.onTouch();
+    this.onChange(this.value);
+    this.onSearchChanged.emit('');
+  }
+
+  public onInput(value: string): void {
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
+  }
+
+  public hasInputContent(): boolean {
+    return isString(this.value) && this.value.length > 0
   }
 
   writeValue(value: any): void {

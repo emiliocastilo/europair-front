@@ -3,6 +3,7 @@ import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/column-header.model';
 import { PaginationModel } from '../../models/table/pagination/pagination.model';
 import { InputTextIcon, InputTextIconPositions } from '../../models/basic/input-text/input-text-icon';
+import { ColumnFilter } from '../../models/table/columns/column-filter';
 @Component({
   selector: 'core-table',
   templateUrl: './table.component.html',
@@ -14,7 +15,7 @@ export class TableComponent implements OnInit {
   @Input() columnsData: Array<RowDataModel>;
   @Input() pagination:PaginationModel;
   //HEADER OUTPUT EVENTS
-  @Output() search: EventEmitter<string> = new EventEmitter();
+  @Output() search: EventEmitter<ColumnFilter> = new EventEmitter();
   //COLUMN OUTPUT EVENTS
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
   @Output() switchChangesStatus: EventEmitter<any> = new EventEmitter();
@@ -100,6 +101,6 @@ export class TableComponent implements OnInit {
   }
 
   public onSearchHeaderChanged(searchTerm: string, identifier: string) {
-    console.log(searchTerm, identifier);
+    this.search.next({searchTerm, identifier});
   }
 }

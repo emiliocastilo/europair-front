@@ -9,7 +9,7 @@
           <div class="search-header-wrapper cmd-flex valign-wrapper">
             <core-basic-input-text 
               [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig"
-              (onSearchChanged)="onSearchHeaderChanged($event, columnHeader.identifier)">
+              (onSearchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
             </core-basic-input-text>
           </div>
         </article>

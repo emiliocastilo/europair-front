@@ -11,7 +11,8 @@
       [columnsData]="taskColumnsData"
       [pagination]="taskColumnsPagination"
       (selectedItem)="onTaskSelected($event)"
-      (executeActionEmitter)="onTaskAction($event)">
+      (executeActionEmitter)="onTaskAction($event)"
+      (search)="onFilterTasks($event)">
     </core-table>
   </section>
   <section class="screens-table">

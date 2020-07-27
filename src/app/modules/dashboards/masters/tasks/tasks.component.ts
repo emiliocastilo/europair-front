@@ -13,6 +13,7 @@ import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 
 @Component({
   selector: 'app-tasks',
@@ -169,5 +170,11 @@ export class TasksComponent implements OnInit {
       this.initializeTaskTable();
       this.initializeScreenTable();
     });
+  }
+
+  public onFilterTasks(taskFilter: ColumnFilter) {
+    const filter = {};
+    filter[taskFilter.identifier] = taskFilter.searchTerm;
+    console.log('FILTER BY', filter);
   }
 }
