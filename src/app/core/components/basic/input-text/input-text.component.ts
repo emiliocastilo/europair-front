@@ -48,7 +48,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
    terms$
     .subscribe(
       criterion => {
-        this.onSearchChanged.emit(criterion);
+        this.onSearchChanged.next(criterion);
       }
     );
   }
@@ -62,7 +62,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
     this.value = '';
     this.onTouch();
     this.onChange(this.value);
-    this.onSearchChanged.emit('');
+    this.onSearchChanged.next('');
   }
 
   public onInput(value: string): void {

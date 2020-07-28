@@ -17,6 +17,7 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { SearchBarComponent } from './components/menus/search-bar/search-bar.component';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
-    SelectComponent
+    SelectComponent,
+    SearchBarComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
   exports: [
@@ -46,7 +48,8 @@ import { FormsModule } from '@angular/forms';
     ModalComponent,
     ButtonBarComponent,
     MobileBarComponent,
-    MatCollapsibleDirective
+    MatCollapsibleDirective,
+    SearchBarComponent
   ],
 })
 export class CoreModule {}

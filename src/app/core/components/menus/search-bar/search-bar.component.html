@@ -1,0 +1,13 @@
+<section class="search-bar-container valign-wrapper">
+  <article class="search-input">
+    <core-basic-input-text 
+     [clearable]="true" 
+     [id]="'basic-search-input'" 
+     [iconConfig]="iconConfig"
+     (onSearchChanged)="onBasicSearchInputChanged($event)">
+    </core-basic-input-text>
+  </article>
+  <article class="advanced-search-button">
+    <a class="btn-flat btn-large"><i class="material-icons europair-icon-blue">settings</i></a>
+  </article>
+</section>

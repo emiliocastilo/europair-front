@@ -41,10 +41,12 @@ export class TasksComponent implements OnInit {
   private tasks: Task[];
   public taskDetailTitle: string;
   public taskSelected: Task = EMPTY_TASK;
+  public showMobileSearchBar: boolean = false;
   private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva tarea' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.SEARCH, text: 'Buscar' },
   ];
 
   private readonly EDIT_TASK_TITLE = 'Editar tarea';
@@ -55,8 +57,13 @@ export class TasksComponent implements OnInit {
     this.initializeTaskDetailModal(this.CREATE_TASK_TITLE, { ...EMPTY_TASK });
     this.modalService.openModal();
   };
+
+  public toggleSearchBar = () => {
+    this.showMobileSearchBar = !this.showMobileSearchBar;
+  };
   private barButtonActions = {
     new: this.newTask,
+    search: this.toggleSearchBar,
   };
 
   private editTask = (selectedItem: number) => {
@@ -176,5 +183,9 @@ export class TasksComponent implements OnInit {
     const filter = {};
     filter[taskFilter.identifier] = taskFilter.searchTerm;
     console.log('FILTER BY', filter);
+  }
+
+  public onBasicSearch(searchTerm: string) {
+    console.log('FILTER MOBILE BY', searchTerm);
   }
 }

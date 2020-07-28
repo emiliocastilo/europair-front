@@ -4,6 +4,10 @@
   [itemsSelectedCount]="tasksSelectedCount"
   (executeAction)="onBarButtonClicked($event)">
 </core-button-bar>
+<core-search-bar 
+  [ngClass]="{'hide': !showMobileSearchBar}" class="show-on-small" 
+  (onBasicSearch)="onBasicSearch($event)">
+</core-search-bar>
 <section class="tasks-tables-container cmd-mt-1">
   <section class="tasks-table">
     <core-table
