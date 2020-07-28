@@ -22,7 +22,7 @@
       </ng-container>
     </ng-container>
   </section>
-  <section class="row master-table-data-row valign-wrapper"
+  <section class="row master-table-data-row"
     [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
     *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">

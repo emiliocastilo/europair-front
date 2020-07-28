@@ -1,8 +1,14 @@
 @import "~src/variables.scss";
 
 .core-basic-checkbox{
-    [type="checkbox"].filled-in:checked+span:not(.lever):after{
-        border: 2px solid $europair-color-blue-dark-1;
-        background-color: $europair-color-blue-dark-1;
-    }
+  span::before{
+    top: 3px !important;
+  }
+  span::after{
+      top: 4px !important;
+  }
+  [type="checkbox"].filled-in:checked+span:not(.lever):after{
+    border: 2px solid $europair-color-blue-dark-1;
+    background-color: $europair-color-blue-dark-1;
+  }
 }
