@@ -28,7 +28,7 @@ $ng-select-value-font-size: 0.9em !default;
         .ng-select::ng-deep .ng-select-container{
             border-bottom-color: $europair-color-red-1;
         }
-        .helper-text[data-error]{
+        ::ng-deep .helper-text[data-error]::after{
             margin-left: 3rem;
             width: calc(100% - 3rem);
             color: #F44336;

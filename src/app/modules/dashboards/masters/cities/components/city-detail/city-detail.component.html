@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <core-select [items]="countries" [itemValue]="selectItemValue" [itemDescription]="selectItemDescription"
-          [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="selectLabel"
+          [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="selectLabel" [searchable]="true"
           [placeholder]="selectPlaceholder" [formControl]="countryControl">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryControlErrors()">
