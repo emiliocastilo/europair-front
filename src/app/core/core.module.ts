@@ -18,6 +18,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
 
+import { MatTooltipDirective } from './directives/mat-tooltip.directive';
+import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { FormsModule } from '@angular/forms';
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
     SelectComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
@@ -46,7 +50,9 @@ import { FormsModule } from '@angular/forms';
     ModalComponent,
     ButtonBarComponent,
     MobileBarComponent,
-    MatCollapsibleDirective
+    MatCollapsibleDirective,
+    MatTooltipDirective,
+    TableAuditTooltipDirective
   ],
 })
 export class CoreModule {}
