@@ -17,6 +17,7 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { MaskInputDirective } from './directives/mask-input.directive';
 
 import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
@@ -38,6 +39,7 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     MatCollapsibleDirective,
     MatTooltipDirective,
     TableAuditTooltipDirective,
+    MaskInputDirective,
     SelectComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
@@ -52,7 +54,8 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     MobileBarComponent,
     MatCollapsibleDirective,
     MatTooltipDirective,
-    TableAuditTooltipDirective
+    TableAuditTooltipDirective,
+    MaskInputDirective
   ],
 })
 export class CoreModule {}
