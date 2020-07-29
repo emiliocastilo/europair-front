@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
-import { FormControl, Validators, FormBuilder } from '@angular/forms';
+import { FormControl, Validators, FormBuilder, ValidationErrors } from '@angular/forms';
 import { Country } from '../../models/country';
+import { MaskType } from 'src/app/core/directives/mask-input.directive';
 
 @Component({
   selector: 'app-country-detail',
@@ -28,13 +29,15 @@ export class CountryDetailComponent {
   @Output()
   public saveCountry: EventEmitter<Country> = new EventEmitter();
 
+  public readonly upperCaseMask: string = MaskType.TWO_CHAR_UPPER_CASE;
+
   public countryNameControl: FormControl = this.fb.control(
     { value: '', disabled: false },
     Validators.required
   );
   public countryCodeControl: FormControl = this.fb.control(
     { value: '', disabled: false },
-    Validators.required
+    [Validators.required, this.validatorCountryCode]
   );
   private _countryDetail: Country;
 
@@ -66,4 +69,15 @@ export class CountryDetailComponent {
       code: this.countryCodeControl.value
     });
   }
+
+    private validatorCountryCode(formControl: FormControl): ValidationErrors {
+      let error: ValidationErrors = null;
+      const twoCharUpperCaseRegex: RegExp = new RegExp(/^[A-Z]{2}$/i);
+      if (formControl && !formControl.value.match(twoCharUpperCaseRegex)) {
+        error = {
+          invalidCode: true
+        };
+      }
+      return error;
+    }
 }
