@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -13,9 +13,14 @@ export class AirportsService {
   private readonly url = `${environment.apiUrl}airports`;
 
   constructor(private readonly httpClient: HttpClient) { }
-  public getAirports(): Observable<Page<Airport>> {
+  public getAirports(showDisabled: boolean, filter?: string): Observable<Page<Airport>> {
     const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
-    return this.httpClient.get<Page<Airport>>(url);
+    let params: HttpParams = new HttpParams();
+    params = params.set('showDisabled', String(showDisabled));
+    if (filter) {
+      params = params.set('search', filter);
+    }
+    return this.httpClient.get<Page<Airport>>(url, {params});
   }
 
   public addAirport(airport: Airport): Observable<Airport> {
@@ -37,5 +42,9 @@ export class AirportsService {
 
   public deleteAirport(airport: Airport): Observable<void> {
     return this.httpClient.delete<void>(`${this.url}/${airport.id}`);
+  }
+
+  public disableAirport(airport: Airport): Observable<Airport> {
+    return this.httpClient.put<Airport>(`${this.url}/disable`, airport);
   }
 }

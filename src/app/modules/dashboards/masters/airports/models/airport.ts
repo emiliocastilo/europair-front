@@ -1,5 +1,6 @@
 import { Country } from '../../countries/models/country'
 import { City } from '../../cities/models/city'
+import { Measure } from 'src/app/core/models/base/measure';
 
 export interface Airport {
     id: number;
@@ -30,8 +31,8 @@ export enum FlightRulesType{
 
 export interface Track {
     id: number;
-    length?: number;
-    width?: number;
+    length?: Measure;
+    width?: Measure;
     observation?: string;
 }
 

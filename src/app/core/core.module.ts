@@ -17,6 +17,7 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { TopBarComponent } from '../modules/dashboards/masters/airports/components/top-bar/top-bar.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { FormsModule } from '@angular/forms';
     TableComponent,
     CheckboxComponent,
     InputTextComponent,
+    CheckboxComponent,
     LeftSidebarComponent,
     PageBarComponent,
     LetterTableComponent,
@@ -31,6 +33,7 @@ import { FormsModule } from '@angular/forms';
     ColumnCheckboxComponent,
     ModalComponent,
     ButtonBarComponent,
+    TopBarComponent,
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
@@ -42,9 +45,11 @@ import { FormsModule } from '@angular/forms';
     LeftSidebarComponent,
     PageBarComponent,
     InputTextComponent,
+    CheckboxComponent,
     SelectComponent,
     ModalComponent,
     ButtonBarComponent,
+    TopBarComponent,
     MobileBarComponent,
     MatCollapsibleDirective
   ],

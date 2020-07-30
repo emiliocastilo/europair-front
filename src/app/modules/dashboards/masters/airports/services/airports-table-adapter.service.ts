@@ -6,7 +6,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Airport } from '../models/airport';
+import { Airport, Track } from '../models/airport';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ import { Airport } from '../models/airport';
 export class AirportsTableAdapterService {
   constructor() { }
 
-  public getAirportColumnsHeader(): ColumnHeaderModel[] {
+  public getAirportListColumnsHeader(): ColumnHeaderModel[] {
     return [
       new ColumnHeaderModel(
         'selector-header',
@@ -38,7 +38,7 @@ export class AirportsTableAdapterService {
         'task-header',
         'text',
         'Nombre',
-        new ColumnHeaderSizeModel('4', '2', '4')
+        new ColumnHeaderSizeModel('4', '2', '3')
       ),
       new ColumnHeaderModel(
         'task-header',
@@ -62,18 +62,19 @@ export class AirportsTableAdapterService {
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('2', '2', '3')
       ),
     ];
   }
 
-  public getAirportTableData(airports: Array<Airport>): Array<RowDataModel> {
+  public getAirportListTableData(airports: Array<Airport>): Array<RowDataModel> {
     const airportTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
     actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
+    actions.push(new ColumnActionsModel('do_not_disturb', 'disable', 'Deshabilitar', 'red'));
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
     airports.forEach((airport: Airport) => {
       const airportRow: RowDataModel = new RowDataModel();
@@ -93,11 +94,17 @@ export class AirportsTableAdapterService {
   }
 
   private getPista(airport: Airport): string {
-    let pista: string = '';
+    let pista: number = 0;
+    let measure: string;
     if (airport.trackInformation && airport.trackInformation.length > 0) {
-      pista = `${airport.trackInformation[0].length} ft`;
+      airport.trackInformation.forEach((track: Track) => {
+        if (track.length.value > pista) {
+          pista = track.length.value;
+          measure = track.length.type;
+        }
+      });
     }
-    return pista;
+    return `${pista} ${measure}`;
   }
 
   public getPagination() {
