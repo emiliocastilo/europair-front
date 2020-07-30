@@ -36,7 +36,7 @@ export class CountryDetailComponent {
   );
   public countryCodeControl: FormControl = this.fb.control(
     { value: '', disabled: false },
-    [Validators.required, Validators.maxLength(this.maxLengthCode), Validators.minLength(this.maxLengthCode)]
+    [Validators.required, Validators.pattern('^[a-zA-Z]+$'), Validators.maxLength(this.maxLengthCode), Validators.minLength(this.maxLengthCode)]
   );
   private _countryDetail: Country;
 

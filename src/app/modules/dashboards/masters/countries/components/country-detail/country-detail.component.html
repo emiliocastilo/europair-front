@@ -19,6 +19,9 @@
               <span *ngIf="countryCodeControl.errors.maxlength || countryCodeControl.errors.minlength" class="helper-text"
                 data-error="El código de país debe de tener dos caracteres">
               </span>
+              <span *ngIf="countryCodeControl.errors.pattern" class="helper-text"
+                data-error="El código de país no puede contener números ni simbolos">
+              </span>
             </ng-container>
           </ng-container>
         </core-basic-input-text>
