@@ -20,71 +20,72 @@
       </ng-container>
     </ng-container>
   </section>
-  <section class="row master-table-data-row valign-wrapper"
-    [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
-    *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
-    <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
-      <ng-container [ngSwitch]="item.type">
-        <article *ngSwitchCase="'checkbox'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          <core-table-column-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
-            [label]="item.value.label" [link]="item.value.link" [checked]="rowDataIndex === internalSelectedItem"
-            (click)="$event.preventDefault()"></core-table-column-checkbox>
-          <core-table-column-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
-            [label]="item.value.label" [link]="item.value.link">
-          </core-table-column-checkbox>
-        </article>
-        <article *ngSwitchCase="'date'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          {{item.value | date:'dd/MM'}}</article>
-        <article *ngSwitchCase="'hour'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          {{item.value | date:'HH:mm'}}</article>
-        <article *ngSwitchCase="'number'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          {{item.value | number:'.1-2'}} seg</article>
-        <article *ngSwitchCase="'link'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          <a href="#" (click)="$event.preventDefault()" [routerLink]="item.value.link">{{item.value.label}}</a>
-        </article>
-        <article *ngSwitchCase="'linksGroup'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          <a *ngFor="let employeeLink of item.value" href="#" (click)="$event.preventDefault()"
-            [routerLink]="employeeLink.link" class="mr-3">{{employeeLink.label}}</a>
-        </article>
-        <article *ngSwitchCase="'switch'" class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-          <div class="custom-switch">
-            <label class="custom-control-label" [for]="item.value.id">
-            <input *ngIf="item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
-              class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
-            <input *ngIf="!item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
-              class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable">
-              <span></span>
-            </label>
-          </div>
-        </article>
-        <!--ACTIONS-->
-        <article *ngSwitchCase="'actions'" class="actions col center-align"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
-            <core-table-column-actions [prefix]="'desktop-table'" [actions]="item.value" 
-              [rowDataIndex]="rowDataIndex" (executeActionEmitter)="executeAction($event.actionId, $event.selectedItem)"></core-table-column-actions>
-            </article>
-        <article *ngSwitchDefault class="col"
-          [ngClass]="['master-table-data-col-'+colDataIndex
-            , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
-        </article>
+  <ng-container *ngFor="let columnData of columnsDataToShow; index as rowDataIndex">
+    <section class="row master-table-data-row valign-wrapper" [appTableAuditTooltip]="columnData"
+      [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}" (click)="activate(rowDataIndex)">
+      <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
+        <ng-container [ngSwitch]="item.type">
+          <article *ngSwitchCase="'checkbox'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            <core-table-column-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
+              [label]="item.value.label" [link]="item.value.link" [checked]="rowDataIndex === internalSelectedItem"
+              (click)="$event.preventDefault()"></core-table-column-checkbox>
+            <core-table-column-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
+              [label]="item.value.label" [link]="item.value.link">
+            </core-table-column-checkbox>
+          </article>
+          <article *ngSwitchCase="'date'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            {{item.value | date:'dd/MM'}}</article>
+          <article *ngSwitchCase="'hour'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            {{item.value | date:'HH:mm'}}</article>
+          <article *ngSwitchCase="'number'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            {{item.value | number:'.1-2'}} seg</article>
+          <article *ngSwitchCase="'link'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            <a href="#" (click)="$event.preventDefault()" [routerLink]="item.value.link">{{item.value.label}}</a>
+          </article>
+          <article *ngSwitchCase="'linksGroup'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            <a *ngFor="let employeeLink of item.value" href="#" (click)="$event.preventDefault()"
+              [routerLink]="employeeLink.link" class="mr-3">{{employeeLink.label}}</a>
+          </article>
+          <article *ngSwitchCase="'switch'" class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+            <div class="custom-switch">
+              <label class="custom-control-label" [for]="item.value.id">
+              <input *ngIf="item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
+                class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
+              <input *ngIf="!item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
+                class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable">
+                <span></span>
+              </label>
+            </div>
+          </article>
+          <!--ACTIONS-->
+          <article *ngSwitchCase="'actions'" class="actions col center-align"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
+              <core-table-column-actions [prefix]="'desktop-table'" [actions]="item.value" 
+                [rowDataIndex]="rowDataIndex" (executeActionEmitter)="executeAction($event.actionId, $event.selectedItem)"></core-table-column-actions>
+              </article>
+          <article *ngSwitchDefault class="col"
+            [ngClass]="['master-table-data-col-'+colDataIndex
+              , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
+          </article>
+        </ng-container>
       </ng-container>
-    </ng-container>
-  </section>
+    </section>
+  </ng-container>
 </div>
 
 <core-letter-table [columnsData]="columnsDataToShow" 

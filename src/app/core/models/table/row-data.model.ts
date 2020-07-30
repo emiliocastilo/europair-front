@@ -5,6 +5,10 @@ export class RowDataModel {
         public columns: Array<ColumnDataModel> = new Array<any>()
     ) { }
 
+    public author: string;
+    public timestamp : Date;
+    public modified : boolean;
+
     public pushColumn(value:ColumnDataModel){
         this.columns.push(value);
     }

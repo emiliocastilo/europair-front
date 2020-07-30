@@ -19,6 +19,8 @@ import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
 import { TopBarComponent } from '../modules/dashboards/masters/airports/components/top-bar/top-bar.component';
 
+import { MatTooltipDirective } from './directives/mat-tooltip.directive';
+import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,8 @@ import { TopBarComponent } from '../modules/dashboards/masters/airports/componen
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
     SelectComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
@@ -51,7 +55,9 @@ import { TopBarComponent } from '../modules/dashboards/masters/airports/componen
     ButtonBarComponent,
     TopBarComponent,
     MobileBarComponent,
-    MatCollapsibleDirective
+    MatCollapsibleDirective,
+    MatTooltipDirective,
+    TableAuditTooltipDirective
   ],
 })
 export class CoreModule {}

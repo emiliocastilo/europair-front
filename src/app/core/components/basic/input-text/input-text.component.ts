@@ -19,6 +19,8 @@ export class InputTextComponent implements OnInit, ControlValueAccessor {
   @Input() icon: string;
   @Input() type: string = 'text';
   @Input() hasErrors: boolean;
+  @Input() maxlength: string;
+  @Input() inputClass: string = '';
 
   public value: string = '';
   public isDisabled: boolean;
