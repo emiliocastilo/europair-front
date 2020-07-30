@@ -17,6 +17,7 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { TopBarComponent } from '../modules/dashboards/masters/airports/components/top-bar/top-bar.component';
 
 import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
@@ -26,6 +27,7 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     TableComponent,
     CheckboxComponent,
     InputTextComponent,
+    CheckboxComponent,
     LeftSidebarComponent,
     PageBarComponent,
     LetterTableComponent,
@@ -33,6 +35,7 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     ColumnCheckboxComponent,
     ModalComponent,
     ButtonBarComponent,
+    TopBarComponent,
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
@@ -46,9 +49,11 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     LeftSidebarComponent,
     PageBarComponent,
     InputTextComponent,
+    CheckboxComponent,
     SelectComponent,
     ModalComponent,
     ButtonBarComponent,
+    TopBarComponent,
     MobileBarComponent,
     MatCollapsibleDirective,
     MatTooltipDirective,
