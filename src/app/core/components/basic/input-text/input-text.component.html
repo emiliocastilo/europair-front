@@ -1,7 +1,7 @@
 <div class="core-basic-input-field input-field">
     <i class="material-icons prefix right europair-icon-blue">{{icon}}</i>
-    <input  appMaskInput mask="{{mask}}" [id]="id" [type]="type" class="invalid" [ngClass]="{ 'invalid': hasErrors }" [value]="value" [disabled]="isDisabled" 
-      (input)="onInput($event.target.value)" >
+    <input [id]="id" [type]="type" class="invalid {{inputClass}}" [ngClass]="{ 'invalid': hasErrors }"
+    [value]="value" [disabled]="isDisabled" [attr.maxlength]="maxlength" (input)="onInput($event.target.value)">
     <label [for]="id" [ngClass]="{'active': value !== ''}">{{label}}</label>
     <ng-content select="[inputErrors]"></ng-content>
 </div>
