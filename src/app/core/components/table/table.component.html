@@ -8,8 +8,8 @@
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
             <core-basic-input-text 
-              [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig"
-              (onSearchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
+              [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig" [clearable]="true"
+              (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
             </core-basic-input-text>
           </div>
         </article>

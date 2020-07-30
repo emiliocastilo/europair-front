@@ -26,7 +26,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
   @Input() hasErrors: boolean;
   @Input() iconConfig: InputTextIcon;
   @Input() clearable: boolean = false;
-  @Output() onSearchChanged: EventEmitter<string> = new EventEmitter();
+  @Output() searchChanged: EventEmitter<string> = new EventEmitter();
 
   public ICON_POSITION = InputTextIconPositions;
   public value: string = '';
@@ -48,7 +48,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
    terms$
     .subscribe(
       criterion => {
-        this.onSearchChanged.next(criterion);
+        this.searchChanged.next(criterion);
       }
     );
   }
@@ -62,7 +62,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
     this.value = '';
     this.onTouch();
     this.onChange(this.value);
-    this.onSearchChanged.next('');
+    this.searchChanged.next('');
   }
 
   public onInput(value: string): void {

@@ -18,6 +18,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/menus/search-bar/search-bar.component';
+import { AdvancedSearchComponent } from './components/menus/advanced-search/advanced-search.component';
+import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.component';
 
 
 @NgModule({
@@ -36,7 +38,9 @@ import { SearchBarComponent } from './components/menus/search-bar/search-bar.com
     PaginationComponent,
     MatCollapsibleDirective,
     SelectComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
   exports: [
@@ -49,7 +53,9 @@ import { SearchBarComponent } from './components/menus/search-bar/search-bar.com
     ButtonBarComponent,
     MobileBarComponent,
     MatCollapsibleDirective,
-    SearchBarComponent
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent
   ],
 })
 export class CoreModule {}

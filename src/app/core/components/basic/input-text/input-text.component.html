@@ -7,7 +7,7 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="clearable && hasInputContent()">
-    <a class="btn-flat prefix right" (click)="clearInput()"><i class="material-icons europair-icon-blue">close</i></a>
+    <a class="btn-flat input-suffix" (click)="clearInput()"><i class="material-icons europair-icon-blue">close</i></a>
   </ng-container>
     <input #searchInput [id]="id" [type]="type" class="invalid" [ngClass]="{ 'invalid': hasErrors }" [value]="value" [disabled]="isDisabled" 
       (input)="onInput($event.target.value)">

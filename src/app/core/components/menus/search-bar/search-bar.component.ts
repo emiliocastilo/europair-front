@@ -11,7 +11,11 @@ import {
 })
 export class SearchBarComponent implements OnInit {
   @Output()
-  public onBasicSearch: EventEmitter<string> = new EventEmitter();
+  public basicSearch: EventEmitter<string> = new EventEmitter();
+  @Output()
+  public openAdvancedSearch: EventEmitter<void> = new EventEmitter();
+  @Output()
+  public openSortMenu: EventEmitter<void> = new EventEmitter();
   public iconConfig: InputTextIcon;
 
   constructor() {
@@ -24,6 +28,14 @@ export class SearchBarComponent implements OnInit {
   ngOnInit(): void {}
 
   public onBasicSearchInputChanged(searchTerm: string) {
-    this.onBasicSearch.next(searchTerm);
+    this.basicSearch.next(searchTerm);
+  }
+
+  public onClickOpenAdvancedSearch() {
+    this.openAdvancedSearch.next();
+  }
+
+  public onClickOpenSortMenu() {
+    this.openSortMenu.next();
   }
 }

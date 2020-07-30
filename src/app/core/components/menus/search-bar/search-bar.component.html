@@ -4,10 +4,13 @@
      [clearable]="true" 
      [id]="'basic-search-input'" 
      [iconConfig]="iconConfig"
-     (onSearchChanged)="onBasicSearchInputChanged($event)">
+     (searchChanged)="onBasicSearchInputChanged($event)">
     </core-basic-input-text>
   </article>
   <article class="advanced-search-button">
-    <a class="btn-flat btn-large"><i class="material-icons europair-icon-blue">settings</i></a>
+    <a class="btn-flat btn-large" (click)="onClickOpenSortMenu()"><i class="material-icons europair-icon-blue">swap_vert</i></a>
+  </article>
+  <article class="advanced-search-button">
+    <a class="btn-flat btn-large" (click)="onClickOpenAdvancedSearch()"><i class="material-icons europair-icon-blue">settings</i></a>
   </article>
 </section>
