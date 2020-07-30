@@ -27,6 +27,8 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
   @Input() iconConfig: InputTextIcon;
   @Input() clearable: boolean = false;
   @Output() searchChanged: EventEmitter<string> = new EventEmitter();
+  @Input() maxlength: string;
+  @Input() inputClass: string = '';
 
   public ICON_POSITION = InputTextIconPositions;
   public value: string = '';

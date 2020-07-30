@@ -22,5 +22,9 @@
   }
   .prefix.active {
     color: $europair-color-blue-dark-1 !important;
+
+    input.text-uppercase {
+      text-transform: uppercase;
+    }
   }
 }

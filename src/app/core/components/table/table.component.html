@@ -27,7 +27,7 @@
       </ng-container>
     </ng-container>
   </section>
-  <section class="row master-table-data-row"
+  <section class="row master-table-data-row" [appTableAuditTooltip]="columnData"
     [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
     *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
@@ -90,7 +90,7 @@
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
         </article>
       </ng-container>
-    </ng-container>
+    </ng-container> 
   </section>
 </div>
 

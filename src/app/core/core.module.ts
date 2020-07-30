@@ -22,6 +22,8 @@ import { AdvancedSearchComponent } from './components/menus/advanced-search/adva
 import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.component';
 import { SortButtonComponent } from './components/table/components/sort-button/sort-button.component';
 
+import { MatTooltipDirective } from './directives/mat-tooltip.directive';
+import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 
 @NgModule({
   declarations: [
@@ -42,9 +44,11 @@ import { SortButtonComponent } from './components/table/components/sort-button/s
     SearchBarComponent,
     AdvancedSearchComponent,
     SortMenuComponent,
-    SortButtonComponent
+    SortButtonComponent,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
   ],
-  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
+  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule],
   exports: [
     TableComponent,
     LeftSidebarComponent,
@@ -57,7 +61,9 @@ import { SortButtonComponent } from './components/table/components/sort-button/s
     MatCollapsibleDirective,
     SearchBarComponent,
     AdvancedSearchComponent,
-    SortMenuComponent
+    SortMenuComponent,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
   ],
 })
 export class CoreModule {}

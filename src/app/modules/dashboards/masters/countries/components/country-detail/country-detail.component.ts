@@ -28,13 +28,15 @@ export class CountryDetailComponent {
   @Output()
   public saveCountry: EventEmitter<Country> = new EventEmitter();
 
+  public readonly maxLengthCode: number = 2;
+
   public countryNameControl: FormControl = this.fb.control(
     { value: '', disabled: false },
     Validators.required
   );
   public countryCodeControl: FormControl = this.fb.control(
     { value: '', disabled: false },
-    Validators.required
+    [Validators.required, Validators.pattern('^[a-zA-Z]+$'), Validators.maxLength(this.maxLengthCode), Validators.minLength(this.maxLengthCode)]
   );
   private _countryDetail: Country;
 
@@ -63,7 +65,7 @@ export class CountryDetailComponent {
     this.saveCountry.next({
       id: this._countryDetail.id,
       name: this.countryNameControl.value,
-      code: this.countryCodeControl.value
+      code: this.countryCodeControl.value.toUpperCase()
     });
   }
 }
