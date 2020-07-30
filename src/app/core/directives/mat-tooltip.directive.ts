@@ -22,12 +22,18 @@ export class MatTooltipDirective {
     }
   }
 
+  ngOnDestroy() {
+    if(this.matTooltipInstance){
+      this.matTooltipInstance.destroy();
+    }
+  }
+
   protected configureMaterializeTooltip(message : String){
 
     this.elementRef.nativeElement.setAttribute("data-tooltip", message);
     this.matTooltipInstance = M.Tooltip.init(this.elementRef.nativeElement, {
       exitDelay: 100,
-      enterDelay: 2000,
+      enterDelay: 1200,
       inDuration: 750,
       outDuration: 750,
       position: this.tooltipPosition

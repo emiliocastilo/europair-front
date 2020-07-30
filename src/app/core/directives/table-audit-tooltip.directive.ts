@@ -12,11 +12,8 @@ export class TableAuditTooltipDirective extends MatTooltipDirective {
   @Input('matTooltipPosition') tooltipPosition: "top" | "right" | "bottom" | "left";
   @Input('appTableAuditTooltip') auditData : RowDataModel;
 
-  private datepite : DatePipe;
-
-  constructor(elementRef: ElementRef, public datepipe: DatePipe) {
+  constructor(elementRef: ElementRef, private datepipe: DatePipe) {
     super(elementRef);
-    this.datepipe = datepipe;
   }
 
   protected ngOnChanges() {
@@ -24,5 +21,5 @@ export class TableAuditTooltipDirective extends MatTooltipDirective {
       let auditMessage : string = `${this.auditData.modified? 'Modificado por':'Creado por'} <i>${this.auditData.author} < ${this.datepipe.transform(this.auditData.timestamp,'full')}></i>`;
       this.configureMaterializeTooltip(auditMessage);
     }
-}
+  }
 }

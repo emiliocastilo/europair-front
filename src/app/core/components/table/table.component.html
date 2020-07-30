@@ -21,7 +21,7 @@
     </ng-container>
   </section>
   <ng-container *ngFor="let columnData of columnsDataToShow; index as rowDataIndex">
-    <section class="row master-table-data-row valign-wrapper" [appTableAuditTooltip]="columnData" matTooltipPosition="bottom"
+    <section class="row master-table-data-row valign-wrapper" [appTableAuditTooltip]="columnData"
       [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}" (click)="activate(rowDataIndex)">
       <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
         <ng-container [ngSwitch]="item.type">
