@@ -134,7 +134,7 @@ export class RolesComponent implements OnInit {
 
   public onRoleSelected(selectedIndex: number) {
     this.selectedItem = selectedIndex;
-    this.taskColumnsData = this.rolesTableAdapterService.getTaskTableDataForRole(
+    this.taskColumnsData = this.rolesTableAdapterService.getTasksOfRole(
       this.tasks,
       this.roles[selectedIndex],
       false,

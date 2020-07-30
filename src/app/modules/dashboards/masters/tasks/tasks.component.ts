@@ -133,7 +133,7 @@ export class TasksComponent implements OnInit {
 
   public onTaskSelected(selectedIndex: number) {
     this.selectedItem = selectedIndex;
-    this.screenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
+    this.screenColumnsData = this.taskTableAdapterService.getScreenOfTask(
       this.screens,
       this.tasks[selectedIndex],
       false,
