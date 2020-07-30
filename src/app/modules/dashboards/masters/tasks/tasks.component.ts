@@ -13,6 +13,7 @@ import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
@@ -161,7 +162,8 @@ export class TasksComponent implements OnInit {
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
-    this.taskService.saveTask(task).subscribe((task) => {
+    const save: Observable<Task> = task.id ? this.taskService.editTask(task) : this.taskService.addTask(task);
+    save.subscribe((task) => {
       console.log(task);
       this.initializeTaskTable();
       this.initializeScreenTable();

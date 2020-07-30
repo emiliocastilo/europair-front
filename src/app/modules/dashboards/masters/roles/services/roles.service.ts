@@ -16,9 +16,14 @@ export class RolesService {
     return this.httpClient.get<Role[]>(url);
   }
 
-  public saveRole(role: Role): Observable<Role> {
+  public addRole(role: Role): Observable<Role> {
     const url = environment.apiUrl + 'roles';
     return this.httpClient.post<Role>(url, role);
+  }
+
+  public editRole(role: Role): Observable<Role> {
+    const url = environment.apiUrl + 'roles';
+    return this.httpClient.put<Role>(`${url}/${role.id}`, role);
   }
 
   public deleteRole(role: Role): Observable<any> {
