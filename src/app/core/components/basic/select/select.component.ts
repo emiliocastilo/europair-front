@@ -23,6 +23,8 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() public hasErrors: boolean;
   @Input() public searchable: boolean;
   @Input() public loading: boolean;
+  @Input() public tag: boolean;
+  @Input() public multiple: boolean;
   @Input() public items: Array<any>;
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
