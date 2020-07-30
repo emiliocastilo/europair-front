@@ -10,14 +10,14 @@
     <section class="country-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <div class="row">
         <core-basic-input-text [id]="'country-code'" [label]="'Código del país'" [formControl]="countryCodeControl"
-          [hasErrors]="hasCountryCodeControlErrors()" [mask]="upperCaseMask">
+          [hasErrors]="hasCountryCodeControlErrors()" [maxlength]="maxLengthCode" [inputClass]="'text-uppercase'">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryCodeControlErrors()">
               <span *ngIf="countryCodeControl.errors.required" class="helper-text"
                 data-error="Debe indicar el código del país">
               </span>
-              <span *ngIf="countryCodeControl.errors.invalidCode" class="helper-text"
-                data-error="El código de país debe de tener dos caracteres en mayusculas">
+              <span *ngIf="countryCodeControl.errors.maxlength || countryCodeControl.errors.minlength" class="helper-text"
+                data-error="El código de país debe de tener dos caracteres">
               </span>
             </ng-container>
           </ng-container>
