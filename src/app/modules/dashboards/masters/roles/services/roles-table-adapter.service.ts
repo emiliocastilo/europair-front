@@ -67,6 +67,9 @@ export class RolesTableAdapterService {
       );
       taskRow.pushColumn(new ColumnDataModel('text', role.name));
       taskRow.pushColumn(new ColumnDataModel('actions', actions));
+      taskRow.author = role.modifiedBy != null? role.modifiedBy : role.createdBy;
+      taskRow.timestamp = role.modifiedAt != null? role.modifiedAt : role.createdAt;
+      taskRow.modified = role.modifiedAt != null;
       roleTableData.push(taskRow);
     });
     return roleTableData;

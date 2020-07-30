@@ -1,10 +1,11 @@
 import { Task } from '../../tasks/models/task';
+import { Audit } from '../../../../../core/models/audit/audit';
 
-export interface Role {
+export interface Role extends Audit {
   id: number;
   name: string;
   description: string;
-  tasks: Task[];
+  tasks: Task[]
 }
 
 export const EMPTY_ROLE: Role = {
@@ -12,4 +13,8 @@ export const EMPTY_ROLE: Role = {
   name: '',
   description: '',
   tasks: [],
+  createdAt: null,
+  createdBy : null,
+  modifiedAt : null,
+  modifiedBy : null
 };
