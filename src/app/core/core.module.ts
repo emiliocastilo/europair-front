@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/menus/search-bar/search-bar.component';
 import { AdvancedSearchComponent } from './components/menus/advanced-search/advanced-search.component';
 import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.component';
+import { SortButtonComponent } from './components/table/components/sort-button/sort-button.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.compon
     SelectComponent,
     SearchBarComponent,
     AdvancedSearchComponent,
-    SortMenuComponent
+    SortMenuComponent,
+    SortButtonComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
   exports: [

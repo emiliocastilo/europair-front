@@ -18,6 +18,7 @@ import { AdvancedSearchComponent } from 'src/app/core/components/menus/advanced-
 import { FormBuilder } from '@angular/forms';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { SortMenuComponent } from 'src/app/core/components/menus/sort-menu/sort-menu.component';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
 
 @Component({
   selector: 'app-tasks',
@@ -204,7 +205,7 @@ export class TasksComponent implements OnInit {
     filter[taskFilter.identifier] = taskFilter.searchTerm;
     console.log('FILTER BY', filter);
     this.taskAdvancedSearchForm.patchValue(filter);
-    this.initializeTaskTable(this.taskAdvancedSearchForm.value);
+    this.filterTaskTable();
   }
 
   public onMobileBasicSearch(searchTerm: string) {
@@ -213,19 +214,16 @@ export class TasksComponent implements OnInit {
     this.filterTaskTable();
   }
 
-  public onOpenAdvancedSearch() {
-    this.initializeModal(this.taskAdvancedSearch);
-    this.modalService.openModal();
-  }
-
   public onMobileAdvancedSearch() {
     console.log('ADVANCED FILTER BY', this.taskAdvancedSearchForm.value);
     this.filterTaskTable();
   }
 
-  public onOpenSortMenu() {
-    this.initializeModal(this.taskSortMenu);
-    this.modalService.openModal();
+  public onSortTasks(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.taskSortForm.patchValue({ sort: sort });
+    console.log('DESKTOP SORTING', this.taskSortForm.value);
+    this.filterTaskTable();
   }
 
   public onMobileSort() {
@@ -239,5 +237,15 @@ export class TasksComponent implements OnInit {
       ...this.taskSortForm.value,
     };
     this.initializeTaskTable(filter);
+  }
+
+  public onOpenAdvancedSearch() {
+    this.initializeModal(this.taskAdvancedSearch);
+    this.modalService.openModal();
+  }
+
+  public onOpenSortMenu() {
+    this.initializeModal(this.taskSortMenu);
+    this.modalService.openModal();
   }
 }

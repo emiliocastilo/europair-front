@@ -4,6 +4,7 @@ import { ColumnHeaderModel } from '../../models/table/column-header.model';
 import { PaginationModel } from '../../models/table/pagination/pagination.model';
 import { InputTextIcon, InputTextIconPositions } from '../../models/basic/input-text/input-text-icon';
 import { ColumnFilter } from '../../models/table/columns/column-filter';
+import { SortByColumn } from '../../models/table/sort-button/sort-by-column';
 @Component({
   selector: 'core-table',
   templateUrl: './table.component.html',
@@ -21,10 +22,12 @@ export class TableComponent implements OnInit {
   @Output() switchChangesStatus: EventEmitter<any> = new EventEmitter();
   @Output() executeActionEmitter: EventEmitter<any> = new EventEmitter();
   @Output() changePage: EventEmitter<number> = new EventEmitter();
+  @Output() sortByColumn: EventEmitter<SortByColumn> = new EventEmitter();
   public internalSelectedItem: number;
   public columnsDataToShow: Array<RowDataModel>;
   public lastPage:number;
   public iconConfig: InputTextIcon;
+  public sortingByColumn: any  = {};
 
   constructor() {}
 
@@ -100,7 +103,13 @@ export class TableComponent implements OnInit {
     }
   }
 
-  public onSearchHeaderChanged(searchTerm: string, identifier: string) {
+  public onSearchHeaderChanged(searchTerm: string, identifier: string): void {
     this.search.next({searchTerm, identifier});
+  }
+
+  public onSortByColumn(sort: SortByColumn): void {
+    this.sortingByColumn = {};
+    this.sortingByColumn[sort.column] = sort.order;
+    this.sortByColumn.next(sort);
   }
 }

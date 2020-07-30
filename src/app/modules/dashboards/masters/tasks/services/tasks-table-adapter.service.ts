@@ -43,10 +43,9 @@ export class TasksTableAdapterService implements OnDestroy {
     return [
       new ColumnHeaderModel(
         'screen-header',
-        'search',
+        'text',
         'Pantalla',
-        new ColumnHeaderSizeModel('10', '8', '8'),
-        'name'
+        new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
