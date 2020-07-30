@@ -17,7 +17,6 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
-import { MaskInputDirective } from './directives/mask-input.directive';
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { MaskInputDirective } from './directives/mask-input.directive';
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
-    MaskInputDirective,
     SelectComponent
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
@@ -48,8 +46,7 @@ import { MaskInputDirective } from './directives/mask-input.directive';
     ModalComponent,
     ButtonBarComponent,
     MobileBarComponent,
-    MatCollapsibleDirective,
-    MaskInputDirective
+    MatCollapsibleDirective
   ],
 })
 export class CoreModule {}
