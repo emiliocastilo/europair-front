@@ -1,0 +1,128 @@
+{
+   "content": [
+      {
+         "id": 0,
+         "code": "PRIMERA",
+         "name": "Passenger airliners"
+      },
+      {
+         "id": 1,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      },
+      {
+         "id": 2,
+         "code": "FREIGHTER",
+         "name": "Freight aircraft (incl freight helis)"
+      },
+      {
+         "id": 3,
+         "code": "HELICOPTER",
+         "name": "Helicopter (pax only)"
+      },
+      {
+         "id": 4,
+         "code": "COMMERCIAL",
+         "name": "Passenger airliners"
+      },
+      {
+         "id": 5,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      },
+      {
+         "id": 6,
+         "code": "FREIGHTER",
+         "name": "Freight aircraft (incl freight helis)"
+      },
+      {
+         "id": 7,
+         "code": "HELICOPTER",
+         "name": "Helicopter (pax only)"
+      },
+      {
+         "id": 8,
+         "code": "COMMERCIAL",
+         "name": "Passenger airliners"
+      },
+      {
+         "id": 9,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      },
+      {
+         "id": 10,
+         "code": "FREIGHTER",
+         "name": "Freight aircraft (incl freight helis)"
+      },{
+         "id": 11,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      },
+      {
+         "id": 12,
+         "code": "FREIGHTER",
+         "name": "Freight aircraft (incl freight helis)"
+      },
+      {
+         "id": 13,
+         "code": "HELICOPTER",
+         "name": "Helicopter (pax only)"
+      },
+      {
+         "id": 14,
+         "code": "COMMERCIAL",
+         "name": "Passenger airliners"
+      },
+      {
+         "id": 15,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      },
+      {
+         "id": 16,
+         "code": "FREIGHTER",
+         "name": "Freight aircraft (incl freight helis)"
+      },
+      {
+         "id": 17,
+         "code": "HELICOPTER",
+         "name": "Helicopter (pax only)"
+      },
+      {
+         "id": 18,
+         "code": "COMMERCIAL",
+         "name": "Passenger airliners"
+      },
+      {
+         "id": 19,
+         "code": "EXECUTIVE",
+         "name": "Exective aircraft"
+      }
+   ],
+   "pageable": {
+      "sort": {
+         "sorted": false,
+         "unsorted": true,
+         "empty": true
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 20,
+      "paged": true,
+      "unpaged": false
+   },
+   "last": true,
+   "totalPages": 1,
+   "totalElements": 2,
+   "number": 0,
+   "size": 20,
+   "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+   },
+   "numberOfElements": 2,
+   "first": true,
+   "empty": false
+}
