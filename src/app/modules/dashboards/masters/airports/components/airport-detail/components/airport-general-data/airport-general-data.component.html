@@ -1,0 +1,112 @@
+<div class="row">
+  <form class="col s12" [formGroup]="generalDataForm">
+    <div class="row">
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Cód. IATA'" [id]="'codIATA'" [inputClass]="'text-uppercase'" [maxlength]="'3'"
+         formControlName="codIATA">
+        </core-basic-input-text>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Cód. ICAO'" [id]="'codICAO'" [inputClass]="'text-uppercase'" [maxlength]="'4'"
+         formControlName="codICAO">
+        </core-basic-input-text>
+      </div>
+      <div class="col s12 l6">
+        <core-basic-input-text [label]="'Nombre'" [id]="'name'" formControlName="name"></core-basic-input-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l3">
+        <core-select [label]="'País'" [id]="'country'" [items]="countries$ | async" [minTermLength]="2"
+         [loading]="countriesLoading" [typeToSearchText]="'Escriba nombre país'" 
+         [typeahead]="countriesInput$" [searchable]="true" [notFoundText]="'Sin resultados'" formControlName="country">
+        </core-select>
+      </div>
+      <div class="col s12 l3">
+        <core-select [label]="'Ciudad'" [id]="'city'" [items]="cities$ | async" [minTermLength]="2"
+         [loading]="citiesLoading" [typeToSearchText]="'Escriba nombre ciudad'"
+         [typeahead]="citiesInput$" [searchable]="true" [notFoundText]="'Sin resultados'" formControlName="city">
+        </core-select>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Franja horaria'" [id]="'timeZone'" formControlName="timeZone"></core-basic-input-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Elevacion'" [id]="'altitude'"
+         formControlName="altitude">
+        </core-basic-input-text>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Latitud'" [id]="'latitude'"
+         formControlName="latitude">
+        </core-basic-input-text>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-input-text [label]="'Longitud'" [id]="'longitude'"
+         formControlName="longitude">
+        </core-basic-input-text>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 l3">
+        <p>
+          <label>
+            Aduanas
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="customs" value="true" type="radio" formControlName="customs"/>
+            <span>Si</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="customs" value="false" type="radio" formControlName="customs"/>
+            <span>No</span>
+          </label>
+        </p>
+      </div>
+      <div class="col s12 l3">
+        <p>
+          <label>
+            Condiciones especiales
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="specialConditions" value="true" type="radio" formControlName="specialConditions"/>
+            <span>Si</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="specialConditions" value="false" type="radio" formControlName="specialConditions"/>
+            <span>No</span>
+          </label>
+        </p>
+      </div>
+      <div class="col s12 l6">
+        <p>
+          <label>
+            Tipo de normas de vuelo
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="flightRules" value="IFR" type="radio" formControlName="flightRules"/>
+            <span>IFR (Instrumental Flight Rules)</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input name="flightRules" value="VFR" type="radio" formControlName="flightRules"/>
+            <span>VFR (Visual Flight Rules)</span>
+          </label>
+        </p>
+      </div>
+    </div>
+  </form>
+</div>

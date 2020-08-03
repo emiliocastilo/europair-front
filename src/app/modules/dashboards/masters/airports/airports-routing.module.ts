@@ -11,8 +11,17 @@ const routes: Routes =
       [{
         path: '',
         loadChildren: () => import('./components/airports-list/airports-list.module').then(m => m.AirportsListModule)
+      },
+      { path: 'new',
+        loadChildren: () => import('./components/airport-detail/airport-detail.module').then(m => m.AirportDetailModule),
+        data: { title: 'Nuevo aeropuerto' }
+      },
+      { path: ':airportId',
+        loadChildren: () => import('./components/airport-detail/airport-detail.module').then(m => m.AirportDetailModule),
+        data: { title: 'Detalle aeropuerto' } 
       }]
-  }];
+  },
+  ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
