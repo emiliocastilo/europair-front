@@ -3,19 +3,20 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FleetType } from '../../../models/fleet';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FleetTypesService {
 
-  private readonly mocked: boolean = false;
-  private readonly url = `${environment.apiUrl}/fleet/types`;
+  private readonly mocked: boolean = true;
+  private readonly url = `${environment.apiUrl}fleet/types`;
   constructor(private http: HttpClient) {}
 
-  public getFleetTypes(): Observable<FleetType[]> {
+  public getFleetTypes(): Observable<Page<FleetType>> {
     const url: string = this.mocked ? '/assets/mocks/fleet-types.json' : this.url;
-    return this.http.get<FleetType[]>(url);
+    return this.http.get<Page<FleetType>>(url);
   }
 
   public addFleetType(fleetType: FleetType): Observable<FleetType> {
@@ -27,6 +28,6 @@ export class FleetTypesService {
   }
 
   public deleteFleetType(fleetType: FleetType): Observable<void> {
-    return this.http.get<void>(`${this.url}/${fleetType.id}`);
+    return this.http.delete<void>(`${this.url}/${fleetType.id}`);
   }
 }
