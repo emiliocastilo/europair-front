@@ -1,0 +1,18 @@
+<div [id]="idModal" class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ 'Ordenar' }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <div class="divider"></div>
+    <section class="modal-body cmd-mt-2">
+      <ng-content select="[body]"></ng-content>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</div>

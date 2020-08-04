@@ -17,6 +17,10 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { SearchBarComponent } from './components/menus/search-bar/search-bar.component';
+import { AdvancedSearchComponent } from './components/menus/advanced-search/advanced-search.component';
+import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.component';
+import { SortButtonComponent } from './components/table/components/sort-button/sort-button.component';
 
 import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
@@ -36,11 +40,15 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
+    SelectComponent,
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent,
+    SortButtonComponent,
     MatTooltipDirective,
     TableAuditTooltipDirective,
-    SelectComponent
   ],
-  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
+  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule],
   exports: [
     TableComponent,
     LeftSidebarComponent,
@@ -51,8 +59,11 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
     ButtonBarComponent,
     MobileBarComponent,
     MatCollapsibleDirective,
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent,
     MatTooltipDirective,
-    TableAuditTooltipDirective
+    TableAuditTooltipDirective,
   ],
 })
 export class CoreModule {}
