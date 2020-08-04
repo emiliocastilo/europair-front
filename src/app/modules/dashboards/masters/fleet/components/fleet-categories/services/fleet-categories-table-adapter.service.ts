@@ -14,7 +14,7 @@ import { Airport } from '../../../../regions/models/airport';
   providedIn: 'root',
 })
 export class FleetCategoriesTableAdapterService {
-  constructor() {}
+  constructor() { }
 
   public getFleetCategoryColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -107,6 +107,7 @@ export class FleetCategoriesTableAdapterService {
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    fleetSubcategories.sort((fleetA: FleetSubcategory, fleetB: FleetSubcategory) => fleetA.order - fleetB.order);
     fleetSubcategories.forEach((fleetSubcategory: FleetSubcategory) => {
       const fleetCategoryRow: RowDataModel = new RowDataModel();
       fleetCategoryRow.pushColumn(
@@ -133,7 +134,7 @@ export class FleetCategoriesTableAdapterService {
     );
   }
 
-  public getPagination(){
+  public getPagination() {
     const clientPagination: boolean = true;
     const initPage: number = 1;
     const visiblePages: number = 4;

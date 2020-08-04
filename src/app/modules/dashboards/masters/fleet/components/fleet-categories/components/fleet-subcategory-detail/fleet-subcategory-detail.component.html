@@ -9,6 +9,24 @@
       </section>
       <section class="subcategory-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
         <div class="row">
+          <core-basic-input-text [id]="'subcategory-order'" [label]="'Orden'" [formControl]="subcategoryOrderControl"
+            [hasErrors]="hasSubcategoryOrderControlErrors()">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasSubcategoryOrderControlErrors()">
+                <span *ngIf="subcategoryOrderControl.errors.required" class="helper-text"
+                  data-error="Debe indicar el orden de la Subcategoría">
+                </span>
+                <span *ngIf="subcategoryOrderControl.errors.pattern" class="helper-text"
+                  data-error="El orden debe de ser un valor numérico">
+                </span>
+                <span *ngIf="subcategoryOrderControl.errors.maxlength" class="helper-text"
+                  data-error="El orden debe de ser un valor numérico menor de 5 cifras">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
           <core-basic-input-text [id]="'subcategory-code'" [label]="'Código del Subcategoría'" [formControl]="subcategoryCodeControl"
             [hasErrors]="hasSubcategoryCodeControlErrors()">
             <ng-container inputErrors>
@@ -27,24 +45,6 @@
               <ng-container *ngIf="hasSubcategoryNameControlErrors()">
                 <span *ngIf="subcategoryNameControl.errors.required" class="helper-text"
                   data-error="Debe indicar el nombre de la Subcategoría">
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-        <div class="row">
-          <core-basic-input-text [id]="'subcategory-order'" [label]="'Orden'" [formControl]="subcategoryOrderControl"
-            [hasErrors]="hasSubcategoryOrderControlErrors()">
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasSubcategoryOrderControlErrors()">
-                <span *ngIf="subcategoryOrderControl.errors.required" class="helper-text"
-                  data-error="Debe indicar el orden de la Subcategoría">
-                </span>
-                <span *ngIf="subcategoryOrderControl.errors.pattern" class="helper-text"
-                  data-error="El orden debe de ser un valor numérico">
-                </span>
-                <span *ngIf="subcategoryOrderControl.errors.maxlength" class="helper-text"
-                  data-error="El orden debe de ser un valor numérico menor de 5 cifras">
                 </span>
               </ng-container>
             </ng-container>
