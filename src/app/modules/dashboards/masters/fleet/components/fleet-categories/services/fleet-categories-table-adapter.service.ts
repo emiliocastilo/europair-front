@@ -95,6 +95,7 @@ export class FleetCategoriesTableAdapterService {
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.code));
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.name));
       fleetCategoryRow.pushColumn(new ColumnDataModel('actions', actions));
+      fleetCategoryRow.author = fleetCategory.modifiedBy != null ? fleetCategory.modifiedBy : fleetCategory.createdBy;
       fleetCategoryTableData.push(fleetCategoryRow);
     });
     return fleetCategoryTableData;
@@ -109,15 +110,16 @@ export class FleetCategoriesTableAdapterService {
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
     fleetSubcategories.sort((fleetA: FleetSubcategory, fleetB: FleetSubcategory) => fleetA.order - fleetB.order);
     fleetSubcategories.forEach((fleetSubcategory: FleetSubcategory) => {
-      const fleetCategoryRow: RowDataModel = new RowDataModel();
-      fleetCategoryRow.pushColumn(
+      const fleetSubcategoryRow: RowDataModel = new RowDataModel();
+      fleetSubcategoryRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.order));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.code));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.name));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('actions', actions));
-      fleetCategoryTableData.push(fleetCategoryRow);
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.order));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.code));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.name));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('actions', actions));
+      fleetSubcategoryRow.author = fleetSubcategory.modifiedBy != null ? fleetSubcategory.modifiedBy : fleetSubcategory.createdBy;
+      fleetCategoryTableData.push(fleetSubcategoryRow);
     });
     return fleetCategoryTableData;
   }

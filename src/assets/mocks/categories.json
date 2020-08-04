@@ -3,101 +3,181 @@
       {
          "id": 0,
          "code": "PRIMERA",
-         "name": "Passenger airliners"
+         "name": "Passenger airliners",
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
       },
       {
          "id": 1,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 2,
          "code": "FREIGHTER",
-         "name": "Freight aircraft (incl freight helis)"
+         "name": "Freight aircraft (incl freight helis)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 3,
          "code": "HELICOPTER",
-         "name": "Helicopter (pax only)"
+         "name": "Helicopter (pax only)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 4,
          "code": "COMMERCIAL",
-         "name": "Passenger airliners"
+         "name": "Passenger airliners",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 5,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 6,
          "code": "FREIGHTER",
-         "name": "Freight aircraft (incl freight helis)"
+         "name": "Freight aircraft (incl freight helis)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 7,
          "code": "HELICOPTER",
-         "name": "Helicopter (pax only)"
+         "name": "Helicopter (pax only)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 8,
          "code": "COMMERCIAL",
-         "name": "Passenger airliners"
+         "name": "Passenger airliners",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 9,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 10,
          "code": "FREIGHTER",
-         "name": "Freight aircraft (incl freight helis)"
+         "name": "Freight aircraft (incl freight helis)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },{
          "id": 11,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 12,
          "code": "FREIGHTER",
-         "name": "Freight aircraft (incl freight helis)"
+         "name": "Freight aircraft (incl freight helis)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 13,
          "code": "HELICOPTER",
-         "name": "Helicopter (pax only)"
+         "name": "Helicopter (pax only)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 14,
          "code": "COMMERCIAL",
-         "name": "Passenger airliners"
+         "name": "Passenger airliners",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 15,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 16,
          "code": "FREIGHTER",
-         "name": "Freight aircraft (incl freight helis)"
+         "name": "Freight aircraft (incl freight helis)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 17,
          "code": "HELICOPTER",
-         "name": "Helicopter (pax only)"
+         "name": "Helicopter (pax only)",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 18,
          "code": "COMMERCIAL",
-         "name": "Passenger airliners"
+         "name": "Passenger airliners",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       },
       {
          "id": 19,
          "code": "EXECUTIVE",
-         "name": "Exective aircraft"
+         "name": "Exective aircraft",
+         "createdAt": "2020-08-04",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : null,
+         "modifiedBy" : null
       }
    ],
    "pageable": {

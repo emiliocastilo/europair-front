@@ -1,3 +1,5 @@
+import { Audit } from 'src/app/core/models/audit/audit';
+
 export interface Fleet {
     id: number;
     code?: string;
@@ -10,7 +12,7 @@ export const EMPTY_FLEET: Fleet = {
     name: ''
 };
 
-export interface FleetCategory {
+export interface FleetCategory extends Audit {
     id: number;
     code?: string;
     name?: string;
@@ -19,10 +21,14 @@ export interface FleetCategory {
 export const EMPTY_FLEET_CATEGORY: FleetCategory = {
     id: null,
     code: '',
-    name: ''
+    name: '',
+    createdAt: null,
+    createdBy : null,
+    modifiedAt : null,
+    modifiedBy : null
 };
 
-export interface FleetSubcategory {
+export interface FleetSubcategory extends Audit {
     id: number;
     code?: string;
     name?: string;
@@ -35,10 +41,14 @@ export const EMPTY_FLEET_SUBCATEGORY: FleetSubcategory = {
     code: '',
     name: '',
     order: 0,
-    category: null
+    category: null,
+    createdAt: null,
+    createdBy : null,
+    modifiedAt : null,
+    modifiedBy : null
 };
 
-export interface FleetType {
+export interface FleetType extends Audit {
     id: number;
     code: string;
     description: string;

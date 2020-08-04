@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "http://productionserver/services/"
+  apiUrl: "http://productionserver/services/",
+  mock: false
 };
