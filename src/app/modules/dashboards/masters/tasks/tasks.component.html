@@ -4,6 +4,12 @@
   [itemsSelectedCount]="tasksSelectedCount"
   (executeAction)="onBarButtonClicked($event)">
 </core-button-bar>
+<core-search-bar 
+  [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up" 
+  (basicSearch)="onMobileBasicSearch($event)"
+  (openAdvancedSearch)="onOpenAdvancedSearch()"
+  (openSortMenu)="onOpenSortMenu()">
+</core-search-bar>
 <section class="tasks-tables-container cmd-mt-1">
   <section class="tasks-table">
     <core-table
@@ -11,7 +17,9 @@
       [columnsData]="taskColumnsData"
       [pagination]="taskColumnsPagination"
       (selectedItem)="onTaskSelected($event)"
-      (executeActionEmitter)="onTaskAction($event)">
+      (executeActionEmitter)="onTaskAction($event)"
+      (search)="onFilterTasks($event)"
+      (sortByColumn)="onSortTasks($event);">
     </core-table>
   </section>
   <section class="screens-table">
@@ -25,13 +33,55 @@
 
 <app-task-detail
   [title]="taskDetailTitle"
-  [screenColumnsHeader]="screenColumnsHeader"
+  [screenColumnsHeader]="taskDetailScreenColumnsHeader"
   [screenColumnsData]="taskDetailScreenColumnsData"
   [screens]="screens"
   [pagination]="screenColumnsPagination"
   [taskDetail]="taskSelected"
   (saveTask)="onSaveTask($event)">
 </app-task-detail>
+
+<core-advanced-search>
+  <ng-container body>
+    <form [formGroup]="taskAdvancedSearchForm">
+      <div class="row">
+        <core-basic-input-text [id]="'advanced-search-name'" [label]="'Nombre'" [clearable]="true" formControlName="name">
+        </core-basic-input-text>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileAdvancedSearch()">
+      <i class="material-icons">search</i>
+      <span class="full-width-btn-text">Buscar</span>
+    </a>
+  </ng-container>
+</core-advanced-search>
+
+<core-sort-menu>
+  <ng-container body>
+    <form [formGroup]="taskSortForm">
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="name,ASC" formControlName="sort" />
+          <span>Nombre A -> Z</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="name,DESC" formControlName="sort" />
+          <span>Nombre Z -> A</span>
+        </label>
+      </p>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileSort()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Aceptar</span>
+    </a>
+  </ng-container>
+</core-sort-menu>
 
 <core-modal> 
   <ng-container content>

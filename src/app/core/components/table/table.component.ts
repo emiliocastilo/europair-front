@@ -2,6 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/column-header.model';
 import { PaginationModel } from '../../models/table/pagination/pagination.model';
+import { InputTextIcon, InputTextIconPositions } from '../../models/basic/input-text/input-text-icon';
+import { ColumnFilter } from '../../models/table/columns/column-filter';
+import { SortByColumn } from '../../models/table/sort-button/sort-by-column';
 @Component({
   selector: 'core-table',
   templateUrl: './table.component.html',
@@ -13,19 +16,24 @@ export class TableComponent implements OnInit {
   @Input() columnsData: Array<RowDataModel>;
   @Input() pagination:PaginationModel;
   //HEADER OUTPUT EVENTS
-  @Output() search: EventEmitter<string> = new EventEmitter();
+  @Output() search: EventEmitter<ColumnFilter> = new EventEmitter();
   //COLUMN OUTPUT EVENTS
   @Output() selectedItem: EventEmitter<number> = new EventEmitter();
   @Output() switchChangesStatus: EventEmitter<any> = new EventEmitter();
   @Output() executeActionEmitter: EventEmitter<any> = new EventEmitter();
   @Output() changePage: EventEmitter<number> = new EventEmitter();
+  @Output() sortByColumn: EventEmitter<SortByColumn> = new EventEmitter();
   public internalSelectedItem: number;
   public columnsDataToShow: Array<RowDataModel>;
   public lastPage:number;
+  public iconConfig: InputTextIcon;
+  public sortingByColumn: any  = {};
 
   constructor() {}
 
-  ngOnInit(): void {  }
+  ngOnInit(): void { 
+    this.iconConfig = {icon: 'search', position: InputTextIconPositions.PREFIX}
+   }
 
   ngAfterViewInit(): void {
     var letterElems = document.querySelectorAll('a[id^=letter-actions-');
@@ -93,5 +101,15 @@ export class TableComponent implements OnInit {
     } else{
       return selectedItem;
     }
+  }
+
+  public onSearchHeaderChanged(searchTerm: string, identifier: string): void {
+    this.search.next({searchTerm, identifier});
+  }
+
+  public onSortByColumn(sort: SortByColumn): void {
+    this.sortingByColumn = {};
+    this.sortingByColumn[sort.column] = sort.order;
+    this.sortByColumn.next(sort);
   }
 }
