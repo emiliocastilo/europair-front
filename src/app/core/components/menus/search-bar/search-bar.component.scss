@@ -1,0 +1,11 @@
+.search-bar-container {
+  .search-input {
+    flex-grow: 7;
+  }
+  .btn-large {
+    padding: 0 16px !important;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

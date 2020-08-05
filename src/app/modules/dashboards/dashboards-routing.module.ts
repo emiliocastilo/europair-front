@@ -20,9 +20,11 @@ const routes: Routes = [
       { path: 'countries', loadChildren: () => import('./masters/countries/countries.module').then(m => m.CountriesModule) },
       { path: 'regions', loadChildren: () => import('./masters/regions/regions.module').then(m => m.RegionsModule) },
       { path: 'cities', loadChildren: () => import('./masters/cities/cities.module').then(m => m.CitiesModule) },
+      { path: 'airports', loadChildren: () => import('./masters/airports/airports.module').then(m => m.AirportsModule) },
       { path: 'fleet', loadChildren: () => import('./masters/fleet/fleet.module').then(m => m.FleetModule) }
     ]
   }
+
 ];
 
 @NgModule({
