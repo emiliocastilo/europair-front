@@ -1,0 +1,11 @@
+<ng-container [ngSwitch]="sortOrder">
+  <ng-container *ngSwitchCase="SORT_ORDER.DESC">
+    <a class="btn-flat btn-large" (click)="onClickSortByColumn(filterId, SORT_ORDER.ASC)"><i class="material-icons europair-icon-blue">vertical_align_bottom</i></a>
+  </ng-container>
+  <ng-container *ngSwitchCase="SORT_ORDER.ASC">
+    <a class="btn-flat btn-large" (click)="onClickSortByColumn(filterId, SORT_ORDER.DESC)"><i class="material-icons europair-icon-blue">vertical_align_top</i></a>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <a class="btn-flat btn-large" (click)="onClickSortByColumn(filterId, SORT_ORDER.DESC)"><i class="material-icons europair-icon-blue">swap_vert</i></a>
+  </ng-container>
+</ng-container>

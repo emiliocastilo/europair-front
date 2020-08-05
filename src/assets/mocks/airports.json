@@ -1,26 +1,179 @@
-[
-  {
-    "id": 1,
-    "name": "Adolfo Suarez Barajas"
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Adolfo Suarez Barajas",
+      "codIATA": "ASB",
+      "codICAO": "ASBcao",
+      "country": {
+        "id": 0,
+        "name": "Spain"
+      },
+      "city": {
+        "id": 0,
+        "name": "Madrid"
+      },
+      "trackInformation": [
+        {
+          "id": 0,
+          "length": {"value": 10, "type": "ft"}
+        },
+        {
+          "id": 1,
+          "length": {"value": 110, "type": "ft"}
+        },
+        {
+          "id": 0,
+          "length": {"value": 100, "type": "ft"}
+        },
+        {
+          "id": 0,
+          "length": {"value": 109, "type": "ft"}
+        },
+        {
+          "id": 0,
+          "length": {"value": 10, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
+    },
+    {
+      "id": 2,
+      "name": "París-Charles de Gaulle",
+      "codIATA": "PCG",
+      "codICAO": "PCGcao",
+      "country": {
+        "id": 1,
+        "name": "Francia"
+      },
+      "city": {
+        "id": 1,
+        "name": "Paris"
+      },
+      "trackInformation": [
+        {
+          "id": 2,
+          "length": {"value": 230, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
+    },
+    {
+      "id": 3,
+      "name": "Roma-Fiumicino",
+      "codIATA": "RF",
+      "codICAO": "RFcao",
+      "country": {
+        "id": 2,
+        "name": "Italia"
+      },
+      "city": {
+        "id": 2,
+        "name": "Roma"
+      },
+      "trackInformation": [
+        {
+          "id": 3,
+          "length": {"value": 560, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
+    },
+    {
+      "id": 4,
+      "name": "Indira Gandhi",
+      "codIATA": "IG",
+      "codICAO": "IGcao",
+      "country": {
+        "id": 3,
+        "name": "India"
+      },
+      "city": {
+        "id": 3,
+        "name": "Indira"
+      },
+      "trackInformation": [
+        {
+          "id": 4,
+          "length": {"value": 870, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
+    },
+    {
+      "id": 5,
+      "name": "Pudong",
+      "codIATA": "PB",
+      "codICAO": "PBcao",
+      "country": {
+        "id": 4,
+        "name": "Korea"
+      },
+      "city": {
+        "id": 4,
+        "name": "Pionyang"
+      },
+      "trackInformation": [
+        {
+          "id": 5,
+          "length": {"value": 70, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
+    },
+    {
+      "id": 6,
+      "name": "Suvarnabhumi",
+      "codIATA": "SI",
+      "codICAO": "SIcao",
+      "country": {
+        "id": 5,
+        "name": "Japon"
+      },
+      "city": {
+        "id": 5,
+        "name": "Tokio"
+      },
+      "trackInformation": [
+        {
+          "id": 6,
+          "length": {"value": 250, "type": "ft"}
+        }
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo",
+      "modifiedAt": "2020-08-05",
+      "modifiedBy": "Javier González"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
   },
-  {
-    "id": 2,
-    "name": "París-Charles de Gaulle"
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
   },
-  {
-    "id": 3,
-    "name": "Roma-Fiumicino"
-  },
-  {
-    "id": 4,
-    "name": "Indira Gandhi"
-  },
-  {
-    "id": 5,
-    "name": "Pudong"
-  },
-  {
-    "id": 6,
-    "name": "Suvarnabhumi"
-  }
-]
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}
