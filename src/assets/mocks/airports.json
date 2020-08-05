@@ -34,7 +34,9 @@
           "id": 0,
           "length": {"value": 10, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
     },
     {
       "id": 2,
@@ -54,7 +56,9 @@
           "id": 2,
           "length": {"value": 230, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
     },
     {
       "id": 3,
@@ -74,7 +78,9 @@
           "id": 3,
           "length": {"value": 560, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
     },
     {
       "id": 4,
@@ -94,7 +100,9 @@
           "id": 4,
           "length": {"value": 870, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
     },
     {
       "id": 5,
@@ -114,7 +122,9 @@
           "id": 5,
           "length": {"value": 70, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo"
     },
     {
       "id": 6,
@@ -134,7 +144,11 @@
           "id": 6,
           "length": {"value": 250, "type": "ft"}
         }
-      ]
+      ],
+      "createdAt": "2020-08-04",
+      "createdBy": "Emilio Castillo",
+      "modifiedAt": "2020-08-05",
+      "modifiedBy": "Javier González"
     }
   ],
   "pageable": {

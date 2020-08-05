@@ -6,8 +6,8 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Airport, EMPTY_AIRPORT } from '../../../regions/models/airport';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { Airport, EMPTY_AIRPORT } from '../../models/airport';
 
 @Component({
   selector: 'app-airports-list',
