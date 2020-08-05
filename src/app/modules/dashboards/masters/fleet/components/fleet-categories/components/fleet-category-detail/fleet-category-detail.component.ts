@@ -64,7 +64,7 @@ export class FleetCategoryDetailComponent implements OnInit {
 
   public onSaveCategory(): void {
     this.saveCategory.next({
-      id: this._categoryDetail.id,
+      ...this._categoryDetail,
       name: this.categoryNameControl.value,
       code: this.categoryCodeControl.value,
     });

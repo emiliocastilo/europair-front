@@ -14,7 +14,7 @@ import { Airport } from '../../../../regions/models/airport';
   providedIn: 'root',
 })
 export class FleetCategoriesTableAdapterService {
-  constructor() {}
+  constructor() { }
 
   public getFleetCategoryColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -95,6 +95,7 @@ export class FleetCategoriesTableAdapterService {
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.code));
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.name));
       fleetCategoryRow.pushColumn(new ColumnDataModel('actions', actions));
+      fleetCategoryRow.setAuditParams(fleetCategory);
       fleetCategoryTableData.push(fleetCategoryRow);
     });
     return fleetCategoryTableData;
@@ -107,16 +108,18 @@ export class FleetCategoriesTableAdapterService {
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    fleetSubcategories.sort((fleetA: FleetSubcategory, fleetB: FleetSubcategory) => fleetA.order - fleetB.order);
     fleetSubcategories.forEach((fleetSubcategory: FleetSubcategory) => {
-      const fleetCategoryRow: RowDataModel = new RowDataModel();
-      fleetCategoryRow.pushColumn(
+      const fleetSubcategoryRow: RowDataModel = new RowDataModel();
+      fleetSubcategoryRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.order));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.code));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.name));
-      fleetCategoryRow.pushColumn(new ColumnDataModel('actions', actions));
-      fleetCategoryTableData.push(fleetCategoryRow);
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.order));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.code));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.name));
+      fleetSubcategoryRow.pushColumn(new ColumnDataModel('actions', actions));
+      fleetSubcategoryRow.setAuditParams(fleetSubcategory);
+      fleetCategoryTableData.push(fleetSubcategoryRow);
     });
     return fleetCategoryTableData;
   }
@@ -133,7 +136,7 @@ export class FleetCategoriesTableAdapterService {
     );
   }
 
-  public getPagination(){
+  public getPagination() {
     const clientPagination: boolean = true;
     const initPage: number = 1;
     const visiblePages: number = 4;

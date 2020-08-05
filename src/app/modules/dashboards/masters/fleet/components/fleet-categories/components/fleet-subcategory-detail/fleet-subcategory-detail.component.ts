@@ -72,7 +72,7 @@ export class FleetSubcategoryDetailComponent implements OnInit {
 
   public onSaveSubcategory(): void {
     this.saveSubcategory.next({
-      id: this._subcategoryDetail.id,
+      ...this._subcategoryDetail,
       name: this.subcategoryNameControl.value,
       code: this.subcategoryCodeControl.value,
       order: this.subcategoryOrderControl.value
