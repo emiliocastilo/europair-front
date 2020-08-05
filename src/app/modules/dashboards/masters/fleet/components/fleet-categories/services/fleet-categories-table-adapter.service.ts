@@ -95,7 +95,7 @@ export class FleetCategoriesTableAdapterService {
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.code));
       fleetCategoryRow.pushColumn(new ColumnDataModel('text', fleetCategory.name));
       fleetCategoryRow.pushColumn(new ColumnDataModel('actions', actions));
-      fleetCategoryRow.author = fleetCategory.modifiedBy != null ? fleetCategory.modifiedBy : fleetCategory.createdBy;
+      fleetCategoryRow.setAuditParams(fleetCategory);
       fleetCategoryTableData.push(fleetCategoryRow);
     });
     return fleetCategoryTableData;
@@ -118,7 +118,7 @@ export class FleetCategoriesTableAdapterService {
       fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.code));
       fleetSubcategoryRow.pushColumn(new ColumnDataModel('text', fleetSubcategory.name));
       fleetSubcategoryRow.pushColumn(new ColumnDataModel('actions', actions));
-      fleetSubcategoryRow.author = fleetSubcategory.modifiedBy != null ? fleetSubcategory.modifiedBy : fleetSubcategory.createdBy;
+      fleetSubcategoryRow.setAuditParams(fleetSubcategory);
       fleetCategoryTableData.push(fleetSubcategoryRow);
     });
     return fleetCategoryTableData;
