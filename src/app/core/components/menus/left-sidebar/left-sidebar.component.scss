@@ -37,7 +37,7 @@
             }
         }
         .text-block{
-            height: 2rem;
+            /*height: 2rem;*/
             padding: 0;
             span{
                 color: white;
@@ -45,6 +45,8 @@
             a{
                 display: block;
                 color: $europair-color-blue-light-4;
+                padding-top: 15px;
+                padding-bottom: 15px;
             }
             .active-link{
                 color: white;
@@ -52,6 +54,11 @@
                 background-image: linear-gradient(to right
                     , $europair-color-blue-dark-3, $europair-color-blue-dark-7);
                 border-right: 3px solid $europair-color-blue-light-5;
+            }
+        }
+        .left-sidebar-icons{
+            .row{
+                margin-bottom:0px;
             }
         }
 }
