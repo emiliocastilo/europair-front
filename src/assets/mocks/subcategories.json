@@ -1,0 +1,249 @@
+{
+   "content": [
+      {
+         "id": 0,
+         "code": "TURBOPROP",
+         "name": "Turboprop aircraft",
+         "order": 20,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 1,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 2,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 3,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 4,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 5,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 6,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 7,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 8,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 9,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 10,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 11,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 12,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 13,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 14,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 15,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 16,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 17,
+         "code": "REGIONALJET",
+         "name": "Regional jet airliner",
+         "order": 30,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 18,
+         "code": "NARROW",
+         "name": "Short to medium haul narrow airliner",
+         "order": 40,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      },
+      {
+         "id": 19,
+         "code": "WIDE",
+         "name": "Medium long and ultra long haul wide bodied airliner",
+         "order": 60,
+         "category": { "id": 0 },
+         "createdAt": "2020-08-01",
+         "createdBy" : "Emilio Castillo",
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
+      }
+   ],
+   "pageable": {
+      "sort": {
+         "sorted": false,
+         "unsorted": true,
+         "empty": true
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 20,
+      "paged": true,
+      "unpaged": false
+   },
+   "last": true,
+   "totalPages": 1,
+   "totalElements": 2,
+   "number": 0,
+   "size": 20,
+   "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+   },
+   "numberOfElements": 2,
+   "first": true,
+   "empty": false
+}
