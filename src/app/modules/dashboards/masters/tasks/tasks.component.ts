@@ -129,7 +129,7 @@ export class TasksComponent implements OnInit {
       this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
       this.taskColumnsPagination.lastPage =
         this.taskColumnsData.length /
-        this.taskColumnsPagination.elememtsPerpage;
+        this.taskColumnsPagination.elementsPerPage;
     });
   }
 
@@ -138,7 +138,7 @@ export class TasksComponent implements OnInit {
       this.screens = screens['content'];
       this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
       this.screenColumnsPagination.lastPage =
-        this.screens.length / this.screenColumnsPagination.elememtsPerpage;
+        this.screens.length / this.screenColumnsPagination.elementsPerPage;
     });
   }
 

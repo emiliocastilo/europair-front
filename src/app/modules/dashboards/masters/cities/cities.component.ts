@@ -65,7 +65,7 @@ export class CitiesComponent implements OnInit {
       this.cities = data.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
       this.cityPagination = this.cityTableAdapterService.getPagination();
-      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elememtsPerpage;
+      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elementsPerPage;
     });
   }
 

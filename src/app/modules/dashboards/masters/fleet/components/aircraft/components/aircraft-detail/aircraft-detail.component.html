@@ -1,0 +1,173 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }} {{ _aircraftDetail?.id }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <!-- <form [formGroup]="aircraftForm">
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-iata'"
+            [label]="'IATA'"
+            formControlName="iata"
+            [hasErrors]="hasControlAnyError('iata')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('iata')">
+                <span
+                  *ngIf="hasControlSpecificError('iata', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el	Código IATA"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-icao'"
+            [label]="'ICAO'"
+            formControlName="icao"
+            [hasErrors]="hasControlAnyError('icao')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('icao')">
+                <span
+                  *ngIf="hasControlSpecificError('icao', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el código ICAO"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-name'"
+            [label]="'Nombre'"
+            formControlName="name"
+            [hasErrors]="hasControlAnyError('name')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('name')">
+                <span
+                  *ngIf="hasControlSpecificError('name', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el nombre del operador"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-aocRevision'"
+            [label]="'Fecha revisión AOC'"
+            formControlName="aocRevision"
+            [hasErrors]="hasControlAnyError('aocRevision')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aocRevision')">
+                <span
+                  *ngIf="hasControlSpecificError('aocRevision', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una fecha de revisión AOC"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-aocNumber'"
+            [label]="'Número'"
+            formControlName="aocNumber"
+            [hasErrors]="hasControlAnyError('aocNumber')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aocNumber')">
+                <span
+                  *ngIf="hasControlSpecificError('aocNumber', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar un número de AOC"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form> -->
+    </section>
+    <!-- <ul class="collapsible expandable" appMatCollapsible>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">details</i>Roles
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="user-role-detail-table">
+              <core-table
+                [columnsHeader]="userRoleColumnsHeader"
+                [columnsData]="userRoleColumnsData"
+                [pagination]="userRoleColumnsPagination"
+                (switchChangesStatus)="userRoleAssignedChanged($event)"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">details</i>Tareas
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="user-task-detail-table">
+              <core-table
+                [columnsHeader]="userTaskColumnsHeader"
+                [columnsData]="userTaskColumnsData"
+                [pagination]="userTaskColumnsPagination"
+                (switchChangesStatus)="userTaskAssignedChanged($event)"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul> -->
+    <pre>
+      {{ aircraftDetail | json }}
+    </pre>
+  </div>
+  <div class="modal-footer">
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      *ngIf="aircraftForm.disabled; else saveBtn"
+    >
+      <i class="material-icons">check_circle</i>
+      <span
+        class="full-width-btn-text"
+        *ngIf="aircraftForm.disabled; else saveBtn"
+      >
+        Confirmar
+      </span>
+    </a>
+    <ng-template #saveBtn>
+      <a
+        class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+        [ngClass]="{ disabled: !aircraftForm.valid }"
+        (click)="onSaveAircraft()"
+      >
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text">Guardar</span>
+      </a>
+    </ng-template>
+  </div>
+</div>

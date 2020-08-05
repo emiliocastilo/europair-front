@@ -261,7 +261,7 @@ export class UsersComponent implements OnInit {
     model: RowDataModel[]
   ): PaginationModel {
     let pagination = this.usersTableAdapterService.getPagination();
-    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }
 }

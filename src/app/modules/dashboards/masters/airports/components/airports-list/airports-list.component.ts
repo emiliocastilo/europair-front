@@ -71,7 +71,7 @@ export class AirportsListComponent implements OnInit {
     this.airports = data.content;
     this.airportsColumnsData = this.airportsTableAdapterService.getAirportListTableData(this.airports);
     this.airportPagination = this.airportsTableAdapterService.getPagination();
-    this.airportPagination.lastPage = this.airports.length / this.airportPagination.elememtsPerpage;
+    this.airportPagination.lastPage = this.airports.length / this.airportPagination.elementsPerPage;
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType): void {

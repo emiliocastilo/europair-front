@@ -211,7 +211,7 @@ export class RegionsComponent implements OnInit {
     this.regionCountryColumnsPagination = this.regionsTableAdapterService.getPagination();
     this.regionCountryColumnsPagination.lastPage =
       this.regionCountryColumnsData.length /
-      this.regionCountryColumnsPagination.elememtsPerpage;
+      this.regionCountryColumnsPagination.elementsPerPage;
     this.regionDetailTitle = regionDetailTitle;
     this.initializeModal(this.regionDetailModal);
     this.modalService.openModal();
@@ -267,7 +267,7 @@ export class RegionsComponent implements OnInit {
     model: RowDataModel[]
   ): PaginationModel {
     let pagination = this.regionsTableAdapterService.getPagination();
-    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }
 }

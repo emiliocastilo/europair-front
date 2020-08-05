@@ -1,0 +1,83 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "operator": null,
+      "type": null,
+      "basesList": [],
+      "enrollment": "CS-DPV",
+      "productionYear": 2001,
+      "quantity": 11,
+      "insuranceExpiration": "2023-05-06",
+      "daySettings": 55,
+      "ambulance": false,
+      "nightSettings": 55,
+      "notes": [],
+      "tags": [],
+      "lastInteriorReform": 2002,
+      "lastExteriorReform": 2004,
+      "observations": []
+    },
+    {
+      "id": 2,
+      "operator": null,
+      "type": null,
+      "basesList": [],
+      "enrollment": "CS-DPV",
+      "productionYear": 20014,
+      "quantity": 20,
+      "insuranceExpiration": "2029-11-01",
+      "daySettings": 5,
+      "ambulance": false,
+      "nightSettings": 4,
+      "notes": [],
+      "tags": [],
+      "lastInteriorReform": 20015,
+      "lastExteriorReform": 20018,
+      "observations": []
+    },
+    {
+      "id": 3,
+      "operator": null,
+      "type": null,
+      "basesList": [],
+      "enrollment": "CS-DPV",
+      "productionYear": 2005,
+      "quantity": 20,
+      "insuranceExpiration": "2030-04-02",
+      "daySettings": 60,
+      "ambulance": false,
+      "nightSettings": 40,
+      "notes": [],
+      "tags": [],
+      "lastInteriorReform": 2007,
+      "lastExteriorReform": 2020,
+      "observations": []
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

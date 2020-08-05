@@ -63,7 +63,7 @@ export class CountriesComponent implements OnInit {
       this.countries = data.content;
       this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countries);
       this.countryPagination = this.countryTableAdapterService.getPagination();
-      this.countryPagination.lastPage = this.countries.length / this.countryPagination.elememtsPerpage;
+      this.countryPagination.lastPage = this.countries.length / this.countryPagination.elementsPerPage;
     });
   }
 

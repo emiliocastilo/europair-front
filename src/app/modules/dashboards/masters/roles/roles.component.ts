@@ -93,7 +93,7 @@ export class RolesComponent implements OnInit {
         roles['content']
       );
       this.rolePagination = this.rolesTableAdapterService.getPagination();
-      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elememtsPerpage
+      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elementsPerPage
       if (this.selectedItem >= 0) {
         this.onRoleSelected(this.selectedItem);
       }
@@ -107,7 +107,7 @@ export class RolesComponent implements OnInit {
       .subscribe((tasks) => {
         this.tasks = tasks['content']
         this.taskPagination = this.rolesTableAdapterService.getPagination();
-        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elememtsPerpage;
+        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elementsPerPage;
       });
   }
 

@@ -1,0 +1,60 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar
+  [barButtons]="barButtons"
+  [itemsSelectedCount]="aircraftSelectedCount"
+  (executeAction)="onBarButtonClicked($event)"
+>
+</core-button-bar>
+
+<section class="users-tables cmd-mt-1">
+  <core-table
+    [columnsHeader]="aircraftColumnsHeader"
+    [columnsData]="aircraftColumnsData"
+    [pagination]="aircraftColumnsPagination"
+    (selectedItem)="onAircraftSelected($event)"
+    (executeActionEmitter)="onAircraftAction($event)"
+  >
+  </core-table>
+</section>
+
+<app-aircraft-detail
+  (saveAircraft)="onSaveAircraft($event)"
+  [aircraftDetail]="aircraftSelected"
+  [aircraftForm]="aircraftForm"
+  [title]="aircraftDetailTitle"
+>
+  <!--
+  [userRoleColumnsHeader]="userRoleColumnsHeader"
+  [userRoleColumnsData]="userRoleColumnsData"
+  [userTaskColumnsHeader]="userTaskColumnsHeader"
+  [userTaskColumnsData]="userTaskColumnsData"
+  [roles]="roles"
+  [tasks]="tasks" -->
+</app-aircraft-detail>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>
+        ¿Está seguro que desea eliminar la aeronave
+        <b>{{ aircraftSelected?.type }}</b> ?
+      </p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      (click)="onConfirmDeleteAircraft()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>
