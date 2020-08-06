@@ -14,11 +14,11 @@ const routes: Routes =
       },
       { path: 'new',
         loadChildren: () => import('./components/airport-detail/airport-detail.module').then(m => m.AirportDetailModule),
-        data: { title: 'Nuevo aeropuerto' }
+        data: { title: 'Nuevo aeropuerto', isAirportDetail: false }
       },
       { path: ':airportId',
         loadChildren: () => import('./components/airport-detail/airport-detail.module').then(m => m.AirportDetailModule),
-        data: { title: 'Detalle aeropuerto' } 
+        data: { title: 'Detalle aeropuerto', isAirportDetail: true } 
       }]
   },
   ];
