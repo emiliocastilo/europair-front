@@ -4,21 +4,20 @@ import { Airport } from '../../../../airports/models/airport';
 export interface Aircraft extends Audit {
   id: number;
   operator: any;
-  type: any;
-  basesList: Base[];
-  enrollment: any;
-  productionYear: any;
-  quantity: any;
-  insuranceExpiration: any;
-  daySettings: number | SeatsSettings;
+  aircraftType: any;
+  bases: Base[];
+  plateNumber: string;
+  productionYear: number;
+  quantity: number;
+  insuranceEndDate: Date;
   ambulance: boolean;
-  nightSettings: number;
+  daytimeConfiguration: number | SeatsSettings;
+  nighttimeConfiguration: number;
   notes: any;
   tags: any;
-  lastInteriorReform: any;
-  lastExteriorReform: any;
+  insideUpgradeDate: Date;
+  outsideUpgradeDate: Date;
   observations: any;
-
   pitch?: SeatsSettings;
   load?: Load;
 }
@@ -40,26 +39,29 @@ export interface Load {
 }
 
 export interface Base {
+  id: number;
   airport: Airport;
-  type: 'principal' | 'virtual';
+  mainBase: boolean;
+  aircraft: Aircraft;
+  type?: 'principal' | 'virtual';
 }
 
 export const EMPTY_AIRCRAFT = {
   id: null,
   operator: null,
-  type: null,
-  basesList: [],
-  enrollment: null,
+  aircraftType: null,
+  bases: [],
+  plateNumber: null,
   productionYear: 0,
   quantity: 0,
-  insuranceExpiration: null,
-  daySettings: 0,
+  insuranceEndDate: null,
   ambulance: false,
-  nightSettings: 0,
+  daytimeConfiguration: 0,
+  nighttimeConfiguration: 0,
   notes: null,
   tags: null,
-  lastInteriorReform: null,
-  lastExteriorReform: null,
+  insideUpgradeDate: null,
+  outsideUpgradeDate: null,
   observations: null,
   createdAt: null,
   createdBy: null,

@@ -35,13 +35,13 @@ export class AircraftTableAdapterService {
       //   new ColumnHeaderSizeModel('2', '2', '2')
       // ),
       new ColumnHeaderModel(
-        'type-header',
+        'aircraftType-header',
         'text',
         'Tipo',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
-        'enrollment-header',
+        'plateNumber-header',
         'text',
         'Matrícula',
         new ColumnHeaderSizeModel('2', '2', '2')
@@ -104,19 +104,19 @@ export class AircraftTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       aircraftRow.pushColumn(new ColumnDataModel('text', element.operator));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.type));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.enrollment));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.plateNumber));
       aircraftRow.pushColumn(
         new ColumnDataModel('text', element.productionYear)
       );
       aircraftRow.pushColumn(new ColumnDataModel('text', element.quantity));
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));
-      aircraftTableData.push(aircraftRow);
       aircraftRow.author =
         element.modifiedBy != null ? element.modifiedBy : element.createdBy;
       aircraftRow.timestamp =
         element.modifiedAt != null ? element.modifiedAt : element.createdAt;
       aircraftRow.modified = element.modifiedAt != null;
+      aircraftTableData.push(aircraftRow);
     });
     return aircraftTableData;
   }
