@@ -54,7 +54,7 @@ export class TasksComponent implements OnInit {
   private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva tarea' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
     { type: BarButtonType.SEARCH, text: 'Buscar' },
   ];
 

@@ -43,7 +43,7 @@ export class RolesComponent implements OnInit {
   private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo rol' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   private readonly EDIT_TASK_TITLE = 'Editar rol';
