@@ -1,7 +1,6 @@
 <core-page-bar [pageTitle]="pageTitle"></core-page-bar>
-<core-button-bar [barButtons]="typesBarButtons" [itemsSelectedCount]="typesSelectedCount"
-  (executeAction)="onBarButtonTypesClicked($event)">
-</core-button-bar>
+<fleet-types-top-bar [barButtons]="typesBarButtons" [typesSelectedCount]="typesSelectedCount" [typesSelected]="selectedType !== undefined"
+(executeAction)="onBarButtonTypesClicked($event)" (executeChangeCheck)="checkShowDisabled($event)"></fleet-types-top-bar>
 <section class="types-tables-container cmd-mt-1 cmd-mb-2">
   <section class="types-table">
     <core-table [columnsHeader]="typesColumnsHeader" [columnsData]="typesColumnsData"
@@ -11,8 +10,8 @@
   </section>
 </section>
 
-<!-- <app-fleet-type-detail [title]="typeDetailTitle" [typeDetail]="typeSelected"
-(saveType)="onSaveType($event)"></app-fleet-type-detail> -->
+<app-fleet-type-detail [title]="typeDetailTitle" [typeDetail]="typeSelected"
+(saveType)="onSaveType($event)"></app-fleet-type-detail>
 
 <core-modal>
   <ng-container content>

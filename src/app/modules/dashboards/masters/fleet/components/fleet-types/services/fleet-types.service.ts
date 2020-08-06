@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FleetType } from '../../../models/fleet';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -14,9 +14,10 @@ export class FleetTypesService {
   private readonly url = `${environment.apiUrl}fleet/types`;
   constructor(private http: HttpClient) {}
 
-  public getFleetTypes(): Observable<Page<FleetType>> {
+  public getFleetTypes(showDisabled: boolean): Observable<Page<FleetType>> {
     const url: string = this.mocked ? '/assets/mocks/fleet-types.json' : this.url;
-    return this.http.get<Page<FleetType>>(url);
+    const params: HttpParams = new HttpParams().set('showDisabled', String(showDisabled));
+    return this.http.get<Page<FleetType>>(url, {params});
   }
 
   public addFleetType(fleetType: FleetType): Observable<FleetType> {

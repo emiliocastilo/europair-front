@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { FleetType } from '../../../../models/fleet';
+import { FormControl, Validators, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FleetType, FleetCategory, FleetSubcategory } from '../../../../models/fleet';
+import { FleetCategoriesService } from '../../../fleet-categories/services/fleet-categories.service';
+import { FleetSubcategoriesService } from '../../../fleet-categories/services/fleet-subcategories.service';
+import { Page } from 'src/app/core/models/table/pagination/page';
+import { Measure, MeasureType } from 'src/app/core/models/base/measure';
 
 @Component({
   selector: 'app-fleet-type-detail',
@@ -9,8 +12,6 @@ import { FleetType } from '../../../../models/fleet';
   styleUrls: ['./fleet-type-detail.component.scss']
 })
 export class FleetTypeDetailComponent implements OnInit {
-  @Input()
-  public typeColumnsHeader: Array<ColumnHeaderModel> = [];
   @Input()
   public title: string;
   @Input()
@@ -35,7 +36,12 @@ export class FleetTypeDetailComponent implements OnInit {
 
   @Output()
   public saveType: EventEmitter<FleetType> = new EventEmitter();
-  public form: FormGroup = this.fb.group({
+
+  public categories: Array<FleetCategory> = [];
+  public subcategories: Array<FleetSubcategory> = [];
+  public measuresType: Array<MeasureType> = [];
+
+  private form: FormGroup = this.fb.group({
     code: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
@@ -45,9 +51,28 @@ export class FleetTypeDetailComponent implements OnInit {
   });
 
   private _typeDetail: FleetType;
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly categoriesService: FleetCategoriesService,
+    private readonly subcategoriesService: FleetSubcategoriesService
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.categoriesService.getFleetCategories().subscribe((data: Page<FleetCategory>) => this.categories = data.content);
+    // TODO: Obtener de servicio
+    this.measuresType = [
+      MeasureType.FT,
+      MeasureType.INCH,
+      MeasureType.KM,
+      MeasureType.M,
+      MeasureType.NM
+    ];
+  }
+
+  public obtainSubcategories(category: FleetCategory): void {
+    this.subcategoriesService.getFleetSubcategoriesFromCategory(category)
+    .subscribe((data: Page<FleetSubcategory>) => this.subcategories = data.content);
+  }
 
   public isInvalid(field: string): boolean {
     return (
@@ -56,17 +81,21 @@ export class FleetTypeDetailComponent implements OnInit {
     );
   }
 
+  public getControl(fieldName: string): AbstractControl {
+    return this.form.get(fieldName);
+  }
+
   public anyFieldInvalid(): boolean {
     return this.form.invalid;
   }
 
   public onSaveType(): void {
     this.saveType.next({
-      id: this._typeDetail.id,
+      ...this._typeDetail,
       code: this.form.get('code').value,
       description: this.form.get('description').value,
-      category: { id: this.form.get('category').value.id },
-      subcategory: { id: this.form.get('subcategory').value.id },
+      category: { ...this._typeDetail.category, id: this.form.get('category').value.id },
+      subcategory: { ...this._typeDetail.subcategory, id: this.form.get('subcategory').value.id },
       flightRange: {
         value: this.form.get('rangeMeasureValue').value,
         type: this.form.get('rangeMeasureType').value
@@ -74,6 +103,10 @@ export class FleetTypeDetailComponent implements OnInit {
       producer: '',
       cabinInformation: undefined
     });
+  }
+
+  public getSubcategoriePlaceholder(): string {
+    return this.getControl('category').value ? 'Selecciona una subcategoría' : 'Selecciona primero una categoría';
   }
 }
 

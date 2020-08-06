@@ -1,45 +1,92 @@
 <div class="modal">
-    <div class="modal-content">
-      <section class="modal-header">
-        <h4>{{ title }}</h4>
-        <a class="waves-effect btn-flat modal-close europair-button-blue-1">
-          <i class="material-icons right">close</i>
-          Cancelar
-        </a>
-      </section>
-      <section class="category-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-        <div class="row">
-          <core-basic-input-text [id]="'category-code'" [label]="'Código del Categoría'" [formControl]="categoryCodeControl"
-            [hasErrors]="hasCategoryCodeControlErrors()">
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasCategoryCodeControlErrors()">
-                <span *ngIf="categoryCodeControl.errors.required" class="helper-text"
-                  data-error="Debe indicar el código de la categoría">
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-        <div class="row">
-          <core-basic-input-text [id]="'category-name'" [label]="'Nombre de Categoría'" [formControl]="categoryNameControl"
-            [hasErrors]="hasCategoryNameControlErrors()">
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasCategoryNameControlErrors()">
-                <span *ngIf="categoryNameControl.errors.required" class="helper-text"
-                  data-error="Debe indicar el nombre de la Categoría">
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-      </section>
-    </div>
-  
-    <div class="modal-footer">
-      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
-        (click)="onSaveCategory()">
-        <i class="material-icons">check_circle</i>
-        <span class="full-width-btn-text">Guardar</span>
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
       </a>
-    </div>
+    </section>
+    <section class="type-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <div class="row">
+        <core-basic-input-text [id]="'type-code'" [label]="'Código'" [formControl]="getControl('code')"
+          [hasErrors]="isInvalid('code')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('code')">
+              <span *ngIf="getControl('code').errors.required" class="helper-text"
+                data-error="Debe indicar el código del tipo">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-basic-input-text>
+      </div>
+      <div class="row">
+        <core-basic-input-text [id]="'type-description'" [label]="'Descripción'"
+          [formControl]="getControl('description')" [hasErrors]="isInvalid('description')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('description')">
+              <span *ngIf="getControl('description').errors.required" class="helper-text"
+                data-error="Debe indicar la descripción del tipo">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-basic-input-text>
+      </div>
+      <div class="row">
+        <core-select [items]="categories" [hasErrors]="isInvalid('category')" [id]="'type-category'"
+          [placeholder]="'Selecciona una categoría'" [label]="'Categoría'" [searchable]="true" [formControl]="getControl('category')"
+          (selectedValueEvent)="obtainSubcategories($event)">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('category')">
+              <span *ngIf="getControl('category').errors.required" class="helper-text"
+                data-error="Debe indicar una categoría">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-select>
+      </div>
+      <div class="row">
+        <core-select [items]="subcategories" [hasErrors]="isInvalid('subcategory')" [id]="'type-subcategory'"
+          [placeholder]="getSubcategoriePlaceholder()" [label]="'Subcategoría'" [searchable]="true" [formControl]="getControl('subcategory')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('subcategory')">
+              <span *ngIf="getControl('subcategory').errors.required" class="helper-text"
+                data-error="Debe indicar una subcategoría">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-select>
+      </div>
+      <div class="row">
+        <core-basic-input-text class="col s6" [id]="'type-range-measure-value'" [label]="'Rango de vuelo'"
+          [formControl]="getControl('rangeMeasureValue')" [hasErrors]="isInvalid('rangeMeasureValue')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('rangeMeasureValue')">
+              <span *ngIf="getControl('rangeMeasureValue').errors.required" class="helper-text"
+                data-error="Debe indicar el rango de vuelo">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-basic-input-text>
+        <core-select class="col s6" [items]="measuresType" [hasErrors]="isInvalid('rangeMeasureType')" [id]="'type-range-measure-type'"
+          [placeholder]="'Selecciona una unidad'" [label]="'Unidad rango de vuelo'" [searchable]="true" [formControl]="getControl('rangeMeasureType')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="isInvalid('rangeMeasureType')">
+              <span *ngIf="getControl('rangeMeasureType').errors.required" class="helper-text"
+                data-error="Debe indicar una unidad de medida">
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-select>
+      </div>
+    </section>
   </div>
+
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
+      (click)="onSaveType()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="typesSelectedCount"
+    (executeAction)="onBarButtonClicked($event)">
+    <ng-container additionalContent>
+        <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
+            (click)="onBarButtonClicked(BAR_BUTTON_TYPE.VIEW)" [ngClass]="{'disabled': !typesSelected}">
+            <i class="material-icons left">{{ 'visibility' }}</i>Ver flota
+        </a>
+        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+            (click)="onBarButtonClicked(BAR_BUTTON_TYPE.VIEW)" [ngClass]="{'disabled': !typesSelected}">
+            <i class="material-icons">{{ 'visibility' }}</i>
+        </a>
+        <core-checkbox [id]="'check-button-bar'" [label]="'Ver inactivos'" (selectedValueEvent)="onChangeCheck($event)"
+            class="waves-effect check" [value]="checked">
+        </core-checkbox>
+    </ng-container>
+</core-button-bar>

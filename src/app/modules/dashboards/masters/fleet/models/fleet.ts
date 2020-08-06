@@ -108,7 +108,11 @@ export const EMPTY_FLEET_TYPE: FleetType = {
         },
         averageSpeed: EMPTY_MEASURE
     }],
-    observations: []
+    observations: [],
+    createdAt: null,
+    createdBy: null,
+    modifiedAt: null,
+    modifiedBy: null
 };
 
 

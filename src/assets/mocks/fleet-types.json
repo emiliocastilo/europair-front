@@ -46,7 +46,9 @@
                }
             }
          ],
-         "observations": []
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo"
       },
       {
          "id": 1,
@@ -94,7 +96,11 @@
                }
             }
          ],
-         "observations": []
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo",
+         "modifiedAt": "2020-08-05",
+         "modifiedBy": "Javier González"
       },
       {
          "id": 2,
@@ -142,7 +148,11 @@
                }
             }
          ],
-         "observations": []
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo",
+         "modifiedAt": "2020-08-05",
+         "modifiedBy": "Javier González"
       }
    ],
    "pageable": {

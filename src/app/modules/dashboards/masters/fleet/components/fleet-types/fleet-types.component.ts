@@ -10,6 +10,7 @@ import { FleetTypesService } from './services/fleet-types.service';
 import { FleetTypesTableAdapterService } from './services/fleet-types-table-adapter.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Observable } from 'rxjs';
+import { FleetTypeDetailComponent } from './components/fleet-type-detail/fleet-type-detail.component';
 
 @Component({
   selector: 'app-fleet-types',
@@ -17,8 +18,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./fleet-types.component.scss']
 })
 export class FleetTypesComponent implements OnInit {
-  // @ViewChild(FleetTypeDetailComponent, { static: true, read: ElementRef })
-  // private readonly typeDetailModal: ElementRef;
+  @ViewChild(FleetTypeDetailComponent, { static: true, read: ElementRef })
+  private readonly typeDetailModal: ElementRef;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmDeleteTypeModal: ElementRef;
 
@@ -33,15 +34,19 @@ export class FleetTypesComponent implements OnInit {
   public typeDetailColumnsData: Array<RowDataModel>;
   public typePagination: PaginationModel;
   public typesBarButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'NuevO Tipo' },
+    { type: BarButtonType.NEW, text: 'Nuevo Tipo' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
   public typeDetailTitle: string;
   public typeSelected: FleetType = EMPTY_FLEET_TYPE;
+  public selectedType: number;
 
-  private selectedType: number;
+  private showDisabled: boolean;
   private types: Array<FleetType>;
-  private readonly barButtonTypeActions = { new: this.newType.bind(this) };
+  private readonly barButtonTypeActions = { 
+    new: this.newType.bind(this),
+    view: this.viewFleet.bind(this)
+  };
   private readonly typeTableActions = {
     edit: this.editType.bind(this),
     delete: this.deleteType.bind(this)
@@ -58,12 +63,13 @@ export class FleetTypesComponent implements OnInit {
   }
 
   private initializeTypeTable(): void {
+    this.showDisabled = true;
     this.typesColumnsHeader = this.fleetTypesTableAdapterService.getFleetTypeColumnsHeader();
     this.obtainTypes();
   }
 
   private obtainTypes() {
-    this.typeService.getFleetTypes().subscribe((data: Page<FleetType>) => {
+    this.typeService.getFleetTypes(this.showDisabled).subscribe((data: Page<FleetType>) => {
       this.types = data.content;
       this.typesColumnsData = this.fleetTypesTableAdapterService.getFleetTypes(this.types);
       this.typePagination = this.fleetTypesTableAdapterService.getPagination();
@@ -73,6 +79,11 @@ export class FleetTypesComponent implements OnInit {
 
   public showSubtypesTable(): boolean {
     return this.selectedType !== undefined;
+  }
+
+  public checkShowDisabled(showDisabled: boolean): void {
+    this.showDisabled = showDisabled;
+    this.obtainTypes();
   }
 
   private initializeModal(modalContainer: ElementRef): void {
@@ -99,6 +110,11 @@ export class FleetTypesComponent implements OnInit {
     this.modalService.openModal();
   }
 
+  private viewFleet(): void {
+    console.log('redirect to list fleet');
+    console.log(this.types[this.selectedType]);
+  }
+
   private editType(selectedItem: number): void {
     this.initializeTypeDetailModal(this.EDIT_TYPE_TITLE, {
       ...this.types[selectedItem],
@@ -112,17 +128,17 @@ export class FleetTypesComponent implements OnInit {
     this.modalService.openModal();
   }
 
-
   private initializeTypeDetailModal(typeDetailTitle: string, typeSelected: FleetType): void {
     this.typeDetailTitle = typeDetailTitle;
     this.typeSelected = typeSelected;
-    // this.initializeModal(this.typeDetailModal);
+    this.initializeModal(this.typeDetailModal);
   }
 
   public onSaveType(type: FleetType): void {
-    const saveType: Observable<FleetType> = type.id === null ? this.typeService.addFleetType(type) : this.typeService.editFleetType(type);
+    const saveType: Observable<FleetType> = type.id === undefined ? this.typeService.addFleetType(type) : this.typeService.editFleetType(type);
     saveType.subscribe(() => this.obtainTypes());
   }
+
   public onConfirmDeleteType(): void {
     this.typeService.deleteFleetType(this.types[this.selectedType]).subscribe(() => {
       this.initializeTypeTable();

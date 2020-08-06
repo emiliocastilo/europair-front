@@ -86,6 +86,7 @@ export class FleetTypesTableAdapterService {
       fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.value));
       fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.type));
       fleetTypeRow.pushColumn(new ColumnDataModel('actions', actions));
+      fleetTypeRow.setAuditParams(fleetType);
       fleetTypeTableData.push(fleetTypeRow);
     });
     return fleetTypeTableData;
