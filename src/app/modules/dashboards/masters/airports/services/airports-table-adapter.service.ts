@@ -88,6 +88,7 @@ export class AirportsTableAdapterService {
       airportRow.pushColumn(new ColumnDataModel('text', airport.country.name));
       airportRow.pushColumn(new ColumnDataModel('text', this.getPista(airport)));
       airportRow.pushColumn(new ColumnDataModel('actions', actions));
+      airportRow.setAuditParams(airport);
       airportTableData.push(airportRow);
     });
     return airportTableData;

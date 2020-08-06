@@ -5,6 +5,7 @@
     color: $europair-color-blue-dark-2;
     .row{
         margin-bottom: 0;
+        min-height: 40px;
     }
     .col{
         border-right: 1px solid $europair-color-blue-light-3; 
@@ -32,6 +33,11 @@
             }
         }
     }
+    .master-table-data-row{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .master-table-data-row:hover{
         background-color: $europair-color-blue-light-2;
     }
@@ -41,7 +47,10 @@
         article.col:nth-child(1){
             background-color: $europair-color-blue-light-3;
         }
-    }
-    
+    }   
+}
+
+[type="checkbox"].filled-in:not(:checked)+span:not(.lever):after {
+  top: 4px;
 }
     

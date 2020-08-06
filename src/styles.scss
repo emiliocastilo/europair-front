@@ -96,11 +96,11 @@ a.europair-icon-blue:hover {
   background-color: $europair-color-blue-dark-2;
 }
 
-a.icon-blue-light-3{
+a.icon-blue-light-3 {
   background-color: $europair-color-blue-light-3;
 }
 
-a.icon-blue-light-3:hover{
+a.icon-blue-light-3:hover {
   background-color: $europair-color-blue-light-3;
 }
 
@@ -160,6 +160,16 @@ input {
   color: $europair-color-blue-dark-2;
 }
 
+.input-suffix {
+  position: absolute;
+  width: 3rem;
+  font-size: 2rem;
+  transition: color 0.2s;
+  top: 0.5rem;
+  right: 0;
+  float: right !important;
+}
+
 // BUTTONS
 .full-width-btn-text {
   position: relative;
@@ -172,7 +182,23 @@ input {
   justify-content: space-between;
 }
 
-//HIDE 
-.cmd-hide{
+//HIDE
+.cmd-hide {
   display: none;
+}
+
+// RADIO BUTTONS
+[type="radio"]:checked + span:after,
+[type="radio"].with-gap:checked + span:after {
+  background-color: $europair-color-blue-dark-1 !important;
+}
+
+[type="radio"]:checked + span:after,
+[type="radio"].with-gap:checked + span:before,
+[type="radio"].with-gap:checked + span:after {
+  border: 2px solid $europair-color-blue-dark-1 !important;
+}
+
+[type="radio"].with-gap:checked + span:after {
+  transform: scale(0.5) !important;
 }

@@ -7,8 +7,8 @@
           <i class="material-icons left">{{ barButton.icon || 'add_circle_outline' }}</i>
           {{ barButton.text }}
         </a>
-        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up" 
-          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
+        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up" 
+        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
           <i class="material-icons">{{ barButton.icon || 'add_circle_outline' }}</i>
         </a>
       </ng-container>
@@ -30,7 +30,7 @@
           <i class="material-icons left">{{ barButton.icon || 'delete' }}</i>
           {{ barButton.text }} ({{ itemsSelectedCount }})
         </a>
-        <span *ngIf="itemsSelectedCount > 0" class="hide-on-med-and-up">
+        <span *ngIf="itemsSelectedCount > 0" class="hide-on-med-and-up cmd-mr-1">
           <a class="btn-floating waves-effect waves-light btn europair-icon-red-1" 
             (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)">
             <i class="material-icons">delete</i>
@@ -49,6 +49,12 @@
           class="btn-floating waves-effect waves-light europair-icon-blue hide-on-med-and-up" 
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.EDIT)">
           <i class="material-icons">{{ barButton.icon || 'edit' }}</i>
+        </a>
+      </ng-container>
+      <ng-container *ngSwitchCase="'search'">
+        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up" 
+        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.SEARCH)">
+          <i class="material-icons">{{ barButton.icon || 'search' }}</i>
         </a>
       </ng-container>
     </ng-container>
