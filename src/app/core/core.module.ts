@@ -17,13 +17,20 @@ import { MatCollapsibleDirective } from './directives/mat-collapsible.directive'
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SelectComponent } from './components/basic/select/select.component';
 import { FormsModule } from '@angular/forms';
+import { SearchBarComponent } from './components/menus/search-bar/search-bar.component';
+import { AdvancedSearchComponent } from './components/menus/advanced-search/advanced-search.component';
+import { SortMenuComponent } from './components/menus/sort-menu/sort-menu.component';
+import { SortButtonComponent } from './components/table/components/sort-button/sort-button.component';
 
+import { MatTooltipDirective } from './directives/mat-tooltip.directive';
+import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 
 @NgModule({
   declarations: [
     TableComponent,
     CheckboxComponent,
     InputTextComponent,
+    CheckboxComponent,
     LeftSidebarComponent,
     PageBarComponent,
     LetterTableComponent,
@@ -34,19 +41,31 @@ import { FormsModule } from '@angular/forms';
     MobileBarComponent,
     PaginationComponent,
     MatCollapsibleDirective,
-    SelectComponent
+    SelectComponent,
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent,
+    SortButtonComponent,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
   ],
-  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule ],
+  imports: [CommonModule, RouterModule, NgSelectModule, FormsModule],
   exports: [
     TableComponent,
     LeftSidebarComponent,
     PageBarComponent,
     InputTextComponent,
+    CheckboxComponent,
     SelectComponent,
     ModalComponent,
     ButtonBarComponent,
     MobileBarComponent,
-    MatCollapsibleDirective
+    MatCollapsibleDirective,
+    SearchBarComponent,
+    AdvancedSearchComponent,
+    SortMenuComponent,
+    MatTooltipDirective,
+    TableAuditTooltipDirective,
   ],
 })
 export class CoreModule {}

@@ -7,8 +7,15 @@
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
-            <i class="material-icons">search</i>
-            <core-basic-input-text [id]="columnHeader.identifier" [label]="columnHeader.label"></core-basic-input-text>
+            <core-basic-input-text 
+              [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig" [clearable]="true"
+              (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
+            </core-basic-input-text>
+            <core-sort-button *ngIf="columnHeader.filterId"
+              [sortOrder]="sortingByColumn[columnHeader.filterId]"
+              [filterId]="columnHeader.filterId" 
+              (sortByColumn)="onSortByColumn($event)">
+            </core-sort-button>
           </div>
         </article>
         <!--TEST HEADER-->
@@ -20,7 +27,7 @@
       </ng-container>
     </ng-container>
   </section>
-  <section class="row master-table-data-row valign-wrapper"
+  <section class="row master-table-data-row" [appTableAuditTooltip]="columnData"
     [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
     *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
@@ -83,7 +90,7 @@
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">{{item.value}}
         </article>
       </ng-container>
-    </ng-container>
+    </ng-container> 
   </section>
 </div>
 

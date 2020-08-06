@@ -1,0 +1,73 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar [barButtons]="categoriesBarButtons" [itemsSelectedCount]="categoriesSelectedCount"
+  (executeAction)="onBarButtonCategoriesClicked($event)">
+</core-button-bar>
+<section class="categories-tables-container cmd-mt-1 cmd-mb-2">
+  <section class="categories-table">
+    <core-table [columnsHeader]="categoriesColumnsHeader" [columnsData]="categoriesColumnsData"
+      [pagination]="categoryPagination"
+      (selectedItem)="onCategorySelected($event)" (executeActionEmitter)="onCategoryAction($event)">
+    </core-table>
+  </section>
+</section>
+
+
+<core-button-bar *ngIf="showSubcategoriesTable()" [barButtons]="subcategoriesBarButtons" [itemsSelectedCount]="subcategoriesSelectedCount"
+  (executeAction)="onBarButtonSubcategoriesClicked($event)">
+</core-button-bar>
+<section *ngIf="showSubcategoriesTable()" class="subcategories-tables-container cmd-mt-1">
+  <section class="subcategories-table">
+    <core-table [columnsHeader]="subcategoriesColumnsHeader" [columnsData]="subcategoriesColumnsData"
+      [pagination]="subcategoryPagination"
+      (selectedItem)="onSubcategorySelected($event)" (executeActionEmitter)="onSubcategoryAction($event)">
+    </core-table>
+  </section>
+</section>
+
+<app-fleet-category-detail [title]="categoryDetailTitle" [categoryDetail]="categorySelected"
+(saveCategory)="onSaveCategory($event)"></app-fleet-category-detail>
+
+<app-fleet-subcategory-detail [title]="subcategoryDetailTitle" [subcategoryDetail]="subcategorySelected"
+(saveSubcategory)="onSaveSubcategory($event)"></app-fleet-subcategory-detail>
+
+<core-modal #deleteCategoryModal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar esta categoría?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCategory()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>
+
+<core-modal #deleteSubcategoryModal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar este subcategoría?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteSubcategory()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

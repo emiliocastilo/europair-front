@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Task } from '../models/task';
 import { environment } from 'src/environments/environment';
 import { Screen } from '../models/screen';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,26 @@ import { Screen } from '../models/screen';
 export class TasksService {
   constructor(private http: HttpClient) {}
 
-  public getTasks(): Observable<Task[]> {
+  public getTasks(searchFilter: SearchFilter = {}): Observable<Task[]> {
     const url = environment.apiUrl + 'tasks';
-    return this.http.get<Task[]>(url+'?size=2000');
+    return this.http.get<Task[]>(url, {
+      params: this.filterEmptyString(searchFilter),
+    });
+  }
+
+  private filterEmptyString(searchFilter: SearchFilter): SearchFilter {
+    const clonedSearchFilter = { ...searchFilter };
+    Object.keys(searchFilter).forEach((key) => {
+      if (searchFilter[key] === '') {
+        delete clonedSearchFilter[key];
+      }
+    });
+    return clonedSearchFilter;
   }
 
   public getScreens(): Observable<Screen[]> {
     const url = environment.apiUrl + 'screens';
-    return this.http.get<Screen[]>(url+'?size=2000');
+    return this.http.get<Screen[]>(url + '?size=2000');
   }
 
   public addTask(task: Task): Observable<Task> {

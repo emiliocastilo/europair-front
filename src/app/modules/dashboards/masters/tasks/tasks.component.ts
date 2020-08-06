@@ -14,6 +14,12 @@ import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Observable } from 'rxjs';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { AdvancedSearchComponent } from 'src/app/core/components/menus/advanced-search/advanced-search.component';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SortMenuComponent } from 'src/app/core/components/menus/sort-menu/sort-menu.component';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
 
 @Component({
   selector: 'app-tasks',
@@ -26,12 +32,17 @@ export class TasksComponent implements OnInit {
   public taskDetailModal: ElementRef;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
+  @ViewChild(AdvancedSearchComponent, { static: true, read: ElementRef })
+  public taskAdvancedSearch: ElementRef;
+  @ViewChild(SortMenuComponent, { static: true, read: ElementRef })
+  public taskSortMenu: ElementRef;
 
   public taskColumnsHeader: ColumnHeaderModel[] = [];
   public screenColumnsHeader: ColumnHeaderModel[] = [];
   public taskColumnsData: RowDataModel[] = [];
   public screenColumnsData: RowDataModel[] = [];
   public taskDetailScreenColumnsData: RowDataModel[] = [];
+  public taskDetailScreenColumnsHeader: ColumnHeaderModel[] = [];
   public taskColumnsPagination: PaginationModel;
   public screenColumnsPagination: PaginationModel;
   public pageTitle = 'Tareas';
@@ -40,10 +51,12 @@ export class TasksComponent implements OnInit {
   private tasks: Task[];
   public taskDetailTitle: string;
   public taskSelected: Task = EMPTY_TASK;
+  public showMobileSearchBar: boolean = false;
   private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva tarea' },
     { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.SEARCH, text: 'Buscar' },
   ];
 
   private readonly EDIT_TASK_TITLE = 'Editar tarea';
@@ -54,8 +67,13 @@ export class TasksComponent implements OnInit {
     this.initializeTaskDetailModal(this.CREATE_TASK_TITLE, { ...EMPTY_TASK });
     this.modalService.openModal();
   };
+
+  public toggleSearchBar = () => {
+    this.showMobileSearchBar = !this.showMobileSearchBar;
+  };
   private barButtonActions = {
     new: this.newTask,
+    search: this.toggleSearchBar,
   };
 
   private editTask = (selectedItem: number) => {
@@ -74,20 +92,34 @@ export class TasksComponent implements OnInit {
     delete: this.deleteTask,
   };
 
+  public taskAdvancedSearchForm = this.fb.group({
+    name: [''],
+  });
+  public taskSortForm = this.fb.group({
+    sort: [''],
+  });
+
   constructor(
     private modalService: ModalService,
     private taskService: TasksService,
-    private taskTableAdapterService: TasksTableAdapterService
+    private taskTableAdapterService: TasksTableAdapterService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.initializeTaskTable();
     this.initializeScreenTable();
+    this.initializeTableHeaders();
   }
 
-  private initializeTaskTable() {
+  private initializeTableHeaders() {
     this.taskColumnsHeader = this.taskTableAdapterService.getTaskColumnsHeader();
-    this.taskService.getTasks().subscribe((tasks) => {
+    this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
+    this.taskDetailScreenColumnsHeader = this.taskTableAdapterService.getTaskDetailScreenColumnsHeader();
+  }
+
+  private initializeTaskTable(searchFilter?: SearchFilter) {
+    this.taskService.getTasks(searchFilter).subscribe((tasks) => {
       this.tasks = tasks['content'];
       this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
         tasks['content']
@@ -96,19 +128,19 @@ export class TasksComponent implements OnInit {
         this.onTaskSelected(this.selectedItem);
       }
       this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
-      this.taskColumnsPagination.lastPage = this.taskColumnsData.length/this.taskColumnsPagination.elememtsPerpage;
+      this.taskColumnsPagination.lastPage =
+        this.taskColumnsData.length /
+        this.taskColumnsPagination.elememtsPerpage;
     });
   }
 
   private initializeScreenTable() {
-    this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
-    this.taskService
-      .getScreens()
-      .subscribe((screens) => {
-        this.screens = screens['content'];
-        this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
-        this.screenColumnsPagination.lastPage = this.screens.length/this.screenColumnsPagination.elememtsPerpage
-      });
+    this.taskService.getScreens().subscribe((screens) => {
+      this.screens = screens['content'];
+      this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
+      this.screenColumnsPagination.lastPage =
+        this.screens.length / this.screenColumnsPagination.elememtsPerpage;
+    });
   }
 
   private initializeTaskDetailModal(
@@ -168,5 +200,54 @@ export class TasksComponent implements OnInit {
       this.initializeTaskTable();
       this.initializeScreenTable();
     });
+  }
+
+  public onFilterTasks(taskFilter: ColumnFilter) {
+    const filter = {};
+    filter[taskFilter.identifier] = taskFilter.searchTerm;
+    console.log('FILTER BY', filter);
+    this.taskAdvancedSearchForm.patchValue(filter);
+    this.filterTaskTable();
+  }
+
+  public onMobileBasicSearch(searchTerm: string) {
+    this.taskAdvancedSearchForm.patchValue({ name: searchTerm });
+    console.log('FILTER MOBILE BY', this.taskAdvancedSearchForm.value);
+    this.filterTaskTable();
+  }
+
+  public onMobileAdvancedSearch() {
+    console.log('ADVANCED FILTER BY', this.taskAdvancedSearchForm.value);
+    this.filterTaskTable();
+  }
+
+  public onSortTasks(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.taskSortForm.patchValue({ sort: sort });
+    console.log('DESKTOP SORTING', this.taskSortForm.value);
+    this.filterTaskTable();
+  }
+
+  public onMobileSort() {
+    console.log('MOBILE SORTING', this.taskSortForm.value);
+    this.filterTaskTable();
+  }
+
+  private filterTaskTable() {
+    const filter = {
+      ...this.taskAdvancedSearchForm.value,
+      ...this.taskSortForm.value,
+    };
+    this.initializeTaskTable(filter);
+  }
+
+  public onOpenAdvancedSearch() {
+    this.initializeModal(this.taskAdvancedSearch);
+    this.modalService.openModal();
+  }
+
+  public onOpenSortMenu() {
+    this.initializeModal(this.taskSortMenu);
+    this.modalService.openModal();
   }
 }

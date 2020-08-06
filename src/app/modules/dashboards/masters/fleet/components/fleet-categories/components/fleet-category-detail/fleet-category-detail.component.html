@@ -1,0 +1,45 @@
+<div class="modal">
+    <div class="modal-content">
+      <section class="modal-header">
+        <h4>{{ title }}</h4>
+        <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+          <i class="material-icons right">close</i>
+          Cancelar
+        </a>
+      </section>
+      <section class="category-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+        <div class="row">
+          <core-basic-input-text [id]="'category-code'" [label]="'Código del Categoría'" [formControl]="categoryCodeControl"
+            [hasErrors]="hasCategoryCodeControlErrors()">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasCategoryCodeControlErrors()">
+                <span *ngIf="categoryCodeControl.errors.required" class="helper-text"
+                  data-error="Debe indicar el código de la categoría">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text [id]="'category-name'" [label]="'Nombre de Categoría'" [formControl]="categoryNameControl"
+            [hasErrors]="hasCategoryNameControlErrors()">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasCategoryNameControlErrors()">
+                <span *ngIf="categoryNameControl.errors.required" class="helper-text"
+                  data-error="Debe indicar el nombre de la Categoría">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </section>
+    </div>
+  
+    <div class="modal-footer">
+      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
+        (click)="onSaveCategory()">
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text">Guardar</span>
+      </a>
+    </div>
+  </div>

@@ -1,5 +1,9 @@
 @import "~src/variables.scss";
-    
+.desktop-actions{
+  a{
+    margin-right: 0.5rem !important;
+  }
+}
 .mobile-actions{
     ul, li, li>a{
         padding: 0 !important;
