@@ -4,7 +4,7 @@ import { FleetType, FleetCategory, FleetSubcategory } from '../../../../models/f
 import { FleetCategoriesService } from '../../../fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../fleet-categories/services/fleet-subcategories.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Measure, MeasureType } from 'src/app/core/models/base/measure';
+import { MeasureType } from 'src/app/core/models/base/measure';
 
 @Component({
   selector: 'app-fleet-type-detail',
@@ -61,11 +61,11 @@ export class FleetTypeDetailComponent implements OnInit {
     this.categoriesService.getFleetCategories().subscribe((data: Page<FleetCategory>) => this.categories = data.content);
     // TODO: Obtener de servicio
     this.measuresType = [
-      MeasureType.FT,
+      MeasureType.FOOT,
       MeasureType.INCH,
-      MeasureType.KM,
-      MeasureType.M,
-      MeasureType.NM
+      MeasureType.KILOMETER,
+      MeasureType.METER,
+      MeasureType.NAUTIC_MILE
     ];
   }
 
