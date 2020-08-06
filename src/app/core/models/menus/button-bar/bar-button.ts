@@ -11,4 +11,5 @@ export enum BarButtonType {
   SEARCH = 'search',
   CHECK = 'check',
   EDIT = 'edit',
+  VIEW = 'view',
 }
