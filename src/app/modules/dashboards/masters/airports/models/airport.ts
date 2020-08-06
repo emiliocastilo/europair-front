@@ -31,6 +31,8 @@ export enum FlightRulesType{
 
 export interface Track {
     id: number;
+    name?: string;
+    main?: boolean;
     length?: Measure;
     width?: Measure;
     observation?: string;

@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 export class SelectComponent implements ControlValueAccessor {
   @Input() public id: string;
   @Input() public label: string;
-  @Input() public itemValue: string = 'id';
+  @Input() public itemValue: string;
   @Input() public itemDescription: string = 'name';
   @Input() public placeholder: string;
   @Input() public isDisabled: boolean;

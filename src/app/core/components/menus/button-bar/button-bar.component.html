@@ -3,39 +3,53 @@
     <ng-container [ngSwitch]="barButton.type">
       <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.NEW">
         <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only" 
-        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
           <i class="material-icons left">{{ barButton.icon || 'add_circle_outline' }}</i>
           {{ barButton.text }}
         </a>
         <a class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up" 
-        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)">
           <i class="material-icons">{{ barButton.icon || 'add_circle_outline' }}</i>
         </a>
       </ng-container>
       <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.DELETE">
         <a class="waves-effect waves-light btn europair-icon-red-1 cmd-mr-1 hide-on-small-only" 
-        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE)">
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE)">
           <i class="material-icons left">{{ barButton.icon || 'delete' }}</i>
           {{ barButton.text }}
         </a>
         <a class="btn-floating waves-effect waves-light europair-icon-red-1 hide-on-med-and-up" 
-        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE)">
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE)">
           <i class="material-icons">{{ barButton.icon || 'delete' }}</i>
         </a>
       </ng-container>
       <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.DELETE_SELECTED">
-        <a *ngIf="itemsSelectedCount > 0" class="waves-effect waves-light btn europair-icon-red-1 hide-on-small-only" 
-        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)">
+        <a *ngIf="itemsSelectedCount > 0" 
+          class="waves-effect waves-light btn europair-icon-red-1 cmd-mr-1 hide-on-small-only" 
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)">
           <i class="material-icons left">{{ barButton.icon || 'delete' }}</i>
           {{ barButton.text }} ({{ itemsSelectedCount }})
         </a>
         <span *ngIf="itemsSelectedCount > 0" class="hide-on-med-and-up">
           <a class="btn-floating waves-effect waves-light btn europair-icon-red-1" 
-          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)">
+            (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)">
             <i class="material-icons">delete</i>
           </a>
           <span class="delete-info">({{ itemsSelectedCount }})</span>
         </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.EDIT">
+        <a *ngIf="itemsSelectedCount === 1" 
+          class="waves-effect waves-light btn europair-icon-blue cmd-mr-1 hide-on-small-only" 
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.EDIT)">
+          <i class="material-icons left">{{ barButton.icon || 'edit' }}</i>
+          {{ barButton.text }}
+        </a>
+        <a *ngIf="itemsSelectedCount === 1" 
+          class="btn-floating waves-effect waves-light europair-icon-blue hide-on-med-and-up" 
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.EDIT)">
+          <i class="material-icons">{{ barButton.icon || 'edit' }}</i>
+        </a>
       </ng-container>
     </ng-container>
   </ng-container>

@@ -21,7 +21,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   ];
 
   constructor(private route: ActivatedRoute) {
-    this.routeData$ = this.route.data.pipe();
+    this.routeData$ = this.route.data;
   }
 
   ngOnInit(): void {

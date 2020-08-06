@@ -11,9 +11,24 @@ import { AirportCertifiedOperatorsComponent } from './components/airport-certifi
 import { AirportRegionsComponent } from './components/airport-regions/airport-regions.component';
 import { AirportObservationsComponent } from './components/airport-observations/airport-observations.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AirportRunwayDetailComponent } from './components/airport-runways/components/airport-runways-detail/airport-runway-detail.component';
 
 @NgModule({
-  declarations: [AirportDetailComponent, AirportGeneralDataComponent, AirportRunwaysComponent, AirportTerminalsComponent, AirportCertifiedOperatorsComponent, AirportRegionsComponent, AirportObservationsComponent],
-  imports: [CommonModule, AirportDetailRoutingModule, CoreModule, ReactiveFormsModule],
+  declarations: [
+    AirportDetailComponent,
+    AirportGeneralDataComponent,
+    AirportRunwaysComponent,
+    AirportTerminalsComponent,
+    AirportCertifiedOperatorsComponent,
+    AirportRegionsComponent,
+    AirportObservationsComponent,
+    AirportRunwayDetailComponent,
+  ],
+  imports: [
+    CommonModule,
+    AirportDetailRoutingModule,
+    CoreModule,
+    ReactiveFormsModule,
+  ],
 })
 export class AirportDetailModule {}
