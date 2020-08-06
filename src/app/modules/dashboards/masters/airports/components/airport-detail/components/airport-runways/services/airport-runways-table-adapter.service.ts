@@ -22,33 +22,38 @@ export class AirportRunwaysTableAdapterService {
       ),
       new ColumnHeaderModel(
         'name-header',
-        'text',
+        'search',
         'Pista',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('8', '2', '2'),
+        'name'
       ),
       new ColumnHeaderModel(
         'main-runway-header',
         'text',
         'Principal',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('3', '2', '2'),
+        'main'
       ),
       new ColumnHeaderModel(
         'long-header',
         'text',
         'Largo',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('0', '2', '2'),
+        'long.value'
       ),
       new ColumnHeaderModel(
         'width-header',
         'text',
         'Ancho',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('0', '2', '2'),
+        'width.value'
       ),
       new ColumnHeaderModel(
         'observation-header',
         'text',
         'Observaciones',
-        new ColumnHeaderSizeModel('3', '3', '3')
+        new ColumnHeaderSizeModel('0', '3', '3'),
+        'observation'
       ),
     ];
   }

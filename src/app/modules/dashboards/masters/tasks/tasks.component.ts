@@ -67,7 +67,7 @@ export class TasksComponent implements OnInit {
     this.modalService.openModal();
   };
 
-  public toggleSearchBar = () => {
+  private toggleSearchBar = () => {
     this.showMobileSearchBar = !this.showMobileSearchBar;
   };
   private barButtonActions = {

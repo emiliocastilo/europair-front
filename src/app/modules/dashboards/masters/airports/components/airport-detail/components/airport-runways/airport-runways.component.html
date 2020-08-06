@@ -3,12 +3,20 @@
     [barButtons]="runwaysBarButtons" [itemsSelectedCount]="runwaysSelectedCount"
     (executeAction)="onBarButtonClicked($event)">
   </core-button-bar>
+  <core-search-bar 
+    [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up" 
+    (basicSearch)="onMobileBasicSearch($event)"
+    (openAdvancedSearch)="onOpenAdvancedSearch()"
+    (openSortMenu)="onOpenSortMenu()">
+  </core-search-bar>
 </section>
 <core-table 
   [columnsHeader]="runwaysColumnsHeader" 
   [columnsData]="runwaysColumnsData"
   [pagination]="runwaysPagination"
-  (selectedItem)="onRunwaySelected($event)"> 
+  (selectedItem)="onRunwaySelected($event)"
+  (search)="onFilterRunways($event)"
+  (sortByColumn)="onSortRunways($event)"> 
 </core-table>
 
 <app-airport-runway-detail 
@@ -16,6 +24,72 @@
   [runwayForm]="runwayForm"
   (saveRunway)="onSaveRunway($event)">
 </app-airport-runway-detail>
+
+<core-advanced-search>
+  <ng-container body>
+    <form [formGroup]="runwayAdvancedSearchForm">
+      <div class="row">
+        <core-basic-input-text [id]="'advanced-search-name'" [label]="'Nombre'" [clearable]="true" formControlName="name">
+        </core-basic-input-text>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileAdvancedSearch()">
+      <i class="material-icons">search</i>
+      <span class="full-width-btn-text">Buscar</span>
+    </a>
+  </ng-container>
+</core-advanced-search>
+
+<core-sort-menu>
+  <ng-container body>
+    <form [formGroup]="runwaySortForm">
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="name,ASC" formControlName="sort" />
+          <span>Nombre A -> Z</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="name,DESC" formControlName="sort" />
+          <span>Nombre Z -> A</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="length.value,ASC" formControlName="sort" />
+          <span>Longitud 0 -> 1</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="length.value,DESC" formControlName="sort" />
+          <span>Longitud 1 -> 0</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="width.value,ASC" formControlName="sort" />
+          <span>Ancho 0 -> 1</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="width.value,DESC" formControlName="sort" />
+          <span>Ancho 1 -> 0</span>
+        </label>
+      </p>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileSort()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Aceptar</span>
+    </a>
+  </ng-container>
+</core-sort-menu>
 
 <core-modal> 
   <ng-container content>
