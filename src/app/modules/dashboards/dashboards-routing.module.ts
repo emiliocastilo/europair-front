@@ -24,7 +24,6 @@ const routes: Routes = [
       { path: 'fleet', loadChildren: () => import('./masters/fleet/fleet.module').then(m => m.FleetModule) }
     ]
   }
-
 ];
 
 @NgModule({

@@ -1,0 +1,183 @@
+{
+   "content": [
+      {
+         "id": 0,
+         "code": "LJ60",
+         "description": "Learjet 60",
+         "producer": "",
+         "category": {
+            "id": 0,
+            "code": "PRIMERA",
+            "name": "EXECUTIVE"
+         },
+         "subcategory": {
+            "id": 0,
+            "code": "TURBOPROP",
+            "name": "midjet",
+            "order": 20,
+            "category": {
+               "id": 0
+            }
+         },
+         "flightRange": {
+            "value": 2100,
+            "type": "NM"
+         },
+         "cabinInformation": {
+            "high": 0,
+            "wide": 0,
+            "long": 0
+         },
+         "averageSpeedPerDistanceRange": [
+            {
+               "distanceRange": {
+                  "from": {
+                     "value": 0,
+                     "type": "NM"
+                  },
+                  "to": {
+                     "value": 100,
+                     "type": "NM"
+                  }
+               },
+               "averageSpeed": {
+                  "value": 2100,
+                  "type": "NM"
+               }
+            }
+         ],
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo"
+      },
+      {
+         "id": 1,
+         "code": "LJ60XR",
+         "description": "Learjet 60XR",
+         "producer": "",
+         "category": {
+            "id": 0,
+            "code": "PRIMERA",
+            "name": "EXECUTIVE"
+         },
+         "subcategory": {
+            "id": 0,
+            "code": "TURBOPROP",
+            "name": "MIDJET",
+            "order": 20,
+            "category": {
+               "id": 0
+            }
+         },
+         "flightRange": {
+            "value": 2100,
+            "type": "NM"
+         },
+         "cabinInformation": {
+            "high": 0,
+            "wide": 0,
+            "long": 0
+         },
+         "averageSpeedPerDistanceRange": [
+            {
+               "distanceRange": {
+                  "from": {
+                     "value": 0,
+                     "type": "NM"
+                  },
+                  "to": {
+                     "value": 100,
+                     "type": "NM"
+                  }
+               },
+               "averageSpeed": {
+                  "value": 2100,
+                  "type": "NM"
+               }
+            }
+         ],
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo",
+         "modifiedAt": "2020-08-05",
+         "modifiedBy": "Javier González"
+      },
+      {
+         "id": 2,
+         "code": "MD11F",
+         "description": "MD11 Freighter",
+         "producer": "",
+         "category": {
+            "id": 0,
+            "code": "PRIMERA",
+            "name": "FREIGHTER"
+         },
+         "subcategory": {
+            "id": 0,
+            "code": "TURBOPROP",
+            "name": "MEDIUM",
+            "order": 20,
+            "category": {
+               "id": 0
+            }
+         },
+         "flightRange": {
+            "value": "",
+            "type": ""
+         },
+         "cabinInformation": {
+            "high": 0,
+            "wide": 0,
+            "long": 0
+         },
+         "averageSpeedPerDistanceRange": [
+            {
+               "distanceRange": {
+                  "from": {
+                     "value": 0,
+                     "type": "NM"
+                  },
+                  "to": {
+                     "value": 100,
+                     "type": "NM"
+                  }
+               },
+               "averageSpeed": {
+                  "value": 2100,
+                  "type": "NM"
+               }
+            }
+         ],
+         "observations": [],
+         "createdAt": "2020-08-04",
+         "createdBy": "Emilio Castillo",
+         "modifiedAt": "2020-08-05",
+         "modifiedBy": "Javier González"
+      }
+   ],
+   "pageable": {
+      "sort": {
+         "sorted": false,
+         "unsorted": true,
+         "empty": true
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 20,
+      "paged": true,
+      "unpaged": false
+   },
+   "last": true,
+   "totalPages": 1,
+   "totalElements": 2,
+   "number": 0,
+   "size": 20,
+   "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+   },
+   "numberOfElements": 2,
+   "first": true,
+   "empty": false
+}
