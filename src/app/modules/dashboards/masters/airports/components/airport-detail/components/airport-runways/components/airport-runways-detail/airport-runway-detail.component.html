@@ -29,7 +29,7 @@
         </div>
         <div class="row">
           <form formGroupName="length" >
-            <core-basic-input-text [id]="'runway-length-value'" [label]="'Largo'" type="number" class="col s12 m6"
+            <core-basic-input-text [id]="'runway-length-value'" [label]="'Largo'" type="number" class="col s12 m6 col-no-pad-left"
              formControlName="value" [hasErrors]="hasControlAnyError('length.value')">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('length.value')">
@@ -52,7 +52,7 @@
         </div>
         <div class="row">
           <form formGroupName="width">
-            <core-basic-input-text [id]="'runway-width-value'" [label]="'Ancho'" type="number" class="col s12 m6"
+            <core-basic-input-text [id]="'runway-width-value'" [label]="'Ancho'" type="number" class="col s12 m6 col-no-pad-left"
               formControlName="value" [hasErrors]="hasControlAnyError('width.value')">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('width.value')">

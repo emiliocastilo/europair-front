@@ -1,5 +1,9 @@
 @import "variables";
 
+.col-no-pad-left {
+  padding-left: 0 !important;
+}
+
 @media #{$small-and-down} {
   .modal {
     height: 100%;
