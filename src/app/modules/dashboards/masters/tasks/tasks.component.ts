@@ -13,6 +13,7 @@ import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Observable } from 'rxjs';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { AdvancedSearchComponent } from 'src/app/core/components/menus/advanced-search/advanced-search.component';
 import { FormBuilder } from '@angular/forms';
@@ -165,7 +166,7 @@ export class TasksComponent implements OnInit {
 
   public onTaskSelected(selectedIndex: number) {
     this.selectedItem = selectedIndex;
-    this.screenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
+    this.screenColumnsData = this.taskTableAdapterService.getScreenOfTask(
       this.screens,
       this.tasks[selectedIndex],
       false,
@@ -193,7 +194,8 @@ export class TasksComponent implements OnInit {
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
-    this.taskService.saveTask(task).subscribe((task) => {
+    const save: Observable<Task> = task.id ? this.taskService.editTask(task) : this.taskService.addTask(task);
+    save.subscribe((task) => {
       console.log(task);
       this.initializeTaskTable();
       this.initializeScreenTable();
