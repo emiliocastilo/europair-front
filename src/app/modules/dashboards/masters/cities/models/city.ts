@@ -1,7 +1,7 @@
 import { Country } from '../../countries/models/country';
+import { Audit } from '../../../../../core/models/audit/audit';
 
-
-export interface City {
+export interface City extends Audit {
     id: number;
     code: string;
     name: string;
@@ -16,6 +16,14 @@ export const EMPTY_CITY: City = {
     country: {
         id: undefined,
         code: '',
-        name: ''
-    }
+        name: '',
+        createdAt: null,
+        createdBy : null,
+        modifiedAt : null,
+        modifiedBy : null
+    },
+    createdAt: null,
+    createdBy : null,
+    modifiedAt : null,
+    modifiedBy : null
 };

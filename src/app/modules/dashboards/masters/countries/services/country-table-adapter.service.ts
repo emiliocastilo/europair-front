@@ -56,6 +56,9 @@ export class CountryTableAdapterService {
       countryRow.pushColumn(new ColumnDataModel('text', country.code));
       countryRow.pushColumn(new ColumnDataModel('text', country.name));
       countryRow.pushColumn(new ColumnDataModel('actions', actions));
+      countryRow.author = country.modifiedBy != null? country.modifiedBy : country.createdBy;
+      countryRow.timestamp = country.modifiedAt != null? country.modifiedAt : country.createdAt;
+      countryRow.modified = country.modifiedAt != null;
       countryTableData.push(countryRow);
     });
     return countryTableData;

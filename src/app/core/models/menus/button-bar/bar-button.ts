@@ -7,6 +7,9 @@ export interface BarButton {
 export enum BarButtonType {
   NEW = 'new',
   DELETE = 'delete',
+  DELETE_SELECTED = 'delete_selected',
   SEARCH = 'search',
-  CHECK = 'check'
+  CHECK = 'check',
+  EDIT = 'edit',
+  VIEW = 'view',
 }

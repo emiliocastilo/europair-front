@@ -1,0 +1,58 @@
+<ng-container *ngIf="routeData$ | async as routeData">
+  <core-page-bar [pageTitle]="routeData?.title"></core-page-bar>
+  <core-button-bar
+    [barButtons]="barButtons"
+    [itemsSelectedCount]="1"
+    (executeAction)="onBarButtonClicked($event)">
+  </core-button-bar>
+  <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Datos generales</div>
+      <div class="collapsible-body">
+        <app-airport-general-data (generalDataChanged)="onGeneralDataChanged($event)"></app-airport-general-data>
+      </div>
+    </li>
+  </ul>
+  <ng-container *ngIf="routeData?.isAirportDetail">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Pistas</div>
+        <div class="collapsible-body">
+          <app-airport-runways></app-airport-runways>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Terminales</div>
+        <div class="collapsible-body">
+          <app-airport-terminals></app-airport-terminals>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Operadores certificados</div>
+        <div class="collapsible-body">
+          <app-airport-certified-operators></app-airport-certified-operators>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Regiones</div>
+        <div class="collapsible-body">
+          <app-airport-regions></app-airport-regions>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+      <li>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Observaciones</div>
+        <div class="collapsible-body">
+          <app-airport-observations></app-airport-observations>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+</ng-container>

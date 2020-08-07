@@ -11,7 +11,7 @@ import { PaginationModel } from 'src/app/core/models/table/pagination/pagination
 
 @Injectable()
 export class RolesTableAdapterService {
-  constructor() {}
+  constructor() { }
 
   public getRoleColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -97,8 +97,32 @@ export class RolesTableAdapterService {
     return taskTableData;
   }
 
-  public getPagination(){
-    return new PaginationModel(true,1,3,5,10);
+  public getTasksOfRole(
+    tasks: Task[],
+    role: Role,
+    editable: boolean,
+    idPrefix: string
+  ): RowDataModel[] {
+    const taskTableData: Array<RowDataModel> = new Array<RowDataModel>();
+    tasks.forEach((task: Task) => {
+      if (this.hasRoleAssignedTask(role, task)) {
+        const screenRow: RowDataModel = new RowDataModel();
+        screenRow.pushColumn(new ColumnDataModel('text', task.name));
+        screenRow.pushColumn(
+          new ColumnDataModel('switch', {
+            id: idPrefix + task.id,
+            check: true,
+            disable: !editable,
+          })
+        );
+        taskTableData.push(screenRow);
+      }
+    });
+    return taskTableData;
+  }
+
+  public getPagination() {
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 
   private hasRoleAssignedTask(role: Role, task: Task): boolean {

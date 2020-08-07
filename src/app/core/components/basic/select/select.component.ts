@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'core-select',
@@ -16,7 +17,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 export class SelectComponent implements ControlValueAccessor {
   @Input() public id: string;
   @Input() public label: string;
-  @Input() public itemValue: string = 'id';
+  @Input() public itemValue: string;
   @Input() public itemDescription: string = 'name';
   @Input() public placeholder: string;
   @Input() public isDisabled: boolean;
@@ -26,6 +27,11 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() public tag: boolean;
   @Input() public multiple: boolean;
   @Input() public items: Array<any>;
+  @Input() public typeahead: Subject<string>;
+  @Input() public typeToSearchText: string = 'Type to search';
+  @Input() public minTermLength: number = 0;
+  @Input() public notFoundText: string = 'No items found';
+  @Input() public virtualScroll: boolean = false;
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 

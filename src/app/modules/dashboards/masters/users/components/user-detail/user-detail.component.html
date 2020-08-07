@@ -13,7 +13,7 @@
           <core-basic-input-text [id]="'user-username'" [label]="'Usuario'" formControlName="username" [hasErrors]="hasControlAnyError('username')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('username')">
-                <span *ngIf="hasControlSpecificError('userForm', 'required')" class="helper-text" data-error="Debe indicar el nombre de usuario">
+                <span *ngIf="hasControlSpecificError('username', 'required')" class="helper-text" data-error="Debe indicar el nombre de usuario">
                 </span>
               </ng-container>
             </ng-container>

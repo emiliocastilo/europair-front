@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
   public pageTitle = 'Usuarios';
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo usuario' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   public userForm = this.fb.group({

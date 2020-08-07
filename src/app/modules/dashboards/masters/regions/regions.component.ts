@@ -52,7 +52,7 @@ export class RegionsComponent implements OnInit {
   public pageTitle = 'Regiones';
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva región' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   public regionForm = this.fb.group({
@@ -202,7 +202,7 @@ export class RegionsComponent implements OnInit {
     );
     this.regionAirportColumnsData = this.getRegionAirportTableDataForRegion(
       regionSelected,
-      data.airports,
+      data.airports.content,
       editable
     );
     this.regionAirportColumnsPagination = this.initializeClientTablePagination(
@@ -236,6 +236,7 @@ export class RegionsComponent implements OnInit {
     airports: Airport[] = [],
     editable = true
   ): RowDataModel[] {
+    console.log(airports);
     const regionAirports = region ? region.airports : [];
     return this.regionsTableAdapterService.getRegionAirportTableData(
       airports,

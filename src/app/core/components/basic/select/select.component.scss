@@ -29,6 +29,7 @@ $ng-select-value-font-size: 0.9em !default;
       border-bottom-color: $europair-color-red-1;
     }
     ::ng-deep .helper-text[data-error]::after {
+      width: calc(100% - 3rem);
       color: #f44336;
       content: attr(data-error);
       font-size: 12px;
@@ -97,8 +98,25 @@ $ng-select-value-font-size: 0.9em !default;
           padding-right: $ng-select-value-padding-left;
           padding-left: 0;
         }
-        .ng-placeholder {
-          color: $ng-select-placeholder;
+        &.ng-select-single {
+          .ng-select-container {
+            height: $ng-select-height;
+            .ng-value-container {
+              .ng-input {
+                top: 5px;
+                left: 0;
+                padding-left: $ng-select-value-padding-left;
+                padding-right: 50px;
+                @include rtl {
+                  padding-right: $ng-select-value-padding-left;
+                  padding-left: 50px;
+                }
+                input {
+                  margin: 0 !important;
+                }
+              }
+            }
+          }
         }
       }
     }
