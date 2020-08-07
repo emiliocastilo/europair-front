@@ -1,7 +1,9 @@
-<div class="core-basic-select-field select-field" [ngClass]="{ 'invalid': hasErrors }">
+<div class="core-basic-select-field input-field select-field" [ngClass]="{ 'invalid': hasErrors }">
     <label for="{{id}}">{{label}}</label>
     <ng-select [compareWith]="compareItems.compare" id="{id}" [bindLabel]="itemDescription" [bindValue]="itemValue" [searchable]="searchable"
-        [placeholder]="placeholder" [items]="items" [loading]="loading" [(ngModel)]="value"
-        (change)="changeSelect($event)" [addTag]="tag"  [multiple]="multiple"></ng-select>
+        [placeholder]="placeholder" [items]="items" [loading]="loading" [ngModel]="value"
+        [minTermLength]="minTermLength" [typeahead]="typeahead" [typeToSearchText]="typeToSearchText"
+        [notFoundText]="notFoundText" [virtualScroll]="virtualScroll"
+        (ngModelChange)="changeSelect($event)" [addTag]="tag"  [multiple]="multiple"></ng-select>
     <ng-content select="[inputErrors]"></ng-content>
 </div>

@@ -23,6 +23,11 @@
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           {{columnHeader.label}}
+          <core-sort-button *ngIf="columnHeader.filterId"
+            [sortOrder]="sortingByColumn[columnHeader.filterId]"
+            [filterId]="columnHeader.filterId" 
+            (sortByColumn)="onSortByColumn($event)">
+          </core-sort-button>
         </article>
       </ng-container>
     </ng-container>

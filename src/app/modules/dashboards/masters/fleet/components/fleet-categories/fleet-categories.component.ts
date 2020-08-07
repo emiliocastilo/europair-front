@@ -49,11 +49,11 @@ export class FleetCategoriesComponent implements OnInit {
   public subcategoryPagination: PaginationModel;
   public categoriesBarButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva Categoría' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
   public subcategoriesBarButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva Subcategoría' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
   public categoryDetailTitle: string;
   public categorySelected: FleetCategory = EMPTY_FLEET_CATEGORY;
