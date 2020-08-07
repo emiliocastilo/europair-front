@@ -31,6 +31,13 @@ export class AircraftDetailComponent implements OnInit {
   public aircraftBaseColumnsPagination: PaginationModel;
 
   @Input()
+  public aircraftObservationsColumnsHeader: ColumnHeaderModel[] = [];
+  @Input()
+  public aircraftObservationsColumnsData: RowDataModel[] = [];
+  @Input()
+  public aircraftObservationsColumnsPagination: PaginationModel;
+
+  @Input()
   public aircraftForm: FormGroup;
 
   @Input()

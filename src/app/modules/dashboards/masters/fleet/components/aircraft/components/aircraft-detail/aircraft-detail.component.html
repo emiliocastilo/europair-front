@@ -7,7 +7,7 @@
         Cancelar
       </a>
     </section>
-    <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+    <section class="aircraft-detail-form cmd-m-2">
       <!-- operator: ['', Validators.required],
       quantity: ['', Validators.required],
       aircraftType: ['', Validators.required],
@@ -181,25 +181,26 @@
         </div>
       </form>
     </section>
-    <ul class="collapsible expandable" appMatCollapsible>
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
       <li>
         <div class="collapsible-header">
           <i class="material-icons">details</i>Bases
         </div>
         <div class="collapsible-body">
           <span>
-            <section class="user-role-detail-table">
+            <section class="aircraft-role-detail-table">
               <core-table
                 [columnsHeader]="aircraftBaseColumnsHeader"
                 [columnsData]="aircraftBaseColumnsData"
                 [pagination]="aircraftBaseColumnsPagination"
               ></core-table>
-              <!-- (switchChangesStatus)="" -->
             </section>
           </span>
         </div>
       </li>
-      <!-- <li>
+    </ul>
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
+      <li>
         <div class="collapsible-header">
           <i class="material-icons">details</i>Observaciones
         </div>
@@ -207,15 +208,14 @@
           <span>
             <section class="user-task-detail-table">
               <core-table
-                [columnsHeader]="userTaskColumnsHeader"
-                [columnsData]="userTaskColumnsData"
-                [pagination]="userTaskColumnsPagination"
-                (switchChangesStatus)="userTaskAssignedChanged($event)"
+                [columnsHeader]="aircraftObservationsColumnsHeader"
+                [columnsData]="aircraftObservationsColumnsData"
+                [pagination]="aircraftObservationsColumnsPagination"
               ></core-table>
             </section>
           </span>
         </div>
-      </li> -->
+      </li>
     </ul>
     <pre>
       {{ aircraftDetail | json }}

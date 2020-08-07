@@ -56,6 +56,10 @@ export class AircraftComponent implements OnInit {
   public aircraftBaseColumnsData: RowDataModel[] = [];
   public aircraftBaseColumnsPagination: PaginationModel;
 
+  public aircraftObservationsColumnsHeader: ColumnHeaderModel[] = [];
+  public aircraftObservationsColumnsData: RowDataModel[] = [];
+  public aircraftObservationsColumnsPagination: PaginationModel;
+
   private barButtonActions = { new: this.newAircraft };
   private aircraftTableActions = {
     view: this.viewAircraft,
@@ -92,6 +96,7 @@ export class AircraftComponent implements OnInit {
   private initializeTablesColumnsHeader() {
     this.aircraftColumnsHeader = this.aircraftTableAdapter.getAircraftColumnsHeader();
     this.aircraftBaseColumnsHeader = this.aircraftTableAdapter.getAircraftBaseColumnsHeader();
+    this.aircraftObservationsColumnsHeader = this.aircraftTableAdapter.getAircraftObservationsColumnsHeader();
   }
 
   private initializeAircraftTable() {
@@ -131,6 +136,15 @@ export class AircraftComponent implements OnInit {
       this.aircraftBaseColumnsData
     );
 
+    this.aircraftObservationsColumnsData = this.getAircraftObservationsTableDataForAircraft(
+      aircraftSelected,
+      [], // data.observations.content,
+      editable
+    );
+    this.aircraftObservationsColumnsPagination = this.initializeClientTablePagination(
+      this.aircraftObservationsColumnsData
+    );
+
     this.aircraftDetailTitle = aircraftDetailTitle;
     this.initializeModal(this.aircraftDetailModal);
     this.modalService.openModal();
@@ -145,6 +159,20 @@ export class AircraftComponent implements OnInit {
     return this.aircraftTableAdapter.getAircraftBaseTableData(
       bases,
       aircraftBases,
+      'assigned-base-',
+      editable
+    );
+  }
+
+  private getAircraftObservationsTableDataForAircraft(
+    aircraft: Aircraft,
+    observations: any[] = [],
+    editable = true
+  ): RowDataModel[] {
+    const aircraftObservations = aircraft ? aircraft.observations : [];
+    return this.aircraftTableAdapter.getAircraftObservationsTableData(
+      observations,
+      aircraftObservations,
       'assigned-base-',
       editable
     );

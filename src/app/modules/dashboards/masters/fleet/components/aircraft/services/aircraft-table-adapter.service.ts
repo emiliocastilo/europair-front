@@ -90,6 +90,23 @@ export class AircraftTableAdapterService {
     ];
   }
 
+  public getAircraftObservationsColumnsHeader(): ColumnHeaderModel[] {
+    return [
+      new ColumnHeaderModel(
+        'selector-header',
+        'text',
+        '',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'observation-header',
+        'text',
+        'Observaciones',
+        new ColumnHeaderSizeModel('11', '11', '11')
+      ),
+    ];
+  }
+
   public getAircraftTableDataFromAircraft(
     aircraft: Aircraft[]
   ): RowDataModel[] {
@@ -137,6 +154,24 @@ export class AircraftTableAdapterService {
       );
       baseRow.pushColumn(new ColumnDataModel('text', base.airport));
       baseRow.pushColumn(new ColumnDataModel('text', base.type));
+      baseTableData.push(baseRow);
+    });
+    return baseTableData;
+  }
+
+  public getAircraftObservationsTableData(
+    observations: any[],
+    aircraftObservations: any[],
+    idPrefix: string,
+    editable = true
+  ): RowDataModel[] {
+    const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
+    observations.forEach((observation: any) => {
+      const baseRow: RowDataModel = new RowDataModel();
+      baseRow.pushColumn(
+        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
+      );
+      baseRow.pushColumn(new ColumnDataModel('text', observation.description));
       baseTableData.push(baseRow);
     });
     return baseTableData;
