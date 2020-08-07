@@ -11,7 +11,11 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { AircraftDetailComponent } from './components/aircraft-detail/aircraft-detail.component';
-import { Aircraft, EMPTY_AIRCRAFT } from './models/Aircraft.model';
+import {
+  Aircraft,
+  AircraftBase,
+  EMPTY_AIRCRAFT,
+} from './models/Aircraft.model';
 import { AircraftTableAdapterService } from './services/aircraft-table-adapter.service';
 import { AircraftService } from './services/aircraft.service';
 
@@ -48,11 +52,9 @@ export class AircraftComponent implements OnInit {
   public aircraftDetailTitle: string;
   public aircraftList: Aircraft[] = [];
 
-  // public aircraftRoleColumnsHeader: ColumnHeaderModel[] = [];
-  // public aircraftRoleColumnsData: RowDataModel[] = [];
-
-  // public aircraftTaskColumnsHeader: ColumnHeaderModel[] = [];
-  // public aircraftTaskColumnsData: RowDataModel[] = [];
+  public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
+  public aircraftBaseColumnsData: RowDataModel[] = [];
+  public aircraftBaseColumnsPagination: PaginationModel;
 
   private barButtonActions = { new: this.newAircraft };
   private aircraftTableActions = {
@@ -62,11 +64,17 @@ export class AircraftComponent implements OnInit {
   };
 
   public aircraftForm = this.fb.group({
-    // iata: ['', Validators.required],
-    // icao: ['', Validators.required],
-    // name: ['', Validators.required],
-    // aocRevision: ['', Validators.required],
-    // aocNumber: ['', Validators.required],
+    operator: ['', Validators.required],
+    quantity: ['', Validators.required],
+    aircraftType: ['', Validators.required],
+    insuranceEndDate: ['', Validators.required],
+    productionYear: ['', Validators.required],
+    plateNumber: ['', Validators.required],
+    ambulance: ['', Validators.required],
+    bases: ['', Validators.required],
+    daytimeConfiguration: ['', Validators.required],
+    nighttimeConfiguration: ['', Validators.required],
+    observations: ['', Validators.required],
   });
 
   constructor(
@@ -83,6 +91,7 @@ export class AircraftComponent implements OnInit {
 
   private initializeTablesColumnsHeader() {
     this.aircraftColumnsHeader = this.aircraftTableAdapter.getAircraftColumnsHeader();
+    this.aircraftBaseColumnsHeader = this.aircraftTableAdapter.getAircraftBaseColumnsHeader();
   }
 
   private initializeAircraftTable() {
@@ -113,25 +122,32 @@ export class AircraftComponent implements OnInit {
     aircraftSelected: Aircraft,
     editable = true
   ) {
-    // this.userRoleColumnsData = this.getUserRoleTableDataForUser(
-    //   userSelected,
-    //   data.roles.content,
-    //   editable
-    // );
-    // this.userRoleColumnsPagination = this.initializeClientTablePagination(
-    //   this.userRoleColumnsData
-    // );
-    // this.userTaskColumnsData = this.getUserTaskTableDataForUser(
-    //   userSelected,
-    //   data.tasks.content,
-    //   editable
-    // );
-    // this.userTaskColumnsPagination = this.initializeClientTablePagination(
-    //   this.userTaskColumnsData
-    // );
+    this.aircraftBaseColumnsData = this.getAircraftBaseTableDataForAircraft(
+      aircraftSelected,
+      [], // data.bases.content,
+      editable
+    );
+    this.aircraftBaseColumnsPagination = this.initializeClientTablePagination(
+      this.aircraftBaseColumnsData
+    );
+
     this.aircraftDetailTitle = aircraftDetailTitle;
     this.initializeModal(this.aircraftDetailModal);
     this.modalService.openModal();
+  }
+
+  private getAircraftBaseTableDataForAircraft(
+    aircraft: Aircraft,
+    bases: AircraftBase[] = [],
+    editable = true
+  ): RowDataModel[] {
+    const aircraftBases = aircraft ? aircraft.bases : [];
+    return this.aircraftTableAdapter.getAircraftBaseTableData(
+      bases,
+      aircraftBases,
+      'assigned-base-',
+      editable
+    );
   }
 
   private viewAircraft(selectedItem: number) {
@@ -152,11 +168,17 @@ export class AircraftComponent implements OnInit {
 
   private updateAircraftForm(selectedAircraft: Aircraft) {
     this.aircraftForm.setValue({
-      // iata: selectedAircraft.iata,
-      // icao: selectedAircraft.icao,
-      // name: selectedAircraft.name,
-      // aocRevision: selectedAircraft.aocRevision,
-      // aocNumber: selectedAircraft.aocNumber,
+      operator: selectedAircraft.operator,
+      quantity: selectedAircraft.quantity,
+      aircraftType: selectedAircraft.aircraftType,
+      insuranceEndDate: selectedAircraft.insuranceEndDate,
+      productionYear: selectedAircraft.productionYear,
+      plateNumber: selectedAircraft.plateNumber,
+      ambulance: selectedAircraft.ambulance,
+      bases: selectedAircraft.bases,
+      daytimeConfiguration: selectedAircraft.daytimeConfiguration,
+      nighttimeConfiguration: selectedAircraft.nighttimeConfiguration,
+      observations: selectedAircraft.observations,
     });
   }
 

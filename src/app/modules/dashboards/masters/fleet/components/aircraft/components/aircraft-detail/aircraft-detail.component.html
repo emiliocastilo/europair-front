@@ -8,20 +8,145 @@
       </a>
     </section>
     <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-      <!-- <form [formGroup]="aircraftForm">
+      <!-- operator: ['', Validators.required],
+      quantity: ['', Validators.required],
+      aircraftType: ['', Validators.required],
+      insuranceEndDate: ['', Validators.required],
+      productionYear: ['', Validators.required],
+      plateNumber: ['', Validators.required],
+      ambulance: ['', Validators.required],
+      bases: ['', Validators.required],
+      daytimeConfiguration: ['', Validators.required],
+      nighttimeConfiguration: ['', Validators.required],
+      observations: ['', Validators.required], -->
+      <form [formGroup]="aircraftForm">
         <div class="row">
-          <core-basic-input-text
-            [id]="'operator-iata'"
-            [label]="'IATA'"
-            formControlName="iata"
-            [hasErrors]="hasControlAnyError('iata')"
+          <core-select
+            [items]="operators"
+            [itemValue]="selectItemValue"
+            [itemDescription]="selectItemDescription"
+            [hasErrors]="hasControlAnyError('operator')"
+            [id]="selectId"
+            [label]="selectLabel"
+            [searchable]="true"
+            [placeholder]="selectPlaceholder"
+            [formControl]="this.aircraftForm.get('operator')"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('iata')">
+              <ng-container *ngIf="hasControlAnyError('operator')">
                 <span
-                  *ngIf="hasControlSpecificError('iata', 'required')"
+                  *ngIf="this.aircraftForm.get('operator').errors.required"
                   class="helper-text"
-                  data-error="Debe indicar el	Código IATA"
+                  data-error="Debe indicar un Operador"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-quantity'"
+            [label]="'Cantidad'"
+            formControlName="quantity"
+            [hasErrors]="hasControlAnyError('quantity')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('quantity')">
+                <span
+                  *ngIf="hasControlSpecificError('quantity', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una cantidad"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-select
+            [items]="aircraftTypes"
+            [itemValue]="selectItemValue"
+            [itemDescription]="selectItemDescription"
+            [hasErrors]="hasControlAnyError('aircraftType')"
+            [id]="selectId"
+            [label]="selectLabel"
+            [searchable]="true"
+            [placeholder]="selectPlaceholder"
+            [formControl]="this.aircraftForm.get('aircraftType')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aircraftType')">
+                <span
+                  *ngIf="this.aircraftForm.get('aircraftType').errors.required"
+                  class="helper-text"
+                  data-error="Debe indicar un Tipo"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-insuranceEndDate'"
+            [label]="'Caducidad del seguro'"
+            formControlName="insuranceEndDate"
+            [hasErrors]="hasControlAnyError('insuranceEndDate')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('insuranceEndDate')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('insuranceEndDate', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una fecha"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-productionYear'"
+            [label]="'Año de fabricación'"
+            formControlName="productionYear"
+            [hasErrors]="hasControlAnyError('productionYear')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('productionYear')">
+                <span
+                  *ngIf="hasControlSpecificError('productionYear', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el año de fabricación"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-daytimeConfiguration'"
+            [label]="'Configuración de día'"
+            formControlName="daytimeConfiguration"
+            [hasErrors]="hasControlAnyError('daytimeConfiguration')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('daytimeConfiguration')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('daytimeConfiguration', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una configuración"
                 >
                 </span>
               </ng-container>
@@ -30,103 +155,53 @@
         </div>
         <div class="row">
           <core-basic-input-text
-            [id]="'operator-icao'"
-            [label]="'ICAO'"
-            formControlName="icao"
-            [hasErrors]="hasControlAnyError('icao')"
+            [id]="'aircraft-nighttimeConfiguration'"
+            [label]="'Configuración de noche'"
+            formControlName="nighttimeConfiguration"
+            [hasErrors]="hasControlAnyError('nighttimeConfiguration')"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('icao')">
+              <ng-container
+                *ngIf="hasControlAnyError('nighttimeConfiguration')"
+              >
                 <span
-                  *ngIf="hasControlSpecificError('icao', 'required')"
+                  *ngIf="
+                    hasControlSpecificError(
+                      'nighttimeConfiguration',
+                      'required'
+                    )
+                  "
                   class="helper-text"
-                  data-error="Debe indicar el código ICAO"
+                  data-error="Debe indicar una configuración"
                 >
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
-        <div class="row">
-          <core-basic-input-text
-            [id]="'operator-name'"
-            [label]="'Nombre'"
-            formControlName="name"
-            [hasErrors]="hasControlAnyError('name')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('name')">
-                <span
-                  *ngIf="hasControlSpecificError('name', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar el nombre del operador"
-                >
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-        <div class="row">
-          <core-basic-input-text
-            [id]="'operator-aocRevision'"
-            [label]="'Fecha revisión AOC'"
-            formControlName="aocRevision"
-            [hasErrors]="hasControlAnyError('aocRevision')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('aocRevision')">
-                <span
-                  *ngIf="hasControlSpecificError('aocRevision', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar una fecha de revisión AOC"
-                >
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-        <div class="row">
-          <core-basic-input-text
-            [id]="'operator-aocNumber'"
-            [label]="'Número'"
-            formControlName="aocNumber"
-            [hasErrors]="hasControlAnyError('aocNumber')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('aocNumber')">
-                <span
-                  *ngIf="hasControlSpecificError('aocNumber', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar un número de AOC"
-                >
-                </span>
-              </ng-container>
-            </ng-container>
-          </core-basic-input-text>
-        </div>
-      </form> -->
+      </form>
     </section>
-    <!-- <ul class="collapsible expandable" appMatCollapsible>
+    <ul class="collapsible expandable" appMatCollapsible>
       <li>
         <div class="collapsible-header">
-          <i class="material-icons">details</i>Roles
+          <i class="material-icons">details</i>Bases
         </div>
         <div class="collapsible-body">
           <span>
             <section class="user-role-detail-table">
               <core-table
-                [columnsHeader]="userRoleColumnsHeader"
-                [columnsData]="userRoleColumnsData"
-                [pagination]="userRoleColumnsPagination"
-                (switchChangesStatus)="userRoleAssignedChanged($event)"
+                [columnsHeader]="aircraftBaseColumnsHeader"
+                [columnsData]="aircraftBaseColumnsData"
+                [pagination]="aircraftBaseColumnsPagination"
               ></core-table>
+              <!-- (switchChangesStatus)="" -->
             </section>
           </span>
         </div>
       </li>
-      <li>
+      <!-- <li>
         <div class="collapsible-header">
-          <i class="material-icons">details</i>Tareas
+          <i class="material-icons">details</i>Observaciones
         </div>
         <div class="collapsible-body">
           <span>
@@ -140,8 +215,8 @@
             </section>
           </span>
         </div>
-      </li>
-    </ul> -->
+      </li> -->
+    </ul>
     <pre>
       {{ aircraftDetail | json }}
     </pre>

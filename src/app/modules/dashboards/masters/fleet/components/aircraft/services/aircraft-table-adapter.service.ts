@@ -5,7 +5,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Aircraft } from '../models/Aircraft.model';
+import { Aircraft, AircraftBase } from '../models/Aircraft.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
 
 @Injectable({
@@ -67,25 +67,27 @@ export class AircraftTableAdapterService {
     ];
   }
 
-  // public getScreenColumnsHeader(): ColumnHeaderModel[] {
-  //   return [
-  //     new ColumnHeaderModel(
-  //       'screen-header',
-  //       'text',
-  //       'Pantalla',
-  //       new ColumnHeaderSizeModel('10', '8', '8')
-  //     ),
-  //     new ColumnHeaderModel(
-  //       'assigned-header',
-  //       'text',
-  //       'Asignado',
-  //       new ColumnHeaderSizeModel('2', '4', '4')
-  //     ),
-  //   ];
-  // }
-
-  public getPagination() {
-    return new PaginationModel(true, 1, 3, 5, 10);
+  public getAircraftBaseColumnsHeader(): ColumnHeaderModel[] {
+    return [
+      new ColumnHeaderModel(
+        'selector-header',
+        'text',
+        '',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'airport-header',
+        'text',
+        'Aeropuerto',
+        new ColumnHeaderSizeModel('9', '7', '7')
+      ),
+      new ColumnHeaderModel(
+        'type-header',
+        'text',
+        'Tipo',
+        new ColumnHeaderSizeModel('2', '4', '4')
+      ),
+    ];
   }
 
   public getAircraftTableDataFromAircraft(
@@ -119,5 +121,28 @@ export class AircraftTableAdapterService {
       aircraftTableData.push(aircraftRow);
     });
     return aircraftTableData;
+  }
+
+  public getAircraftBaseTableData(
+    bases: AircraftBase[],
+    aircraftBases: AircraftBase[],
+    idPrefix: string,
+    editable = true
+  ): RowDataModel[] {
+    const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
+    bases.forEach((base: AircraftBase) => {
+      const baseRow: RowDataModel = new RowDataModel();
+      baseRow.pushColumn(
+        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
+      );
+      baseRow.pushColumn(new ColumnDataModel('text', base.airport));
+      baseRow.pushColumn(new ColumnDataModel('text', base.type));
+      baseTableData.push(baseRow);
+    });
+    return baseTableData;
+  }
+
+  public getPagination() {
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 }

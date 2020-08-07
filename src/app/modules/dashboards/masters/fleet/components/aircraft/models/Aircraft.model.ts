@@ -5,7 +5,7 @@ export interface Aircraft extends Audit {
   id: number;
   operator: any;
   aircraftType: any;
-  bases: Base[];
+  bases: AircraftBase[];
   plateNumber: string;
   productionYear: number;
   quantity: number;
@@ -38,7 +38,7 @@ export interface Load {
   loadFree: any;
 }
 
-export interface Base {
+export interface AircraftBase {
   id: number;
   airport: Airport;
   mainBase: boolean;

@@ -11,26 +11,24 @@ import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
   styleUrls: ['./aircraft-detail.component.scss'],
 })
 export class AircraftDetailComponent implements OnInit {
+  public readonly selectItemValue: string = 'id';
+  public readonly selectItemDescription: string = 'name';
+  public readonly selectId: string = 'country';
+  public readonly selectLabel: string = 'País';
+  public readonly selectPlaceholder: string = 'Selecciona un operador';
+
+  public operators: any[] = [];
+  public aircraftTypes: any[] = [];
+
   @Input()
   public title: string;
 
   @Input()
-  public userTaskColumnsHeader: ColumnHeaderModel[] = [];
-
+  public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
   @Input()
-  public userTaskColumnsData: RowDataModel[] = [];
-
+  public aircraftBaseColumnsData: RowDataModel[] = [];
   @Input()
-  public userTaskColumnsPagination: PaginationModel;
-
-  @Input()
-  public userRoleColumnsHeader: ColumnHeaderModel[] = [];
-
-  @Input()
-  public userRoleColumnsData: RowDataModel[] = [];
-
-  @Input()
-  public userRoleColumnsPagination: PaginationModel;
+  public aircraftBaseColumnsPagination: PaginationModel;
 
   @Input()
   public aircraftForm: FormGroup;
