@@ -9,13 +9,11 @@ import { Aircraft } from '../models/Aircraft.model';
   providedIn: 'root',
 })
 export class AircraftService {
-  private readonly url = `${environment.apiUrl}aircraft`;
+  private readonly url = `${environment.apiUrl}aircrafts`;
   constructor(private http: HttpClient) {}
 
   public getAircraft(): Observable<Page<Aircraft>> {
-    return environment.mock
-      ? this.http.get<Page<Aircraft>>('/assets/mocks/aircraft.json')
-      : this.http.get<Page<Aircraft>>(this.url);
+    return this.http.get<Page<Aircraft>>(this.url);
   }
 
   public saveAircraft(aircraft: Aircraft): Observable<Aircraft> {

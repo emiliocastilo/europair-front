@@ -42,7 +42,7 @@ export class AircraftComponent implements OnInit {
 
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva aeronave' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   public aircraftColumnsHeader: ColumnHeaderModel[] = [];
@@ -68,17 +68,19 @@ export class AircraftComponent implements OnInit {
   };
 
   public aircraftForm = this.fb.group({
-    operator: ['', Validators.required],
+    operator: [''],
     quantity: ['', Validators.required],
-    aircraftType: ['', Validators.required],
+    aircraftType: [''],
     insuranceEndDate: ['', Validators.required],
     productionYear: ['', Validators.required],
     plateNumber: ['', Validators.required],
-    ambulance: ['', Validators.required],
-    bases: ['', Validators.required],
+    ambulance: [''],
+    bases: [''],
     daytimeConfiguration: ['', Validators.required],
     nighttimeConfiguration: ['', Validators.required],
-    observations: ['', Validators.required],
+    insideUpgradeDate: ['', Validators.required],
+    outsideUpgradeDate: ['', Validators.required],
+    observations: [''],
   });
 
   constructor(
@@ -203,10 +205,12 @@ export class AircraftComponent implements OnInit {
       productionYear: selectedAircraft.productionYear,
       plateNumber: selectedAircraft.plateNumber,
       ambulance: selectedAircraft.ambulance,
-      bases: selectedAircraft.bases,
+      bases: selectedAircraft.bases || [],
       daytimeConfiguration: selectedAircraft.daytimeConfiguration,
       nighttimeConfiguration: selectedAircraft.nighttimeConfiguration,
-      observations: selectedAircraft.observations,
+      observations: selectedAircraft.observations || [],
+      insideUpgradeDate: selectedAircraft.insideUpgradeDate,
+      outsideUpgradeDate: selectedAircraft.outsideUpgradeDate,
     });
   }
 
@@ -265,9 +269,17 @@ export class AircraftComponent implements OnInit {
       .subscribe((_) => this.initializeAircraftTable());
   }
 
-  public onSaveAircraft(newUAircraft: Aircraft) {
+  public onSaveAircraft(newAircraft: Aircraft) {
+    // TODO: utilizar datepickers para las propiedades que son fechas
+    newAircraft.insuranceEndDate = new Date(newAircraft.insuranceEndDate);
+    newAircraft.insideUpgradeDate = new Date(newAircraft.insideUpgradeDate);
+    newAircraft.outsideUpgradeDate = new Date(newAircraft.outsideUpgradeDate);
+    // TODO: enlazar con operadores y tipos
+    newAircraft.operator = 10;
+    newAircraft.aircraftType = 10;
+
     this.aircraftService
-      .saveAircraft(newUAircraft)
+      .saveAircraft(newAircraft)
       .subscribe(() => this.initializeAircraftTable());
   }
 
