@@ -1,5 +1,5 @@
 <div class="core-basic-select-field input-field select-field" [ngClass]="{ 'invalid': hasErrors }">
-    <!-- <label [for]="id">{{label}}</label> -->
+    <label [for]="id" class="active">{{label}}</label>
     <ng-select [compareWith]="compareItems.compare" id="{{id}}" [bindLabel]="itemDescription" [bindValue]="itemValue" [searchable]="searchable"
         [placeholder]="placeholder" [items]="items" [loading]="loading" [ngModel]="value"
         [minTermLength]="minTermLength" [typeahead]="typeahead" [typeToSearchText]="typeToSearchText"
