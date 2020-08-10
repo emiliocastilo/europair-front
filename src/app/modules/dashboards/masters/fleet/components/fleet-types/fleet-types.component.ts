@@ -43,7 +43,7 @@ export class FleetTypesComponent implements OnInit {
 
   private showDisabled: boolean;
   private types: Array<FleetType>;
-  private readonly barButtonTypeActions = { 
+  private readonly barButtonTypeActions = {
     new: this.newType.bind(this),
     view: this.viewFleet.bind(this)
   };
@@ -73,7 +73,7 @@ export class FleetTypesComponent implements OnInit {
       this.types = data.content;
       this.typesColumnsData = this.fleetTypesTableAdapterService.getFleetTypes(this.types);
       this.typePagination = this.fleetTypesTableAdapterService.getPagination();
-      this.typePagination.lastPage = Math.floor(this.types.length / this.typePagination.elememtsPerpage);
+      this.typePagination.lastPage = Math.floor(this.types.length / this.typePagination.elementsPerPage);
     });
   }
 

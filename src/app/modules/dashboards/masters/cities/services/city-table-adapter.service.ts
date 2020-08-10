@@ -76,7 +76,7 @@ export class CityTableAdapterService {
     const initPage: number = 1;
     const visiblePages: number = 4;
     const lastPage: number = 5;
-    const elememtsPerpage: number = 20;
-    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elememtsPerpage);
+    const elementsPerPage: number = 20;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
 }
