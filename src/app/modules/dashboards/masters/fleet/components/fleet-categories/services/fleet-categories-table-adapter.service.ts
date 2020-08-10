@@ -141,7 +141,7 @@ export class FleetCategoriesTableAdapterService {
     const initPage: number = 1;
     const visiblePages: number = 4;
     const lastPage: number = 5;
-    const elementsPerPage: number = 8;
-    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
+    const elememtsPerpage: number = 6;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elememtsPerpage);
   }
 }
