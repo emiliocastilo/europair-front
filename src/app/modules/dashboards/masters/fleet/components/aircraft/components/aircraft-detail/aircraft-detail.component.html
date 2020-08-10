@@ -148,7 +148,8 @@
             (selectedValueEvent)="onChangeCheck($event)"
             [id]="'check-button-bar'"
             [label]="'Ambulancia'"
-            [value]="this.aircraftForm.get('ambulance').value"
+            [disabled]="aircraftForm.disabled"
+            [value]="aircraftForm.get('ambulance').value"
             class="check"
           ></core-checkbox>
         </div>
@@ -197,7 +198,7 @@
           </core-basic-input-text>
         </div>
 
-        <ul class="collapsible expandable" appMatCollapsible>
+        <ul class="collapsible expandable cmd-mb-2" appMatCollapsible>
           <li>
             <div class="collapsible-header">
               <i class="material-icons">keyboard_arrow_down</i>Bases
