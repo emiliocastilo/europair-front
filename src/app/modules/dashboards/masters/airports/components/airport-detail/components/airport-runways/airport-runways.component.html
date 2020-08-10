@@ -5,6 +5,7 @@
   </core-button-bar>
   <core-search-bar 
     [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up" 
+    [inputSearchId]="'runways-search-input'"
     (basicSearch)="onMobileBasicSearch($event)"
     (openAdvancedSearch)="onOpenAdvancedSearch()"
     (openSortMenu)="onOpenSortMenu()">
@@ -29,7 +30,7 @@
   <ng-container body>
     <form [formGroup]="runwayAdvancedSearchForm">
       <div class="row">
-        <core-basic-input-text [id]="'advanced-search-name'" [label]="'Nombre'" [clearable]="true" formControlName="name">
+        <core-basic-input-text [id]="'advanced-search-runway-name'" [label]="'Nombre'" [clearable]="true" formControlName="name">
         </core-basic-input-text>
       </div>
     </form>

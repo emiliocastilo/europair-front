@@ -50,7 +50,7 @@ export class AirportRunwaysTableAdapterService {
       ),
       new ColumnHeaderModel(
         'observation-header',
-        'text',
+        'search',
         'Observaciones',
         new ColumnHeaderSizeModel('0', '3', '3'),
         'observation'

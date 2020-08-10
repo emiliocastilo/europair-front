@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import {
   InputTextIcon,
   InputTextIconPositions,
@@ -10,6 +10,8 @@ import {
   styleUrls: ['./search-bar.component.scss'],
 })
 export class SearchBarComponent implements OnInit {
+  @Input()
+  public inputSearchId = 'basic-search-input';
   @Output()
   public basicSearch: EventEmitter<string> = new EventEmitter();
   @Output()

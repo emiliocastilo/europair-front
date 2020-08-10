@@ -22,7 +22,6 @@ import { PaginationModel } from 'src/app/core/models/table/pagination/pagination
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { AirportRunwayDetailComponent } from './components/airport-runways-detail/airport-runway-detail.component';
-import { MeasureType } from 'src/app/core/models/base/measure';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
@@ -59,7 +58,7 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
       type: null,
     },
     observation: '',
-  };
+  } as const;
 
   private unsubscriber$: Subject<void> = new Subject();
   public airportId: string;
@@ -68,16 +67,16 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
   public runwaysPagination: PaginationModel;
   public runwaySelected: Track;
   private runways: Track[];
-  public runwaysSelectedCount: number = 0;
   public runwayDetailTitle: string;
+
+  public showMobileSearchBar: boolean = false;
+  public runwaysSelectedCount: number = 0;
   public runwaysBarButtons: BarButton[] = [
     { text: 'Nueva', type: BarButtonType.NEW },
     { text: 'Filtrar', type: BarButtonType.SEARCH },
     { text: 'Editar', type: BarButtonType.EDIT },
     { text: 'Eliminar', type: BarButtonType.DELETE_SELECTED },
   ];
-
-  public showMobileSearchBar: boolean = false;
 
   public runwayAdvancedSearchForm = this.fb.group({
     name: [''],
@@ -209,38 +208,38 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
     filter[runwayFilter.identifier] = runwayFilter.searchTerm;
     console.log('FILTER BY', filter);
     this.runwayAdvancedSearchForm.patchValue(filter);
-    this.filterTaskTable();
+    this.filterRunwayTable();
   }
 
   public onMobileBasicSearch(searchTerm: string) {
     this.runwayAdvancedSearchForm.patchValue({ name: searchTerm });
     console.log('FILTER MOBILE BY', this.runwayAdvancedSearchForm.value);
-    this.filterTaskTable();
+    this.filterRunwayTable();
   }
 
   public onMobileAdvancedSearch() {
     console.log('ADVANCED FILTER BY', this.runwayAdvancedSearchForm.value);
-    this.filterTaskTable();
+    this.filterRunwayTable();
   }
 
   public onSortRunways(sortByColumn: SortByColumn) {
     const sort = sortByColumn.column + ',' + sortByColumn.order;
     this.runwaySortForm.patchValue({ sort: sort });
     console.log('DESKTOP SORTING', this.runwaySortForm.value);
-    this.filterTaskTable();
+    this.filterRunwayTable();
   }
 
   public onMobileSort() {
     console.log('MOBILE SORTING', this.runwaySortForm.value);
-    this.filterTaskTable();
+    this.filterRunwayTable();
   }
 
-  private filterTaskTable() {
+  private filterRunwayTable() {
     const filter = {
       ...this.runwayAdvancedSearchForm.value,
       ...this.runwaySortForm.value,
     };
-    // this.initializeTaskTable(filter);
+    // this.refreshRunwaysTableData(this.aiportId, filter);
   }
 
   public onOpenAdvancedSearch() {
