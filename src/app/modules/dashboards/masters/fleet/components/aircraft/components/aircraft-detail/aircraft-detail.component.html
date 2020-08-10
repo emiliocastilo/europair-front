@@ -1,24 +1,13 @@
 <div class="modal">
   <div class="modal-content">
     <section class="modal-header">
-      <h4>{{ title }} {{ _aircraftDetail?.id }}</h4>
+      <h4>{{ title }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
         Cancelar
       </a>
     </section>
     <section class="aircraft-detail-form cmd-m-2">
-      <!-- operator: ['', Validators.required],
-      quantity: ['', Validators.required],
-      aircraftType: ['', Validators.required],
-      insuranceEndDate: ['', Validators.required],
-      productionYear: ['', Validators.required],
-      plateNumber: ['', Validators.required],
-      ambulance: ['', Validators.required],
-      bases: ['', Validators.required],
-      daytimeConfiguration: ['', Validators.required],
-      nighttimeConfiguration: ['', Validators.required],
-      observations: ['', Validators.required], -->
       <form [formGroup]="aircraftForm">
         <div class="row">
           <core-select
@@ -26,10 +15,10 @@
             [itemValue]="selectItemValue"
             [itemDescription]="selectItemDescription"
             [hasErrors]="hasControlAnyError('operator')"
-            [id]="selectId"
-            [label]="selectLabel"
+            [id]="'id'"
+            [label]="'Operador'"
             [searchable]="true"
-            [placeholder]="selectPlaceholder"
+            [placeholder]="'Selecciona a un Operador'"
             [formControl]="this.aircraftForm.get('operator')"
           >
             <ng-container inputErrors>
@@ -48,9 +37,10 @@
         <div class="row">
           <core-basic-input-text
             [id]="'aircraft-quantity'"
+            [type]="'number'"
             [label]="'Cantidad'"
-            formControlName="quantity"
             [hasErrors]="hasControlAnyError('quantity')"
+            formControlName="quantity"
           >
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('quantity')">
@@ -71,10 +61,10 @@
             [itemValue]="selectItemValue"
             [itemDescription]="selectItemDescription"
             [hasErrors]="hasControlAnyError('aircraftType')"
-            [id]="selectId"
-            [label]="selectLabel"
+            [id]="'id'"
+            [label]="'Tipo'"
             [searchable]="true"
-            [placeholder]="selectPlaceholder"
+            [placeholder]="'Selecciona un Tipo'"
             [formControl]="this.aircraftForm.get('aircraftType')"
           >
             <ng-container inputErrors>
@@ -94,8 +84,8 @@
           <core-basic-input-text
             [id]="'aircraft-insuranceEndDate'"
             [label]="'Caducidad del seguro'"
-            formControlName="insuranceEndDate"
             [hasErrors]="hasControlAnyError('insuranceEndDate')"
+            formControlName="insuranceEndDate"
           >
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('insuranceEndDate')">
@@ -116,8 +106,9 @@
           <core-basic-input-text
             [id]="'aircraft-productionYear'"
             [label]="'Año de fabricación'"
-            formControlName="productionYear"
+            [type]="'number'"
             [hasErrors]="hasControlAnyError('productionYear')"
+            formControlName="productionYear"
           >
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('productionYear')">
@@ -134,10 +125,104 @@
 
         <div class="row">
           <core-basic-input-text
+            [id]="'aircraft-plateNumber'"
+            [label]="'Matrícula'"
+            [hasErrors]="hasControlAnyError('plateNumber')"
+            formControlName="plateNumber"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('plateNumber')">
+                <span
+                  *ngIf="hasControlSpecificError('plateNumber', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar la matrícula"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-checkbox
+            (selectedValueEvent)="onChangeCheck($event)"
+            [id]="'check-button-bar'"
+            [label]="'Ambulancia'"
+            [value]="this.aircraftForm.get('ambulance').value"
+            class="check"
+          ></core-checkbox>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-insideUpgradeDate'"
+            [label]="'Año última reforma interior'"
+            [hasErrors]="hasControlAnyError('insideUpgradeDate')"
+            formControlName="insideUpgradeDate"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('insideUpgradeDate')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('insideUpgradeDate', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar el año de última reforma interior"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-outsideUpgradeDate'"
+            [label]="'Año última reforma exterior'"
+            [hasErrors]="hasControlAnyError('outsideUpgradeDate')"
+            formControlName="outsideUpgradeDate"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('outsideUpgradeDate')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('outsideUpgradeDate', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar el año de última reforma exterior"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <ul class="collapsible expandable" appMatCollapsible>
+          <li>
+            <div class="collapsible-header">
+              <i class="material-icons">keyboard_arrow_down</i>Bases
+            </div>
+            <div class="collapsible-body">
+              <span>
+                <section class="aircraft-role-detail-table">
+                  <core-table
+                    [columnsHeader]="aircraftBaseColumnsHeader"
+                    [columnsData]="aircraftBaseColumnsData"
+                    [pagination]="aircraftBaseColumnsPagination"
+                  ></core-table>
+                </section>
+              </span>
+            </div>
+          </li>
+        </ul>
+
+        <div class="row">
+          <core-basic-input-text
             [id]="'aircraft-daytimeConfiguration'"
+            [type]="'number'"
             [label]="'Configuración de día'"
-            formControlName="daytimeConfiguration"
             [hasErrors]="hasControlAnyError('daytimeConfiguration')"
+            formControlName="daytimeConfiguration"
           >
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('daytimeConfiguration')">
@@ -153,12 +238,14 @@
             </ng-container>
           </core-basic-input-text>
         </div>
+
         <div class="row">
           <core-basic-input-text
             [id]="'aircraft-nighttimeConfiguration'"
+            [type]="'number'"
             [label]="'Configuración de noche'"
-            formControlName="nighttimeConfiguration"
             [hasErrors]="hasControlAnyError('nighttimeConfiguration')"
+            formControlName="nighttimeConfiguration"
           >
             <ng-container inputErrors>
               <ng-container
@@ -181,28 +268,11 @@
         </div>
       </form>
     </section>
+
     <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
       <li>
         <div class="collapsible-header">
-          <i class="material-icons">details</i>Bases
-        </div>
-        <div class="collapsible-body">
-          <span>
-            <section class="aircraft-role-detail-table">
-              <core-table
-                [columnsHeader]="aircraftBaseColumnsHeader"
-                [columnsData]="aircraftBaseColumnsData"
-                [pagination]="aircraftBaseColumnsPagination"
-              ></core-table>
-            </section>
-          </span>
-        </div>
-      </li>
-    </ul>
-    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
-      <li>
-        <div class="collapsible-header">
-          <i class="material-icons">details</i>Observaciones
+          <i class="material-icons">keyboard_arrow_down</i>Observaciones
         </div>
         <div class="collapsible-body">
           <span>

@@ -13,9 +13,6 @@ import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
 export class AircraftDetailComponent implements OnInit {
   public readonly selectItemValue: string = 'id';
   public readonly selectItemDescription: string = 'name';
-  public readonly selectId: string = 'country';
-  public readonly selectLabel: string = 'País';
-  public readonly selectPlaceholder: string = 'Selecciona un operador';
 
   public operators: any[] = [];
   public aircraftTypes: any[] = [];
@@ -63,6 +60,10 @@ export class AircraftDetailComponent implements OnInit {
       ...this._aircraftDetail,
       ...this.aircraftForm.value,
     });
+  }
+
+  public onChangeCheck(event: any) {
+    this.aircraftForm.get('ambulance').setValue(event.value);
   }
 
   public hasControlAnyError(controlName: string): boolean {
