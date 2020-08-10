@@ -1,0 +1,59 @@
+<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-button-bar
+  [barButtons]="barButtons"
+  [itemsSelectedCount]="operatorsSelectedCount"
+  (executeAction)="onBarButtonClicked($event)"
+>
+</core-button-bar>
+
+<section class="users-tables cmd-mt-1">
+  <core-table
+    [columnsHeader]="operatorColumnsHeader"
+    [columnsData]="operatorColumnsData"
+    [pagination]="operatorColumnsPagination"
+    (selectedItem)="onOperatorSelected($event)"
+    (executeActionEmitter)="onOperatorAction($event)"
+  >
+  </core-table>
+</section>
+
+<app-operator-detail
+  (saveOperator)="onSaveOperator($event)"
+  [operatorDetail]="operatorSelected"
+  [operatorForm]="operatorForm"
+  [title]="operatorDetailTitle"
+  [operatorCertificationsColumnsData]="operatorCertificationsColumnsData"
+  [operatorCertificationsColumnsHeader]="operatorCertificationsColumnsHeader"
+  [operatorCertificationsColumnsPagination]="operatorCertificationsColumnsPagination"
+  [operatorObservationsColumnsData]="operatorObservationsColumnsData"
+  [operatorObservationsColumnsHeader]="operatorObservationsColumnsHeader"
+  [operatorObservationsColumnsPagination]="operatorObservationsColumnsPagination"
+>
+</app-operator-detail>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>
+        ¿Está seguro que desea eliminar el operador
+        <b>{{ operatorSelected?.name }}</b> ?
+      </p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      (click)="onConfirmDeleteOperator()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>
