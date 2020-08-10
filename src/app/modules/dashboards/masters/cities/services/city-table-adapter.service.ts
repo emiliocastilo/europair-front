@@ -63,6 +63,9 @@ export class CityTableAdapterService {
       cityRow.pushColumn(new ColumnDataModel('text', city.name));
       cityRow.pushColumn(new ColumnDataModel('text', city.country.name));
       cityRow.pushColumn(new ColumnDataModel('actions', actions));
+      cityRow.author = city.modifiedBy != null? city.modifiedBy : city.createdBy;
+      cityRow.timestamp = city.modifiedAt != null? city.modifiedAt : city.createdAt;
+      cityRow.modified = city.modifiedAt != null;
       cityTableData.push(cityRow);
     });
     return cityTableData;
@@ -73,7 +76,7 @@ export class CityTableAdapterService {
     const initPage: number = 1;
     const visiblePages: number = 4;
     const lastPage: number = 5;
-    const elememtsPerpage: number = 20;
-    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elememtsPerpage);
+    const elementsPerPage: number = 20;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
 }

@@ -60,7 +60,6 @@ export interface FleetType extends Audit {
     cargoInformation?: CargoInformation;
     averageSpeedPerDistanceRange?: Array<AverageSpeedPerDistanceRange>;
     observations?: Array<string>;
-
 }
 
 export interface CabinInformation {
@@ -90,3 +89,30 @@ export interface AverageSpeedPerDistanceRange {
 export interface Measure {
     value: number; type: string;
 }
+
+export const EMPTY_MEASURE: Measure = { value: 0, type: '' };
+
+export const EMPTY_FLEET_TYPE: FleetType = {
+    id: undefined,
+    code: '',
+    description: '',
+    producer: '',
+    category: EMPTY_FLEET_CATEGORY,
+    subcategory: EMPTY_FLEET_SUBCATEGORY,
+    flightRange: EMPTY_MEASURE,
+    cabinInformation: { high: 0, wide: 0, long: 0 },
+    averageSpeedPerDistanceRange: [{
+        distanceRange: {
+            from: EMPTY_MEASURE,
+            to: EMPTY_MEASURE
+        },
+        averageSpeed: EMPTY_MEASURE
+    }],
+    observations: [],
+    createdAt: null,
+    createdBy: null,
+    modifiedAt: null,
+    modifiedBy: null
+};
+
+

@@ -202,3 +202,10 @@ input {
 [type="radio"].with-gap:checked + span:after {
   transform: scale(0.5) !important;
 }
+
+//LABEL
+
+label {
+  color: $europair-color-blue-dark-2 !important;
+  font-size: 1rem !important;
+}

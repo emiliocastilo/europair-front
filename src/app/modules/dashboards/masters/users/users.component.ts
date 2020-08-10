@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
   public pageTitle = 'Usuarios';
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo usuario' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   public userForm = this.fb.group({
@@ -261,7 +261,7 @@ export class UsersComponent implements OnInit {
     model: RowDataModel[]
   ): PaginationModel {
     let pagination = this.usersTableAdapterService.getPagination();
-    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }
 }

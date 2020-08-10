@@ -1,0 +1,36 @@
+{
+  "id": 1,
+  "name": "Adolfo Suarez Barajas",
+  "codIATA": "ASB",
+  "codICAO": "ASBcao",
+  "country": {
+    "id": 0,
+    "name": "Spain"
+  },
+  "city": {
+    "id": 0,
+    "name": "Madrid"
+  },
+  "trackInformation": [
+    {
+      "id": 0,
+      "length": { "value": 10, "type": "ft" }
+    },
+    {
+      "id": 1,
+      "length": { "value": 110, "type": "ft" }
+    },
+    {
+      "id": 0,
+      "length": { "value": 100, "type": "ft" }
+    },
+    {
+      "id": 0,
+      "length": { "value": 109, "type": "ft" }
+    },
+    {
+      "id": 0,
+      "length": { "value": 10, "type": "ft" }
+    }
+  ]
+}

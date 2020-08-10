@@ -8,6 +8,7 @@ import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/b
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport, EMPTY_AIRPORT } from '../../models/airport';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-airports-list',
@@ -19,7 +20,8 @@ export class AirportsListComponent implements OnInit {
   constructor(
     private readonly modalService: ModalService,
     private readonly airportsService: AirportsService,
-    private readonly airportsTableAdapterService: AirportsTableAdapterService
+    private readonly airportsTableAdapterService: AirportsTableAdapterService,
+    private readonly router: Router
   ) { }
 
   @ViewChild('confirmDeleteModal', { static: true, read: ElementRef })
@@ -71,7 +73,7 @@ export class AirportsListComponent implements OnInit {
     this.airports = data.content;
     this.airportsColumnsData = this.airportsTableAdapterService.getAirportListTableData(this.airports);
     this.airportPagination = this.airportsTableAdapterService.getPagination();
-    this.airportPagination.lastPage = this.airports.length / this.airportPagination.elememtsPerpage;
+    this.airportPagination.lastPage = this.airports.length / this.airportPagination.elementsPerPage;
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType): void {
@@ -99,6 +101,7 @@ export class AirportsListComponent implements OnInit {
 
   private newAirport(): void {
     // TODO: Routing new screen
+    this.router.navigate(['airports', 'new']);
   }
 
   private viewAirport(selectedItem: number): void {
@@ -107,6 +110,7 @@ export class AirportsListComponent implements OnInit {
 
   private editAirport(selectedItem: number): void {
     // TODO: Routing new screen
+    this.router.navigate(['airports', this.airports[selectedItem].id ]);
   }
 
   private deleteAirport(selectedItem: number): void {

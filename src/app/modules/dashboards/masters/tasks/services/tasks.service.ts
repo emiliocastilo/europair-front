@@ -34,9 +34,14 @@ export class TasksService {
     return this.http.get<Screen[]>(url + '?size=2000');
   }
 
-  public saveTask(task: Task): Observable<Task> {
+  public addTask(task: Task): Observable<Task> {
     const url = environment.apiUrl + 'tasks';
     return this.http.post<Task>(url, task);
+  }
+
+  public editTask(task: Task): Observable<Task> {
+    const url = environment.apiUrl + 'tasks';
+    return this.http.put<Task>(`${url}/${task.id}`, task);
   }
 
   public deleteTask(task: Task): Observable<any> {

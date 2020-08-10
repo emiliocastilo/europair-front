@@ -1,0 +1,248 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }} {{ _aircraftDetail?.id }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="aircraft-detail-form cmd-m-2">
+      <!-- operator: ['', Validators.required],
+      quantity: ['', Validators.required],
+      aircraftType: ['', Validators.required],
+      insuranceEndDate: ['', Validators.required],
+      productionYear: ['', Validators.required],
+      plateNumber: ['', Validators.required],
+      ambulance: ['', Validators.required],
+      bases: ['', Validators.required],
+      daytimeConfiguration: ['', Validators.required],
+      nighttimeConfiguration: ['', Validators.required],
+      observations: ['', Validators.required], -->
+      <form [formGroup]="aircraftForm">
+        <div class="row">
+          <core-select
+            [items]="operators"
+            [itemValue]="selectItemValue"
+            [itemDescription]="selectItemDescription"
+            [hasErrors]="hasControlAnyError('operator')"
+            [id]="selectId"
+            [label]="selectLabel"
+            [searchable]="true"
+            [placeholder]="selectPlaceholder"
+            [formControl]="this.aircraftForm.get('operator')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('operator')">
+                <span
+                  *ngIf="this.aircraftForm.get('operator').errors.required"
+                  class="helper-text"
+                  data-error="Debe indicar un Operador"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-quantity'"
+            [label]="'Cantidad'"
+            formControlName="quantity"
+            [hasErrors]="hasControlAnyError('quantity')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('quantity')">
+                <span
+                  *ngIf="hasControlSpecificError('quantity', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una cantidad"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-select
+            [items]="aircraftTypes"
+            [itemValue]="selectItemValue"
+            [itemDescription]="selectItemDescription"
+            [hasErrors]="hasControlAnyError('aircraftType')"
+            [id]="selectId"
+            [label]="selectLabel"
+            [searchable]="true"
+            [placeholder]="selectPlaceholder"
+            [formControl]="this.aircraftForm.get('aircraftType')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aircraftType')">
+                <span
+                  *ngIf="this.aircraftForm.get('aircraftType').errors.required"
+                  class="helper-text"
+                  data-error="Debe indicar un Tipo"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-insuranceEndDate'"
+            [label]="'Caducidad del seguro'"
+            formControlName="insuranceEndDate"
+            [hasErrors]="hasControlAnyError('insuranceEndDate')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('insuranceEndDate')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('insuranceEndDate', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una fecha"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-productionYear'"
+            [label]="'Año de fabricación'"
+            formControlName="productionYear"
+            [hasErrors]="hasControlAnyError('productionYear')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('productionYear')">
+                <span
+                  *ngIf="hasControlSpecificError('productionYear', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el año de fabricación"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-daytimeConfiguration'"
+            [label]="'Configuración de día'"
+            formControlName="daytimeConfiguration"
+            [hasErrors]="hasControlAnyError('daytimeConfiguration')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('daytimeConfiguration')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('daytimeConfiguration', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una configuración"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'aircraft-nighttimeConfiguration'"
+            [label]="'Configuración de noche'"
+            formControlName="nighttimeConfiguration"
+            [hasErrors]="hasControlAnyError('nighttimeConfiguration')"
+          >
+            <ng-container inputErrors>
+              <ng-container
+                *ngIf="hasControlAnyError('nighttimeConfiguration')"
+              >
+                <span
+                  *ngIf="
+                    hasControlSpecificError(
+                      'nighttimeConfiguration',
+                      'required'
+                    )
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una configuración"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">details</i>Bases
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="aircraft-role-detail-table">
+              <core-table
+                [columnsHeader]="aircraftBaseColumnsHeader"
+                [columnsData]="aircraftBaseColumnsData"
+                [pagination]="aircraftBaseColumnsPagination"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">details</i>Observaciones
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="user-task-detail-table">
+              <core-table
+                [columnsHeader]="aircraftObservationsColumnsHeader"
+                [columnsData]="aircraftObservationsColumnsData"
+                [pagination]="aircraftObservationsColumnsPagination"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <pre>
+      {{ aircraftDetail | json }}
+    </pre>
+  </div>
+  <div class="modal-footer">
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      *ngIf="aircraftForm.disabled; else saveBtn"
+    >
+      <i class="material-icons">check_circle</i>
+      <span
+        class="full-width-btn-text"
+        *ngIf="aircraftForm.disabled; else saveBtn"
+      >
+        Confirmar
+      </span>
+    </a>
+    <ng-template #saveBtn>
+      <a
+        class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+        [ngClass]="{ disabled: !aircraftForm.valid }"
+        (click)="onSaveAircraft()"
+      >
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text">Guardar</span>
+      </a>
+    </ng-template>
+  </div>
+</div>

@@ -47,4 +47,9 @@ export class AirportsService {
   public disableAirport(airport: Airport): Observable<Airport> {
     return this.httpClient.put<Airport>(`${this.url}/disable`, airport);
   }
+
+  public getAirport(airportId: number): Observable<Airport> {
+    const url: string = this.mocked ? '/assets/mocks/airport.json' : `${this.url}/${airportId}`;
+    return this.httpClient.get<Airport>(url);
+  }
 }

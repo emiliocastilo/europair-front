@@ -11,9 +11,9 @@ import { PaginationModel } from 'src/app/core/models/table/pagination/pagination
 
 @Injectable()
 export class TasksTableAdapterService implements OnDestroy {
-  constructor() {}
+  constructor() { }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   public getTaskColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -115,6 +115,30 @@ export class TasksTableAdapterService implements OnDestroy {
         })
       );
       screenTableData.push(screenRow);
+    });
+    return screenTableData;
+  }
+
+  public getScreenOfTask(
+    screens: Screen[],
+    task: Task,
+    editable: boolean,
+    idPrefix: string
+  ): RowDataModel[] {
+    const screenTableData: Array<RowDataModel> = new Array<RowDataModel>();
+    screens.forEach((screen: Screen) => {
+      if (this.hasTaskAssignedScreen(task, screen)) {
+        const screenRow: RowDataModel = new RowDataModel();
+        screenRow.pushColumn(new ColumnDataModel('text', screen.name));
+        screenRow.pushColumn(
+          new ColumnDataModel('switch', {
+            id: idPrefix + screen.id,
+            check: true,
+            disable: !editable,
+          })
+        );
+        screenTableData.push(screenRow);
+      }
     });
     return screenTableData;
   }

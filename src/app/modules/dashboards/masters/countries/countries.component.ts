@@ -33,7 +33,7 @@ export class CountriesComponent implements OnInit {
   public countriesSelectedCount = 0;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo país' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
   public countryPagination: PaginationModel;
   public countryDetailTitle: string;
@@ -63,7 +63,7 @@ export class CountriesComponent implements OnInit {
       this.countries = data.content;
       this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countries);
       this.countryPagination = this.countryTableAdapterService.getPagination();
-      this.countryPagination.lastPage = this.countries.length / this.countryPagination.elememtsPerpage;
+      this.countryPagination.lastPage = this.countries.length / this.countryPagination.elementsPerPage;
     });
   }
 

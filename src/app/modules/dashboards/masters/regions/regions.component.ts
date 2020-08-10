@@ -52,7 +52,7 @@ export class RegionsComponent implements OnInit {
   public pageTitle = 'Regiones';
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva región' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   public regionForm = this.fb.group({
@@ -202,7 +202,7 @@ export class RegionsComponent implements OnInit {
     );
     this.regionAirportColumnsData = this.getRegionAirportTableDataForRegion(
       regionSelected,
-      data.airports,
+      data.airports.content,
       editable
     );
     this.regionAirportColumnsPagination = this.initializeClientTablePagination(
@@ -211,7 +211,7 @@ export class RegionsComponent implements OnInit {
     this.regionCountryColumnsPagination = this.regionsTableAdapterService.getPagination();
     this.regionCountryColumnsPagination.lastPage =
       this.regionCountryColumnsData.length /
-      this.regionCountryColumnsPagination.elememtsPerpage;
+      this.regionCountryColumnsPagination.elementsPerPage;
     this.regionDetailTitle = regionDetailTitle;
     this.initializeModal(this.regionDetailModal);
     this.modalService.openModal();
@@ -236,6 +236,7 @@ export class RegionsComponent implements OnInit {
     airports: Airport[] = [],
     editable = true
   ): RowDataModel[] {
+    console.log(airports);
     const regionAirports = region ? region.airports : [];
     return this.regionsTableAdapterService.getRegionAirportTableData(
       airports,
@@ -267,7 +268,7 @@ export class RegionsComponent implements OnInit {
     model: RowDataModel[]
   ): PaginationModel {
     let pagination = this.regionsTableAdapterService.getPagination();
-    pagination.lastPage = model.length / pagination.elememtsPerpage;
+    pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }
 }

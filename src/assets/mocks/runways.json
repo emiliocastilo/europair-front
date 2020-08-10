@@ -1,0 +1,61 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "18L/36R ",
+      "main": true,
+      "length": { "value": 3500, "type": "METER" },
+      "width": { "value": 60, "type": "METER" },
+      "observation": "Pista principal"
+    },
+    {
+      "id": 2,
+      "name": "18R/36L",
+      "main": false,
+      "length": { "value": 4.179, "type": "METER" },
+      "width": { "value": 60, "type": "METER" },
+      "observation": "Pista especial"
+    },
+    {
+      "id": 3,
+      "name": "14L/32R",
+      "main": false,
+      "length": { "value": 3500, "type": "METER" },
+      "width": { "value": 60, "type": "METER" },
+      "observation": "Pista no especial"
+    },
+    {
+      "id": 4,
+      "name": "14R/32L",
+      "main": false,
+      "length": { "value": 3988, "type": "METER" },
+      "width": { "value": 60, "type": "METER" },
+      "observation": ""
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

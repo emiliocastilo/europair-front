@@ -36,7 +36,7 @@ export class CitiesComponent implements OnInit {
   public cityPagination: PaginationModel;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nueva Ciudad' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
   public cityDetailTitle: string;
   public citySelected: City = EMPTY_CITY;
@@ -65,7 +65,7 @@ export class CitiesComponent implements OnInit {
       this.cities = data.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
       this.cityPagination = this.cityTableAdapterService.getPagination();
-      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elememtsPerpage;
+      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elementsPerPage;
     });
   }
 

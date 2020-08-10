@@ -14,6 +14,7 @@ import { RolesService } from './services/roles.service';
 import { RoleDetailComponent } from './components/role-detail/role-detail.component';
 import { TasksService } from '../tasks/services/tasks.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-roles',
@@ -43,7 +44,7 @@ export class RolesComponent implements OnInit {
   private selectedItem: number = -1;
   public barButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo rol' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 
   private readonly EDIT_TASK_TITLE = 'Editar rol';
@@ -93,7 +94,7 @@ export class RolesComponent implements OnInit {
         roles['content']
       );
       this.rolePagination = this.rolesTableAdapterService.getPagination();
-      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elememtsPerpage
+      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elementsPerPage
       if (this.selectedItem >= 0) {
         this.onRoleSelected(this.selectedItem);
       }
@@ -107,7 +108,7 @@ export class RolesComponent implements OnInit {
       .subscribe((tasks) => {
         this.tasks = tasks['content']
         this.taskPagination = this.rolesTableAdapterService.getPagination();
-        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elememtsPerpage;
+        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elementsPerPage;
       });
   }
 
@@ -134,7 +135,7 @@ export class RolesComponent implements OnInit {
 
   public onRoleSelected(selectedIndex: number) {
     this.selectedItem = selectedIndex;
-    this.taskColumnsData = this.rolesTableAdapterService.getTaskTableDataForRole(
+    this.taskColumnsData = this.rolesTableAdapterService.getTasksOfRole(
       this.tasks,
       this.roles[selectedIndex],
       false,
@@ -162,7 +163,8 @@ export class RolesComponent implements OnInit {
 
   public onSaveRole(role: Role) {
     this.modalService.closeModal();
-    this.rolesService.saveRole(role).subscribe((role) => {
+    const save: Observable<Role> = role.id ? this.rolesService.editRole(role) : this.rolesService.addRole(role);
+    save.subscribe((role) => {
       console.log(role);
       this.initializeRoleTable();
     });
