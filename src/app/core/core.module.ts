@@ -24,6 +24,7 @@ import { SortButtonComponent } from './components/table/components/sort-button/s
 
 import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.dir
   ],
   imports: [CommonModule, RouterModule, NgSelectModule, FormsModule],
   exports: [
+    TranslateModule,
     TableComponent,
     LeftSidebarComponent,
     PageBarComponent,
