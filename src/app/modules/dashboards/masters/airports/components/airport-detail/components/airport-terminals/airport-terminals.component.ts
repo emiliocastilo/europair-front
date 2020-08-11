@@ -123,7 +123,7 @@ export class AirportTerminalsComponent implements OnInit {
     this.terminalsPagination = {
       ...this.terminalsPagination,
       lastPage:
-        terminals.content.length / this.terminalsPagination.elememtsPerpage,
+        terminals.content.length / this.terminalsPagination.elementsPerPage,
     };
     this.terminals = terminals.content;
   };
