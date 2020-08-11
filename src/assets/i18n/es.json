@@ -1,0 +1,7 @@
+{
+  "common": {
+    "create": "crear",
+    "delete": "eliminar",
+    "edit": "editar"
+  }
+}
