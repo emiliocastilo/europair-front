@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.iconConfig = {icon: 'search', position: InputTextIconPositions.PREFIX}
    }
 
@@ -82,11 +82,11 @@ export class TableComponent implements OnInit {
       if(this.pagination.clientPagination){
         if(selectedPage == 1){
           this.columnsDataToShow = this.columnsData.slice
-          (0, this.pagination.elememtsPerpage);
+          (0, this.pagination.elementsPerPage);
         } else{
-          let cutUpperLimit = selectedPage*this.pagination.elememtsPerpage;
+          let cutUpperLimit = selectedPage*this.pagination.elementsPerPage;
           this.columnsDataToShow = this.columnsData.slice
-          (cutUpperLimit-this.pagination.elememtsPerpage, cutUpperLimit);
+          (cutUpperLimit-this.pagination.elementsPerPage, cutUpperLimit);
         }
       } else{
         this.changePage.emit(selectedPage-1);
@@ -96,7 +96,7 @@ export class TableComponent implements OnInit {
 
   private calculateSelectedItem(selectedItem:number):number {
     if(this.pagination.clientPagination){
-      return ((this.lastPage-1) * this.pagination.elememtsPerpage)
+      return ((this.lastPage-1) * this.pagination.elementsPerPage)
       + selectedItem;
     } else{
       return selectedItem;

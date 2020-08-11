@@ -1,7 +1,7 @@
 <div class="core-basic-checkbox">
     <label>
         <input type="checkbox" [(ngModel)]="value" (change)="emitSelectedValueEvent()"
-            class="filled-in basic-checkbox"/>
+            class="filled-in basic-checkbox" [disabled]="disabled"/>
         <span *ngIf="link && label"><a routerLink="{{link}}">{{label}}</a></span>
         <span *ngIf="!link && label">{{label}}</span>
         <span *ngIf="!link && !label"></span>

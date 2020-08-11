@@ -10,8 +10,9 @@ export class CheckboxComponent implements OnInit {
   @Input() link: string;
   @Input() label: string;
   @Input() value: boolean;
+  @Input() disabled = false;
   @Output() selectedValueEvent: EventEmitter<{id: string, value: boolean}> = new EventEmitter();
- 
+
   constructor() {}
 
   ngOnInit(): void {}

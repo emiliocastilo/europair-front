@@ -141,7 +141,7 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
   private getRunways = (runways: Page<Track>): void => {
     this.runwaysPagination = {
       ...this.runwaysPagination,
-      lastPage: runways.content.length / this.runwaysPagination.elememtsPerpage,
+      lastPage: runways.content.length / this.runwaysPagination.elementsPerPage,
     };
     this.runways = runways.content;
   };

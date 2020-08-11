@@ -97,7 +97,7 @@ export class FleetCategoriesComponent implements OnInit {
       this.categories = data.content;
       this.categoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetCategories(this.categories);
       this.categoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
-      this.categoryPagination.lastPage = Math.floor(this.categories.length / this.categoryPagination.elememtsPerpage);
+      this.categoryPagination.lastPage = Math.floor(this.categories.length / this.categoryPagination.elementsPerPage);
     });
   }
 
@@ -110,7 +110,7 @@ export class FleetCategoriesComponent implements OnInit {
       this.subcategories = data.content;
       this.subcategoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetSubcategories(this.subcategories);
       this.subcategoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
-      this.subcategoryPagination.lastPage = Math.floor(this.subcategories.length / this.subcategoryPagination.elememtsPerpage);
+      this.subcategoryPagination.lastPage = Math.floor(this.subcategories.length / this.subcategoryPagination.elementsPerPage);
     });
   }
 
@@ -207,7 +207,7 @@ export class FleetCategoriesComponent implements OnInit {
 
   public onSaveSubcategory(subcategory: FleetSubcategory): void {
     const saveSubcategory: Observable<FleetSubcategory> = subcategory.id === null ?
-     this.subcategoryService.addFleetSubcategory({...subcategory, category: this.categories[this.selectedCategory]}) : 
+     this.subcategoryService.addFleetSubcategory({...subcategory, category: this.categories[this.selectedCategory]}) :
      this.subcategoryService.editFleetSubcategory(subcategory);
     saveSubcategory.subscribe(() => this.obtainSubcategories());
   }

@@ -1,0 +1,204 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }} {{ _operatorDetail?.name }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="operator-detail-form cmd-m-2">
+      <form [formGroup]="operatorForm">
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-iataCode'"
+            [label]="'IATA'"
+            formControlName="iataCode"
+            [hasErrors]="hasControlAnyError('iataCode')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('iataCode')">
+                <span
+                  *ngIf="hasControlSpecificError('iataCode', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el	Código IATA"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-icaoCode'"
+            [label]="'ICAO'"
+            formControlName="icaoCode"
+            [hasErrors]="hasControlAnyError('icaoCode')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('icaoCode')">
+                <span
+                  *ngIf="hasControlSpecificError('icaoCode', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el código ICAO"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-name'"
+            [label]="'Nombre'"
+            formControlName="name"
+            [hasErrors]="hasControlAnyError('name')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('name')">
+                <span
+                  *ngIf="hasControlSpecificError('name', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar el nombre del operador"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-aocLastRevisionDate'"
+            [label]="'Fecha revisión AOC'"
+            formControlName="aocLastRevisionDate"
+            [hasErrors]="hasControlAnyError('aocLastRevisionDate')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aocLastRevisionDate')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('aocLastRevisionDate', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una fecha de revisión AOC"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-insuranceExpirationDate'"
+            [label]="'Fecha de caducidad del seguro'"
+            formControlName="insuranceExpirationDate"
+            [hasErrors]="hasControlAnyError('insuranceExpirationDate')"
+          >
+            <ng-container inputErrors>
+              <ng-container
+                *ngIf="hasControlAnyError('insuranceExpirationDate')"
+              >
+                <span
+                  *ngIf="
+                    hasControlSpecificError(
+                      'insuranceExpirationDate',
+                      'required'
+                    )
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar una fecha de caducidad del seguro"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'operator-aocNumber'"
+            [label]="'Número AOC'"
+            formControlName="aocNumber"
+            [hasErrors]="hasControlAnyError('aocNumber')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('aocNumber')">
+                <span
+                  *ngIf="hasControlSpecificError('aocNumber', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar un número de AOC"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">keyboard_arrow_down</i>Certificaciones
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="user-role-detail-table">
+              <core-table
+                [columnsHeader]="operatorCertificationsColumnsHeader"
+                [columnsData]="operatorCertificationsColumnsData"
+                [pagination]="operatorCertificationsColumnsPagination"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <ul class="collapsible expandable cmd-m-2" appMatCollapsible>
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">keyboard_arrow_down</i>Observaciones
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="user-task-detail-table">
+              <core-table
+                [columnsHeader]="operatorObservationsColumnsHeader"
+                [columnsData]="operatorObservationsColumnsData"
+                [pagination]="operatorObservationsColumnsPagination"
+              ></core-table>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+    <pre>
+      {{ operatorDetail | json }}
+    </pre>
+  </div>
+  <div class="modal-footer">
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      *ngIf="operatorForm.disabled; else saveBtn"
+    >
+      <i class="material-icons">check_circle</i>
+      <span
+        class="full-width-btn-text"
+        *ngIf="operatorForm.disabled; else saveBtn"
+      >
+        Confirmar
+      </span>
+    </a>
+    <ng-template #saveBtn>
+      <a
+        class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+        [ngClass]="{ disabled: !operatorForm.valid }"
+        (click)="onSaveUser()"
+      >
+        <i class="material-icons">check_circle</i>
+        <span class="full-width-btn-text">Guardar</span>
+      </a>
+    </ng-template>
+  </div>
+</div>
