@@ -94,7 +94,7 @@ export class CityDetailComponent implements OnInit {
       name: this.cityNameControl.value,
       code: this.cityCodeControl.value,
       country: {
-        id: this.countryControl.value.id
+        id: this.countryControl.value
       }
     });
   }
