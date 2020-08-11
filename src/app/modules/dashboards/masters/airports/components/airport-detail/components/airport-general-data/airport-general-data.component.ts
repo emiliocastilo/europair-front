@@ -39,18 +39,18 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
 
   private unsubscriber$: Subject<void> = new Subject();
   public generalDataForm = this.fb.group({
-    codIATA: [''],
-    codICAO: [''],
-    name: [''],
-    country: [''],
-    city: [''],
-    timeZone: [''],
-    altitude: [''],
-    latitude: [''],
-    longitude: [''],
-    customs: [''],
-    specialConditions: [''],
-    flightRules: [''],
+    codIATA: ['MAD'],
+    codICAO: ['LEMD'],
+    name: ['Aeropuerto Adolfo Suárez Madrid-Barajas'],
+    country: ['España'],
+    city: ['Madrid'],
+    timeZone: ['GMT+2'],
+    altitude: ['610'],
+    latitude: [`N40°29'30.52"`],
+    longitude: [`O3°34'10.13"`],
+    customs: [false],
+    specialConditions: [false],
+    flightRules: ['IFR'],
   });
 
   constructor(
