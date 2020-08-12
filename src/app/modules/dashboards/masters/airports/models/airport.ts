@@ -52,6 +52,11 @@ export interface Operator {
     observation?: string;
 }
 
+export interface Observation {
+  id: number;
+  observation: string;
+}
+
 export const EMPTY_AIRPORT: Airport = {
     id: null,
     name: '',

@@ -1,0 +1,37 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "observation": "Observación 1"
+    },
+    {
+      "id": 2,
+      "observation": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pellentesque, metus nec elementum dictum, mauris urna dignissim odio, vel tincidunt est nulla et est. Vivamus vehicula commodo mauris ac lacinia. Mauris tempus efficitur dolor, sed tincidunt dui molestie a. Aenean gravida dictum turpis. Suspendisse sollicitudin aliquet nisl a ultrices. Mauris sodales orci massa, in fringilla libero hendrerit rhoncus. Fusce eu lacus ac est finibus rutrum. Fusce at nulla risus. Sed volutpat vehicula elit sed egestas."
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}
