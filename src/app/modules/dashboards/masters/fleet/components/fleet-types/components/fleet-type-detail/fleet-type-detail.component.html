@@ -65,6 +65,9 @@
               <span *ngIf="getControl('rangeMeasureValue').errors.required" class="helper-text"
                 data-error="Debe indicar el rango de vuelo">
               </span>
+              <span *ngIf="getControl('rangeMeasureValue').errors.pattern" class="helper-text"
+                data-error="El rango de vuelo debe de ser numérico">
+              </span>
             </ng-container>
           </ng-container>
         </core-basic-input-text>

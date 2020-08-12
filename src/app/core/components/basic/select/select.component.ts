@@ -39,13 +39,7 @@ export class SelectComponent implements ControlValueAccessor {
   public onChange = (_: any) => { };
   public onTouch = () => { };
 
-  private compare = (itemA: any, itemB: any): boolean => itemA && itemB && itemA[this.itemValue] === itemB[this.itemValue];
-
   constructor() { }
-
-  public readonly compareItems = {
-    compare: this.compare,
-  };
 
   public changeSelect(selectValue: any) {
     this.value = selectValue;
