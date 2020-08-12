@@ -22,13 +22,19 @@ export class RegionsTableAdapterService {
         'selector-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
-        'task-header',
+        'region-code-header',
+        'text',
+        'Código',
+        new ColumnHeaderSizeModel('3', '3', '3')
+      ),
+      new ColumnHeaderModel(
+        'region-name-header',
         'text',
         'Nombre',
-        new ColumnHeaderSizeModel('6', '6', '6')
+        new ColumnHeaderSizeModel('4', '4', '4')
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -52,6 +58,7 @@ export class RegionsTableAdapterService {
       regionRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
+      regionRow.pushColumn(new ColumnDataModel('text', region.code));
       regionRow.pushColumn(new ColumnDataModel('text', region.name));
       regionRow.pushColumn(new ColumnDataModel('actions', actions));
       regionTableData.push(regionRow);
@@ -156,7 +163,7 @@ export class RegionsTableAdapterService {
     return !!(
       regionAirports &&
       regionAirports.find(
-        (regionAirport: Airport) => regionAirport.id === airport.id
+        (regionAirport: Airport) => regionAirport?.id === airport?.id
       )
     );
   }

@@ -1,0 +1,28 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>Añadir regiones</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="region-editor cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <core-table 
+        [columnsHeader]="regionsColumnsHeader" 
+        [columnsData]="regionsColumnsData"
+        [pagination]="regionsPagination"
+        (selectedItem)="onRegionSelected($event)"
+        (search)="onFilterRegions($event)"
+        (sortByColumn)="onSortRegions($event)"> 
+      </core-table>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    [ngClass]="{'disabled': false}" (click)="onAddRegions()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Añadir</span>
+    </a>
+  </div>
+</div>

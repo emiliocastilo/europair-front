@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AirportRunwayDetailComponent } from './components/airport-runways/components/airport-runways-detail/airport-runway-detail.component';
 import { AirportTerminalDetailComponent } from './components/airport-terminals/components/airport-terminal-detail/airport-terminal-detail.component';
 import { AirportObservationDetailComponent } from './components/airport-observations/components/airport-observation-detail/airport-observation-detail.component';
+import { AirportRegionEditorComponent } from './components/airport-regions/components/airport-region-editor/airport-region-editor.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AirportObservationDetailComponent } from './components/airport-observat
     AirportRunwayDetailComponent,
     AirportTerminalDetailComponent,
     AirportObservationDetailComponent,
+    AirportRegionEditorComponent,
   ],
   imports: [
     CommonModule,

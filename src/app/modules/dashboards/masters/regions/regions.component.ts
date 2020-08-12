@@ -56,6 +56,7 @@ export class RegionsComponent implements OnInit {
   ];
 
   public regionForm = this.fb.group({
+    code: ['', Validators.required],
     name: ['', Validators.required],
   });
 
@@ -248,6 +249,7 @@ export class RegionsComponent implements OnInit {
 
   private updateRegionrForm(selectedRegion: Region) {
     this.regionForm.setValue({
+      code: selectedRegion.code,
       name: selectedRegion.name,
     });
   }

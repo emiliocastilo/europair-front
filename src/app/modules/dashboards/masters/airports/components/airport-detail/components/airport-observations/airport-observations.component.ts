@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import {
   BarButtonType,
   BarButton,
@@ -28,7 +34,7 @@ import { SortMenuComponent } from 'src/app/core/components/menus/sort-menu/sort-
   styleUrls: ['./airport-observations.component.scss'],
   providers: [AirportObservationsTableAdapterService],
 })
-export class AirportObservationsComponent implements OnInit {
+export class AirportObservationsComponent implements OnInit, OnDestroy {
   @ViewChild(AirportObservationDetailComponent, {
     static: true,
     read: ElementRef,

@@ -10,6 +10,14 @@
     <section class="region-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="regionForm">
         <div class="row">
+          <core-basic-input-text [id]="'region-code'" [label]="'Código'" formControlName="code" [hasErrors]="hasControlAnyError('code')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('code')">
+                <span *ngIf="hasControlSpecificError('code', 'required')" class="helper-text" data-error="Debe indicar el código de la región">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
           <core-basic-input-text [id]="'region-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
