@@ -11,7 +11,8 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 export class FleetSubcategoriesService {
 
   private readonly mocked: boolean = environment.mock;
-  private readonly url = `${environment.apiUrl}fleet/subcategories`;
+  private readonly url = `${environment.apiUrl}aircraft-categories`;
+  private readonly subcategory_url: string = 'subcategories';
   constructor(private http: HttpClient) { }
 
   public getFleetSubcategories(): Observable<Page<FleetSubcategory>> {
@@ -20,19 +21,19 @@ export class FleetSubcategoriesService {
   }
 
   public getFleetSubcategoriesFromCategory(category: FleetCategory): Observable<Page<FleetSubcategory>> {
-    const url: string = this.mocked ? '/assets/mocks/subcategories.json' : `${this.url}?category=${category.id}`;
+    const url: string = this.mocked ? '/assets/mocks/subcategories.json' : `${this.url}/${category.id}/${this.subcategory_url}`;
     return this.http.get<Page<FleetSubcategory>>(url);
   }
 
-  public addFleetSubcategory(fleetSubcategory: FleetSubcategory): Observable<FleetSubcategory> {
-    return this.http.post<FleetSubcategory>(this.url, fleetSubcategory);
+  public addFleetSubcategory(fleetCategory: FleetCategory, fleetSubcategory: FleetSubcategory): Observable<FleetSubcategory> {
+    return this.http.post<FleetSubcategory>(`${this.url}/${fleetCategory.id}/${this.subcategory_url}`, fleetSubcategory);
   }
 
-  public editFleetSubcategory(fleetSubcategory: FleetSubcategory): Observable<FleetSubcategory> {
-    return this.http.put<FleetSubcategory>(`${this.url}/${fleetSubcategory.id}`, fleetSubcategory);
+  public editFleetSubcategory(fleetCategory: FleetCategory, fleetSubcategory: FleetSubcategory): Observable<FleetSubcategory> {
+    return this.http.put<FleetSubcategory>(`${this.url}/${fleetCategory.id}/${this.subcategory_url}/${fleetSubcategory.id}`, fleetSubcategory);
   }
 
-  public deleteFleetSubcategory(fleetSubcategory: FleetSubcategory): Observable<void> {
-    return this.http.delete<void>(`${this.url}/${fleetSubcategory.id}`);
+  public deleteFleetSubcategory(fleetCategory: FleetCategory, fleetSubcategory: FleetSubcategory): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${fleetCategory.id}/${this.subcategory_url}/${fleetSubcategory.id}`);
   }
 }

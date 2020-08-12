@@ -10,8 +10,8 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 })
 export class FleetCategoriesService {
 
-  private readonly mocked: boolean = true;
-  private readonly url = `${environment.apiUrl}fleet/categories`;
+  private readonly mocked: boolean = environment.mock;
+  private readonly url = `${environment.apiUrl}aircraft-categories`;
   constructor(private http: HttpClient) {}
 
   public getFleetCategories(): Observable<Page<FleetCategory>> {
