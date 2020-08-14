@@ -20,8 +20,8 @@ export class FleetTypeDetailComponent implements OnInit {
     if (type.code) {
       this.form.get('code').setValue(this._typeDetail.code);
       this.form.get('description').setValue(this._typeDetail.description);
-      this.form.get('category').setValue(this._typeDetail.category);
-      this.form.get('subcategory').setValue(this._typeDetail.subcategory);
+      this.form.get('category').setValue(this._typeDetail.category.id);
+      this.form.get('subcategory').setValue(this._typeDetail.subcategory.id);
       this.form.get('rangeMeasureValue').setValue(this._typeDetail.flightRange.value);
       this.form.get('rangeMeasureType').setValue(this._typeDetail.flightRange.type);
     } else {
@@ -46,7 +46,7 @@ export class FleetTypeDetailComponent implements OnInit {
     description: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
     subcategory: new FormControl('', Validators.required),
-    rangeMeasureValue: new FormControl('', Validators.required),
+    rangeMeasureValue: new FormControl('', [Validators.required, Validators.pattern("^[0-9]*$")]),
     rangeMeasureType: new FormControl('', Validators.required)
   });
 
@@ -94,8 +94,8 @@ export class FleetTypeDetailComponent implements OnInit {
       ...this._typeDetail,
       code: this.form.get('code').value,
       description: this.form.get('description').value,
-      category: { ...this._typeDetail.category, id: this.form.get('category').value.id },
-      subcategory: { ...this._typeDetail.subcategory, id: this.form.get('subcategory').value.id },
+      category: { ...this._typeDetail.category, id: this.form.get('category').value },
+      subcategory: { ...this._typeDetail.subcategory, id: this.form.get('subcategory').value },
       flightRange: {
         value: this.form.get('rangeMeasureValue').value,
         type: this.form.get('rangeMeasureType').value

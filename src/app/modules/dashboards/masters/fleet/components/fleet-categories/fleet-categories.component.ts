@@ -207,20 +207,20 @@ export class FleetCategoriesComponent implements OnInit {
 
   public onSaveSubcategory(subcategory: FleetSubcategory): void {
     const saveSubcategory: Observable<FleetSubcategory> = subcategory.id === null ?
-     this.subcategoryService.addFleetSubcategory({...subcategory, category: this.categories[this.selectedCategory]}) :
-     this.subcategoryService.editFleetSubcategory(subcategory);
+     this.subcategoryService.addFleetSubcategory(this.categories[this.selectedCategory], {...subcategory, category: this.categories[this.selectedCategory]}) :
+     this.subcategoryService.editFleetSubcategory(this.categories[this.selectedCategory], subcategory);
     saveSubcategory.subscribe(() => this.obtainSubcategories());
   }
 
   public onConfirmDeleteCategory(): void {
     this.categoryService.deleteFleetCategory(this.categories[this.selectedCategory]).subscribe(() => {
-      this.initializeCategoryTable();
+      this.obtainCategories();
     });
   }
 
   public onConfirmDeleteSubcategory(): void {
-    this.subcategoryService.deleteFleetSubcategory(this.subcategories[this.selectedSubcategory]).subscribe(() => {
-      this.initializeSubcategoryTable();
+    this.subcategoryService.deleteFleetSubcategory(this.categories[this.selectedCategory], this.subcategories[this.selectedSubcategory]).subscribe(() => {
+      this.obtainSubcategories();
     });
   }
 }

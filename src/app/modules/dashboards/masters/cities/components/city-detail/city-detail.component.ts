@@ -28,7 +28,7 @@ export class CityDetailComponent implements OnInit {
     if (city.code) {
       this.cityNameControl.setValue(this._cityDetail.name);
       this.cityCodeControl.setValue(this._cityDetail.code);
-      this.countryControl.setValue(this._cityDetail.country);
+      this.countryControl.setValue(this._cityDetail.country.id);
     } else {
       this.cityNameControl.reset();
       this.cityCodeControl.reset();
@@ -94,7 +94,7 @@ export class CityDetailComponent implements OnInit {
       name: this.cityNameControl.value,
       code: this.cityCodeControl.value,
       country: {
-        id: this.countryControl.value.id
+        id: this.countryControl.value
       }
     });
   }
