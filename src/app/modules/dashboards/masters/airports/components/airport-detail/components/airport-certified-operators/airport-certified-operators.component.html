@@ -1,1 +1,53 @@
-<p>airport-certified-operators works!</p>
+<section class="operators-button-bar">
+  <core-button-bar 
+    [barButtons]="operatorsBarButtons" [itemsSelectedCount]="operatorsSelectedCount"
+    (executeAction)="onBarButtonClicked($event)">
+  </core-button-bar>
+  <core-search-bar 
+    [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up"
+    [inputSearchId]="'operators-search-input'"
+    (basicSearch)="onMobileBasicSearch($event)"
+    (openAdvancedSearch)="onOpenAdvancedSearch()"
+    (openSortMenu)="onOpenSortMenu()">
+  </core-search-bar>
+</section>
+<core-table 
+  [columnsHeader]="operatorsColumnsHeader" 
+  [columnsData]="operatorsColumnsData"
+  [pagination]="operatorsPagination"
+  (selectedItem)="onOperatorSelected($event)"
+  (search)="onFilterOperators($event)"
+  (sortByColumn)="onSortOperators($event)"> 
+</core-table>
+
+<app-airport-certified-operator-creator
+  [certifiedOperatorForm]="certifiedOperatorForm"
+  (addCertifiedOperator)="onEditCertifiedOperator($event)">
+</app-airport-certified-operator-creator>
+
+<app-airport-certified-operator-editor
+  [certifiedOperator]="operatorSelected"
+  [certifiedOperatorForm]="certifiedOperatorForm"
+  (editCertifiedOperator)="onEditCertifiedOperator($event)">
+</app-airport-certified-operator-editor>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>Está seguro que desea eliminar el operador certificado <b>{{ operatorSelected?.operator?.iataCode }}</b></p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteOperator()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

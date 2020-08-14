@@ -18,6 +18,7 @@ export interface Operator extends Audit {
 export interface Certification {
   id: number;
   airport: string;
+  operator?: Operator;
   comment: string;
 }
 

@@ -28,7 +28,9 @@ import { Country } from 'src/app/modules/dashboards/masters/countries/models/cou
 })
 export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   @Output()
-  generalDataChanged: EventEmitter<any> = new EventEmitter();
+  public generalDataChanged: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public specialConditionsChanged: EventEmitter<boolean> = new EventEmitter();
 
   cities$: Observable<City[]>;
   citiesInput$ = new Subject<string>();
@@ -49,7 +51,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
     latitude: [`N40°29'30.52"`],
     longitude: [`O3°34'10.13"`],
     customs: [false],
-    specialConditions: [false],
+    specialConditions: [true],
     flightRules: ['IFR'],
   });
 
@@ -65,6 +67,14 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
     this.generalDataForm.valueChanges
       .pipe(takeUntil(this.unsubscriber$))
       .subscribe((generalData) => this.generalDataChanged.next(generalData));
+    this.generalDataForm
+      .get('specialConditions')
+      .valueChanges.pipe(takeUntil(this.unsubscriber$))
+      .subscribe((specialConditions) =>
+        this.specialConditionsChanged.next(specialConditions)
+      );
+    // TODO for development of certified operators ONLY
+    this.specialConditionsChanged.next(true);
   }
 
   private loadCities() {

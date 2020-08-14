@@ -79,6 +79,10 @@ export class AirportRegionEditorComponent implements OnInit {
     this.refreshRegionsEditorTableData();
   }
 
+  public hasAnyRegionSelected(): boolean {
+    return !!this.regionSelected;
+  }
+
   public onAddRegions() {
     this.addRegions.next([this.regionSelected]);
   }

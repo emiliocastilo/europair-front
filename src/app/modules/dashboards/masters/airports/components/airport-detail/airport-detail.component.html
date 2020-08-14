@@ -9,7 +9,10 @@
     <li>
       <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Datos generales</div>
       <div class="collapsible-body">
-        <app-airport-general-data (generalDataChanged)="onGeneralDataChanged($event)"></app-airport-general-data>
+        <app-airport-general-data
+          (specialConditionsChanged)="onSpecialConditionsChanged($event)"
+          (generalDataChanged)="onGeneralDataChanged($event)">
+        </app-airport-general-data>
       </div>
     </li>
   </ul>
@@ -30,7 +33,7 @@
         </div>
       </li>
     </ul>
-    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}" *ngIf="hasAirportSpecialConditions">
       <li>
         <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Operadores certificados</div>
         <div class="collapsible-body">
@@ -38,7 +41,7 @@
         </div>
       </li>
     </ul>
-    <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
         <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Regiones</div>
         <div class="collapsible-body">

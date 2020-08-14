@@ -20,7 +20,7 @@
   </div>
   <div class="modal-footer">
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
-    [ngClass]="{'disabled': false}" (click)="onAddRegions()">
+    [ngClass]="{'disabled': !hasAnyRegionSelected()}" (click)="onAddRegions()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">Añadir</span>
     </a>

@@ -23,6 +23,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     { type: BarButtonType.DELETE, text: 'Eliminar aeropuerto' },
   ];
   public barButtons: BarButton[];
+  public hasAirportSpecialConditions: boolean;
 
   constructor(private route: ActivatedRoute, private router: Router) {}
 
@@ -60,6 +61,10 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
 
   public onGeneralDataChanged(generalData: any) {
     console.log('onGeneralDataChanged', generalData);
+  }
+
+  public onSpecialConditionsChanged(hasAirportSpecialConditions: boolean) {
+    this.hasAirportSpecialConditions = hasAirportSpecialConditions;
   }
 
   ngOnDestroy(): void {
