@@ -20,6 +20,16 @@
           </core-basic-input-text>
         </div>
         <div class="row">
+          <core-basic-input-text [id]="'user-password'" [label]="'Contraseña'" [type]="'password'" formControlName="password" [hasErrors]="hasControlAnyError('password')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('password')">
+                <span *ngIf="hasControlSpecificError('password', 'required')" class="helper-text" data-error="Debe indicar una contraseña">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+        <div class="row">
           <core-basic-input-text [id]="'user-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
