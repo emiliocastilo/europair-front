@@ -169,13 +169,13 @@ export class AirportTerminalsComponent implements OnInit {
 
   public onSaveTerminal(newTerminal: Terminal) {
     newTerminal.id
-      ? console.log('EDITING RUNWAY', newTerminal)
-      : console.log('CREATING RUNWAY', newTerminal);
+      ? console.log('EDITING TERMINAL', newTerminal)
+      : console.log('CREATING TERMINAL', newTerminal);
     this.refreshTerminalsTableData(this.airportId);
   }
 
   public onConfirmDeleteTerminal() {
-    console.log('DELETING RUNWAY', this.terminalSelected);
+    console.log('DELETING TERMINAL', this.terminalSelected);
     this.refreshTerminalsTableData(this.airportId);
   }
 

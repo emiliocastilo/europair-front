@@ -1,0 +1,45 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "operator": {
+        "id": 1,
+        "iataCode": "AP"
+      },
+      "comment": "Incluso con PMI, con TFS limitación 93 pax si 15 kg, 88 pax si 20kg"
+    },
+    {
+      "id": 2,
+      "operator": {
+        "id": 2,
+        "iataCode": "AEA"
+      },
+      "comment": "Limitado"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

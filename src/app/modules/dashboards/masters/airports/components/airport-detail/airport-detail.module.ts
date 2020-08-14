@@ -13,6 +13,10 @@ import { AirportObservationsComponent } from './components/airport-observations/
 import { ReactiveFormsModule } from '@angular/forms';
 import { AirportRunwayDetailComponent } from './components/airport-runways/components/airport-runways-detail/airport-runway-detail.component';
 import { AirportTerminalDetailComponent } from './components/airport-terminals/components/airport-terminal-detail/airport-terminal-detail.component';
+import { AirportObservationDetailComponent } from './components/airport-observations/components/airport-observation-detail/airport-observation-detail.component';
+import { AirportRegionEditorComponent } from './components/airport-regions/components/airport-region-editor/airport-region-editor.component';
+import { AirportCertifiedOperatorEditorComponent } from './components/airport-certified-operators/airport-certified-operator-editor/airport-certified-operator-editor.component';
+import { AirportCertifiedOperatorCreatorComponent } from './components/airport-certified-operators/airport-certified-operator-creator/airport-certified-operator-creator.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,10 @@ import { AirportTerminalDetailComponent } from './components/airport-terminals/c
     AirportObservationsComponent,
     AirportRunwayDetailComponent,
     AirportTerminalDetailComponent,
+    AirportObservationDetailComponent,
+    AirportRegionEditorComponent,
+    AirportCertifiedOperatorEditorComponent,
+    AirportCertifiedOperatorCreatorComponent,
   ],
   imports: [
     CommonModule,

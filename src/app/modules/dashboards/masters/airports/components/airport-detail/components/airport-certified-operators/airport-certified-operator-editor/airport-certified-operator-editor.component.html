@@ -1,0 +1,32 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ 'Editar certificación para ' + certifiedOperator?.operator?.iataCode }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="certification-editor cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="certifiedOperatorForm">
+        <div class="row">
+          <core-basic-input-text [id]="'edit-certification-comment'" [label]="'Observación'" formControlName="comment" [hasErrors]="hasControlAnyError('comment')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('comment')">
+                <span *ngIf="hasControlSpecificError('comment', 'required')" class="helper-text" data-error="Debe indicar una observación">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    [ngClass]="{'disabled': !certifiedOperatorForm.valid}" (click)="onEditCertifiedOperator()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>

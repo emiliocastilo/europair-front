@@ -1,72 +1,101 @@
-[
-  {
-    "id": 1,
-    "name": "Unión europea",
-    "countries": [
-      {
-        "id": 1,
-        "code": "ES",
-        "name": "España"
-      },
-      {
-        "id": 2,
-        "code": "FR",
-        "name": "Francia"
-      },
-      {
-        "id": 3,
-        "code": "IT",
-        "name": "Italia"
-      }
-    ],
-    "airports": [
-      {
-        "id": 1,
-        "name": "Adolfo Suarez Barajas"
-      },
-      {
-        "id": 2,
-        "name": "París-Charles de Gaulle"
-      },
-      {
-        "id": 3,
-        "name": "Roma-Fiumicino"
-      }
-    ]
+{
+  "content": [
+    {
+      "id": 1,
+      "code": "UE",
+      "name": "Unión europea",
+      "countries": [
+        {
+          "id": 1,
+          "code": "ES",
+          "name": "España"
+        },
+        {
+          "id": 2,
+          "code": "FR",
+          "name": "Francia"
+        },
+        {
+          "id": 3,
+          "code": "IT",
+          "name": "Italia"
+        }
+      ],
+      "airports": [
+        {
+          "id": 1,
+          "name": "Adolfo Suarez Barajas"
+        },
+        {
+          "id": 2,
+          "name": "París-Charles de Gaulle"
+        },
+        {
+          "id": 3,
+          "name": "Roma-Fiumicino"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "code": "AS",
+      "name": "Asia",
+      "countries": [
+        {
+          "id": 4,
+          "code": "IN",
+          "name": "India"
+        },
+        {
+          "id": 5,
+          "code": "CN",
+          "name": "China"
+        },
+        {
+          "id": 6,
+          "code": "TH",
+          "name": "Tailandia"
+        }
+      ],
+      "airports": [
+        {
+          "id": 4,
+          "name": "Indira Gandhi"
+        },
+        {
+          "id": 5,
+          "name": "Pudong"
+        },
+        {
+          "id": 6,
+          "name": "Suvarnabhumi"
+        }
+      ]
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
   },
-  {
-    "id": 2,
-    "name": "Asia",
-    "countries": [
-      {
-        "id": 4,
-        "code": "IN",
-        "name": "India"
-      },
-      {
-        "id": 5,
-        "code": "CN",
-        "name": "China"
-      },
-      {
-        "id": 6,
-        "code": "TH",
-        "name": "Tailandia"
-      }
-    ],
-    "airports": [
-      {
-        "id": 4,
-        "name": "Indira Gandhi"
-      },
-      {
-        "id": 5,
-        "name": "Pudong"
-      },
-      {
-        "id": 6,
-        "name": "Suvarnabhumi"
-      }
-    ]
-  }
-]
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

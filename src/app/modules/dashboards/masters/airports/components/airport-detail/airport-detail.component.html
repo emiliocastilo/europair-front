@@ -9,12 +9,15 @@
     <li>
       <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Datos generales</div>
       <div class="collapsible-body">
-        <app-airport-general-data (generalDataChanged)="onGeneralDataChanged($event)"></app-airport-general-data>
+        <app-airport-general-data
+          [generalDataForm]="generalDataForm"
+          (specialConditionsChanged)="onSpecialConditionsChanged($event)">
+        </app-airport-general-data>
       </div>
     </li>
   </ul>
   <ng-container *ngIf="routeData?.isAirportDetail">
-    <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
         <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Pistas</div>
         <div class="collapsible-body">
@@ -22,7 +25,7 @@
         </div>
       </li>
     </ul>
-    <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
         <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Terminales</div>
         <div class="collapsible-body">
@@ -30,7 +33,7 @@
         </div>
       </li>
     </ul>
-    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
+    <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}" *ngIf="hasAirportSpecialConditions">
       <li>
         <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Operadores certificados</div>
         <div class="collapsible-body">
@@ -56,3 +59,24 @@
     </ul>
   </ng-container>
 </ng-container>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>¿Está seguro que desea eliminar el aeropuerto <b>{{airportData?.name}}</b>?</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteAirport()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

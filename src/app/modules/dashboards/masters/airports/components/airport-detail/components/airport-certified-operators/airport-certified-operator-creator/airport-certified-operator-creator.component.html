@@ -1,0 +1,40 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ 'Añadir operador certificado' }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="certification-creator cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <core-table 
+        [columnsHeader]="operatorsColumnsHeader" 
+        [columnsData]="operatorsColumnsData"
+        [pagination]="operatorsPagination"
+        (selectedItem)="onOperatorelected($event)"
+        (search)="onFilterOperators($event)"
+        (sortByColumn)="onSortOperators($event)"> 
+      </core-table>
+      <form [formGroup]="certifiedOperatorForm" class="cmd-mt-2">
+        <div class="row">
+          <core-basic-input-text [id]="'create-certification-comment'" [label]="'Observación'" formControlName="comment" [hasErrors]="hasControlAnyError('comment')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('comment')">
+                <span *ngIf="hasControlSpecificError('comment', 'required')" class="helper-text" data-error="Debe indicar una observación">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    [ngClass]="{'disabled': !certifiedOperatorForm.valid || !hasAnyOperatorSelected()}" (click)="onAddCertifiedOperator()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>

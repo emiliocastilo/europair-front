@@ -81,8 +81,8 @@ export class AirportsTableAdapterService {
       airportRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
-      airportRow.pushColumn(new ColumnDataModel('text', airport.codIATA));
-      airportRow.pushColumn(new ColumnDataModel('text', airport.codICAO));
+      airportRow.pushColumn(new ColumnDataModel('text', airport.iataCode));
+      airportRow.pushColumn(new ColumnDataModel('text', airport.icaoCode));
       airportRow.pushColumn(new ColumnDataModel('text', airport.name));
       airportRow.pushColumn(new ColumnDataModel('text', airport.city.name));
       airportRow.pushColumn(new ColumnDataModel('text', airport.country.name));

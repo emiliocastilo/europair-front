@@ -9,10 +9,11 @@ import { Airport } from '../models/airport';
   providedIn: 'root',
 })
 export class AirportsService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}airports`;
 
   constructor(private readonly httpClient: HttpClient) { }
+
   public getAirports(showDisabled: boolean, filter?: string): Observable<Page<Airport>> {
     const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
     let params: HttpParams = new HttpParams();

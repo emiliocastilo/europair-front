@@ -4,8 +4,9 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  Input,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Subject, Observable, concat, of } from 'rxjs';
 import {
   takeUntil,
@@ -20,6 +21,7 @@ import { CountriesService } from 'src/app/modules/dashboards/masters/countries/s
 import { CitiesService } from 'src/app/modules/dashboards/masters/cities/services/cities.service';
 import { City } from 'src/app/modules/dashboards/masters/cities/models/city';
 import { Country } from 'src/app/modules/dashboards/masters/countries/models/country';
+import { FlightRulesType, CustomsType } from '../../../../models/airport';
 
 @Component({
   selector: 'app-airport-general-data',
@@ -27,8 +29,13 @@ import { Country } from 'src/app/modules/dashboards/masters/countries/models/cou
   styleUrls: ['./airport-general-data.component.scss'],
 })
 export class AirportGeneralDataComponent implements OnInit, OnDestroy {
+  @Input()
+  public generalDataForm: FormGroup;
   @Output()
-  generalDataChanged: EventEmitter<any> = new EventEmitter();
+  public specialConditionsChanged: EventEmitter<boolean> = new EventEmitter();
+
+  public FLIGHT_RULES_TYPE = FlightRulesType;
+  public CUSTOMS_TYPE = CustomsType;
 
   cities$: Observable<City[]>;
   citiesInput$ = new Subject<string>();
@@ -38,23 +45,8 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   countriesLoading = false;
 
   private unsubscriber$: Subject<void> = new Subject();
-  public generalDataForm = this.fb.group({
-    codIATA: ['MAD'],
-    codICAO: ['LEMD'],
-    name: ['Aeropuerto Adolfo Suárez Madrid-Barajas'],
-    country: ['España'],
-    city: ['Madrid'],
-    timeZone: ['GMT+2'],
-    altitude: ['610'],
-    latitude: [`N40°29'30.52"`],
-    longitude: [`O3°34'10.13"`],
-    customs: [false],
-    specialConditions: [false],
-    flightRules: ['IFR'],
-  });
 
   constructor(
-    private fb: FormBuilder,
     private countriesService: CountriesService,
     private citiesServices: CitiesService
   ) {}
@@ -62,9 +54,12 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadCountries();
     this.loadCities();
-    this.generalDataForm.valueChanges
-      .pipe(takeUntil(this.unsubscriber$))
-      .subscribe((generalData) => this.generalDataChanged.next(generalData));
+    this.generalDataForm
+      .get('specialConditions')
+      .valueChanges.pipe(takeUntil(this.unsubscriber$))
+      .subscribe((specialConditions) =>
+        this.specialConditionsChanged.next(specialConditions)
+      );
   }
 
   private loadCities() {
@@ -101,6 +96,19 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         )
       )
     );
+  }
+
+  public hasControlAnyError(controlName: string): boolean {
+    const control = this.generalDataForm.get(controlName);
+    return control && control.invalid && (control.dirty || control.touched);
+  }
+
+  public hasControlSpecificError(
+    controlName: string,
+    errorName: string
+  ): boolean {
+    const control = this.generalDataForm.get(controlName);
+    return control && control.hasError(errorName);
   }
 
   ngOnDestroy(): void {

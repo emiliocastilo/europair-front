@@ -1,1 +1,91 @@
-<p>airport-observations works!</p>
+<section class="observations-button-bar">
+  <core-button-bar 
+    [barButtons]="observationsBarButtons" [itemsSelectedCount]="observationsSelectedCount"
+    (executeAction)="onBarButtonClicked($event)">
+  </core-button-bar>
+  <core-search-bar 
+    [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up"
+    [inputSearchId]="'observations-search-input'"
+    (basicSearch)="onMobileBasicSearch($event)"
+    (openAdvancedSearch)="onOpenAdvancedSearch()"
+    (openSortMenu)="onOpenSortMenu()">
+  </core-search-bar>
+</section>
+<core-table 
+  [columnsHeader]="observationsColumnsHeader" 
+  [columnsData]="observationsColumnsData"
+  [pagination]="observationsPagination"
+  (selectedItem)="onObservationSelected($event)"
+  (search)="onFilterObservations($event)"
+  (sortByColumn)="onSortObservations($event)"> 
+</core-table>
+
+<app-airport-observation-detail
+  [observationForm]="observationForm"
+  [title]="observationDetailTitle"
+  (saveObservation)="onSaveObservation($event)">
+</app-airport-observation-detail>
+
+<core-advanced-search>
+  <ng-container body>
+    <form [formGroup]="observationAdvancedSearchForm">
+      <div class="row">
+        <core-basic-input-text [id]="'advanced-search-observation-observation'" [label]="'Observación'" [clearable]="true" formControlName="observation">
+        </core-basic-input-text>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileAdvancedSearch()">
+      <i class="material-icons">search</i>
+      <span class="full-width-btn-text">Buscar</span>
+    </a>
+  </ng-container>
+</core-advanced-search>
+
+<core-sort-menu>
+  <ng-container body>
+    <form [formGroup]="observationSortForm">
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="observation,ASC" formControlName="sort" />
+          <span>Observación A -> Z</span>
+        </label>
+      </p>
+      <p>
+        <label>
+          <input class="with-gap" name="sort" type="radio" value="observation,DESC" formControlName="sort" />
+          <span>Observación Z -> A</span>
+        </label>
+      </p>
+    </form>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileSort()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Aceptar</span>
+    </a>
+  </ng-container>
+</core-sort-menu>
+
+<core-modal> 
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>Está seguro que desea eliminar la observación:</p>
+      <p><b>{{observationSelected?.observation}}</b></p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteObservation()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

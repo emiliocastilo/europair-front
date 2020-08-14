@@ -1,0 +1,32 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="observation-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="observationForm">
+        <div class="row">
+          <core-basic-input-text [id]="'observation-observation'" [label]="'Observación'" formControlName="observation" [hasErrors]="hasControlAnyError('observation')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('observation')">
+                <span *ngIf="hasControlSpecificError('observation', 'required')" class="helper-text" data-error="Debe indicar una observación">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    [ngClass]="{'disabled': !observationForm.valid}" (click)="onSaveObservation()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>
