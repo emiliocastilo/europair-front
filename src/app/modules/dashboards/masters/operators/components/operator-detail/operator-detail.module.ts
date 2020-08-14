@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from 'src/app/core/core.module';
-import { OperatorsRoutingModule } from './operators-routing.module';
-import { OperatorsComponent } from './operators.component';
+import { OperatorDetailRoutingModule } from './operator-detail-routing.module';
+import { OperatorDetailComponent } from './operator-detail.component';
 
 @NgModule({
-  declarations: [OperatorsComponent],
+  declarations: [OperatorDetailComponent],
   imports: [
     CommonModule,
     CoreModule,
-    OperatorsRoutingModule,
     ReactiveFormsModule,
+    OperatorDetailRoutingModule,
   ],
 })
-export class OperatorsModule {}
+export class OperatorDetailModule {}

@@ -2,6 +2,7 @@
   "common": {
     "create": "créer",
     "delete": "supprimer",
-    "edit": "éditer"
+    "edit": "éditer",
+    "confirm": "confirmer"
   }
 }
