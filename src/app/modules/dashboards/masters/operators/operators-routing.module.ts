@@ -20,15 +20,15 @@ const routes: Routes = [
           import('./components/operator-detail/operator-detail.module').then(
             (m) => m.OperatorDetailModule
           ),
-        data: { title: 'Nuevo aeropuerto', isOperatorDetail: false },
+        data: { title: 'operators.new', isOperatorDetail: false },
       },
       {
         path: ':operatorId',
         loadChildren: () =>
-        import('./components/operator-detail/operator-detail.module').then(
-          (m) => m.OperatorDetailModule
+          import('./components/operator-detail/operator-detail.module').then(
+            (m) => m.OperatorDetailModule
           ),
-        data: { title: 'Detalle aeropuerto', isOperatorDetail: true },
+        data: { title: 'operators.detail', isOperatorDetail: true },
       },
     ],
   },

@@ -15,6 +15,8 @@
     }
   },
   "operators": {
+    "new": "Nuevo operador",
+    "detail": "Detalle operador",
     "aocLastRevisionDate": "Fecha de revisión AOC",
     "aocNumber": "Número AOC",
     "insuranceExpirationDate": "Fecha de caducidad del seguro",
