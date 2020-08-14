@@ -6,8 +6,8 @@ import { Audit } from 'src/app/core/models/audit/audit';
 export interface Airport extends Audit {
     id: number;
     name?: string;
-    codIATA?: string;
-    codICAO?: string;
+    iataCode?: string;
+    icaoCode?: string;
     country?: Country;
     city?: City;
     timeZone?: string;
@@ -16,7 +16,7 @@ export interface Airport extends Audit {
         latitude: number,
         longitude: number
     };
-    customs?: boolean;
+    customs?: CustomsType;
     specialConditions?: boolean;
     flightRulesType?: FlightRulesType;
     trackInformation?: Array<Track>;
@@ -28,6 +28,12 @@ export interface Airport extends Audit {
 export enum FlightRulesType {
     IFR = 'IFR',
     VFR = 'VFR'
+}
+
+export enum CustomsType {
+  YES = 'YES',
+  NO = 'NO',
+  ON_REQUEST = 'ON_REQUEST'
 }
 
 export interface Track {
