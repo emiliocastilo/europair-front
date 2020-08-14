@@ -9,6 +9,7 @@ export enum BarButtonType {
   DELETE = 'delete',
   DELETE_SELECTED = 'delete_selected',
   SEARCH = 'search',
+  SAVE = 'save',
   CHECK = 'check',
   EDIT = 'edit',
   VIEW = 'view',

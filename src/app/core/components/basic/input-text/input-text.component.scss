@@ -4,12 +4,15 @@
   margin: 0;
   padding: 0;
   input[type="text"],
+  input[type="date"],
   input[type="password"],
   input[type="number"] {
     border-bottom: 1px solid $europair-color-blue-dark-2;
   }
   input.valid[type="text"]:not(.browser-default),
   input[type="text"]:focus,
+  input.valid[type="date"]:not(.browser-default),
+  input[type="date"]:focus,
   input.valid[type="number"]:not(.browser-default),
   input[type="number"]:focus,
   input.valid[type="password"]:not(.browser-default),
@@ -17,6 +20,7 @@
     box-shadow: 0 1px 0 0 $europair-color-blue-dark-2;
   }
   input[type="text"] + label,
+  input[type="date"] + label,
   input[type="number"] + label,
   input[type="password"] + label {
     color: $europair-color-blue-dark-2;

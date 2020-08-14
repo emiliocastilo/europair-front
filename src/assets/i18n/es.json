@@ -1,7 +1,30 @@
 {
   "common": {
+    "certifications": "certificaciones",
+    "confirm": "confirmar",
     "create": "crear",
     "delete": "eliminar",
-    "edit": "editar"
+    "edit": "editar",
+    "generalData": "datos generales",
+    "name": "nombre",
+    "observations": "observaciones",
+    "save": "guardar",
+    "abbreviations": {
+      "iataCode": "Cód. IATA",
+      "icaoCode": "Cód. ICAO"
+    }
+  },
+  "operators": {
+    "aocLastRevisionDate": "Fecha de revisión AOC",
+    "aocNumber": "Número AOC",
+    "insuranceExpirationDate": "Fecha de caducidad del seguro",
+    "errors": {
+      "aocLastRevisionDate": "Debe indicar una fecha de revisión AOC",
+      "aocNumber": "Debe indicar un número de AOC",
+      "iataCode": "Debe indicar un código IATA",
+      "icaoCode": "Debe indicar un código ICAO",
+      "insuranceExpirationDate": "Debe indicar una fecha de caducidad del seguro",
+      "name": "Debe indicar el nombre del operador"
+    }
   }
 }

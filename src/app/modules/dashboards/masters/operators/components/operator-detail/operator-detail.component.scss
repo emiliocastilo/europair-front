@@ -1,22 +1,9 @@
-@import "variables";
+.user-role-detail {
+  .row:last-child {
+    margin-bottom: 0;
+  }
+}
 
-@media #{$small-and-down} {
-  .modal {
-    height: 100%;
-    width: 100%;
-    max-height: 90%;
-  }
-  .modal-content {
-    height: 100%;
-    border-radius: 0;
-    position: relative;
-    max-height: 90%;
-    overflow: scroll;
-  }
-  .modal-footer {
-    border-radius: 0;
-    bottom: 0px;
-    position: absolute;
-    width: 100%;
-  }
+.collapsible-body {
+  padding-bottom: 1.5rem;
 }
