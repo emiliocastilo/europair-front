@@ -1,7 +1,7 @@
 import { Audit } from 'src/app/core/models/audit/audit';
 
 export interface Operator extends Audit {
-  id: number;
+  id?: number;
   iataCode: string;
   icaoCode: string;
   name: string;
@@ -36,19 +36,12 @@ export interface Fleet {
 }
 
 export const EMPTY_OPERATOR: Operator = {
-  id: undefined,
   iataCode: '',
   icaoCode: '',
   name: '',
-  aocLastRevisionDate: '',
+  aocLastRevisionDate: null,
   aocNumber: null,
-  insuranceExpirationDate: new Date(),
+  insuranceExpirationDate: null,
   certifications: [],
   observations: [],
-  associatedContacts: [],
-  associatedFleet: null,
-  createdAt: null,
-  createdBy: null,
-  modifiedAt: null,
-  modifiedBy: null,
 };

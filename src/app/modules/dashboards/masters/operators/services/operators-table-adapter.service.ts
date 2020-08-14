@@ -101,7 +101,6 @@ export class OperatorsTableAdapterService {
   ): RowDataModel[] {
     const operatorTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
@@ -129,10 +128,7 @@ export class OperatorsTableAdapterService {
   }
 
   public getCertificationTableData(
-    certifications: Certification[],
-    operatorCertifications: Certification[],
-    idPrefix: string,
-    editable = true
+    certifications: Certification[]
   ): RowDataModel[] {
     const certificationTableData: Array<RowDataModel> = new Array<
       RowDataModel
@@ -153,12 +149,7 @@ export class OperatorsTableAdapterService {
     return certificationTableData;
   }
 
-  public getOperatorObservationsTableData(
-    observations: any[],
-    operatorObservations: any[],
-    idPrefix: string,
-    editable = true
-  ): RowDataModel[] {
+  public getOperatorObservationsTableData(observations: any[]): RowDataModel[] {
     const observationsTableData: Array<RowDataModel> = new Array<
       RowDataModel
     >();

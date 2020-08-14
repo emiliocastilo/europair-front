@@ -1,9 +1,11 @@
 import { Role } from '../../roles/models/role';
 import { Task } from '../../tasks/models/task';
+import { Audit } from 'src/app/core/models/audit/audit';
 
-export interface User {
+export interface User extends Audit {
   id: number;
   username: string;
+  password: string;
   name: string;
   surname: string;
   email: string;
@@ -15,6 +17,7 @@ export interface User {
 export const EMPTY_USER: User = {
   id: null,
   username: '',
+  password: '',
   name: '',
   surname: '',
   email: '',

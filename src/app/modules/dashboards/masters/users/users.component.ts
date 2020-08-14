@@ -61,6 +61,7 @@ export class UsersComponent implements OnInit {
   public userForm = this.fb.group({
     username: ['', Validators.required],
     name: ['', Validators.required],
+    password: ['', Validators.required],
     surname: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     timeZone: ['', Validators.required],
@@ -204,6 +205,7 @@ export class UsersComponent implements OnInit {
   private updateUserForm(selectedUser: User) {
     this.userForm.setValue({
       username: selectedUser.username,
+      password: selectedUser.password,
       name: selectedUser.name,
       surname: selectedUser.surname,
       email: selectedUser.email,
@@ -260,7 +262,7 @@ export class UsersComponent implements OnInit {
   private initializeClientTablePagination(
     model: RowDataModel[]
   ): PaginationModel {
-    let pagination = this.usersTableAdapterService.getPagination();
+    const pagination = this.usersTableAdapterService.getPagination();
     pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }

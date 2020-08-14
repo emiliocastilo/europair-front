@@ -1,87 +1,148 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil, distinct } from 'rxjs/operators';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { Operator, EMPTY_OPERATOR } from '../../models/Operator.model';
+import {
+  Certification,
+  EMPTY_OPERATOR,
+  Operator,
+  OperatorComment,
+} from '../../models/Operator.model';
+import { OperatorsTableAdapterService } from '../../services/operators-table-adapter.service';
+import { OperatorsService } from '../../services/operators.service';
 
 @Component({
   selector: 'app-operator-detail',
   templateUrl: './operator-detail.component.html',
   styleUrls: ['./operator-detail.component.scss'],
+  providers: [OperatorsTableAdapterService],
 })
-export class OperatorDetailComponent implements OnInit {
-  @Input()
-  public title: string;
+export class OperatorDetailComponent implements OnInit, OnDestroy {
+  private unsubscribe$: Subject<void> = new Subject();
 
-  @Input()
-  public operatorCertificationsColumnsHeader: ColumnHeaderModel[] = [];
+  public pageTitle: string;
 
-  @Input()
-  public operatorCertificationsColumnsData: RowDataModel[] = [];
-
-  @Input()
-  public operatorCertificationsColumnsPagination: PaginationModel;
-
-  @Input()
   public operatorObservationsColumnsHeader: ColumnHeaderModel[] = [];
-
-  @Input()
   public operatorObservationsColumnsData: RowDataModel[] = [];
-
-  @Input()
   public operatorObservationsColumnsPagination: PaginationModel;
 
-  @Input()
-  public operatorForm: FormGroup;
+  public operatorCertificationsColumnsHeader: ColumnHeaderModel[] = [];
+  public operatorCertificationsColumnsData: RowDataModel[] = [];
+  public operatorCertificationsColumnsPagination: PaginationModel;
 
-  @Input()
-  public set operatorDetail(operatorDetail: Operator) {
-    this._operatorDetail = { ...operatorDetail };
+  public operatorDetail: Operator = { ...EMPTY_OPERATOR };
+  public operatorObservations: OperatorComment[] = [];
+  public operatorCertifications: Certification[] = [];
+
+  public operatorForm = this.fb.group({
+    name: ['', [Validators.required]],
+    iataCode: ['', [Validators.required, Validators.maxLength(3)]],
+    icaoCode: ['', [Validators.required, Validators.maxLength(4)]],
+    aocLastRevisionDate: ['', [Validators.required]],
+    insuranceExpirationDate: [''],
+    aocNumber: ['', [Validators.required]],
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    private operatorsService: OperatorsService,
+    private operatorTableAdapter: OperatorsTableAdapterService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeOperatorData(this.route.snapshot.data);
+    this.initializeTablesColumnsHeader();
   }
 
-  @Output()
-  public saveOperator: EventEmitter<Operator> = new EventEmitter();
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
-  public _operatorDetail: Operator = { ...EMPTY_OPERATOR };
+  private initializeTablesColumnsHeader() {
+    this.operatorCertificationsColumnsHeader = this.operatorTableAdapter.getOperatorCertificationsColumnsHeader();
+    this.operatorObservationsColumnsHeader = this.operatorTableAdapter.getOperatorObservationsColumnsHeader();
+  }
 
-  constructor() {}
+  private initializeOperatorData({ title, isOperatorDetail }: any) {
+    this.pageTitle = title;
+    if (isOperatorDetail) {
+      this.route.params
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(({ operatorId }) => {
+          this.retrieveOperatorData(operatorId);
+        });
+    }
+  }
 
-  ngOnInit(): void {}
+  private retrieveOperatorData(operatorId: number) {
+    this.operatorsService
+      .getOperatorById(operatorId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((operatorData) => {
+        this.operatorDetail = { ...EMPTY_OPERATOR, ...operatorData };
+        this.updateOperatorForm(this.operatorDetail);
+        this.updateCertifications(operatorData.id);
+        this.updateComments(operatorData.id);
+      });
+  }
 
-  // public userRoleAssignedChanged(event: { id: string; selectedItem: number }) {
-  //   const roleId = +event.id.substring(event.id.lastIndexOf('-') + 1);
-  //   if (this.hasUserRoleAssigned(this._operatorDetail, roleId)) {
-  //     this._operatorDetail.roles = this._operatorDetail.roles.filter(
-  //       (role: Role) => role.id !== roleId
-  //     );
-  //   } else {
-  //     const roleToAdd = this.roles[event.selectedItem];
-  //     this._operatorDetail.roles = [...this._operatorDetail.roles, roleToAdd];
-  //   }
-  // }
+  private updateCertifications(operatorId: number) {
+    this.operatorsService
+      .getOperatorCertifications(operatorId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((certificationsPage) => {
+        this.operatorCertifications = certificationsPage.content;
+        this.operatorCertificationsColumnsData = this.operatorTableAdapter.getCertificationTableData(
+          certificationsPage.content
+        );
+        this.operatorCertificationsColumnsPagination = this.initializeClientTablePagination(
+          this.operatorCertificationsColumnsData
+        );
+      });
+  }
 
-  // public userTaskAssignedChanged(event: { id: string; selectedItem: number }) {
-  //   const taskId = +event.id.substring(event.id.lastIndexOf('-') + 1);
-  //   if (this.hasUserTaskAssigned(this._operatorDetail, taskId)) {
-  //     this._operatorDetail.tasks = this._operatorDetail.tasks.filter(
-  //       (task: Task) => task.id !== taskId
-  //     );
-  //   } else {
-  //     const taskToAdd = this.tasks[event.selectedItem];
-  //     this._operatorDetail.tasks = [...this._operatorDetail.tasks, taskToAdd];
-  //   }
-  // }
+  private updateComments(operatorId: number) {
+    this.operatorsService
+      .getOperatorComments(operatorId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((commentsPage) => {
+        this.operatorObservations = commentsPage.content;
+        this.operatorObservationsColumnsData = this.operatorTableAdapter.getOperatorObservationsTableData(
+          commentsPage.content
+        );
+        this.operatorObservationsColumnsPagination = this.initializeClientTablePagination(
+          this.operatorObservationsColumnsData
+        );
+      });
+  }
 
-  public onSaveUser() {
-    console.log({
-      ...this._operatorDetail,
-      ...this.operatorForm.value,
+  private updateOperatorForm(selectedOperator: Operator) {
+    this.operatorForm.setValue({
+      name: selectedOperator.name,
+      iataCode: selectedOperator.iataCode,
+      icaoCode: selectedOperator.icaoCode,
+      aocLastRevisionDate: selectedOperator.aocLastRevisionDate,
+      aocNumber: selectedOperator.aocNumber,
+      insuranceExpirationDate: selectedOperator.insuranceExpirationDate,
     });
-    this.saveOperator.next({
-      ...this._operatorDetail,
-      ...this.operatorForm.value,
-    });
+  }
+
+  public onSaveOperator() {
+    this.operatorsService
+      .saveOperator({
+        ...this.operatorDetail,
+        ...this.operatorForm.value,
+      })
+      .subscribe(() => {
+        this.router.navigate(['operators']);
+      });
   }
 
   public hasControlAnyError(controlName: string): boolean {
@@ -97,11 +158,11 @@ export class OperatorDetailComponent implements OnInit {
     return control && control.hasError(errorName);
   }
 
-  // private hasUserRoleAssigned(user: User, roleId: number): boolean {
-  //   return user.roles.some((role: Role) => role.id === roleId);
-  // }
-
-  // private hasUserTaskAssigned(user: User, taskId: number): boolean {
-  //   return user.tasks.some((task: Task) => task.id === taskId);
-  // }
+  private initializeClientTablePagination(
+    model: RowDataModel[]
+  ): PaginationModel {
+    const pagination = this.operatorTableAdapter.getPagination();
+    pagination.lastPage = model.length / pagination.elementsPerPage;
+    return pagination;
+  }
 }
