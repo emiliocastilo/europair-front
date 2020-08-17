@@ -117,7 +117,7 @@ export class CountriesComponent implements OnInit {
   }
 
   private editCountry(selectedItem: number): void {
-    this.initializeCountryDetailModal(this.translateService.instant('COUNTRIES.EDIT'), {
+    this.initializeCountryDetailModal(this.translateService.instant('COUNTRIES.EDIT_COUNTRY'), {
       ...this.countries[selectedItem],
     });
     this.modalService.openModal();

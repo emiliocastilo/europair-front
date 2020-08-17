@@ -9,7 +9,7 @@
     </section>
     <section class="country-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <div class="row">
-        <core-basic-input-text [id]="'country-code'" [label]="'COUNTRIES.CODE' | translate" [formControl]="countryCodeControl"
+        <core-basic-input-text [id]="'country-code'" [label]="'COUNTRIES.COUNTRY_CODE' | translate" [formControl]="countryCodeControl"
           [hasErrors]="hasCountryCodeControlErrors()" [maxlength]="maxLengthCode" [inputClass]="'text-uppercase'">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryCodeControlErrors()">

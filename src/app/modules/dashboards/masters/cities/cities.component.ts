@@ -123,7 +123,7 @@ export class CitiesComponent implements OnInit {
   }
 
   private editCity(selectedItem: number): void {
-    this.initializeCityDetailModal(this.translateService.instant('CITIES.EDIT'), {
+    this.initializeCityDetailModal(this.translateService.instant('CITIES.EDIT_CITY'), {
       ...this.cities[selectedItem],
     });
     this.modalService.openModal();
