@@ -26,5 +26,26 @@
       "insuranceExpirationDate": "Debe indicar una fecha de caducidad del seguro",
       "name": "Debe indicar el nombre del operador"
     }
+  },
+  "CITIES": {
+    "PAGE_TITLE": "Ciudades",
+    "CREATE": "Crear Ciudad",
+    "EDIT": "Editar Ciudad",
+    "NEW": "Nueva Ciudad",
+    "DELETE": "Borrar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "CODE": "Código",
+    "CITY": "Ciudad",
+    "COUNTRY": "País",
+    "COUNTRY_PLACEHOLDER": "Selecciona un país",
+    "ERROR": {
+      "CODE": "Debe indicar el código de la Ciudad",
+      "NAME": "Debe indicar el nombre de la Ciudad",
+      "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
+    }
   }
 }
