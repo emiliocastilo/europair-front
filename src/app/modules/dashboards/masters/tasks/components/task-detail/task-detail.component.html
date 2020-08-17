@@ -4,14 +4,15 @@
       <h4>{{ title }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'TASKS.CANCEL' | translate}}
       </a>
     </section>
     <section class="task-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-      <core-basic-input-text [id]="'task-name'" [label]="'Tarea'" [formControl]="taskNameControl" [hasErrors]="hasTaskNameControlErrors()">
+      <core-basic-input-text [id]="'task-name'" [label]="'TASKS.TASK' | translate" [formControl]="taskNameControl" [hasErrors]="hasTaskNameControlErrors()">
         <ng-container inputErrors>
           <ng-container *ngIf="hasTaskNameControlErrors()">
-            <span *ngIf="taskNameControl.errors.required" class="helper-text" data-error="Debe indicar el nombre de la tarea">
+            <span *ngIf="taskNameControl.errors.required" class="helper-text"
+            attr.data-error="{{'TASKS.ERROR.NAME' | translate}}">
             </span>
           </ng-container>
         </ng-container>
@@ -31,7 +32,7 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
     [ngClass]="{'disabled': !taskNameControl.valid}" (click)="onSaveTask()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{'TASKS.SAVE' | translate}}</span>
     </a>
   </div>
 </div>

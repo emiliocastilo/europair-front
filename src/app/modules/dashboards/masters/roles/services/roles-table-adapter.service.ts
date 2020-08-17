@@ -24,7 +24,7 @@ export class RolesTableAdapterService {
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Rol',
+        'ROLES.ROL',
         new ColumnHeaderSizeModel('9', '6', '7')
       ),
       new ColumnHeaderModel(
@@ -41,13 +41,13 @@ export class RolesTableAdapterService {
       new ColumnHeaderModel(
         'screen-header',
         'text',
-        'Tarea',
+        'ROLES.TASK',
         new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignada',
+        'ROLES.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
@@ -57,9 +57,9 @@ export class RolesTableAdapterService {
     const roleTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
     actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
+      new ColumnActionsModel('create', 'edit', 'ROLES.EDIT', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'delete', 'ROLES.DELETE', 'red'));
     roles.forEach((role: Role) => {
       const taskRow: RowDataModel = new RowDataModel();
       taskRow.pushColumn(
@@ -67,8 +67,8 @@ export class RolesTableAdapterService {
       );
       taskRow.pushColumn(new ColumnDataModel('text', role.name));
       taskRow.pushColumn(new ColumnDataModel('actions', actions));
-      taskRow.author = role.modifiedBy != null? role.modifiedBy : role.createdBy;
-      taskRow.timestamp = role.modifiedAt != null? role.modifiedAt : role.createdAt;
+      taskRow.author = role.modifiedBy != null ? role.modifiedBy : role.createdBy;
+      taskRow.timestamp = role.modifiedAt != null ? role.modifiedAt : role.createdAt;
       taskRow.modified = role.modifiedAt != null;
       roleTableData.push(taskRow);
     });

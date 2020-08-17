@@ -70,5 +70,49 @@
       "CODE_FORMAT": "El código de país no puede contener números ni simbolos",
       "NAME": "Debe indicar el nombre de la país"
     }
+  },
+  "ROLES": {
+    "PAGE_TITLE": "Roles",
+    "CREATE": "Crear rol",
+    "EDIT_ROL": "Editar rol",
+    "EDIT": "Editar",
+    "NEW": "Nuevo rol",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "ROL": "Rol",
+    "TASK": "Tarea",
+    "ASIGNED": "Asignada",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre del rol"
+    }
+  },
+  "TASKS": {
+    "PAGE_TITLE": "Tareas",
+    "CREATE": "Crear tarea",
+    "EDIT_TASK": "Editar tarea",
+    "EDIT": "Editar",
+    "NEW": "Nueva tarea",
+    "DELETE": "Eliminar",
+    "SEARCH": "Buscar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "ROL": "Rol",
+    "TASK": "Tarea",
+    "SCREEN": "Pantalla",
+    "NAME": "Nombre",
+    "ACEPT": "Aceptar",
+    "ASIGNED": "Asignado",
+    "SORT_ALPHABETIC_ASC": "Nombre A -> Z",
+    "SORT_ALPHABETIC_DESC": "Nombre Z -> A",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre de la tarea"
+    }
   }
 }
