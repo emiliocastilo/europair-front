@@ -47,5 +47,25 @@
       "NAME": "Debe indicar el nombre de la Ciudad",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     }
+  },
+  "COUNTRIES": {
+    "PAGE_TITLE": "Países",
+    "CREATE": "Crear País",
+    "EDIT": "Editar País",
+    "NEW": "Nuevo País",
+    "DELETE": "Borrar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este país?",
+    "CODE": "Código del páis",
+    "COUNTRY": "País",
+    "ERROR": {
+      "CODE": "Debe indicar el código del país",
+      "CODE_MAXLENGTH": "El código de país debe de tener dos caracteres",
+      "CODE_FORMAT": "El código de país no puede contener números ni simbolos",
+      "NAME": "Debe indicar el nombre de la país"
+    }
   }
 }
