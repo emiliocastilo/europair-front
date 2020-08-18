@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  BarButton,
-  BarButtonType,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { Region, EMPTY_REGION } from './models/region';
@@ -18,6 +15,8 @@ import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Country } from '../countries/models/country';
 import { CountriesService } from '../countries/services/countries.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Component({
   selector: 'app-regions',
@@ -29,10 +28,6 @@ export class RegionsComponent implements OnInit {
   public regionDetailModal: ElementRef;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
-
-  private readonly VIEW_REGION_TITLE = 'Detalle región';
-  private readonly EDIT_REGION_TITLE = 'Editar región';
-  private readonly CREATE_REGION_TITLE = 'Crear región';
 
   public regionColumnsHeader: ColumnHeaderModel[] = [];
   public regionColumnsData: RowDataModel[] = [];
@@ -49,11 +44,7 @@ export class RegionsComponent implements OnInit {
   public regionSelected: Region = EMPTY_REGION;
   public regionDetailTitle: string;
 
-  public pageTitle = 'Regiones';
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva región' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
+  public barButtons: BarButton[];
 
   public regionForm = this.fb.group({
     code: ['', Validators.required],
@@ -68,12 +59,26 @@ export class RegionsComponent implements OnInit {
     private regionsTableAdapterService: RegionsTableAdapterService,
     private modalService: ModalService,
     private fb: FormBuilder,
-    private countriesService: CountriesService
+    private countriesService: CountriesService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeRegionsTable();
     this.initializeTablesColumnsHeader();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newRegion: this.translateService.get('REGIONS.NEW'),
+      deleteRegion: this.translateService.get('REGIONS.DELETE')
+    }).subscribe((data: {newRegion: string, deleteRegion: string}) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newRegion },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteRegion }
+      ];
+    });
   }
 
   private initializeTablesColumnsHeader() {
@@ -83,8 +88,10 @@ export class RegionsComponent implements OnInit {
   }
 
   private initializeRegionsTable() {
-    // this.regionsService.getRegions().subscribe(this.getRegionTabeData);
-    this.getRegionTableData(this.mockRegions);
+    this.regionsService.getRegions().subscribe((data: Page<Region>) => {
+      this.mockRegions = data.content;
+      this.getRegionTableData(data.content);
+    });
   }
 
   private getRegionTableData = (regions: Region[]) => {
@@ -111,7 +118,7 @@ export class RegionsComponent implements OnInit {
     this.regionSelected = { ...EMPTY_REGION };
     this.regionForm.enable();
     this.regionForm.reset();
-    this.getRegionDetailData(data, this.CREATE_REGION_TITLE, EMPTY_REGION);
+    this.getRegionDetailData(data, this.translateService.instant('REGIONS.CREATE'), EMPTY_REGION);
   };
 
   private barButtonActions = {
@@ -137,7 +144,7 @@ export class RegionsComponent implements OnInit {
     this.regionForm.disable();
     this.getRegionDetailData(
       data,
-      this.VIEW_REGION_TITLE,
+      this.translateService.instant('REGIONS.VIEW_REGION'),
       this.regionSelected,
       false
     );
@@ -150,7 +157,7 @@ export class RegionsComponent implements OnInit {
   private getEditRegionDetailData = (data: any) => {
     this.updateRegionrForm(this.regionSelected);
     this.regionForm.enable();
-    this.getRegionDetailData(data, this.EDIT_REGION_TITLE, this.regionSelected);
+    this.getRegionDetailData(data, this.translateService.instant('REGIONS.EDIT_REGION'), this.regionSelected);
   };
 
   private deleteRegion = (selectedItem: number) => {
@@ -269,7 +276,7 @@ export class RegionsComponent implements OnInit {
   private initializeClientTablePagination(
     model: RowDataModel[]
   ): PaginationModel {
-    let pagination = this.regionsTableAdapterService.getPagination();
+    const pagination = this.regionsTableAdapterService.getPagination();
     pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
   }
