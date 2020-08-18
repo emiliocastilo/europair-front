@@ -114,5 +114,44 @@
     "ERROR": {
       "NAME": "Debe indicar el nombre de la tarea"
     }
+  },
+  "USERS": {
+    "PAGE_TITLE": "Usuarios",
+    "CREATE": "Crear usuario",
+    "EDIT_USER": "Editar usuario",
+    "VIEW_USER": "Detalle usuario",
+    "EDIT": "Editar",
+    "NEW": "Nuevo usuario",
+    "DELETE": "Eliminar",
+    "SEARCH": "Buscar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar el usuario <b>{{ username }}</b>?",
+    "ROLE": "Rol",
+    "ROLES": "Roles",
+    "TASK": "Tarea",
+    "TASKS": "Tareas",
+    "USER": "Usuario",
+    "NAME": "Nombre",
+    "SURNAME": "Apellidos",
+    "USERNAME": "Nombre de usuario",
+    "PASSWORD": "Contraseña",
+    "MAIL": "Email",
+    "TIME_ZONE": "Zona horaria",
+    "ACEPT": "Aceptar",
+    "ASIGNED": "Asignado",
+    "SORT_ALPHABETIC_ASC": "Nombre A -> Z",
+    "SORT_ALPHABETIC_DESC": "Nombre Z -> A",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre de usuario",
+      "PASSWORD": "Debe indicar una contraseña",
+      "USERNAME": "Debe indicar un nombre",
+      "SURNAME": "Debe indicar los apellidos",
+      "MAIL_REQUIRED": "Debe indicar un email",
+      "MAIL_FORMAT": "El formato del email no es correcto",
+      "TIME_ZONE": "Debe indicar una zona horaria"
+    }
   }
 }
