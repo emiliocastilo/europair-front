@@ -3,31 +3,35 @@
     <div class="row">
       <div class="col s12 l3">
         <core-basic-input-text [label]="'Cód. IATA'" [id]="'iataCode'" [inputClass]="'text-uppercase'" [maxlength]="'3'"
-         formControlName="iataCode" [hasErrors]="hasControlAnyError('iataCode')">
-         <ng-container inputErrors>
-          <ng-container *ngIf="hasControlAnyError('iataCode')">
-            <span *ngIf="hasControlSpecificError('iataCode', 'required')" class="helper-text" data-error="Debe indicar el código IATA">
-            </span>
+          formControlName="iataCode" [hasErrors]="hasControlAnyError('iataCode')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasControlAnyError('iataCode')">
+              <span *ngIf="hasControlSpecificError('iataCode', 'required')" class="helper-text"
+                data-error="Debe indicar el código IATA">
+              </span>
+            </ng-container>
           </ng-container>
-        </ng-container>
         </core-basic-input-text>
       </div>
       <div class="col s12 l3">
         <core-basic-input-text [label]="'Cód. ICAO'" [id]="'icaoCode'" [inputClass]="'text-uppercase'" [maxlength]="'4'"
-         formControlName="icaoCode" [hasErrors]="hasControlAnyError('icaoCode')">
-         <ng-container inputErrors>
-          <ng-container *ngIf="hasControlAnyError('icaoCode')">
-            <span *ngIf="hasControlSpecificError('icaoCode', 'required')" class="helper-text" data-error="Debe indicar el código ICAO">
-            </span>
+          formControlName="icaoCode" [hasErrors]="hasControlAnyError('icaoCode')">
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasControlAnyError('icaoCode')">
+              <span *ngIf="hasControlSpecificError('icaoCode', 'required')" class="helper-text"
+                data-error="Debe indicar el código ICAO">
+              </span>
+            </ng-container>
           </ng-container>
-        </ng-container>
         </core-basic-input-text>
       </div>
       <div class="col s12 l6">
-        <core-basic-input-text [label]="'Nombre'" [id]="'name'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+        <core-basic-input-text [label]="'Nombre'" [id]="'name'" formControlName="name"
+          [hasErrors]="hasControlAnyError('name')">
           <ng-container inputErrors>
             <ng-container *ngIf="hasControlAnyError('name')">
-              <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" data-error="Debe indicar el nombre">
+              <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text"
+                data-error="Debe indicar el nombre">
               </span>
             </ng-container>
           </ng-container>
@@ -35,51 +39,76 @@
       </div>
     </div>
     <div class="row">
-      <div class="col s12 l3">
-        <core-select [label]="'País'" [id]="'country'" [items]="countries$ | async" [minTermLength]="2"
-         [loading]="countriesLoading" [typeToSearchText]="'Escriba nombre país'" [hasErrors]="hasControlAnyError('country')"
-         [typeahead]="countriesInput$" [searchable]="true" [notFoundText]="'Sin resultados'" formControlName="country">
-          <ng-container inputErrors>
-            <ng-container *ngIf="hasControlAnyError('country')">
-              <span *ngIf="hasControlSpecificError('country', 'required')" class="helper-text"
-                data-error="Debe indicar un país">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-select>
+      <div class="col s12 l9">
+        <div class="row">
+          <div class="col s12 l4">
+            <core-select [label]="'País'" [id]="'country'" [items]="countries$ | async" [minTermLength]="2"
+              [loading]="countriesLoading" [typeToSearchText]="'Escriba nombre país'"
+              [hasErrors]="hasControlAnyError('country')" [typeahead]="countriesInput$" [searchable]="true"
+              [notFoundText]="'Sin resultados'" formControlName="country">
+              <ng-container inputErrors>
+                <ng-container *ngIf="hasControlAnyError('country')">
+                  <span *ngIf="hasControlSpecificError('country', 'required')" class="helper-text"
+                    data-error="Debe indicar un país">
+                  </span>
+                </ng-container>
+              </ng-container>
+            </core-select>
+          </div>
+          <div class="col s12 l4">
+            <core-select [label]="'Ciudad'" [id]="'city'" [items]="cities$ | async" [minTermLength]="2"
+              [loading]="citiesLoading" [typeToSearchText]="'Escriba nombre ciudad'"
+              [hasErrors]="hasControlAnyError('city')" [typeahead]="citiesInput$" [searchable]="true"
+              [notFoundText]="'Sin resultados'" formControlName="city">
+              <ng-container inputErrors>
+                <ng-container *ngIf="hasControlAnyError('city')">
+                  <span *ngIf="hasControlSpecificError('city', 'required')" class="helper-text"
+                    data-error="Debe indicar una ciudad">
+                  </span>
+                </ng-container>
+              </ng-container>
+            </core-select>
+          </div>
+          <div class="col s12 l4">
+            <core-basic-input-text [label]="'Franja horaria'" [id]="'timeZone'" formControlName="timeZone">
+            </core-basic-input-text>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 l4">
+            <core-basic-input-text [label]="'Elevacion'" [id]="'altitude'" formControlName="altitude">
+            </core-basic-input-text>
+          </div>
+          <div class="col s12 l4">
+            <core-basic-input-text [label]="'Latitud'" [id]="'latitude'" formControlName="latitude">
+            </core-basic-input-text>
+          </div>
+          <div class="col s12 l4">
+            <core-basic-input-text [label]="'Longitud'" [id]="'longitude'" formControlName="longitude">
+            </core-basic-input-text>
+          </div>
+        </div>
       </div>
       <div class="col s12 l3">
-        <core-select [label]="'Ciudad'" [id]="'city'" [items]="cities$ | async" [minTermLength]="2"
-         [loading]="citiesLoading" [typeToSearchText]="'Escriba nombre ciudad'" [hasErrors]="hasControlAnyError('city')"
-         [typeahead]="citiesInput$" [searchable]="true" [notFoundText]="'Sin resultados'" formControlName="city">
-          <ng-container inputErrors>
-            <ng-container *ngIf="hasControlAnyError('city')">
-              <span *ngIf="hasControlSpecificError('city', 'required')" class="helper-text"
-                data-error="Debe indicar una ciudad">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-select>
-      </div>
-      <div class="col s12 l3">
-        <core-basic-input-text [label]="'Franja horaria'" [id]="'timeZone'" formControlName="timeZone"></core-basic-input-text>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col s12 l3">
-        <core-basic-input-text [label]="'Elevacion'" [id]="'altitude'"
-         formControlName="altitude">
-        </core-basic-input-text>
-      </div>
-      <div class="col s12 l3">
-        <core-basic-input-text [label]="'Latitud'" [id]="'latitude'"
-         formControlName="latitude">
-        </core-basic-input-text>
-      </div>
-      <div class="col s12 l3">
-        <core-basic-input-text [label]="'Longitud'" [id]="'longitude'"
-         formControlName="longitude">
-        </core-basic-input-text>
+        <p>
+          <label>
+            Tipo de normas de vuelo
+          </label>
+        </p>
+        <p>
+          <label>
+            <input class="with-gap" name="flightRules" [value]="FLIGHT_RULES_TYPE.IFR" type="radio"
+              formControlName="flightRules" />
+            <span>IFR (Instrumental Flight Rules)</span>
+          </label>
+        </p>
+        <p>
+          <label>
+            <input class="with-gap" name="flightRules" [value]="FLIGHT_RULES_TYPE.VFR" type="radio"
+              formControlName="flightRules" />
+            <span>VFR (Visual Flight Rules)</span>
+          </label>
+        </p>
       </div>
     </div>
     <div class="row">
@@ -91,13 +120,13 @@
         </p>
         <p>
           <label>
-            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.YES" type="radio" formControlName="customs"/>
+            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.YES" type="radio" formControlName="customs" />
             <span>Si</span>
           </label>
         </p>
         <p>
           <label>
-            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.NO" type="radio" formControlName="customs"/>
+            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.NO" type="radio" formControlName="customs" />
             <span>No</span>
           </label>
         </p>
@@ -110,33 +139,16 @@
         </p>
         <p>
           <label>
-            <input class="with-gap" name="specialConditions" [value]="true" type="radio" formControlName="specialConditions"/>
+            <input class="with-gap" name="specialConditions" [value]="true" type="radio"
+              formControlName="specialConditions" />
             <span>Si</span>
           </label>
         </p>
         <p>
           <label>
-            <input class="with-gap" name="specialConditions" [value]="false" type="radio" formControlName="specialConditions"/>
+            <input class="with-gap" name="specialConditions" [value]="false" type="radio"
+              formControlName="specialConditions" />
             <span>No</span>
-          </label>
-        </p>
-      </div>
-      <div class="col s12 l6">
-        <p>
-          <label>
-            Tipo de normas de vuelo
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="flightRules" [value]="FLIGHT_RULES_TYPE.IFR" type="radio" formControlName="flightRules"/>
-            <span>IFR (Instrumental Flight Rules)</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="flightRules" [value]="FLIGHT_RULES_TYPE.VFR" type="radio" formControlName="flightRules"/>
-            <span>VFR (Visual Flight Rules)</span>
           </label>
         </p>
       </div>
