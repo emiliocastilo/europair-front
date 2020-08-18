@@ -113,44 +113,14 @@
     </div>
     <div class="row mb0">
       <div class="col s12 l3">
-        <p>
-          <label>
-            Aduanas
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.YES" type="radio" formControlName="customs" />
-            <span>Si</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="customs" [value]="CUSTOMS_TYPE.NO" type="radio" formControlName="customs" />
-            <span>No</span>
-          </label>
-        </p>
+        <core-basic-switch [id]="'aduanas'" [firstLabel]="'Aduanas'"
+          formControlName="customs">
+        </core-basic-switch>
       </div>
       <div class="col s12 l3">
-        <p>
-          <label>
-            Condiciones especiales
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="specialConditions" [value]="true" type="radio"
-              formControlName="specialConditions" />
-            <span>Si</span>
-          </label>
-        </p>
-        <p>
-          <label>
-            <input class="with-gap" name="specialConditions" [value]="false" type="radio"
-              formControlName="specialConditions" />
-            <span>No</span>
-          </label>
-        </p>
+          <core-basic-switch [id]="'condiciones-especiales'" [firstLabel]="'Condiciones especiales'"
+            formControlName="specialConditions">
+          </core-basic-switch>
       </div>
     </div>
   </form>

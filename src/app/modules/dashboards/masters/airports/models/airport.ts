@@ -16,7 +16,7 @@ export interface Airport extends Audit {
         latitude: number,
         longitude: number
     };
-    customs?: CustomsType;
+    customs?: boolean;// CustomsType;
     specialConditions?: boolean;
     flightRulesType?: FlightRulesType;
     trackInformation?: Array<Track>;
