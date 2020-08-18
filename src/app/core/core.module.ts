@@ -26,6 +26,7 @@ import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 import { TranslateModule } from '@ngx-translate/core';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
+import { SwitchComponent } from './components/basic/switch/switch.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
     MatTooltipDirective,
     TableAuditTooltipDirective,
     SentenceCasePipe,
+    SwitchComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +79,7 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
     SortMenuComponent,
     MatTooltipDirective,
     TableAuditTooltipDirective,
+    SwitchComponent
   ],
 })
 export class CoreModule {}
