@@ -39,7 +39,6 @@ export enum CustomsType {
 export interface Track {
     id: number;
     name?: string;
-    main?: boolean;
     length?: Measure;
     width?: Measure;
     observation?: string;

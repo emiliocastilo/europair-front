@@ -20,14 +20,6 @@
           </core-basic-input-text>
         </div>
         <div class="row">
-          <p>
-            <label>
-              <input type="checkbox" formControlName="main"/>
-              <span>Principal</span>
-            </label>
-          </p>
-        </div>
-        <div class="row">
           <form formGroupName="length" >
             <core-basic-input-text [id]="'runway-length-value'" [label]="'Largo'" type="number" class="col s12 m6 col-no-pad-left"
              formControlName="value" [hasErrors]="hasControlAnyError('length.value')">
