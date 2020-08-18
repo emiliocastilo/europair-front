@@ -10,28 +10,33 @@
     <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="runwayForm">
         <div class="row">
-          <core-basic-input-text [id]="'runway-name'" [label]="'Pista'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+          <core-basic-input-text [id]="'runway-name'" [label]="'Pista'" formControlName="name"
+            [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
-                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" data-error="Debe indicar el nombre de la pista">
+                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text"
+                  data-error="Debe indicar el nombre de la pista">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <form formGroupName="length" >
-            <core-basic-input-text [id]="'runway-length-value'" [label]="'Largo'" type="number" class="col s12 m6 col-no-pad-left"
-             formControlName="value" [hasErrors]="hasControlAnyError('length.value')">
+          <form formGroupName="length">
+            <core-basic-input-text [id]="'runway-length-value'" [label]="'Largo'" type="number"
+              class="col s12 m6 col-no-pad-left" formControlName="value"
+              [hasErrors]="hasControlAnyError('length.value')">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('length.value')">
-                  <span *ngIf="hasControlSpecificError('length.value', 'required')" class="helper-text" data-error="Debe indicar el largo de la pista">
+                  <span *ngIf="hasControlSpecificError('length.value', 'required')" class="helper-text"
+                    data-error="Debe indicar el largo de la pista">
                   </span>
                 </ng-container>
               </ng-container>
             </core-basic-input-text>
-            <core-select [items]="measureList" [searchable]="true" [placeholder]="'Seleccione una unidad'"
-             [hasErrors]="hasControlAnyError('length.type')" formControlName="type" class="col s12 m6">
+            <core-select class="col s12 m6" [items]="measureList" [itemDescription]="'label'" [itemValue]="'value'"
+              [searchable]="true" [placeholder]="'Seleccione una unidad'"
+              [hasErrors]="hasControlAnyError('length.type')" formControlName="type">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('length.type')">
                   <span *ngIf="hasControlSpecificError('length.type', 'required')" class="helper-text"
@@ -44,29 +49,33 @@
         </div>
         <div class="row">
           <form formGroupName="width">
-            <core-basic-input-text [id]="'runway-width-value'" [label]="'Ancho'" type="number" class="col s12 m6 col-no-pad-left"
-              formControlName="value" [hasErrors]="hasControlAnyError('width.value')">
+            <core-basic-input-text [id]="'runway-width-value'" [label]="'Ancho'" type="number"
+              class="col s12 m6 col-no-pad-left" formControlName="value"
+              [hasErrors]="hasControlAnyError('width.value')">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('width.value')">
-                  <span *ngIf="hasControlSpecificError('width.value', 'required')" class="helper-text" data-error="Debe indicar el ancho de la pista">
+                  <span *ngIf="hasControlSpecificError('width.value', 'required')" class="helper-text"
+                    data-error="Debe indicar el ancho de la pista">
                   </span>
                 </ng-container>
               </ng-container>
             </core-basic-input-text>
-            <core-select [items]="measureList" [searchable]="true" [placeholder]="'Seleccione una unidad'"
-             [hasErrors]="hasControlAnyError('width.type')" formControlName="type" class="col s12 m6">
-             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('width.type')">
-                <span *ngIf="hasControlSpecificError('width.type', 'required')" class="helper-text"
-                  data-error="Debe indicar la unidad de medida">
-                </span>
+            <core-select class="col s12 m6" [items]="measureList" [searchable]="true"
+              [placeholder]="'Seleccione una unidad'" [itemDescription]="'label'" [itemValue]="'value'"
+              [hasErrors]="hasControlAnyError('width.type')" formControlName="type">
+              <ng-container inputErrors>
+                <ng-container *ngIf="hasControlAnyError('width.type')">
+                  <span *ngIf="hasControlSpecificError('width.type', 'required')" class="helper-text"
+                    data-error="Debe indicar la unidad de medida">
+                  </span>
+                </ng-container>
               </ng-container>
-            </ng-container>
             </core-select>
           </form>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'runway-observation'" [label]="'Observaciones'" formControlName="observation" [hasErrors]="hasControlAnyError('observation')">
+          <core-basic-input-text [id]="'runway-observation'" [label]="'Observaciones'" formControlName="observation"
+            [hasErrors]="hasControlAnyError('observation')">
           </core-basic-input-text>
         </div>
       </form>
@@ -74,8 +83,8 @@
   </div>
 
   <div class="modal-footer">
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
-    [ngClass]="{'disabled': !runwayForm.valid}" (click)="onSaveRunway()">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': !runwayForm.valid}"
+      (click)="onSaveRunway()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">Guardar</span>
     </a>
