@@ -4,7 +4,9 @@
       "id": 1,
       "operator": {
         "id": 1,
-        "iataCode": "AP"
+        "iataCode": "UX",
+        "icaoCode": "AEA",
+        "name": "Air Europa Líneas Aéreas SA"
       },
       "comment": "Incluso con PMI, con TFS limitación 93 pax si 15 kg, 88 pax si 20kg"
     },
@@ -12,7 +14,9 @@
       "id": 2,
       "operator": {
         "id": 2,
-        "iataCode": "AEA"
+        "iataCode": "IB",
+        "icaoCode": "IBE",
+        "name": "Iberia LAE SA Operadora"
       },
       "comment": "Limitado"
     }

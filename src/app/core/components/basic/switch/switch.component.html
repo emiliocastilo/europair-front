@@ -1,0 +1,14 @@
+<div class="core-basic- switch" [id]="id">
+  <label>
+    {{ firstLabel }}
+    <input
+      [disabled]="isDisabled"
+      [checked]="value"
+      (change)="onInput($event.target.checked)"
+      class="filled-in basic-checkbox"
+      type="checkbox"
+    />
+    <span class="lever"></span>
+    {{ lastLabel }}
+  </label>
+</div>

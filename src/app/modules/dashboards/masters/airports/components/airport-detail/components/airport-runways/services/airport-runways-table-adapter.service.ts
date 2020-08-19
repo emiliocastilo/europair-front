@@ -18,21 +18,14 @@ export class AirportRunwaysTableAdapterService {
         'selector-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('2', '1', '1')
       ),
       new ColumnHeaderModel(
         'name-header',
         'search',
         'Pista',
-        new ColumnHeaderSizeModel('8', '2', '2'),
+        new ColumnHeaderSizeModel('10', '2', '2'),
         'name'
-      ),
-      new ColumnHeaderModel(
-        'main-runway-header',
-        'text',
-        'Principal',
-        new ColumnHeaderSizeModel('3', '2', '2'),
-        'main'
       ),
       new ColumnHeaderModel(
         'long-header',
@@ -52,9 +45,9 @@ export class AirportRunwaysTableAdapterService {
         'observation-header',
         'search',
         'Observaciones',
-        new ColumnHeaderSizeModel('0', '3', '3'),
+        new ColumnHeaderSizeModel('0', '5', '5'),
         'observation'
-      ),
+      )
     ];
   }
 
@@ -67,26 +60,15 @@ export class AirportRunwaysTableAdapterService {
       );
       runwayRow.pushColumn(new ColumnDataModel('text', runway.name));
       runwayRow.pushColumn(
-        new ColumnDataModel('switch', {
-          id: 'runway-' + runway.id,
-          check: runway.main ?? false,
-          disable: true,
-        })
+        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.length.type}`, {'value': runway.length.value})
       );
       runwayRow.pushColumn(
-        new ColumnDataModel('text', this.formatMeasureData(runway.length))
-      );
-      runwayRow.pushColumn(
-        new ColumnDataModel('text', this.formatMeasureData(runway.width))
+        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.width.type}`, {'value': runway.width.value})
       );
       runwayRow.pushColumn(new ColumnDataModel('text', runway.observation));
       runwayTableData.push(runwayRow);
     });
     return runwayTableData;
-  }
-
-  private formatMeasureData(measure: Measure): string {
-    return (measure?.value ?? '') + (measure?.type ?? '');
   }
 
   public getPagination() {

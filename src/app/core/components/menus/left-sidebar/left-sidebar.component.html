@@ -19,7 +19,7 @@
                 </article>
             </section>
         </div>
-        <ng-container *ngFor="let menuItem of menu.childs">
+        <ng-container *ngFor="let menuItem of menu?.childs">
             <div class="row">
                 <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
                     <article class="icon-block center-align">

@@ -16,7 +16,7 @@ export interface Airport extends Audit {
         latitude: number,
         longitude: number
     };
-    customs?: CustomsType;
+    customs?: boolean;// CustomsType;
     specialConditions?: boolean;
     flightRulesType?: FlightRulesType;
     trackInformation?: Array<Track>;
@@ -39,7 +39,6 @@ export enum CustomsType {
 export interface Track {
     id: number;
     name?: string;
-    main?: boolean;
     length?: Measure;
     width?: Measure;
     observation?: string;

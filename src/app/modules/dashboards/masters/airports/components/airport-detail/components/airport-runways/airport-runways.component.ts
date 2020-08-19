@@ -48,7 +48,6 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
   private readonly CREATE_RUNWAY_TITLE = 'Crear pista';
   private readonly runwayFormDefaultValues = {
     id: null,
-    main: false,
     length: {
       value: '',
       type: null,
@@ -89,7 +88,6 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
   public runwayForm = this.fb.group({
     id: [null],
     name: ['', Validators.required],
-    main: [false],
     length: this.fb.group({
       value: ['', Validators.required],
       type: [null, Validators.required],

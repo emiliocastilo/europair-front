@@ -28,5 +28,28 @@
       "insuranceExpirationDate": "Debe indicar una fecha de caducidad del seguro",
       "name": "Debe indicar el nombre del operador"
     }
+  },
+  "MEASURES": {
+    "ABBREVIATION": {
+      "FOOT": "ft",
+      "METER": "m",
+      "KILOMETER": "km",
+      "NAUTIC_MILE": "nm",
+      "INCH": "\""
+    },
+    "VALUE": {
+      "FOOT": "{{ value }} ft",
+      "METER": "{{ value }} m",
+      "KILOMETER": "{{ value }} km",
+      "NAUTIC_MILE": "{{ value }} nm",
+      "INCH": "{{ value }} \""
+    },
+    "UNITS": {
+      "FOOT": "pies",
+      "METER": "metros",
+      "KILOMETER": "kilometros",
+      "NAUTIC_MILE": "millas nauticas",
+      "INCH": "pulgadas"
+    }
   }
 }

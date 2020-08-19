@@ -70,7 +70,6 @@ export class AirportsTableAdapterService {
   public getAirportListTableData(airports: Array<Airport>): Array<RowDataModel> {
     const airportTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
