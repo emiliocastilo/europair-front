@@ -49,7 +49,7 @@ export class AirportOperatorsTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       operatorRow.pushColumn(
-        new ColumnDataModel('text', certifiedOperator.operator.iataCode)
+        new ColumnDataModel('text', this.getOperatorText(certifiedOperator.operator))
       );
       operatorRow.pushColumn(
         new ColumnDataModel('text', certifiedOperator.comment)
@@ -57,6 +57,14 @@ export class AirportOperatorsTableAdapterService {
       operatorTableData.push(operatorRow);
     });
     return operatorTableData;
+  }
+
+  private getOperatorText(operator: Operator): string {
+    let text: string = '';
+    if (operator) {
+      text = `${operator.iataCode} - ${operator.icaoCode} - ${operator.name}`;
+    }
+    return text;
   }
 
   public getOperatorsColumnsHeader(): ColumnHeaderModel[] {

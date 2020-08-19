@@ -181,5 +181,28 @@
       "NAME": "Debe indicar el nombre de la región",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     }
+  },
+  "MEASURES": {
+    "ABBREVIATION": {
+      "FOOT": "ft",
+      "METER": "m",
+      "KILOMETER": "km",
+      "NAUTIC_MILE": "nm",
+      "INCH": "\""
+    },
+    "VALUE": {
+      "FOOT": "{{ value }} ft",
+      "METER": "{{ value }} m",
+      "KILOMETER": "{{ value }} km",
+      "NAUTIC_MILE": "{{ value }} nm",
+      "INCH": "{{ value }} \""
+    },
+    "UNITS": {
+      "FOOT": "pies",
+      "METER": "metros",
+      "KILOMETER": "kilometros",
+      "NAUTIC_MILE": "millas nauticas",
+      "INCH": "pulgadas"
+    }
   }
 }
