@@ -1,70 +1,170 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, forkJoin, combineLatest } from 'rxjs';
+import { takeUntil, combineAll } from 'rxjs/operators';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
+import {
+  Aircraft,
+  AircraftBase,
+  EMPTY_AIRCRAFT,
+} from '../../models/Aircraft.model';
+import { AircraftTableAdapterService } from '../../services/aircraft-table-adapter.service';
+import { AircraftService } from '../../services/aircraft.service';
 
 @Component({
   selector: 'app-aircraft-detail',
   templateUrl: './aircraft-detail.component.html',
   styleUrls: ['./aircraft-detail.component.scss'],
+  providers: [AircraftTableAdapterService],
 })
 export class AircraftDetailComponent implements OnInit {
+  public pageTitle: string;
+
+  private unsubscribe$: Subject<void> = new Subject();
+
   public readonly selectItemValue: string = 'id';
   public readonly selectItemDescription: string = 'name';
+
+  public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
+  public aircraftBaseColumnsData: RowDataModel[] = [];
+  public aircraftBaseColumnsPagination: PaginationModel;
+
+  public aircraftObservationsColumnsHeader: ColumnHeaderModel[] = [];
+  public aircraftObservationsColumnsData: RowDataModel[] = [];
+  public aircraftObservationsColumnsPagination: PaginationModel;
+
+  public aircraftDetail: Aircraft = { ...EMPTY_AIRCRAFT };
 
   public operators: any[] = [];
   public aircraftTypes: any[] = [];
 
-  @Input()
-  public title: string;
+  public bases: AircraftBase[] = [];
+  public observations: any[] = [];
 
-  @Input()
-  public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
-  @Input()
-  public aircraftBaseColumnsData: RowDataModel[] = [];
-  @Input()
-  public aircraftBaseColumnsPagination: PaginationModel;
+  public aircraftForm = this.fb.group({
+    operator: [''],
+    quantity: ['', Validators.required],
+    aircraftType: [''],
+    insuranceEndDate: ['', Validators.required],
+    productionYear: ['', Validators.required],
+    plateNumber: ['', Validators.required],
+    ambulance: [false, Validators.required],
+    bases: [''],
+    daytimeConfiguration: [0, [Validators.min(1), Validators.required]],
+    seatingF: [0, Validators.min(0)],
+    seatingC: [0, Validators.min(0)],
+    seatingY: [0, Validators.min(0)],
+    nighttimeConfiguration: [0, [Validators.min(1), Validators.required]],
+    insideUpgradeYear: ['', Validators.required],
+    outsideUpgradeYear: ['', Validators.required],
+    observations: [''],
+  });
 
-  @Input()
-  public aircraftObservationsColumnsHeader: ColumnHeaderModel[] = [];
-  @Input()
-  public aircraftObservationsColumnsData: RowDataModel[] = [];
-  @Input()
-  public aircraftObservationsColumnsPagination: PaginationModel;
+  constructor(
+    private fb: FormBuilder,
+    private aircraftService: AircraftService,
+    private aircraftTableAdapter: AircraftTableAdapterService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  @Input()
-  public aircraftForm: FormGroup;
-
-  @Input()
-  public set aircraftDetail(aircraftDetail: Aircraft) {
-    this._aircraftDetail = { ...aircraftDetail };
+  ngOnInit(): void {
+    this.initializeAircraftData(this.route.snapshot.data);
+    this.subscribeDaytimeConfiguration();
+    this.initializeTablesColumnsHeader();
   }
 
-  @Output()
-  public saveAircraft: EventEmitter<Aircraft> = new EventEmitter();
+  private initializeTablesColumnsHeader() {
+    this.aircraftBaseColumnsHeader = this.aircraftTableAdapter.getAircraftBaseColumnsHeader();
+    this.aircraftObservationsColumnsHeader = this.aircraftTableAdapter.getAircraftObservationsColumnsHeader();
+  }
 
-  public _aircraftDetail: Aircraft = { ...EMPTY_AIRCRAFT };
+  private subscribeDaytimeConfiguration() {
+    const dayTime = this.aircraftForm.get('daytimeConfiguration');
+    dayTime.disable();
+    combineLatest([
+      this.aircraftForm.get('seatingF').valueChanges,
+      this.aircraftForm.get('seatingC').valueChanges,
+      this.aircraftForm.get('seatingY').valueChanges,
+    ]).subscribe(([F, C, Y]) => {
+      dayTime.setValue(+F + +C + +Y);
+    });
+    this.updateAircraftForm(this.aircraftDetail);
+  }
 
-  constructor() {}
+  private initializeAircraftData({ title, isAircraftDetail }: any) {
+    this.pageTitle = title;
+    if (isAircraftDetail) {
+      this.route.params
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(({ aircraftId }) => {
+          this.retrieveAircraftData(aircraftId);
+        });
+    }
+  }
 
-  ngOnInit(): void {}
+  private retrieveAircraftData(aircraftId: number) {
+    this.aircraftService
+      .getAircraftById(aircraftId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((aircraftData: Aircraft) => {
+        this.aircraftDetail = { ...EMPTY_AIRCRAFT, ...aircraftData };
+        this.updateAircraftForm(this.aircraftDetail);
+      });
+  }
+
+  private updateAircraftForm(selectedAircraft: Aircraft) {
+    this.aircraftForm.setValue({
+      operator: selectedAircraft.operator,
+      quantity: selectedAircraft.quantity,
+      aircraftType: selectedAircraft.aircraftType,
+      insuranceEndDate: selectedAircraft.insuranceEndDate,
+      productionYear: selectedAircraft.productionYear,
+      plateNumber: selectedAircraft.plateNumber,
+      ambulance: selectedAircraft.ambulance,
+      bases: selectedAircraft.bases || [],
+      daytimeConfiguration: selectedAircraft.daytimeConfiguration,
+      nighttimeConfiguration: selectedAircraft.nighttimeConfiguration,
+      observations: selectedAircraft.observations || [],
+      insideUpgradeYear: selectedAircraft.insideUpgradeYear,
+      outsideUpgradeYear: selectedAircraft.outsideUpgradeYear,
+      seatingF: selectedAircraft.seatingF,
+      seatingC: selectedAircraft.seatingC,
+      seatingY: selectedAircraft.seatingY,
+    });
+  }
 
   public onSaveAircraft() {
     console.log({
-      ...this._aircraftDetail,
+      ...this.aircraftDetail,
       ...this.aircraftForm.value,
     });
-    this.saveAircraft.next({
-      ...this._aircraftDetail,
-      ...this.aircraftForm.value,
-    });
+    this.aircraftService
+      .saveAircraft({
+        ...this.aircraftDetail,
+        ...this.aircraftForm.value,
+      })
+      .subscribe(() => {
+        this.router.navigate(['fleet/aircraft']);
+      });
   }
 
-  public onChangeCheck(event: any) {
-    this.aircraftForm.get('ambulance').setValue(event.value);
-  }
+  // public onSaveAircraft(newAircraft: Aircraft) {
+  //   // TODO: utilizar datepickers para las propiedades que son fechas
+  //   newAircraft.insuranceEndDate = new Date(newAircraft.insuranceEndDate);
+  //   newAircraft.insideUpgradeYear = new Date(newAircraft.insideUpgradeYear);
+  //   newAircraft.outsideUpgradeYear = new Date(newAircraft.outsideUpgradeYear);
+  //   // TODO: enlazar con operadores y tipos
+  //   newAircraft.aircraft = 10;
+  //   newAircraft.aircraftType = 10;
+
+  //   this.aircraftService
+  //     .saveAircraft(newAircraft)
+  //     .subscribe(() => this.initializeAircraftTable());
+  // }
 
   public hasControlAnyError(controlName: string): boolean {
     const control = this.aircraftForm.get(controlName);

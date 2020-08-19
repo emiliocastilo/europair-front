@@ -10,7 +10,7 @@
     <a class="btn-flat input-suffix" (click)="clearInput()"><i class="material-icons europair-icon-blue">close</i></a>
   </ng-container>
     <input #searchInput [id]="id" [type]="type" class="invalid {{inputClass}}" [ngClass]="{ 'invalid': hasErrors }"
-    [value]="value" [disabled]="isDisabled" [attr.maxlength]="maxlength" (input)="onInput($event.target.value)">
+    [value]="value" [disabled]="isDisabled" [attr.maxlength]="maxlength" (input)="onInput($event.target.value)" [min]="min">
     <label [for]="id" [ngClass]="{'active': value !== ''}">{{label}}</label>
     <ng-content select="[inputErrors]"></ng-content>
 </div>

@@ -23,6 +23,7 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
   @Input() label: string;
   @Input() icon: string;
   @Input() type: string = 'text';
+  @Input() min: number;
   @Input() hasErrors: boolean;
   @Input() iconConfig: InputTextIcon;
   @Input() clearable: boolean = false;

@@ -14,6 +14,38 @@
       "icaoCode": "Cód. ICAO"
     }
   },
+  "aircraft": {
+    "new": "Nueva Aeronave",
+    "detail": "Detalle de aeronave",
+    "bases": "Bases",
+    "operator": "operador",
+    "operatorPlaceholder": "Selecciona a un Operador",
+    "quantity": "cantidad",
+    "aircraftType": "tipo",
+    "aircraftTypePlaceholder": "Selecciona a un Tipo",
+    "insuranceEndDate": "Caducidad del seguro",
+    "productionYear": "Año de fabricación",
+    "plateNumber": "Matrícula",
+    "ambulance": "Ambulancia",
+    "insideUpgradeYear": "Año última reforma interior",
+    "outsideUpgradeYear": "Año última reforma exterior",
+    "daytimeConfiguration": "Configuración de día",
+    "nighttimeConfiguration": "Configuración de noche",
+    "seatsF": "Asientos F",
+    "seatsC": "Asientos C",
+    "seatsY": "Asientos Y",
+    "errors": {
+      "seats": "Debe indicar número de asientos",
+      "insideUpgradeYear": "Debe indicar el año de última reforma interior",
+      "outsideUpgradeYear": "Debe indicar el año de última reforma exterior",
+      "operator": "Debe indicar un Operador",
+      "quantity": "Debe indicar una cantidad",
+      "aircraftType": "Debe indicar un Tipo",
+      "insuranceEndDate": "Debe indicar una fecha",
+      "productionYear": "Año de fabricación",
+      "plateNumber": "Debe indicar la matrícula"
+    }
+  },
   "operators": {
     "aocLastRevisionDate": "Fecha de revisión AOC",
     "aocNumber": "Número AOC",

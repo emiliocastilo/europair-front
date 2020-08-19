@@ -11,21 +11,24 @@ export interface Aircraft extends Audit {
   quantity: number;
   insuranceEndDate: Date;
   ambulance: boolean;
-  daytimeConfiguration: number | SeatsSettings;
+  daytimeConfiguration?: number;
+  seatingF: number;
+  seatingC: number;
+  seatingY: number;
   nighttimeConfiguration: number;
   notes: any;
   tags: any;
-  insideUpgradeDate: Date;
-  outsideUpgradeDate: Date;
+  insideUpgradeYear: Date;
+  outsideUpgradeYear: Date;
   observations: any;
   pitch?: SeatsSettings;
   load?: Load;
 }
 
 export interface SeatsSettings {
-  seatsF: number;
-  seatsC: number;
-  seatsY: number;
+  seatingF: number;
+  seatingC: number;
+  seatingY: number;
 }
 
 export interface Load {
@@ -48,8 +51,8 @@ export interface AircraftBase {
 
 export const EMPTY_AIRCRAFT = {
   id: null,
-  operator: null,
-  aircraftType: null,
+  operator: 1,
+  aircraftType: 1,
   bases: [],
   plateNumber: '',
   productionYear: 0,
@@ -57,14 +60,13 @@ export const EMPTY_AIRCRAFT = {
   insuranceEndDate: null,
   ambulance: false,
   daytimeConfiguration: 0,
+  seatingF: 0,
+  seatingC: 0,
+  seatingY: 0,
   nighttimeConfiguration: 0,
   notes: '',
   tags: null,
-  insideUpgradeDate: null,
-  outsideUpgradeDate: null,
+  insideUpgradeYear: null,
+  outsideUpgradeYear: null,
   observations: [],
-  createdAt: null,
-  createdBy: null,
-  modifiedAt: null,
-  modifiedBy: null,
 };
