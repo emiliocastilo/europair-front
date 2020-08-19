@@ -14,14 +14,14 @@ export class AirportsService {
 
   constructor(private readonly httpClient: HttpClient) { }
 
-  public getAirports(showDisabled: boolean, filter?: string): Observable<Page<Airport>> {
+  public getAirports(showDisabled: boolean = false, filter?: string): Observable<Page<Airport>> {
     const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
     let params: HttpParams = new HttpParams();
     params = params.set('showDisabled', String(showDisabled));
     if (filter) {
       params = params.set('search', filter);
     }
-    return this.httpClient.get<Page<Airport>>(url, {params});
+    return this.httpClient.get<Page<Airport>>(url, { params });
   }
 
   public addAirport(airport: Airport): Observable<Airport> {
