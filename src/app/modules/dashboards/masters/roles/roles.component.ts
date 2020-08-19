@@ -1,8 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import {
-  BarButtonType,
-  BarButton,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButtonType, BarButton } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
@@ -14,7 +11,8 @@ import { RolesService } from './services/roles.service';
 import { RoleDetailComponent } from './components/role-detail/role-detail.component';
 import { TasksService } from '../tasks/services/tasks.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-roles',
@@ -35,24 +33,17 @@ export class RolesComponent implements OnInit {
   public roleDetailTaskColumnsData: RowDataModel[] = [];
   public rolePagination: PaginationModel;
   public taskPagination: PaginationModel;
-  public pageTitle = 'Roles';
   public rolesSelectedCount = 0;
   private roles: Role[];
   public tasks: Task[];
   public roleDetailTitle: string;
   public roleSelected: Role = EMPTY_ROLE;
   private selectedItem: number = -1;
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo rol' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
-
-  private readonly EDIT_TASK_TITLE = 'Editar rol';
-  private readonly CREATE_TASK_TITLE = 'Crear rol';
+  public barButtons: BarButton[];
 
   private newRole = () => {
-    this.roleDetailTitle = this.CREATE_TASK_TITLE;
-    this.initializeRoleDetailModal(this.CREATE_TASK_TITLE, { ...EMPTY_ROLE });
+    this.roleDetailTitle = this.translateService.instant('ROLES.CREATE');
+    this.initializeRoleDetailModal(this.roleDetailTitle, { ...EMPTY_ROLE });
     this.modalService.openModal();
   };
   private barButtonActions = {
@@ -60,7 +51,7 @@ export class RolesComponent implements OnInit {
   };
 
   private editRole = (selectedItem: number) => {
-    this.initializeRoleDetailModal(this.EDIT_TASK_TITLE, {
+    this.initializeRoleDetailModal(this.translateService.instant('ROLES.EDIT_ROL'), {
       ...this.roles[selectedItem],
     });
     this.modalService.openModal();
@@ -78,12 +69,26 @@ export class RolesComponent implements OnInit {
     private modalService: ModalService,
     private taskService: TasksService,
     private rolesService: RolesService,
-    private rolesTableAdapterService: RolesTableAdapterService
-  ) {}
+    private rolesTableAdapterService: RolesTableAdapterService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeRoleTable();
     this.initializeTaskTable();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newRole: this.translateService.get('ROLES.NEW'),
+      deleteRole: this.translateService.get('ROLES.DELETE')
+    }).subscribe((data: { newRole: string, deleteRole: string }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newRole },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteRole },
+      ];
+    });
   }
 
   private initializeRoleTable() {
@@ -94,7 +99,7 @@ export class RolesComponent implements OnInit {
         roles['content']
       );
       this.rolePagination = this.rolesTableAdapterService.getPagination();
-      this.rolePagination.lastPage = this.roles.length/this.rolePagination.elementsPerPage
+      this.rolePagination.lastPage = this.roles.length / this.rolePagination.elementsPerPage
       if (this.selectedItem >= 0) {
         this.onRoleSelected(this.selectedItem);
       }
@@ -108,7 +113,7 @@ export class RolesComponent implements OnInit {
       .subscribe((tasks) => {
         this.tasks = tasks['content']
         this.taskPagination = this.rolesTableAdapterService.getPagination();
-        this.taskPagination.lastPage = this.tasks.length/this.taskPagination.elementsPerPage;
+        this.taskPagination.lastPage = this.tasks.length / this.taskPagination.elementsPerPage;
       });
   }
 

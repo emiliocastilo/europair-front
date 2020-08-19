@@ -1,36 +1,35 @@
-<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-page-bar [pageTitle]="'CITIES.PAGE_TITLE' | translate"></core-page-bar>
 <core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="citiesSelectedCount"
   (executeAction)="onBarButtonClicked($event)">
 </core-button-bar>
 <section class="cities-tables-container cmd-mt-1">
   <section class="cities-table">
-    <core-table [columnsHeader]="cityColumnsHeader" [columnsData]="citiesColumnsData"
-      [pagination]="cityPagination"
+    <core-table [columnsHeader]="cityColumnsHeader" [columnsData]="citiesColumnsData" [pagination]="cityPagination"
       (selectedItem)="onCitySelected($event)" (executeActionEmitter)="onCityAction($event)">
     </core-table>
   </section>
 </section>
 
-<app-city-detail [title]="cityDetailTitle" [citiesColumnsHeader]="cityColumnsHeader"
-  [cityDetail]="citySelected" (City)="onCity($event)"></app-city-detail>
+<app-city-detail [title]="cityDetailTitle" [citiesColumnsHeader]="cityColumnsHeader" [cityDetail]="citySelected"
+  (City)="onCity($event)"></app-city-detail>
 
 <core-modal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{ 'CITIES.CONFIRM_DELETE' | translate }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'CITIES.CANCEL' | translate }}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar este registro?</p>
+      <p>{{ 'CITIES.MSG_DELETE' | translate }}</p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCity()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{ 'CITIES.CONFIRM' | translate }}</span>
     </a>
   </ng-container>
 </core-modal>

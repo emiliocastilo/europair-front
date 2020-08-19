@@ -3,23 +3,21 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
-import {
-  BarButtonType,
-  BarButton,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButtonType, BarButton } from 'src/app/core/models/menus/button-bar/bar-button';
 import { TasksTableAdapterService } from './services/tasks-table-adapter.service';
 import { TasksService } from './services/tasks.service';
 import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { AdvancedSearchComponent } from 'src/app/core/components/menus/advanced-search/advanced-search.component';
 import { FormBuilder } from '@angular/forms';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { SortMenuComponent } from 'src/app/core/components/menus/sort-menu/sort-menu.component';
 import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tasks',
@@ -53,18 +51,11 @@ export class TasksComponent implements OnInit {
   public taskSelected: Task = EMPTY_TASK;
   public showMobileSearchBar: boolean = false;
   private selectedItem: number = -1;
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva tarea' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-    { type: BarButtonType.SEARCH, text: 'Buscar' },
-  ];
-
-  private readonly EDIT_TASK_TITLE = 'Editar tarea';
-  private readonly CREATE_TASK_TITLE = 'Crear tarea';
+  public barButtons: BarButton[];
 
   private newTask = () => {
-    this.taskDetailTitle = this.CREATE_TASK_TITLE;
-    this.initializeTaskDetailModal(this.CREATE_TASK_TITLE, { ...EMPTY_TASK });
+    this.taskDetailTitle = this.translateService.instant('TASKS.CREATE');
+    this.initializeTaskDetailModal(this.taskDetailTitle, { ...EMPTY_TASK });
     this.modalService.openModal();
   };
 
@@ -77,7 +68,7 @@ export class TasksComponent implements OnInit {
   };
 
   private editTask = (selectedItem: number) => {
-    this.initializeTaskDetailModal(this.EDIT_TASK_TITLE, {
+    this.initializeTaskDetailModal(this.translateService.instant('TASKS.EDIT_TASK'), {
       ...this.tasks[selectedItem],
     });
     this.modalService.openModal();
@@ -103,13 +94,29 @@ export class TasksComponent implements OnInit {
     private modalService: ModalService,
     private taskService: TasksService,
     private taskTableAdapterService: TasksTableAdapterService,
-    private fb: FormBuilder
-  ) {}
+    private fb: FormBuilder,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeTaskTable();
     this.initializeScreenTable();
     this.initializeTableHeaders();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newTask: this.translateService.get('TASKS.NEW'),
+      deleteTask: this.translateService.get('TASKS.DELETE'),
+      searchTask: this.translateService.get('TASKS.SEARCH')
+    }).subscribe((data: { newTask: string, deleteTask: string, searchTask: string }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newTask },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteTask },
+        { type: BarButtonType.SEARCH, text: data.searchTask },
+      ];
+    });
   }
 
   private initializeTableHeaders() {

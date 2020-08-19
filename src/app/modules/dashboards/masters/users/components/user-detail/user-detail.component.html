@@ -4,70 +4,77 @@
       <h4>{{ title }} {{_userDetail?.username}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'USERS.CANCEL' | translate}}
       </a>
     </section>
     <section class="user-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="userForm">
         <div class="row">
-          <core-basic-input-text [id]="'user-username'" [label]="'Usuario'" formControlName="username" [hasErrors]="hasControlAnyError('username')">
+          <core-basic-input-text [id]="'user-username'" [label]="'USERS.USER' | translate" formControlName="username" [hasErrors]="hasControlAnyError('username')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('username')">
-                <span *ngIf="hasControlSpecificError('username', 'required')" class="helper-text" data-error="Debe indicar el nombre de usuario">
+                <span *ngIf="hasControlSpecificError('username', 'required')" class="helper-text" 
+                  attr.data-error="{{'USERS.ERROR.NAME' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-password'" [label]="'Contraseña'" [type]="'password'" formControlName="password" [hasErrors]="hasControlAnyError('password')">
+          <core-basic-input-text [id]="'user-password'" [label]="'USERS.PASSWORD' | translate" [type]="'password'" formControlName="password" [hasErrors]="hasControlAnyError('password')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('password')">
-                <span *ngIf="hasControlSpecificError('password', 'required')" class="helper-text" data-error="Debe indicar una contraseña">
+                <span *ngIf="hasControlSpecificError('password', 'required')" class="helper-text" 
+                  attr.data-error="{{'USERS.ERROR.PASSWORD' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-name'" [label]="'Nombre'" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+          <core-basic-input-text [id]="'user-name'" [label]="'USERS.USERNAME' | translate" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
-                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" data-error="Debe indicar un nombre">
+                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text"
+                  attr.data-error="{{'USERS.ERROR.USERNAME' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-surname'" [label]="'Apellidos'" formControlName="surname" [hasErrors]="hasControlAnyError('surname')">
+          <core-basic-input-text [id]="'user-surname'" [label]="'USERS.SURNAME' | translate" formControlName="surname" [hasErrors]="hasControlAnyError('surname')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('surname')">
-                <span *ngIf="hasControlSpecificError('surname', 'required')" class="helper-text" data-error="Debe indicar los apellidos">
+                <span *ngIf="hasControlSpecificError('surname', 'required')" class="helper-text"
+                  attr.data-error="{{'USERS.ERROR.SURNAME' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-email'" [label]="'Email'" formControlName="email" [hasErrors]="hasControlAnyError('email')">
+          <core-basic-input-text [id]="'user-email'" [label]="'USERS.MAIL' | translate" formControlName="email" [hasErrors]="hasControlAnyError('email')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('email')">
-                <span *ngIf="hasControlSpecificError('email', 'required')" class="helper-text" data-error="Debe indicar un email">
+                <span *ngIf="hasControlSpecificError('email', 'required')" class="helper-text"
+                attr.data-error="{{'USERS.ERROR.MAIL_REQUIRED' | translate}}">
                 </span>
               </ng-container>
               <ng-container *ngIf="hasControlAnyError('email')">
-                <span *ngIf="hasControlSpecificError('email', 'email')" class="helper-text" data-error="El formato del email no es correcto">
+                <span *ngIf="hasControlSpecificError('email', 'email')" class="helper-text"
+                attr.data-error="{{'USERS.ERROR.MAIL_FORMAT' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-timezone'" [label]="'Zona horaria'" formControlName="timeZone" [hasErrors]="hasControlAnyError('timeZone')">
+          <core-basic-input-text [id]="'user-timezone'" [label]="'USERS.TIME_ZONE' | translate" formControlName="timeZone" [hasErrors]="hasControlAnyError('timeZone')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('timeZone')">
-                <span *ngIf="hasControlSpecificError('timeZone', 'required')" class="helper-text" data-error="Debe indicar una zona horaria">
+                <span *ngIf="hasControlSpecificError('timeZone', 'required')" class="helper-text"
+                  attr.data-error="{{'USERS.ERROR.TIME_ZONE' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
@@ -77,7 +84,7 @@
     </section>
     <ul class="collapsible expandable" appMatCollapsible>
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Roles</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{'USERS.ROLES' | translate}}</div>
         <div class="collapsible-body"><span>
           <section class="user-role-detail-table">
             <core-table
@@ -90,7 +97,7 @@
         </span></div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Tareas</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{'USERS.TASKS' | translate}}</div>
         <div class="collapsible-body"><span>
           <section class="user-task-detail-table">
             <core-table
@@ -111,13 +118,13 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
       *ngIf="userForm.disabled;else saveBtn">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text" *ngIf="userForm.disabled;else saveBtn">Confirmar</span>
+      <span class="full-width-btn-text" *ngIf="userForm.disabled;else saveBtn">{{'USERS.CONFIRM' | translate}}</span>
     </a>
     <ng-template #saveBtn>
       <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
       [ngClass]="{'disabled': !userForm.valid }" (click)="onSaveUser()">
         <i class="material-icons">check_circle</i>
-        <span class="full-width-btn-text" >Guardar</span>
+        <span class="full-width-btn-text" >{{'USERS.SAVE' | translate}}</span>
       </a>
     </ng-template>
   </div>

@@ -5,12 +5,13 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { CitiesService } from './services/cities.service';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { CityDetailComponent } from './components/city-detail/city-detail.component';
 import { City, EMPTY_CITY } from './models/city';
 import { CityTableAdapterService } from './services/city-table-adapter.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cities',
@@ -24,20 +25,13 @@ export class CitiesComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmDeleteModal: ElementRef;
 
-  private readonly EDIT_COUNTRY_TITLE = 'Editar Ciudad';
-  private readonly CREATE_COUNTRY_TITLE = 'Crear Ciudad';
-
-  public pageTitle = 'Ciudades';
   public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public cityColumnsHeader: Array<ColumnHeaderModel>;
   public citiesColumnsData: Array<RowDataModel>;
   public citiesSelectedCount = 0;
   public cityDetailColumnsData: Array<RowDataModel>;
   public cityPagination: PaginationModel;
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva Ciudad' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
+  public barButtons: BarButton[];
   public cityDetailTitle: string;
   public citySelected: City = EMPTY_CITY;
 
@@ -52,11 +46,25 @@ export class CitiesComponent implements OnInit {
   constructor(
     private readonly modalService: ModalService,
     private readonly citiesService: CitiesService,
-    private readonly cityTableAdapterService: CityTableAdapterService
+    private readonly cityTableAdapterService: CityTableAdapterService,
+    private readonly translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeCityTable();
+  }
+
+  private obtainTranslateText() {
+    forkJoin({
+      newCity: this.translateService.get('CITIES.NEW'),
+      deleteCity: this.translateService.get('CITIES.DELETE')
+    }).subscribe((data: { newCity: string; deleteCity: string; }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newCity },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteCity },
+      ];
+    });
   }
 
   private initializeCityTable(): void {
@@ -109,13 +117,13 @@ export class CitiesComponent implements OnInit {
   }
 
   private newCity(): void {
-    this.cityDetailTitle = this.CREATE_COUNTRY_TITLE;
-    this.initializeCityDetailModal(this.CREATE_COUNTRY_TITLE, { ...EMPTY_CITY });
+    this.cityDetailTitle = this.translateService.instant('CITIES.CREATE');
+    this.initializeCityDetailModal(this.cityDetailTitle, { ...EMPTY_CITY });
     this.modalService.openModal();
   }
 
   private editCity(selectedItem: number): void {
-    this.initializeCityDetailModal(this.EDIT_COUNTRY_TITLE, {
+    this.initializeCityDetailModal(this.translateService.instant('CITIES.EDIT_CITY'), {
       ...this.cities[selectedItem],
     });
     this.modalService.openModal();

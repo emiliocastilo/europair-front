@@ -4,29 +4,29 @@
       <h4>{{ title }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'CITIES.CANCEL' | translate}}
       </a>
     </section>
     <section class="city-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <div class="row">
-        <core-basic-input-text [id]="'city-code'" [label]="'Código del Ciudad'" [formControl]="cityCodeControl"
+        <core-basic-input-text [id]="'city-code'" [label]="'CITIES.CODE' | translate" [formControl]="cityCodeControl"
           [hasErrors]="hasCityCodeControlErrors()">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCityCodeControlErrors()">
               <span *ngIf="cityCodeControl.errors.required" class="helper-text"
-                data-error="Debe indicar el código de la Ciudad">
+                attr.data-error="{{'CITIES.ERROR.CODE' | translate}}">
               </span>
             </ng-container>
           </ng-container>
         </core-basic-input-text>
       </div>
       <div class="row">
-        <core-basic-input-text [id]="'city-name'" [label]="'Ciudad'" [formControl]="cityNameControl"
+        <core-basic-input-text [id]="'city-name'" [label]="'CITIES.CITY' | translate" [formControl]="cityNameControl"
           [hasErrors]="hasCityNameControlErrors()">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCityNameControlErrors()">
               <span *ngIf="cityNameControl.errors.required" class="helper-text"
-                data-error="Debe indicar el nombre de la Ciudad">
+                attr.data-error="{{'CITIES.ERROR.NAME' | translate}}">
               </span>
             </ng-container>
           </ng-container>
@@ -34,12 +34,12 @@
       </div>
       <div class="row">
         <core-select [items]="countries" [itemValue]="selectItemValue" [itemDescription]="selectItemDescription"
-          [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="selectLabel" [searchable]="true"
-          [placeholder]="selectPlaceholder" [formControl]="countryControl">
+          [hasErrors]="hasCountryControlErrors()" [id]="selectId" [label]="'CITIES.COUNTRY' | translate" [searchable]="true"
+          [placeholder]="'CITIES.COUNTRY_PLACEHOLDER' | translate" [formControl]="countryControl">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryControlErrors()">
               <span *ngIf="countryControl.errors.required" class="helper-text"
-                data-error="Debe indicar el nombre de la Ciudad">
+                attr.data-error="{{'CITIES.ERROR.COUNTRY' | translate}}">
               </span>
             </ng-container>
           </ng-container>
@@ -52,7 +52,7 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
       (click)="onCity()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{ 'CITIES.SAVE' | translate }}</span>
     </a>
   </div>
 </div>

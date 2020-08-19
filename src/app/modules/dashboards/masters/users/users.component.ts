@@ -2,10 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { User, EMPTY_USER } from './models/user';
-import {
-  BarButtonType,
-  BarButton,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButtonType, BarButton } from 'src/app/core/models/menus/button-bar/bar-button';
 import { UsersService } from './services/users.service';
 import { UsersTableAdapterService } from './services/users-table-adapter.service';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
@@ -20,6 +17,7 @@ import { TasksService } from '../tasks/services/tasks.service';
 import { RolesService } from '../roles/services/roles.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-users',
@@ -32,10 +30,6 @@ export class UsersComponent implements OnInit {
   public userDetailModal: ElementRef;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
-
-  private readonly VIEW_USER_TITLE = 'Detalle usuario';
-  private readonly EDIT_USER_TITLE = 'Editar usuario';
-  private readonly CREATE_USER_TITLE = 'Crear usuario';
 
   public userColumnsHeader: ColumnHeaderModel[] = [];
   public userColumnsData: RowDataModel[] = [];
@@ -52,12 +46,7 @@ export class UsersComponent implements OnInit {
   public tasks: Task[];
   public userDetailTitle: string;
   public userSelected: User = EMPTY_USER;
-  public pageTitle = 'Usuarios';
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo usuario' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
-
+  public barButtons: BarButton[];
   public userForm = this.fb.group({
     username: ['', Validators.required],
     name: ['', Validators.required],
@@ -73,12 +62,26 @@ export class UsersComponent implements OnInit {
     private usersTableAdapterService: UsersTableAdapterService,
     private fb: FormBuilder,
     private tasksService: TasksService,
-    private rolesService: RolesService
-  ) {}
+    private rolesService: RolesService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeUsersTable();
     this.initializeTablesColumnsHeader();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newUsuario: this.translateService.get('USERS.NEW'),
+      deleteUsuario: this.translateService.get('USERS.DELETE')
+    }).subscribe((data: { newUsuario: string, deleteUsuario: string }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newUsuario },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteUsuario },
+      ];
+    });
   }
 
   private initializeUsersTable() {
@@ -115,7 +118,7 @@ export class UsersComponent implements OnInit {
     this.userSelected = { ...EMPTY_USER };
     this.userForm.enable();
     this.userForm.reset();
-    this.getUserDetailData(data, this.CREATE_USER_TITLE, EMPTY_USER);
+    this.getUserDetailData(data, this.translateService.instant('USERS.CREATE'), EMPTY_USER);
   };
 
   private barButtonActions = {
@@ -126,7 +129,7 @@ export class UsersComponent implements OnInit {
     this.barButtonActions[barButtonType]();
   }
 
-  public onUserSelected(selectedIndex: number) {}
+  public onUserSelected(selectedIndex: number) { }
 
   private viewUser = (selectedItem: number) => {
     this.getTasksAndRoles$().subscribe(this.getViewUserDetailData);
@@ -137,7 +140,7 @@ export class UsersComponent implements OnInit {
     this.userForm.disable();
     this.getUserDetailData(
       data,
-      this.VIEW_USER_TITLE,
+      this.translateService.instant('USERS.VIEW_USER'),
       this.userSelected,
       false
     );
@@ -150,7 +153,7 @@ export class UsersComponent implements OnInit {
   private getEditUserDetailData = (data: any) => {
     this.updateUserForm(this.userSelected);
     this.userForm.enable();
-    this.getUserDetailData(data, this.EDIT_USER_TITLE, this.userSelected);
+    this.getUserDetailData(data, this.translateService.instant('USERS.EDIT_USER'), this.userSelected);
   };
 
   private deleteUser = (selectedItem: number) => {

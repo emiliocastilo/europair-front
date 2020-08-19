@@ -8,9 +8,10 @@ import { CountriesService } from './services/countries.service';
 import { Country, EMPTY_COUNTRY } from './models/country';
 import { CountryDetailComponent } from './components/country-detail/country-detail.component';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-countries',
@@ -24,21 +25,14 @@ export class CountriesComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmDeleteModal: ElementRef;
 
-  private readonly EDIT_COUNTRY_TITLE = 'Editar país';
-  private readonly CREATE_COUNTRY_TITLE = 'Crear país';
-
-  public pageTitle = 'Países';
   public countryColumnsHeader: Array<ColumnHeaderModel>;
   public countriesColumnsData: Array<RowDataModel>;
   public countriesSelectedCount = 0;
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo país' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
   public countryPagination: PaginationModel;
   public countryDetailTitle: string;
   public countrySelected: Country = EMPTY_COUNTRY;
 
+  public barButtons: BarButton[];
   private selectedItem: number;
   private countries: Array<Country>;
   private readonly barButtonActions = { new: this.newCountry.bind(this) };
@@ -50,11 +44,25 @@ export class CountriesComponent implements OnInit {
   constructor(
     private readonly modalService: ModalService,
     private readonly countriesService: CountriesService,
-    private readonly countryTableAdapterService: CountryTableAdapterService
+    private readonly countryTableAdapterService: CountryTableAdapterService,
+    private readonly translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeCountryTable();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newCountry: this.translateService.get('COUNTRIES.NEW'),
+      deleteCountry: this.translateService.get('COUNTRIES.DELETE')
+    }).subscribe((data: { newCountry: string; deleteCountry: string; }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newCountry },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteCountry },
+      ];
+    });
   }
 
   private initializeCountryTable(): void {
@@ -103,13 +111,13 @@ export class CountriesComponent implements OnInit {
   }
 
   private newCountry(): void {
-    this.countryDetailTitle = this.CREATE_COUNTRY_TITLE;
-    this.initializeCountryDetailModal(this.CREATE_COUNTRY_TITLE, { ...EMPTY_COUNTRY });
+    this.countryDetailTitle = this.translateService.instant('COUNTRIES.CREATE');
+    this.initializeCountryDetailModal(this.countryDetailTitle, { ...EMPTY_COUNTRY });
     this.modalService.openModal();
   }
 
   private editCountry(selectedItem: number): void {
-    this.initializeCountryDetailModal(this.EDIT_COUNTRY_TITLE, {
+    this.initializeCountryDetailModal(this.translateService.instant('COUNTRIES.EDIT_COUNTRY'), {
       ...this.countries[selectedItem],
     });
     this.modalService.openModal();

@@ -4,35 +4,35 @@
       <h4>{{ title }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COUNTRIES.CANCEL' | translate}}
       </a>
     </section>
     <section class="country-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <div class="row">
-        <core-basic-input-text [id]="'country-code'" [label]="'Código del país'" [formControl]="countryCodeControl"
+        <core-basic-input-text [id]="'country-code'" [label]="'COUNTRIES.COUNTRY_CODE' | translate" [formControl]="countryCodeControl"
           [hasErrors]="hasCountryCodeControlErrors()" [maxlength]="maxLengthCode" [inputClass]="'text-uppercase'">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryCodeControlErrors()">
               <span *ngIf="countryCodeControl.errors.required" class="helper-text"
-                data-error="Debe indicar el código del país">
+                attr.data-error="{{ 'COUNTRIES.ERROR.CODE_MAXLENGTH' | translate}}">
               </span>
               <span *ngIf="countryCodeControl.errors.maxlength || countryCodeControl.errors.minlength" class="helper-text"
-                data-error="El código de país debe de tener dos caracteres">
+                attr.data-error="{{ 'COUNTRIES.ERROR.CODE_MAXLENGTH' | translate}}">
               </span>
               <span *ngIf="countryCodeControl.errors.pattern" class="helper-text"
-                data-error="El código de país no puede contener números ni simbolos">
+                attr.data-error="{{ 'COUNTRIES.ERROR.CODE_FORMAT' | translate}}">
               </span>
             </ng-container>
           </ng-container>
         </core-basic-input-text>
       </div>
       <div class="row">
-        <core-basic-input-text [id]="'country-name'" [label]="'País'" [formControl]="countryNameControl"
+        <core-basic-input-text [id]="'country-name'" [label]="'COUNTRIES.COUNTRY' | translate" [formControl]="countryNameControl"
           [hasErrors]="hasCountryNameControlErrors()">
           <ng-container inputErrors>
             <ng-container *ngIf="hasCountryNameControlErrors()">
               <span *ngIf="hasCountryNameControlErrors()" class="helper-text"
-                data-error="Debe indicar el nombre del país">
+                attr.data-error="{{ 'COUNTRIES.ERROR.NAME' | translate}}">
               </span>
             </ng-container>
           </ng-container>
@@ -45,7 +45,7 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
       (click)="onSaveCountry()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{ 'COUNTRIES.SAVE' | translate}}</span>
     </a>
   </div>
 </div>

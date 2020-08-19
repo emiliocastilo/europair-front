@@ -4,14 +4,15 @@
       <h4>{{ title }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'ROLES.CANCEL' | translate }}
       </a>
     </section>
     <section class="role-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-      <core-basic-input-text [id]="'task-name'" [label]="'Rol'" [formControl]="roleNameControl" [hasErrors]="hasRoleNameControlErrors()">
+      <core-basic-input-text [id]="'task-name'" [label]=" 'ROLES.ROL' | translate" [formControl]="roleNameControl" [hasErrors]="hasRoleNameControlErrors()">
         <ng-container inputErrors>
           <ng-container *ngIf="hasRoleNameControlErrors()">
-            <span *ngIf="roleNameControl.errors.required" class="helper-text" data-error="Debe indicar el nombre del rol">
+            <span *ngIf="roleNameControl.errors.required" class="helper-text" 
+            attr.data-error="{{ 'ROLES.ERROR.NAME' | translate }}">
             </span>
           </ng-container>
         </ng-container>
@@ -31,7 +32,7 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
     [ngClass]="{'disabled': !roleNameControl.valid}" (click)="onSaveRole()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{ 'ROLES.SAVE' | translate }}</span>
     </a>
   </div>
 </div>

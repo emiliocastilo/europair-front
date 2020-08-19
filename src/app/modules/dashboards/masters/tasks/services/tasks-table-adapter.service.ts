@@ -26,7 +26,7 @@ export class TasksTableAdapterService implements OnDestroy {
       new ColumnHeaderModel(
         'task-header',
         'search',
-        'Tarea',
+        'TASKS.TASK',
         new ColumnHeaderSizeModel('9', '6', '7'),
         'name'
       ),
@@ -44,13 +44,13 @@ export class TasksTableAdapterService implements OnDestroy {
       new ColumnHeaderModel(
         'screen-header',
         'text',
-        'Pantalla',
+        'TASKS.SCREEN',
         new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignado',
+        'TASKS.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
@@ -64,9 +64,9 @@ export class TasksTableAdapterService implements OnDestroy {
     const taskTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
     actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
+      new ColumnActionsModel('create', 'edit', 'TASKS.EDIT', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'delete', 'TASKS.DELETE', 'red'));
     tasks.forEach((task: Task) => {
       const taskRow: RowDataModel = new RowDataModel();
       taskRow.pushColumn(
@@ -84,14 +84,14 @@ export class TasksTableAdapterService implements OnDestroy {
       new ColumnHeaderModel(
         'detail-screen-header',
         'search',
-        'Pantalla',
+        'TASKS.SCREEN',
         new ColumnHeaderSizeModel('10', '8', '8'),
         'name'
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignado',
+        'TASKS.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];

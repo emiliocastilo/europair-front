@@ -8,7 +8,7 @@
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
             <core-basic-input-text 
-              [id]="columnHeader.identifier" [label]="columnHeader.label" [iconConfig]="iconConfig" [clearable]="true"
+              [id]="columnHeader.identifier" [label]="columnHeader.label | translate" [iconConfig]="iconConfig" [clearable]="true"
               (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
             </core-basic-input-text>
             <core-sort-button *ngIf="columnHeader.filterId"
@@ -22,7 +22,7 @@
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
-          {{columnHeader.label}}
+          {{columnHeader.label | translate}}
           <core-sort-button *ngIf="columnHeader.filterId"
             [sortOrder]="sortingByColumn[columnHeader.filterId]"
             [filterId]="columnHeader.filterId" 
