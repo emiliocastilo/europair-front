@@ -1,4 +1,4 @@
-<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-page-bar [pageTitle]="'FLEET.CATEGORIES.PAGE_TITLE' | translate"></core-page-bar>
 <core-button-bar [barButtons]="categoriesBarButtons" [itemsSelectedCount]="categoriesSelectedCount"
   (executeAction)="onBarButtonCategoriesClicked($event)">
 </core-button-bar>
@@ -33,20 +33,20 @@
 <core-modal #deleteCategoryModal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'FLEET.CATEGORIES.CONFIRM_DELETE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'FLEET.CATEGORIES.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar esta categoría?</p>
+      <p>{{'FLEET.CATEGORIES.MSG_DELETE_CATEGORY' | translate}}</p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteCategory()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'FLEET.CATEGORIES.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>
@@ -54,20 +54,20 @@
 <core-modal #deleteSubcategoryModal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'FLEET.CATEGORIES.CONFIRM_DELETE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'FLEET.CATEGORIES.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar este subcategoría?</p>
+      <p>{{'FLEET.CATEGORIES.MSG_DELETE_SUBCATEGORY' | translate}}</p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteSubcategory()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'FLEET.CATEGORIES.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>

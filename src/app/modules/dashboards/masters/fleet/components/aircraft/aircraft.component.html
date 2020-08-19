@@ -1,4 +1,4 @@
-<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-page-bar [pageTitle]="'FLEET.AIRCRAFTS.PAGE_TITLE' |translate"></core-page-bar>
 <core-button-bar
   [barButtons]="barButtons"
   [itemsSelectedCount]="aircraftSelectedCount"
@@ -36,17 +36,14 @@
 <core-modal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'FLEET.AIRCRAFTS.CONFIRM_DELETE' |translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'FLEET.AIRCRAFTS.CANCEL' |translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>
-        ¿Está seguro que desea eliminar la aeronave
-        <b>{{ aircraftSelected?.id }}</b> ?
-      </p>
+      <p>{{'FLEET.AIRCRAFTS.MSG_DELETE' |translate: {'aircraft': aircraftSelected?.id} }}</p>
     </section>
   </ng-container>
   <ng-container footer>
@@ -55,7 +52,7 @@
       (click)="onConfirmDeleteAircraft()"
     >
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'FLEET.AIRCRAFTS.CONFIRM' |translate}}</span>
     </a>
   </ng-container>
 </core-modal>

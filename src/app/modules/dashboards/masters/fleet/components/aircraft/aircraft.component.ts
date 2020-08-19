@@ -2,22 +2,17 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
-import {
-  BarButton,
-  BarButtonType,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { AircraftDetailComponent } from './components/aircraft-detail/aircraft-detail.component';
-import {
-  Aircraft,
-  AircraftBase,
-  EMPTY_AIRCRAFT,
-} from './models/Aircraft.model';
+import { Aircraft, AircraftBase, EMPTY_AIRCRAFT } from './models/Aircraft.model';
 import { AircraftTableAdapterService } from './services/aircraft-table-adapter.service';
 import { AircraftService } from './services/aircraft.service';
+import { TranslateService } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-aircraft',
@@ -32,18 +27,10 @@ export class AircraftComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
 
-  public readonly pageTitle = 'Aeronaves';
-  private readonly VIEW_AIRCRAFT_TITLE = 'Detalle aeronave';
-  private readonly EDIT_AIRCRAFT_TITLE = 'Editar aeronave';
-  private readonly CREATE_AIRCRAFT_TITLE = 'Crear aeronave';
-
   public aircraftSelected: Aircraft = EMPTY_AIRCRAFT;
   public aircraftSelectedCount = 0;
 
-  public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva aeronave' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
+  public barButtons: BarButton[];
 
   public aircraftColumnsHeader: ColumnHeaderModel[] = [];
   public aircraftColumnsData: RowDataModel[] = [];
@@ -87,12 +74,26 @@ export class AircraftComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: ModalService,
     private aircraftService: AircraftService,
-    private aircraftTableAdapter: AircraftTableAdapterService
-  ) {}
+    private aircraftTableAdapter: AircraftTableAdapterService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeAircraftTable();
     this.initializeTablesColumnsHeader();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newAircraft: this.translateService.get('FLEET.AIRCRAFTS.NEW'),
+      deleteAircraft: this.translateService.get('FLEET.AIRCRAFTS.DELETE')
+    }).subscribe((data: { newAircraft: string, deleteAircraft: string }) => {
+      this.barButtons = [
+        { type: BarButtonType.NEW, text: data.newAircraft },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteAircraft },
+      ];
+    });
   }
 
   private initializeTablesColumnsHeader() {
@@ -190,7 +191,7 @@ export class AircraftComponent implements OnInit {
     this.aircraftForm.disable();
     this.getAircraftDetailData(
       data,
-      this.VIEW_AIRCRAFT_TITLE,
+      this.translateService.instant('FLEET.AIRCRAFTS.VIEW_AIRCRAFT'),
       this.aircraftSelected,
       false
     );
@@ -224,7 +225,7 @@ export class AircraftComponent implements OnInit {
     this.aircraftForm.enable();
     this.getAircraftDetailData(
       data,
-      this.EDIT_AIRCRAFT_TITLE,
+      this.translateService.instant('FLEET.AIRCRAFTS.EDIT_AIRCRAFT'),
       this.aircraftSelected
     );
   }
@@ -245,7 +246,7 @@ export class AircraftComponent implements OnInit {
     this.aircraftForm.reset();
     this.getAircraftDetailData(
       data,
-      this.CREATE_AIRCRAFT_TITLE,
+      this.translateService.instant('FLEET.AIRCRAFTS.NEW_AIRCRAFT'),
       EMPTY_AIRCRAFT
     );
   }
