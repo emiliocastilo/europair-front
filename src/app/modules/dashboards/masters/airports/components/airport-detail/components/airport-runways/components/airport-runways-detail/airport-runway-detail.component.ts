@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { MEASURE_LIST } from 'src/app/core/models/base/measure';
+import { MEASURE_LIST, MeasureType } from 'src/app/core/models/base/measure';
 import { Track } from 'src/app/modules/dashboards/masters/airports/models/airport';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-airport-runway-detail',
@@ -17,11 +18,22 @@ export class AirportRunwayDetailComponent implements OnInit {
   @Output()
   public saveRunway = new EventEmitter<Track>();
 
-  public readonly measureList = MEASURE_LIST;
+  public measureList: Array<{ label: string, value: MeasureType }>;
 
-  constructor() {}
+  constructor(
+    private readonly translateService: TranslateService
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
+      this.measureList = MEASURE_LIST.map((measureValue: string) => {
+        return {
+          label: data[measureValue],
+          value: MeasureType[measureValue]
+        }
+      });
+    });
+  }
 
   public onSaveRunway() {
     this.saveRunway.next(this.runwayForm.value);

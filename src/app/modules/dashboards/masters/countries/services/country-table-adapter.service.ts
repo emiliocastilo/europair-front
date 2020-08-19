@@ -7,10 +7,11 @@ import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-ch
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { Country } from '../models/country';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class CountryTableAdapterService {
-  constructor() { }
+  constructor(private readonly translateService: TranslateService) { }
 
   public getCountryColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -23,13 +24,13 @@ export class CountryTableAdapterService {
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Code',
+        'COUNTRIES.CODE',
         new ColumnHeaderSizeModel('2', '2', '1')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'País',
+        'COUNTRIES.COUNTRY',
         new ColumnHeaderSizeModel('7', '7', '8')
       ),
       new ColumnHeaderModel(
@@ -44,10 +45,18 @@ export class CountryTableAdapterService {
   public getCountryTableData(countries: Array<Country>): Array<RowDataModel> {
     const countryTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
-    actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
-    );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel(
+      'create',
+      'edit',
+      'COUNTRIES.EDIT',
+      'europair-icon-blue'
+    ));
+    actions.push(new ColumnActionsModel(
+      'delete',
+      'delete',
+      'COUNTRIES.DELETE',
+      'red'
+    ));
     countries.forEach((country: Country) => {
       const countryRow: RowDataModel = new RowDataModel();
       countryRow.pushColumn(
@@ -56,15 +65,15 @@ export class CountryTableAdapterService {
       countryRow.pushColumn(new ColumnDataModel('text', country.code));
       countryRow.pushColumn(new ColumnDataModel('text', country.name));
       countryRow.pushColumn(new ColumnDataModel('actions', actions));
-      countryRow.author = country.modifiedBy != null? country.modifiedBy : country.createdBy;
-      countryRow.timestamp = country.modifiedAt != null? country.modifiedAt : country.createdAt;
+      countryRow.author = country.modifiedBy != null ? country.modifiedBy : country.createdBy;
+      countryRow.timestamp = country.modifiedAt != null ? country.modifiedAt : country.createdAt;
       countryRow.modified = country.modifiedAt != null;
       countryTableData.push(countryRow);
     });
     return countryTableData;
   }
 
-  public getPagination(){
+  public getPagination() {
     const clientPagination: boolean = true;
     const initPage: number = 1;
     const visiblePages: number = 4;

@@ -1,4 +1,4 @@
-<core-page-bar [pageTitle]="pageTitle"></core-page-bar>
+<core-page-bar [pageTitle]="'REGIONS.PAGE_TITLE' | translate"></core-page-bar>
 <core-button-bar
   [barButtons]="barButtons"
   [itemsSelectedCount]="0"
@@ -31,20 +31,20 @@
 <core-modal> 
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'REGIONS.CONFIRM_DELETE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'REGIONS.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar la región <b>{{regionSelected?.name}}</b>?</p>
+      <p [innerHTML]="'REGIONS.MSG_DELETE' | translate: {regionName: regionSelected?.name}"></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteRegion()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'REGIONS.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>

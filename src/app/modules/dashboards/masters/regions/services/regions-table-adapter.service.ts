@@ -27,13 +27,13 @@ export class RegionsTableAdapterService {
       new ColumnHeaderModel(
         'region-code-header',
         'text',
-        'Código',
+        'REGIONS.CODE',
         new ColumnHeaderSizeModel('3', '3', '3')
       ),
       new ColumnHeaderModel(
         'region-name-header',
         'text',
-        'Nombre',
+        'REGIONS.NAME',
         new ColumnHeaderSizeModel('4', '4', '4')
       ),
       new ColumnHeaderModel(
@@ -48,11 +48,11 @@ export class RegionsTableAdapterService {
   public getRegionTableDataFromRegions(regions: Region[]): RowDataModel[] {
     const regionTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
+    actions.push(new ColumnActionsModel('visibility', 'view', 'REGION.VIEW', 'green'));
     actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
+      new ColumnActionsModel('create', 'edit', 'REGION.EDIT', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'delete', 'REGION.DELETE', 'red'));
     regions.forEach((region: Region) => {
       const regionRow: RowDataModel = new RowDataModel();
       regionRow.pushColumn(
@@ -122,13 +122,13 @@ export class RegionsTableAdapterService {
       new ColumnHeaderModel(
         'screen-header',
         'text',
-        'Aeropuerto',
+        'REGIONS.AIRPORT',
         new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignado',
+        'REGIONS.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];

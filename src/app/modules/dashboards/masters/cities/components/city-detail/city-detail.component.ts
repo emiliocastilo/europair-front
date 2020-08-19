@@ -15,8 +15,6 @@ export class CityDetailComponent implements OnInit {
   public readonly selectItemValue: string = 'id';
   public readonly selectItemDescription: string ='name';
   public readonly selectId: string = 'country';
-  public readonly selectLabel: string = 'País';
-  public readonly selectPlaceholder: string = 'Selecciona un país';
 
   @Input()
   public citiesColumnsHeader: Array<ColumnHeaderModel> = [];

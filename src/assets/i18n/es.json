@@ -47,6 +47,8 @@
     }
   },
   "operators": {
+    "new": "Nuevo operador",
+    "detail": "Detalle operador",
     "aocLastRevisionDate": "Fecha de revisión AOC",
     "aocNumber": "Número AOC",
     "insuranceExpirationDate": "Fecha de caducidad del seguro",
@@ -57,6 +59,182 @@
       "icaoCode": "Debe indicar un código ICAO",
       "insuranceExpirationDate": "Debe indicar una fecha de caducidad del seguro",
       "name": "Debe indicar el nombre del operador"
+    }
+  },
+  "CITIES": {
+    "PAGE_TITLE": "Ciudades",
+    "CREATE": "Crear Ciudad",
+    "EDIT_CITY": "Editar Ciudad",
+    "NEW": "Nueva Ciudad",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "EDIT": "Editar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "CODE": "Código",
+    "CITY": "Ciudad",
+    "COUNTRY": "País",
+    "COUNTRY_PLACEHOLDER": "Selecciona un país",
+    "ERROR": {
+      "CODE": "Debe indicar el código de la Ciudad",
+      "NAME": "Debe indicar el nombre de la Ciudad",
+      "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
+    }
+  },
+  "COUNTRIES": {
+    "PAGE_TITLE": "Países",
+    "CREATE": "Crear País",
+    "EDIT_COUNTRY": "Editar País",
+    "EDIT": "Editar",
+    "NEW": "Nuevo País",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este país?",
+    "COUNTRY_CODE": "Código del páis",
+    "CODE": "Código",
+    "COUNTRY": "País",
+    "ERROR": {
+      "CODE": "Debe indicar el código del país",
+      "CODE_MAXLENGTH": "El código de país debe de tener dos caracteres",
+      "CODE_FORMAT": "El código de país no puede contener números ni simbolos",
+      "NAME": "Debe indicar el nombre de la país"
+    }
+  },
+  "ROLES": {
+    "PAGE_TITLE": "Roles",
+    "CREATE": "Crear rol",
+    "EDIT_ROL": "Editar rol",
+    "EDIT": "Editar",
+    "NEW": "Nuevo rol",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "ROL": "Rol",
+    "TASK": "Tarea",
+    "ASIGNED": "Asignada",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre del rol"
+    }
+  },
+  "TASKS": {
+    "PAGE_TITLE": "Tareas",
+    "CREATE": "Crear tarea",
+    "EDIT_TASK": "Editar tarea",
+    "EDIT": "Editar",
+    "NEW": "Nueva tarea",
+    "DELETE": "Eliminar",
+    "SEARCH": "Buscar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "ROL": "Rol",
+    "TASK": "Tarea",
+    "SCREEN": "Pantalla",
+    "NAME": "Nombre",
+    "ACEPT": "Aceptar",
+    "ASIGNED": "Asignado",
+    "SORT_ALPHABETIC_ASC": "Nombre A -> Z",
+    "SORT_ALPHABETIC_DESC": "Nombre Z -> A",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre de la tarea"
+    }
+  },
+  "USERS": {
+    "PAGE_TITLE": "Usuarios",
+    "CREATE": "Crear usuario",
+    "EDIT_USER": "Editar usuario",
+    "VIEW_USER": "Detalle usuario",
+    "EDIT": "Editar",
+    "NEW": "Nuevo usuario",
+    "DELETE": "Eliminar",
+    "SEARCH": "Buscar",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar el usuario <b>{{ username }}</b>?",
+    "ROLE": "Rol",
+    "ROLES": "Roles",
+    "TASK": "Tarea",
+    "TASKS": "Tareas",
+    "USER": "Usuario",
+    "NAME": "Nombre",
+    "SURNAME": "Apellidos",
+    "USERNAME": "Nombre de usuario",
+    "PASSWORD": "Contraseña",
+    "MAIL": "Email",
+    "TIME_ZONE": "Zona horaria",
+    "ACEPT": "Aceptar",
+    "ASIGNED": "Asignado",
+    "SORT_ALPHABETIC_ASC": "Nombre A -> Z",
+    "SORT_ALPHABETIC_DESC": "Nombre Z -> A",
+    "ERROR": {
+      "NAME": "Debe indicar el nombre de usuario",
+      "PASSWORD": "Debe indicar una contraseña",
+      "USERNAME": "Debe indicar un nombre",
+      "SURNAME": "Debe indicar los apellidos",
+      "MAIL_REQUIRED": "Debe indicar un email",
+      "MAIL_FORMAT": "El formato del email no es correcto",
+      "TIME_ZONE": "Debe indicar una zona horaria"
+    }
+  },
+  "REGIONS": {
+    "PAGE_TITLE": "Regiones",
+    "CREATE": "Crear región",
+    "VIEW_REGION": "Detalle región",
+    "EDIT_REGION": "Editar región",
+    "NEW": "Nueva Región",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "EDIT": "Editar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar la región <b>{{regionName}}</b>?",
+    "REGION": "Región",
+    "NAME": "Nombre",
+    "CODE": "Código",
+    "AIRPORT": "Aeropuerto",
+    "AIRPORTS": "Aeropuertos",
+    "ASIGNED": "Asignado",
+    "COUNTRIES": "Países",
+    "ERROR": {
+      "CODE": "Debe indicar el código de la región",
+      "NAME": "Debe indicar el nombre de la región",
+      "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
+    }
+  },
+  "MEASURES": {
+    "ABBREVIATION": {
+      "FOOT": "ft",
+      "METER": "m",
+      "KILOMETER": "km",
+      "NAUTIC_MILE": "nm",
+      "INCH": "\""
+    },
+    "VALUE": {
+      "FOOT": "{{ value }} ft",
+      "METER": "{{ value }} m",
+      "KILOMETER": "{{ value }} km",
+      "NAUTIC_MILE": "{{ value }} nm",
+      "INCH": "{{ value }} \""
+    },
+    "UNITS": {
+      "FOOT": "pies",
+      "METER": "metros",
+      "KILOMETER": "kilometros",
+      "NAUTIC_MILE": "millas nauticas",
+      "INCH": "pulgadas"
     }
   }
 }

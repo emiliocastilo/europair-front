@@ -10,7 +10,7 @@
     <ul [id]="prefix+'-actions-'+rowDataIndex" class='dropdown-content'>
         <li *ngFor="let action of actions;" class="valign-wrapper">
             <a (click)="executeAction(action.id, rowDataIndex)">
-                <i class="material-icons">{{action.icon}}</i>{{action.label}}
+                <i class="material-icons">{{action.icon}}</i>{{action.label | translate}}
             </a>
         </li>
     </ul>

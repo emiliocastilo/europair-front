@@ -23,19 +23,19 @@ export class CityTableAdapterService {
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Code',
+        'CITIES.CODE',
         new ColumnHeaderSizeModel('2', '2', '1')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Ciudad',
+        'CITIES.CITY',
         new ColumnHeaderSizeModel('4', '4', '4')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'País',
+        'CITIES.COUNTRY',
         new ColumnHeaderSizeModel('3', '3', '4')
       ),
       new ColumnHeaderModel(
@@ -51,9 +51,9 @@ export class CityTableAdapterService {
     const cityTableData: Array<RowDataModel> = new Array<RowDataModel>();
     const actions: Array<ColumnActionsModel> = new Array();
     actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
+      new ColumnActionsModel('create', 'edit', 'CITIES.EDIT', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'delete', 'CITIES.DELETE', 'red'));
     cities.forEach((city: City) => {
       const cityRow: RowDataModel = new RowDataModel();
       cityRow.pushColumn(
@@ -63,8 +63,8 @@ export class CityTableAdapterService {
       cityRow.pushColumn(new ColumnDataModel('text', city.name));
       cityRow.pushColumn(new ColumnDataModel('text', city.country.name));
       cityRow.pushColumn(new ColumnDataModel('actions', actions));
-      cityRow.author = city.modifiedBy != null? city.modifiedBy : city.createdBy;
-      cityRow.timestamp = city.modifiedAt != null? city.modifiedAt : city.createdAt;
+      cityRow.author = city.modifiedBy != null ? city.modifiedBy : city.createdBy;
+      cityRow.timestamp = city.modifiedAt != null ? city.modifiedAt : city.createdAt;
       cityRow.modified = city.modifiedAt != null;
       cityTableData.push(cityRow);
     });

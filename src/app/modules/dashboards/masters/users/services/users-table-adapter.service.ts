@@ -25,25 +25,25 @@ export class UsersTableAdapterService {
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Usuario',
+        'USERS.USER',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Nombre',
+        'USERS.NAME',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Apellidos',
+        'USERS.SURNAME',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
-        'Email',
+        'USERS.MAIL',
         new ColumnHeaderSizeModel('3', '3', '3')
       ),
       new ColumnHeaderModel(
@@ -57,7 +57,6 @@ export class UsersTableAdapterService {
 
   public getUserTableDataFromUsers(users: User[]): RowDataModel[] {
     const taskTableData: RowDataModel[] = new Array<RowDataModel>();
-    const taskActions: ColumnActionsModel[] = new Array();
     const actions: ColumnActionsModel[] = new Array();
     actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
     actions.push(
@@ -84,13 +83,13 @@ export class UsersTableAdapterService {
       new ColumnHeaderModel(
         'screen-header',
         'text',
-        'Rol',
+        'USERS.ROL',
         new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignado',
+        'USERS.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
@@ -129,13 +128,13 @@ export class UsersTableAdapterService {
       new ColumnHeaderModel(
         'screen-header',
         'text',
-        'Tarea',
+        'USERS.TASK',
         new ColumnHeaderSizeModel('10', '8', '8')
       ),
       new ColumnHeaderModel(
         'assigned-header',
         'text',
-        'Asignada',
+        'USERS.ASIGNED',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
