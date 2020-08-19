@@ -1,21 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Region } from '../models/region';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Airport } from '../models/airport';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RegionsService {
-  constructor(private http: HttpClient) {}
+  private readonly mocked: boolean = environment.mock;
+  private readonly url = `${environment.apiUrl}regions`;
+
+  constructor(private readonly httpClient: HttpClient) { }
 
   public getRegions(): Observable<Page<Region>> {
-    return this.http.get<Page<Region>>('/assets/mocks/regions.json');
+    const url: string = this.mocked ? '/assets/mocks/regions.json' : this.url;
+    return this.httpClient.get<Page<Region>>(url);
   }
 
-  public getAirports(): Observable<Airport[]> {
-    return this.http.get<Airport[]>('/assets/mocks/airports.json');
+  public addRegion(region: Region): Observable<Region> {
+    if (this.mocked) {
+      region.id = Math.floor(1000);
+      return of(region);
+    } else {
+      return this.httpClient.post<Region>(this.url, region);
+    }
+  }
+
+  public editRegion(region: Region): Observable<Region> {
+    if (this.mocked) {
+      return of(region);
+    } else {
+      return this.httpClient.put<Region>(`${this.url}/${region.id}`, region);
+    }
+  }
+
+  public deleteRegion(region: Region): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}/${region.id}`);
   }
 }
