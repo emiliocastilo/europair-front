@@ -28,41 +28,65 @@ export class AircraftTableAdapterService {
         'FLEET.AIRCRAFTS.OPERATOR',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
-      // new ColumnHeaderModel(
-      //   'airport-header',
-      //   'text',
-      //   'Aeropuerto',
-      //   new ColumnHeaderSizeModel('2', '2', '2')
-      // ),
+      new ColumnHeaderModel(
+        'airport-header',
+        'text',
+        'Aeropuerto',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
       new ColumnHeaderModel(
         'aircraftType-header',
         'text',
-        'FLEET.AIRCRAFTS.TYPE',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        'Tipo',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'category-header',
+        'text',
+        'Categoría',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'subcategory-header',
+        'text',
+        'Subcategoría',
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'plateNumber-header',
         'text',
-        'FLEET.AIRCRAFTS.PLATE_NUMBER',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        'Matrícula',
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'productionYear-header',
         'text',
-        'FLEET.AIRCRAFTS.YEAR_PRODUCTION',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        'Año de fabricación',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'outsideUpgradeYear-header',
+        'text',
+        'Año reforma exterior',
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'quantity-header',
         'text',
-        'FLEET.AIRCRAFTS.QUANTITY',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        'Cantidad',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'insuranceEndDate-header',
+        'text',
+        'Caducidad seguro',
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('1', '1', '1')
       ),
     ];
   }
@@ -112,7 +136,6 @@ export class AircraftTableAdapterService {
   ): RowDataModel[] {
     const aircraftTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'FLEET.AIRCRAFTS.VIEW', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'FLEET.AIRCRAFTS.EDIT', 'europair-icon-blue')
     );
@@ -123,12 +146,24 @@ export class AircraftTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       aircraftRow.pushColumn(new ColumnDataModel('text', element.operator));
+      aircraftRow.pushColumn(new ColumnDataModel('text', 'airport'));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType));
+      aircraftRow.pushColumn(new ColumnDataModel('text', 'category'));
+      aircraftRow.pushColumn(new ColumnDataModel('text', 'subcategory'));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.plateNumber));
       aircraftRow.pushColumn(
         new ColumnDataModel('text', element.productionYear)
       );
+      // aircraftRow.pushColumn(
+      //   new ColumnDataModel('text', element.insideUpgradeYear)
+      // );
+      aircraftRow.pushColumn(
+        new ColumnDataModel('text', element.outsideUpgradeYear)
+      );
       aircraftRow.pushColumn(new ColumnDataModel('text', element.quantity));
+      aircraftRow.pushColumn(
+        new ColumnDataModel('text', element.insuranceEndDate)
+      );
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));
       aircraftRow.author =
         element.modifiedBy != null ? element.modifiedBy : element.createdBy;

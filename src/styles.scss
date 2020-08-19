@@ -217,3 +217,17 @@ label {
   color: $europair-color-blue-dark-2 !important;
   font-size: 1rem !important;
 }
+
+// SELECT
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container {
+  .ng-placeholder {
+    position: absolute !important;
+  }
+  .ng-input {
+    position: relative !important;
+    input {
+      margin-bottom: 0;
+    }
+  }
+}

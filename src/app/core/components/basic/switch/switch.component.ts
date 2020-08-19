@@ -35,8 +35,6 @@ export class SwitchComponent implements OnInit {
   ngOnInit(): void {}
 
   onInput(value: boolean) {
-    console.log(value);
-
     this.value = value;
     this.onTouch();
     this.onChange(this.value);

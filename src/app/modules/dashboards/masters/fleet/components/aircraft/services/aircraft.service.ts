@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Aircraft } from '../models/Aircraft.model';
@@ -14,6 +14,11 @@ export class AircraftService {
 
   public getAircraft(): Observable<Page<Aircraft>> {
     return this.http.get<Page<Aircraft>>(this.url);
+  }
+
+  public getAircraftById(aircraftId: number): Observable<Aircraft> {
+    const getAircraftUrl = `${this.url}/${aircraftId}`;
+    return this.http.get<Aircraft>(getAircraftUrl);
   }
 
   public saveAircraft(aircraft: Aircraft): Observable<Aircraft> {

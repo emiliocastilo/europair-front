@@ -21,6 +21,9 @@ $ng-select-value-padding-left: 10px !default;
 $ng-select-value-font-size: 0.9em !default;
 
 .core-basic-select-field.select-field {
+  &.input-field {
+    margin-top: 0;
+  }
   label {
     color: $europair-color-blue-dark-2;
   }
