@@ -22,6 +22,8 @@ import { CitiesService } from 'src/app/modules/dashboards/masters/cities/service
 import { City } from 'src/app/modules/dashboards/masters/cities/models/city';
 import { Country } from 'src/app/modules/dashboards/masters/countries/models/country';
 import { FlightRulesType, CustomsType } from '../../../../models/airport';
+import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-airport-general-data',
@@ -34,6 +36,8 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   @Output()
   public specialConditionsChanged: EventEmitter<boolean> = new EventEmitter();
 
+
+  public measureList: Array<{ label: string, value: MeasureType }>;
   public FLIGHT_RULES_TYPE = FlightRulesType;
   public CUSTOMS_TYPE = CustomsType;
 
@@ -48,8 +52,9 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
 
   constructor(
     private countriesService: CountriesService,
-    private citiesServices: CitiesService
-  ) {}
+    private citiesServices: CitiesService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.loadCountries();
@@ -60,6 +65,14 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
       .subscribe((specialConditions) =>
         this.specialConditionsChanged.next(specialConditions)
       );
+    this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
+      this.measureList = MEASURE_LIST.map((measureValue: string) => {
+        return {
+          label: data[measureValue],
+          value: MeasureType[measureValue]
+        }
+      });
+    });
   }
 
   private loadCities() {

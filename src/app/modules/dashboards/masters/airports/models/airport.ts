@@ -11,15 +11,14 @@ export interface Airport extends Audit {
     country?: Country;
     city?: City;
     timeZone?: string;
-    elevation?: number;
-    location?: {
-        latitude: number,
-        longitude: number
-    };
-    customs?: boolean;// CustomsType;
+    elevation?: Measure;
+    latitude?: number;
+    longitude?: number;
+    customs?: CustomsType;
+    simpleCustoms?: boolean;
     specialConditions?: boolean;
     flightRulesType?: FlightRulesType;
-    trackInformation?: Array<Track>;
+    runways?: Array<Track>;
     terminals?: Array<Terminal>;
     operators?: Array<Operator>;
     observations?: string;
@@ -31,9 +30,9 @@ export enum FlightRulesType {
 }
 
 export enum CustomsType {
-  YES = 'YES',
-  NO = 'NO',
-  ON_REQUEST = 'ON_REQUEST'
+    YES = 'YES',
+    NO = 'NO',
+    ON_REQUEST = 'ON_REQUEST'
 }
 
 export interface Track {
@@ -42,6 +41,7 @@ export interface Track {
     length?: Measure;
     width?: Measure;
     observation?: string;
+    mainRunway?: boolean;
 }
 
 export interface Terminal {
@@ -58,8 +58,8 @@ export interface Operator {
 }
 
 export interface Observation {
-  id: number;
-  observation: string;
+    id: number;
+    observation: string;
 }
 
 export const EMPTY_AIRPORT: Airport = {
@@ -68,5 +68,5 @@ export const EMPTY_AIRPORT: Airport = {
     createdAt: null,
     createdBy: null,
     modifiedAt: null,
-    modifiedBy: null
+    modifiedBy: null,
 } as const;
