@@ -85,7 +85,7 @@ export class AirportsTableAdapterService {
       airportRow.pushColumn(new ColumnDataModel('text', airport.name));
       airportRow.pushColumn(new ColumnDataModel('text', airport.city.name));
       airportRow.pushColumn(new ColumnDataModel('text', airport.country.name));
-      airportRow.pushColumn(new ColumnDataModel('text', this.getPista(airport)));
+      airportRow.pushColumn(new ColumnDataModel('text', this.getTrack(airport)));
       airportRow.pushColumn(new ColumnDataModel('actions', actions));
       airportRow.setAuditParams(airport);
       airportTableData.push(airportRow);
@@ -93,18 +93,9 @@ export class AirportsTableAdapterService {
     return airportTableData;
   }
 
-  private getPista(airport: Airport): string {
-    let pista: number = 0;
-    let measure: string;
-    if (airport.trackInformation && airport.trackInformation.length > 0) {
-      airport.trackInformation.forEach((track: Track) => {
-        if (track.length.value > pista) {
-          pista = track.length.value;
-          measure = track.length.type;
-        }
-      });
-    }
-    return `${pista} ${measure}`;
+  private getTrack(airport: Airport): string {
+    const track: Track = airport.runways?.find((item: Track) => item.mainRunway);
+    return track ? `${track.length.value} ${track.length.type}` : '';
   }
 
   public getPagination() {

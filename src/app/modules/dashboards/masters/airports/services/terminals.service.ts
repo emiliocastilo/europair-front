@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Terminal } from '../models/airport';
 
@@ -9,7 +9,7 @@ import { Terminal } from '../models/airport';
   providedIn: 'root',
 })
 export class TerminalsService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}airports`;
 
   constructor(private httpClient: HttpClient) {}
@@ -20,5 +20,26 @@ export class TerminalsService {
       : `${this.url}/${aiportId}/terminals`;
 
     return this.httpClient.get<Page<Terminal>>(url);
+  }
+
+  public addTerminal(airportId: string, terminal: Terminal): Observable<Terminal> {
+    if (this.mocked) {
+      terminal.id = Math.floor(1000);
+      return of(terminal);
+    } else {
+      return this.httpClient.post<Terminal>(`${this.url}/${airportId}/terminals`, terminal);
+    }
+  }
+
+  public editTerminal(airportId: string, terminal: Terminal): Observable<Terminal> {
+    if (this.mocked) {
+      return of(terminal);
+    } else {
+      return this.httpClient.put<Terminal>(`${this.url}/${airportId}/terminals/${terminal.id}`, terminal);
+    }
+  }
+
+  public deleteTerminal(airportId: string, terminal: Terminal): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}/${airportId}/terminals/${terminal.id}`);
   }
 }

@@ -12,13 +12,6 @@
         <div class="row">
           <core-basic-input-text [id]="'runway-name'" [label]="'Pista'" formControlName="name"
             [hasErrors]="hasControlAnyError('name')">
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('name')">
-                <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text"
-                  data-error="Debe indicar el nombre de la pista">
-                </span>
-              </ng-container>
-            </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
