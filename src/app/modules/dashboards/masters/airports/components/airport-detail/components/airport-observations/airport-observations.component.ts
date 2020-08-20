@@ -1,14 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  OnDestroy,
-} from '@angular/core';
-import {
-  BarButtonType,
-  BarButton,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+import { BarButtonType, BarButton } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
@@ -21,7 +12,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { AirportObservationsService } from '../../../../services/airport-observations.service';
 import { tap, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { AirportObservationDetailComponent } from './components/airport-observation-detail/airport-observation-detail.component';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
@@ -172,15 +163,19 @@ export class AirportObservationsComponent implements OnInit, OnDestroy {
   }
 
   public onSaveObservation(newObservation: Observation) {
-    newObservation.id
-      ? console.log('EDITING OBSERVATION', newObservation)
-      : console.log('CREATING OBSERVATION', newObservation);
-    this.refreshObservationsTableData(this.airportId);
+    const saveObservation: Observable<Observation> = newObservation.id
+      ? this.observationsService.editObservation(this.airportId, newObservation)
+      : this.observationsService.addObservation(this.airportId, newObservation);
+    saveObservation.subscribe((observation: Observation) => {
+      this.refreshObservationsTableData(this.airportId);
+    });
   }
 
   public onConfirmDeleteObservation() {
-    console.log('DELETING OBSERVATION', this.observationSelected);
-    this.refreshObservationsTableData(this.airportId);
+    this.observationsService.deleteObservation(this.airportId, this.observationSelected).subscribe(
+      () =>
+        this.refreshObservationsTableData(this.airportId)
+      );
   }
 
   public onFilterObservations(filter: ColumnFilter) {

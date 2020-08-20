@@ -76,8 +76,24 @@
         </div>
         <div class="row">
           <div class="col s12 l4">
-            <core-basic-input-text [label]="'Elevacion'" [id]="'altitude'" formControlName="altitude">
-            </core-basic-input-text>
+            <div class="row">
+              <form formGroupName="elevation">
+                <core-basic-input-text class="col s12 m6" [label]="'Elevacion'" [id]="'elevation'"
+                  formControlName="value">
+                </core-basic-input-text>
+                <core-select class="col s12 m6" [items]="measureList" [searchable]="true" [placeholder]="'Unidad'"
+                  [itemDescription]="'label'" [itemValue]="'value'" [hasErrors]="hasControlAnyError('width.type')"
+                  formControlName="type">
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('width.type')">
+                      <span *ngIf="hasControlSpecificError('width.type', 'required')" class="helper-text"
+                        data-error="Debe indicar la unidad de medida">
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-select>
+              </form>
+            </div>
           </div>
           <div class="col s12 l4">
             <core-basic-input-text [label]="'Latitud'" [id]="'latitude'" formControlName="latitude">
@@ -113,14 +129,13 @@
     </div>
     <div class="row mb0">
       <div class="col s12 l3">
-        <core-basic-switch [id]="'aduanas'" [firstLabel]="'Aduanas'"
-          formControlName="customs">
+        <core-basic-switch [id]="'aduanas'" [firstLabel]="'Aduanas'" formControlName="simpleCustoms">
         </core-basic-switch>
       </div>
       <div class="col s12 l3">
-          <core-basic-switch [id]="'condiciones-especiales'" [firstLabel]="'Condiciones especiales'"
-            formControlName="specialConditions">
-          </core-basic-switch>
+        <core-basic-switch [id]="'condiciones-especiales'" [firstLabel]="'Condiciones especiales'"
+          formControlName="specialConditions">
+        </core-basic-switch>
       </div>
     </div>
   </form>

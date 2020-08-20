@@ -13,7 +13,7 @@ import {
   BarButtonType,
 } from 'src/app/core/models/menus/button-bar/bar-button';
 import { AirportsService } from '../../services/airports.service';
-import { Airport } from '../../models/airport';
+import { Airport, CustomsType } from '../../models/airport';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
@@ -48,10 +48,13 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     country: ['', Validators.required],
     city: ['', Validators.required],
     timeZone: [''],
-    altitude: [''],
+    elevation: this.fb.group({
+      value: ['', Validators.required],
+      type: [null, Validators.required],
+    }),
     latitude: [''],
     longitude: [''],
-    customs: [null],
+    simpleCustoms: [null],
     specialConditions: [null],
     flightRules: [null],
   });
@@ -62,7 +65,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     private airportsService: AirportsService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.routeData$ = this.route.data.pipe(
@@ -84,6 +87,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   };
 
   private getAirportGeneralData(airport: Airport) {
+    airport.simpleCustoms = airport.customs === CustomsType.YES;
     this.airportData = airport;
     this.generalDataForm.patchValue(airport);
   }
@@ -101,6 +105,8 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
         ...this.generalDataForm.value,
         iataCode: this.generalDataForm.get('iataCode').value.toUpperCase(),
         icaoCode: this.generalDataForm.get('icaoCode').value.toUpperCase(),
+        customs: this.generalDataForm.get('simpleCustoms').value ? CustomsType.YES : CustomsType.NO,
+        simpleCustoms: undefined
       };
       console.log('SAVING AIRPORT', this.airportData);
       this.airportsService
@@ -117,6 +123,8 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
         ...this.generalDataForm.value,
         iataCode: this.generalDataForm.value.iataCode.toUpperCase(),
         icaoCode: this.generalDataForm.value.icaoCode.toUpperCase(),
+        customs: this.generalDataForm.value.simpleCustoms ? CustomsType.YES : CustomsType.NO,
+        simpleCustoms: undefined
       };
       console.log('EDITING AIRPORT', this.airportData);
       this.airportsService
