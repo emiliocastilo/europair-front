@@ -81,11 +81,11 @@ export class TableComponent implements OnInit {
       this.lastPage = selectedPage;
       if(this.pagination.clientPagination){
         if(selectedPage == 1){
-          this.columnsDataToShow = this.columnsData.slice
+          this.columnsDataToShow = this.columnsData?.slice
           (0, this.pagination.elementsPerPage);
         } else{
           let cutUpperLimit = selectedPage*this.pagination.elementsPerPage;
-          this.columnsDataToShow = this.columnsData.slice
+          this.columnsDataToShow = this.columnsData?.slice
           (cutUpperLimit-this.pagination.elementsPerPage, cutUpperLimit);
         }
       } else{

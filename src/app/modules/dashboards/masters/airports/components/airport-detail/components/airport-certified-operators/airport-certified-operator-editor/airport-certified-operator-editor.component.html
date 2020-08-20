@@ -1,7 +1,7 @@
 <div class="modal">
   <div class="modal-content">
     <section class="modal-header">
-      <h4>{{ 'Editar certificación para ' + certifiedOperator?.operator?.iataCode }}</h4>
+      <h4>{{ 'Editar certificación para ' + getTitle() }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
         Cancelar
@@ -10,10 +10,10 @@
     <section class="certification-editor cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="certifiedOperatorForm">
         <div class="row">
-          <core-basic-input-text [id]="'edit-certification-comment'" [label]="'Observación'" formControlName="comment" [hasErrors]="hasControlAnyError('comment')">
+          <core-basic-input-text [id]="'edit-certification-comments'" [label]="'Observación'" formControlName="comments" [hasErrors]="hasControlAnyError('comments')">
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('comment')">
-                <span *ngIf="hasControlSpecificError('comment', 'required')" class="helper-text" data-error="Debe indicar una observación">
+              <ng-container *ngIf="hasControlAnyError('comments')">
+                <span *ngIf="hasControlSpecificError('comments', 'required')" class="helper-text" data-error="Debe indicar una observación">
                 </span>
               </ng-container>
             </ng-container>
