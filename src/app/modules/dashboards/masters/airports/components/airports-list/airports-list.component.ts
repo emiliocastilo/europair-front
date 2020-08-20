@@ -7,7 +7,7 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Airport, EMPTY_AIRPORT } from '../../models/airport';
+import { Airport, EMPTY_AIRPORT, CustomsType } from '../../models/airport';
 import { Router } from '@angular/router';
 
 @Component({
@@ -66,11 +66,18 @@ export class AirportsListComponent implements OnInit {
   }
 
   private obtainAirportsTable(): void {
-    this.airportsService.getAirports(this.showDisabled, this.filter).subscribe((data: Page<Airport>) => this.paginarDatos(data));
+    this.airportsService.getAirports(this.showDisabled, this.filter).subscribe((data: Page<Airport>) => {
+      this.airports = data.content.map((airport: Airport) => {
+        return {
+          ...airport,
+          simpleCustoms: airport.customs === CustomsType.YES
+        }
+      });
+      this.paginarDatos();
+    });
   }
 
-  private paginarDatos(data: Page<Airport>): void {
-    this.airports = data.content;
+  private paginarDatos(): void {
     this.airportsColumnsData = this.airportsTableAdapterService.getAirportListTableData(this.airports);
     this.airportPagination = this.airportsTableAdapterService.getPagination();
     this.airportPagination.lastPage = this.airports.length / this.airportPagination.elementsPerPage;
@@ -126,17 +133,25 @@ export class AirportsListComponent implements OnInit {
   }
 
   public onConfirmDeleteAirport(): void {
-    this.airportsService.deleteAirport(this.airports[this.selectedItem]).subscribe(() => {
+    this.airportsService.deleteAirport(this.getAirportModel(this.airports[this.selectedItem])).subscribe(() => {
       this.obtainAirportsTable();
     });
   }
 
   public onConfirmDisableAirport(): void {
-    this.airportsService.disableAirport(this.airports[this.selectedItem]).subscribe(() => {
+    this.airportsService.disableAirport(this.getAirportModel(this.airports[this.selectedItem])).subscribe(() => {
       this.obtainAirportsTable();
     });
   }
 
+  private getAirportModel(airport: Airport): Airport {
+    const customs: CustomsType = airport.simpleCustoms ? CustomsType.YES : CustomsType.NO;
+    return {
+      ...airport,
+      customs,
+      simpleCustoms: undefined
+    };
+  }
   public checkShowDisabled(showDisabled: boolean): void {
     this.showDisabled = showDisabled;
     this.obtainAirportsTable();
