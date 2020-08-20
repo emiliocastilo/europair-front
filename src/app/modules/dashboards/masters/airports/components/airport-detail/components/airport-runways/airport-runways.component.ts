@@ -1,20 +1,11 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef,
-} from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { AirportRunwaysTableAdapterService } from './services/airport-runways-table-adapter.service';
-import {
-  BarButton,
-  BarButtonType,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { RunwaysService } from '../../../../services/runways.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Track } from '../../../../models/airport';
@@ -87,7 +78,7 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
 
   public runwayForm = this.fb.group({
     id: [null],
-    name: ['', Validators.required],
+    name: [''],
     length: this.fb.group({
       value: ['', Validators.required],
       type: [null, Validators.required],
@@ -190,15 +181,14 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
   }
 
   public onSaveRunway(newRunway: Track) {
-    newRunway.id
-      ? console.log('EDITING RUNWAY', newRunway)
-      : console.log('CREATING RUNWAY', newRunway);
-    this.refreshRunwaysTableData(this.airportId);
+    const saveRunway: Observable<Track> = newRunway.id
+      ? this.runwaysService.editTrack(this.airportId, newRunway)
+      : this.runwaysService.addTrack(this.airportId, newRunway);
+    saveRunway.subscribe((data: Track) => this.refreshRunwaysTableData(this.airportId));
   }
 
   public onConfirmDeleteRunway() {
-    console.log('DELETING RUNWAY', this.runwaySelected);
-    this.refreshRunwaysTableData(this.airportId);
+    this.runwaysService.deleteTrack(this.airportId, this.runwaySelected).subscribe(() => this.refreshRunwaysTableData(this.airportId));
   }
 
   public onFilterRunways(runwayFilter: ColumnFilter) {

@@ -3,7 +3,7 @@ import {
   BarButton,
   BarButtonType,
 } from 'src/app/core/models/menus/button-bar/bar-button';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
@@ -168,15 +168,18 @@ export class AirportTerminalsComponent implements OnInit {
   }
 
   public onSaveTerminal(newTerminal: Terminal) {
-    newTerminal.id
-      ? console.log('EDITING TERMINAL', newTerminal)
-      : console.log('CREATING TERMINAL', newTerminal);
-    this.refreshTerminalsTableData(this.airportId);
+    const saveTerminal: Observable<Terminal> = newTerminal.id
+      ? this.terminalsService.editTerminal(this.airportId, newTerminal)
+      : this.terminalsService.addTerminal(this.airportId, newTerminal);
+    saveTerminal.subscribe((terminal: Terminal) => {
+      this.refreshTerminalsTableData(this.airportId);
+    });
   }
 
   public onConfirmDeleteTerminal() {
-    console.log('DELETING TERMINAL', this.terminalSelected);
-    this.refreshTerminalsTableData(this.airportId);
+    this.terminalsService.deleteTerminal(this.airportId, this.terminalSelected).subscribe(() => {
+      this.refreshTerminalsTableData(this.airportId);
+    });
   }
 
   public onMobileBasicSearch(searchTerm: string) {
