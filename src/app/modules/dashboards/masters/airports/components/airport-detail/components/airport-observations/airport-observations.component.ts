@@ -167,6 +167,7 @@ export class AirportObservationsComponent implements OnInit, OnDestroy {
       ? this.observationsService.editObservation(this.airportId, newObservation)
       : this.observationsService.addObservation(this.airportId, newObservation);
     saveObservation.subscribe((observation: Observation) => {
+      this.observationSelected = observation;
       this.refreshObservationsTableData(this.airportId);
     });
   }
