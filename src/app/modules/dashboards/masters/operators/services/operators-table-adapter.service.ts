@@ -142,7 +142,7 @@ export class OperatorsTableAdapterService {
         new ColumnDataModel('text', certification.airport)
       );
       certificationRow.pushColumn(
-        new ColumnDataModel('text', certification.comment)
+        new ColumnDataModel('text', certification.comments)
       );
       certificationTableData.push(certificationRow);
     });

@@ -52,7 +52,7 @@ export class AirportOperatorsTableAdapterService {
         new ColumnDataModel('text', this.getOperatorText(certifiedOperator.operator))
       );
       operatorRow.pushColumn(
-        new ColumnDataModel('text', certifiedOperator.comment)
+        new ColumnDataModel('text', certifiedOperator.comments)
       );
       operatorTableData.push(operatorRow);
     });

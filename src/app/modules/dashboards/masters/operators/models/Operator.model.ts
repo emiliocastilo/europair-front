@@ -19,7 +19,7 @@ export interface Certification {
   id: number;
   airport: string;
   operator?: Operator;
-  comment: string;
+  comments: string;
 }
 
 export interface OperatorComment {
