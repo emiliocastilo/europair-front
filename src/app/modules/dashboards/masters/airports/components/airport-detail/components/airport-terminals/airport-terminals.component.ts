@@ -172,6 +172,7 @@ export class AirportTerminalsComponent implements OnInit {
       ? this.terminalsService.editTerminal(this.airportId, newTerminal)
       : this.terminalsService.addTerminal(this.airportId, newTerminal);
     saveTerminal.subscribe((terminal: Terminal) => {
+      this.terminalSelected = terminal;
       this.refreshTerminalsTableData(this.airportId);
     });
   }

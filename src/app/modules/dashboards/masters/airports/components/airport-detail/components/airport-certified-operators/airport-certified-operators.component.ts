@@ -166,16 +166,18 @@ export class AirportCertifiedOperatorsComponent implements OnInit, OnDestroy {
 
   public onAddCertifiedOperator(newCertifiedOperator: Certification): void {
     this.operatorsService.addCertification(this.airportId, newCertifiedOperator)
-      .subscribe((certification: Certification) =>
-        this.refreshOperatorsTableData(this.airportId)
-      );
+      .subscribe((certification: Certification) => {
+        this.operatorSelected = certification;
+        this.refreshOperatorsTableData(this.airportId);
+      });
   }
 
   public onEditCertifiedOperator(editedCertifiedOperator: Certification) {
     this.operatorsService.editCertification(this.airportId, editedCertifiedOperator)
-      .subscribe((certification: Certification) =>
+      .subscribe((certification: Certification) => {
+        this.operatorSelected = certification;
         this.refreshOperatorsTableData(this.airportId)
-      );
+      });
   }
 
   public onConfirmDeleteOperator() {
