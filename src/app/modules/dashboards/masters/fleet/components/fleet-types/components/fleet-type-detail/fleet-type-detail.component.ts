@@ -57,7 +57,7 @@ export class FleetTypeDetailComponent implements OnInit {
   public subcategories: Array<FleetSubcategory> = [];
   public measuresType: Array<MeasureType> = [];
 
-  private typeForm: FormGroup = this.fb.group({
+  public typeForm: FormGroup = this.fb.group({
     code: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
