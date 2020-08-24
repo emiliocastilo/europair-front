@@ -33,16 +33,18 @@
             <section class="aircraft-detail">
               <div class="row">
                 <core-select
+                  [customSearchFn]="searchOperator"
+                  [hasErrors]="hasControlAnyError('operator')"
+                  [id]="'operator-select'"
+                  [itemDescription]="selectItemDescription"
                   [items]="operators"
                   [itemValue]="selectItemValue"
-                  [itemDescription]="selectItemDescription"
-                  [hasErrors]="hasControlAnyError('operator')"
-                  [id]="'id'"
                   [label]="'aircraft.operator' | translate | sentenceCase"
-                  [searchable]="true"
                   [placeholder]="'aircraft.operatorPlaceholder' | translate"
-                  [formControl]="this.aircraftForm.get('operator')"
+                  [searchable]="true"
+                  [multiple]="false"
                   class="col s12 l4 cmd-mb-1"
+                  formControlName="operator"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('operator')">
@@ -259,15 +261,15 @@
                 </core-basic-input-text>
               </div>
 
-              <div class="row">
+              <div class="row valign-wrapper">
                 <core-basic-input-text
                   [id]="'aircraft-daytimeConfiguration'"
+                  [min]="1"
                   [label]="'aircraft.daytimeConfiguration' | translate"
                   [type]="'number'"
                   [hasErrors]="hasControlAnyError('daytimeConfiguration')"
                   formControlName="daytimeConfiguration"
-                  class="col s12 l3 cmd-mb-1"
-                  min="1"
+                  class="col s12 l2 cmd-ml-0"
                 >
                   <ng-container inputErrors>
                     <ng-container
@@ -288,75 +290,91 @@
                   </ng-container>
                 </core-basic-input-text>
 
-                <core-basic-input-text
-                  [id]="'aircraft-seatingF'"
-                  [label]="'aircraft.seatsF' | translate"
-                  [type]="'number'"
-                  [hasErrors]="hasControlAnyError('seatingF')"
-                  formControlName="seatingF"
-                  class="col s12 l3 cmd-mb-1"
-                >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="hasControlAnyError('seatingF')">
-                      <span
-                        *ngIf="hasControlSpecificError('seatingF', 'required')"
-                        class="helper-text"
-                        [attr.data-error]="'aircraft.errors.seats' | translate"
-                      >
-                      </span>
+                <div class="col s12 l2 seats-conf cmd-ml-0">
+                  <core-basic-input-text
+                    [id]="'aircraft-seatingF'"
+                    [label]="'aircraft.seatsF' | translate"
+                    [min]="minSeats"
+                    [type]="'number'"
+                    [hasErrors]="hasControlAnyError('seatingF')"
+                    formControlName="seatingF"
+                    class="col s12 cmd-mb-1"
+                  >
+                    <ng-container inputErrors>
+                      <ng-container *ngIf="hasControlAnyError('seatingF')">
+                        <span
+                          *ngIf="
+                            hasControlSpecificError('seatingF', 'required')
+                          "
+                          class="helper-text"
+                          [attr.data-error]="
+                            'aircraft.errors.seats' | translate
+                          "
+                        >
+                        </span>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                </core-basic-input-text>
+                  </core-basic-input-text>
 
-                <core-basic-input-text
-                  [id]="'aircraft-seatingC'"
-                  [label]="'aircraft.seatsC' | translate"
-                  [type]="'number'"
-                  [hasErrors]="hasControlAnyError('seatingC')"
-                  formControlName="seatingC"
-                  class="col s12 l3 cmd-mb-1"
-                >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="hasControlAnyError('seatingC')">
-                      <span
-                        *ngIf="hasControlSpecificError('seatingC', 'required')"
-                        class="helper-text"
-                        [attr.data-error]="'aircraft.errors.seats' | translate"
-                      >
-                      </span>
+                  <core-basic-input-text
+                    [id]="'aircraft-seatingC'"
+                    [min]="minSeats"
+                    [label]="'aircraft.seatsC' | translate"
+                    [type]="'number'"
+                    [hasErrors]="hasControlAnyError('seatingC')"
+                    formControlName="seatingC"
+                    class="col s12 cmd-mb-1"
+                  >
+                    <ng-container inputErrors>
+                      <ng-container *ngIf="hasControlAnyError('seatingC')">
+                        <span
+                          *ngIf="
+                            hasControlSpecificError('seatingC', 'required')
+                          "
+                          class="helper-text"
+                          [attr.data-error]="
+                            'aircraft.errors.seats' | translate
+                          "
+                        >
+                        </span>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                </core-basic-input-text>
-                <core-basic-input-text
-                  [id]="'aircraft-seatingY'"
-                  [label]="'aircraft.seatsY' | translate"
-                  [type]="'number'"
-                  [hasErrors]="hasControlAnyError('seatingY')"
-                  formControlName="seatingY"
-                  class="col s12 l3"
-                >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="hasControlAnyError('seatingY')">
-                      <span
-                        *ngIf="hasControlSpecificError('seatingY', 'required')"
-                        class="helper-text"
-                        [attr.data-error]="'aircraft.errors.seats' | translate"
-                      >
-                      </span>
-                    </ng-container>
-                  </ng-container>
-                </core-basic-input-text>
-              </div>
+                  </core-basic-input-text>
 
-              <div class="row">
+                  <core-basic-input-text
+                    [id]="'aircraft-seatingY'"
+                    [min]="minSeats"
+                    [label]="'aircraft.seatsY' | translate"
+                    [type]="'number'"
+                    [hasErrors]="hasControlAnyError('seatingY')"
+                    formControlName="seatingY"
+                    class="col s12"
+                  >
+                    <ng-container inputErrors>
+                      <ng-container *ngIf="hasControlAnyError('seatingY')">
+                        <span
+                          *ngIf="
+                            hasControlSpecificError('seatingY', 'required')
+                          "
+                          class="helper-text"
+                          [attr.data-error]="
+                            'aircraft.errors.seats' | translate
+                          "
+                        >
+                        </span>
+                      </ng-container>
+                    </ng-container>
+                  </core-basic-input-text>
+                </div>
+
                 <core-basic-input-text
                   [id]="'aircraft-nighttimeConfiguration'"
+                  [min]="1"
                   [label]="'aircraft.nighttimeConfiguration' | translate"
                   [type]="'number'"
                   [hasErrors]="hasControlAnyError('nighttimeConfiguration')"
                   formControlName="nighttimeConfiguration"
-                  class="col s12 l3"
-                  min="1"
+                  class="col s12 l2 cmd-ml-0"
                 >
                   <ng-container inputErrors>
                     <ng-container
@@ -383,7 +401,11 @@
       </li>
     </ul>
 
-    <ul class="collapsible expandable cmd-mb-2" appMatCollapsible>
+    <ul
+      *ngIf="isAircraftDetail"
+      class="collapsible expandable cmd-mb-2"
+      appMatCollapsible
+    >
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
@@ -391,7 +413,15 @@
         </div>
         <div class="collapsible-body">
           <span>
-            <section class="aircraft-role-detail-table">
+            <section class="cmd-mb-1">
+              <core-button-bar
+                [barButtons]="aircraftBaseBarButtons"
+                [itemsSelectedCount]="aircraftBaseSelectedCount"
+                (executeAction)="onBaseBarButtonClicked($event)"
+              >
+              </core-button-bar>
+            </section>
+            <section class="aircraft-bases-detail-table">
               <core-table
                 [columnsHeader]="aircraftBaseColumnsHeader"
                 [columnsData]="aircraftBaseColumnsData"
@@ -403,7 +433,11 @@
       </li>
     </ul>
 
-    <ul class="collapsible expandable cmd-mb-2" appMatCollapsible>
+    <ul
+      *ngIf="isAircraftDetail"
+      class="collapsible expandable cmd-mb-2"
+      appMatCollapsible
+    >
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down </i>
@@ -411,7 +445,15 @@
         </div>
         <div class="collapsible-body">
           <span>
-            <section class="user-task-detail-table">
+            <section class="cmd-mb-1">
+              <core-button-bar
+                [barButtons]="aircraftObsBarButtons"
+                [itemsSelectedCount]="aircraftObsSelectedCount"
+                (executeAction)="onObsBarButtonClicked($event)"
+              >
+              </core-button-bar>
+            </section>
+            <section class="aircraft-observations-detail-table">
               <core-table
                 [columnsHeader]="aircraftObservationsColumnsHeader"
                 [columnsData]="aircraftObservationsColumnsData"
@@ -424,3 +466,41 @@
     </ul>
   </form>
 </section>
+
+<app-base-detail
+  [title]="modalDetailTitle"
+  [baseForm]="aircraftBaseForm"
+  (saveBase)="onSaveBase($event)"
+></app-base-detail>
+
+<app-observation-detail
+  [title]="modalDetailTitle"
+  [observationForm]="aircraftObservationForm"
+  (saveObservation)="onSaveObservation($event)"
+></app-observation-detail>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>
+        {{ deleteModalText }}
+      </p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      (click)="deleteModalAction()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

@@ -3,10 +3,10 @@
 .core-basic-input-field.input-field {
   margin: 0;
   padding: 0;
-  input[type="text"],
-  input[type="date"],
-  input[type="password"],
-  input[type="number"] {
+  input[type="text"]:not(:disabled),
+  input[type="date"]:not(:disabled),
+  input[type="password"]:not(:disabled),
+  input[type="number"]:not(:disabled) {
     border-bottom: 1px solid $europair-color-blue-dark-2;
   }
   input.valid[type="text"]:not(.browser-default),

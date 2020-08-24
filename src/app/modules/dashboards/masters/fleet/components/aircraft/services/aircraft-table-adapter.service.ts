@@ -5,7 +5,11 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Aircraft, AircraftBase } from '../models/Aircraft.model';
+import {
+  Aircraft,
+  AircraftBase,
+  AircraftObservation,
+} from '../models/Aircraft.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
 
 @Injectable({
@@ -175,19 +179,14 @@ export class AircraftTableAdapterService {
     return aircraftTableData;
   }
 
-  public getAircraftBaseTableData(
-    bases: AircraftBase[],
-    aircraftBases: AircraftBase[],
-    idPrefix: string,
-    editable = true
-  ): RowDataModel[] {
+  public getAircraftBaseTableData(bases: AircraftBase[]): RowDataModel[] {
     const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
     bases.forEach((base: AircraftBase) => {
       const baseRow: RowDataModel = new RowDataModel();
       baseRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
-      baseRow.pushColumn(new ColumnDataModel('text', base.airport));
+      baseRow.pushColumn(new ColumnDataModel('text', base.airport.name));
       baseRow.pushColumn(new ColumnDataModel('text', base.type));
       baseTableData.push(baseRow);
     });
@@ -195,18 +194,15 @@ export class AircraftTableAdapterService {
   }
 
   public getAircraftObservationsTableData(
-    observations: any[],
-    aircraftObservations: any[],
-    idPrefix: string,
-    editable = true
+    elements: AircraftObservation[]
   ): RowDataModel[] {
     const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
-    observations.forEach((observation: any) => {
+    elements.forEach((elem: AircraftObservation) => {
       const baseRow: RowDataModel = new RowDataModel();
       baseRow.pushColumn(
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
-      baseRow.pushColumn(new ColumnDataModel('text', observation.description));
+      baseRow.pushColumn(new ColumnDataModel('text', elem.observation));
       baseTableData.push(baseRow);
     });
     return baseTableData;

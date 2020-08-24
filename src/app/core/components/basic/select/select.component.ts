@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  forwardRef,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -12,7 +18,7 @@ import { Subject } from 'rxjs';
       useExisting: forwardRef(() => SelectComponent),
       multi: true,
     },
-  ]
+  ],
 })
 export class SelectComponent implements ControlValueAccessor {
   @Input() public id: string;
@@ -27,6 +33,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() public tag: boolean;
   @Input() public multiple: boolean;
   @Input() public items: Array<any>;
+  @Input() public customSearchFn: any;
   @Input() public typeahead: Subject<string>;
   @Input() public typeToSearchText: string = 'Type to search';
   @Input() public minTermLength: number = 0;
@@ -36,10 +43,10 @@ export class SelectComponent implements ControlValueAccessor {
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 
   public value: any;
-  public onChange = (_: any) => { };
-  public onTouch = () => { };
+  public onChange = (_: any) => {};
+  public onTouch = () => {};
 
-  constructor() { }
+  constructor() {}
 
   public changeSelect(selectValue: any) {
     this.value = selectValue;

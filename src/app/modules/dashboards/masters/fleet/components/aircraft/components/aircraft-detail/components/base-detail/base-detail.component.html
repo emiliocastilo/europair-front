@@ -1,0 +1,49 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="baseForm">
+        <div class="row">
+          <core-select
+            class="col s12 m6"
+            [items]="airports"
+            [itemDescription]="'name'"
+            [itemValue]="'id'"
+            [searchable]="true"
+            [placeholder]="'Seleccione una aeropuerto'"
+            [hasErrors]="hasControlAnyError('airport')"
+            formControlName="type"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('airport')">
+                <span
+                  *ngIf="hasControlSpecificError('airport', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar un aeropuerto"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      [ngClass]="{ disabled: !baseForm.valid }"
+      (click)="onSaveBase()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>

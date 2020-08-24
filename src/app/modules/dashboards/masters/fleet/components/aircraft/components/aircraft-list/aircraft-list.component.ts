@@ -1,24 +1,19 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { ModalService } from 'src/app/core/components/modal/modal.service';
 import {
-  BarButtonType,
   BarButton,
+  BarButtonType,
 } from 'src/app/core/models/menus/button-bar/bar-button';
-import {
-  EMPTY_AIRCRAFT,
-  Aircraft,
-  AircraftBase,
-} from '../../models/Aircraft.model';
+import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
+import { Page } from 'src/app/core/models/table/pagination/page';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
+import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
 import { AircraftTableAdapterService } from '../../services/aircraft-table-adapter.service';
 import { AircraftService } from '../../services/aircraft.service';
-import { ModalService } from 'src/app/core/components/modal/modal.service';
-import { FormBuilder, Validators } from '@angular/forms';
-import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { AircraftDetailComponent } from '../aircraft-detail/aircraft-detail.component';
-import { Page } from 'src/app/core/models/table/pagination/page';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-aircraft-list',
@@ -104,69 +99,15 @@ export class AircraftListComponent implements OnInit {
     );
   }
 
-  private getAircraftDetailData(
-    data: any,
-    aircraftDetailTitle: string,
-    aircraftSelected: Aircraft,
-    editable = true
-  ) {
-    this.aircraftBaseColumnsData = this.getAircraftBaseTableDataForAircraft(
-      aircraftSelected,
-      [], // data.bases.content,
-      editable
-    );
-    this.aircraftBaseColumnsPagination = this.initializeClientTablePagination(
-      this.aircraftBaseColumnsData
-    );
-
-    this.aircraftObservationsColumnsData = this.getAircraftObservationsTableDataForAircraft(
-      aircraftSelected,
-      [], // data.observations.content,
-      editable
-    );
-    this.aircraftObservationsColumnsPagination = this.initializeClientTablePagination(
-      this.aircraftObservationsColumnsData
-    );
-
-    this.aircraftDetailTitle = aircraftDetailTitle;
-    this.initializeModal(this.aircraftDetailModal);
-    this.modalService.openModal();
-  }
-
-  private getAircraftBaseTableDataForAircraft(
-    aircraft: Aircraft,
-    bases: AircraftBase[] = [],
-    editable = true
-  ): RowDataModel[] {
-    const aircraftBases = aircraft ? aircraft.bases : [];
-    return this.aircraftTableAdapter.getAircraftBaseTableData(
-      bases,
-      aircraftBases,
-      'assigned-base-',
-      editable
-    );
-  }
-
-  private getAircraftObservationsTableDataForAircraft(
-    aircraft: Aircraft,
-    observations: any[] = [],
-    editable = true
-  ): RowDataModel[] {
-    const aircraftObservations = aircraft ? aircraft.observations : [];
-    return this.aircraftTableAdapter.getAircraftObservationsTableData(
-      observations,
-      aircraftObservations,
-      'assigned-base-',
-      editable
-    );
-  }
-
   private newAircraft(): void {
     this.router.navigate(['fleet/aircraft', 'new']);
   }
 
   private editAircraft(selectedItem: number): void {
-    this.router.navigate(['fleet/aircraft', this.aircraftList[selectedItem].id]);
+    this.router.navigate([
+      'fleet/aircraft',
+      this.aircraftList[selectedItem].id,
+    ]);
   }
 
   private deleteAircraft(selectedItem: number) {
