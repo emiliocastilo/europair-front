@@ -15,8 +15,8 @@
     }
   },
   "aircraft": {
-    "new": "Nueva Aeronave",
-    "detail": "Detalle de aeronave",
+    "new": "Nueva Flota",
+    "detail": "Detalle de flota",
     "bases": "Bases",
     "operator": "operador",
     "operatorPlaceholder": "Selecciona a un Operador",
