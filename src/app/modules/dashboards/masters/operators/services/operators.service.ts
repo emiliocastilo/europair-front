@@ -60,7 +60,7 @@ export class OperatorsService {
   public getOperatorCertifications(
     operatorId: number
   ): Observable<Page<Certification>> {
-    const getOperatorCertifications = `${this.url}/${operatorId}/certifications`;
+    const getOperatorCertifications = `${this.url}/${operatorId}/airports`;
     return this.http.get<Page<Certification>>(getOperatorCertifications);
   }
 
@@ -68,7 +68,7 @@ export class OperatorsService {
     operatorId: number,
     certificationId: number
   ): Observable<Certification> {
-    const getOperatorCertificationsById = `${this.url}/${operatorId}/certifications/${certificationId}`;
+    const getOperatorCertificationsById = `${this.url}/${operatorId}/airports/${certificationId}`;
     return this.http.get<Certification>(getOperatorCertificationsById);
   }
 
@@ -85,7 +85,7 @@ export class OperatorsService {
     operatorId: number,
     certification: Certification
   ): Observable<Certification> {
-    const createCertificationUrl = `${this.url}/${operatorId}/certifications`;
+    const createCertificationUrl = `${this.url}/${operatorId}/airports`;
     return this.http.post<Certification>(createCertificationUrl, certification);
   }
 
@@ -93,12 +93,12 @@ export class OperatorsService {
     operatorId: number,
     certification: Certification
   ): Observable<Certification> {
-    const updateCertificationUrl = `${this.url}/${operatorId}/certifications/${certification.id}`;
+    const updateCertificationUrl = `${this.url}/${operatorId}/airports/${certification.id}`;
     return this.http.put<Certification>(updateCertificationUrl, certification);
   }
 
   public removeCertification(operatorId: number, certificationId: number) {
-    const removeCertificationUrl = `${this.url}/${operatorId}/certifications/${certificationId}`;
+    const removeCertificationUrl = `${this.url}/${operatorId}/airports/${certificationId}`;
     return this.http.delete(removeCertificationUrl);
   }
 

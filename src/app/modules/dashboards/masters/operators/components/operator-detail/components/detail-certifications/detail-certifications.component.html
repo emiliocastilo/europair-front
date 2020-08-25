@@ -1,0 +1,39 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ modeCreate ? 'Añadir operador certificado' : 'Modificar operador certificado'}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="certification-creator cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <core-table *ngIf="modeCreate" [columnsHeader]="airportsColumnsHeader" [columnsData]="airportsColumnsData"
+        [pagination]="airportPagination" (selectedItem)="onAirportSelected($event)" (search)="onFilterAirports($event)"
+        (sortByColumn)="onSortAirports($event)">
+      </core-table>
+      <form [formGroup]="certifiedOperatorForm" class="cmd-mt-2">
+        <div class="row">
+          <core-basic-input-text [id]="'create-certification-comments'" [label]="'Observación'"
+            formControlName="comments" [hasErrors]="hasControlAnyError('comments')">
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('comments')">
+                <span *ngIf="hasControlSpecificError('comments', 'required')" class="helper-text"
+                  data-error="Debe indicar una observación">
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+        </div>
+      </form>
+    </section>
+  </div>
+  <div class="modal-footer">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      [ngClass]="{'disabled': !certifiedOperatorForm.valid || (!hasAnyAirportSelected() && modeCreate)}"
+      (click)="onSaveCertifiedOperator()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>
