@@ -131,7 +131,7 @@
         </div>
         <div class="collapsible-body">
           <core-button-bar [barButtons]="operatorsBarButtons" [itemsSelectedCount]="operatorsSelectedCount"
-            (executeAction)="onBarButtonClicked($event)">
+            (executeAction)="onBarButtonCertificationClicked($event)">
           </core-button-bar>
           <span>
             <section class="user-role-detail-table">
@@ -143,6 +143,9 @@
         </div>
       </li>
     </ul>
+    <app-detail-certifications [modeCreate]="operatorModalModeCreate" [certifiedOperator]="operatorSelected"
+      [airportSelected]="operatorSelected?.airport" [certifiedOperatorForm]="certifiedOperatorForm"
+      (saveCertifiedOperator)="onSaveCertifiedOperator($event)"></app-detail-certifications>
 
     <ul class="collapsible expandable" appMatCollapsible>
       <li>
@@ -151,22 +154,26 @@
           {{ "common.observations" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
+          <core-button-bar [barButtons]="commentsBarButtons" [itemsSelectedCount]="commentsSelectedCount"
+            (executeAction)="onBarButtonCommentsClicked($event)">
+          </core-button-bar>
           <span>
             <section class="user-task-detail-table">
-              <core-table [columnsHeader]="operatorObservationsColumnsHeader"
-                [columnsData]="operatorObservationsColumnsData" [pagination]="operatorObservationsColumnsPagination">
+              <core-table [columnsHeader]="operatorObservationsColumnsHeader" [columnsData]="operatorObservationsColumnsData" [pagination]="operatorObservationsColumnsPagination"
+              (selectedItem)="onCommentSelected($event)">
               </core-table>
             </section>
           </span>
         </div>
       </li>
     </ul>
-    <app-detail-certifications [modeCreate]="operatorModalModeCreate" [certifiedOperator]="operatorSelected" [airportSelected]="operatorSelected?.airport" [certifiedOperatorForm]="certifiedOperatorForm"
-      (saveCertifiedOperator)="onSaveCertifiedOperator($event)">></app-detail-certifications>
+    <app-detail-comments [modeCreate]="commentModalModeCreate" [commentOperator]="commentSelected"
+      [commentOperatorForm]="commentOperatorForm" (saveCommentOperator)="onSaveCommentOperator($event)">
+    </app-detail-comments>
   </form>
 </section>
 
-<core-modal>
+<core-modal #confirmDeleteCertification>
   <ng-container content>
     <section class="modal-header">
       <h4>Confirmar eliminación</h4>
@@ -181,6 +188,27 @@
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteOperator()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>
+
+<core-modal #confirmDeleteComment>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>Está seguro que desea eliminar la observación <b>{{ commentSelected?.comment }}</b></p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteComment()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">Confirmar</span>
     </a>

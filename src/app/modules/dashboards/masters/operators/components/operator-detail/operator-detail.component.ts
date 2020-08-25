@@ -12,7 +12,7 @@ import { OperatorsService } from '../../services/operators.service';
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { DetailCertificationsComponent } from './components/detail-certifications/detail-certifications.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { DetailCommentsComponent } from './components/detail-comments/detail-comments.component';
 
 @Component({
   selector: 'app-operator-detail',
@@ -23,8 +23,12 @@ import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 export class OperatorDetailComponent implements OnInit, OnDestroy {
   @ViewChild(DetailCertificationsComponent, { static: true, read: ElementRef })
   public certifiedOperatorCreatorModal: ElementRef;
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
-  public confirmDeleteModal: ElementRef;
+  @ViewChild(DetailCommentsComponent, { static: true, read: ElementRef })
+  public commentOperatorCreatorModal: ElementRef;
+  @ViewChild('confirmDeleteCertification', { static: true, read: ElementRef })
+  public confirmDeleteCertificationModal: ElementRef;
+  @ViewChild('confirmDeleteComment', { static: true, read: ElementRef })
+  public confirmDeleteCommentModal: ElementRef;
   private unsubscribe$: Subject<void> = new Subject();
 
   public pageTitle: string;
@@ -42,6 +46,7 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
   public operatorCertifications: Certification[] = [];
 
   public operatorSelected: Certification;
+  public commentSelected: OperatorComment;
 
   public operatorsSelectedCount: number = 0;
   public operatorsBarButtons: BarButton[] = [
@@ -49,13 +54,25 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
     { text: 'Editar', type: BarButtonType.EDIT },
     { text: 'Eliminar', type: BarButtonType.DELETE_SELECTED },
   ];
+  public commentsSelectedCount: number = 0;
+  public commentsBarButtons: BarButton[] = [
+    { text: 'Añadir', type: BarButtonType.NEW },
+    { text: 'Editar', type: BarButtonType.EDIT },
+    { text: 'Eliminar', type: BarButtonType.DELETE_SELECTED },
+  ];
 
   private operatorId: number;
 
-  private barButtonActions = {
+  private barButtonCertificationActions = {
     new: this.addOperator.bind(this),
     edit: this.editOperator.bind(this),
     delete_selected: this.deleteOperator.bind(this)
+  };
+
+  private barButtonCommentsActions = {
+    new: this.addComment.bind(this),
+    edit: this.editComment.bind(this),
+    delete_selected: this.deleteComment.bind(this)
   };
 
   public certifiedOperatorForm = this.fb.group({
@@ -63,12 +80,23 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
     comments: ['', Validators.required]
   });
 
+  public commentOperatorForm = this.fb.group({
+    id: [null],
+    comment: ['', Validators.required]
+  });
+
   private readonly certifiedOperatorFormDefaultValues = {
     id: null,
     comments: '',
   } as const;
 
+  private readonly commentOperatorFormDefaultValues = {
+    id: null,
+    comments: '',
+  } as const;
+
   public operatorModalModeCreate: boolean = true;
+  public commentModalModeCreate: boolean = true;
 
   public operatorForm = this.fb.group({
     name: ['', [Validators.required]],
@@ -130,6 +158,11 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
   public onOperatorSelected(operatorIndex: number): void {
     this.operatorSelected = this.operatorCertifications[operatorIndex];
     this.operatorsSelectedCount = 1;
+  }
+
+  public onCommentSelected(operatorIndex: number): void {
+    this.commentSelected = this.operatorObservations[operatorIndex];
+    this.commentsSelectedCount = 1;
   }
 
   private updateCertifications(operatorId: number) {
@@ -205,8 +238,8 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
     return pagination;
   }
 
-  public onBarButtonClicked(barButtonType: BarButtonType) {
-    this.barButtonActions[barButtonType]();
+  public onBarButtonCertificationClicked(barButtonType: BarButtonType) {
+    this.barButtonCertificationActions[barButtonType]();
   }
 
   private addOperator(): void {
@@ -225,7 +258,7 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
   }
 
   private deleteOperator(): void {
-    this.initializeModal(this.confirmDeleteModal);
+    this.initializeModal(this.confirmDeleteCertificationModal);
     this.modalService.openModal();
   }
 
@@ -233,7 +266,7 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
     this.operatorsService.saveCertification(this.operatorId, newCertifiedOperator)
       .subscribe((certification: Certification) => {
         this.operatorSelected = certification;
-        this.retrieveOperatorData();
+        this.updateCertifications(this.operatorId);
       });
   }
 
@@ -241,7 +274,47 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
     this.operatorsService.removeCertification(this.operatorId, this.operatorSelected.id)
     .subscribe(() => {
       this.operatorSelected = undefined;
-      this.retrieveOperatorData();
+      this.updateCertifications(this.operatorId);
+    });
+  }
+
+  public onBarButtonCommentsClicked(barButtonType: BarButtonType) {
+    this.barButtonCommentsActions[barButtonType]();
+  }
+
+  private addComment(): void {
+    this.commentModalModeCreate = true;
+    this.commentOperatorForm.reset(this.commentOperatorFormDefaultValues);
+    this.initializeModal(this.commentOperatorCreatorModal);
+    this.modalService.openModal();
+  }
+
+  private editComment(): void {
+    this.commentModalModeCreate = false;
+    this.commentOperatorForm.reset(this.commentOperatorFormDefaultValues);
+    this.commentOperatorForm.patchValue(this.commentSelected);
+    this.initializeModal(this.commentOperatorCreatorModal);
+    this.modalService.openModal();
+  }
+
+  private deleteComment(): void {
+    this.initializeModal(this.confirmDeleteCommentModal);
+    this.modalService.openModal();
+  }
+
+  public onSaveCommentOperator(newCommentOperator: OperatorComment): void {
+    this.operatorsService.saveOperatorComment(this.operatorId, newCommentOperator)
+      .subscribe((comment: OperatorComment) => {
+        this.commentSelected = comment;
+        this.updateComments(this.operatorId);
+      });
+  }
+
+  public onConfirmDeleteComment(): void {
+    this.operatorsService.removeOperatorComment(this.operatorId, this.commentSelected.id)
+    .subscribe(() => {
+      this.commentSelected = undefined;
+      this.updateComments(this.operatorId);
     });
   }
 
