@@ -9,7 +9,7 @@ import { Region } from '../../regions/models/region';
   providedIn: 'root',
 })
 export class AirportRegionsService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}airports`;
 
   constructor(private httpClient: HttpClient) {}
@@ -20,5 +20,13 @@ export class AirportRegionsService {
       : `${this.url}/${aiportId}/regions`;
 
     return this.httpClient.get<Page<Region>>(url);
+  }
+
+  public addAirportRegions(airportId: string, regions: Region[]): Observable<void> {
+    return this.httpClient.put<void>(`${this.url}/${airportId}/regions`, regions);
+  }
+
+  public deleteAirportRegions(airportId: string, region: Region): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}/${airportId}/regions/${region.id}`);
   }
 }
