@@ -37,7 +37,7 @@
                   [label]="'Código' | translate"
                   [hasErrors]="hasControlAnyError('code')"
                   formControlName="code"
-                  class="col s12 l6 cmd-mb-1"
+                  class="col s12 l3 cmd-mb-1"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('code')">
@@ -54,11 +54,55 @@
                 </core-basic-input-text>
 
                 <core-basic-input-text
+                  [id]="'aircraft-type-iataCode'"
+                  [label]="'Cód. IATA' | translate | sentenceCase"
+                  [maxlength]="3"
+                  [hasErrors]="hasControlAnyError('iataCode')"
+                  formControlName="iataCode"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('iataCode')">
+                      <span
+                        *ngIf="hasControlSpecificError('iataCode', 'required')"
+                        class="helper-text"
+                        [attr.data-error]="
+                          'Debe indicar un código IATA' | translate
+                        "
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-basic-input-text
+                  [id]="'aircraft-type-icaoCode'"
+                  [label]="'Cód. ICAO' | translate | sentenceCase"
+                  [maxlength]="4"
+                  [hasErrors]="hasControlAnyError('icaoCode')"
+                  formControlName="icaoCode"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('icaoCode')">
+                      <span
+                        *ngIf="hasControlSpecificError('icaoCode', 'required')"
+                        class="helper-text"
+                        [attr.data-error]="
+                          'Debe indicar un código ICAO' | translate
+                        "
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-basic-input-text
                   [id]="'aircraft-type-description'"
                   [label]="'descripción' | translate | sentenceCase"
                   [hasErrors]="hasControlAnyError('description')"
                   formControlName="description"
-                  class="col s12 l6 cmd-mb-1"
+                  class="col s12 l3"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('description')">
@@ -77,7 +121,7 @@
                 </core-basic-input-text>
               </div>
 
-              <div class="row">
+              <div class="row cmd-mb-0">
                 <core-select
                   [items]="categories"
                   [hasErrors]="hasControlAnyError('category')"
@@ -87,7 +131,7 @@
                   (selectedValueEvent)="obtainSubcategories($event)"
                   [placeholder]="'Selecciona una categoría' | translate"
                   [formControl]="this.typeForm.get('category')"
-                  class="col s12 l6 cmd-mb-1"
+                  class="col s12 l3 cmd-mb-1"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('category')">
@@ -111,7 +155,7 @@
                   [label]="'Subcategoría'"
                   [searchable]="true"
                   [formControl]="getControl('subcategory')"
-                  class="col s12 l6 cmd-mb-1"
+                  class="col s12 l3"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="isInvalid('subcategory')">
@@ -124,26 +168,24 @@
                     </ng-container>
                   </ng-container>
                 </core-select>
-              </div>
 
-              <div class="row">
                 <core-basic-input-text
-                  class="col s6"
+                  class="col s12 l3 cmd-mb-1"
                   [id]="'type-range-measure-value'"
                   [label]="'Rango de vuelo'"
-                  [formControl]="getControl('rangeMeasureValue')"
-                  [hasErrors]="isInvalid('rangeMeasureValue')"
+                  [formControl]="getControl('flightRange')"
+                  [hasErrors]="isInvalid('flightRange')"
                 >
                   <ng-container inputErrors>
-                    <ng-container *ngIf="isInvalid('rangeMeasureValue')">
+                    <ng-container *ngIf="isInvalid('flightRange')">
                       <span
-                        *ngIf="getControl('rangeMeasureValue').errors.required"
+                        *ngIf="getControl('flightRange').errors.required"
                         class="helper-text"
                         data-error="Debe indicar el rango de vuelo"
                       >
                       </span>
                       <span
-                        *ngIf="getControl('rangeMeasureValue').errors.pattern"
+                        *ngIf="getControl('flightRange').errors.pattern"
                         class="helper-text"
                         data-error="El rango de vuelo debe de ser numérico"
                       >
@@ -151,20 +193,21 @@
                     </ng-container>
                   </ng-container>
                 </core-basic-input-text>
+
                 <core-select
-                  class="col s6"
+                  class="col s12 l3"
                   [items]="measuresType"
-                  [hasErrors]="isInvalid('rangeMeasureType')"
+                  [hasErrors]="isInvalid('flightRangeUnit')"
                   [id]="'type-range-measure-type'"
                   [placeholder]="'Selecciona una unidad'"
                   [label]="'Unidad rango de vuelo'"
                   [searchable]="true"
-                  [formControl]="getControl('rangeMeasureType')"
+                  [formControl]="getControl('flightRangeUnit')"
                 >
                   <ng-container inputErrors>
-                    <ng-container *ngIf="isInvalid('rangeMeasureType')">
+                    <ng-container *ngIf="isInvalid('flightRangeUnit')">
                       <span
-                        *ngIf="getControl('rangeMeasureType').errors.required"
+                        *ngIf="getControl('flightRangeUnit').errors.required"
                         class="helper-text"
                         data-error="Debe indicar una unidad de medida"
                       >
@@ -173,6 +216,203 @@
                   </ng-container>
                 </core-select>
               </div>
+
+              <div class="row cmd-mb-0">
+                <core-basic-input-text
+                  [id]="'aircraft-type-cabinWidth'"
+                  [label]="'Ancho cabina' | translate"
+                  [hasErrors]="hasControlAnyError('cabinWidth')"
+                  formControlName="cabinWidth"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('cabinWidth')">
+                      <span
+                        *ngIf="
+                          hasControlSpecificError('cabinWidth', 'required')
+                        "
+                        class="helper-text"
+                        [attr.data-error]="'Debe indicar un ancho' | translate"
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-basic-input-text
+                  [id]="'aircraft-type-cabinHeight'"
+                  [label]="'Alto cabina' | translate"
+                  [hasErrors]="hasControlAnyError('cabinHeight')"
+                  formControlName="cabinHeight"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('cabinHeight')">
+                      <span
+                        *ngIf="
+                          hasControlSpecificError('cabinHeight', 'required')
+                        "
+                        class="helper-text"
+                        [attr.data-error]="'Debe indicar un alto' | translate"
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-basic-input-text
+                  [id]="'aircraft-type-cabinLength'"
+                  [label]="'Largo cabina' | translate"
+                  [hasErrors]="hasControlAnyError('cabinLength')"
+                  formControlName="cabinLength"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('cabinLength')">
+                      <span
+                        *ngIf="
+                          hasControlSpecificError('cabinLength', 'required')
+                        "
+                        class="helper-text"
+                        [attr.data-error]="'Debe indicar un largo' | translate"
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-select
+                  class="col s12 l3"
+                  [items]="measuresType"
+                  [hasErrors]="isInvalid('cabinWidthUnit')"
+                  [id]="'type-range-measure-type'"
+                  [placeholder]="'Selecciona una unidad'"
+                  [label]="'Unidad cabina'"
+                  [searchable]="true"
+                  [formControl]="getControl('cabinWidthUnit')"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="isInvalid('cabinWidthUnit')">
+                      <span
+                        *ngIf="getControl('cabinWidthUnit').errors.required"
+                        class="helper-text"
+                        data-error="Debe indicar una unidad de medida"
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-select>
+              </div>
+
+              <div class="row">
+                <core-basic-input-text
+                  [id]="'aircraft-type-manufacturer'"
+                  [label]="'Fabricante' | translate"
+                  [hasErrors]="hasControlAnyError('manufacturer')"
+                  formControlName="manufacturer"
+                  class="col s12 l3 cmd-mb-1"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('manufacturer')">
+                      <span
+                        *ngIf="
+                          hasControlSpecificError('manufacturer', 'required')
+                        "
+                        class="helper-text"
+                        [attr.data-error]="
+                          'Debe indicar un fabricante' | translate
+                        "
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+
+                <core-basic-input-text
+                  [id]="'aircraft-type-maxCargo'"
+                  [label]="'Carga máxima' | translate"
+                  [hasErrors]="hasControlAnyError('maxCargo')"
+                  formControlName="maxCargo"
+                  class="col s12 l3"
+                >
+                  <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('maxCargo')">
+                      <span
+                        *ngIf="hasControlSpecificError('maxCargo', 'required')"
+                        class="helper-text"
+                        [attr.data-error]="
+                          'Debe indicar una carga máxima' | translate
+                        "
+                      >
+                      </span>
+                    </ng-container>
+                  </ng-container>
+                </core-basic-input-text>
+              </div>
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+
+    <ul
+      *ngIf="isFleetTypeDetail"
+      class="collapsible expandable cmd-mb-2"
+      appMatCollapsible
+    >
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">keyboard_arrow_down</i>
+          {{ "Velocidades" | translate | sentenceCase }}
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="cmd-mb-1">
+              <!-- <core-button-bar
+                [barButtons]="aircraftBaseBarButtons"
+                [itemsSelectedCount]="aircraftBaseSelectedCount"
+                (executeAction)="onBaseBarButtonClicked($event)"
+              >
+              </core-button-bar> -->
+            </section>
+            <section class="aircraft-bases-detail-table">
+              <!-- <core-table
+                [columnsHeader]="aircraftBaseColumnsHeader"
+                [columnsData]="aircraftBaseColumnsData"
+                [pagination]="aircraftBaseColumnsPagination"
+              ></core-table> -->
+            </section>
+          </span>
+        </div>
+      </li>
+    </ul>
+
+    <ul
+      *ngIf="isFleetTypeDetail"
+      class="collapsible expandable cmd-mb-2"
+      appMatCollapsible
+    >
+      <li>
+        <div class="collapsible-header">
+          <i class="material-icons">keyboard_arrow_down </i>
+          {{ "common.observations" | translate | sentenceCase }}
+        </div>
+        <div class="collapsible-body">
+          <span>
+            <section class="cmd-mb-1">
+              <!-- <core-button-bar
+                [barButtons]="aircraftObsBarButtons"
+                [itemsSelectedCount]="aircraftObsSelectedCount"
+                (executeAction)="onObsBarButtonClicked($event)"
+              >
+              </core-button-bar> -->
+            </section>
+            <section class="aircraft-observations-detail-table">
+              <!-- <core-table
+                [columnsHeader]="aircraftObservationsColumnsHeader"
+                [columnsData]="aircraftObservationsColumnsData"
+                [pagination]="aircraftObservationsColumnsPagination"
+              ></core-table> -->
             </section>
           </span>
         </div>
@@ -180,76 +420,3 @@
     </ul>
   </form>
 </section>
-
-<!-- <div class="modal">
-  <div class="modal-content">
-    <section class="modal-header">
-      <h4>{{ title }}</h4>
-      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
-        <i class="material-icons right">close</i>
-        Cancelar
-      </a>
-    </section>
-    <section class="type-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
-
-      <div class="row">
-        <core-select [items]="categories" [hasErrors]="isInvalid('category')" [id]="'type-category'"
-          [placeholder]="'Selecciona una categoría'" [label]="'Categoría'" [searchable]="true" [formControl]="getControl('category')"
-          (selectedValueEvent)="obtainSubcategories($event)">
-          <ng-container inputErrors>
-            <ng-container *ngIf="isInvalid('category')">
-              <span *ngIf="getControl('category').errors.required" class="helper-text"
-                data-error="Debe indicar una categoría">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-select>
-      </div>
-      <div class="row">
-        <core-select [items]="subcategories" [hasErrors]="isInvalid('subcategory')" [id]="'type-subcategory'"
-          [placeholder]="getSubcategoriePlaceholder()" [label]="'Subcategoría'" [searchable]="true" [formControl]="getControl('subcategory')">
-          <ng-container inputErrors>
-            <ng-container *ngIf="isInvalid('subcategory')">
-              <span *ngIf="getControl('subcategory').errors.required" class="helper-text"
-                data-error="Debe indicar una subcategoría">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-select>
-      </div>
-      <div class="row">
-        <core-basic-input-text class="col s6" [id]="'type-range-measure-value'" [label]="'Rango de vuelo'"
-          [formControl]="getControl('rangeMeasureValue')" [hasErrors]="isInvalid('rangeMeasureValue')">
-          <ng-container inputErrors>
-            <ng-container *ngIf="isInvalid('rangeMeasureValue')">
-              <span *ngIf="getControl('rangeMeasureValue').errors.required" class="helper-text"
-                data-error="Debe indicar el rango de vuelo">
-              </span>
-              <span *ngIf="getControl('rangeMeasureValue').errors.pattern" class="helper-text"
-                data-error="El rango de vuelo debe de ser numérico">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-basic-input-text>
-        <core-select class="col s6" [items]="measuresType" [hasErrors]="isInvalid('rangeMeasureType')" [id]="'type-range-measure-type'"
-          [placeholder]="'Selecciona una unidad'" [label]="'Unidad rango de vuelo'" [searchable]="true" [formControl]="getControl('rangeMeasureType')">
-          <ng-container inputErrors>
-            <ng-container *ngIf="isInvalid('rangeMeasureType')">
-              <span *ngIf="getControl('rangeMeasureType').errors.required" class="helper-text"
-                data-error="Debe indicar una unidad de medida">
-              </span>
-            </ng-container>
-          </ng-container>
-        </core-select>
-      </div>
-    </section>
-  </div>
-
-  <div class="modal-footer">
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
-      (click)="onSaveType()">
-      <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
-    </a>
-  </div>
-</div> -->
