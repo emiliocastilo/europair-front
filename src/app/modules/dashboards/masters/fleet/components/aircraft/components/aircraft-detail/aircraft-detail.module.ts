@@ -5,9 +5,11 @@ import { AircraftDetailRoutingModule } from './aircraft-detail-routing.module';
 import { CoreModule } from 'src/app/core/core.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AircraftDetailComponent } from './aircraft-detail.component';
+import { BaseDetailComponent } from './components/base-detail/base-detail.component';
+import { ObservationDetailComponent } from './components/observation-detail/observation-detail.component';
 
 @NgModule({
-  declarations: [AircraftDetailComponent],
+  declarations: [AircraftDetailComponent, BaseDetailComponent, ObservationDetailComponent],
   imports: [
     CommonModule,
     CoreModule,
