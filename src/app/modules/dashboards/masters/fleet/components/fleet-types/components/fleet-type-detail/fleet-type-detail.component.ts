@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -6,73 +6,71 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { MeasureType } from 'src/app/core/models/base/measure';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import {
   FleetCategory,
   FleetSubcategory,
   FleetType,
+  EMPTY_FLEET_TYPE,
 } from '../../../../models/fleet';
 import { FleetCategoriesService } from '../../../fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../fleet-categories/services/fleet-subcategories.service';
+import { FleetTypesService } from '../../../fleet-types/services/fleet-types.service';
 
 @Component({
   selector: 'app-fleet-type-detail',
   templateUrl: './fleet-type-detail.component.html',
   styleUrls: ['./fleet-type-detail.component.scss'],
 })
-export class FleetTypeDetailComponent implements OnInit {
+export class FleetTypeDetailComponent implements OnInit, OnDestroy {
   public pageTitle = 'Nuevo Tipo';
 
-  @Input()
-  public set typeDetail(type: FleetType) {
-    this._typeDetail = { ...type };
-    if (type.code) {
-      this.typeForm.get('code').setValue(this._typeDetail.code);
-      this.typeForm.get('description').setValue(this._typeDetail.description);
-      this.typeForm.get('category').setValue(this._typeDetail.category.id);
-      this.typeForm
-        .get('subcategory')
-        .setValue(this._typeDetail.subcategory.id);
-      this.typeForm
-        .get('rangeMeasureValue')
-        .setValue(this._typeDetail.flightRange.value);
-      this.typeForm
-        .get('rangeMeasureType')
-        .setValue(this._typeDetail.flightRange.type);
-    } else {
-      this.typeForm.get('code').reset();
-      this.typeForm.get('description').reset();
-      this.typeForm.get('category').reset();
-      this.typeForm.get('subcategory').reset();
-      this.typeForm.get('rangeMeasureValue').reset();
-      this.typeForm.get('rangeMeasureType').reset();
-    }
-  }
+  private typeDetail: FleetType = EMPTY_FLEET_TYPE;
+  private unsubscribe$: Subject<any> = new Subject();
 
-  @Output()
-  public saveType: EventEmitter<FleetType> = new EventEmitter();
+  public isFleetTypeDetail: boolean;
 
   public categories: Array<FleetCategory> = [];
   public subcategories: Array<FleetSubcategory> = [];
   public measuresType: Array<MeasureType> = [];
 
   public typeForm: FormGroup = this.fb.group({
+    iataCode: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(3),
+    ]),
+    icaoCode: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(4),
+    ]),
     code: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
+    manufacturer: new FormControl('', Validators.required),
     category: new FormControl('', Validators.required),
     subcategory: new FormControl('', Validators.required),
-    rangeMeasureValue: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]*$'),
-    ]),
-    rangeMeasureType: new FormControl('', Validators.required),
+    flightRange: new FormControl('', [Validators.pattern('^[0-9]*$')]),
+    flightRangeUnit: new FormControl(''),
+    cabinWidth: new FormControl('', [Validators.pattern('^[0-9]*$')]),
+    cabinWidthUnit: new FormControl(''),
+    cabinHeight: new FormControl('', [Validators.pattern('^[0-9]*$')]),
+    cabinHeightUnit: new FormControl(''),
+    cabinLength: new FormControl('', [Validators.pattern('^[0-9]*$')]),
+    cabinLengthUnit: new FormControl(''),
+    maxCargo: new FormControl(''),
+    averageSpeed: new FormControl([]),
+    observations: new FormControl([]),
   });
 
-  private _typeDetail: FleetType;
   constructor(
-    private readonly fb: FormBuilder,
     private readonly categoriesService: FleetCategoriesService,
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly typesService: FleetTypesService,
     private readonly subcategoriesService: FleetSubcategoriesService
   ) {}
 
@@ -90,6 +88,68 @@ export class FleetTypeDetailComponent implements OnInit {
       MeasureType.METER,
       MeasureType.NAUTIC_MILE,
     ];
+
+    this.initializeFleetTypeData(this.route.snapshot.data);
+    this.typeForm
+      .get('cabinWidthUnit')
+      .valueChanges.subscribe((value: MeasureType) => {
+        this.patchCabinUnits(value);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
+  private patchCabinUnits(value: MeasureType) {
+    this.typeForm.get('cabinHeightUnit').setValue(value);
+    this.typeForm.get('cabinLengthUnit').setValue(value);
+  }
+
+  private initializeFleetTypeData({ title, isFleetTypeDetail }: any) {
+    this.pageTitle = title;
+    if (isFleetTypeDetail) {
+      this.isFleetTypeDetail = true;
+      this.route.params
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(({ typeId }) => {
+          this.retrieveTypeData(typeId);
+        });
+    }
+  }
+
+  private retrieveTypeData(typeId: number) {
+    this.typesService
+      .getFleetTypeById(typeId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((fleetType: FleetType) => {
+        this.typeDetail = { ...EMPTY_FLEET_TYPE, ...fleetType };
+        this.updateTypeForm(this.typeDetail);
+      });
+  }
+
+  private updateTypeForm(selectedType: FleetType) {
+    this.typeForm.setValue({
+      iataCode: selectedType.iataCode,
+      icaoCode: selectedType.icaoCode,
+      code: selectedType.code,
+      description: selectedType.description,
+      manufacturer: selectedType.manufacturer,
+      category: selectedType.category,
+      subcategory: selectedType.subcategory,
+      flightRange: selectedType.flightRange,
+      flightRangeUnit: selectedType.flightRangeUnit,
+      cabinWidth: selectedType.cabinWidth,
+      cabinWidthUnit: selectedType.cabinWidthUnit,
+      cabinHeight: selectedType.cabinHeight,
+      cabinHeightUnit: selectedType.cabinHeightUnit,
+      cabinLength: selectedType.cabinLength,
+      cabinLengthUnit: selectedType.cabinLengthUnit,
+      maxCargo: selectedType.maxCargo,
+      averageSpeed: selectedType.averageSpeed,
+      observations: selectedType.observations,
+    });
   }
 
   public obtainSubcategories(category: FleetCategory): void {
@@ -116,25 +176,19 @@ export class FleetTypeDetailComponent implements OnInit {
   }
 
   public onSaveType(): void {
-    this.saveType.next({
-      ...this._typeDetail,
-      code: this.typeForm.get('code').value,
-      description: this.typeForm.get('description').value,
-      category: {
-        ...this._typeDetail.category,
-        id: this.typeForm.get('category').value,
-      },
-      subcategory: {
-        ...this._typeDetail.subcategory,
-        id: this.typeForm.get('subcategory').value,
-      },
-      flightRange: {
-        value: this.typeForm.get('rangeMeasureValue').value,
-        type: this.typeForm.get('rangeMeasureType').value,
-      },
-      producer: '',
-      cabinInformation: undefined,
+    console.log({
+      ...EMPTY_FLEET_TYPE,
+      ...this.typeForm.value,
     });
+
+    this.typesService
+      .saveFleetType({
+        ...EMPTY_FLEET_TYPE,
+        ...this.typeForm.value,
+      })
+      .subscribe(() => {
+        this.router.navigate(['fleet/types']);
+      });
   }
 
   public getSubcategoriePlaceholder(): string {

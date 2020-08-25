@@ -1,22 +1,13 @@
 {
    "content": [
       {
-         "id": 0,
-         "code": "PRIMERA",
-         "name": "Passenger airliners",
-         "createdAt": "2020-08-01",
-         "createdBy" : "Emilio Castillo",
-         "modifiedAt" : "2020-08-04",
-         "modifiedBy" : "Admin"
-      },
-      {
          "id": 1,
          "code": "EXECUTIVE",
          "name": "Exective aircraft",
          "createdAt": "2020-08-04",
          "createdBy" : "Emilio Castillo",
-         "modifiedAt" : null,
-         "modifiedBy" : null
+         "modifiedAt" : "2020-08-04",
+         "modifiedBy" : "Admin"
       },
       {
          "id": 2,

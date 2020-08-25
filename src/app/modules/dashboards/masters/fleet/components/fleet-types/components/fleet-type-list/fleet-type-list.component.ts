@@ -39,7 +39,6 @@ export class FleetTypeListComponent implements OnInit {
   public typePagination: PaginationModel;
   public typesBarButtons: BarButton[] = [
     { type: BarButtonType.NEW, text: 'Nuevo Tipo' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
   public typeDetailTitle: string;
   public typeSelected: FleetType = EMPTY_FLEET_TYPE;
@@ -104,6 +103,7 @@ export class FleetTypeListComponent implements OnInit {
   }
 
   public onTypeSelected(selectedIndex: number): void {
+    this.typeSelected = this.types[selectedIndex];
     this.selectedType = selectedIndex;
   }
 
@@ -120,24 +120,14 @@ export class FleetTypeListComponent implements OnInit {
 
   private newType(): void {
     this.router.navigate(['fleet/types', 'new']);
-    // this.typeDetailTitle = this.CREATE_TYPE_TITLE;
-    // this.initializeTypeDetailModal(this.CREATE_TYPE_TITLE, {
-    //   ...EMPTY_FLEET_TYPE,
-    // });
-    // this.modalService.openModal();
   }
 
-  private viewFleet(): void {
-    this.router.navigate(['fleet/types', 1]);
-    // console.log('redirect to list fleet');
-    // console.log(this.types[this.selectedType]);
+  private viewFleet(selectedIndex: number): void {
+    this.router.navigate(['fleet/aircraft']);
   }
 
   private editType(selectedItem: number): void {
-    this.initializeTypeDetailModal(this.EDIT_TYPE_TITLE, {
-      ...this.types[selectedItem],
-    });
-    this.modalService.openModal();
+    this.router.navigate(['fleet/types', this.typeSelected.id]);
   }
 
   private deleteType(selectedItem: number): void {
