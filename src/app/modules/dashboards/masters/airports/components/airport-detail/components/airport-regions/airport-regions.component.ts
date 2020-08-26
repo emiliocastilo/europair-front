@@ -143,12 +143,19 @@ export class AirportRegionsComponent implements OnInit, OnDestroy {
   }
 
   public onAddRegions(regionsToAdd: Region[]): void {
-    console.log('ADDING REGION TO AIRPORT', regionsToAdd);
+    this.airportRegionsService.addAirportRegions(this.airportId, regionsToAdd).subscribe(
+      () => {
+        this.refreshRegionsTableData(this.airportId);
+      }
+    );
   }
 
   public onConfirmDeleteRegion(): void {
-    console.log('DELETING REGION', this.regionSelected);
-    this.refreshRegionsTableData(this.airportId);
+    this.airportRegionsService.deleteAirportRegions(this.airportId, this.regionSelected).subscribe(
+      () => {
+        this.refreshRegionsTableData(this.airportId);
+      }
+    );
   }
 
   public onFilterRegions(filter: ColumnFilter) {

@@ -17,7 +17,7 @@ import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 })
 export class AirportRegionEditorComponent implements OnInit {
   @Output()
-  public addRegions = new EventEmitter<Region[]>();
+  public addRegions = new EventEmitter<Region>();
 
   public regionsColumnsHeader: ColumnHeaderModel[];
   public regionsColumnsData: RowDataModel[];
@@ -84,6 +84,6 @@ export class AirportRegionEditorComponent implements OnInit {
   }
 
   public onAddRegions() {
-    this.addRegions.next([this.regionSelected]);
+    this.addRegions.next(this.regionSelected);
   }
 }
