@@ -22,8 +22,8 @@ export class AirportRegionsService {
     return this.httpClient.get<Page<Region>>(url);
   }
 
-  public addAirportRegions(airportId: string, regions: Region[]): Observable<void> {
-    return this.httpClient.put<void>(`${this.url}/${airportId}/regions`, regions);
+  public addAirportRegions(airportId: string, regions: Region): Observable<void> {
+    return this.httpClient.post<void>(`${this.url}/${airportId}/regions`, regions);
   }
 
   public deleteAirportRegions(airportId: string, region: Region): Observable<void> {
