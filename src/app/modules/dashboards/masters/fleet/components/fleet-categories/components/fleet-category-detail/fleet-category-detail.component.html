@@ -4,29 +4,29 @@
         <h4>{{ title }}</h4>
         <a class="waves-effect btn-flat modal-close europair-button-blue-1">
           <i class="material-icons right">close</i>
-          Cancelar
+          {{'FLEET.CATEGORIES.CANCEL' | translate}}
         </a>
       </section>
       <section class="category-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
         <div class="row">
-          <core-basic-input-text [id]="'category-code'" [label]="'Código del Categoría'" [formControl]="categoryCodeControl"
+          <core-basic-input-text [id]="'category-code'" [label]="'FLEET.CATEGORIES.CATEGORY_CODE' | translate" [formControl]="categoryCodeControl"
             [hasErrors]="hasCategoryCodeControlErrors()">
             <ng-container inputErrors>
               <ng-container *ngIf="hasCategoryCodeControlErrors()">
                 <span *ngIf="categoryCodeControl.errors.required" class="helper-text"
-                  data-error="Debe indicar el código de la categoría">
+                  attr.data-error="{{'FLEET.CATEGORIES.ERROR.CATEGORY_CODE' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'category-name'" [label]="'Nombre de Categoría'" [formControl]="categoryNameControl"
+          <core-basic-input-text [id]="'category-name'" [label]="'FLEET.CATEGORIES.CATEGORY_NAME' | translate" [formControl]="categoryNameControl"
             [hasErrors]="hasCategoryNameControlErrors()">
             <ng-container inputErrors>
               <ng-container *ngIf="hasCategoryNameControlErrors()">
                 <span *ngIf="categoryNameControl.errors.required" class="helper-text"
-                  data-error="Debe indicar el nombre de la Categoría">
+                  attr.data-error="{{'FLEET.CATEGORIES.ERROR.CATEGORY_NAME' | translate}}">
                 </span>
               </ng-container>
             </ng-container>
@@ -39,7 +39,7 @@
       <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" [ngClass]="{'disabled': anyFieldInvalid()}"
         (click)="onSaveCategory()">
         <i class="material-icons">check_circle</i>
-        <span class="full-width-btn-text">Guardar</span>
+        <span class="full-width-btn-text">{{'FLEET.CATEGORIES.SAVE' | translate}}</span>
       </a>
     </div>
   </div>
