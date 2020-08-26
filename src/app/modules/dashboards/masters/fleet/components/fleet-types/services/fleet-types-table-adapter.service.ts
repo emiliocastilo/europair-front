@@ -7,6 +7,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { FleetType } from '../../../models/fleet';
+import { MEASURES_ABBREVIATIONS } from 'src/app/core/models/base/measure';
 
 @Injectable({
   providedIn: 'root',
@@ -80,11 +81,24 @@ export class FleetTypesTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.code));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.description));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.category.name));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.subcategory.name));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.value));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.type));
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.description)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.category.name)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.subcategory.name)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.flightRange)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel(
+          'text',
+          MEASURES_ABBREVIATIONS[fleetType.flightRangeUnit]
+        )
+      );
       fleetTypeRow.pushColumn(new ColumnDataModel('actions', actions));
       fleetTypeRow.setAuditParams(fleetType);
       fleetTypeTableData.push(fleetTypeRow);
@@ -92,12 +106,7 @@ export class FleetTypesTableAdapterService {
     return fleetTypeTableData;
   }
 
-  public getPagination(){
-    const clientPagination: boolean = true;
-    const initPage: number = 1;
-    const visiblePages: number = 4;
-    const lastPage: number = 5;
-    const elementsPerPage: number = 8;
-    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
+  public getPagination() {
+    return new PaginationModel(true, 1, 4, 5, 8);
   }
 }

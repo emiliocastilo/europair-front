@@ -184,7 +184,10 @@ export class AirportRunwaysComponent implements OnInit, OnDestroy {
     const saveRunway: Observable<Track> = newRunway.id
       ? this.runwaysService.editTrack(this.airportId, newRunway)
       : this.runwaysService.addTrack(this.airportId, newRunway);
-    saveRunway.subscribe((data: Track) => this.refreshRunwaysTableData(this.airportId));
+    saveRunway.subscribe((data: Track) => {
+      this.runwaySelected = data;
+      this.refreshRunwaysTableData(this.airportId);
+    });
   }
 
   public onConfirmDeleteRunway() {

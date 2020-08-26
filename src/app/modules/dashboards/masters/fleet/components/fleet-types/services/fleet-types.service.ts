@@ -9,15 +9,26 @@ import { Page } from 'src/app/core/models/table/pagination/page';
   providedIn: 'root',
 })
 export class FleetTypesService {
+  private readonly url = `${environment.apiUrl}aircraft-types`;
 
-  private readonly mocked: boolean = true;
-  private readonly url = `${environment.apiUrl}fleet/types`;
   constructor(private http: HttpClient) {}
 
   public getFleetTypes(showDisabled: boolean): Observable<Page<FleetType>> {
-    const url: string = this.mocked ? '/assets/mocks/fleet-types.json' : this.url;
-    const params: HttpParams = new HttpParams().set('showDisabled', String(showDisabled));
-    return this.http.get<Page<FleetType>>(url, {params});
+    const params: HttpParams = new HttpParams().set(
+      'showDisabled',
+      String(showDisabled)
+    );
+    return this.http.get<Page<FleetType>>(this.url, { params });
+  }
+
+  public getFleetTypeById(typeId: number): Observable<FleetType> {
+    return this.http.get<FleetType>(`${this.url}/${typeId}`);
+  }
+
+  public saveFleetType(fleetType: FleetType): Observable<FleetType> {
+    return fleetType.id
+      ? this.editFleetType(fleetType)
+      : this.addFleetType(fleetType);
   }
 
   public addFleetType(fleetType: FleetType): Observable<FleetType> {

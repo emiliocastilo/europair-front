@@ -1,9 +1,26 @@
-<div class="core-basic-select-field input-field select-field" [ngClass]="{ 'invalid': hasErrors }">
-    <label [for]="id" class="active">{{label}}</label>
-    <ng-select id="{{id}}" [bindLabel]="itemDescription" [bindValue]="itemValue" [searchable]="searchable"
-        [placeholder]="placeholder" [items]="items" [loading]="loading" [ngModel]="value"
-        [minTermLength]="minTermLength" [typeahead]="typeahead" [typeToSearchText]="typeToSearchText"
-        [notFoundText]="notFoundText" [virtualScroll]="virtualScroll"
-        (ngModelChange)="changeSelect($event)" [addTag]="tag"  [multiple]="multiple"></ng-select>
-    <ng-content select="[inputErrors]"></ng-content>
+<div
+  class="core-basic-select-field input-field select-field"
+  [ngClass]="{ invalid: hasErrors }"
+>
+  <label [for]="id" class="active">{{ label }}</label>
+  <ng-select
+    id="{{ id }}"
+    (ngModelChange)="changeSelect($event)"
+    [addTag]="tag"
+    [bindLabel]="itemDescription"
+    [bindValue]="itemValue"
+    [items]="items"
+    [loading]="loading"
+    [minTermLength]="minTermLength"
+    [multiple]="multiple"
+    [ngModel]="value"
+    [notFoundText]="notFoundText"
+    [placeholder]="placeholder"
+    [searchable]="searchable"
+    [searchFn]="customSearchFn"
+    [typeahead]="typeahead"
+    [typeToSearchText]="typeToSearchText"
+    [virtualScroll]="virtualScroll"
+  ></ng-select>
+  <ng-content select="[inputErrors]"></ng-content>
 </div>

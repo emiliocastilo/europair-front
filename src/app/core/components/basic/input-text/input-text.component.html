@@ -11,6 +11,6 @@
   </ng-container>
     <input #searchInput [id]="id" [type]="type" class="invalid {{inputClass}}" [ngClass]="{ 'invalid': hasErrors }"
     [value]="value" [disabled]="isDisabled" [attr.maxlength]="maxlength" (input)="onInput($event.target.value)" [min]="min">
-    <label [for]="id" [ngClass]="{'active': value !== ''}">{{label}}</label>
+    <label [for]="id" [ngClass]="{'active': value !== '', 'disabled': isDisabled}">{{label}}</label>
     <ng-content select="[inputErrors]"></ng-content>
 </div>

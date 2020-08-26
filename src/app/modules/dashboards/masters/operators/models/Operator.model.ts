@@ -1,4 +1,5 @@
 import { Audit } from 'src/app/core/models/audit/audit';
+import { Airport } from '../../regions/models/airport';
 
 export interface Operator extends Audit {
   id?: number;
@@ -17,9 +18,9 @@ export interface Operator extends Audit {
 
 export interface Certification {
   id: number;
-  airport: string;
+  airport: Airport;
   operator?: Operator;
-  comment: string;
+  comments: string;
 }
 
 export interface OperatorComment {

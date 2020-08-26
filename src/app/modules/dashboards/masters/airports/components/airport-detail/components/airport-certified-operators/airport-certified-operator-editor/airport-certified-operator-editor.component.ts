@@ -9,22 +9,26 @@ import { Certification } from 'src/app/modules/dashboards/masters/operators/mode
 })
 export class AirportCertifiedOperatorEditorComponent implements OnInit {
   @Input()
-  public title: string;
-  @Input()
-  public certifiedOperator: Certification;
+  public set certifiedOperator(certification: Certification) {
+    this._certifiedOperator = certification;
+    this.certifiedOperatorForm?.get('comments').setValue(certification.comments);
+  }
   @Input()
   public certifiedOperatorForm: FormGroup;
   @Output()
   public editCertifiedOperator = new EventEmitter<Certification>();
+  private _certifiedOperator: Certification;
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  public getTitle(): string {return this._certifiedOperator?.operator.iataCode}
+
   public onEditCertifiedOperator(): void {
     this.editCertifiedOperator.next({
       ...this.certifiedOperatorForm.value,
-      operator: this.certifiedOperator?.operator,
+      operator: this._certifiedOperator?.operator,
     });
   }
 

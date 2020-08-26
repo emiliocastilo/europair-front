@@ -55,7 +55,7 @@ export class AirportCertifiedOperatorsComponent implements OnInit, OnDestroy {
 
   private readonly certifiedOperatorFormDefaultValues = {
     id: null,
-    comment: '',
+    comments: '',
   } as const;
 
   private unsubscriber$: Subject<void> = new Subject();
@@ -77,7 +77,7 @@ export class AirportCertifiedOperatorsComponent implements OnInit, OnDestroy {
 
   public certifiedOperatorForm = this.fb.group({
     id: [null],
-    comment: ['', Validators.required],
+    comments: ['', Validators.required],
   });
 
   constructor(
@@ -86,7 +86,7 @@ export class AirportCertifiedOperatorsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initAirportOperators();
@@ -164,14 +164,25 @@ export class AirportCertifiedOperatorsComponent implements OnInit, OnDestroy {
     this.operatorsSelectedCount = 1;
   }
 
-  public onEditCertifiedOperator(editedCertifiedOperator) {
-    console.log('EDIT CERT OPERATORS', editedCertifiedOperator);
-    this.refreshOperatorsTableData(this.airportId);
+  public onAddCertifiedOperator(newCertifiedOperator: Certification): void {
+    this.operatorsService.addCertification(this.airportId, newCertifiedOperator)
+      .subscribe((certification: Certification) => {
+        this.operatorSelected = certification;
+        this.refreshOperatorsTableData(this.airportId);
+      });
+  }
+
+  public onEditCertifiedOperator(editedCertifiedOperator: Certification) {
+    this.operatorsService.editCertification(this.airportId, editedCertifiedOperator)
+      .subscribe((certification: Certification) => {
+        this.operatorSelected = certification;
+        this.refreshOperatorsTableData(this.airportId)
+      });
   }
 
   public onConfirmDeleteOperator() {
-    console.log('DELETING OPERATOR', this.operatorSelected);
-    this.refreshOperatorsTableData(this.airportId);
+    this.operatorsService.deleteCertification(this.airportId, this.operatorSelected)
+      .subscribe(() => this.refreshOperatorsTableData(this.airportId));
   }
 
   public onFilterOperators(filter: ColumnFilter) {

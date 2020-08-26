@@ -139,10 +139,10 @@ export class OperatorsTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       certificationRow.pushColumn(
-        new ColumnDataModel('text', certification.airport)
+        new ColumnDataModel('text', certification.airport?.name)
       );
       certificationRow.pushColumn(
-        new ColumnDataModel('text', certification.comment)
+        new ColumnDataModel('text', certification.comments)
       );
       certificationTableData.push(certificationRow);
     });

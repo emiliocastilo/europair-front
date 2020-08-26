@@ -11,6 +11,14 @@ export enum MeasureType {
   INCH = 'INCH',
 }
 
+export const MEASURES_ABBREVIATIONS = {
+  [MeasureType.KILOMETER]: 'km',
+  [MeasureType.METER]: 'm',
+  [MeasureType.NAUTIC_MILE]: 'nm',
+  [MeasureType.FOOT]: 'ft',
+  [MeasureType.INCH]: 'in',
+};
+
 export const MEASURE_LIST = [
   MeasureType.KILOMETER,
   MeasureType.METER,
