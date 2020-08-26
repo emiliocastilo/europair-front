@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MeasureType } from 'src/app/core/models/base/measure';
+import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import {
   FleetCategory,
@@ -20,6 +20,7 @@ import {
 import { FleetCategoriesService } from '../../../fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../fleet-categories/services/fleet-subcategories.service';
 import { FleetTypesService } from '../../../fleet-types/services/fleet-types.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fleet-type-detail',
@@ -36,7 +37,8 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public categories: Array<FleetCategory> = [];
   public subcategories: Array<FleetSubcategory> = [];
-  public measuresType: Array<MeasureType> = [];
+
+  public measureList: Array<{ label: string, value: MeasureType }>;
 
   public typeForm: FormGroup = this.fb.group({
     iataCode: new FormControl('', [
@@ -71,6 +73,7 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly typesService: FleetTypesService,
+    private readonly translateService: TranslateService,
     private readonly subcategoriesService: FleetSubcategoriesService
   ) {}
 
@@ -80,15 +83,14 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: Page<FleetCategory>) => (this.categories = data.content)
       );
-    // TODO: Obtener de servicio
-    this.measuresType = [
-      MeasureType.FOOT,
-      MeasureType.INCH,
-      MeasureType.KILOMETER,
-      MeasureType.METER,
-      MeasureType.NAUTIC_MILE,
-    ];
-
+    this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
+      this.measureList = MEASURE_LIST.map((measureValue: string) => {
+        return {
+          label: data[measureValue],
+          value: MeasureType[measureValue]
+        }
+      });
+    });
     this.initializeFleetTypeData(this.route.snapshot.data);
     this.typeForm
       .get('cabinWidthUnit')
