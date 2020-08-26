@@ -151,9 +151,9 @@ export class AircraftTableAdapterService {
       );
       aircraftRow.pushColumn(new ColumnDataModel('text', element.operator));
       aircraftRow.pushColumn(new ColumnDataModel('text', 'airport'));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType));
-      aircraftRow.pushColumn(new ColumnDataModel('text', 'category'));
-      aircraftRow.pushColumn(new ColumnDataModel('text', 'subcategory'));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.code));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.category?.name));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.subcategory?.name));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.plateNumber));
       aircraftRow.pushColumn(
         new ColumnDataModel('text', element.productionYear)

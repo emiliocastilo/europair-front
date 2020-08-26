@@ -22,7 +22,6 @@ export class DashboardsComponent implements OnInit {
   }
 
   public onCollapseClick(event:any): void{
-    debugger
     if(event){
       this.menuCollapsed = true;
     } else{

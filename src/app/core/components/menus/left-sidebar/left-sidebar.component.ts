@@ -24,7 +24,6 @@ export class LeftSidebarComponent implements OnInit {
   }
 
   public expandReduceMenu():void{
-    debugger
     if(this.collapseMenu){
       this.collapseMenu = false;
       this.collapseClick.emit(false);
