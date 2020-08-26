@@ -29,7 +29,7 @@ export class AircraftTableAdapterService {
       new ColumnHeaderModel(
         'operator-header',
         'text',
-        'Operador',
+        'FLEET.AIRCRAFTS.OPERATOR',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
@@ -106,13 +106,13 @@ export class AircraftTableAdapterService {
       new ColumnHeaderModel(
         'airport-header',
         'text',
-        'Aeropuerto',
+        'FLEET.AIRCRAFTS.AIRPORT',
         new ColumnHeaderSizeModel('9', '7', '7')
       ),
       new ColumnHeaderModel(
         'type-header',
         'text',
-        'Tipo',
+        'FLEET.AIRCRAFTS.TYPE',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
@@ -129,7 +129,7 @@ export class AircraftTableAdapterService {
       new ColumnHeaderModel(
         'observation-header',
         'text',
-        'Observaciones',
+        'FLEET.AIRCRAFTS.OBSERVATIONS',
         new ColumnHeaderSizeModel('11', '11', '11')
       ),
     ];
@@ -141,9 +141,9 @@ export class AircraftTableAdapterService {
     const aircraftTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
     actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
+      new ColumnActionsModel('create', 'edit', 'FLEET.AIRCRAFTS.EDIT', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'delete', 'FLEET.AIRCRAFTS.DELETE', 'red'));
     aircraft.forEach((element: Aircraft) => {
       const aircraftRow: RowDataModel = new RowDataModel();
       aircraftRow.pushColumn(

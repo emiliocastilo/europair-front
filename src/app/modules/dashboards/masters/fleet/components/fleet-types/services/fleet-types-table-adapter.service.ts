@@ -7,6 +7,7 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { FleetType } from '../../../models/fleet';
+import { MEASURES_ABBREVIATIONS } from 'src/app/core/models/base/measure';
 
 @Injectable({
   providedIn: 'root',
@@ -44,19 +45,13 @@ export class FleetTypesTableAdapterService {
         'task-header',
         'text',
         'Subcategoría',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('4', '3', '3')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
         'Rango de vuelo',
         new ColumnHeaderSizeModel('2', '2', '1')
-      ),
-      new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Unidad',
-        new ColumnHeaderSizeModel('2', '1', '1')
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -80,11 +75,16 @@ export class FleetTypesTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.code));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.description));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.category.name));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.subcategory.name));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.value));
-      fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.flightRange.type));
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.description)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.category.name)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.subcategory.name)
+      );
+      fleetTypeRow.pushColumn(this.getFlightRangeColumn(fleetType));
       fleetTypeRow.pushColumn(new ColumnDataModel('actions', actions));
       fleetTypeRow.setAuditParams(fleetType);
       fleetTypeTableData.push(fleetTypeRow);
@@ -92,12 +92,18 @@ export class FleetTypesTableAdapterService {
     return fleetTypeTableData;
   }
 
-  public getPagination(){
-    const clientPagination: boolean = true;
-    const initPage: number = 1;
-    const visiblePages: number = 4;
-    const lastPage: number = 5;
-    const elementsPerPage: number = 8;
-    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
+  private getFlightRangeColumn(fleetType): ColumnDataModel {
+    let column: ColumnDataModel;
+
+    if (fleetType && fleetType.flightRange && fleetType.flightRangeUnit) {
+      column = new ColumnDataModel('translate', `MEASURES.VALUE.${fleetType.flightRangeUnit}`, {'value': fleetType.flightRange});
+    } else {
+      column = new ColumnDataModel('text', '');
+    }
+    return column;
+  }
+
+  public getPagination() {
+    return new PaginationModel(true, 1, 4, 5, 8);
   }
 }

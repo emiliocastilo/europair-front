@@ -9,9 +9,10 @@ import { PaginationModel } from 'src/app/core/models/table/pagination/pagination
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 import { FleetCategoryDetailComponent } from './components/fleet-category-detail/fleet-category-detail.component';
 import { FleetSubcategoryDetailComponent } from './components/fleet-subcategory-detail/fleet-subcategory-detail.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fleet-categories',
@@ -29,13 +30,9 @@ export class FleetCategoriesComponent implements OnInit {
   @ViewChild('deleteSubcategoryModal', { static: true, read: ElementRef })
   private readonly confirmDeleteSubcategoryModal: ElementRef;
 
-  private readonly EDIT_CATEGORY_TITLE = 'Editar Categoría';
-  private readonly CREATE_CATEGORY_TITLE = 'Crear Categoría';
+  public categoriesBarButtons: BarButton[];
+  public subcategoriesBarButtons: BarButton[];
 
-  private readonly EDIT_SUBCATEGORY_TITLE = 'Editar Subcategoría';
-  private readonly CREATE_SUBCATEGORY_TITLE = 'Crear Subcategoría';
-
-  public pageTitle = 'Categorías';
   public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public categoriesColumnsHeader: Array<ColumnHeaderModel>;
   public categoriesColumnsData: Array<RowDataModel>;
@@ -47,14 +44,6 @@ export class FleetCategoriesComponent implements OnInit {
   public categoryPagination: PaginationModel;
   public subcategoryDetailColumnsData: Array<RowDataModel>;
   public subcategoryPagination: PaginationModel;
-  public categoriesBarButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva Categoría' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
-  public subcategoriesBarButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva Subcategoría' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-  ];
   public categoryDetailTitle: string;
   public categorySelected: FleetCategory = EMPTY_FLEET_CATEGORY;
   public subcategoryDetailTitle: string;
@@ -79,12 +68,32 @@ export class FleetCategoriesComponent implements OnInit {
     private readonly modalService: ModalService,
     private readonly categoryService: FleetCategoriesService,
     private readonly subcategoryService: FleetSubcategoriesService,
-    private readonly fleetCategoriesTableAdapterService: FleetCategoriesTableAdapterService
+    private readonly fleetCategoriesTableAdapterService: FleetCategoriesTableAdapterService,
+    private readonly translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.obtainTranslateText();
     this.initializeCategoryTable();
     this.initializeSubcategoryTable();
+  }
+
+  private obtainTranslateText(): void {
+    forkJoin({
+      newCategory: this.translateService.get('FLEET.CATEGORIES.NEW_CATEGORY'),
+      deleteCategory: this.translateService.get('FLEET.CATEGORIES.DELETE_CATEGORY'),
+      newSubcategory: this.translateService.get('FLEET.CATEGORIES.NEW_SUBCATEGORY'),
+      deleteSubcategory: this.translateService.get('FLEET.CATEGORIES.DELETE_SUBCATEGORY')
+    }).subscribe((data: { newCategory: string, deleteCategory: string, newSubcategory: string, deleteSubcategory: string }) => {
+      this.categoriesBarButtons = [
+        { type: BarButtonType.NEW, text: data.newCategory },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteCategory },
+      ];
+      this.subcategoriesBarButtons = [
+        { type: BarButtonType.NEW, text: data.newSubcategory },
+        { type: BarButtonType.DELETE_SELECTED, text: data.newSubcategory },
+      ];
+    });
   }
 
   private initializeCategoryTable(): void {
@@ -151,13 +160,13 @@ export class FleetCategoriesComponent implements OnInit {
   }
 
   private newCategory(): void {
-    this.categoryDetailTitle = this.CREATE_CATEGORY_TITLE;
-    this.initializeCategoryDetailModal(this.CREATE_CATEGORY_TITLE, { ...EMPTY_FLEET_CATEGORY });
+    this.categoryDetailTitle = this.translateService.instant('FLEET.CATEGORIES.CREATE_CATEGORY');
+    this.initializeCategoryDetailModal(this.categoryDetailTitle, { ...EMPTY_FLEET_CATEGORY });
     this.modalService.openModal();
   }
 
   private editCategory(selectedItem: number): void {
-    this.initializeCategoryDetailModal(this.EDIT_CATEGORY_TITLE, {
+    this.initializeCategoryDetailModal(this.translateService.instant('FLEET.CATEGORIES.EDIT_CATEGORY'), {
       ...this.categories[selectedItem],
     });
     this.modalService.openModal();
@@ -170,13 +179,13 @@ export class FleetCategoriesComponent implements OnInit {
   }
 
   private newSubcategory(): void {
-    this.subcategoryDetailTitle = this.CREATE_SUBCATEGORY_TITLE;
-    this.initializeSubcategoryDetailModal(this.CREATE_SUBCATEGORY_TITLE, { ...EMPTY_FLEET_SUBCATEGORY });
+    this.subcategoryDetailTitle = this.translateService.instant('FLEET.CATEGORIES.CREATE_SUBCATEGORY');
+    this.initializeSubcategoryDetailModal(this.subcategoryDetailTitle, { ...EMPTY_FLEET_SUBCATEGORY });
     this.modalService.openModal();
   }
 
   private editSubcategory(selectedItem: number): void {
-    this.initializeSubcategoryDetailModal(this.EDIT_SUBCATEGORY_TITLE, {
+    this.initializeSubcategoryDetailModal(this.translateService.instant('FLEET.CATEGORIES.EDIT_SUBCATEGORY'), {
       ...this.subcategories[selectedItem],
     });
     this.modalService.openModal();
@@ -207,8 +216,8 @@ export class FleetCategoriesComponent implements OnInit {
 
   public onSaveSubcategory(subcategory: FleetSubcategory): void {
     const saveSubcategory: Observable<FleetSubcategory> = subcategory.id === null ?
-     this.subcategoryService.addFleetSubcategory(this.categories[this.selectedCategory], {...subcategory, category: this.categories[this.selectedCategory]}) :
-     this.subcategoryService.editFleetSubcategory(this.categories[this.selectedCategory], subcategory);
+      this.subcategoryService.addFleetSubcategory(this.categories[this.selectedCategory], { ...subcategory, category: this.categories[this.selectedCategory] }) :
+      this.subcategoryService.editFleetSubcategory(this.categories[this.selectedCategory], subcategory);
     saveSubcategory.subscribe(() => this.obtainSubcategories());
   }
 

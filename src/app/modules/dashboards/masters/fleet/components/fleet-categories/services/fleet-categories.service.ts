@@ -10,7 +10,7 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 })
 export class FleetCategoriesService {
 
-  private readonly mocked: boolean = environment.mock;
+  private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}aircraft-categories`;
   constructor(private http: HttpClient) {}
 

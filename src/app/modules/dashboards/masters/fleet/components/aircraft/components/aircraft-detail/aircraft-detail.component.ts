@@ -1,4 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subject, Observable } from 'rxjs';
@@ -32,7 +38,7 @@ import { BaseDetailComponent } from './components/base-detail/base-detail.compon
   styleUrls: ['./aircraft-detail.component.scss'],
   providers: [AircraftTableAdapterService],
 })
-export class AircraftDetailComponent implements OnInit {
+export class AircraftDetailComponent implements OnInit, OnDestroy {
   @ViewChild(ObservationDetailComponent, { static: true, read: ElementRef })
   public observationDetailModal: ElementRef;
 
@@ -146,6 +152,11 @@ export class AircraftDetailComponent implements OnInit {
     this.initializeAircraftData(this.route.snapshot.data);
     this.initializeTablesColumnsHeader();
     this.updateAircraftForm(this.aircraftDetail);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   private initializeTablesColumnsHeader() {
