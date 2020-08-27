@@ -4,7 +4,7 @@
   <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
     [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
     <i class="material-icons left">{{ "save" }}</i>
-    {{ "common.save" | translate }}
+    {{ "COMMON.SAVE" | translate }}
   </a>
   <div class="fixed-action-btn">
     <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
@@ -20,44 +20,44 @@
       <li class="active">
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
-          {{ "common.generalData" | translate | sentenceCase }}
+          {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <span>
             <section class="operator-detail">
               <div class="row">
-                <core-basic-input-text [id]="'operator-iataCode'" [label]="'common.abbreviations.iataCode' | translate"
+                <core-basic-input-text [id]="'operator-iataCode'" [label]="'COMMON.ABBREVIATIONS.IATACODE' | translate"
                   [maxlength]="3" [hasErrors]="hasControlAnyError('iataCode')" class="col s12 l3 cmd-mb-1"
                   formControlName="iataCode">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('iataCode')">
                       <span *ngIf="hasControlSpecificError('iataCode', 'required')" class="helper-text" attr.data-error="{{
-                          'operators.errors.iataCode' | translate
+                          'OPERATORS.ERROR.IATACODE' | translate
                         }}">
                       </span>
                     </ng-container>
                   </ng-container>
                 </core-basic-input-text>
 
-                <core-basic-input-text [id]="'operator-icaoCode'" [label]="'common.abbreviations.icaoCode' | translate"
+                <core-basic-input-text [id]="'operator-icaoCode'" [label]="'COMMON.ABBREVIATIONS.ICAOCODE' | translate"
                   [maxlength]="4" [hasErrors]="hasControlAnyError('icaoCode')" class="col s12 l3 cmd-mb-1"
                   formControlName="icaoCode">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('icaoCode')">
                       <span *ngIf="hasControlSpecificError('icaoCode', 'required')" class="helper-text" attr.data-error="{{
-                          'operators.errors.icaoCode' | translate
+                          'OPERATORS.ERROR.ICAOCODE' | translate
                         }}">
                       </span>
                     </ng-container>
                   </ng-container>
                 </core-basic-input-text>
 
-                <core-basic-input-text [id]="'operator-name'" [label]="'common.name' | translate | sentenceCase"
+                <core-basic-input-text [id]="'operator-name'" [label]="'COMMON.NAME' | translate | sentenceCase"
                   [hasErrors]="hasControlAnyError('name')" class="col s12 l6" formControlName="name">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('name')">
                       <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text" attr.data-error="{{
-                          'operators.errors.name' | translate
+                          'OPERATORS.ERROR.NAME' | translate
                         }}">
                       </span>
                     </ng-container>
@@ -66,7 +66,7 @@
               </div>
               <div class="row">
                 <core-basic-input-text [id]="'operator-aocLastRevisionDate'" [type]="'date'"
-                  [label]="'operators.aocLastRevisionDate' | translate"
+                  [label]="'OPERATORS.AOC_LAST_REVISION_DATE' | translate"
                   [hasErrors]="hasControlAnyError('aocLastRevisionDate')" class="col s12 l3 cmd-mb-1"
                   formControlName="aocLastRevisionDate">
                   <ng-container inputErrors>
@@ -77,7 +77,7 @@
                             'required'
                           )
                         " class="helper-text" attr.data-error="{{
-                          'operators.errors.aocLastRevisionDate' | translate
+                          'OPERATORS.ERROR.AOC_LAST_REVISION_DATE' | translate
                         }}">
                       </span>
                     </ng-container>
@@ -85,7 +85,7 @@
                 </core-basic-input-text>
 
                 <core-basic-input-text [id]="'operator-insuranceExpirationDate'" [type]="'date'"
-                  [label]="'operators.insuranceExpirationDate' | translate"
+                  [label]="'OPERATORS.INSURANCE_EXPIRATION_DATE' | translate"
                   [hasErrors]="hasControlAnyError('insuranceExpirationDate')" class="col s12 l3 cmd-mb-1"
                   formControlName="insuranceExpirationDate">
                   <ng-container inputErrors>
@@ -96,7 +96,7 @@
                             'required'
                           )
                         " class="helper-text" attr.data-error="{{
-                          'operators.errors.insuranceExpirationDate' | translate
+                          'OPERATORS.ERROR.INSURANCE_EXPIRATION_DATE' | translate
                         }}">
                       </span>
                     </ng-container>
@@ -104,13 +104,13 @@
                 </core-basic-input-text>
 
                 <core-basic-input-text [id]="'operator-aocNumber'" [type]="'number'"
-                  [label]="'operators.aocNumber' | translate" [hasErrors]="hasControlAnyError('aocNumber')"
+                  [label]="'OPERATORS.AOC_NUMBER' | translate" [hasErrors]="hasControlAnyError('aocNumber')"
                   class="col s12 l3 cmd-mb-1" formControlName="aocNumber">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('aocNumber')">
                       <span *ngIf="hasControlSpecificError('aocNumber', 'required')" class="helper-text"
                         attr.data-error="{{
-                          'operators.errors.aocNumber' | translate
+                          'OPERATORS.ERROR.AOC_NUMBER' | translate
                         }}">
                       </span>
                     </ng-container>
@@ -127,7 +127,7 @@
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
-          {{ "common.certifications" | translate | sentenceCase }}
+          {{ "COMMON.CERTIFICATIONS" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <core-button-bar [barButtons]="operatorsBarButtons" [itemsSelectedCount]="operatorsSelectedCount"
@@ -151,7 +151,7 @@
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
-          {{ "common.observations" | translate | sentenceCase }}
+          {{ "COMMON.OBSERVATIONS" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <core-button-bar [barButtons]="commentsBarButtons" [itemsSelectedCount]="commentsSelectedCount"
