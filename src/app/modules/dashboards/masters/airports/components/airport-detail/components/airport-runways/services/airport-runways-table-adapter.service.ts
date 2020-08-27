@@ -60,15 +60,19 @@ export class AirportRunwaysTableAdapterService {
       );
       runwayRow.pushColumn(new ColumnDataModel('text', runway.name));
       runwayRow.pushColumn(
-        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.length.type}`, {'value': runway.length.value})
+        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.length.type}`, {'value': this.formatNumber(runway.length.value)})
       );
       runwayRow.pushColumn(
-        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.width.type}`, {'value': runway.width.value})
+        new ColumnDataModel('translate', `MEASURES.VALUE.${runway.width.type}`, {'value': this.formatNumber(runway.width.value)})
       );
       runwayRow.pushColumn(new ColumnDataModel('text', runway.observation));
       runwayTableData.push(runwayRow);
     });
     return runwayTableData;
+  }
+
+  private formatNumber(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
   public getPagination() {

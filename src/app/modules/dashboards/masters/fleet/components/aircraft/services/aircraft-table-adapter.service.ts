@@ -146,34 +146,19 @@ export class AircraftTableAdapterService {
     actions.push(new ColumnActionsModel('delete', 'delete', 'FLEET.AIRCRAFTS.DELETE', 'red'));
     aircraft.forEach((element: Aircraft) => {
       const aircraftRow: RowDataModel = new RowDataModel();
-      aircraftRow.pushColumn(
-        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
-      );
+      aircraftRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.operator));
       aircraftRow.pushColumn(new ColumnDataModel('text', 'airport'));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType));
       aircraftRow.pushColumn(new ColumnDataModel('text', 'category'));
       aircraftRow.pushColumn(new ColumnDataModel('text', 'subcategory'));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.plateNumber));
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.productionYear)
-      );
-      // aircraftRow.pushColumn(
-      //   new ColumnDataModel('text', element.insideUpgradeYear)
-      // );
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.outsideUpgradeYear)
-      );
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.productionYear));
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.outsideUpgradeYear));
       aircraftRow.pushColumn(new ColumnDataModel('text', element.quantity));
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.insuranceEndDate)
-      );
+      aircraftRow.pushColumn(new ColumnDataModel('text', element.insuranceEndDate));
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));
-      aircraftRow.author =
-        element.modifiedBy != null ? element.modifiedBy : element.createdBy;
-      aircraftRow.timestamp =
-        element.modifiedAt != null ? element.modifiedAt : element.createdAt;
-      aircraftRow.modified = element.modifiedAt != null;
+      aircraftRow.setAuditParams(element);
       aircraftTableData.push(aircraftRow);
     });
     return aircraftTableData;
