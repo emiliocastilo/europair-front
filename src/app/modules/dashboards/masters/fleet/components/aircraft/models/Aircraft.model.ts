@@ -1,10 +1,11 @@
 import { Audit } from 'src/app/core/models/audit/audit';
 import { Airport } from '../../../../airports/models/airport';
 import { FleetType } from '../../../models/fleet';
+import { Operator } from '../../../../operators/models/Operator.model';
 
 export interface Aircraft extends Audit {
   id: number;
-  operator: any;
+  operator: Operator;
   aircraftType: FleetType;
   bases: AircraftBase[];
   plateNumber: string;
@@ -51,7 +52,6 @@ export interface AircraftBase {
   id: number;
   airport: Airport;
   mainBase: boolean;
-  type?: 'principal' | 'virtual';
 }
 
 export const EMPTY_AIRCRAFT = {

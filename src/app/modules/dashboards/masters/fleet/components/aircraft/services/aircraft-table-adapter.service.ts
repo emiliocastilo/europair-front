@@ -5,11 +5,7 @@ import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import {
-  Aircraft,
-  AircraftBase,
-  AircraftObservation,
-} from '../models/Aircraft.model';
+import { Aircraft, AircraftBase, AircraftObservation } from '../models/Aircraft.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
 
 @Injectable({
@@ -110,9 +106,9 @@ export class AircraftTableAdapterService {
         new ColumnHeaderSizeModel('9', '7', '7')
       ),
       new ColumnHeaderModel(
-        'type-header',
+        'base-header',
         'text',
-        'FLEET.AIRCRAFTS.TYPE',
+        'FLEET.AIRCRAFTS.MAIN_BASE',
         new ColumnHeaderSizeModel('2', '4', '4')
       ),
     ];
@@ -135,45 +131,26 @@ export class AircraftTableAdapterService {
     ];
   }
 
-  public getAircraftTableDataFromAircraft(
-    aircraft: Aircraft[]
-  ): RowDataModel[] {
+  public getAircraftTableDataFromAircraft(aircraft: Aircraft[]): RowDataModel[] {
     const aircraftTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(
-      new ColumnActionsModel('create', 'edit', 'FLEET.AIRCRAFTS.EDIT', 'europair-icon-blue')
-    );
+    actions.push(new ColumnActionsModel('create', 'edit', 'FLEET.AIRCRAFTS.EDIT', 'europair-icon-blue'));
     actions.push(new ColumnActionsModel('delete', 'delete', 'FLEET.AIRCRAFTS.DELETE', 'red'));
-    aircraft.forEach((element: Aircraft) => {
+    aircraft.forEach((aircraft: Aircraft) => {
       const aircraftRow: RowDataModel = new RowDataModel();
-      aircraftRow.pushColumn(
-        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
-      );
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.operator));
+      aircraftRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.operator?.name));
       aircraftRow.pushColumn(new ColumnDataModel('text', 'airport'));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.code));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.category?.name));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.aircraftType?.subcategory?.name));
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.plateNumber));
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.productionYear)
-      );
-      // aircraftRow.pushColumn(
-      //   new ColumnDataModel('text', element.insideUpgradeYear)
-      // );
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.outsideUpgradeYear)
-      );
-      aircraftRow.pushColumn(new ColumnDataModel('text', element.quantity));
-      aircraftRow.pushColumn(
-        new ColumnDataModel('text', element.insuranceEndDate)
-      );
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.code));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.category?.name));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.subcategory?.name));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.plateNumber));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.productionYear));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.outsideUpgradeYear));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.quantity));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.insuranceEndDate));
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));
-      aircraftRow.author =
-        element.modifiedBy != null ? element.modifiedBy : element.createdBy;
-      aircraftRow.timestamp =
-        element.modifiedAt != null ? element.modifiedAt : element.createdAt;
-      aircraftRow.modified = element.modifiedAt != null;
+      aircraftRow.setAuditParams(aircraft);
       aircraftTableData.push(aircraftRow);
     });
     return aircraftTableData;
@@ -183,26 +160,20 @@ export class AircraftTableAdapterService {
     const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
     bases.forEach((base: AircraftBase) => {
       const baseRow: RowDataModel = new RowDataModel();
-      baseRow.pushColumn(
-        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
-      );
+      baseRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
       baseRow.pushColumn(new ColumnDataModel('text', base.airport.name));
-      baseRow.pushColumn(new ColumnDataModel('text', base.type));
+      baseRow.pushColumn(new ColumnDataModel('switch', {id: `main-${base.id}`, check: base.mainBase, disable: true}));
       baseTableData.push(baseRow);
     });
     return baseTableData;
   }
 
-  public getAircraftObservationsTableData(
-    elements: AircraftObservation[]
-  ): RowDataModel[] {
+  public getAircraftObservationsTableData(elements: AircraftObservation[]): RowDataModel[] {
     const baseTableData: Array<RowDataModel> = new Array<RowDataModel>();
-    elements.forEach((elem: AircraftObservation) => {
+    elements.forEach((observation: AircraftObservation) => {
       const baseRow: RowDataModel = new RowDataModel();
-      baseRow.pushColumn(
-        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
-      );
-      baseRow.pushColumn(new ColumnDataModel('text', elem.observation));
+      baseRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
+      baseRow.pushColumn(new ColumnDataModel('text', observation.observation));
       baseTableData.push(baseRow);
     });
     return baseTableData;
