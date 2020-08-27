@@ -142,7 +142,7 @@ export class AirportRegionsComponent implements OnInit, OnDestroy {
     this.regionsSelectedCount = 1;
   }
 
-  public onAddRegions(regionsToAdd: Region[]): void {
+  public onAddRegions(regionsToAdd: Region): void {
     this.airportRegionsService.addAirportRegions(this.airportId, regionsToAdd).subscribe(
       () => {
         this.refreshRegionsTableData(this.airportId);
