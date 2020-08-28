@@ -20,6 +20,16 @@ export class AircraftService {
     return this.http.get<Page<Aircraft>>(this.url);
   }
 
+  public searchAircraftForAirport(airportId: string): Observable<Page<Aircraft>> {
+    const params: HttpParams = new HttpParams().set('filter_airport.id', `${airportId},EQUALS`);
+    return this.http.get<Page<Aircraft>>(this.url, {params});
+  }
+
+  public searchAircraftForOperator(operatorId: string): Observable<Page<Aircraft>> {
+    const params: HttpParams = new HttpParams().set('filter_operator.id', `${operatorId},EQUALS`);
+    return this.http.get<Page<Aircraft>>(this.url, {params});
+  }
+
   public getAircraftById(aircraftId: number): Observable<Aircraft> {
     const getAircraftUrl = `${this.url}/${aircraftId}`;
     return this.http.get<Aircraft>(getAircraftUrl);

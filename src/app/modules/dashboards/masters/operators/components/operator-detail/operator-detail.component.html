@@ -1,6 +1,6 @@
 <core-page-bar [pageTitle]="pageTitle | translate"></core-page-bar>
 
-<section class="save cmd-mt-1">
+<section class="button-bar cmd-mt-1">
   <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
     [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
     <i class="material-icons left">{{ "save" }}</i>
@@ -10,6 +10,16 @@
     <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
       [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
       <i class="material-icons">{{ "save" }}</i>
+    </a>
+  </div>
+  <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only" (click)="viewFleet()">
+    <i class="material-icons left">{{ "visibility" }}</i>
+    {{ "OPERATORS.VIEW_FLEET" | translate }}
+  </a>
+  <div class="fixed-action-btn">
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      (click)="viewFleet()">
+      <i class="material-icons">{{ "visibility" }}</i>
     </a>
   </div>
 </section>
@@ -159,8 +169,9 @@
           </core-button-bar>
           <span>
             <section class="user-task-detail-table">
-              <core-table [columnsHeader]="operatorObservationsColumnsHeader" [columnsData]="operatorObservationsColumnsData" [pagination]="operatorObservationsColumnsPagination"
-              (selectedItem)="onCommentSelected($event)">
+              <core-table [columnsHeader]="operatorObservationsColumnsHeader"
+                [columnsData]="operatorObservationsColumnsData" [pagination]="operatorObservationsColumnsPagination"
+                (selectedItem)="onCommentSelected($event)">
               </core-table>
             </section>
           </span>

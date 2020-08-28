@@ -52,6 +52,7 @@
     "AOCLAST_REVISION_DATE": "Fecha de revisión AOC",
     "AOC_NUMBER": "Número AOC",
     "INSURANCE_EXPIRATION_DATE": "Fecha de caducidad del seguro",
+    "VIEW_FLEET": "Ver flota",
     "ERROR": {
       "AOCLAST_REVISION_DATE": "Debe indicar una fecha de revisión AOC",
       "AOC_NUMBER": "Debe indicar un número de AOC",
