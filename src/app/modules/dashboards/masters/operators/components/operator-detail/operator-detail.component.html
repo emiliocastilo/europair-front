@@ -36,26 +36,26 @@
           <span>
             <section class="operator-detail">
               <div class="row">
-                <core-basic-input-text [id]="'operator-iataCode'" [label]="'COMMON.ABBREVIATIONS.IATACODE' | translate"
+                <core-basic-input-text [id]="'operator-iataCode'" [label]="'COMMON.ABBREVIATIONS.IATA_CODE' | translate"
                   [maxlength]="3" [hasErrors]="hasControlAnyError('iataCode')" class="col s12 l3 cmd-mb-1"
                   formControlName="iataCode">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('iataCode')">
                       <span *ngIf="hasControlSpecificError('iataCode', 'required')" class="helper-text" attr.data-error="{{
-                          'OPERATORS.ERROR.IATACODE' | translate
+                          'OPERATORS.ERROR.IATA_CODE' | translate
                         }}">
                       </span>
                     </ng-container>
                   </ng-container>
                 </core-basic-input-text>
 
-                <core-basic-input-text [id]="'operator-icaoCode'" [label]="'COMMON.ABBREVIATIONS.ICAOCODE' | translate"
+                <core-basic-input-text [id]="'operator-icaoCode'" [label]="'COMMON.ABBREVIATIONS.ICAO_CODE' | translate"
                   [maxlength]="4" [hasErrors]="hasControlAnyError('icaoCode')" class="col s12 l3 cmd-mb-1"
                   formControlName="icaoCode">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('icaoCode')">
                       <span *ngIf="hasControlSpecificError('icaoCode', 'required')" class="helper-text" attr.data-error="{{
-                          'OPERATORS.ERROR.ICAOCODE' | translate
+                          'OPERATORS.ERROR.ICAO_CODE' | translate
                         }}">
                       </span>
                     </ng-container>
