@@ -94,16 +94,20 @@ export class FleetTypesTableAdapterService {
 
   private getFlightRangeColumn(fleetType): ColumnDataModel {
     let column: ColumnDataModel;
-
     if (fleetType && fleetType.flightRange && fleetType.flightRangeUnit) {
-      column = new ColumnDataModel('translate', `MEASURES.VALUE.${fleetType.flightRangeUnit}`, {'value': fleetType.flightRange});
+      column = new ColumnDataModel('translate', `MEASURES.VALUE.${fleetType.flightRangeUnit}`, {'value': this.formatNumber(fleetType.flightRange)});
     } else {
       column = new ColumnDataModel('text', '');
     }
     return column;
   }
 
+  private formatNumber(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
   public getPagination() {
     return new PaginationModel(true, 1, 4, 5, 8);
   }
+
 }

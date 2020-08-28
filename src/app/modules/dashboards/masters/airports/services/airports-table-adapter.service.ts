@@ -97,11 +97,15 @@ export class AirportsTableAdapterService {
     const track: Track = airport.runways?.find((item: Track) => item.mainRunway);
     let column: ColumnDataModel;
     if (track) {
-      column =  new ColumnDataModel('translate', `MEASURES.VALUE.${track.length.type}`,{'value': track.length.value});
+      column =  new ColumnDataModel('translate', `MEASURES.VALUE.${track.length.type}`,{'value': this.formatNumber(track.length.value)});
     } else {
       column = new ColumnDataModel('text', '');
     }
     return column;
+  }
+
+  private formatNumber(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
   public getPagination() {
