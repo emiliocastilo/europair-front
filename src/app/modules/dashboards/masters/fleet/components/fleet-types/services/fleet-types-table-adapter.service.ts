@@ -6,7 +6,11 @@ import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-act
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { FleetType } from '../../../models/fleet';
+import {
+  FleetType,
+  FleetTypeObservation,
+  AverageSpeed,
+} from '../../../models/fleet';
 import { MEASURES_ABBREVIATIONS } from 'src/app/core/models/base/measure';
 
 @Injectable({
@@ -68,6 +72,64 @@ export class FleetTypesTableAdapterService {
     ];
   }
 
+  public getFleetTypeAverageSpeedColumnsHeader(): ColumnHeaderModel[] {
+    return [
+      new ColumnHeaderModel(
+        'selector-header',
+        'text',
+        '',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'fromDistance-header',
+        'text',
+        'Desde',
+        new ColumnHeaderSizeModel('2', '2', '2')
+      ),
+      new ColumnHeaderModel(
+        'toDistance-header',
+        'text',
+        'Hasta',
+        new ColumnHeaderSizeModel('2', '2', '2')
+      ),
+      new ColumnHeaderModel(
+        'distanceUnit-header',
+        'text',
+        'Unidad distancia',
+        new ColumnHeaderSizeModel('2', '2', '2')
+      ),
+      new ColumnHeaderModel(
+        'averageSpeed-header',
+        'text',
+        'Velocidad Media',
+        new ColumnHeaderSizeModel('2', '2', '2')
+      ),
+      new ColumnHeaderModel(
+        'averageSpeedUnit-header',
+        'text',
+        'Unidad velocidad',
+        new ColumnHeaderSizeModel('3', '3', '3')
+      ),
+    ];
+  }
+
+  public getFleetTypeObservationColumnsHeader(): ColumnHeaderModel[] {
+    return [
+      new ColumnHeaderModel(
+        'selector-header',
+        'text',
+        '',
+        new ColumnHeaderSizeModel('1', '1', '1')
+      ),
+      new ColumnHeaderModel(
+        'observation-header',
+        'text',
+        'Observaciones',
+        new ColumnHeaderSizeModel('11', '11', '11')
+      ),
+    ];
+  }
+
   public getFleetTypes(fleetTypes: Array<FleetType>): RowDataModel[] {
     const fleetTypeTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
@@ -106,7 +168,51 @@ export class FleetTypesTableAdapterService {
     return fleetTypeTableData;
   }
 
+  public getFleetTypeSpeedAverageTableData(
+    elements: AverageSpeed[]
+  ): RowDataModel[] {
+    const averageSpeedTableData: Array<RowDataModel> = new Array<
+      RowDataModel
+    >();
+    elements.forEach((elem: AverageSpeed) => {
+      const averageSpeedRow: RowDataModel = new RowDataModel();
+      averageSpeedRow.pushColumn(
+        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
+      );
+      averageSpeedRow.pushColumn(
+        new ColumnDataModel('text', elem.fromDistance)
+      );
+      averageSpeedRow.pushColumn(new ColumnDataModel('text', elem.toDistance));
+      averageSpeedRow.pushColumn(
+        new ColumnDataModel('text', MEASURES_ABBREVIATIONS[elem.distanceUnit])
+      );
+      averageSpeedRow.pushColumn(
+        new ColumnDataModel('text', elem.averageSpeed)
+      );
+      averageSpeedRow.pushColumn(
+        new ColumnDataModel('text', elem.averageSpeedUnit)
+      );
+      averageSpeedTableData.push(averageSpeedRow);
+    });
+    return averageSpeedTableData;
+  }
+
+  public getFleetTypeObservationsTableData(
+    elements: FleetTypeObservation[]
+  ): RowDataModel[] {
+    const observationTableData: Array<RowDataModel> = new Array<RowDataModel>();
+    elements.forEach((elem: FleetTypeObservation) => {
+      const observationRow: RowDataModel = new RowDataModel();
+      observationRow.pushColumn(
+        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
+      );
+      observationRow.pushColumn(new ColumnDataModel('text', elem.observation));
+      observationTableData.push(observationRow);
+    });
+    return observationTableData;
+  }
+
   public getPagination() {
-    return new PaginationModel(true, 1, 4, 5, 8);
+    return new PaginationModel(true, 1, 3, 5, 10);
   }
 }

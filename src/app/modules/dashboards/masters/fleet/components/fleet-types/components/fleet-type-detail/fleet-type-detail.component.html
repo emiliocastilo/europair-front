@@ -368,19 +368,20 @@
         <div class="collapsible-body">
           <span>
             <section class="cmd-mb-1">
-              <!-- <core-button-bar
-                [barButtons]="aircraftBaseBarButtons"
-                [itemsSelectedCount]="aircraftBaseSelectedCount"
-                (executeAction)="onBaseBarButtonClicked($event)"
+              <core-button-bar
+                [barButtons]="typeDetailsBarButtons"
+                [itemsSelectedCount]="typeSpeedSelectedCount"
+                (executeAction)="onSpeedBarButtonClicked($event)"
               >
-              </core-button-bar> -->
+              </core-button-bar>
             </section>
             <section class="aircraft-bases-detail-table">
-              <!-- <core-table
-                [columnsHeader]="aircraftBaseColumnsHeader"
-                [columnsData]="aircraftBaseColumnsData"
-                [pagination]="aircraftBaseColumnsPagination"
-              ></core-table> -->
+              <core-table
+                [columnsHeader]="typeSpeedAverageColumnsHeader"
+                [columnsData]="typeSpeedAverageColumnsData"
+                [pagination]="typeSpeedAverageColumnsPagination"
+                (selectedItem)="onSpeedAverageSelected($event)"
+              ></core-table>
             </section>
           </span>
         </div>
@@ -400,19 +401,20 @@
         <div class="collapsible-body">
           <span>
             <section class="cmd-mb-1">
-              <!-- <core-button-bar
-                [barButtons]="aircraftObsBarButtons"
-                [itemsSelectedCount]="aircraftObsSelectedCount"
+              <core-button-bar
+                [barButtons]="typeDetailsBarButtons"
+                [itemsSelectedCount]="typeObsSelectedCount"
                 (executeAction)="onObsBarButtonClicked($event)"
               >
-              </core-button-bar> -->
+              </core-button-bar>
             </section>
             <section class="aircraft-observations-detail-table">
-              <!-- <core-table
-                [columnsHeader]="aircraftObservationsColumnsHeader"
-                [columnsData]="aircraftObservationsColumnsData"
-                [pagination]="aircraftObservationsColumnsPagination"
-              ></core-table> -->
+              <core-table
+                [columnsHeader]="typeObservationsColumnsHeader"
+                [columnsData]="typeObservationsColumnsData"
+                [pagination]="typeObservationsColumnsPagination"
+                (selectedItem)="onObservationSelected($event)"
+              ></core-table>
             </section>
           </span>
         </div>
@@ -420,3 +422,41 @@
     </ul>
   </form>
 </section>
+
+<app-speed-average-detail
+  [title]="modalDetailTitle"
+  [speedAverageForm]="averageSpeedForm"
+  (saveSpeed)="onSaveSpeedAverage($event)"
+></app-speed-average-detail>
+
+<app-observation-detail
+  [title]="modalDetailTitle"
+  [observationForm]="observationForm"
+  (saveObservation)="onSaveObservation($event)"
+></app-observation-detail>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>Confirmar eliminación</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>
+        {{ deleteModalText }}
+      </p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      (click)="deleteModalAction()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Confirmar</span>
+    </a>
+  </ng-container>
+</core-modal>

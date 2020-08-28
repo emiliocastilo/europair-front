@@ -1,0 +1,133 @@
+<div class="modal">
+  <div class="modal-content">
+    <section class="modal-header">
+      <h4>{{ title }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        Cancelar
+      </a>
+    </section>
+    <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
+      <form [formGroup]="speedAverageForm">
+        <div class="row">
+          <core-basic-input-text
+            [id]="'speed-fromDistance'"
+            [label]="'Desde'"
+            type="number"
+            class="col s12 m4 col-no-pad-left"
+            formControlName="fromDistance"
+            [hasErrors]="hasControlAnyError('fromDistance')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('fromDistance')">
+                <span
+                  *ngIf="hasControlSpecificError('fromDistance', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una distancia"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+
+          <core-basic-input-text
+            [id]="'speed-toDistance'"
+            [label]="'Hasta'"
+            type="number"
+            class="col s12 m4 col-no-pad-left"
+            formControlName="toDistance"
+            [hasErrors]="hasControlAnyError('toDistance')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('toDistance')">
+                <span
+                  *ngIf="hasControlSpecificError('toDistance', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una distancia"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+
+          <core-select
+            class="col s12 m4"
+            [items]="measuresType"
+            [searchable]="true"
+            [label]="'Unidad de distancia'"
+            [placeholder]="'Seleccione una unidad'"
+            [hasErrors]="hasControlAnyError('distanceUnit')"
+            formControlName="distanceUnit"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('distanceUnit')">
+                <span
+                  *ngIf="hasControlSpecificError('distanceUnit', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar la unidad de medida"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+
+        <div class="row">
+          <core-basic-input-text
+            [id]="'speed-averageSpeed'"
+            [label]="'Velocidad media'"
+            type="number"
+            class="col s12 m4 col-no-pad-left"
+            formControlName="averageSpeed"
+            [hasErrors]="hasControlAnyError('averageSpeed')"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('averageSpeed')">
+                <span
+                  *ngIf="hasControlSpecificError('averageSpeed', 'required')"
+                  class="helper-text"
+                  data-error="Debe indicar una velocidad"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-basic-input-text>
+
+          <core-select
+            class="col s12 m4"
+            [items]="measuresType"
+            [searchable]="true"
+            [label]="'Unidad de velocidad'"
+            [placeholder]="'Seleccione una unidad'"
+            [hasErrors]="hasControlAnyError('averageSpeedUnit')"
+            formControlName="averageSpeedUnit"
+          >
+            <ng-container inputErrors>
+              <ng-container *ngIf="hasControlAnyError('averageSpeedUnit')">
+                <span
+                  *ngIf="
+                    hasControlSpecificError('averageSpeedUnit', 'required')
+                  "
+                  class="helper-text"
+                  data-error="Debe indicar la unidad de medida"
+                >
+                </span>
+              </ng-container>
+            </ng-container>
+          </core-select>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="modal-footer">
+    <a
+      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+      [ngClass]="{ disabled: !speedAverageForm.valid }"
+      (click)="onSaveSpeed()"
+    >
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">Guardar</span>
+    </a>
+  </div>
+</div>
