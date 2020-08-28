@@ -49,7 +49,7 @@
   "OPERATORS": {
     "NEW": "Nuevo operador",
     "DETAIL": "Detalle operador",
-    "AOCLAST_REVISION_DATE": "Fecha de revisión AOC",
+    "AOC_LAST_REVISION_DATE": "Fecha de revisión AOC",
     "AOC_NUMBER": "Número AOC",
     "INSURANCE_EXPIRATION_DATE": "Fecha de caducidad del seguro",
     "ERROR": {

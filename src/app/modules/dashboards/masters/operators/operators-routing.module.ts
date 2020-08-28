@@ -20,7 +20,7 @@ const routes: Routes = [
           import('./components/operator-detail/operator-detail.module').then(
             (m) => m.OperatorDetailModule
           ),
-        data: { title: 'operators.new', isOperatorDetail: false },
+        data: { title: 'OPERATORS.NEW', isOperatorDetail: false },
       },
       {
         path: ':operatorId',
@@ -28,7 +28,7 @@ const routes: Routes = [
           import('./components/operator-detail/operator-detail.module').then(
             (m) => m.OperatorDetailModule
           ),
-        data: { title: 'operators.detail', isOperatorDetail: true },
+        data: { title: 'OPERATORS.DETAIL', isOperatorDetail: true },
       },
     ],
   },
