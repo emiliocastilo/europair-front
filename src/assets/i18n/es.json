@@ -267,7 +267,7 @@
       "CODE": "Código",
       "AIRCRAFT": "aeronave",
       "OPERATOR": "Operador",
-      "TYPE": "Tipo",
+      "MAIN_BASE": "Principal",
       "PLATE_NUMBER": "Matrícula",
       "YEAR_PRODUCTION": "Año de fabricación",
       "QUANTITY": "Cantidad",
