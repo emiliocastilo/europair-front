@@ -13,7 +13,7 @@ export class SortButtonComponent implements OnInit {
   @Input()
   public sortOrder: SortOrder;
   @Input()
-  public filterId: string;
+  public sortId: string;
   @Output()
   public sortByColumn: EventEmitter<SortByColumn> = new EventEmitter();
   public sortedColumn: any = {};

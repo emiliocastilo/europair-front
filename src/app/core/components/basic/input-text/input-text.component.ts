@@ -45,7 +45,6 @@ export class InputTextComponent implements OnInit, ControlValueAccessor, OnDestr
     .pipe(
       map(event => event.target.value),
       debounceTime(400),
-      distinctUntilChanged(),
       takeUntil(this.unsubscriber$)
     );
    terms$

@@ -18,9 +18,6 @@
       display: flex;
       align-items: center;
     }
-    article.col:nth-child(1) {
-      background-color: $europair-color-blue-light-2;
-    }
   }
   .master-table-data-row {
     border-bottom: 1px solid $europair-color-blue-light-4;
@@ -28,9 +25,6 @@
       min-height: 40px;
       display: flex;
       align-items: center;
-    }
-    article.col:nth-child(1) {
-      background-color: $europair-color-blue-light-2;
     }
     article.actions {
       justify-content: center;
@@ -50,6 +44,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    &:nth-child(odd) {
+      background-color: $europair-color-blue-light-2;
+    }
   }
   .master-table-data-row:hover {
     background-color: $europair-color-blue-light-2;

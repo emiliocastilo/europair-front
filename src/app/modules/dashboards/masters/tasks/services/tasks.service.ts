@@ -4,34 +4,47 @@ import { Observable } from 'rxjs';
 import { Task } from '../models/task';
 import { environment } from 'src/environments/environment';
 import { Screen } from '../models/screen';
-import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
+  private readonly filterOptions: FilterOptions = { filter_name: OperatorEnum.CONTAINS } as const;
+
   constructor(private http: HttpClient) {}
 
   public getTasks(searchFilter: SearchFilter = {}): Observable<Task[]> {
     const url = environment.apiUrl + 'tasks';
     return this.http.get<Task[]>(url, {
-      params: this.filterEmptyString(searchFilter),
+      params: this.createHttpParams(searchFilter),
     });
   }
 
-  private filterEmptyString(searchFilter: SearchFilter): SearchFilter {
+  private createHttpParams(searchFilter: SearchFilter): SearchFilter {
     const clonedSearchFilter = { ...searchFilter };
     Object.keys(searchFilter).forEach((key) => {
-      if (searchFilter[key] === '') {
+      if (clonedSearchFilter[key] === '') {
         delete clonedSearchFilter[key];
+      } else {
+        this.addFilterOptions(key, clonedSearchFilter);
       }
     });
     return clonedSearchFilter;
   }
 
-  public getScreens(): Observable<Screen[]> {
+  public addFilterOptions(key: string, searchFilter: SearchFilter): void {
+    if(this.filterOptions[key] !== undefined) {
+      searchFilter[key] = `${searchFilter[key]},${this.filterOptions[key]}`;
+    }
+  }
+
+  public getScreens(searchFilter: SearchFilter = {}): Observable<Screen[]> {
     const url = environment.apiUrl + 'screens';
-    return this.http.get<Screen[]>(url + '?size=2000');
+    return this.http.get<Screen[]>(url, {
+      params: this.createHttpParams(searchFilter),
+    });
   }
 
   public addTask(task: Task): Observable<Task> {

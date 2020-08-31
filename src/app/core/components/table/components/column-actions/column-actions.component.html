@@ -1,15 +1,15 @@
 <section class="desktop-actions hide-on-med-and-down">
     <a *ngFor="let action of actions;" class="btn-floating btn-small waves-effect waves-light"
-        [ngClass]="action.color" (click)="executeAction(action.id, rowDataIndex)">
+        [ngClass]="action.color" (click)="executeAction($event, action.id, rowDataIndex)">
         <i class="material-icons">{{action.icon}}</i></a>
 </section>
 <section class="mobile-actions hide-on-large-only">
-    <a [id]="prefix+'-actions-'+rowDataIndex+'-trigger'" class="actions-trigger btn-floating btn-small waves-effect 
-      waves-light icon-blue-light-3" [attr.data-target]="prefix+'-actions-'+rowDataIndex">
+    <a [id]="prefix+'-actions-'+rowDataIndex+'-trigger'" class="dropdown-trigger btn-floating btn-small waves-effect 
+      waves-light icon-blue-light-3" [attr.data-target]="prefix+'-actions-'+rowDataIndex" appMatDropdown>
         <i class="material-icons">menu</i></a>
     <ul [id]="prefix+'-actions-'+rowDataIndex" class='dropdown-content'>
         <li *ngFor="let action of actions;" class="valign-wrapper">
-            <a (click)="executeAction(action.id, rowDataIndex)">
+            <a (click)="executeAction($event, action.id, rowDataIndex)">
                 <i class="material-icons">{{action.icon}}</i>{{action.label | translate}}
             </a>
         </li>

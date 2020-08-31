@@ -5,6 +5,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Task } from '../../models/task';
 import { Screen } from '../../models/screen';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-task-detail',
@@ -32,6 +35,9 @@ export class TaskDetailComponent implements OnInit {
   @Input() pagination: PaginationModel;
   @Output()
   public saveTask: EventEmitter<Task> = new EventEmitter();
+  @Output()
+  public screenFilterChanged: EventEmitter<SearchFilter> = new EventEmitter();
+  public screenFilter: SearchFilter = {};
   private _taskDetail: Task;
 
   public taskNameControl: FormControl = this.fb.control(
@@ -41,8 +47,7 @@ export class TaskDetailComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public hasTaskNameControlErrors() {
     return (
@@ -72,5 +77,15 @@ export class TaskDetailComponent implements OnInit {
 
   private hasTaskScreenAssigned(task, screenId) {
     return task.screens.some((screen: Screen) => screen.id === screenId);
+  }
+
+  public onFilterScreens(filter: ColumnFilter) {
+    this.screenFilter[filter.identifier] = filter.searchTerm;
+    this.screenFilterChanged.next(this.screenFilter);
+  }
+
+  public onSortScreens(sortByColumn: SortByColumn) {
+    this.screenFilter['sort'] = sortByColumn.column + ',' + sortByColumn.order;
+    this.screenFilterChanged.next(this.screenFilter);
   }
 }

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, Renderer2, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, Renderer2, Input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appMatCollapsible]',
