@@ -127,7 +127,9 @@ export class FleetTypeListComponent implements OnInit {
   }
 
   private editType(selectedItem: number): void {
-    this.router.navigate(['fleet/types', this.typeSelected.id]);
+    if (this.typeSelected.id) {
+      this.router.navigate(['fleet/types', this.typeSelected.id]);
+    }
   }
 
   private deleteType(selectedItem: number): void {

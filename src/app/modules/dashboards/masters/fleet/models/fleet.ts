@@ -110,13 +110,13 @@ export const EMPTY_FLEET_TYPE: FleetType = {
   category: EMPTY_FLEET_CATEGORY,
   subcategory: EMPTY_FLEET_SUBCATEGORY,
   flightRange: null,
-  flightRangeUnit: MeasureType.METER,
+  flightRangeUnit: null,
   cabinWidth: null,
-  cabinWidthUnit: MeasureType.METER,
+  cabinWidthUnit: null,
   cabinHeight: null,
-  cabinHeightUnit: MeasureType.METER,
+  cabinHeightUnit: null,
   cabinLength: null,
-  cabinLengthUnit: MeasureType.METER,
+  cabinLengthUnit: null,
   maxCargo: null,
   averageSpeed: [],
   observations: [],
@@ -124,4 +124,13 @@ export const EMPTY_FLEET_TYPE: FleetType = {
   createdBy: null,
   modifiedAt: null,
   modifiedBy: null,
+};
+
+export const EMPTY_FLEET_TYPE_SPEED: AverageSpeed = {
+  id: undefined,
+  fromDistance: null,
+  toDistance: null,
+  distanceUnit: null,
+  averageSpeed: null,
+  averageSpeedUnit: null,
 };
