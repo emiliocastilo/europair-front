@@ -11,7 +11,6 @@ import {
   FleetTypeObservation,
   AverageSpeed,
 } from '../../../models/fleet';
-import { MEASURES_ABBREVIATIONS } from 'src/app/core/models/base/measure';
 
 @Injectable({
   providedIn: 'root',
@@ -49,19 +48,13 @@ export class FleetTypesTableAdapterService {
         'task-header',
         'text',
         'Subcategoría',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('4', '3', '3')
       ),
       new ColumnHeaderModel(
         'task-header',
         'text',
         'Rango de vuelo',
         new ColumnHeaderSizeModel('2', '2', '1')
-      ),
-      new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Unidad',
-        new ColumnHeaderSizeModel('2', '1', '1')
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -152,15 +145,7 @@ export class FleetTypesTableAdapterService {
       fleetTypeRow.pushColumn(
         new ColumnDataModel('text', fleetType.subcategory.name)
       );
-      fleetTypeRow.pushColumn(
-        new ColumnDataModel('text', fleetType.flightRange)
-      );
-      fleetTypeRow.pushColumn(
-        new ColumnDataModel(
-          'text',
-          MEASURES_ABBREVIATIONS[fleetType.flightRangeUnit]
-        )
-      );
+      fleetTypeRow.pushColumn(this.getFlightRangeColumn(fleetType));
       fleetTypeRow.pushColumn(new ColumnDataModel('actions', actions));
       fleetTypeRow.setAuditParams(fleetType);
       fleetTypeTableData.push(fleetTypeRow);
@@ -184,13 +169,16 @@ export class FleetTypesTableAdapterService {
       );
       averageSpeedRow.pushColumn(new ColumnDataModel('text', elem.toDistance));
       averageSpeedRow.pushColumn(
-        new ColumnDataModel('text', MEASURES_ABBREVIATIONS[elem.distanceUnit])
+        new ColumnDataModel('translate', `MEASURES.UNITS.${elem.distanceUnit}`)
       );
       averageSpeedRow.pushColumn(
         new ColumnDataModel('text', elem.averageSpeed)
       );
       averageSpeedRow.pushColumn(
-        new ColumnDataModel('text', elem.averageSpeedUnit)
+        new ColumnDataModel(
+          'translate',
+          `MEASURES.UNITS.${elem.averageSpeedUnit}`
+        )
       );
       averageSpeedTableData.push(averageSpeedRow);
     });
@@ -210,6 +198,24 @@ export class FleetTypesTableAdapterService {
       observationTableData.push(observationRow);
     });
     return observationTableData;
+  }
+
+  private getFlightRangeColumn(fleetType): ColumnDataModel {
+    let column: ColumnDataModel;
+    if (fleetType && fleetType.flightRange && fleetType.flightRangeUnit) {
+      column = new ColumnDataModel(
+        'translate',
+        `MEASURES.VALUE.${fleetType.flightRangeUnit}`,
+        { value: this.formatNumber(fleetType.flightRange) }
+      );
+    } else {
+      column = new ColumnDataModel('text', '');
+    }
+    return column;
+  }
+
+  private formatNumber(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
   public getPagination() {

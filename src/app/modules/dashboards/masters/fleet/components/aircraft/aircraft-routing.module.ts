@@ -20,7 +20,7 @@ const routes: Routes = [
           import('./components/aircraft-detail/aircraft-detail.module').then(
             (m) => m.AircraftDetailModule
           ),
-        data: { title: 'aircraft.new', isAircraftDetail: false },
+        data: { title: 'AIRCRAFT.NEW', isAircraftDetail: false },
       },
       {
         path: ':aircraftId',
@@ -28,7 +28,7 @@ const routes: Routes = [
           import('./components/aircraft-detail/aircraft-detail.module').then(
             (m) => m.AircraftDetailModule
           ),
-        data: { title: 'aircraft.detail', isAircraftDetail: true },
+        data: { title: 'AIRCRAFT.DETAIL', isAircraftDetail: true },
       },
     ],
   },

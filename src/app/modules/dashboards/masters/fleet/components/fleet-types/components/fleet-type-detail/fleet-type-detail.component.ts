@@ -17,12 +17,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
-import { MeasureType } from 'src/app/core/models/base/measure';
 import {
   BarButton,
   BarButtonType,
 } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
+import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
@@ -41,6 +41,7 @@ import { FleetTypesTableAdapterService } from '../../../fleet-types/services/fle
 import { FleetTypesService } from '../../../fleet-types/services/fleet-types.service';
 import { ObservationDetailComponent } from './components/observation-detail/observation-detail.component';
 import { SpeedAverageDetailComponent } from './components/speed-average-detail/speed-average-detail.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fleet-type-detail',
@@ -80,7 +81,6 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public categories: Array<FleetCategory> = [];
   public subcategories: Array<FleetSubcategory> = [];
-  public measuresType: Array<MeasureType> = [];
   public observations: FleetTypeObservation[] = [];
   public averageSpeeds: AverageSpeed[] = [];
 
@@ -112,6 +112,8 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     edit: this.editTypeObservation,
     delete_selected: this.deleteTypeObservation,
   };
+
+  public measureList: Array<{ label: string; value: MeasureType }>;
 
   public typeForm: FormGroup = this.fb.group({
     iataCode: new FormControl('', [
@@ -160,6 +162,7 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly typesService: FleetTypesService,
     private readonly typesServiceTableAdapter: FleetTypesTableAdapterService,
+    private readonly translateService: TranslateService,
     private readonly subcategoriesService: FleetSubcategoriesService
   ) {}
 
@@ -169,18 +172,20 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: Page<FleetCategory>) => (this.categories = data.content)
       );
-    // TODO: Obtener de servicio
-    this.measuresType = [
-      MeasureType.FOOT,
-      MeasureType.INCH,
-      MeasureType.KILOMETER,
-      MeasureType.METER,
-      MeasureType.NAUTIC_MILE,
-    ];
 
     this.typeObservationsColumnsHeader = this.typesServiceTableAdapter.getFleetTypeObservationColumnsHeader();
     this.typeSpeedAverageColumnsHeader = this.typesServiceTableAdapter.getFleetTypeAverageSpeedColumnsHeader();
 
+    this.translateService
+      .get('MEASURES.UNITS')
+      .subscribe((data: Array<string>) => {
+        this.measureList = MEASURE_LIST.map((measureValue: string) => {
+          return {
+            label: data[measureValue],
+            value: MeasureType[measureValue],
+          };
+        });
+      });
     this.initializeFleetTypeData(this.route.snapshot.data);
     this.typeForm
       .get('cabinWidthUnit')

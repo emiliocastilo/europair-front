@@ -27,13 +27,13 @@ export class AircraftListComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
 
-  public readonly pageTitle = 'Aeronaves';
+  public readonly pageTitle = 'Flota';
 
   public aircraftSelected: Aircraft = EMPTY_AIRCRAFT;
   public aircraftSelectedCount = 0;
 
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva aeronave' },
+    { type: BarButtonType.NEW, text: 'Nueva flota' },
     { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
   ];
 

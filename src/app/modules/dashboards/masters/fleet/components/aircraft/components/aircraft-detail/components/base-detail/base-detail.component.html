@@ -12,13 +12,14 @@
         <div class="row">
           <core-select
             class="col s12 m6"
+            [id]="'select-airport-base'"
             [items]="airports"
             [itemDescription]="'name'"
             [itemValue]="'id'"
             [searchable]="true"
             [placeholder]="'Seleccione una aeropuerto'"
             [hasErrors]="hasControlAnyError('airport')"
-            formControlName="type"
+            formControlName="airport"
           >
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('airport')">
@@ -31,6 +32,11 @@
               </ng-container>
             </ng-container>
           </core-select>
+        </div>
+        <div class="row">
+          <core-checkbox class="waves-effect check" [id]="'main-base-checkbox'" [label]="'Principal'"
+            [disabled]="disabledMainBase()" [id]="'checkbox-main-base'" [value]="getMainBaseValue()" (selectedValueEvent)="onChangeMainBase($event)">
+          </core-checkbox>
         </div>
       </form>
     </section>

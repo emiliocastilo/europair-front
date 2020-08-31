@@ -1,19 +1,15 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import {
-  Operator,
-  Certification,
-  OperatorComment,
-} from '../models/Operator.model';
+import { Operator, Certification, OperatorComment } from '../models/Operator.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
 @Injectable()
 export class OperatorsTableAdapterService {
-  constructor() {}
+  constructor() { }
 
   public getOperatorColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -81,18 +77,8 @@ export class OperatorsTableAdapterService {
 
   public getOperatorObservationsColumnsHeader(): ColumnHeaderModel[] {
     return [
-      new ColumnHeaderModel(
-        'selector-header',
-        'text',
-        '',
-        new ColumnHeaderSizeModel('1', '1', '1')
-      ),
-      new ColumnHeaderModel(
-        'observation-header',
-        'text',
-        'Observaciones',
-        new ColumnHeaderSizeModel('11', '11', '11')
-      ),
+      new ColumnHeaderModel('selector-header', 'text', '', new ColumnHeaderSizeModel('1', '1', '1')),
+      new ColumnHeaderModel('observation-header', 'text', 'Observaciones', new ColumnHeaderSizeModel('11', '11', '11'))
     ];
   }
 
@@ -101,27 +87,17 @@ export class OperatorsTableAdapterService {
   ): RowDataModel[] {
     const operatorTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(
-      new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
-    );
+    actions.push(new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue'));
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
     operators.forEach((operator: Operator) => {
       const operatorRow: RowDataModel = new RowDataModel();
-      operatorRow.pushColumn(
-        new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
-      );
+      operatorRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
       operatorRow.pushColumn(new ColumnDataModel('text', operator.iataCode));
       operatorRow.pushColumn(new ColumnDataModel('text', operator.icaoCode));
       operatorRow.pushColumn(new ColumnDataModel('text', operator.name));
-      operatorRow.pushColumn(
-        new ColumnDataModel('text', operator.aocLastRevisionDate)
-      );
+      operatorRow.pushColumn(new ColumnDataModel('text', operator.aocLastRevisionDate));
       operatorRow.pushColumn(new ColumnDataModel('actions', actions));
-      operatorRow.author =
-        operator.modifiedBy != null ? operator.modifiedBy : operator.createdBy;
-      operatorRow.timestamp =
-        operator.modifiedAt != null ? operator.modifiedAt : operator.createdAt;
-      operatorRow.modified = operator.modifiedAt != null;
+      operatorRow.setAuditParams(operator);
       operatorTableData.push(operatorRow);
     });
     return operatorTableData;
@@ -139,7 +115,7 @@ export class OperatorsTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       certificationRow.pushColumn(
-        new ColumnDataModel('text', certification.airport)
+        new ColumnDataModel('text', certification.airport?.name)
       );
       certificationRow.pushColumn(
         new ColumnDataModel('text', certification.comments)
@@ -150,9 +126,7 @@ export class OperatorsTableAdapterService {
   }
 
   public getOperatorObservationsTableData(observations: any[]): RowDataModel[] {
-    const observationsTableData: Array<RowDataModel> = new Array<
-      RowDataModel
-    >();
+    const observationsTableData: Array<RowDataModel> = new Array<RowDataModel>();
     observations.forEach((observation: OperatorComment) => {
       const observationRow: RowDataModel = new RowDataModel();
       observationRow.pushColumn(
@@ -169,4 +143,5 @@ export class OperatorsTableAdapterService {
   public getPagination() {
     return new PaginationModel(true, 1, 3, 5, 10);
   }
+
 }

@@ -52,7 +52,9 @@
 
           <core-select
             class="col s12 m4"
-            [items]="measuresType"
+            [items]="measureList"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
             [searchable]="true"
             [label]="'Unidad de distancia'"
             [placeholder]="'Seleccione una unidad'"
@@ -95,7 +97,9 @@
 
           <core-select
             class="col s12 m4"
-            [items]="measuresType"
+            [items]="measureList"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
             [searchable]="true"
             [label]="'Unidad de velocidad'"
             [placeholder]="'Seleccione una unidad'"

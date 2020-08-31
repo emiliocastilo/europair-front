@@ -7,7 +7,7 @@
     (click)="onSaveType()"
   >
     <i class="material-icons left">{{ "save" }}</i>
-    {{ "common.save" | translate }}
+    {{ "COMMON.SAVE" | translate }}
   </a>
   <div class="fixed-action-btn">
     <a
@@ -26,7 +26,7 @@
       <li class="active">
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
-          {{ "common.generalData" | translate | sentenceCase }}
+          {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <span>
@@ -196,7 +196,8 @@
 
                 <core-select
                   class="col s12 l3"
-                  [items]="measuresType"
+                  [items]="measureList"
+                  [itemDescription]="'label'" [itemValue]="'value'"
                   [hasErrors]="isInvalid('flightRangeUnit')"
                   [id]="'type-range-measure-type'"
                   [placeholder]="'Selecciona una unidad'"
@@ -283,7 +284,8 @@
 
                 <core-select
                   class="col s12 l3"
-                  [items]="measuresType"
+                  [items]="measureList"
+                  [itemDescription]="'label'" [itemValue]="'value'"
                   [hasErrors]="isInvalid('cabinWidthUnit')"
                   [id]="'type-range-measure-type'"
                   [placeholder]="'Selecciona una unidad'"
@@ -396,7 +398,7 @@
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down </i>
-          {{ "common.observations" | translate | sentenceCase }}
+          {{ "COMMON.OBSERVATIONS" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <span>
