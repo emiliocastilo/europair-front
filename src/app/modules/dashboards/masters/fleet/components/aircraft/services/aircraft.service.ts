@@ -21,7 +21,7 @@ export class AircraftService {
   }
 
   public searchAircraftForAirport(airportId: string): Observable<Page<Aircraft>> {
-    const params: HttpParams = new HttpParams().set('filter_airport.id', `${airportId},EQUALS`);
+    const params: HttpParams = new HttpParams().set('filter_bases.airport.id', `${airportId},EQUALS`);
     return this.http.get<Page<Aircraft>>(this.url, {params});
   }
 
