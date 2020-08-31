@@ -1,5 +1,6 @@
 import { Audit } from 'src/app/core/models/audit/audit';
 import { Airport } from '../../regions/models/airport';
+import { Fleet } from '../../fleet/models/fleet';
 
 export interface Operator extends Audit {
   id?: number;
@@ -29,10 +30,6 @@ export interface OperatorComment {
 }
 
 export interface Contacts {
-  [key: string]: any;
-}
-
-export interface Fleet {
   [key: string]: any;
 }
 

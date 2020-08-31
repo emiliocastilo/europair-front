@@ -217,6 +217,10 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  public viewFleet(): void {
+    this.router.navigate(['fleet/aircraft'], { queryParams: { operatorId: this.operatorDetail.id} });
+  }
+
   public hasControlAnyError(controlName: string): boolean {
     const control = this.operatorForm.get(controlName);
     return control && control.invalid && (control.dirty || control.touched);

@@ -35,6 +35,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   private readonly editAirportBarButtons: BarButton[] = [
     { type: BarButtonType.EDIT, text: 'Guardar aeropuerto' },
     { type: BarButtonType.DELETE, text: 'Eliminar aeropuerto' },
+    { type: BarButtonType.VIEW, text: 'Ver flota' }
   ];
   public barButtons: BarButton[];
   public hasAirportSpecialConditions: boolean;
@@ -142,6 +143,11 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     this.modalService.openModal();
   };
 
+  private viewFleet = () => {
+    const fleetId: number = 1;
+    this.router.navigate(['fleet/aircraft'], { queryParams: { airportId: this.airportData.id} });
+  };
+
   public onConfirmDeleteAirport() {
     this.airportsService
       .deleteAirport(this.airportData)
@@ -152,6 +158,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     new: this.newAirport,
     edit: this.editAirport,
     delete: this.deleteAirport,
+    view: this.viewFleet
   };
 
   public onBarButtonClicked(barButtonType: BarButtonType) {

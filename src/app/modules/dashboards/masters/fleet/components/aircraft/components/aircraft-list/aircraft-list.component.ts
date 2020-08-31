@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import {
@@ -14,6 +14,7 @@ import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
 import { AircraftTableAdapterService } from '../../services/aircraft-table-adapter.service';
 import { AircraftService } from '../../services/aircraft.service';
 import { AircraftDetailComponent } from '../aircraft-detail/aircraft-detail.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-aircraft-list',
@@ -63,6 +64,7 @@ export class AircraftListComponent implements OnInit {
     private modalService: ModalService,
     private aircraftService: AircraftService,
     private aircraftTableAdapter: AircraftTableAdapterService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
@@ -78,9 +80,18 @@ export class AircraftListComponent implements OnInit {
   }
 
   private initializeAircraftTable() {
-    this.aircraftService.getAircraft().subscribe((aircraftPage) => {
-      this.getAircraftTableData(aircraftPage);
-    });
+    const {airportId, operatorId} = this.route.snapshot.queryParams;
+    let readAircrafts: Observable<Page<Aircraft>>;
+    if (airportId) {
+      readAircrafts = this.aircraftService.searchAircraftForAirport(airportId);
+    } else if (operatorId) {
+      readAircrafts = this.aircraftService.searchAircraftForOperator(operatorId);
+    } else {
+      readAircrafts = this.aircraftService.getAircraft();
+    }
+    readAircrafts.subscribe(
+      (aircraftPage: Page<Aircraft>) =>  this.getAircraftTableData(aircraftPage)
+    );
   }
 
   private initializeModal(modalContainer: ElementRef) {
