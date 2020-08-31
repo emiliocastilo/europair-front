@@ -49,7 +49,7 @@
   "OPERATORS": {
     "NEW": "Nuevo operador",
     "DETAIL": "Detalle operador",
-    "AOCLAST_REVISION_DATE": "Fecha de revisión AOC",
+    "AOC_LAST_REVISION_DATE": "Fecha de revisión AOC",
     "AOC_NUMBER": "Número AOC",
     "INSURANCE_EXPIRATION_DATE": "Fecha de caducidad del seguro",
     "ERROR": {
@@ -268,7 +268,7 @@
       "CODE": "Código",
       "AIRCRAFT": "aeronave",
       "OPERATOR": "Operador",
-      "TYPE": "Tipo",
+      "MAIN_BASE": "Principal",
       "PLATE_NUMBER": "Matrícula",
       "YEAR_PRODUCTION": "Año de fabricación",
       "QUANTITY": "Cantidad",

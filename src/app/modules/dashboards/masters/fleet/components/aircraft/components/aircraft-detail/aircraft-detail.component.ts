@@ -1,36 +1,24 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Subject, Observable } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
-import {
-  Aircraft,
-  AircraftBase,
-  EMPTY_AIRCRAFT,
-  AircraftObservation,
-} from '../../models/Aircraft.model';
+import { Aircraft, AircraftBase, EMPTY_AIRCRAFT, AircraftObservation } from '../../models/Aircraft.model';
 import { AircraftTableAdapterService } from '../../services/aircraft-table-adapter.service';
 import { AircraftService } from '../../services/aircraft.service';
 import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
 import { OperatorsService } from 'src/app/modules/dashboards/masters/operators/services/operators.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import {
-  BarButton,
-  BarButtonType,
-} from 'src/app/core/models/menus/button-bar/bar-button';
+import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { ObservationDetailComponent } from './components/observation-detail/observation-detail.component';
 import { BaseDetailComponent } from './components/base-detail/base-detail.component';
+import { FleetType } from '../../../../models/fleet';
+import { FleetTypesService } from '../../../fleet-types/services/fleet-types.service';
 
 @Component({
   selector: 'app-aircraft-detail',
@@ -62,6 +50,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   public readonly selectItemValue: string = 'id';
   public readonly selectItemDescription: string = 'name';
+  public readonly selectItemDescriptionFleetType: string = 'description';
 
   public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
   public aircraftBaseColumnsData: RowDataModel[] = [];
@@ -74,9 +63,10 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   public aircraftDetail: Aircraft = { ...EMPTY_AIRCRAFT };
 
   public operators: Operator[] = [];
-  public aircraftTypes: any[] = [];
+  public aircraftTypes: FleetType[] = [];
 
   public bases: AircraftBase[] = [];
+  public modeEdit: boolean = false;
   public observations: any[] = [];
 
   minSeats: number;
@@ -91,7 +81,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   private aircraftBaseTableActions = {
     new: this.newAircraftBase,
     edit: this.editAircraftBase,
-    delete: this.deleteAircraftBase,
+    delete_selected: this.deleteAircraftBase,
   };
 
   public aircraftObsSelected: AircraftObservation;
@@ -110,7 +100,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   public aircraftForm = this.fb.group({
     operator: ['', Validators.required],
     quantity: ['', [Validators.required, Validators.min(1)]],
-    aircraftType: [''],
+    aircraftType: [null, Validators.required],
     insuranceEndDate: ['', Validators.required],
     productionYear: ['', Validators.required],
     plateNumber: [''],
@@ -128,27 +118,35 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   public aircraftBaseForm = this.fb.group({
     airport: ['', Validators.required],
-    type: ['', Validators.required],
-    mainBase: ['', Validators.required],
+    mainBase: ['', Validators.required]
   });
 
   public aircraftObservationForm = this.fb.group({
     observation: ['', Validators.required],
   });
+  
+  private readonly aircraftBaseFormDefaultValues = {
+    id: null,
+    airport: null,
+    mainBase: false
+  } as const;
 
+  public sameBaseIsMain: boolean = false;
   constructor(
     private fb: FormBuilder,
     private modalService: ModalService,
     private aircraftService: AircraftService,
     private operatorsService: OperatorsService,
+    private fleetTypeService: FleetTypesService,
     private aircraftTableAdapter: AircraftTableAdapterService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.subscribeDaytimeConfiguration();
     this.initializeOperators();
+    this.initializeFleetType();
     this.initializeAircraftData(this.route.snapshot.data);
     this.initializeTablesColumnsHeader();
     this.updateAircraftForm(this.aircraftDetail);
@@ -199,12 +197,9 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   private getAircraftBaseTableData(aircraftBasePage: Page<AircraftBase>) {
     this.bases = aircraftBasePage.content;
-    this.aircraftBaseColumnsData = this.aircraftTableAdapter.getAircraftBaseTableData(
-      aircraftBasePage.content
-    );
-    this.aircraftBaseColumnsPagination = this.initializeClientTablePagination(
-      this.aircraftBaseColumnsData
-    );
+    this.sameBaseIsMain = this.bases.find((base: AircraftBase) => base.mainBase) !== undefined;
+    this.aircraftBaseColumnsData = this.aircraftTableAdapter.getAircraftBaseTableData(aircraftBasePage.content);
+    this.aircraftBaseColumnsPagination = this.initializeClientTablePagination(this.aircraftBaseColumnsData);
   }
 
   private getAircraftObservationsTableData(
@@ -228,6 +223,12 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  private initializeFleetType() {
+    const showDisabled: boolean = false;
+    this.fleetTypeService.getFleetTypes(showDisabled).subscribe(
+      (fleetTypes: Page<FleetType>) => this.aircraftTypes = fleetTypes.content);
+  }
+
   private initializeAircraftData({ title, isAircraftDetail }: any) {
     this.pageTitle = title;
     if (isAircraftDetail) {
@@ -236,8 +237,6 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(({ aircraftId }) => {
           this.retrieveAircraftData(aircraftId);
-          this.retrieveAircraftBases(aircraftId);
-          this.retrieveAircraftObservations(aircraftId);
           this.initializeAircraftBaseTable(aircraftId);
           this.initializeAircraftObservationTable(aircraftId);
         });
@@ -254,31 +253,11 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  private retrieveAircraftBases(aircraftId: number) {
-    this.aircraftService
-      .getAircraftBases(aircraftId)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((aircraftBasePage: Page<AircraftBase>) => {
-        this.bases = aircraftBasePage.content;
-        this.updateAircraftForm(this.aircraftDetail);
-      });
-  }
-
-  private retrieveAircraftObservations(aircraftId: number) {
-    this.aircraftService
-      .getAircraftObservations(aircraftId)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((aircraftObservationsPage: Page<AircraftObservation>) => {
-        this.observations = aircraftObservationsPage.content;
-        this.updateAircraftForm(this.aircraftDetail);
-      });
-  }
-
   private updateAircraftForm(selectedAircraft: Aircraft) {
     this.aircraftForm.setValue({
       operator: selectedAircraft.operator,
       quantity: selectedAircraft.quantity,
-      aircraftType: selectedAircraft.aircraftType,
+      aircraftType: selectedAircraft.aircraftType?.id || null,
       insuranceEndDate: selectedAircraft.insuranceEndDate,
       productionYear: selectedAircraft.productionYear,
       plateNumber: selectedAircraft.plateNumber,
@@ -315,12 +294,19 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   private newAircraftBase() {
     this.modalDetailTitle = this.CREATE_BASE_TITLE;
+    this.modeEdit = false;
+    this.aircraftBaseForm.reset(this.aircraftBaseFormDefaultValues);
     this.initializeModal(this.baseDetailModal);
     this.modalService.openModal();
   }
 
   private editAircraftBase(selectedItem: number): void {
     this.modalDetailTitle = this.EDIT_BASE_TITLE;
+    this.modeEdit = true;
+    this.aircraftBaseForm.reset({
+      airport: this.aircraftBaseSelected.airport?.id,
+      mainBase: this.aircraftBaseSelected.mainBase
+    });
     this.initializeModal(this.baseDetailModal);
     this.modalService.openModal();
   }
@@ -356,22 +342,49 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
       ...this.aircraftDetail,
       ...this.aircraftForm.value,
     });
+    const fleetTypeSelected: FleetType = this.getFleetTypeSelected();
+    const operatorSelected: Operator = this.getAircraftOperatorSelected();
+    const baseSelected: Array<AircraftBase> = this.getAircraftBaseSelected();
     this.aircraftService
       .saveAircraft({
         ...this.aircraftDetail,
         ...this.aircraftForm.value,
+        aircraftType: fleetTypeSelected,
+        operator: operatorSelected,
+        bases: baseSelected
       })
       .subscribe(() => {
         this.router.navigate(['fleet/aircraft']);
       });
   }
 
+  private getFleetTypeSelected(): FleetType {
+    const fleetTypeId: number = this.aircraftForm.get('aircraftType').value;
+    return this.aircraftTypes.find((fleetType: FleetType) => fleetTypeId === fleetType.id);
+  }
+
+  private getAircraftBaseSelected(): Array<AircraftBase> {
+    const base: Array<AircraftBase> = [];
+    if (this.aircraftForm.get('bases') && this.aircraftForm.get('bases').value) {
+      const baseId: number = this.aircraftForm.get('bases').value;
+      base.push(this.bases.find((base: AircraftBase) => baseId === base.id));
+    }
+    return base;
+  }
+
+  private getAircraftOperatorSelected(): Operator {
+    const operatorId: number = this.aircraftForm.get('operator').value;
+    return this.operators.find((operator: Operator) => operatorId === operator.id);
+  }
+
   public onSaveBase(newBase: AircraftBase) {
+    if (newBase.id) {
+      this.aircraftBaseSelected = newBase;
+    }
     this.aircraftService
       .saveAircraftBase(this.aircraftDetail.id, newBase)
       .subscribe((data: AircraftBase) => {
-        console.log(data);
-        // this.refreshRunwaysTableData(this.airportId)
+        this.initializeAircraftBaseTable(this.aircraftDetail.id);
       });
   }
 
@@ -387,7 +400,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   public onConfirmDeleteBase() {
     this.aircraftService
       .removeAircraftBase(this.aircraftDetail.id, this.aircraftBaseSelected.id)
-      .subscribe(() => {});
+      .subscribe(() => this.initializeAircraftBaseTable(this.aircraftDetail.id));
   }
 
   public onConfirmDeleteObservation() {
@@ -396,7 +409,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
         this.aircraftDetail.id,
         this.aircraftObsSelected.id
       )
-      .subscribe(() => {});
+      .subscribe(() => { });
   }
 
   public searchOperator(term: string, operator: Operator) {

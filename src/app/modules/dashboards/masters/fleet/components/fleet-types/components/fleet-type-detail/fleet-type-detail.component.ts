@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,25 +15,63 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { ModalService } from 'src/app/core/components/modal/modal.service';
+import {
+  BarButton,
+  BarButtonType,
+} from 'src/app/core/models/menus/button-bar/bar-button';
+import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import {
+  AverageSpeed,
+  EMPTY_FLEET_TYPE,
+  EMPTY_FLEET_TYPE_SPEED,
   FleetCategory,
   FleetSubcategory,
   FleetType,
-  EMPTY_FLEET_TYPE,
+  FleetTypeObservation,
 } from '../../../../models/fleet';
 import { FleetCategoriesService } from '../../../fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../fleet-categories/services/fleet-subcategories.service';
+import { FleetTypesTableAdapterService } from '../../../fleet-types/services/fleet-types-table-adapter.service';
 import { FleetTypesService } from '../../../fleet-types/services/fleet-types.service';
+import { ObservationDetailComponent } from './components/observation-detail/observation-detail.component';
+import { SpeedAverageDetailComponent } from './components/speed-average-detail/speed-average-detail.component';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-fleet-type-detail',
   templateUrl: './fleet-type-detail.component.html',
   styleUrls: ['./fleet-type-detail.component.scss'],
+  providers: [FleetTypesTableAdapterService],
 })
 export class FleetTypeDetailComponent implements OnInit, OnDestroy {
+  @ViewChild(ObservationDetailComponent, { static: true, read: ElementRef })
+  public observationDetailModal: ElementRef;
+
+  @ViewChild(SpeedAverageDetailComponent, { static: true, read: ElementRef })
+  public speedAverageDetailModal: ElementRef;
+
+  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  public confirmDeleteModal: ElementRef;
+
+  public deleteModalText: string;
+  public deleteModalAction: any;
+
+  public modalDetailTitle: string;
+  private readonly EDIT_SPEED_TITLE = 'Editar velocidad';
+  private readonly CREATE_SPEED_TITLE = 'Crear velocidad';
+  private readonly DELETE_SPEED_TITLE =
+    '¿Está seguro que desea eliminar la velocidad?';
+  private readonly EDIT_OBSERVATION_TITLE = 'Editar observación';
+  private readonly CREATE_OBSERVATION_TITLE = 'Crear observación';
+  private readonly DELETE_OBSERVATION_TITLE =
+    '¿Está seguro que desea eliminar la observación?';
+
   public pageTitle = 'Nuevo Tipo';
 
   private typeDetail: FleetType = EMPTY_FLEET_TYPE;
@@ -37,8 +81,39 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public categories: Array<FleetCategory> = [];
   public subcategories: Array<FleetSubcategory> = [];
+  public observations: FleetTypeObservation[] = [];
+  public averageSpeeds: AverageSpeed[] = [];
 
-  public measureList: Array<{ label: string, value: MeasureType }>;
+  public typeObservationsColumnsHeader: ColumnHeaderModel[] = [];
+  public typeObservationsColumnsData: RowDataModel[] = [];
+  public typeObservationsColumnsPagination: PaginationModel;
+
+  public typeSpeedAverageColumnsHeader: ColumnHeaderModel[] = [];
+  public typeSpeedAverageColumnsData: RowDataModel[] = [];
+  public typeSpeedAverageColumnsPagination: PaginationModel;
+
+  public typeSpeedSelected: AverageSpeed;
+  public typeSpeedSelectedCount = 0;
+  public typeDetailsBarButtons: BarButton[] = [
+    { type: BarButtonType.NEW, text: 'Nueva' },
+    { type: BarButtonType.EDIT, text: 'Editar' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
+  ];
+  private typeSpeedTableActions = {
+    new: this.newTypeSpeed,
+    edit: this.editTypeSpeed,
+    delete_selected: this.deleteTypeSpeed,
+  };
+
+  public typeObsSelected: FleetTypeObservation;
+  public typeObsSelectedCount = 0;
+  private typeObsTableActions = {
+    new: this.newTypeObservation,
+    edit: this.editTypeObservation,
+    delete_selected: this.deleteTypeObservation,
+  };
+
+  public measureList: Array<{ label: string; value: MeasureType }>;
 
   public typeForm: FormGroup = this.fb.group({
     iataCode: new FormControl('', [
@@ -52,27 +127,41 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     code: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     manufacturer: new FormControl('', Validators.required),
-    category: new FormControl('', Validators.required),
-    subcategory: new FormControl('', Validators.required),
-    flightRange: new FormControl('', [Validators.pattern('^[0-9]*$')]),
-    flightRangeUnit: new FormControl(''),
-    cabinWidth: new FormControl('', [Validators.pattern('^[0-9]*$')]),
-    cabinWidthUnit: new FormControl(''),
-    cabinHeight: new FormControl('', [Validators.pattern('^[0-9]*$')]),
-    cabinHeightUnit: new FormControl(''),
-    cabinLength: new FormControl('', [Validators.pattern('^[0-9]*$')]),
-    cabinLengthUnit: new FormControl(''),
-    maxCargo: new FormControl(''),
+    category: new FormControl(null, Validators.required),
+    subcategory: new FormControl(null, Validators.required),
+    flightRange: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    flightRangeUnit: new FormControl(null),
+    cabinWidth: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinWidthUnit: new FormControl(null),
+    cabinHeight: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinHeightUnit: new FormControl(null),
+    cabinLength: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinLengthUnit: new FormControl(null),
+    maxCargo: new FormControl(null),
     averageSpeed: new FormControl([]),
     observations: new FormControl([]),
+  });
+
+  public averageSpeedForm = this.fb.group({
+    fromDistance: ['', Validators.required],
+    toDistance: ['', Validators.required],
+    distanceUnit: [null, Validators.required],
+    averageSpeed: ['', Validators.required],
+    averageSpeedUnit: [null, Validators.required],
+  });
+
+  public observationForm = this.fb.group({
+    observation: ['', Validators.required],
   });
 
   constructor(
     private readonly categoriesService: FleetCategoriesService,
     private readonly fb: FormBuilder,
+    private readonly modalService: ModalService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly typesService: FleetTypesService,
+    private readonly typesServiceTableAdapter: FleetTypesTableAdapterService,
     private readonly translateService: TranslateService,
     private readonly subcategoriesService: FleetSubcategoriesService
   ) {}
@@ -83,14 +172,20 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: Page<FleetCategory>) => (this.categories = data.content)
       );
-    this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
-      this.measureList = MEASURE_LIST.map((measureValue: string) => {
-        return {
-          label: data[measureValue],
-          value: MeasureType[measureValue]
-        }
+
+    this.typeObservationsColumnsHeader = this.typesServiceTableAdapter.getFleetTypeObservationColumnsHeader();
+    this.typeSpeedAverageColumnsHeader = this.typesServiceTableAdapter.getFleetTypeAverageSpeedColumnsHeader();
+
+    this.translateService
+      .get('MEASURES.UNITS')
+      .subscribe((data: Array<string>) => {
+        this.measureList = MEASURE_LIST.map((measureValue: string) => {
+          return {
+            label: data[measureValue],
+            value: MeasureType[measureValue],
+          };
+        });
       });
-    });
     this.initializeFleetTypeData(this.route.snapshot.data);
     this.typeForm
       .get('cabinWidthUnit')
@@ -99,9 +194,132 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
       });
   }
 
+  private retrieveObservations(fleetTypeId: number) {
+    this.typesService
+      .getFleetTypeObservations(fleetTypeId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((observationsPage: Page<FleetTypeObservation>) => {
+        this.observations = observationsPage.content;
+        this.typeObservationsColumnsData = this.typesServiceTableAdapter.getFleetTypeObservationsTableData(
+          observationsPage.content
+        );
+        this.typeObservationsColumnsPagination = this.initializeClientTablePagination(
+          this.typeObservationsColumnsData
+        );
+      });
+  }
+
+  private retrieveSpeedAverages(fleetTypeId: number) {
+    this.typesService
+      .getFleetTypeSpeedAverages(fleetTypeId)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((speedAverages: Page<AverageSpeed>) => {
+        this.averageSpeeds = speedAverages.content;
+        this.typeSpeedAverageColumnsData = this.typesServiceTableAdapter.getFleetTypeSpeedAverageTableData(
+          speedAverages.content
+        );
+        this.typeSpeedAverageColumnsPagination = this.initializeClientTablePagination(
+          this.typeSpeedAverageColumnsData
+        );
+      });
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  private newTypeSpeed() {
+    this.modalDetailTitle = this.CREATE_SPEED_TITLE;
+    this.typeSpeedSelected = null;
+    this.typeSpeedSelectedCount = 0;
+    this.averageSpeedForm.reset();
+    this.initializeModal(this.speedAverageDetailModal);
+    this.modalService.openModal();
+  }
+
+  private editTypeSpeed(selectedItem: number): void {
+    this.modalDetailTitle = this.EDIT_SPEED_TITLE;
+    this.averageSpeedForm.patchValue({
+      ...EMPTY_FLEET_TYPE_SPEED,
+      ...this.typeSpeedSelected,
+    });
+    this.initializeModal(this.speedAverageDetailModal);
+    this.modalService.openModal();
+  }
+
+  private deleteTypeSpeed(selectedItem: number) {
+    this.deleteModalText = this.DELETE_SPEED_TITLE;
+    this.deleteModalAction = this.onConfirmDeleteSpeed;
+    this.initializeModal(this.confirmDeleteModal);
+    this.modalService.openModal();
+  }
+
+  private newTypeObservation() {
+    this.modalDetailTitle = this.CREATE_OBSERVATION_TITLE;
+    this.typeObsSelected = null;
+    this.typeObsSelectedCount = 0;
+    this.observationForm.reset();
+    this.initializeModal(this.observationDetailModal);
+    this.modalService.openModal();
+  }
+
+  private editTypeObservation(selectedItem: number): void {
+    this.modalDetailTitle = this.EDIT_OBSERVATION_TITLE;
+    this.observationForm.patchValue({
+      observation: undefined,
+      ...this.typeObsSelected,
+    });
+    this.initializeModal(this.observationDetailModal);
+    this.modalService.openModal();
+  }
+
+  private deleteTypeObservation(selectedItem: number) {
+    this.deleteModalText = this.DELETE_OBSERVATION_TITLE;
+    this.deleteModalAction = this.onConfirmDeleteObservation;
+    this.initializeModal(this.confirmDeleteModal);
+    this.modalService.openModal();
+  }
+
+  public onSpeedBarButtonClicked(barButtonType: BarButtonType) {
+    this.typeSpeedTableActions[barButtonType].bind(this)();
+  }
+
+  public onObsBarButtonClicked(barButtonType: BarButtonType) {
+    this.typeObsTableActions[barButtonType].bind(this)();
+  }
+
+  public onObservationSelected(baseIndex: number): void {
+    this.typeObsSelected = this.observations[baseIndex];
+    this.typeObsSelectedCount = 1;
+  }
+
+  public onSpeedAverageSelected(baseIndex: number): void {
+    this.typeSpeedSelected = this.averageSpeeds[baseIndex];
+    this.typeSpeedSelectedCount = 1;
+  }
+
+  public onConfirmDeleteSpeed() {
+    this.typesService
+      .removeFleetTypeSpeedAverage(
+        this.typeDetail.id,
+        this.typeSpeedSelected.id
+      )
+      .subscribe(() => {
+        this.typeSpeedSelected = null;
+        this.typeSpeedSelectedCount = 0;
+        this.retrieveSpeedAverages(this.typeDetail.id);
+      });
+  }
+
+  public onConfirmDeleteObservation() {
+    this.typesService
+      .removeFleetTypeObservation(this.typeDetail.id, this.typeObsSelected.id)
+      .subscribe(() => {
+        this.typeObsSelected = null;
+        this.typeObsSelectedCount = 0;
+        this.retrieveObservations(this.typeDetail.id);
+      });
   }
 
   private patchCabinUnits(value: MeasureType) {
@@ -117,6 +335,8 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(({ typeId }) => {
           this.retrieveTypeData(typeId);
+          this.retrieveObservations(typeId);
+          this.retrieveSpeedAverages(typeId);
         });
     }
   }
@@ -178,18 +398,37 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
   }
 
   public onSaveType(): void {
-    console.log({
-      ...EMPTY_FLEET_TYPE,
-      ...this.typeForm.value,
-    });
-
     this.typesService
       .saveFleetType({
-        ...EMPTY_FLEET_TYPE,
+        ...this.typeDetail,
         ...this.typeForm.value,
       })
       .subscribe(() => {
         this.router.navigate(['fleet/types']);
+      });
+  }
+
+  public onSaveSpeedAverage(speedAverage: AverageSpeed): void {
+    this.typesService
+      .saveFleetTypeSpeedAverage(this.typeDetail.id, {
+        ...this.typeSpeedSelected,
+        ...speedAverage,
+      })
+      .subscribe((speed) => {
+        this.typeSpeedSelected = speed;
+        this.retrieveSpeedAverages(this.typeDetail.id);
+      });
+  }
+
+  public onSaveObservation(observation: FleetTypeObservation): void {
+    this.typesService
+      .saveFleetTypeObservation(this.typeDetail.id, {
+        ...this.typeObsSelected,
+        ...observation,
+      })
+      .subscribe((obs) => {
+        this.typeObsSelected = obs;
+        this.retrieveObservations(this.typeDetail.id);
       });
   }
 
@@ -210,5 +449,19 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
   ): boolean {
     const control = this.typeForm.get(controlName);
     return control && control.hasError(errorName);
+  }
+
+  private initializeModal(modalContainer: ElementRef): void {
+    this.modalService.initializeModal(modalContainer, {
+      dismissible: false,
+    });
+  }
+
+  private initializeClientTablePagination(
+    model: RowDataModel[]
+  ): PaginationModel {
+    const pagination = this.typesServiceTableAdapter.getPagination();
+    pagination.lastPage = model.length / pagination.elementsPerPage;
+    return pagination;
   }
 }

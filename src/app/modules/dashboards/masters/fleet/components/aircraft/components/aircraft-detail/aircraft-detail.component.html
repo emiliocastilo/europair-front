@@ -69,7 +69,7 @@
 
               <div class="row">
                 <core-select [items]="aircraftTypes" [itemValue]="selectItemValue"
-                  [itemDescription]="selectItemDescription" [hasErrors]="hasControlAnyError('aircraftType')" [id]="'id'"
+                  [itemDescription]="selectItemDescriptionFleetType" [hasErrors]="hasControlAnyError('aircraftType')" [id]="'id'"
                   [label]="'Tipo'" [searchable]="true" [placeholder]="'AIRCRAFT.AIRCRAFT_TYPE_PLACEHOLDER' | translate"
                   [formControl]="this.aircraftForm.get('aircraftType')" class="col s12 l4 cmd-mb-1">
                   <ng-container inputErrors>
@@ -291,7 +291,7 @@
         </div>
       </li>
     </ul>
-    <ul class="collapsible expandable cmd-mb-2" appMatCollapsible>
+    <ul *ngIf="isAircraftDetail" class="collapsible expandable cmd-mb-2" appMatCollapsible>
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
@@ -300,25 +300,17 @@
         <div class="collapsible-body">
           <span>
             <section class="cmd-mb-1">
-              <core-button-bar
-                [barButtons]="aircraftBaseBarButtons"
-                [itemsSelectedCount]="aircraftBaseSelectedCount"
-                (executeAction)="onBaseBarButtonClicked($event)"
-              >
-              </core-button-bar>
+              <core-button-bar [barButtons]="aircraftBaseBarButtons" [itemsSelectedCount]="aircraftBaseSelectedCount"
+                (executeAction)="onBaseBarButtonClicked($event)" ></core-button-bar>
             </section>
             <section class="aircraft-bases-detail-table">
-              <core-table
-                [columnsHeader]="aircraftBaseColumnsHeader"
-                [columnsData]="aircraftBaseColumnsData"
-                [pagination]="aircraftBaseColumnsPagination"
-              ></core-table>
+              <core-table [columnsHeader]="aircraftBaseColumnsHeader" [columnsData]="aircraftBaseColumnsData"
+                [pagination]="aircraftBaseColumnsPagination" (selectedItem)="onAircraftBaseSelected($event)"></core-table>
             </section>
           </span>
         </div>
       </li>
     </ul>
-
     <ul
       *ngIf="isAircraftDetail"
       class="collapsible expandable cmd-mb-2"
@@ -327,7 +319,7 @@
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down </i>
-          {{ "COMMON.OBSERVATION" | translate | sentenceCase }}
+          {{ "COMMON.OBSERVATIONS" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <span>
@@ -353,11 +345,8 @@
   </form>
 </section>
 
-<app-base-detail
-  [title]="modalDetailTitle"
-  [baseForm]="aircraftBaseForm"
-  (saveBase)="onSaveBase($event)"
-></app-base-detail>
+<app-base-detail [title]="modalDetailTitle" [baseForm]="aircraftBaseForm" [enabledAircraftBase]="!sameBaseIsMain"
+  [modeEdit]="modeEdit" [aircraftBase]="aircraftBaseSelected" (saveBase)="onSaveBase($event)"></app-base-detail>
 
 <app-observation-detail
   [title]="modalDetailTitle"
