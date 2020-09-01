@@ -9,6 +9,8 @@ export enum MeasureType {
   KILOMETER = 'KILOMETER',
   NAUTIC_MILE = 'NAUTIC_MILE',
   INCH = 'INCH',
+  KILOMETERS_HOUR = 'KILOMETERS_HOUR',
+  KNOTS = 'KNOTS',
 }
 
 export const MEASURE_LIST = [
@@ -17,4 +19,9 @@ export const MEASURE_LIST = [
   MeasureType.NAUTIC_MILE,
   MeasureType.FOOT,
   MeasureType.INCH,
-] as const;
+];
+
+export const MEASURE_SPEED_LIST = [
+  MeasureType.KILOMETERS_HOUR,
+  MeasureType.KNOTS,
+];
