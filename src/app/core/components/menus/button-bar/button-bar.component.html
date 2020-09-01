@@ -96,6 +96,23 @@
           <i class="material-icons">{{ barButton.icon || "search" }}</i>
         </a>
       </ng-container>
+      <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.VIEW">
+        <a
+          class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.VIEW)"
+        >
+          <i class="material-icons left">
+            {{ barButton.icon || "visibility" }}
+          </i>
+          {{ barButton.text | translate }}
+        </a>
+        <a
+          class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+          (click)="onBarButtonClicked(BAR_BUTTON_TYPE.VIEW)"
+        >
+          <i class="material-icons">{{ barButton.icon || "visibility" }}</i>
+        </a>
+      </ng-container>
     </ng-container>
   </ng-container>
   <ng-content select="[additionalContent]"></ng-content>
