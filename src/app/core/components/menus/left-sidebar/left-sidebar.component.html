@@ -1,50 +1,93 @@
-<div class="left-sidebar cmd-h-100" [ngClass]="{'collapsed': collapseMenu}">
-    <section class="left-sidebar-icons cmd-h-100">
-        <div class="row">
-            <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
-                <article *ngIf="collapseMenu" class="left-sidebar-main-icon">
-                    <a (click)="expandReduceMenu()">
-                        <i class="material-icons oc icon-blue-light-4">keyboard_arrow_right</i>
-                    </a>
-                </article>
-                <article *ngIf="!collapseMenu" class="left-sidebar-main-logo">
-                    <a (click)="expandReduceMenu()">
-                        <i class="material-icons oc icon-blue-light-4">keyboard_arrow_left</i>
-                    </a>
-                </article>
+<div class="left-sidebar cmd-h-100" [ngClass]="{ collapsed: collapseMenu }">
+  <section class="left-sidebar-icons cmd-h-100">
+    <div class="row">
+      <section
+        class="col"
+        [ngClass]="{ 'm12 l12': collapseMenu, 'm4 l4': !collapseMenu }"
+      >
+        <article *ngIf="collapseMenu" class="left-sidebar-main-icon">
+          <a (click)="expandReduceMenu()">
+            <i class="material-icons oc icon-blue-light-4"
+              >keyboard_arrow_right</i
+            >
+          </a>
+        </article>
+        <article *ngIf="!collapseMenu" class="left-sidebar-main-logo">
+          <a (click)="expandReduceMenu()">
+            <i class="material-icons oc icon-blue-light-4"
+              >keyboard_arrow_left</i
+            >
+          </a>
+        </article>
+      </section>
+      <section *ngIf="!collapseMenu" class="col m8 l8">
+        <article class="left-sidebar-main-logo valign-wrapper">
+          <img href="#" src="assets/images/brand-left-sidebar.svg" />
+        </article>
+      </section>
+    </div>
+
+    <div class="row">
+      <ul
+        class="collapsible"
+        [appMatCollapsible]="{ state: 'open', openIconOverride: false }"
+      >
+        <li
+          *ngFor="let menuItem of menu?.childs; let first = first"
+          class="cmd-mb-1"
+        >
+          <div class="collapsible-header">
+            <section
+              class="col"
+              [ngClass]="{ 'm12 l12': collapseMenu, 'm3 l3': !collapseMenu }"
+            >
+              <article class="icon-block center-align">
+                <a
+                  class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"
+                  ><i class="material-icons">{{ menuItem.icon }}</i></a
+                >
+              </article>
             </section>
-            <section *ngIf="!collapseMenu" class="col m8 l8">
-                <article class="left-sidebar-main-logo valign-wrapper">
-                    <img href="#" src="assets/images/brand-left-sidebar.svg" />
-                </article>
+            <section *ngIf="!collapseMenu" class="col m9 l9 valign-wrapper">
+              <article class="text-block">
+                <span>{{ menuItem.label }}</span>
+              </article>
             </section>
-        </div>
-        <ng-container *ngFor="let menuItem of menu?.childs">
-            <div class="row">
-                <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
-                    <article class="icon-block center-align">
-                        <a class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"><i
-                                class="material-icons">{{menuItem.icon}}</i></a>
-                    </article>
-                </section>
-                <section *ngIf="!collapseMenu" class="col m8 l8">
-                    <article class="text-block">
-                        <span>{{menuItem.label}}</span>
-                    </article>
-                </section>
+          </div>
+          <div class="collapsible-body" *ngIf="!collapseMenu">
+            <div
+              *ngFor="let child of menuItem.childs"
+              class="row valign-wrapper"
+            >
+              <section
+                class="col"
+                [ngClass]="{ 'm12 l12': collapseMenu, 'm3 l3': !collapseMenu }"
+              >
+                <article class="dot-block center-align">
+                  <a
+                    [routerLink]="[child.route]"
+                    routerLinkActive="active-link"
+                  >
+                    <span>.</span>
+                  </a>
+                </article>
+              </section>
+              <section *ngIf="!collapseMenu" class="col m9 l9 p0">
+                <article class="text-block cmd-pl-2">
+                  <a
+                    [routerLink]="[child.route]"
+                    routerLinkActive="active-link"
+                  >
+                    {{ child.label }}
+                  </a>
+                </article>
+              </section>
             </div>
-            <div *ngFor="let child of menuItem.childs" class="row">
-                <section class="col" [ngClass]="{'m12 l12': collapseMenu, 'm4 l4': !collapseMenu}">
-                    <article class="dot-block center-align">
-                        <a [routerLink]="[child.route]" routerLinkActive="active-link"><span>.</span></a>
-                    </article>
-                </section>
-                <section *ngIf="!collapseMenu" class="col m8 l8">
-                    <article class="text-block cmd-pl-2">
-                        <a [routerLink]="[child.route]" routerLinkActive="active-link">{{child.label}}</a>
-                    </article>
-                </section>
-            </div>
-        </ng-container>
-    </section>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- </ng-container> -->
+  </section>
 </div>
