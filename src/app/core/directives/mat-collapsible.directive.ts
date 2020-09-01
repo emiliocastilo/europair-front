@@ -1,34 +1,59 @@
-import { Directive, ElementRef, OnDestroy, Renderer2, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  Renderer2,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  OnInit,
+  AfterViewInit,
+  AfterContentInit,
+} from '@angular/core';
 
 @Directive({
   selector: '[appMatCollapsible]',
 })
 export class MatCollapsibleDirective implements OnDestroy, OnInit {
   @Input('appMatCollapsible')
-  public initialState: { state: 'open' | 'closed', sectionNumber?: number} = { state: 'closed' };
-
+  public initialState: {
+    state: 'open' | 'closed';
+    sectionNumber?: number;
+    openIconOverride?: boolean;
+  } = { state: 'closed', openIconOverride: true };
 
   private matCollapsibleInstance: M.Collapsible;
 
+  private initialIcon: string;
   private readonly openIcon = 'keyboard_arrow_down';
   private readonly closeIcon = 'keyboard_arrow_up';
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {
-  }
+  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
-    this.matCollapsibleInstance = M.Collapsible.init(this.elementRef.nativeElement, {
-      onCloseEnd: this.onCloseCallback,
-      onOpenEnd: this.onOpenCallback,
+    this.matCollapsibleInstance = M.Collapsible.init(
+      this.elementRef.nativeElement,
+      {
+        onCloseEnd: this.onCloseCallback,
+        onOpenEnd: this.onOpenCallback,
+      }
+    );
+    setTimeout(() => {
+      if (this.initialState.state === 'open') {
+        this.matCollapsibleInstance.open(this.initialState.sectionNumber ?? 0);
+      }
+      this.initialIcon = this.elementRef.nativeElement.getElementsByClassName(
+        'material-icons'
+      )[0].innerHTML;
     });
-    if (this.initialState.state === 'open') {
-      this.matCollapsibleInstance.open(this.initialState.sectionNumber ?? 0);
-    }
   }
 
   private onCloseCallback = (el: Element) => {
     const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
-    this.changeIcon(collapsibleIcon, this.openIcon);
+    this.changeIcon(
+      collapsibleIcon,
+      this.initialState.openIconOverride ? this.openIcon : this.initialIcon
+    );
   };
 
   private onOpenCallback = (el: Element) => {
