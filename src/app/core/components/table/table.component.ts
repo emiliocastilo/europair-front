@@ -69,11 +69,7 @@ export class TableComponent implements OnInit {
     } else {
       this.internalSelectedItems[selectedItem] = undefined;
     }
-    this.selectedItems.next(
-      this.internalSelectedItems.filter(
-        (selectedItem) => selectedItem !== undefined
-      )
-    );
+    this.emitFilteredInternalSelectedItems(this.internalSelectedItems);
   }
 
   public isRowSelected(rowIndex: number): boolean {
@@ -126,6 +122,29 @@ export class TableComponent implements OnInit {
     } else {
       return selectedItem;
     }
+  }
+
+  public onSelectAll(isSelectAll: boolean): void {
+    isSelectAll? this.selectAllRows() : this.unselectAllRows();
+    this.emitFilteredInternalSelectedItems(this.internalSelectedItems);
+  }
+
+  private selectAllRows() {
+    this.columnsDataToShow.forEach((value, index) => {
+      this.internalSelectedItems[index] = this.calculateSelectedItem(index);
+    });
+  }
+
+  private unselectAllRows() {
+    this.internalSelectedItems = [];
+  }
+
+  private emitFilteredInternalSelectedItems(internalSelectedItems: number[]) {
+    this.selectedItems.next(
+      this.internalSelectedItems.filter(
+        (selectedItem) => selectedItem !== undefined
+      )
+    );
   }
 
   public onSearchHeaderChanged(searchTerm: string, identifier: string): void {

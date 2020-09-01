@@ -212,7 +212,6 @@ export class TasksComponent implements OnInit {
     this.taskService
       .deleteTask(this.tasks[this.selectedItem])
       .subscribe((response) => {
-        console.log(response);
         this.filterTaskTable();
         this.screenColumnsData = [];
       });
@@ -227,7 +226,6 @@ export class TasksComponent implements OnInit {
     this.modalService.closeModal();
     const save: Observable<Task> = task.id ? this.taskService.editTask(task) : this.taskService.addTask(task);
     save.subscribe((task) => {
-      console.log(task);
       this.filterTaskTable();
     });
   }
@@ -235,31 +233,26 @@ export class TasksComponent implements OnInit {
   public onFilterTasks(taskFilter: ColumnFilter) {
     const filter = {};
     filter[taskFilter.identifier] = taskFilter.searchTerm;
-    console.log('FILTER BY', filter);
     this.taskAdvancedSearchForm.patchValue(filter);
     this.filterTaskTable();
   }
 
   public onMobileBasicSearch(searchTerm: string) {
     this.taskAdvancedSearchForm.patchValue({ filter_name: searchTerm });
-    console.log('FILTER MOBILE BY', this.taskAdvancedSearchForm.value);
     this.filterTaskTable();
   }
 
   public onMobileAdvancedSearch() {
-    console.log('ADVANCED FILTER BY', this.taskAdvancedSearchForm.value);
     this.filterTaskTable();
   }
 
   public onSortTasks(sortByColumn: SortByColumn) {
     const sort = sortByColumn.column + ',' + sortByColumn.order;
     this.taskSortForm.patchValue({ sort: sort });
-    console.log('DESKTOP SORTING', this.taskSortForm.value);
     this.filterTaskTable();
   }
 
   public onMobileSort(): void {
-    console.log('MOBILE SORTING', this.taskSortForm.value);
     this.filterTaskTable();
   }
 

@@ -18,6 +18,12 @@
             </core-sort-button>
           </div>
         </article>
+        <article *ngSwitchCase="'selectAll'" class="col"
+          [ngClass]="['master-table-column-header-'+headerIndex
+          , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
+          <core-table-column-checkbox [id]="'select-all-check'" (changeValue)="onSelectAll($event)">
+          </core-table-column-checkbox>
+        </article>
         <!--TEST HEADER-->
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-column-header-'+headerIndex

@@ -20,7 +20,7 @@ export class TasksTableAdapterService implements OnDestroy {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '2', '1')
       ),
