@@ -7,10 +7,14 @@
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
-            <core-basic-input-text 
-              [id]="columnHeader.identifier" [label]="columnHeader.label | translate" [iconConfig]="iconConfig" [clearable]="true"
+            <core-basic-input-text *ngIf="columnHeader.size.large !== '1'"
+              [id]="columnHeader.identifier" [label]="columnHeader.label | translate" [clearable]="true"
               (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
             </core-basic-input-text>
+            <core-basic-input-text *ngIf="columnHeader.size.large === '1'"
+              [id]="columnHeader.identifier" [label]="columnHeader.label | translate"
+              (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
+          </core-basic-input-text>
             <core-sort-button *ngIf="columnHeader.sortId"
               [sortOrder]="sortingByColumn[columnHeader.sortId]"
               [sortId]="columnHeader.sortId" 

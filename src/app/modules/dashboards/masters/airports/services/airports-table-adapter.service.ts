@@ -18,51 +18,61 @@ export class AirportsTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'iataCode-header',
+        'search',
         'IATA',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('2', '2', '1'),
+        'filter_iataCode',
+        'iataCode'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'icaoCode-header',
+        'search',
         'ICAO',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('3', '3', '1'),
+        'filter_icaoCode',
+        'icaoCode'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'name-header',
+        'search',
         'Nombre',
-        new ColumnHeaderSizeModel('4', '2', '3')
+        new ColumnHeaderSizeModel('4', '4', '3'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'city-header',
+        'search',
         'Ciudad',
-        new ColumnHeaderSizeModel('1', '2', '1')
+        new ColumnHeaderSizeModel('0', '0', '2'),
+        'filter_city.name',
+        'city.name'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'country-header',
+        'search',
         'Pais',
-        new ColumnHeaderSizeModel('1', '2', '1')
+        new ColumnHeaderSizeModel('0', '0', '1'),
+        'filter_country.name',
+        'country.name'
       ),
       new ColumnHeaderModel(
-        'task-header',
+        'runway-header',
         'text',
         'Pista',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('0', '0', '1')
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('2', '2', '3')
+        new ColumnHeaderSizeModel('2', '2', '2')
       ),
     ];
   }
@@ -73,8 +83,7 @@ export class AirportsTableAdapterService {
     actions.push(
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
-    actions.push(new ColumnActionsModel('do_not_disturb', 'disable', 'Deshabilitar', 'red'));
-    actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
+    actions.push(new ColumnActionsModel('delete', 'disable', 'Deshabilitar', 'red'));
     airports.forEach((airport: Airport) => {
       const airportRow: RowDataModel = new RowDataModel();
       airportRow.pushColumn(

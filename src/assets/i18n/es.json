@@ -12,7 +12,19 @@
     "ABBREVIATIONS": {
       "IATA_CODE": "Cód. IATA",
       "ICAO_CODE": "Cód. ICAO"
-    }
+    },
+    "VIEW_DISABLED": "Ver inactivos"
+  },
+  "AIRPORTS": {
+    "PAGE_TITLE": "Aeropuertos",
+    "NEW": "Nuevo Aeropuerto",
+    "DISABLE": "Deshabilitar",
+    "CONFIRM": "Confirmar",
+    "CANCEL": "Cancelar",
+    "CONFIRM_DISABLE": "Deshabilitar aeropuerto",
+    "CONFIRM_DISABLE_MULTIPLE": "Deshabilitar aeropuertos",
+    "MSG_DISABLE": "¿Está seguro que desea deshabilitar el aeropuerto <strong>{{ airport }}</strong>?",
+    "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes aeropuertos?"
   },
   "AIRCRAFT": {
     "NEW": "Nueva Aeronave",

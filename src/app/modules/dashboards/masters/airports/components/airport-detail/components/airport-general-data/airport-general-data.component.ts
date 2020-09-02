@@ -83,7 +83,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(() => (this.citiesLoading = true)),
         switchMap((term) =>
-          this.citiesServices.getCities().pipe(
+          this.citiesServices.getCities({filter_name: term}).pipe(
             map((page) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.citiesLoading = false))
@@ -101,7 +101,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(() => (this.countriesLoading = true)),
         switchMap((term) =>
-          this.countriesService.getCountries().pipe(
+          this.countriesService.getCountries({filter_name: term}).pipe(
             map((page) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.countriesLoading = false))

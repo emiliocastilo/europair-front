@@ -6,6 +6,8 @@ import { environment } from 'src/environments/environment';
 import { Screen } from '../models/screen';
 import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-filter';
 import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -13,37 +15,19 @@ import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 export class TasksService {
   private readonly filterOptions: FilterOptions = { filter_name: OperatorEnum.CONTAINS } as const;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
   public getTasks(searchFilter: SearchFilter = {}): Observable<Task[]> {
     const url = environment.apiUrl + 'tasks';
     return this.http.get<Task[]>(url, {
-      params: this.createHttpParams(searchFilter),
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
     });
-  }
-
-  private createHttpParams(searchFilter: SearchFilter): SearchFilter {
-    const clonedSearchFilter = { ...searchFilter };
-    Object.keys(searchFilter).forEach((key) => {
-      if (clonedSearchFilter[key] === '') {
-        delete clonedSearchFilter[key];
-      } else {
-        this.addFilterOptions(key, clonedSearchFilter);
-      }
-    });
-    return clonedSearchFilter;
-  }
-
-  public addFilterOptions(key: string, searchFilter: SearchFilter): void {
-    if(this.filterOptions[key] !== undefined) {
-      searchFilter[key] = `${searchFilter[key]},${this.filterOptions[key]}`;
-    }
   }
 
   public getScreens(searchFilter: SearchFilter = {}): Observable<Screen[]> {
     const url = environment.apiUrl + 'screens';
     return this.http.get<Screen[]>(url, {
-      params: this.createHttpParams(searchFilter),
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
     });
   }
 

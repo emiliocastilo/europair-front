@@ -4,24 +4,34 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport } from '../models/airport';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AirportsService {
-  private readonly mocked: boolean = false;
+  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}airports`;
+  private readonly filterOptions: FilterOptions = {
+    filter_iataCode: OperatorEnum.CONTAINS,
+    filter_icaoCode: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS,
+    'filter_city.name': OperatorEnum.CONTAINS,
+    'filter_country.name': OperatorEnum.CONTAINS,
+    filter_removedAt: OperatorEnum.IS_NULL,
+    search: OperatorEnum.CONTAINS
+    } as const;
 
-  constructor(private readonly httpClient: HttpClient) { }
 
-  public getAirports(showDisabled: boolean = false, filter?: string): Observable<Page<Airport>> {
+  constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }
+
+  public getAirports(searchFilter: SearchFilter = {}): Observable<Page<Airport>> {
     const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
-    let params: HttpParams = new HttpParams();
-    params = params.set('showDisabled', String(showDisabled));
-    if (filter) {
-      params = params.set('search', filter);
-    }
-    return this.httpClient.get<Page<Airport>>(url, { params });
+    return this.httpClient.get<Page<Airport>>(url, { 
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions) 
+    });
   }
 
   public addAirport(airport: Airport): Observable<Airport> {

@@ -9,7 +9,7 @@
           <i class="material-icons left">{{
             barButton.icon || "add_circle_outline"
           }}</i>
-          {{ barButton.text }}
+          {{ barButton.text | translate }}
         </a>
         <a
           class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
@@ -26,7 +26,7 @@
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE)"
         >
           <i class="material-icons left">{{ barButton.icon || "delete" }}</i>
-          {{ barButton.text }}
+          {{ barButton.text | translate }}
         </a>
         <a
           class="btn-floating waves-effect waves-light europair-icon-red-1 hide-on-med-and-up"
@@ -42,7 +42,7 @@
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.DELETE_SELECTED)"
         >
           <i class="material-icons left">{{ barButton.icon || "delete" }}</i>
-          {{ barButton.text }} ({{ itemsSelectedCount }})
+          {{ barButton.text | translate }} ({{ itemsSelectedCount }})
         </a>
         <span *ngIf="itemsSelectedCount > 0" class="hide-on-med-and-up">
           <a
@@ -61,7 +61,7 @@
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.EDIT)"
         >
           <i class="material-icons left">{{ barButton.icon || "edit" }}</i>
-          {{ barButton.text }}
+          {{ barButton.text | translate }}
         </a>
         <a
           *ngIf="itemsSelectedCount === 1"

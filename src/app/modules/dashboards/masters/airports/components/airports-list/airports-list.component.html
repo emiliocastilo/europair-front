@@ -1,31 +1,40 @@
 <core-page-bar [pageTitle]="pageTitle"></core-page-bar>
-<top-bar [barButtons]="barButtons" [airportsSelectedCount]="airportsSelectedCount"
+<top-bar [barButtons]="barButtons" [airportsSelectedCount]="selectedItems.length"
 (executeAction)="onBarButtonClicked($event)" (executeChangeCheck)="checkShowDisabled($event)" (executeSearch)="onSearch($event)"></top-bar>
 <section class="airports-tables-container cmd-mt-1">
   <section class="airports-table">
     <core-table [columnsHeader]="airportColumnsHeader" [columnsData]="airportsColumnsData"
-      [pagination]="airportPagination" (selectedItem)="onAirportSelected($event)"
+      [pagination]="airportPagination"
+      (search)="onFilterAirports($event)"
+      (sortByColumn)="onSortAirports($event)"
+      (selectedItems)="onAirportsSelected($event)"
       (executeActionEmitter)="onAirportAction($event)">
     </core-table>
   </section>
 </section>
-<core-modal #confirmDeleteModal>
+
+<core-modal #confirmMultipleDeleteModal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'AIRPORTS.CONFIRM_DISABLE_MULTIPLE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'AIRPORTS.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar este registro?</p>
+      <p>{{ 'AIRPORTS.MSG_DISABLE_MULTIPLE' | translate:translationParams }}</p>
+      <ul class="cmd-ml-1">
+        <li *ngFor="let index of selectedItems">
+          <b>{{ airports[index]?.name }}</b>
+        </li>
+      </ul>
     </section>
   </ng-container>
   <ng-container footer>
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteAirport()">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDisableMultipleAirports()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'AIRPORTS.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>
@@ -33,20 +42,20 @@
 <core-modal #confirmDisableModal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Deshabilitar aeropuerto</h4>
+      <h4>{{'AIRPORTS.CONFIRM_DISABLE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'AIRPORTS.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea deshabilitar este aeropuerto?</p>
+      <p [innerHTML]="'AIRPORTS.MSG_DISABLE' | translate:translationParams"></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDisableAirport()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{'AIRPORTS.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>
