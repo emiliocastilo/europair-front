@@ -50,7 +50,7 @@ export class AirportsTableAdapterService {
         'city-header',
         'search',
         'Ciudad',
-        new ColumnHeaderSizeModel('0', '0', '2'),
+        new ColumnHeaderSizeModel('', '', '2'),
         'filter_city.name',
         'city.name'
       ),
@@ -58,7 +58,7 @@ export class AirportsTableAdapterService {
         'country-header',
         'search',
         'Pais',
-        new ColumnHeaderSizeModel('0', '0', '1'),
+        new ColumnHeaderSizeModel('', '', '1'),
         'filter_country.name',
         'country.name'
       ),
@@ -66,7 +66,7 @@ export class AirportsTableAdapterService {
         'runway-header',
         'text',
         'Pista',
-        new ColumnHeaderSizeModel('0', '0', '1')
+        new ColumnHeaderSizeModel('', '', '1')
       ),
       new ColumnHeaderModel(
         'actions-header',

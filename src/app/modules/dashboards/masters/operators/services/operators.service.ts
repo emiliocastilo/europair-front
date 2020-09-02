@@ -8,13 +8,23 @@ import {
   OperatorComment,
 } from '../models/Operator.model';
 import { Observable } from 'rxjs';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OperatorsService {
   private readonly url = `${environment.apiUrl}operators`;
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = {
+    filter_iataCode: OperatorEnum.CONTAINS,
+    filter_icaoCode: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS,
+    filter_removedAt: OperatorEnum.IS_NULL,
+    } as const;
+    
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
   public searchOperator(
     text: string = '',
@@ -28,8 +38,10 @@ export class OperatorsService {
     return this.http.get<Page<Operator>>(searchOperatorUrl, { params });
   }
 
-  public getOperators(): Observable<Page<Operator>> {
-    return this.http.get<Page<Operator>>(this.url);
+  public getOperators(searchFilter: SearchFilter = {}): Observable<Page<Operator>> {
+    return this.http.get<Page<Operator>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
+    });
   }
 
   public getOperatorById(operatorId: number): Observable<Operator> {

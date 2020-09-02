@@ -13,13 +13,13 @@
   </section>
 </section>
 
-<core-modal #confirmMultipleDeleteModal>
+<core-modal #confirmMultipleDisableModal>
   <ng-container content>
     <section class="modal-header">
       <h4>{{'AIRPORTS.CONFIRM_DISABLE_MULTIPLE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        {{'AIRPORTS.CANCEL' | translate}}
+        {{'COMMON.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
@@ -34,7 +34,7 @@
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDisableMultipleAirports()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">{{'AIRPORTS.CONFIRM' | translate}}</span>
+      <span class="full-width-btn-text">{{'COMMON.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>
@@ -45,7 +45,7 @@
       <h4>{{'AIRPORTS.CONFIRM_DISABLE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        {{'AIRPORTS.CANCEL' | translate}}
+        {{'COMMON.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
@@ -55,7 +55,7 @@
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDisableAirport()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">{{'AIRPORTS.CONFIRM' | translate}}</span>
+      <span class="full-width-btn-text">{{'COMMON.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>

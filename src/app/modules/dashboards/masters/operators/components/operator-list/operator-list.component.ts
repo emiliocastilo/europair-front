@@ -6,19 +6,19 @@ import {
 import {
   EMPTY_OPERATOR,
   Operator,
-  Certification,
 } from '../../models/Operator.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { FormBuilder, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { OperatorsService } from '../../services/operators.service';
 import { OperatorsTableAdapterService } from '../../services/operators-table-adapter.service';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { OperatorDetailComponent } from '../operator-detail/operator-detail.component';
 import { Router } from '@angular/router';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-operator-list',
@@ -27,18 +27,18 @@ import { Router } from '@angular/router';
   providers: [OperatorsTableAdapterService],
 })
 export class OperatorListComponent implements OnInit {
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
-  public confirmDeleteModal: ElementRef;
+  @ViewChild('confirmMultipleDisableModal', { static: true, read: ElementRef })
+  private readonly confirmMultipleDisableModal: ElementRef;
+  @ViewChild('confirmDisableModal', { static: true, read: ElementRef })
+  private readonly confirmDisableModal: ElementRef;
 
   public readonly pageTitle = 'Operadores';
 
   public operatorSelected: Operator = EMPTY_OPERATOR;
-  public operatorsSelectedCount = 0;
 
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo operador' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
-    // { type: BarButtonType.SEARCH, text: 'search' },
+    { type: BarButtonType.NEW, text: 'OPERATORS.NEW' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'OPERATORS.DISABLE' },
   ];
 
   public operatorColumnsHeader: ColumnHeaderModel[] = [];
@@ -47,23 +47,41 @@ export class OperatorListComponent implements OnInit {
 
   public operatorDetailTitle: string;
   public operators: Operator[] = [];
+  public selectedItems: number[] = [];
+  public translationParams = {};
+  private operatorFilter = {};
 
-  private barButtonActions = { new: this.newOperator };
+
+  private barButtonActions = {
+    new: this.newOperator,
+    delete_selected: this.disableSelectedOperators,
+  };
 
   private operatorTableActions = {
     edit: this.editOperator,
-    delete: this.deleteOperator,
+    delete: this.disableOperator,
   };
+
+  public operatorAdvancedSearchForm = this.fb.group({
+    filter_iataCode: [''],
+    filter_icaoCode: [''],
+    filter_name: [''],
+    filter_removedAt: [null],
+  });
+  public operatorSortForm = this.fb.group({
+    sort: [''],
+  });
 
   constructor(
     private modalService: ModalService,
     private operatorsService: OperatorsService,
     private operatorTableAdapter: OperatorsTableAdapterService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    this.initializeOperatorsTable();
+    this.filterOperatorTable();
     this.initializeTablesColumnsHeader();
   }
 
@@ -71,14 +89,19 @@ export class OperatorListComponent implements OnInit {
     this.operatorColumnsHeader = this.operatorTableAdapter.getOperatorColumnsHeader();
   }
 
-  private initializeOperatorsTable() {
-    this.operatorsService.getOperators().subscribe((operatorPage) => {
+  private initializeOperatorsTable(searchFilter?: SearchFilter) {
+    this.operatorsService.getOperators(searchFilter).subscribe((operatorPage) => {
       this.getOperatorTableData(operatorPage);
     });
   }
 
   private newOperator(): void {
     this.router.navigate(['operators', 'new']);
+  }
+
+  private disableSelectedOperators(): void {
+    this.initializeModal(this.confirmMultipleDisableModal);
+    this.modalService.openModal();
   }
 
   private editOperator(selectedItem: number): void {
@@ -101,17 +124,29 @@ export class OperatorListComponent implements OnInit {
     );
   }
 
-  private deleteOperator(selectedItem: number) {
-    this.initializeModal(this.confirmDeleteModal);
+  private disableOperator(selectedItem: number) {
+    this.translationParams = {operator: this.operators[selectedItem]?.name};
+    this.initializeModal(this.confirmDisableModal);
     this.modalService.openModal();
+  }
+
+  public onOperatorsSelected(selectedItems: number[]): void {
+    this.selectedItems = selectedItems;
+  }
+
+  public onFilterOperators(airportFilter: ColumnFilter) {
+    this.operatorFilter[airportFilter.identifier] = airportFilter.searchTerm;
+    this.filterOperatorTable();
+  }
+
+  public onSortOperators(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.operatorSortForm.patchValue({ sort: sort });
+    this.filterOperatorTable();
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType) {
     this.barButtonActions[barButtonType].bind(this)();
-  }
-
-  public onOperatorSelected(selectedIndex: number) {
-    // console.log('onOperatorSelected', selectedIndex);
   }
 
   public onOperatorAction(action: { actionId: string; selectedItem: number }) {
@@ -119,10 +154,14 @@ export class OperatorListComponent implements OnInit {
     this.operatorTableActions[action.actionId].bind(this)(action.selectedItem);
   }
 
-  public onConfirmDeleteOperator() {
+  public onConfirmDisableOperator() {
     this.operatorsService
       .removeOperator(this.operatorSelected)
       .subscribe((_) => this.initializeOperatorsTable());
+  }
+
+  public onConfirmDisableMultipleOperators() {
+    console.log('DELETING OPERATORS ', this.selectedItems.map(item => this.operators[item].id));
   }
 
   private initializeClientTablePagination(
@@ -131,5 +170,15 @@ export class OperatorListComponent implements OnInit {
     const pagination = this.operatorTableAdapter.getPagination();
     pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
+  }
+
+  private filterOperatorTable(): void {
+    this.operatorAdvancedSearchForm.patchValue(this.operatorFilter);
+    const filter = {
+      ...this.operatorAdvancedSearchForm.value,
+      ...this.operatorSortForm.value,
+    };
+    console.log('FILTERING', filter);
+    this.initializeOperatorsTable(filter);
   }
 }

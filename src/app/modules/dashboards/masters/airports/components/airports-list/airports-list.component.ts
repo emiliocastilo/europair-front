@@ -7,7 +7,7 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Airport, EMPTY_AIRPORT, CustomsType } from '../../models/airport';
+import { Airport, CustomsType } from '../../models/airport';
 import { Router } from '@angular/router';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { FormBuilder } from '@angular/forms';
@@ -29,8 +29,8 @@ export class AirportsListComponent implements OnInit {
     private fb: FormBuilder,
   ) { }
 
-  @ViewChild('confirmMultipleDeleteModal', { static: true, read: ElementRef })
-  private readonly confirmMultipleDeleteModal: ElementRef;
+  @ViewChild('confirmMultipleDisableModal', { static: true, read: ElementRef })
+  private readonly confirmMultipleDisableModal: ElementRef;
   @ViewChild('confirmDisableModal', { static: true, read: ElementRef })
   private readonly confirmDisableModal: ElementRef;
 
@@ -66,8 +66,7 @@ export class AirportsListComponent implements OnInit {
 
   private readonly barButtonActions = {
     new: this.newAirport.bind(this),
-    custom: this.disableAirport.bind(this),
-    delete_selected: this.deleteSelectedAirports.bind(this),
+    delete_selected: this.disableSelectedAirports.bind(this),
   };
   private readonly airportTableActions = {
     edit: this.editAirport.bind(this),
@@ -125,8 +124,8 @@ export class AirportsListComponent implements OnInit {
     this.router.navigate(['airports', 'new']);
   }
 
-  private deleteSelectedAirports(): void {
-    this.initializeModal(this.confirmMultipleDeleteModal);
+  private disableSelectedAirports(): void {
+    this.initializeModal(this.confirmMultipleDisableModal);
     this.modalService.openModal();
   }
 
@@ -153,7 +152,6 @@ export class AirportsListComponent implements OnInit {
 
   public onConfirmDisableMultipleAirports() {
     console.log('DELETING AIRPORTS ', this.selectedItems.map(item => this.airports[item].id));
-    // this.selectedItems.forEach(item => console.log('DELETING ', this.tasks[item]));
   }
 
   public onConfirmDisableAirport(): void {
