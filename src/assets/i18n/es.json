@@ -324,21 +324,27 @@
       "FOOT": "ft",
       "METER": "m",
       "KILOMETER": "km",
+      "KILOMETER_HOUR": "km/h",
       "NAUTIC_MILE": "nm",
+      "KNOTS": "kn",
       "INCH": "\""
     },
     "VALUE": {
       "FOOT": "{{ value }} ft",
       "METER": "{{ value }} m",
       "KILOMETER": "{{ value }} km",
+      "KILOMETER_HOUR": "{{ value }} km/h",
       "NAUTIC_MILE": "{{ value }} nm",
+      "KNOTS": "{{ value }} kn",
       "INCH": "{{ value }} \""
     },
     "UNITS": {
       "FOOT": "pies",
       "METER": "metros",
       "KILOMETER": "kilometros",
+      "KILOMETERS_HOUR": "kilometros/hora",
       "NAUTIC_MILE": "millas nauticas",
+      "KNOTS": "nudos",
       "INCH": "pulgadas"
     }
   }

@@ -1,8 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FleetTypesService } from '../../../../services/fleet-types.service';
-import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  MeasureType,
+  MEASURE_SPEED_LIST,
+  MEASURE_LIST,
+} from 'src/app/core/models/base/measure';
 
 @Component({
   selector: 'app-speed-average-detail',
@@ -20,6 +23,7 @@ export class SpeedAverageDetailComponent implements OnInit {
   public saveSpeed = new EventEmitter<any>();
 
   public measureList: Array<{ label: string; value: MeasureType }>;
+  public measureSpeedList: Array<{ label: string; value: MeasureType }>;
 
   constructor(private translateService: TranslateService) {}
 
@@ -33,6 +37,14 @@ export class SpeedAverageDetailComponent implements OnInit {
             value: MeasureType[measureValue],
           };
         });
+        this.measureSpeedList = MEASURE_SPEED_LIST.map(
+          (measureValue: string) => {
+            return {
+              label: data[measureValue],
+              value: MeasureType[measureValue],
+            };
+          }
+        );
       });
   }
 
