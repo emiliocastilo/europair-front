@@ -16,6 +16,7 @@ import {
   catchError,
   map,
   debounceTime,
+  filter,
 } from 'rxjs/operators';
 import { CountriesService } from 'src/app/modules/dashboards/masters/countries/services/countries.service';
 import { CitiesService } from 'src/app/modules/dashboards/masters/cities/services/cities.service';
@@ -47,6 +48,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   countriesInput$ = new Subject<string>();
   countriesLoading = false;
+  countryIdSelected: string;
 
   private unsubscriber$: Subject<void> = new Subject();
 
@@ -65,6 +67,16 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
       .subscribe((specialConditions) =>
         this.specialConditionsChanged.next(specialConditions)
       );
+    this.generalDataForm
+      .get('country')
+      .valueChanges.pipe(
+        tap((_) => {
+          this.generalDataForm.get('city').setValue(null);
+        }),
+        filter((country: Country) => !!(country && country.id)),
+        takeUntil(this.unsubscriber$))
+      .subscribe((country: Country) => this.countryIdSelected = country.id.toString()
+      );
     this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
       this.measureList = MEASURE_LIST.map((measureValue: string) => {
         return {
@@ -79,11 +91,12 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
     this.cities$ = concat(
       of([]), // default items
       this.citiesInput$.pipe(
+        filter(() => !!this.countryIdSelected),
         debounceTime(400),
         distinctUntilChanged(),
         tap(() => (this.citiesLoading = true)),
         switchMap((term) =>
-          this.citiesServices.getCities({filter_name: term}).pipe(
+          this.citiesServices.getCities({filter_name: term, 'filter_country.id': this.countryIdSelected}).pipe(
             map((page) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.citiesLoading = false))
