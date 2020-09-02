@@ -9,12 +9,15 @@ import {
   OnInit,
   AfterViewInit,
   AfterContentInit,
+  AfterViewChecked,
+  AfterContentChecked,
 } from '@angular/core';
 
 @Directive({
   selector: '[appMatCollapsible]',
 })
-export class MatCollapsibleDirective implements OnDestroy, OnInit {
+export class MatCollapsibleDirective
+  implements OnDestroy, OnInit, AfterContentChecked {
   @Input('appMatCollapsible')
   public initialState: {
     state: 'open' | 'closed';
@@ -23,7 +26,7 @@ export class MatCollapsibleDirective implements OnDestroy, OnInit {
   } = { state: 'closed', openIconOverride: true };
 
   private matCollapsibleInstance: M.Collapsible;
-
+  private componentInitiation = false;
   private initialIcon: string;
   private readonly openIcon = 'keyboard_arrow_down';
   private readonly closeIcon = 'keyboard_arrow_up';
@@ -38,14 +41,21 @@ export class MatCollapsibleDirective implements OnDestroy, OnInit {
         onOpenEnd: this.onOpenCallback,
       }
     );
-    setTimeout(() => {
+  }
+
+  ngAfterContentChecked(): void {
+    this.initializeContent(this.elementRef.nativeElement);
+  }
+
+  private initializeContent(el: Element) {
+    const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
+
+    if (collapsibleIcon && !this.initialIcon) {
       if (this.initialState.state === 'open') {
         this.matCollapsibleInstance.open(this.initialState.sectionNumber ?? 0);
       }
-      this.initialIcon = this.elementRef.nativeElement.getElementsByClassName(
-        'material-icons'
-      )[0].innerHTML;
-    });
+      this.initialIcon = collapsibleIcon.innerHTML;
+    }
   }
 
   private onCloseCallback = (el: Element) => {
