@@ -50,8 +50,8 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     city: ['', Validators.required],
     timeZone: [''],
     elevation: this.fb.group({
-      value: ['', Validators.required],
-      type: [null, Validators.required],
+      value: [''],
+      type: [null],
     }),
     latitude: [''],
     longitude: [''],

@@ -44,6 +44,7 @@
           <div class="col s12 l4">
             <core-select [label]="'País'" [id]="'country'" [items]="countries$ | async" [minTermLength]="2"
               [loading]="countriesLoading" [typeToSearchText]="'Escriba nombre país'"
+              [placeholder]="'Selecciona un país' | translate"
               [hasErrors]="hasControlAnyError('country')" [typeahead]="countriesInput$" [searchable]="true"
               [notFoundText]="'Sin resultados'" formControlName="country">
               <ng-container inputErrors>
@@ -58,6 +59,7 @@
           <div class="col s12 l4">
             <core-select [label]="'Ciudad'" [id]="'city'" [items]="cities$ | async" [minTermLength]="2"
               [loading]="citiesLoading" [typeToSearchText]="'Escriba nombre ciudad'"
+              [placeholder]="'Selecciona una ciudad' | translate"
               [hasErrors]="hasControlAnyError('city')" [typeahead]="citiesInput$" [searchable]="true"
               [notFoundText]="'Sin resultados'" formControlName="city">
               <ng-container inputErrors>
@@ -70,8 +72,18 @@
             </core-select>
           </div>
           <div class="col s12 l4">
-            <core-basic-input-text [label]="'Franja horaria'" [id]="'timeZone'" formControlName="timeZone">
-            </core-basic-input-text>
+            <!-- <core-basic-input-text [label]="'Franja horaria'" [id]="'timeZone'" formControlName="timeZone">
+            </core-basic-input-text> -->
+            <core-select
+            [items]="timeZones$ |async"
+            [id]="'type-category'"
+            [label]="'Franja horaria'"
+            [searchable]="true"
+            [placeholder]="'Selecciona una franja horaria' | translate"
+            [itemValue]="'name'"
+            [itemDescription]="'description'"
+            formControlName="timeZone">
+          </core-select>
           </div>
         </div>
         <div class="row">
@@ -82,15 +94,7 @@
                   formControlName="value">
                 </core-basic-input-text>
                 <core-select class="col s12 m6" [items]="measureList" [searchable]="true" [placeholder]="'Unidad'"
-                  [itemDescription]="'label'" [itemValue]="'value'" [hasErrors]="hasControlAnyError('width.type')"
-                  formControlName="type">
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="hasControlAnyError('width.type')">
-                      <span *ngIf="hasControlSpecificError('width.type', 'required')" class="helper-text"
-                        data-error="Debe indicar la unidad de medida">
-                      </span>
-                    </ng-container>
-                  </ng-container>
+                  [itemDescription]="'label'" [itemValue]="'value'" formControlName="type">
                 </core-select>
               </form>
             </div>
