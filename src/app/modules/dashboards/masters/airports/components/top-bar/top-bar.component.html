@@ -2,8 +2,8 @@
     (executeAction)="onBarButtonClicked($event)">
     <ng-container additionalContent>
         <core-basic-input-text [class]="'waves-effect waves-light search-field'" [icon]="'search'" [label]="'Buscar'"
-            (change)="onSearch($event.target.value)"></core-basic-input-text>
-        <core-checkbox [id]="'check-button-bar'" [label]="'Ver inactivos'" (selectedValueEvent)="onChangeCheck($event)"
+            [clearable]="true" (searchChanged)="onSearch($event)"></core-basic-input-text>
+        <core-checkbox [id]="'check-button-bar'" [label]="'COMMON.VIEW_DISABLED'" (selectedValueEvent)="onChangeCheck($event)"
             class="waves-effect check" [value]="checked"></core-checkbox>
     </ng-container>
 </core-button-bar>

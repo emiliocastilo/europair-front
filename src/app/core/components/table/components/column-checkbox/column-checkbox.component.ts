@@ -12,7 +12,10 @@ export class ColumnCheckboxComponent implements OnInit {
   @Input() value: string;
   @Input() checked: boolean;
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
+  @Output() changeValue: EventEmitter<boolean> = new EventEmitter();
 
+
+  isChecked: boolean;
   constructor() {}
 
   ngOnInit(): void {}
@@ -22,5 +25,9 @@ export class ColumnCheckboxComponent implements OnInit {
       id: this.id,
       value: this.value,
     });
+  }
+
+  onChangeValue(event: any): void {
+    this.changeValue.next(event.srcElement.checked);
   }
 }

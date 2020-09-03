@@ -15,33 +15,39 @@ export class OperatorsTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'iata-header',
-        'text',
+        'search',
         'IATA',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('2', '2', '2'),
+        'filter_iataCode',
+        'iataCode'
       ),
       new ColumnHeaderModel(
         'icao-header',
-        'text',
+        'search',
         'ICAO',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('2', '2', '2'),
+        'filter_icaoCode',
+        'icaoCode'
       ),
       new ColumnHeaderModel(
         'name-header',
-        'text',
+        'search',
         'Name',
-        new ColumnHeaderSizeModel('3', '3', '3')
+        new ColumnHeaderSizeModel('5', '5', '3'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
         'revision-header',
         'text',
         'Revision AOC',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        new ColumnHeaderSizeModel('', '', '2')
       ),
       new ColumnHeaderModel(
         'actions-header',

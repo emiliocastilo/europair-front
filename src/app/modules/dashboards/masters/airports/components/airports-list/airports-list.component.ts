@@ -7,8 +7,12 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { BarButton, BarButtonType } from 'src/app/core/models/menus/button-bar/bar-button';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Airport, EMPTY_AIRPORT, CustomsType } from '../../models/airport';
+import { Airport, CustomsType } from '../../models/airport';
 import { Router } from '@angular/router';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
 
 @Component({
   selector: 'app-airports-list',
@@ -21,52 +25,61 @@ export class AirportsListComponent implements OnInit {
     private readonly modalService: ModalService,
     private readonly airportsService: AirportsService,
     private readonly airportsTableAdapterService: AirportsTableAdapterService,
-    private readonly router: Router
+    private readonly router: Router,
+    private fb: FormBuilder,
   ) { }
 
-  @ViewChild('confirmDeleteModal', { static: true, read: ElementRef })
-  private readonly confirmDeleteModal: ElementRef;
+  @ViewChild('confirmMultipleDisableModal', { static: true, read: ElementRef })
+  private readonly confirmMultipleDisableModal: ElementRef;
   @ViewChild('confirmDisableModal', { static: true, read: ElementRef })
   private readonly confirmDisableModal: ElementRef;
 
-  public pageTitle = 'Aeropuertos';
+  public readonly pageTitle = 'AIRPORTS.PAGE_TITLE';
   public airportColumnsHeader: Array<ColumnHeaderModel>;
   public airportsColumnsData: Array<RowDataModel>;
-  public airportsSelectedCount = 0;
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo aeropuerto' },
-    { type: BarButtonType.DELETE, text: 'Borrar' },
-    { type: BarButtonType.SEARCH, text: 'Buscar' },
-    { type: BarButtonType.CHECK, text: 'Ver inactivos' }
+    { type: BarButtonType.NEW, text: 'AIRPORTS.NEW' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'AIRPORTS.DISABLE' },
+    { type: BarButtonType.SEARCH, text: '' },
   ];
   public airportPagination: PaginationModel;
   public airportDetailTitle: string;
-  public airportSelected: Airport = EMPTY_AIRPORT;
 
   private selectedItem: number;
-  private airports: Array<Airport>;
-  private filter: string;
-  private showDisabled: boolean;
+  public selectedItems: number[] = [];
+  public airports: Array<Airport>;
+  private airportFilter: any = {};
+  public translationParams = {};
+
+  public airportAdvancedSearchForm = this.fb.group({
+    filter_iataCode: [''],
+    filter_icaoCode: [''],
+    filter_name: [''],
+    'filter_city.name': [''],
+    'filter_country.name': [''],
+    filter_removedAt: [null],
+    search: ['']
+  });
+  public airportSortForm = this.fb.group({
+    sort: [''],
+  });
 
   private readonly barButtonActions = {
     new: this.newAirport.bind(this),
-    custom: this.disableAirport.bind(this)
+    delete_selected: this.disableSelectedAirports.bind(this),
   };
   private readonly airportTableActions = {
-    view: this.viewAirport.bind(this),
     edit: this.editAirport.bind(this),
-    delete: this.deleteAirport.bind(this),
     disable: this.disableAirport.bind(this)
   };
 
   ngOnInit(): void {
-    this.showDisabled = false;
     this.airportColumnsHeader = this.airportsTableAdapterService.getAirportListColumnsHeader();
-    this.obtainAirportsTable();
+    this.filterAirportTable();
   }
 
-  private obtainAirportsTable(): void {
-    this.airportsService.getAirports(this.showDisabled, this.filter).subscribe((data: Page<Airport>) => {
+  private obtainAirportsTable(searchFilter?: SearchFilter): void {
+    this.airportsService.getAirports(searchFilter).subscribe((data: Page<Airport>) => {
       this.airports = data.content.map((airport: Airport) => {
         return {
           ...airport,
@@ -94,53 +107,56 @@ export class AirportsListComponent implements OnInit {
   }
 
   public onSearch(value: string): void {
-    this.filter = value;
-    this.obtainAirportsTable();
+    this.airportFilter['search'] = value;
+    this.filterAirportTable();
   }
 
-  public onAirportSelected(selectedIndex: number): void {
-    this.selectedItem = selectedIndex;
+  public onAirportsSelected(selectedItems: number[]): void {
+    this.selectedItems = selectedItems;
   }
 
   public onAirportAction(action: { actionId: string; selectedItem: number }): void {
+    this.selectedItem = action.selectedItem;
     this.airportTableActions[action.actionId](action.selectedItem);
   }
 
   private newAirport(): void {
-    // TODO: Routing new screen
     this.router.navigate(['airports', 'new']);
   }
 
-  private viewAirport(selectedItem: number): void {
-    // TODO: Routing new screen
-  }
-
-  private editAirport(selectedItem: number): void {
-    // TODO: Routing new screen
-    this.router.navigate(['airports', this.airports[selectedItem].id ]);
-  }
-
-  private deleteAirport(selectedItem: number): void {
-    this.selectedItem = selectedItem;
-    this.initializeModal(this.confirmDeleteModal);
+  private disableSelectedAirports(): void {
+    this.initializeModal(this.confirmMultipleDisableModal);
     this.modalService.openModal();
   }
 
+  private editAirport(selectedItem: number): void {
+    this.router.navigate(['airports', this.airports[selectedItem].id ]);
+  }
+
   private disableAirport(selectedItem: number): void {
-    this.selectedItem = selectedItem;
+    this.translationParams = {airport: this.airports[selectedItem]?.name};
     this.initializeModal(this.confirmDisableModal);
     this.modalService.openModal();
   }
 
-  public onConfirmDeleteAirport(): void {
-    this.airportsService.deleteAirport(this.getAirportModel(this.airports[this.selectedItem])).subscribe(() => {
-      this.obtainAirportsTable();
-    });
+  public onFilterAirports(airportFilter: ColumnFilter) {
+    this.airportFilter[airportFilter.identifier] = airportFilter.searchTerm;
+    this.filterAirportTable();
+  }
+
+  public onSortAirports(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.airportSortForm.patchValue({ sort: sort });
+    this.filterAirportTable();
+  }
+
+  public onConfirmDisableMultipleAirports() {
+    console.log('DELETING AIRPORTS ', this.selectedItems.map(item => this.airports[item].id));
   }
 
   public onConfirmDisableAirport(): void {
     this.airportsService.disableAirport(this.getAirportModel(this.airports[this.selectedItem])).subscribe(() => {
-      this.obtainAirportsTable();
+      this.filterAirportTable();
     });
   }
 
@@ -152,8 +168,23 @@ export class AirportsListComponent implements OnInit {
       simpleCustoms: undefined
     };
   }
+
   public checkShowDisabled(showDisabled: boolean): void {
-    this.showDisabled = showDisabled;
-    this.obtainAirportsTable();
+    if (showDisabled) {
+      this.airportFilter['filter_removedAt'] = '';
+    } else {
+      this.airportFilter['filter_removedAt'] = null;
+    }
+    this.filterAirportTable();
+  }
+
+  private filterAirportTable(): void {
+    this.airportAdvancedSearchForm.patchValue(this.airportFilter);
+    const filter = {
+      ...this.airportAdvancedSearchForm.value,
+      ...this.airportSortForm.value,
+    };
+    console.log('FILTERING', filter);
+    this.obtainAirportsTable(filter);
   }
 }

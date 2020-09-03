@@ -4,12 +4,7 @@ import {
   OnDestroy,
   Renderer2,
   Input,
-  OnChanges,
-  SimpleChanges,
   OnInit,
-  AfterViewInit,
-  AfterContentInit,
-  AfterViewChecked,
   AfterContentChecked,
 } from '@angular/core';
 
@@ -26,7 +21,6 @@ export class MatCollapsibleDirective
   } = { state: 'closed', openIconOverride: true };
 
   private matCollapsibleInstance: M.Collapsible;
-  private componentInitiation = false;
   private initialIcon: string;
   private readonly openIcon = 'keyboard_arrow_down';
   private readonly closeIcon = 'keyboard_arrow_up';

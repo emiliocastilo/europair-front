@@ -1,7 +1,7 @@
 <core-page-bar [pageTitle]="pageTitle"></core-page-bar>
 <core-button-bar
   [barButtons]="barButtons"
-  [itemsSelectedCount]="operatorsSelectedCount"
+  [itemsSelectedCount]="selectedItems.length"
   (executeAction)="onBarButtonClicked($event)"
 >
 </core-button-bar>
@@ -11,37 +11,62 @@
     [columnsHeader]="operatorColumnsHeader"
     [columnsData]="operatorColumnsData"
     [pagination]="operatorColumnsPagination"
-    (selectedItem)="onOperatorSelected($event)"
+    (search)="onFilterOperators($event)"
+    (sortByColumn)="onSortOperators($event)"
+    (selectedItems)="onOperatorsSelected($event)"
     (executeActionEmitter)="onOperatorAction($event)"
   >
   </core-table>
 </section>
 
-<core-modal>
+<core-modal #confirmDisableModal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'OPERATORS.CONFIRM_DISABLE' | translate}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{'COMMON.CANCEL' | translate}}
       </a>
     </section>
     <section class="modal-body">
-      <p>
-        ¿Está seguro que desea eliminar el operador
-        <b>{{ operatorSelected?.name }}</b> ?
-      </p>
+      <p [innerHTML]="'OPERATORS.MSG_DISABLE' | translate:translationParams"></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a
       class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
-      (click)="onConfirmDeleteOperator()"
+      (click)="onConfirmDisableOperator()"
     >
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">
         {{ "COMMON.CONFIRM" | translate }}
       </span>
+    </a>
+  </ng-container>
+</core-modal>
+
+<core-modal #confirmMultipleDisableModal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{'OPERATORS.CONFIRM_DISABLE_MULTIPLE' | translate}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{'COMMON.CANCEL' | translate}}
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>{{ 'OPERATORS.MSG_DISABLE_MULTIPLE' | translate:translationParams }}</p>
+      <ul class="cmd-ml-1">
+        <li *ngFor="let index of selectedItems">
+          <b>{{ operators[index]?.name }}</b>
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDisableMultipleOperators()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{'COMMON.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>

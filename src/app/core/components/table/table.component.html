@@ -7,25 +7,35 @@
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           <div class="search-header-wrapper cmd-flex valign-wrapper">
-            <core-basic-input-text 
-              [id]="columnHeader.identifier" [label]="columnHeader.label | translate" [iconConfig]="iconConfig" [clearable]="true"
+            <core-basic-input-text *ngIf="columnHeader.size.large !== '1'"
+              [id]="columnHeader.identifier" [label]="columnHeader.label | translate" [clearable]="true"
               (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
             </core-basic-input-text>
-            <core-sort-button *ngIf="columnHeader.filterId"
-              [sortOrder]="sortingByColumn[columnHeader.filterId]"
-              [filterId]="columnHeader.filterId" 
+            <core-basic-input-text *ngIf="columnHeader.size.large === '1'"
+              [id]="columnHeader.identifier" [label]="columnHeader.label | translate"
+              (searchChanged)="onSearchHeaderChanged($event, columnHeader.filterId)">
+          </core-basic-input-text>
+            <core-sort-button *ngIf="columnHeader.sortId"
+              [sortOrder]="sortingByColumn[columnHeader.sortId]"
+              [sortId]="columnHeader.sortId" 
               (sortByColumn)="onSortByColumn($event)">
             </core-sort-button>
           </div>
+        </article>
+        <article *ngSwitchCase="'selectAll'" class="col"
+          [ngClass]="['master-table-column-header-'+headerIndex
+          , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
+          <core-table-column-checkbox [id]="'select-all-check'" (changeValue)="onSelectAll($event)">
+          </core-table-column-checkbox>
         </article>
         <!--TEST HEADER-->
         <article *ngSwitchDefault class="col"
           [ngClass]="['master-table-column-header-'+headerIndex
             , 'm'+columnHeader.size.medium, 'l'+columnHeader.size.large]">
           {{columnHeader.label | translate}}
-          <core-sort-button *ngIf="columnHeader.filterId"
-            [sortOrder]="sortingByColumn[columnHeader.filterId]"
-            [filterId]="columnHeader.filterId" 
+          <core-sort-button *ngIf="columnHeader.sortId"
+            [sortOrder]="sortingByColumn[columnHeader.sortId]"
+            [sortId]="columnHeader.sortId" 
             (sortByColumn)="onSortByColumn($event)">
           </core-sort-button>
         </article>
@@ -33,7 +43,7 @@
     </ng-container>
   </section>
   <section class="row master-table-data-row" [appTableAuditTooltip]="columnData"
-    [ngClass]="{'activate' : rowDataIndex === internalSelectedItem}"
+    [ngClass]="{'activate' : isRowSelected(rowDataIndex)}"
     *ngFor="let columnData of columnsDataToShow; index as rowDataIndex" (click)="activate(rowDataIndex)">
     <ng-container *ngFor="let item of columnData.columns; index as colDataIndex">
       <ng-container [ngSwitch]="item.type">
@@ -41,7 +51,7 @@
           [ngClass]="['master-table-data-col-'+colDataIndex
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <core-table-column-checkbox *ngIf="item.value.linkedWithActive" [id]="'principalCheck'" [value]="rowDataIndex"
-            [label]="item.value.label" [link]="item.value.link" [checked]="rowDataIndex === internalSelectedItem"
+            [label]="item.value.label" [link]="item.value.link" [checked]="isRowSelected(rowDataIndex)"
             (click)="$event.preventDefault()"></core-table-column-checkbox>
           <core-table-column-checkbox *ngIf="!item.value.linkedWithActive" [id]="item.value.id" [value]="item.value.value"
             [label]="item.value.label" [link]="item.value.link">
@@ -79,9 +89,9 @@
             , 'm'+columnsHeader[colDataIndex].size.medium, 'l'+columnsHeader[colDataIndex].size.large]">
           <div class="custom-switch">
             <label class="custom-control-label" [for]="item.value.id">
-            <input *ngIf="item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
+            <input *ngIf="item.value.check" (click)="changeStatus(item.value.id,rowDataIndex)" type="checkbox"
               class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable" checked>
-            <input *ngIf="!item.value.check" (click)="changeStatus($event, item.value.id)" type="checkbox"
+            <input *ngIf="!item.value.check" (click)="changeStatus(item.value.id,rowDataIndex)" type="checkbox"
               class="custom-control-input" [id]="item.value.id" [disabled]="item.value.disable">
               <span></span>
             </label>
@@ -104,7 +114,9 @@
 </div>
 
 <core-letter-table [columnsData]="columnsDataToShow" 
-  [columnsHeader]="columnsHeader" [internalSelectedItem]="internalSelectedItem"
+  [columnsHeader]="columnsHeader" [internalSelectedItems]="internalSelectedItems"
+  (executeActionEmitter)="executeAction($event.actionId, $event.selectedItem)"
+  (switchChangesStatus)="changeStatus($event.id,$event.selectedItem)"
   (selectedValue)="activate($event.value)"></core-letter-table>
 
 <core-table-pagination 

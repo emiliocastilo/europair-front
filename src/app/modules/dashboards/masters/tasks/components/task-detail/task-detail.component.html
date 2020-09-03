@@ -24,6 +24,8 @@
       [columnsData]="screenColumnsData"
       [pagination]="pagination"
       (switchChangesStatus)="screenAssignedChanged($event)"
+      (search)="onFilterScreens($event)" 
+      (sortByColumn)="onSortScreens($event)"
       ></core-table>
     </section>
   </div>

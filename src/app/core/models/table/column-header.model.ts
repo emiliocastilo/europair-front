@@ -6,6 +6,7 @@ export class ColumnHeaderModel {
     public type: string,
     public label: string,
     public size: ColumnHeaderSizeModel,
-    public filterId?: string
+    public filterId?: string,
+    public sortId?: string
   ) {}
 }

@@ -16,7 +16,8 @@ export class ColumnActionsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public executeAction(id: string, selectedItem: number) {
+  public executeAction(event: Event, id: string, selectedItem: number) {
+    event.stopPropagation();
     this.executeActionEmitter.emit({
       actionId: id,
       selectedItem: selectedItem,

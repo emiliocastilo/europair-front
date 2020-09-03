@@ -5,6 +5,7 @@
     "CREATE": "crear",
     "DELETE": "eliminar",
     "EDIT": "editar",
+    "CANCEL": "cancelar",
     "GENERAL_DATA": "datos generales",
     "NAME": "nombre",
     "OBSERVATIONS": "observaciones",
@@ -12,7 +13,17 @@
     "ABBREVIATIONS": {
       "IATA_CODE": "Cód. IATA",
       "ICAO_CODE": "Cód. ICAO"
-    }
+    },
+    "VIEW_DISABLED": "Ver inactivos"
+  },
+  "AIRPORTS": {
+    "PAGE_TITLE": "Aeropuertos",
+    "NEW": "Nuevo Aeropuerto",
+    "DISABLE": "Deshabilitar",
+    "CONFIRM_DISABLE": "Deshabilitar aeropuerto",
+    "CONFIRM_DISABLE_MULTIPLE": "Deshabilitar aeropuertos",
+    "MSG_DISABLE": "¿Está seguro que desea deshabilitar el aeropuerto <strong>{{ airport }}</strong>?",
+    "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes aeropuertos?"
   },
   "AIRCRAFT": {
     "NEW": "Nueva Aeronave",
@@ -48,6 +59,11 @@
   },
   "OPERATORS": {
     "NEW": "Nuevo operador",
+    "DISABLE": "Deshabilitar",
+    "CONFIRM_DISABLE": "Deshabilitar operador",
+    "CONFIRM_DISABLE_MULTIPLE": "Deshabilitar operadores",
+    "MSG_DISABLE": "¿Está seguro que desea deshabilitar el operador <strong>{{ operator }}</strong>?",
+    "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes operadores?",
     "DETAIL": "Detalle operador",
     "AOC_LAST_REVISION_DATE": "Fecha de revisión AOC",
     "AOC_NUMBER": "Número AOC",
@@ -137,7 +153,8 @@
     "CONFIRM": "Confirmar",
     "SAVE": "Guardar",
     "CONFIRM_DELETE": "Confirmar eliminación",
-    "MSG_DELETE": "¿Está seguro que desea eliminar este registro?",
+    "MSG_DELETE": "¿Está seguro que desea eliminar la tarea <strong>{{ task }}</strong>?",
+    "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar las siguientes tareas?",
     "ROL": "Rol",
     "TASK": "Tarea",
     "SCREEN": "Pantalla",

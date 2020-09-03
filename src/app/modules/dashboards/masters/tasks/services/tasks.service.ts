@@ -4,34 +4,31 @@ import { Observable } from 'rxjs';
 import { Task } from '../models/task';
 import { environment } from 'src/environments/environment';
 import { Screen } from '../models/screen';
-import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TasksService {
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = { filter_name: OperatorEnum.CONTAINS } as const;
+
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
   public getTasks(searchFilter: SearchFilter = {}): Observable<Task[]> {
     const url = environment.apiUrl + 'tasks';
     return this.http.get<Task[]>(url, {
-      params: this.filterEmptyString(searchFilter),
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
     });
   }
 
-  private filterEmptyString(searchFilter: SearchFilter): SearchFilter {
-    const clonedSearchFilter = { ...searchFilter };
-    Object.keys(searchFilter).forEach((key) => {
-      if (searchFilter[key] === '') {
-        delete clonedSearchFilter[key];
-      }
-    });
-    return clonedSearchFilter;
-  }
-
-  public getScreens(): Observable<Screen[]> {
+  public getScreens(searchFilter: SearchFilter = {}): Observable<Screen[]> {
     const url = environment.apiUrl + 'screens';
-    return this.http.get<Screen[]>(url + '?size=2000');
+    return this.http.get<Screen[]>(url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
+    });
   }
 
   public addTask(task: Task): Observable<Task> {

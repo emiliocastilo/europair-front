@@ -8,7 +8,6 @@ import { TasksTableAdapterService } from './services/tasks-table-adapter.service
 import { TasksService } from './services/tasks.service';
 import { Screen } from './models/screen';
 import { Task, EMPTY_TASK } from './models/task';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Observable, forkJoin } from 'rxjs';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
@@ -28,8 +27,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class TasksComponent implements OnInit {
   @ViewChild(TaskDetailComponent, { static: true, read: ElementRef })
   public taskDetailModal: ElementRef;
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  @ViewChild('deleteTask', { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
+  @ViewChild('deleteMultipleTasks', { static: true, read: ElementRef })
+  public confirmMultipleDeleteModal: ElementRef;
   @ViewChild(AdvancedSearchComponent, { static: true, read: ElementRef })
   public taskAdvancedSearch: ElementRef;
   @ViewChild(SortMenuComponent, { static: true, read: ElementRef })
@@ -44,14 +45,15 @@ export class TasksComponent implements OnInit {
   public taskColumnsPagination: PaginationModel;
   public screenColumnsPagination: PaginationModel;
   public pageTitle = 'Tareas';
-  public tasksSelectedCount = 0;
   public screens: Screen[];
-  private tasks: Task[];
+  public tasks: Task[];
   public taskDetailTitle: string;
   public taskSelected: Task = EMPTY_TASK;
   public showMobileSearchBar: boolean = false;
   private selectedItem: number = -1;
+  public selectedItems: number[] = [];
   public barButtons: BarButton[];
+  public translationParams = {};
 
   private newTask = () => {
     this.taskDetailTitle = this.translateService.instant('TASKS.CREATE');
@@ -62,9 +64,16 @@ export class TasksComponent implements OnInit {
   private toggleSearchBar = () => {
     this.showMobileSearchBar = !this.showMobileSearchBar;
   };
+
+  private deleteSelectedTasks = () => {
+    this.initializeModal(this.confirmMultipleDeleteModal);
+    this.modalService.openModal();
+  };
+
   private barButtonActions = {
     new: this.newTask,
     search: this.toggleSearchBar,
+    delete_selected: this.deleteSelectedTasks,
   };
 
   private editTask = (selectedItem: number) => {
@@ -75,6 +84,7 @@ export class TasksComponent implements OnInit {
   };
   private deleteTask = (selectedItem: number) => {
     this.selectedItem = selectedItem;
+    this.translationParams = {task: this.tasks[selectedItem]?.name};
     this.initializeModal(this.confirmDeleteModal);
     this.modalService.openModal();
   };
@@ -84,7 +94,7 @@ export class TasksComponent implements OnInit {
   };
 
   public taskAdvancedSearchForm = this.fb.group({
-    name: [''],
+    filter_name: [''],
   });
   public taskSortForm = this.fb.group({
     sort: [''],
@@ -113,8 +123,8 @@ export class TasksComponent implements OnInit {
     }).subscribe((data: { newTask: string, deleteTask: string, searchTask: string }) => {
       this.barButtons = [
         { type: BarButtonType.NEW, text: data.newTask },
-        { type: BarButtonType.DELETE_SELECTED, text: data.deleteTask },
         { type: BarButtonType.SEARCH, text: data.searchTask },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteTask },
       ];
     });
   }
@@ -131,9 +141,6 @@ export class TasksComponent implements OnInit {
       this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
         tasks['content']
       );
-      if (this.selectedItem >= 0) {
-        this.onTaskSelected(this.selectedItem);
-      }
       this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
       this.taskColumnsPagination.lastPage =
         this.taskColumnsData.length /
@@ -141,12 +148,20 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  private initializeScreenTable() {
-    this.taskService.getScreens().subscribe((screens) => {
+  private initializeScreenTable(searchFilter?: SearchFilter) {
+    this.taskService.getScreens(searchFilter).subscribe((screens) => {
       this.screens = screens['content'];
       this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
       this.screenColumnsPagination.lastPage =
         this.screens.length / this.screenColumnsPagination.elementsPerPage;
+      if(this.taskSelected) {
+        this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
+          this.screens,
+          this.taskSelected,
+          true,
+          'assigned-editable-'
+        );
+      }
     });
   }
 
@@ -171,17 +186,21 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  public onTaskSelected(selectedIndex: number) {
-    this.selectedItem = selectedIndex;
-    this.screenColumnsData = this.taskTableAdapterService.getScreenOfTask(
-      this.screens,
-      this.tasks[selectedIndex],
-      false,
-      'assigned-'
-    );
+  public onTasksSelected(selectedItems: number[]) {
+    this.selectedItems = selectedItems;
+    if (this.selectedItems.length === 1) {
+      this.screenColumnsData = this.taskTableAdapterService.getScreenOfTask(
+        this.tasks[selectedItems[0]],
+        false,
+        'assigned-'
+      );
+    } else {
+      this.screenColumnsData = [];
+    }
   }
 
   public onTaskAction(action: { actionId: string; selectedItem: number }) {
+    this.selectedItem = action.selectedItem;
     this.taskTableActions[action.actionId](action.selectedItem);
   }
 
@@ -193,54 +212,51 @@ export class TasksComponent implements OnInit {
     this.taskService
       .deleteTask(this.tasks[this.selectedItem])
       .subscribe((response) => {
-        console.log(response);
-        this.initializeTaskTable();
+        this.filterTaskTable();
         this.screenColumnsData = [];
       });
+  }
+
+  public onConfirmDeleteMultipleTasks() {
+    console.log('DELETING TASKS ', this.selectedItems.map(item => this.tasks[item].id));
+    // this.selectedItems.forEach(item => console.log('DELETING ', this.tasks[item]));
   }
 
   public onSaveTask(task: Task) {
     this.modalService.closeModal();
     const save: Observable<Task> = task.id ? this.taskService.editTask(task) : this.taskService.addTask(task);
     save.subscribe((task) => {
-      console.log(task);
-      this.initializeTaskTable();
-      this.initializeScreenTable();
+      this.filterTaskTable();
     });
   }
 
   public onFilterTasks(taskFilter: ColumnFilter) {
     const filter = {};
     filter[taskFilter.identifier] = taskFilter.searchTerm;
-    console.log('FILTER BY', filter);
     this.taskAdvancedSearchForm.patchValue(filter);
     this.filterTaskTable();
   }
 
   public onMobileBasicSearch(searchTerm: string) {
-    this.taskAdvancedSearchForm.patchValue({ name: searchTerm });
-    console.log('FILTER MOBILE BY', this.taskAdvancedSearchForm.value);
+    this.taskAdvancedSearchForm.patchValue({ filter_name: searchTerm });
     this.filterTaskTable();
   }
 
   public onMobileAdvancedSearch() {
-    console.log('ADVANCED FILTER BY', this.taskAdvancedSearchForm.value);
     this.filterTaskTable();
   }
 
   public onSortTasks(sortByColumn: SortByColumn) {
     const sort = sortByColumn.column + ',' + sortByColumn.order;
     this.taskSortForm.patchValue({ sort: sort });
-    console.log('DESKTOP SORTING', this.taskSortForm.value);
     this.filterTaskTable();
   }
 
-  public onMobileSort() {
-    console.log('MOBILE SORTING', this.taskSortForm.value);
+  public onMobileSort(): void {
     this.filterTaskTable();
   }
 
-  private filterTaskTable() {
+  private filterTaskTable(): void {
     const filter = {
       ...this.taskAdvancedSearchForm.value,
       ...this.taskSortForm.value,
@@ -248,12 +264,16 @@ export class TasksComponent implements OnInit {
     this.initializeTaskTable(filter);
   }
 
-  public onOpenAdvancedSearch() {
+  public onScreenFilterChanged(screenFilter: SearchFilter): void {
+    this.initializeScreenTable(screenFilter);
+  }
+
+  public onOpenAdvancedSearch(): void {
     this.initializeModal(this.taskAdvancedSearch);
     this.modalService.openModal();
   }
 
-  public onOpenSortMenu() {
+  public onOpenSortMenu(): void {
     this.initializeModal(this.taskSortMenu);
     this.modalService.openModal();
   }

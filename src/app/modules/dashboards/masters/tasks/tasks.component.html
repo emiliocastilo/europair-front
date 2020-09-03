@@ -1,5 +1,5 @@
 <core-page-bar [pageTitle]="'TASKS.PAGE_TITLE' | translate"></core-page-bar>
-<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="tasksSelectedCount"
+<core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="selectedItems?.length"
   (executeAction)="onBarButtonClicked($event)">
 </core-button-bar>
 <core-search-bar [ngClass]="{'hide': !showMobileSearchBar}" class="hide-on-med-and-up"
@@ -9,7 +9,7 @@
 <section class="tasks-tables-container cmd-mt-1">
   <section class="tasks-table">
     <core-table [columnsHeader]="taskColumnsHeader" [columnsData]="taskColumnsData" [pagination]="taskColumnsPagination"
-      (selectedItem)="onTaskSelected($event)" (executeActionEmitter)="onTaskAction($event)"
+      (selectedItems)="onTasksSelected($event)" (executeActionEmitter)="onTaskAction($event)"
       (search)="onFilterTasks($event)" (sortByColumn)="onSortTasks($event)">
     </core-table>
   </section>
@@ -22,7 +22,7 @@
 
 <app-task-detail [title]="taskDetailTitle" [screenColumnsHeader]="taskDetailScreenColumnsHeader"
   [screenColumnsData]="taskDetailScreenColumnsData" [screens]="screens" [pagination]="screenColumnsPagination"
-  [taskDetail]="taskSelected" (saveTask)="onSaveTask($event)">
+  [taskDetail]="taskSelected" (saveTask)="onSaveTask($event)" (screenFilterChanged)="onScreenFilterChanged($event)">
 </app-task-detail>
 
 <core-advanced-search>
@@ -30,7 +30,7 @@
     <form [formGroup]="taskAdvancedSearchForm">
       <div class="row">
         <core-basic-input-text [id]="'advanced-search-name'" [label]="'TASKS.NAME' | translate" [clearable]="true"
-          formControlName="name">
+          formControlName="filter_name">
         </core-basic-input-text>
       </div>
     </form>
@@ -68,7 +68,7 @@
   </ng-container>
 </core-sort-menu>
 
-<core-modal>
+<core-modal #deleteTask>
   <ng-container content>
     <section class="modal-header">
       <h4>{{'TASKS.CONFIRM_DELETE' | translate}}</h4>
@@ -78,11 +78,37 @@
       </a>
     </section>
     <section class="modal-body">
-      <p>{{'TASKS.MSG_DELETE' | translate}}</p>
+      <p [innerHTML]="'TASKS.MSG_DELETE' | translate:translationParams"></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteTask()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{'TASKS.CONFIRM' | translate}}</span>
+    </a>
+  </ng-container>
+</core-modal>
+
+<core-modal #deleteMultipleTasks>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{'TASKS.CONFIRM_DELETE' | translate}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{'TASKS.CANCEL' | translate}}
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>{{ 'TASKS.MSG_DELETE_MULTIPLE' | translate:translationParams }}</p>
+      <ul class="cmd-ml-1">
+        <li *ngFor="let index of selectedItems">
+          <b>{{ tasks[index]?.name }}</b>
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteMultipleTasks()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">{{'TASKS.CONFIRM' | translate}}</span>
     </a>

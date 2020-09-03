@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { City } from '../models/city';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-filter';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +14,18 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 export class CitiesService {
   private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}cities`;
+  private readonly filterOptions: FilterOptions = { 
+    filter_name: OperatorEnum.CONTAINS, 
+    'filter_country.id': OperatorEnum.EQUALS 
+  } as const;
 
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }
 
-  public getCities(): Observable<Page<City>> {
+  public getCities(searchFilter: SearchFilter = {}): Observable<Page<City>> {
     const url: string = this.mocked ? '/assets/mocks/cities.json' : this.url;
-    return this.httpClient.get<Page<City>>(url);
+    return this.httpClient.get<Page<City>>(url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
+    });
   }
 
   public addCity(city: City): Observable<City> {
