@@ -121,28 +121,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   }
 
   private loadTimeZones(): void {
-    this.timeZones$ = this.timeConversionService
-      .getTimeZones()
-      .pipe(map(this.formatTimeZoneDescription));
-  }
-
-  private formatTimeZoneDescription = (timeZones: TimeZone[]): TimeZone[] => {
-    return timeZones.map((timeZone: TimeZone) => {
-      return {
-        ...timeZone,
-        description: `UTC ${this.getUTCSymbol(timeZone.hours)}${
-          timeZone.hours
-        }${this.getUTCMinutes(timeZone.minutes)}`,
-      };
-    });
-  };
-
-  private getUTCSymbol(hours: string): string {
-    return Number(hours) < 0 ? '' : '+';
-  }
-
-  private getUTCMinutes(minutes: string): string {
-    return Number(minutes) > 0 ? `:${minutes}` : '';
+    this.timeZones$ = this.timeConversionService.getTimeZones();
   }
 
   private initGeneralDataFormSubscriptions(): void {
@@ -164,8 +143,6 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
       .subscribe(
         (country: Country) => (this.countryIdSelected = country.id.toString())
       );
-
-    this.generalDataForm.valueChanges.subscribe(console.log);
   }
 
   public hasControlAnyError(controlName: string): boolean {
