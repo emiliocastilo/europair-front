@@ -149,6 +149,20 @@ export class OperatorListComponent implements OnInit {
     this.barButtonActions[barButtonType].bind(this)();
   }
 
+  public onSearch(value: string): void {
+    this.operatorFilter['search'] = value;
+    this.filterOperatorTable();
+  }
+
+  public checkShowDisabled(showDisabled: boolean): void {
+    if (showDisabled) {
+      this.operatorFilter['filter_removedAt'] = '';
+    } else {
+      this.operatorFilter['filter_removedAt'] = null;
+    }
+    this.filterOperatorTable();
+  }
+
   public onOperatorAction(action: { actionId: string; selectedItem: number }) {
     this.operatorSelected = { ...this.operators[action.selectedItem] };
     this.operatorTableActions[action.actionId].bind(this)(action.selectedItem);
@@ -157,7 +171,7 @@ export class OperatorListComponent implements OnInit {
   public onConfirmDisableOperator() {
     this.operatorsService
       .removeOperator(this.operatorSelected)
-      .subscribe((_) => this.initializeOperatorsTable());
+      .subscribe((_) => this.filterOperatorTable());
   }
 
   public onConfirmDisableMultipleOperators() {
@@ -178,7 +192,6 @@ export class OperatorListComponent implements OnInit {
       ...this.operatorAdvancedSearchForm.value,
       ...this.operatorSortForm.value,
     };
-    console.log('FILTERING', filter);
     this.initializeOperatorsTable(filter);
   }
 }

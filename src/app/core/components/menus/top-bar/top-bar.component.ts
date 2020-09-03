@@ -14,7 +14,7 @@ export class TopBarComponent implements OnInit {
     { type: BarButtonType.DELETE, text: 'Borrar' },
   ];
   @Input()
-  public airportsSelectedCount: number = 0;
+  public itemsSelectedCount: number = 0;
 
   @Output()
   public executeAction: EventEmitter<BarButtonType> = new EventEmitter();
