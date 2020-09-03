@@ -131,21 +131,6 @@ export class UsersComponent implements OnInit {
 
   public onUserSelected(selectedIndex: number) { }
 
-  private viewUser = (selectedItem: number) => {
-    this.getTasksAndRoles$().subscribe(this.getViewUserDetailData);
-  };
-
-  private getViewUserDetailData = (data: any) => {
-    this.updateUserForm(this.userSelected);
-    this.userForm.disable();
-    this.getUserDetailData(
-      data,
-      this.translateService.instant('USERS.VIEW_USER'),
-      this.userSelected,
-      false
-    );
-  };
-
   private editUser = (selectedItem: number) => {
     this.getTasksAndRoles$().subscribe(this.getEditUserDetailData);
   };
@@ -168,7 +153,6 @@ export class UsersComponent implements OnInit {
   }
 
   private userTableActions = {
-    view: this.viewUser,
     edit: this.editUser,
     delete: this.deleteUser,
   };
