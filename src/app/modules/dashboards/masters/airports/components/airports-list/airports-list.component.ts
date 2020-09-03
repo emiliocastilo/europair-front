@@ -155,18 +155,9 @@ export class AirportsListComponent implements OnInit {
   }
 
   public onConfirmDisableAirport(): void {
-    this.airportsService.disableAirport(this.getAirportModel(this.airports[this.selectedItem])).subscribe(() => {
+    this.airportsService.deleteAirport(this.airports[this.selectedItem]).subscribe(() => {
       this.filterAirportTable();
     });
-  }
-
-  private getAirportModel(airport: Airport): Airport {
-    const customs: CustomsType = airport.simpleCustoms ? CustomsType.YES : CustomsType.NO;
-    return {
-      ...airport,
-      customs,
-      simpleCustoms: undefined
-    };
   }
 
   public checkShowDisabled(showDisabled: boolean): void {

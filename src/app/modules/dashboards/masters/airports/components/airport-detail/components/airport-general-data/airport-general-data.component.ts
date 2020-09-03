@@ -25,6 +25,8 @@ import { Country } from 'src/app/modules/dashboards/masters/countries/models/cou
 import { FlightRulesType, CustomsType } from '../../../../models/airport';
 import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
 import { TranslateService } from '@ngx-translate/core';
+import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
+import { TimeZone } from 'src/app/core/models/base/time-zone';
 
 @Component({
   selector: 'app-airport-general-data',
@@ -37,13 +39,13 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   @Output()
   public specialConditionsChanged: EventEmitter<boolean> = new EventEmitter();
 
-
-  public measureList: Array<{ label: string, value: MeasureType }>;
+  public measureList: Array<{ label: string; value: MeasureType }>;
   public FLIGHT_RULES_TYPE = FlightRulesType;
   public CUSTOMS_TYPE = CustomsType;
 
   cities$: Observable<City[]>;
   citiesInput$ = new Subject<string>();
+  timeZones$: Observable<TimeZone[]>;
   citiesLoading = false;
   countries$: Observable<Country[]>;
   countriesInput$ = new Subject<string>();
@@ -55,36 +57,25 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
   constructor(
     private countriesService: CountriesService,
     private citiesServices: CitiesService,
-    private translateService: TranslateService
-  ) { }
+    private translateService: TranslateService,
+    private timeConversionService: TimeConversionService
+  ) {}
 
   ngOnInit(): void {
     this.loadCountries();
     this.loadCities();
-    this.generalDataForm
-      .get('specialConditions')
-      .valueChanges.pipe(takeUntil(this.unsubscriber$))
-      .subscribe((specialConditions) =>
-        this.specialConditionsChanged.next(specialConditions)
-      );
-    this.generalDataForm
-      .get('country')
-      .valueChanges.pipe(
-        tap((_) => {
-          this.generalDataForm.get('city').setValue(null);
-        }),
-        filter((country: Country) => !!(country && country.id)),
-        takeUntil(this.unsubscriber$))
-      .subscribe((country: Country) => this.countryIdSelected = country.id.toString()
-      );
-    this.translateService.get('MEASURES.UNITS').subscribe((data: Array<string>) => {
-      this.measureList = MEASURE_LIST.map((measureValue: string) => {
-        return {
-          label: data[measureValue],
-          value: MeasureType[measureValue]
-        }
+    this.loadTimeZones();
+    this.initGeneralDataFormSubscriptions();
+    this.translateService
+      .get('MEASURES.UNITS')
+      .subscribe((data: Array<string>) => {
+        this.measureList = MEASURE_LIST.map((measureValue: string) => {
+          return {
+            label: data[measureValue],
+            value: MeasureType[measureValue],
+          };
+        });
       });
-    });
   }
 
   private loadCities() {
@@ -96,11 +87,16 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(() => (this.citiesLoading = true)),
         switchMap((term) =>
-          this.citiesServices.getCities({filter_name: term, 'filter_country.id': this.countryIdSelected}).pipe(
-            map((page) => page.content),
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.citiesLoading = false))
-          )
+          this.citiesServices
+            .getCities({
+              filter_name: term,
+              'filter_country.id': this.countryIdSelected,
+            })
+            .pipe(
+              map((page) => page.content),
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.citiesLoading = false))
+            )
         )
       )
     );
@@ -114,7 +110,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         tap(() => (this.countriesLoading = true)),
         switchMap((term) =>
-          this.countriesService.getCountries({filter_name: term}).pipe(
+          this.countriesService.getCountries({ filter_name: term }).pipe(
             map((page) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.countriesLoading = false))
@@ -122,6 +118,31 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
         )
       )
     );
+  }
+
+  private loadTimeZones(): void {
+    this.timeZones$ = this.timeConversionService.getTimeZones();
+  }
+
+  private initGeneralDataFormSubscriptions(): void {
+    this.generalDataForm
+      .get('specialConditions')
+      .valueChanges.pipe(takeUntil(this.unsubscriber$))
+      .subscribe((specialConditions) =>
+        this.specialConditionsChanged.next(specialConditions)
+      );
+    this.generalDataForm
+      .get('country')
+      .valueChanges.pipe(
+        tap((_) => {
+          this.generalDataForm.get('city').setValue(null);
+        }),
+        filter((country: Country) => !!(country && country.id)),
+        takeUntil(this.unsubscriber$)
+      )
+      .subscribe(
+        (country: Country) => (this.countryIdSelected = country.id.toString())
+      );
   }
 
   public hasControlAnyError(controlName: string): boolean {
