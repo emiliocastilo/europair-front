@@ -14,7 +14,8 @@
       "IATA_CODE": "Cód. IATA",
       "ICAO_CODE": "Cód. ICAO"
     },
-    "VIEW_DISABLED": "Ver inactivos"
+    "VIEW_DISABLED": "Ver inactivos",
+    "NOT_FOUND": "Sin resultados"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -23,7 +24,29 @@
     "CONFIRM_DISABLE": "Deshabilitar aeropuerto",
     "CONFIRM_DISABLE_MULTIPLE": "Deshabilitar aeropuertos",
     "MSG_DISABLE": "¿Está seguro que desea deshabilitar el aeropuerto <strong>{{ airport }}</strong>?",
-    "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes aeropuertos?"
+    "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes aeropuertos?",
+    "IATA_CODE":"Cód. IATA",
+    "IATA_CODE_REQUIRED": "Debe indicar el código IATA",
+    "ICAO_CODE":"Cód. ICAO",
+    "ICAO_CODE_REQUIRED": "Debe indicar el código ICAO",
+    "NAME": "Nombre",
+    "NAME_REQUIRED": "Debe indicar el nombre",
+    "COUNTRY": "País",
+    "SELECT_COUNTRY": "Selecciona un país",
+    "COUNTRY_REQUIRED": "Debe indicar un país",
+    "COUNTRY_SEARCH_TEXT": "Escriba nombre país",
+    "CITY": "Ciudad",
+    "SELECT_CITY": "Selecciona una ciudad",
+    "CITY_REQUIRED": "Debe indicar una ciudad",
+    "CITY_SEARCH_TEXT": "Escriba nombre ciudad",
+    "TIMEZONE": "Franja horaria",
+    "SELECT_TIMEZONE": "Selecciona una franja horaria",
+    "ELEVATION": "Elevación",
+    "UNIT": "Unidad",
+    "LATITUDE": "Latitud",
+    "LONGITUDE": "Longitud",
+    "CUSTOMS": "Aduanas",
+    "FLIGHT_RULES_TYPE": "Tipo de normas de vuelo"
   },
   "AIRCRAFT": {
     "NEW": "Nueva Aeronave",
