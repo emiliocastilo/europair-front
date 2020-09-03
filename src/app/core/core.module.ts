@@ -28,6 +28,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { SwitchComponent } from './components/basic/switch/switch.component';
 import { MatDropdownDirective } from './directives/mat-dropdown.directive';
+import { TopBarComponent } from './components/menus/top-bar/top-bar.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MatDropdownDirective } from './directives/mat-dropdown.directive';
     SentenceCasePipe,
     SwitchComponent,
     MatDropdownDirective,
+    TopBarComponent,
   ],
   imports: [
     CommonModule,
@@ -82,7 +84,8 @@ import { MatDropdownDirective } from './directives/mat-dropdown.directive';
     MatTooltipDirective,
     TableAuditTooltipDirective,
     SwitchComponent,
-    MatDropdownDirective
+    MatDropdownDirective,
+    TopBarComponent,
   ],
 })
 export class CoreModule {}

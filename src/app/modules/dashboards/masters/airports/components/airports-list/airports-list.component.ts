@@ -175,7 +175,6 @@ export class AirportsListComponent implements OnInit {
       ...this.airportAdvancedSearchForm.value,
       ...this.airportSortForm.value,
     };
-    console.log('FILTERING', filter);
     this.obtainAirportsTable(filter);
   }
 }

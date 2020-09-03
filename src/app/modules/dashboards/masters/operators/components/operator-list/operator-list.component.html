@@ -1,11 +1,8 @@
 <core-page-bar [pageTitle]="pageTitle"></core-page-bar>
-<core-button-bar
-  [barButtons]="barButtons"
-  [itemsSelectedCount]="selectedItems.length"
-  (executeAction)="onBarButtonClicked($event)"
->
-</core-button-bar>
-
+<top-bar [barButtons]="barButtons" [itemsSelectedCount]="selectedItems.length"
+  (executeAction)="onBarButtonClicked($event)" 
+  (executeChangeCheck)="checkShowDisabled($event)" 
+  (executeSearch)="onSearch($event)"></top-bar>
 <section class="users-tables cmd-mt-1">
   <core-table
     [columnsHeader]="operatorColumnsHeader"
