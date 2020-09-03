@@ -34,13 +34,13 @@ export class RegionsTableAdapterService {
         'region-name-header',
         'text',
         'REGIONS.NAME',
-        new ColumnHeaderSizeModel('4', '4', '4')
+        new ColumnHeaderSizeModel('6', '6', '6')
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('4', '4', '4')
+        new ColumnHeaderSizeModel('2', '2', '2')
       ),
     ];
   }
@@ -48,7 +48,6 @@ export class RegionsTableAdapterService {
   public getRegionTableDataFromRegions(regions: Region[]): RowDataModel[] {
     const regionTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'REGION.VIEW', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'REGION.EDIT', 'europair-icon-blue')
     );

@@ -1,3 +1,11 @@
+@import "variables";
+
 .mb0 {
     margin-bottom: 0;
+}
+
+@media #{$small-and-down} {
+  .input-row {
+    margin-bottom: 1rem;
+  }
 }

@@ -19,6 +19,8 @@
               </ng-container>
             </ng-container>
           </core-basic-input-text>
+        </div>
+        <div class="row">
           <core-basic-input-text [id]="'region-name'" [label]="'REGIONS.NAME' | translate" formControlName="name" [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">

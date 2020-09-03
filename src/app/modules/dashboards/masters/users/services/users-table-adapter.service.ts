@@ -58,7 +58,6 @@ export class UsersTableAdapterService {
   public getUserTableDataFromUsers(users: User[]): RowDataModel[] {
     const taskTableData: RowDataModel[] = new Array<RowDataModel>();
     const actions: ColumnActionsModel[] = new Array();
-    actions.push(new ColumnActionsModel('visibility', 'view', 'Ver', 'green'));
     actions.push(
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );

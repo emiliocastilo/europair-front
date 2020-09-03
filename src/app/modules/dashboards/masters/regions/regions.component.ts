@@ -127,21 +127,6 @@ export class RegionsComponent implements OnInit {
     this.regionTableActions[action.actionId](action.selectedItem);
   }
 
-  private viewRegion = (selectedItem: number) => {
-    this.getCountriesAndAirports$().subscribe(this.getViewRegionDetailData);
-  };
-
-  private getViewRegionDetailData = (data: any) => {
-    this.updateRegionrForm(this.regionSelected);
-    this.regionForm.disable();
-    this.getRegionDetailData(
-      data,
-      this.translateService.instant('REGIONS.VIEW_REGION'),
-      this.regionSelected,
-      false
-    );
-  };
-
   private editRegion = (selectedItem: number) => {
     this.getCountriesAndAirports$().subscribe(this.getEditRegionDetailData);
   };
@@ -168,7 +153,6 @@ export class RegionsComponent implements OnInit {
   }
 
   private regionTableActions = {
-    view: this.viewRegion,
     edit: this.editRegion,
     delete: this.deleteRegion,
   };
