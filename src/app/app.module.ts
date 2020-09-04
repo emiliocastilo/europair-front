@@ -1,15 +1,12 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import {
-  HTTP_INTERCEPTORS,
-  HttpClientModule,
   HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor';
-
+import '@angular/common/locales/global/es';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // I18N
 import {
   TranslateLoader,
@@ -17,7 +14,9 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import '@angular/common/locales/global/es';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -27,6 +26,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     // i18n
