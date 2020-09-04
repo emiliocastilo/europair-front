@@ -13,7 +13,7 @@
           <core-basic-input-text [id]="'user-username'" [label]="'USERS.USER' | translate" formControlName="username" [hasErrors]="hasControlAnyError('username')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('username')">
-                <span *ngIf="hasControlSpecificError('username', 'required')" class="helper-text" 
+                <span *ngIf="hasControlSpecificError('username', 'required')" class="helper-text"
                   attr.data-error="{{'USERS.ERROR.NAME' | translate}}">
                 </span>
               </ng-container>
@@ -24,7 +24,7 @@
           <core-basic-input-text [id]="'user-password'" [label]="'USERS.PASSWORD' | translate" [type]="'password'" formControlName="password" [hasErrors]="hasControlAnyError('password')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('password')">
-                <span *ngIf="hasControlSpecificError('password', 'required')" class="helper-text" 
+                <span *ngIf="hasControlSpecificError('password', 'required')" class="helper-text"
                   attr.data-error="{{'USERS.ERROR.PASSWORD' | translate}}">
                 </span>
               </ng-container>
@@ -70,15 +70,26 @@
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'user-timezone'" [label]="'USERS.TIME_ZONE' | translate" formControlName="timeZone" [hasErrors]="hasControlAnyError('timeZone')">
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('timeZone')">
-                <span *ngIf="hasControlSpecificError('timeZone', 'required')" class="helper-text"
-                  attr.data-error="{{'USERS.ERROR.TIME_ZONE' | translate}}">
-                </span>
+
+            <core-select
+              [items]="timeZones$ |async"
+              [id]="'type-category'"
+              [label]="'USERS.TIME_ZONE'"
+              [searchable]="true"
+              [placeholder]="'Selecciona una franja horaria' | translate"
+              [itemValue]="'name'"
+              [itemDescription]="'description'"
+              [hasErrors]="hasControlAnyError('timeZone')"
+              formControlName="timeZone">
+              <ng-container inputErrors>
+                <ng-container *ngIf="hasControlAnyError('timeZone')">
+                  <span *ngIf="hasControlSpecificError('timeZone', 'required')" class="helper-text"
+                    attr.data-error="{{'USERS.ERROR.TIME_ZONE' | translate}}">
+                  </span>
+                </ng-container>
               </ng-container>
-            </ng-container>
-          </core-basic-input-text>
+            </core-select>
+
         </div>
       </form>
     </section>
@@ -115,13 +126,13 @@
     </pre>
   </div>
   <div class="modal-footer">
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
       *ngIf="userForm.disabled;else saveBtn">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text" *ngIf="userForm.disabled;else saveBtn">{{'USERS.CONFIRM' | translate}}</span>
     </a>
     <ng-template #saveBtn>
-      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
+      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
       [ngClass]="{'disabled': !userForm.valid }" (click)="onSaveUser()">
         <i class="material-icons">check_circle</i>
         <span class="full-width-btn-text" >{{'USERS.SAVE' | translate}}</span>
