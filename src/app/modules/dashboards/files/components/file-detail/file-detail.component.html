@@ -70,19 +70,19 @@
 
         <div class="row">
           <core-basic-input-text
-            [id]="'file-mainRoute'"
-            [label]="'Ruta principal' | translate"
-            [hasErrors]="hasControlAnyError('mainRoute')"
-            formControlName="mainRoute"
+            [id]="'file-client'"
+            [label]="'Cliente' | translate"
+            [hasErrors]="hasControlAnyError('client')"
+            formControlName="client"
             class="col s12 l4 cmd-mb-1"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('mainRoute')">
+              <ng-container *ngIf="hasControlAnyError('client')">
                 <span
-                  *ngIf="hasControlSpecificError('mainRoute', 'required')"
+                  *ngIf="hasControlSpecificError('client', 'required')"
                   class="helper-text"
                   [attr.data-error]="
-                    'Debe indicar una ruta principal' | translate
+                    'Debe indicar un cliente' | translate
                   "
                 >
                 </span>

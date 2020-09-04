@@ -57,7 +57,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     code: ['', Validators.required],
     description: ['', Validators.required],
     status: ['', Validators.required],
-    mainRoute: ['', Validators.required],
+    client: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder, private fileService: FilesService) {}
