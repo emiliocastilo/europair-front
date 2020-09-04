@@ -12,7 +12,7 @@
           {{ barButton.text | translate }}
         </a>
         <a
-          class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+          class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up"
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.NEW)"
         >
           <i class="material-icons">{{
@@ -65,7 +65,7 @@
         </a>
         <a
           *ngIf="itemsSelectedCount === 1"
-          class="btn-floating waves-effect waves-light europair-icon-blue cmd-mr-1 hide-on-med-and-up"
+          class="btn-floating waves-effect waves-light europair-icon-blue hide-on-med-and-up"
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.EDIT)"
         >
           <i class="material-icons">{{ barButton.icon || "edit" }}</i>
@@ -82,7 +82,7 @@
           {{ barButton.text | translate }}
         </a>
         <a
-          class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+          class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up"
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.SAVE)"
         >
           <i class="material-icons">{{ barButton.icon || "save" }}</i>
@@ -90,7 +90,7 @@
       </ng-container>
       <ng-container *ngSwitchCase="'search'">
         <a
-          class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+          class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up"
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.SEARCH)"
         >
           <i class="material-icons">{{ barButton.icon || "search" }}</i>
@@ -107,7 +107,7 @@
           {{ barButton.text | translate }}
         </a>
         <a
-          class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+          class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up"
           (click)="onBarButtonClicked(BAR_BUTTON_TYPE.VIEW)"
         >
           <i class="material-icons">{{ barButton.icon || "visibility" }}</i>
