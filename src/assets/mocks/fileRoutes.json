@@ -1,0 +1,71 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "code": "ABV-ZRH",
+      "frequency": "ADHOC",
+      "initialDate": "10/01/20",
+      "endDate": "10/01/20"
+    },
+    {
+      "id": 2,
+      "code": "BCN-CMF-BCN",
+      "frequency": "ADHOC",
+      "initialDate": "02/01/20",
+      "endDate": "02/01/20"
+    },
+    {
+      "id": 3,
+      "code": "BCN-BGO-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13"
+    },
+    {
+      "id": 4,
+      "code": "BCN-EDI-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13"
+    },
+    {
+      "id": 5,
+      "code": "BCN-CPH-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13"
+    },
+    {
+      "id": 6,
+      "code": "BCN-ARN-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 6,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 6,
+  "first": true,
+  "empty": false
+}

@@ -22,6 +22,7 @@
   background-color: $europair-color-blue-dark-3;
   overflow-y: auto;
   overflow-x: hidden;
+  z-index: 2;
 
   .col.m8.l8 {
     padding-right: 0;
