@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { User, EMPTY_USER } from '../../models/user';
 import { Role } from '../../../roles/models/role';
 import { Task } from '../../../tasks/models/task';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
+import { TimeZone } from 'src/app/core/models/base/time-zone';
+import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -42,9 +45,20 @@ export class UserDetailComponent implements OnInit {
 
   public _userDetail: User = { ...EMPTY_USER };
 
-  constructor() {}
+  timeZones$: Observable<TimeZone[]>;
 
-  ngOnInit(): void {}
+  constructor(
+    private timeConversionService: TimeConversionService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadTimeZones();
+
+  }
+
+  private loadTimeZones(): void {
+    this.timeZones$ = this.timeConversionService.getTimeZones();
+  }
 
   public userRoleAssignedChanged(event: { id: string; selectedItem: number }) {
     const roleId = +event.id.substring(event.id.lastIndexOf('-') + 1);
