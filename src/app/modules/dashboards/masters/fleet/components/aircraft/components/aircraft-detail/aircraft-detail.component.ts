@@ -255,7 +255,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   private updateAircraftForm(selectedAircraft: Aircraft) {
     this.aircraftForm.setValue({
-      operator: selectedAircraft.operator,
+      operator: selectedAircraft.operator?.id ?? null,
       quantity: selectedAircraft.quantity,
       aircraftType: selectedAircraft.aircraftType?.id || null,
       insuranceEndDate: selectedAircraft.insuranceEndDate,

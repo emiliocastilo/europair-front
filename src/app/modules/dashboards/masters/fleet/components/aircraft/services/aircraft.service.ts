@@ -8,26 +8,35 @@ import {
   AircraftBase,
   AircraftObservation,
 } from '../models/Aircraft.model';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
+import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AircraftService {
   private readonly url = `${environment.apiUrl}aircrafts`;
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = {
+    'filter_operator.name': OperatorEnum.CONTAINS,
+    'filter_aircraftType.code': OperatorEnum.CONTAINS,
+    'filter_aircraftType.category.name': OperatorEnum.CONTAINS,
+    'filter_aircraftType.subcategory.name': OperatorEnum.CONTAINS,
+    filter_plateNumber: OperatorEnum.CONTAINS,
+    filter_productionYear: OperatorEnum.EQUALS,
+    filter_outsideUpgradeYear: OperatorEnum.EQUALS,
+    filter_quantity: OperatorEnum.EQUALS,
+    'filter_bases.airport.id': OperatorEnum.EQUALS,
+    'filter_operator.id': OperatorEnum.EQUALS,
+    filter_removedAt: OperatorEnum.IS_NULL,
+    } as const;
+    
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
-  public getAircraft(): Observable<Page<Aircraft>> {
-    return this.http.get<Page<Aircraft>>(this.url);
-  }
-
-  public searchAircraftForAirport(airportId: string): Observable<Page<Aircraft>> {
-    const params: HttpParams = new HttpParams().set('filter_bases.airport.id', `${airportId},EQUALS`);
-    return this.http.get<Page<Aircraft>>(this.url, {params});
-  }
-
-  public searchAircraftForOperator(operatorId: string): Observable<Page<Aircraft>> {
-    const params: HttpParams = new HttpParams().set('filter_operator.id', `${operatorId},EQUALS`);
-    return this.http.get<Page<Aircraft>>(this.url, {params});
+  public getAircraft(searchFilter: SearchFilter = {}): Observable<Page<Aircraft>> {
+    return this.http.get<Page<Aircraft>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
+    });
   }
 
   public getAircraftById(aircraftId: number): Observable<Aircraft> {
