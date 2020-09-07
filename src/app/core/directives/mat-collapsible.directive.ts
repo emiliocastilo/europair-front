@@ -17,11 +17,11 @@ export class MatCollapsibleDirective
   public initialState: {
     state: 'open' | 'closed';
     sectionNumber?: number;
-    openIconOverride?: boolean;
-  } = { state: 'closed', openIconOverride: true };
+    iconOverride?: boolean;
+  } = { state: 'closed', iconOverride: false };
 
+  private componentInitialized = false;
   private matCollapsibleInstance: M.Collapsible;
-  private initialIcon: string;
   private readonly openIcon = 'keyboard_arrow_down';
   private readonly closeIcon = 'keyboard_arrow_up';
 
@@ -44,25 +44,26 @@ export class MatCollapsibleDirective
   private initializeContent(el: Element) {
     const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
 
-    if (collapsibleIcon && !this.initialIcon) {
+    if (collapsibleIcon && !this.componentInitialized) {
+      this.componentInitialized = true;
       if (this.initialState.state === 'open') {
         this.matCollapsibleInstance.open(this.initialState.sectionNumber ?? 0);
       }
-      this.initialIcon = collapsibleIcon.innerHTML;
     }
   }
 
   private onCloseCallback = (el: Element) => {
-    const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
-    this.changeIcon(
-      collapsibleIcon,
-      this.initialState.openIconOverride ? this.openIcon : this.initialIcon
-    );
+    if (!this.initialState.iconOverride) {
+      const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
+      this.changeIcon(collapsibleIcon, this.openIcon);
+    }
   };
 
   private onOpenCallback = (el: Element) => {
-    const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
-    this.changeIcon(collapsibleIcon, this.closeIcon);
+    if (!this.initialState.iconOverride) {
+      const collapsibleIcon = el.getElementsByClassName('material-icons')[0];
+      this.changeIcon(collapsibleIcon, this.closeIcon);
+    }
   };
 
   private changeIcon(collapsibleIcon: Element, icon: string) {

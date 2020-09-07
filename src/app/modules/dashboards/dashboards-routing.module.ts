@@ -22,7 +22,8 @@ const routes: Routes = [
       { path: 'cities', loadChildren: () => import('./masters/cities/cities.module').then(m => m.CitiesModule) },
       { path: 'airports', loadChildren: () => import('./masters/airports/airports.module').then(m => m.AirportsModule) },
       { path: 'fleet', loadChildren: () => import('./masters/fleet/fleet.module').then(m => m.FleetModule) },
-      { path: 'operators', loadChildren: () => import('./masters/operators/operators.module').then(m => m.OperatorsModule) }
+      { path: 'operators', loadChildren: () => import('./masters/operators/operators.module').then(m => m.OperatorsModule) },
+      { path: 'files', loadChildren: () => import('./files/files.module').then(m => m.FilesModule) }
     ]
   }
 ];
