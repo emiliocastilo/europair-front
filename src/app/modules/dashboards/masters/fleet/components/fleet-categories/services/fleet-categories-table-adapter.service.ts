@@ -7,8 +7,6 @@ import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnCheckboxModel } from 'src/app/core/models/table/columns/column-checkbox.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { FleetCategory, FleetSubcategory } from '../../../models/fleet';
-import { Country } from '../../../../countries/models/country';
-import { Airport } from '../../../../regions/models/airport';
 
 @Injectable({
   providedIn: 'root',
@@ -20,27 +18,31 @@ export class FleetCategoriesTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'category-code-header',
+        'search',
         'Código',
-        new ColumnHeaderSizeModel('5', '5', '4')
+        new ColumnHeaderSizeModel('4', '4', '4'),
+        'filter_code',
+        'code'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'category-name-header',
+        'search',
         'Nombre',
-        new ColumnHeaderSizeModel('5', '5', '5')
+        new ColumnHeaderSizeModel('5', '5', '5'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('1', '1', '2')
+        new ColumnHeaderSizeModel('2', '2', '2')
       ),
     ];
   }
@@ -49,33 +51,39 @@ export class FleetCategoriesTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
-        'task-header',
+        'subcat-order-header',
         'text',
         'Orden',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('2', '2', '2'),
+        'filter_order',
+        'order'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'subcat-code-header',
+        'search',
         'Código',
-        new ColumnHeaderSizeModel('4', '4', '3')
+        new ColumnHeaderSizeModel('3', '3', '3'),
+        'filter_code',
+        'code'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
+        'subcat-name-header',
+        'search',
         'Nombre',
-        new ColumnHeaderSizeModel('5', '5', '5')
+        new ColumnHeaderSizeModel('4', '4', '4'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('1', '1', '2')
+        new ColumnHeaderSizeModel('2', '2', '2')
       ),
     ];
   }
@@ -108,7 +116,6 @@ export class FleetCategoriesTableAdapterService {
       new ColumnActionsModel('create', 'edit', 'Editar', 'europair-icon-blue')
     );
     actions.push(new ColumnActionsModel('delete', 'delete', 'Eliminar', 'red'));
-    fleetSubcategories.sort((fleetA: FleetSubcategory, fleetB: FleetSubcategory) => fleetA.order - fleetB.order);
     fleetSubcategories.forEach((fleetSubcategory: FleetSubcategory) => {
       const fleetSubcategoryRow: RowDataModel = new RowDataModel();
       fleetSubcategoryRow.pushColumn(

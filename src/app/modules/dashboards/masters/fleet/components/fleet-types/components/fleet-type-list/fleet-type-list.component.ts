@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FleetType, EMPTY_FLEET_TYPE } from '../../../../models/fleet';
+import { FleetType } from '../../../../models/fleet';
 import { Observable } from 'rxjs';
 import {
   BarButtonType,
@@ -12,9 +12,11 @@ import { FleetTypesTableAdapterService } from '../../services/fleet-types-table-
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
-import { FleetTypeDetailComponent } from '../fleet-type-detail/fleet-type-detail.component';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Router } from '@angular/router';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-fleet-type-list',
@@ -22,44 +24,53 @@ import { Router } from '@angular/router';
   styleUrls: ['./fleet-type-list.component.scss'],
 })
 export class FleetTypeListComponent implements OnInit {
-  @ViewChild(FleetTypeDetailComponent, { static: true, read: ElementRef })
-  private readonly typeDetailModal: ElementRef;
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  @ViewChild('deleteTypeModal', { static: true, read: ElementRef })
   private readonly confirmDeleteTypeModal: ElementRef;
+  @ViewChild('deleteMultipleTypesModal', { static: true, read: ElementRef })
+  private readonly confirmDeleteMultipleTypesModal: ElementRef;
 
-  private readonly EDIT_TYPE_TITLE = 'Editar Tipo';
-  private readonly CREATE_TYPE_TITLE = 'Crear Tipo';
-
-  public pageTitle = 'Tipos';
-  public userData = { userName: 'Usuario', userRole: 'Administrador' };
+  public pageTitle = 'FLEET.TYPES.PAGE_TITLE';
   public typesColumnsHeader: Array<ColumnHeaderModel>;
   public typesColumnsData: Array<RowDataModel>;
-  public typesSelectedCount = 0;
   public typeDetailColumnsData: Array<RowDataModel>;
   public typePagination: PaginationModel;
   public typesBarButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nuevo Tipo' },
+    { type: BarButtonType.NEW, text: 'FLEET.TYPES.NEW' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'FLEET.TYPES.DELETE' },
   ];
-  public typeDetailTitle: string;
-  public typeSelected: FleetType = EMPTY_FLEET_TYPE;
   public selectedType: number;
+  public selectedTypes: number[] = [];
+  private typeFilter = {};
+  public translationParams = {};
 
-  private showDisabled: boolean;
-  private types: Array<FleetType>;
+  public types: Array<FleetType>;
   private readonly barButtonTypeActions = {
     new: this.newType.bind(this),
+    delete_selected: this.deleteSelectedTypes.bind(this),
     view: this.viewFleet.bind(this),
   };
   private readonly typeTableActions = {
     edit: this.editType.bind(this),
     delete: this.deleteType.bind(this),
   };
+  public typeAdvancedSearchForm = this.fb.group({
+    filter_code: [''],
+    filter_description: [''],
+    'filter_category.name': [''],
+    'filter_subcategory.name': [''],
+    filter_flightRange: [''],
+    filter_removedAt: [null],
+  });
+  public typeSortForm = this.fb.group({
+    sort: [''],
+  });
 
   constructor(
     private readonly modalService: ModalService,
     private readonly router: Router,
     private readonly typeService: FleetTypesService,
-    private readonly fleetTypesTableAdapterService: FleetTypesTableAdapterService
+    private readonly fleetTypesTableAdapterService: FleetTypesTableAdapterService,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -67,14 +78,13 @@ export class FleetTypeListComponent implements OnInit {
   }
 
   private initializeTypeTable(): void {
-    this.showDisabled = true;
     this.typesColumnsHeader = this.fleetTypesTableAdapterService.getFleetTypeColumnsHeader();
-    this.obtainTypes();
+    this.filterTypeTable();
   }
 
-  private obtainTypes() {
+  private obtainTypes(searchFilter?: SearchFilter) {
     this.typeService
-      .getFleetTypes(this.showDisabled)
+      .getFleetTypes(searchFilter)
       .subscribe((data: Page<FleetType>) => {
         this.types = data.content;
         this.typesColumnsData = this.fleetTypesTableAdapterService.getFleetTypes(
@@ -87,13 +97,13 @@ export class FleetTypeListComponent implements OnInit {
       });
   }
 
-  public showSubtypesTable(): boolean {
-    return this.selectedType !== undefined;
-  }
-
   public checkShowDisabled(showDisabled: boolean): void {
-    this.showDisabled = showDisabled;
-    this.obtainTypes();
+    if (showDisabled) {
+      this.typeFilter['filter_removedAt'] = '';
+    } else {
+      this.typeFilter['filter_removedAt'] = null;
+    }
+    this.filterTypeTable();
   }
 
   private initializeModal(modalContainer: ElementRef): void {
@@ -102,9 +112,19 @@ export class FleetTypeListComponent implements OnInit {
     });
   }
 
-  public onTypeSelected(selectedIndex: number): void {
-    this.typeSelected = this.types[selectedIndex];
-    this.selectedType = selectedIndex;
+  public onFilterTypes(categoryFilter: ColumnFilter): void {
+    this.typeFilter[categoryFilter.identifier] = categoryFilter.searchTerm;
+    this.filterTypeTable();
+  }
+
+  public onSortTypes(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.typeSortForm.patchValue({ sort: sort });
+    this.filterTypeTable();
+  } 
+
+  public onTypesSelected(selectedTypes: number[]): void {
+    this.selectedTypes = selectedTypes;
   }
 
   public onTypeAction(action: {
@@ -122,29 +142,27 @@ export class FleetTypeListComponent implements OnInit {
     this.router.navigate(['fleet/types', 'new']);
   }
 
+  private deleteSelectedTypes(): void {
+    this.initializeModal(this.confirmDeleteMultipleTypesModal);
+    this.modalService.openModal();
+  }
+
   private viewFleet(selectedIndex: number): void {
     this.router.navigate(['fleet/aircraft']);
   }
 
   private editType(selectedItem: number): void {
-    if (this.typeSelected.id) {
-      this.router.navigate(['fleet/types', this.typeSelected.id]);
+    const typeId = this.types[selectedItem]?.id;
+    if (typeId) {
+      this.router.navigate(['fleet/types', typeId]);
     }
   }
 
   private deleteType(selectedItem: number): void {
     this.selectedType = selectedItem;
+    this.translationParams = {type: this.types[selectedItem]?.code};
     this.initializeModal(this.confirmDeleteTypeModal);
     this.modalService.openModal();
-  }
-
-  private initializeTypeDetailModal(
-    typeDetailTitle: string,
-    typeSelected: FleetType
-  ): void {
-    this.typeDetailTitle = typeDetailTitle;
-    this.typeSelected = typeSelected;
-    this.initializeModal(this.typeDetailModal);
   }
 
   public onSaveType(type: FleetType): void {
@@ -152,14 +170,27 @@ export class FleetTypeListComponent implements OnInit {
       type.id === undefined
         ? this.typeService.addFleetType(type)
         : this.typeService.editFleetType(type);
-    saveType.subscribe(() => this.obtainTypes());
+    saveType.subscribe(() => this.filterTypeTable());
   }
 
   public onConfirmDeleteType(): void {
     this.typeService
       .deleteFleetType(this.types[this.selectedType])
       .subscribe(() => {
-        this.initializeTypeTable();
+        this.filterTypeTable();
       });
+  }
+
+  public onConfirmDeleteMultipleType() {
+    console.log('DELETING TYPES ', this.selectedTypes.map(item => this.types[item].id));
+  }
+
+  private filterTypeTable(): void {
+    this.typeAdvancedSearchForm.patchValue(this.typeFilter);
+    const filter = {
+      ...this.typeAdvancedSearchForm.value,
+      ...this.typeSortForm.value,
+    };
+    this.obtainTypes(filter);
   }
 }

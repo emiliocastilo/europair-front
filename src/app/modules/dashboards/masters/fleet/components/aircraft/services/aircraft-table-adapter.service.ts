@@ -18,69 +18,87 @@ export class AircraftTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
         new ColumnHeaderSizeModel('1', '1', '1')
       ),
       new ColumnHeaderModel(
         'operator-header',
-        'text',
+        'search',
         'FLEET.AIRCRAFTS.OPERATOR',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('3', '1', '1'),
+        'filter_operator.name',
+        'operator.name'
       ),
       new ColumnHeaderModel(
         'airport-header',
         'text',
-        'Aeropuerto',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'FLEET.AIRCRAFTS.AIRPORT',
+        new ColumnHeaderSizeModel('3', '1', '1')
       ),
       new ColumnHeaderModel(
         'aircraftType-header',
-        'text',
-        'Tipo',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.TYPE',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_aircraftType.code',
+        'aircraftType.code'
       ),
       new ColumnHeaderModel(
         'category-header',
-        'text',
-        'Categoría',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.CATEGORY',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_aircraftType.category.name',
+        'aircraftType.category.name'
       ),
       new ColumnHeaderModel(
         'subcategory-header',
-        'text',
-        'Subcategoría',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.SUBCATEGORY',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_aircraftType.subcategory.name',
+        'aircraftType.subcategory.name'
       ),
       new ColumnHeaderModel(
         'plateNumber-header',
-        'text',
-        'Matrícula',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.PLATE_NUMBER',
+        new ColumnHeaderSizeModel('3', '1', '1'),
+        'filter_plateNumber',
+        'plateNumber'
       ),
       new ColumnHeaderModel(
         'productionYear-header',
-        'text',
-        'Año de fabricación',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.YOM',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_productionYear',
+        'productionYear'
       ),
       new ColumnHeaderModel(
         'outsideUpgradeYear-header',
-        'text',
-        'Año reforma exterior',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.OUTSIDE_UPGRADE_YEAR',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_outsideUpgradeYear',
+        'outsideUpgradeYear'
       ),
       new ColumnHeaderModel(
         'quantity-header',
-        'text',
-        'Cantidad',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'search',
+        'FLEET.AIRCRAFTS.QUANTITY',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_quantity',
+        'quantity'
       ),
       new ColumnHeaderModel(
         'insuranceEndDate-header',
         'text',
-        'Caducidad seguro',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'FLEET.AIRCRAFTS.INSURANCE_END_DATE',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        '',
+        'insuranceEndDate'
       ),
       new ColumnHeaderModel(
         'actions-header',

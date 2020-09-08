@@ -134,8 +134,8 @@ export class OperatorListComponent implements OnInit {
     this.selectedItems = selectedItems;
   }
 
-  public onFilterOperators(airportFilter: ColumnFilter) {
-    this.operatorFilter[airportFilter.identifier] = airportFilter.searchTerm;
+  public onFilterOperators(operatortFilter: ColumnFilter) {
+    this.operatorFilter[operatortFilter.identifier] = operatortFilter.searchTerm;
     this.filterOperatorTable();
   }
 

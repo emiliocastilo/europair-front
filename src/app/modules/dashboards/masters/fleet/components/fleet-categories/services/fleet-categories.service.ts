@@ -4,19 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { FleetCategory } from '../../../models/fleet';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FleetCategoriesService {
 
-  private readonly mocked: boolean = false;
+  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}aircraft-categories`;
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = {
+    filter_code: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS,
+    } as const;
+    
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
-  public getFleetCategories(): Observable<Page<FleetCategory>> {
+  public getFleetCategories(searchFilter: SearchFilter = {}): Observable<Page<FleetCategory>> {
     const url: string = this.mocked ? '/assets/mocks/categories.json' : this.url;
-    return this.http.get<Page<FleetCategory>>(url);
+    return this.http.get<Page<FleetCategory>>(url,{
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
+    });
   }
 
   public addFleetCategory(fleetCategory: FleetCategory): Observable<FleetCategory> {

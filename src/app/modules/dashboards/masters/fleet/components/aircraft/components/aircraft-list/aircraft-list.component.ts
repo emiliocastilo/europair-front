@@ -15,6 +15,10 @@ import { AircraftTableAdapterService } from '../../services/aircraft-table-adapt
 import { AircraftService } from '../../services/aircraft.service';
 import { AircraftDetailComponent } from '../aircraft-detail/aircraft-detail.component';
 import { Observable } from 'rxjs';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-aircraft-list',
@@ -24,18 +28,18 @@ import { Observable } from 'rxjs';
 export class AircraftListComponent implements OnInit {
   @ViewChild(AircraftDetailComponent, { static: true, read: ElementRef })
   public aircraftDetailModal: ElementRef;
-
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  @ViewChild('confirmDeleteModal', { static: true, read: ElementRef })
   public confirmDeleteModal: ElementRef;
+  @ViewChild('confirmMultipleDeleteModal', { static: true, read: ElementRef })
+  public confirmMultipleDeleteModal: ElementRef;
 
-  public readonly pageTitle = 'Flota';
+  public readonly pageTitle = 'FLEET.AIRCRAFTS.PAGE_TITLE';
 
   public aircraftSelected: Aircraft = EMPTY_AIRCRAFT;
-  public aircraftSelectedCount = 0;
 
   public barButtons: BarButton[] = [
-    { type: BarButtonType.NEW, text: 'Nueva flota' },
-    { type: BarButtonType.DELETE_SELECTED, text: 'Borrar' },
+    { type: BarButtonType.NEW, text: 'FLEET.AIRCRAFTS.NEW' },
+    { type: BarButtonType.DELETE_SELECTED, text: 'FLEET.AIRCRAFTS.DELETE' },
   ];
 
   public aircraftColumnsHeader: ColumnHeaderModel[] = [];
@@ -44,6 +48,8 @@ export class AircraftListComponent implements OnInit {
 
   public aircraftDetailTitle: string;
   public aircraftList: Aircraft[] = [];
+  public selectedItems: number[] = [];
+  private operatorFilter = {};
 
   public aircraftBaseColumnsHeader: ColumnHeaderModel[] = [];
   public aircraftBaseColumnsData: RowDataModel[] = [];
@@ -52,24 +58,46 @@ export class AircraftListComponent implements OnInit {
   public aircraftObservationsColumnsHeader: ColumnHeaderModel[] = [];
   public aircraftObservationsColumnsData: RowDataModel[] = [];
   public aircraftObservationsColumnsPagination: PaginationModel;
+  public translationParams = {};
 
-  private barButtonActions = { new: this.newAircraft };
+  private barButtonActions = { 
+    new: this.newAircraft,
+    delete_selected: this.deleteSelectedOperators
+   };
 
   private aircraftTableActions = {
     edit: this.editAircraft,
     delete: this.deleteAircraft,
   };
 
+  public aircraftAdvancedSearchForm = this.fb.group({
+    'filter_operator.name': [''],
+    'filter_aircraftType.code': [''],
+    'filter_aircraftType.category.name': [''],
+    'filter_aircraftType.subcategory.name': [''],
+    filter_plateNumber: [''],
+    filter_productionYear: [''],
+    filter_outsideUpgradeYear: [''],
+    filter_quantity: [''],
+    'filter_bases.airport.id': [''],
+    'filter_operator.id': [''],
+    filter_removedAt: [null],
+  });
+  public aircraftSortForm = this.fb.group({
+    sort: [''],
+  });
+
   constructor(
     private modalService: ModalService,
     private aircraftService: AircraftService,
     private aircraftTableAdapter: AircraftTableAdapterService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
-    this.initializeAircraftTable();
+    this.filterAircraftTable();
     this.initializeTablesColumnsHeader();
   }
 
@@ -79,17 +107,9 @@ export class AircraftListComponent implements OnInit {
     this.aircraftObservationsColumnsHeader = this.aircraftTableAdapter.getAircraftObservationsColumnsHeader();
   }
 
-  private initializeAircraftTable() {
-    const {airportId, operatorId} = this.route.snapshot.queryParams;
-    let readAircrafts: Observable<Page<Aircraft>>;
-    if (airportId) {
-      readAircrafts = this.aircraftService.searchAircraftForAirport(airportId);
-    } else if (operatorId) {
-      readAircrafts = this.aircraftService.searchAircraftForOperator(operatorId);
-    } else {
-      readAircrafts = this.aircraftService.getAircraft();
-    }
-    readAircrafts.subscribe(
+  private initializeAircraftTable(searchFilter?: SearchFilter) {
+    console.log('FILTER', searchFilter);
+    this.aircraftService.getAircraft(searchFilter).subscribe(
       (aircraftPage: Page<Aircraft>) =>  this.getAircraftTableData(aircraftPage)
     );
   }
@@ -114,6 +134,11 @@ export class AircraftListComponent implements OnInit {
     this.router.navigate(['fleet/aircraft', 'new']);
   }
 
+  private deleteSelectedOperators(): void {
+    this.initializeModal(this.confirmMultipleDeleteModal);
+    this.modalService.openModal();
+  }
+
   private editAircraft(selectedItem: number): void {
     this.router.navigate([
       'fleet/aircraft',
@@ -122,6 +147,7 @@ export class AircraftListComponent implements OnInit {
   }
 
   private deleteAircraft(selectedItem: number) {
+    this.translationParams = {aircraft: this.aircraftList[selectedItem]?.plateNumber};
     this.initializeModal(this.confirmDeleteModal);
     this.modalService.openModal();
   }
@@ -130,9 +156,21 @@ export class AircraftListComponent implements OnInit {
     this.barButtonActions[barButtonType].bind(this)();
   }
 
-  public onAircraftSelected(selectedIndex: number) {
-    // console.log('onAircraftSelected', selectedIndex);
+  public onAircraftsSelected(selectedItems: number[]) {
+    this.selectedItems = selectedItems;
   }
+
+  public onFilterAircrafts(airportFilter: ColumnFilter) {
+    this.operatorFilter[airportFilter.identifier] = airportFilter.searchTerm;
+    this.filterAircraftTable();
+  }
+
+  public onSortAircrafts(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.aircraftSortForm.patchValue({ sort: sort });
+    this.filterAircraftTable();
+  }
+
 
   public onAircraftAction(action: { actionId: string; selectedItem: number }) {
     this.aircraftSelected = { ...this.aircraftList[action.selectedItem] };
@@ -142,7 +180,11 @@ export class AircraftListComponent implements OnInit {
   public onConfirmDeleteAircraft() {
     this.aircraftService
       .removeAircraft(this.aircraftSelected)
-      .subscribe((_) => this.initializeAircraftTable());
+      .subscribe((_) => this.filterAircraftTable());
+  }
+
+  public onConfirmDeleteMultipleOperators() {
+    console.log('DELETING AIRCRAFT ', this.selectedItems.map(item => this.aircraftList[item].id));
   }
 
   private initializeClientTablePagination(
@@ -151,5 +193,21 @@ export class AircraftListComponent implements OnInit {
     const pagination = this.aircraftTableAdapter.getPagination();
     pagination.lastPage = model.length / pagination.elementsPerPage;
     return pagination;
+  }
+
+  private filterAircraftTable(): void {
+    this.updateOperatorFilterRouteQueryParams();
+    this.aircraftAdvancedSearchForm.patchValue(this.operatorFilter);
+    const filter = {
+      ...this.aircraftAdvancedSearchForm.value,
+      ...this.aircraftSortForm.value,
+    };
+    this.initializeAircraftTable(filter);
+  }
+
+  private updateOperatorFilterRouteQueryParams() {
+    const {airportId, operatorId} = this.route.snapshot.queryParams;
+    this.operatorFilter['filter_bases.airport.id'] = airportId ?? '';
+    this.operatorFilter['filter_operator.id'] = operatorId ?? '';
   }
 }

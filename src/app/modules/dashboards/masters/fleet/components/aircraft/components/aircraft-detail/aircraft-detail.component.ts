@@ -224,8 +224,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   }
 
   private initializeFleetType() {
-    const showDisabled: boolean = false;
-    this.fleetTypeService.getFleetTypes(showDisabled).subscribe(
+    this.fleetTypeService.getFleetTypes({filter_removedAt: null}).subscribe(
       (fleetTypes: Page<FleetType>) => this.aircraftTypes = fleetTypes.content);
   }
 
@@ -255,7 +254,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   private updateAircraftForm(selectedAircraft: Aircraft) {
     this.aircraftForm.setValue({
-      operator: selectedAircraft.operator,
+      operator: selectedAircraft.operator?.id ?? null,
       quantity: selectedAircraft.quantity,
       aircraftType: selectedAircraft.aircraftType?.id || null,
       insuranceEndDate: selectedAircraft.insuranceEndDate,
