@@ -22,45 +22,55 @@ export class FleetTypesTableAdapterService {
     return [
       new ColumnHeaderModel(
         'selector-header',
-        'text',
+        'selectAll',
         '',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('2', '1', '1')
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Código',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        'types-code-header',
+        'search',
+        'FLEET.TYPES.CODE',
+        new ColumnHeaderSizeModel('4', '1', '2'),
+        'filter_code',
+        'code'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Descripción',
-        new ColumnHeaderSizeModel('1', '2', '2')
+        'types-description-header',
+        'search',
+        'FLEET.TYPES.DESCRIPTION',
+        new ColumnHeaderSizeModel('4', '2', '2'),
+        'filter_description',
+        'description'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Categoría',
-        new ColumnHeaderSizeModel('2', '2', '2')
+        'types-category-header',
+        'search',
+        'FLEET.TYPES.CATEGORY',
+        new ColumnHeaderSizeModel('', '2', '2'),
+        'filter_category.name',
+        'category.name'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Subcategoría',
-        new ColumnHeaderSizeModel('4', '3', '3')
+        'types-subcat-header',
+        'search',
+        'FLEET.TYPES.SUBCATEGORY',
+        new ColumnHeaderSizeModel('', '3', '2'),
+        'filter_subcategory.name',
+        'subcategory.name'
       ),
       new ColumnHeaderModel(
-        'task-header',
-        'text',
-        'Rango de vuelo',
-        new ColumnHeaderSizeModel('2', '2', '1')
+        'types-flight-range-header',
+        'search',
+        'FLEET.TYPES.FLIGHT_RANGE',
+        new ColumnHeaderSizeModel('', '2', '2'),
+        'filter_flightRange',
+        'flightRange'
       ),
       new ColumnHeaderModel(
         'actions-header',
         'text',
         '',
-        new ColumnHeaderSizeModel('1', '1', '2')
+        new ColumnHeaderSizeModel('2', '1', '1')
       ),
     ];
   }
@@ -76,31 +86,31 @@ export class FleetTypesTableAdapterService {
       new ColumnHeaderModel(
         'fromDistance-header',
         'text',
-        'Desde',
+        'FLEET.TYPES.FROM_DISTANCE',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'toDistance-header',
         'text',
-        'Hasta',
+        'FLEET.TYPES.TO_DISTANCE',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'distanceUnit-header',
         'text',
-        'Unidad distancia',
+        'FLEET.TYPES.DISTANCE_UNIT',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'averageSpeed-header',
         'text',
-        'Velocidad Media',
+        'FLEET.TYPES.AVERAGE_SPEED',
         new ColumnHeaderSizeModel('2', '2', '2')
       ),
       new ColumnHeaderModel(
         'averageSpeedUnit-header',
         'text',
-        'Unidad velocidad',
+        'FLEET.TYPES.AVERAGE_SPEED_UNIT',
         new ColumnHeaderSizeModel('3', '3', '3')
       ),
     ];
@@ -117,7 +127,7 @@ export class FleetTypesTableAdapterService {
       new ColumnHeaderModel(
         'observation-header',
         'text',
-        'Observaciones',
+        'FLEET.TYPES.OBSERVATIONS',
         new ColumnHeaderSizeModel('11', '11', '11')
       ),
     ];

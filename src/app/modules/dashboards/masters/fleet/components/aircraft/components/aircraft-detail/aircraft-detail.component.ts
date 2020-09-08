@@ -224,8 +224,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   }
 
   private initializeFleetType() {
-    const showDisabled: boolean = false;
-    this.fleetTypeService.getFleetTypes(showDisabled).subscribe(
+    this.fleetTypeService.getFleetTypes({filter_removedAt: null}).subscribe(
       (fleetTypes: Page<FleetType>) => this.aircraftTypes = fleetTypes.content);
   }
 

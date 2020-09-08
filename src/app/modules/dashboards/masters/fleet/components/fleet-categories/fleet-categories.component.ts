@@ -56,6 +56,7 @@ export class FleetCategoriesComponent implements OnInit {
   public subcategorySelected: FleetSubcategory = EMPTY_FLEET_SUBCATEGORY;
   private categoryFilter = {};
   private subcategoryFilter = {};
+  public translationParams = {};
 
   private selectedCategory: number;
   public selectedCategories: number[] = [];
@@ -238,6 +239,7 @@ export class FleetCategoriesComponent implements OnInit {
 
   private deleteCategory(selectedItem: number): void {
     this.selectedCategory = selectedItem;
+    this.translationParams = {category: this.categories[selectedItem]?.code};
     this.initializeModal(this.confirmDeleteCategoryModal);
     this.modalService.openModal();
   }
@@ -262,6 +264,7 @@ export class FleetCategoriesComponent implements OnInit {
 
   private deleteSubcategory(selectedItem: number): void {
     this.selectedSubcategory = selectedItem;
+    this.translationParams = {subcategory: this.subcategories[selectedItem]?.code};
     this.initializeModal(this.confirmDeleteSubcategoryModal);
     this.modalService.openModal();
   }

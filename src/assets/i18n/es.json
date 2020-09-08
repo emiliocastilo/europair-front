@@ -347,6 +347,25 @@
         "NAME": "Debe indicar el nombre de la aeronave",
         "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
       }
+    },
+    "TYPES": {
+      "PAGE_TITLE": "Tipos",
+      "NEW": "Nuevo tipo",
+      "DELETE": "Eliminar",
+      "CONFIRM_DELETE": "Confirmar eliminación",
+      "MSG_DELETE": "¿Está seguro que desea eliminar el tipo <b>{{ type }}</b> ?",
+      "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes tipos?",
+      "CODE": "Código",
+      "DESCRIPTION" : "Descripción",
+      "CATEGORY": "Categoría",
+      "SUBCATEGORY": "Subcategoría",
+      "FLIGHT_RANGE": "Rango vuelo",
+      "FROM_DISTANCE": "Desde",
+      "TO_DISTANCE": "Hasta",
+      "DISTANCE_UNIT": "Unidad distancia",
+      "AVERAGE_SPEED": "Velocidad media",
+      "AVERAGE_SPEED_UNIT": "Unidad velocidad",
+      "OBSERVATIONS": "Observaciones"
     }
   },
   "MEASURES": {

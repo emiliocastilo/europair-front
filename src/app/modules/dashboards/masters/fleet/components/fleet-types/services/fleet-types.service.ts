@@ -8,21 +8,30 @@ import {
   AverageSpeed,
 } from '../../../models/fleet';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FleetTypesService {
   private readonly url = `${environment.apiUrl}aircraft-types`;
+  private readonly filterOptions: FilterOptions = {
+    filter_code: OperatorEnum.CONTAINS,
+    filter_description: OperatorEnum.CONTAINS,
+    'filter_category.name': OperatorEnum.CONTAINS,
+    'filter_subcategory.name': OperatorEnum.CONTAINS,
+    filter_flightRange: OperatorEnum.EQUALS,
+    filter_removedAt: OperatorEnum.IS_NULL,
+    } as const;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
 
-  public getFleetTypes(showDisabled: boolean): Observable<Page<FleetType>> {
-    const params: HttpParams = new HttpParams().set(
-      'showDisabled',
-      String(showDisabled)
-    );
-    return this.http.get<Page<FleetType>>(this.url, { params });
+  public getFleetTypes(searchFilter: SearchFilter = {}): Observable<Page<FleetType>> {
+    return this.http.get<Page<FleetType>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
+    });
   }
 
   public getFleetTypeById(typeId: number): Observable<FleetType> {

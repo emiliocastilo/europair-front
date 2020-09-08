@@ -43,7 +43,7 @@
       </a>
     </section>
     <section class="modal-body">
-      <p>{{'FLEET.CATEGORIES.MSG_DELETE_CATEGORY' | translate}}</p>
+      <p [innerHTML]="'FLEET.CATEGORIES.MSG_DELETE_CATEGORY' | translate:translationParams"></p>
     </section>
   </ng-container>
   <ng-container footer>
@@ -90,7 +90,7 @@
       </a>
     </section>
     <section class="modal-body">
-      <p>{{'FLEET.CATEGORIES.MSG_DELETE_SUBCATEGORY' | translate}}</p>
+      <p [innerHTML]="'FLEET.CATEGORIES.MSG_DELETE_SUBCATEGORY' | translate:translationParams"></p>
     </section>
   </ng-container>
   <ng-container footer>

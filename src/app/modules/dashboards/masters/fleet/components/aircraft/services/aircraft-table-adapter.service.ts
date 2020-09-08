@@ -26,7 +26,7 @@ export class AircraftTableAdapterService {
         'operator-header',
         'search',
         'FLEET.AIRCRAFTS.OPERATOR',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('3', '1', '1'),
         'filter_operator.name',
         'operator.name'
       ),
@@ -34,13 +34,13 @@ export class AircraftTableAdapterService {
         'airport-header',
         'text',
         'FLEET.AIRCRAFTS.AIRPORT',
-        new ColumnHeaderSizeModel('1', '1', '1')
+        new ColumnHeaderSizeModel('3', '1', '1')
       ),
       new ColumnHeaderModel(
         'aircraftType-header',
         'search',
         'FLEET.AIRCRAFTS.TYPE',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_aircraftType.code',
         'aircraftType.code'
       ),
@@ -48,7 +48,7 @@ export class AircraftTableAdapterService {
         'category-header',
         'search',
         'FLEET.AIRCRAFTS.CATEGORY',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_aircraftType.category.name',
         'aircraftType.category.name'
       ),
@@ -56,7 +56,7 @@ export class AircraftTableAdapterService {
         'subcategory-header',
         'search',
         'FLEET.AIRCRAFTS.SUBCATEGORY',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_aircraftType.subcategory.name',
         'aircraftType.subcategory.name'
       ),
@@ -64,7 +64,7 @@ export class AircraftTableAdapterService {
         'plateNumber-header',
         'search',
         'FLEET.AIRCRAFTS.PLATE_NUMBER',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('3', '1', '1'),
         'filter_plateNumber',
         'plateNumber'
       ),
@@ -72,7 +72,7 @@ export class AircraftTableAdapterService {
         'productionYear-header',
         'search',
         'FLEET.AIRCRAFTS.YOM',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_productionYear',
         'productionYear'
       ),
@@ -80,7 +80,7 @@ export class AircraftTableAdapterService {
         'outsideUpgradeYear-header',
         'search',
         'FLEET.AIRCRAFTS.OUTSIDE_UPGRADE_YEAR',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_outsideUpgradeYear',
         'outsideUpgradeYear'
       ),
@@ -88,7 +88,7 @@ export class AircraftTableAdapterService {
         'quantity-header',
         'search',
         'FLEET.AIRCRAFTS.QUANTITY',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_quantity',
         'quantity'
       ),
@@ -96,7 +96,7 @@ export class AircraftTableAdapterService {
         'insuranceEndDate-header',
         'text',
         'FLEET.AIRCRAFTS.INSURANCE_END_DATE',
-        new ColumnHeaderSizeModel('1', '1', '1'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         '',
         'insuranceEndDate'
       ),
