@@ -13,6 +13,10 @@ import { Observable, forkJoin } from 'rxjs';
 import { FleetCategoryDetailComponent } from './components/fleet-category-detail/fleet-category-detail.component';
 import { FleetSubcategoryDetailComponent } from './components/fleet-subcategory-detail/fleet-subcategory-detail.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { FormBuilder } from '@angular/forms';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
 
 @Component({
   selector: 'app-fleet-categories',
@@ -27,8 +31,12 @@ export class FleetCategoriesComponent implements OnInit {
   private readonly subcategoryDetailModal: ElementRef;
   @ViewChild('deleteCategoryModal', { static: true, read: ElementRef })
   private readonly confirmDeleteCategoryModal: ElementRef;
+  @ViewChild('deleteMultipleCategoriesModal', { static: true, read: ElementRef })
+  private readonly confirmDeleteMultipleCategoriesModal: ElementRef;
   @ViewChild('deleteSubcategoryModal', { static: true, read: ElementRef })
   private readonly confirmDeleteSubcategoryModal: ElementRef;
+  @ViewChild('deleteMultipleSubcategoriesModal', { static: true, read: ElementRef })
+  private readonly confirmDeleteMultipleSubcategoriesModal: ElementRef;
 
   public categoriesBarButtons: BarButton[];
   public subcategoriesBarButtons: BarButton[];
@@ -38,8 +46,6 @@ export class FleetCategoriesComponent implements OnInit {
   public categoriesColumnsData: Array<RowDataModel>;
   public subcategoriesColumnsHeader: Array<ColumnHeaderModel>;
   public subcategoriesColumnsData: Array<RowDataModel>;
-  public categoriesSelectedCount = 0;
-  public subcategoriesSelectedCount = 0;
   public categoryDetailColumnsData: Array<RowDataModel>;
   public categoryPagination: PaginationModel;
   public subcategoryDetailColumnsData: Array<RowDataModel>;
@@ -48,13 +54,23 @@ export class FleetCategoriesComponent implements OnInit {
   public categorySelected: FleetCategory = EMPTY_FLEET_CATEGORY;
   public subcategoryDetailTitle: string;
   public subcategorySelected: FleetSubcategory = EMPTY_FLEET_SUBCATEGORY;
+  private categoryFilter = {};
+  private subcategoryFilter = {};
 
   private selectedCategory: number;
+  public selectedCategories: number[] = [];
   private selectedSubcategory: number;
-  private categories: Array<FleetCategory>;
-  private subcategories: Array<FleetSubcategory>;
-  private readonly barButtonCategoryActions = { new: this.newCategory.bind(this) };
-  private readonly barButtonSubcategoryActions = { new: this.newSubcategory.bind(this) };
+  public selectedSubcategories: number[] = [];
+  public categories: Array<FleetCategory>;
+  public subcategories: Array<FleetSubcategory>;
+  private readonly barButtonCategoryActions = { 
+    new: this.newCategory.bind(this),
+    delete_selected: this.deleteSelectedCategories.bind(this),
+  };
+  private readonly barButtonSubcategoryActions = { 
+    new: this.newSubcategory.bind(this),
+    delete_selected: this.deleteSelectedSubcategories.bind(this),
+  };
   private readonly categoryTableActions = {
     edit: this.editCategory.bind(this),
     delete: this.deleteCategory.bind(this)
@@ -64,12 +80,30 @@ export class FleetCategoriesComponent implements OnInit {
     delete: this.deleteSubcategory.bind(this)
   };
 
+  public categoryAdvancedSearchForm = this.fb.group({
+    filter_code: [''],
+    filter_name: [''],
+  });
+  public categorySortForm = this.fb.group({
+    sort: [''],
+  });
+
+  public subcategoryAdvancedSearchForm = this.fb.group({
+    filter_order: [''],
+    filter_code: [''],
+    filter_name: [''],
+  });
+  public subcategorySortForm = this.fb.group({
+    sort: [''],
+  });
+
   constructor(
     private readonly modalService: ModalService,
     private readonly categoryService: FleetCategoriesService,
     private readonly subcategoryService: FleetSubcategoriesService,
     private readonly fleetCategoriesTableAdapterService: FleetCategoriesTableAdapterService,
-    private readonly translateService: TranslateService
+    private readonly translateService: TranslateService,
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit(): void {
@@ -81,9 +115,9 @@ export class FleetCategoriesComponent implements OnInit {
   private obtainTranslateText(): void {
     forkJoin({
       newCategory: this.translateService.get('FLEET.CATEGORIES.NEW_CATEGORY'),
-      deleteCategory: this.translateService.get('FLEET.CATEGORIES.DELETE_CATEGORY'),
+      deleteCategory: this.translateService.get('FLEET.CATEGORIES.DELETE'),
       newSubcategory: this.translateService.get('FLEET.CATEGORIES.NEW_SUBCATEGORY'),
-      deleteSubcategory: this.translateService.get('FLEET.CATEGORIES.DELETE_SUBCATEGORY')
+      deleteSubcategory: this.translateService.get('FLEET.CATEGORIES.DELETE')
     }).subscribe((data: { newCategory: string, deleteCategory: string, newSubcategory: string, deleteSubcategory: string }) => {
       this.categoriesBarButtons = [
         { type: BarButtonType.NEW, text: data.newCategory },
@@ -91,18 +125,18 @@ export class FleetCategoriesComponent implements OnInit {
       ];
       this.subcategoriesBarButtons = [
         { type: BarButtonType.NEW, text: data.newSubcategory },
-        { type: BarButtonType.DELETE_SELECTED, text: data.newSubcategory },
+        { type: BarButtonType.DELETE_SELECTED, text: data.deleteSubcategory },
       ];
     });
   }
 
   private initializeCategoryTable(): void {
     this.categoriesColumnsHeader = this.fleetCategoriesTableAdapterService.getFleetCategoryColumnsHeader();
-    this.obtainCategories();
+    this.filterCategoryTable();
   }
 
-  private obtainCategories() {
-    this.categoryService.getFleetCategories().subscribe((data: Page<FleetCategory>) => {
+  private obtainCategories(searchFilter?: SearchFilter) {
+    this.categoryService.getFleetCategories(searchFilter).subscribe((data: Page<FleetCategory>) => {
       this.categories = data.content;
       this.categoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetCategories(this.categories);
       this.categoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
@@ -114,8 +148,8 @@ export class FleetCategoriesComponent implements OnInit {
     this.subcategoriesColumnsHeader = this.fleetCategoriesTableAdapterService.getFleetSubcategoryColumnsHeader();
   }
 
-  private obtainSubcategories() {
-    this.subcategoryService.getFleetSubcategoriesFromCategory(this.categories[this.selectedCategory]).subscribe((data: Page<FleetSubcategory>) => {
+  private obtainSubcategories(searchFilter?: SearchFilter) {
+    this.subcategoryService.getFleetSubcategoriesFromCategory(this.categories[this.selectedCategory], searchFilter).subscribe((data: Page<FleetSubcategory>) => {
       this.subcategories = data.content;
       this.subcategoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetSubcategories(this.subcategories);
       this.subcategoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
@@ -123,8 +157,8 @@ export class FleetCategoriesComponent implements OnInit {
     });
   }
 
-  public showSubcategoriesTable(): boolean {
-    return this.selectedCategory !== undefined;
+  public hasOneCategorySelected(): boolean {
+    return this.selectedCategories.length === 1;
   }
 
 
@@ -134,17 +168,42 @@ export class FleetCategoriesComponent implements OnInit {
     });
   }
 
-  public onCategorySelected(selectedIndex: number): void {
-    this.selectedCategory = selectedIndex;
-    this.obtainSubcategories();
+  public onFilterCategories(categoryFilter: ColumnFilter): void {
+    this.categoryFilter[categoryFilter.identifier] = categoryFilter.searchTerm;
+    this.filterCategoryTable();
+  }
+
+  public onSortCategories(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.categorySortForm.patchValue({ sort: sort });
+    this.filterCategoryTable();
+  } 
+
+  public onCategoriesSelected(selectedCategories: number[]): void {
+    this.selectedCategories = selectedCategories;
+    if(this.hasOneCategorySelected()) {
+      this.selectedCategory = this.selectedCategories[0];
+      this.filterSubcategoryTable();
+    }
   }
 
   public onCategoryAction(action: { actionId: string; selectedItem: number }): void {
     this.categoryTableActions[action.actionId](action.selectedItem);
   }
 
-  public onSubcategorySelected(selectedIndex: number): void {
-    this.selectedSubcategory = selectedIndex;
+  public onFilterSubcategories(subcategoryFilter: ColumnFilter): void {
+    this.subcategoryFilter[subcategoryFilter.identifier] = subcategoryFilter.searchTerm;
+    this.filterSubcategoryTable();
+  }
+
+  public onSortSubcategories(sortByColumn: SortByColumn) {
+    const sort = sortByColumn.column + ',' + sortByColumn.order;
+    this.subcategorySortForm.patchValue({ sort: sort });
+    this.filterSubcategoryTable();
+  }
+
+  public onSubcategoriesSelected(selectedSubcategories: number[]): void {
+    this.selectedSubcategories = selectedSubcategories;
   }
 
   public onSubcategoryAction(action: { actionId: string; selectedItem: number }): void {
@@ -165,6 +224,11 @@ export class FleetCategoriesComponent implements OnInit {
     this.modalService.openModal();
   }
 
+  private deleteSelectedCategories(): void {
+    this.initializeModal(this.confirmDeleteMultipleCategoriesModal);
+    this.modalService.openModal();
+  }
+
   private editCategory(selectedItem: number): void {
     this.initializeCategoryDetailModal(this.translateService.instant('FLEET.CATEGORIES.EDIT_CATEGORY'), {
       ...this.categories[selectedItem],
@@ -181,6 +245,11 @@ export class FleetCategoriesComponent implements OnInit {
   private newSubcategory(): void {
     this.subcategoryDetailTitle = this.translateService.instant('FLEET.CATEGORIES.CREATE_SUBCATEGORY');
     this.initializeSubcategoryDetailModal(this.subcategoryDetailTitle, { ...EMPTY_FLEET_SUBCATEGORY });
+    this.modalService.openModal();
+  }
+
+  private deleteSelectedSubcategories(): void {
+    this.initializeModal(this.confirmDeleteMultipleSubcategoriesModal);
     this.modalService.openModal();
   }
 
@@ -211,25 +280,51 @@ export class FleetCategoriesComponent implements OnInit {
 
   public onSaveCategory(category: FleetCategory): void {
     const saveCategory: Observable<FleetCategory> = category.id === null ? this.categoryService.addFleetCategory(category) : this.categoryService.editFleetCategory(category);
-    saveCategory.subscribe(() => this.obtainCategories());
+    saveCategory.subscribe(() => this.filterCategoryTable());
   }
 
   public onSaveSubcategory(subcategory: FleetSubcategory): void {
     const saveSubcategory: Observable<FleetSubcategory> = subcategory.id === null ?
       this.subcategoryService.addFleetSubcategory(this.categories[this.selectedCategory], { ...subcategory, category: this.categories[this.selectedCategory] }) :
       this.subcategoryService.editFleetSubcategory(this.categories[this.selectedCategory], subcategory);
-    saveSubcategory.subscribe(() => this.obtainSubcategories());
+    saveSubcategory.subscribe(() => this.filterSubcategoryTable());
   }
 
   public onConfirmDeleteCategory(): void {
     this.categoryService.deleteFleetCategory(this.categories[this.selectedCategory]).subscribe(() => {
-      this.obtainCategories();
+      this.filterCategoryTable();
     });
+  }
+
+  public onConfirmDeleteMultipleCategory(): void {
+    console.log('DELETING CATEGORIES ', this.selectedCategories.map(item => this.categories[item].id));
   }
 
   public onConfirmDeleteSubcategory(): void {
     this.subcategoryService.deleteFleetSubcategory(this.categories[this.selectedCategory], this.subcategories[this.selectedSubcategory]).subscribe(() => {
-      this.obtainSubcategories();
+      this.filterSubcategoryTable();
     });
+  }
+
+  public onConfirmDeleteMultipleSubcategory(): void {
+    console.log('DELETING SUBCATEGORIES ', this.selectedSubcategories.map(item => this.subcategories[item].id));
+  }
+
+  private filterCategoryTable(): void {
+    this.categoryAdvancedSearchForm.patchValue(this.categoryFilter);
+    const filter = {
+      ...this.categoryAdvancedSearchForm.value,
+      ...this.categorySortForm.value,
+    };
+    this.obtainCategories(filter);
+  }
+
+  private filterSubcategoryTable(): void {
+    this.subcategoryAdvancedSearchForm.patchValue(this.subcategoryFilter);
+    const filter = {
+      ...this.subcategoryAdvancedSearchForm.value,
+      ...this.subcategorySortForm.value,
+    };
+    this.obtainSubcategories(filter);
   }
 }

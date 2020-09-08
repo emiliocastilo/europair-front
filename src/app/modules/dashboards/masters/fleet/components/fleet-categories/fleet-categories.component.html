@@ -1,28 +1,31 @@
-<core-page-bar [pageTitle]="'FLEET.CATEGORIES.PAGE_TITLE' | translate"></core-page-bar>
-<core-button-bar [barButtons]="categoriesBarButtons" [itemsSelectedCount]="categoriesSelectedCount"
+<core-page-bar [pageTitle]="'FLEET.CATEGORIES.PAGE_TITLE'"></core-page-bar>
+<core-button-bar [barButtons]="categoriesBarButtons" [itemsSelectedCount]="selectedCategories.length"
   (executeAction)="onBarButtonCategoriesClicked($event)">
 </core-button-bar>
 <section class="categories-tables-container cmd-mt-1 cmd-mb-2">
   <section class="categories-table">
     <core-table [columnsHeader]="categoriesColumnsHeader" [columnsData]="categoriesColumnsData"
       [pagination]="categoryPagination"
-      (selectedItem)="onCategorySelected($event)" (executeActionEmitter)="onCategoryAction($event)">
+      (search)="onFilterCategories($event)" (sortByColumn)="onSortCategories($event)"
+      (selectedItems)="onCategoriesSelected($event)" (executeActionEmitter)="onCategoryAction($event)">
     </core-table>
   </section>
 </section>
 
-
-<core-button-bar *ngIf="showSubcategoriesTable()" [barButtons]="subcategoriesBarButtons" [itemsSelectedCount]="subcategoriesSelectedCount"
+<ng-container *ngIf="hasOneCategorySelected()">
+  <core-button-bar [barButtons]="subcategoriesBarButtons" [itemsSelectedCount]="selectedSubcategories.length"
   (executeAction)="onBarButtonSubcategoriesClicked($event)">
 </core-button-bar>
-<section *ngIf="showSubcategoriesTable()" class="subcategories-tables-container cmd-mt-1">
+<section class="subcategories-tables-container cmd-mt-1">
   <section class="subcategories-table">
     <core-table [columnsHeader]="subcategoriesColumnsHeader" [columnsData]="subcategoriesColumnsData"
       [pagination]="subcategoryPagination"
-      (selectedItem)="onSubcategorySelected($event)" (executeActionEmitter)="onSubcategoryAction($event)">
+      (search)="onFilterSubcategories($event)" (sortByColumn)="onSortSubcategories($event)"
+      (selectedItems)="onSubcategoriesSelected($event)" (executeActionEmitter)="onSubcategoryAction($event)">
     </core-table>
   </section>
 </section>
+</ng-container>
 
 <app-fleet-category-detail [title]="categoryDetailTitle" [categoryDetail]="categorySelected"
 (saveCategory)="onSaveCategory($event)"></app-fleet-category-detail>
@@ -51,6 +54,32 @@
   </ng-container>
 </core-modal>
 
+<core-modal #deleteMultipleCategoriesModal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{'FLEET.CATEGORIES.CONFIRM_DELETE' | translate}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{'COMMON.CANCEL' | translate}}
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>{{ 'FLEET.CATEGORIES.MSG_DELETE_MULT_CATEGORY' | translate }}</p>
+      <ul class="cmd-ml-1">
+        <li *ngFor="let index of selectedCategories">
+          <b>{{ categories[index]?.name }}</b>
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteMultipleCategory()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{'COMMON.CONFIRM' | translate}}</span>
+    </a>
+  </ng-container>
+</core-modal>
+
 <core-modal #deleteSubcategoryModal>
   <ng-container content>
     <section class="modal-header">
@@ -68,6 +97,32 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteSubcategory()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">{{'FLEET.CATEGORIES.CONFIRM' | translate}}</span>
+    </a>
+  </ng-container>
+</core-modal>
+
+<core-modal #deleteMultipleSubcategoriesModal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{'FLEET.CATEGORIES.CONFIRM_DELETE' | translate}}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{'COMMON.CANCEL' | translate}}
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>{{ 'FLEET.CATEGORIES.MSG_DELETE_MULT_SUBCATEGORY' | translate }}</p>
+      <ul class="cmd-ml-1">
+        <li *ngFor="let index of selectedSubcategories">
+          <b>{{ subcategories[index]?.name }}</b>
+        </li>
+      </ul>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteMultipleSubcategory()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{'COMMON.CONFIRM' | translate}}</span>
     </a>
   </ng-container>
 </core-modal>
