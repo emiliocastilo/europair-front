@@ -26,6 +26,7 @@ export class SwitchComponent implements OnInit {
   @Input() lastLabel: string;
   @Input() value: boolean;
   @Input() public isDisabled = false;
+  @Output() changeSwitch: EventEmitter<boolean> = new EventEmitter();
 
   public onChange = (_: any) => {};
   public onTouch = () => {};
@@ -38,6 +39,7 @@ export class SwitchComponent implements OnInit {
     this.value = value;
     this.onTouch();
     this.onChange(this.value);
+    this.changeSwitch.next(value);
   }
 
   writeValue(value: boolean): void {

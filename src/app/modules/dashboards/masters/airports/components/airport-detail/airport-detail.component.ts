@@ -58,6 +58,8 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     simpleCustoms: [null],
     specialConditions: [null],
     flightRules: [null],
+    balearics: [null],
+    canary_islands: [null]
   });
 
   constructor(

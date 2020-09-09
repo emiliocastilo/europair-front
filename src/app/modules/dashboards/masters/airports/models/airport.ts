@@ -22,6 +22,8 @@ export interface Airport extends Audit {
     terminals?: Array<Terminal>;
     operators?: Array<Operator>;
     observations?: string;
+    balearics?: boolean;
+    canary_islands?: boolean;
 }
 
 export enum FlightRulesType {

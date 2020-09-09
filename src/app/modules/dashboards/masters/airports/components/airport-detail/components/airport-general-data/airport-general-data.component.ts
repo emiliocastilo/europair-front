@@ -145,6 +145,16 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
       );
   }
 
+  public changeValueIslands(value: boolean, itemSelected: string): void {
+    if (value === true){
+      if (itemSelected === 'balearics') {
+        this.generalDataForm.get('canary_islands').setValue(false);
+      } else {
+        this.generalDataForm.get('balearics').setValue(false);
+      }
+    }
+  }
+
   public hasControlAnyError(controlName: string): boolean {
     const control = this.generalDataForm.get(controlName);
     return control && control.invalid && (control.dirty || control.touched);

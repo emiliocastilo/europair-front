@@ -46,6 +46,9 @@
     "LATITUDE": "Latitud",
     "LONGITUDE": "Longitud",
     "CUSTOMS": "Aduanas",
+    "SPECIAL_CONDITIONS": "Condiciones especiales",
+    "CANARY_ISLANDS": "Islas Canarias",
+    "BALEARICS": "Baleares",
     "FLIGHT_RULES_TYPE": "Tipo de normas de vuelo"
   },
   "AIRCRAFT": {
