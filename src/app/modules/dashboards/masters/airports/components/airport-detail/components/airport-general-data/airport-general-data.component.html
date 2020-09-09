@@ -2,8 +2,9 @@
   <form class="col s12" [formGroup]="generalDataForm">
     <div class="row">
       <div class="col s12 l3 input-row">
-        <core-basic-input-text [label]="'AIRPORTS.IATA_CODE' | translate" [id]="'iataCode'" [inputClass]="'text-uppercase'" 
-          [maxlength]="'3'" formControlName="iataCode" [hasErrors]="hasControlAnyError('iataCode')">
+        <core-basic-input-text [label]="'AIRPORTS.IATA_CODE' | translate" [id]="'iataCode'"
+          [inputClass]="'text-uppercase'" [maxlength]="'3'" formControlName="iataCode"
+          [hasErrors]="hasControlAnyError('iataCode')">
           <ng-container inputErrors>
             <ng-container *ngIf="hasControlAnyError('iataCode')">
               <span *ngIf="hasControlSpecificError('iataCode', 'required')" class="helper-text"
@@ -14,8 +15,9 @@
         </core-basic-input-text>
       </div>
       <div class="col s12 l3 input-row">
-        <core-basic-input-text [label]="'AIRPORTS.ICAO_CODE' | translate" [id]="'icaoCode'" [inputClass]="'text-uppercase'" [maxlength]="'4'"
-          formControlName="icaoCode" [hasErrors]="hasControlAnyError('icaoCode')">
+        <core-basic-input-text [label]="'AIRPORTS.ICAO_CODE' | translate" [id]="'icaoCode'"
+          [inputClass]="'text-uppercase'" [maxlength]="'4'" formControlName="icaoCode"
+          [hasErrors]="hasControlAnyError('icaoCode')">
           <ng-container inputErrors>
             <ng-container *ngIf="hasControlAnyError('icaoCode')">
               <span *ngIf="hasControlSpecificError('icaoCode', 'required')" class="helper-text"
@@ -42,11 +44,12 @@
       <div class="col s12 l9">
         <div class="row mb0">
           <div class="col s12 l4 input-row">
-            <core-select [label]="'AIRPORTS.COUNTRY' | translate" [id]="'country'" [items]="countries$ | async" [minTermLength]="1"
-              [loading]="countriesLoading" [typeToSearchText]="'AIRPORTS.COUNTRY_SEARCH_TEXT' | translate"
-              [placeholder]="'AIRPORTS.SELECT_COUNTRY' | translate"
-              [hasErrors]="hasControlAnyError('country')" [typeahead]="countriesInput$" [searchable]="true"
-              [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="country">
+            <core-select [label]="'AIRPORTS.COUNTRY' | translate" [id]="'country'" [items]="countries$ | async"
+              [minTermLength]="1" [loading]="countriesLoading"
+              [typeToSearchText]="'AIRPORTS.COUNTRY_SEARCH_TEXT' | translate"
+              [placeholder]="'AIRPORTS.SELECT_COUNTRY' | translate" [hasErrors]="hasControlAnyError('country')"
+              [typeahead]="countriesInput$" [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+              formControlName="country">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('country')">
                   <span *ngIf="hasControlSpecificError('country', 'required')" class="helper-text"
@@ -57,52 +60,49 @@
             </core-select>
           </div>
           <div class="col s12 l4 input-row">
-            <core-select [label]="'AIRPORTS.CITY' | translate" [id]="'city'" [items]="cities$ | async" [minTermLength]="1"
-              [loading]="citiesLoading" [typeToSearchText]="'AIRPORTS.CITY_SEARCH_TEXT' | translate"
-              [placeholder]="'AIRPORTS.CITY' | translate"
-              [hasErrors]="hasControlAnyError('city')" [typeahead]="citiesInput$" [searchable]="true"
-              [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="city">
+            <core-select [label]="'AIRPORTS.CITY' | translate" [id]="'city'" [items]="cities$ | async"
+              [minTermLength]="1" [loading]="citiesLoading" [typeToSearchText]="'AIRPORTS.CITY_SEARCH_TEXT' | translate"
+              [placeholder]="'AIRPORTS.CITY' | translate" [hasErrors]="hasControlAnyError('city')"
+              [typeahead]="citiesInput$" [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+              formControlName="city">
               <ng-container inputErrors>
                 <ng-container *ngIf="hasControlAnyError('city')">
                   <span *ngIf="hasControlSpecificError('city', 'required')" class="helper-text"
-                  [attr.data-error]="'AIRPORTS.CITY_REQUIRED' | translate">
+                    [attr.data-error]="'AIRPORTS.CITY_REQUIRED' | translate">
                   </span>
                 </ng-container>
               </ng-container>
             </core-select>
           </div>
           <div class="col s12 l4 input-row">
-            <core-select
-            [items]="timeZones$ |async"
-            [id]="'type-category'"
-            [label]="'AIRPORTS.TIMEZONE' | translate"
-            [searchable]="true"
-            [placeholder]="'AIRPORTS.SELECT_TIMEZONE' | translate"
-            [itemValue]="'name'"
-            [itemDescription]="'description'"
-            formControlName="timeZone">
-          </core-select>
+            <core-select [items]="timeZones$ |async" [id]="'type-category'" [label]="'AIRPORTS.TIMEZONE' | translate"
+              [searchable]="true" [placeholder]="'AIRPORTS.SELECT_TIMEZONE' | translate" [itemValue]="'name'"
+              [itemDescription]="'description'" formControlName="timeZone">
+            </core-select>
           </div>
         </div>
         <div class="row mb0">
           <div class="col s12 l4">
             <div class="row mb0">
               <form formGroupName="elevation">
-                <core-basic-input-text class="col s12 m6 input-row" [label]="'AIRPORTS.ELEVATION' | translate" 
+                <core-basic-input-text class="col s12 m6 input-row" [label]="'AIRPORTS.ELEVATION' | translate"
                   [id]="'elevation'" formControlName="value">
                 </core-basic-input-text>
-                <core-select class="col s12 m6 input-row" [items]="measureList" [placeholder]="'AIRPORTS.UNIT' | translate"
-                  [searchable]="true" [itemDescription]="'label'" [itemValue]="'value'" formControlName="type">
+                <core-select class="col s12 m6 input-row" [items]="measureList"
+                  [placeholder]="'AIRPORTS.UNIT' | translate" [searchable]="true" [itemDescription]="'label'"
+                  [itemValue]="'value'" formControlName="type">
                 </core-select>
               </form>
             </div>
           </div>
           <div class="col s12 l4 input-row">
-            <core-basic-input-text [label]="'AIRPORTS.LATITUDE' | translate" [id]="'latitude'" formControlName="latitude">
+            <core-basic-input-text [label]="'AIRPORTS.LATITUDE' | translate" [id]="'latitude'"
+              formControlName="latitude">
             </core-basic-input-text>
           </div>
           <div class="col s12 l4 input-row">
-            <core-basic-input-text [label]="'AIRPORTS.LONGITUDE' | translate" [id]="'longitude'" formControlName="longitude">
+            <core-basic-input-text [label]="'AIRPORTS.LONGITUDE' | translate" [id]="'longitude'"
+              formControlName="longitude">
             </core-basic-input-text>
           </div>
         </div>
@@ -134,9 +134,19 @@
         <core-basic-switch [id]="'aduanas'" [firstLabel]="'AIRPORTS.CUSTOMS' | translate" formControlName="simpleCustoms">
         </core-basic-switch>
       </div>
-      <div class="col s12 l4">
-        <core-basic-switch [id]="'condiciones-especiales'" [firstLabel]="'Condiciones especiales'"
+      <div class="col s12 l3">
+        <core-basic-switch [id]="'condiciones-especiales'" [firstLabel]="'AIRPORTS.SPECIAL_CONDITIONS' | translate"
           formControlName="specialConditions">
+        </core-basic-switch>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-switch [id]="'lugar-canarias'" [firstLabel]="'AIRPORTS.CANARY_ISLANDS' | translate"
+          formControlName="canary_islands" (changeSwitch)="changeValueIslands($event, 'canary_islands')">
+        </core-basic-switch>
+      </div>
+      <div class="col s12 l3">
+        <core-basic-switch [id]="'lugar-baleares'" [firstLabel]="'AIRPORTS.BALEARICS' | translate"
+          formControlName="balearics" (changeSwitch)="changeValueIslands($event, 'balearics')">
         </core-basic-switch>
       </div>
     </div>
