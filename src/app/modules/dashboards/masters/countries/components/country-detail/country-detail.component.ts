@@ -19,9 +19,11 @@ export class CountryDetailComponent {
     if (country.code) {
       this.countryNameControl.setValue(this._countryDetail.name);
       this.countryCodeControl.setValue(this._countryDetail.code);
+      this.europeanUnionControl.setValue(this._countryDetail.europeanUnion);
     } else {
       this.countryNameControl.reset();
       this.countryCodeControl.reset();
+      this.europeanUnionControl.reset();
     }
   }
 
@@ -38,6 +40,7 @@ export class CountryDetailComponent {
     { value: '', disabled: false },
     [Validators.required, Validators.pattern('^[a-zA-Z]+$'), Validators.maxLength(this.maxLengthCode), Validators.minLength(this.maxLengthCode)]
   );
+  public europeanUnionControl: FormControl = this.fb.control({ value: null, disabled: false });
   private _countryDetail: Country;
 
   constructor(private readonly fb: FormBuilder ) { }
@@ -65,7 +68,8 @@ export class CountryDetailComponent {
     this.saveCountry.next({
       id: this._countryDetail.id,
       name: this.countryNameControl.value,
-      code: this.countryCodeControl.value.toUpperCase()
+      code: this.countryCodeControl.value.toUpperCase(),
+      europeanUnion: this.europeanUnionControl.value
     });
   }
 }

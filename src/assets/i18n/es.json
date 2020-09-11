@@ -141,6 +141,7 @@
     "COUNTRY_CODE": "Código del páis",
     "CODE": "Código",
     "COUNTRY": "País",
+    "BELONGS_UE": "Pertenece a la UE",
     "ERROR": {
       "CODE": "Debe indicar el código del país",
       "CODE_MAXLENGTH": "El código de país debe de tener dos caracteres",
