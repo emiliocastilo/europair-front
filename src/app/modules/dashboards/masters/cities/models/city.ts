@@ -6,6 +6,7 @@ export interface City extends Audit {
     code: string;
     name: string;
     country: Country;
+    canaryIslands?: boolean;
 }
 
 
@@ -22,6 +23,7 @@ export const EMPTY_CITY: City = {
         modifiedAt : null,
         modifiedBy : null
     },
+    canaryIslands: false,
     createdAt: null,
     createdBy : null,
     modifiedAt : null,

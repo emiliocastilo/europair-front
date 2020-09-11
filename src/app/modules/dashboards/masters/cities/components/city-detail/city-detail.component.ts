@@ -27,10 +27,12 @@ export class CityDetailComponent implements OnInit {
       this.cityNameControl.setValue(this._cityDetail.name);
       this.cityCodeControl.setValue(this._cityDetail.code);
       this.countryControl.setValue(this._cityDetail.country.id);
+      this.canaryIslandsControl.setValue(this._cityDetail.canaryIslands);
     } else {
       this.cityNameControl.reset();
       this.cityCodeControl.reset();
       this.countryControl.reset();
+      this.canaryIslandsControl.reset();
     }
   }
 
@@ -49,6 +51,7 @@ export class CityDetailComponent implements OnInit {
     { value: '', disabled: false },
     Validators.required
   );
+  public canaryIslandsControl: FormControl = this.fb.control({ value: '', disabled: false });
   public countries: Array<Country>;
 
   private _cityDetail: City;
@@ -93,7 +96,8 @@ export class CityDetailComponent implements OnInit {
       code: this.cityCodeControl.value,
       country: {
         id: this.countryControl.value
-      }
+      },
+      canaryIslands: this.canaryIslandsControl.value
     });
   }
 }
