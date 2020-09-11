@@ -120,6 +120,7 @@
     "CITY": "Ciudad",
     "COUNTRY": "País",
     "COUNTRY_PLACEHOLDER": "Selecciona un país",
+    "CANARY_ISLANDS": "Islas Canarias",
     "ERROR": {
       "CODE": "Debe indicar el código de la Ciudad",
       "NAME": "Debe indicar el nombre de la Ciudad",
@@ -141,6 +142,7 @@
     "COUNTRY_CODE": "Código del páis",
     "CODE": "Código",
     "COUNTRY": "País",
+    "BELONGS_UE": "Pertenece a la UE",
     "ERROR": {
       "CODE": "Debe indicar el código del país",
       "CODE_MAXLENGTH": "El código de país debe de tener dos caracteres",
