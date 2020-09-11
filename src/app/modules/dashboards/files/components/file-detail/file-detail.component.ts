@@ -11,7 +11,8 @@ import { FileRoute } from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { FileRoutesService } from '../../services/file-routes.service';
 
 @Component({
   selector: 'app-file-detail',
@@ -19,34 +20,42 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./file-detail.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
       transition(
         'expanded <=> collapsed',
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
-      transition(
-        'expanded <=> void',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
-      ),
     ]),
   ],
 })
-export class FileDetailComponent implements OnInit, AfterViewInit {
+export class FileDetailComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) expandedTable: MatTable<any>;
 
   public columnsToDisplay = [
-    { title: 'Rutas Petición', label: 'code' },
-    { title: 'Frequencia', label: 'frequency' },
-    { title: 'Fecha inicio (UTC)', label: 'initialDate' },
-    { title: 'Fecha fin (UTC)', label: 'endDate' },
+    'code',
+    'frequency',
+    'initialDate',
+    'endDate',
+    'periodDays',
+    'dayNumber',
+    'operationInitialDate',
+    'operationEndDate',
+    'l',
+    'm',
+    'x',
+    'j',
+    'v',
+    's',
+    'd',
+    'rotations.length',
+    'seats',
+    'status',
+    'actions',
   ];
 
-  public columnsProps: string[] = this.columnsToDisplay.map(
-    (column) => column.label
-  );
-
-  public dataSource: MatTableDataSource<FileRoute>;
+  public dataSource = new MatTableDataSource();
   public expandedElements: FileRoute[] = [];
   public resultsLength = 0;
   public pageSize = 0;
@@ -60,19 +69,30 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     client: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private fileService: FilesService) {}
+  constructor(
+    private fb: FormBuilder,
+    private fileService: FilesService,
+    private fileRoutesService: FileRoutesService
+  ) {}
 
   ngOnInit(): void {
-    this.fileService.getFileRoutes(1).subscribe((data: Page<FileRoute>) => {
-      this.dataSource = new MatTableDataSource(data.content);
-      this.dataSource.sort = this.sort;
-      this.resultsLength = data.totalElements;
-      this.pageSize = data.size;
-    });
+    this.fileRoutesService
+      .getFileRoutes(1)
+      .subscribe((data: Page<FileRoute>) => {
+        this.dataSource = new MatTableDataSource(data.content);
+        this.dataSource.sort = this.sort;
+        this.resultsLength = data.totalElements;
+        this.pageSize = data.size;
+      });
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  public getChildRoutes(fileRoute: FileRoute): MatTableDataSource<FileRoute> {
+    return new MatTableDataSource(fileRoute.rotations);
+  }
+
+  public runAction(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   public hasControlAnyError(controlName: string): boolean {
@@ -93,5 +113,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     index !== -1
       ? this.expandedElements.splice(index, 1)
       : this.expandedElements.push(element);
+    setTimeout(() => {
+      this.expandedTable.updateStickyColumnStyles();
+    }, 1000);
   }
 }
