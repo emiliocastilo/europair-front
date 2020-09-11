@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13.512" height="13.512" viewBox="0 0 13.512 13.512">
+  <g transform="translate(0.501 0.5)">
+    <path class="a" d="M15.512,9.256A6.256,6.256,0,1,1,9.256,3,6.256,6.256,0,0,1,15.512,9.256Z"
+      transform="translate(-3.001 -3)" />
+    <path class="a" d="M18,12v5" transform="translate(-11.745 -8.247)" />
+    <path class="a" d="M12,18h5" transform="translate(-8.247 -11.744)" />
+  </g>
+</svg>

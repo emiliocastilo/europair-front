@@ -5,42 +5,102 @@
       "code": "ABV-ZRH",
       "frequency": "ADHOC",
       "initialDate": "10/01/20",
-      "endDate": "10/01/20"
-    },
-    {
-      "id": 2,
-      "code": "BCN-CMF-BCN",
-      "frequency": "ADHOC",
-      "initialDate": "02/01/20",
-      "endDate": "02/01/20"
+      "endDate": "10/01/20",
+      "rotations": [
+        {
+          "id": 2,
+          "code": "ABV-ZRH",
+          "frequency": "ADHOC",
+          "initialDate": "10/01/20",
+          "endDate": "10/01/20",
+          "rotations": []
+        }
+      ]
     },
     {
       "id": 3,
-      "code": "BCN-BGO-BCN",
-      "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13"
-    },
-    {
-      "id": 4,
-      "code": "BCN-EDI-BCN",
-      "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13"
+      "code": "BCN-CMF-BCN",
+      "frequency": "ADHOC",
+      "initialDate": "02/01/20",
+      "endDate": "02/01/20",
+      "rotations": [
+        {
+          "id": 4,
+          "code": "ABV-ZRH",
+          "frequency": "ADHOC",
+          "initialDate": "10/01/20",
+          "endDate": "10/01/20",
+          "rotations": []
+        }
+      ]
     },
     {
       "id": 5,
+      "code": "BCN-BGO-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13",
+      "rotations": [
+        {
+          "id": 6,
+          "code": "ABV-ZRH",
+          "frequency": "ADHOC",
+          "initialDate": "10/01/20",
+          "endDate": "10/01/20",
+          "rotations": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "code": "BCN-EDI-BCN",
+      "frequency": "semanal",
+      "initialDate": "29/06/13",
+      "endDate": "31/08/13",
+      "rotations": [
+        {
+          "id": 8,
+          "code": "BCN-EDI-BCN",
+          "frequency": "semanal",
+          "initialDate": "29/06/13",
+          "endDate": "31/08/13",
+          "rotations": []
+        }
+      ]
+    },
+    {
+      "id": 9,
       "code": "BCN-CPH-BCN",
       "frequency": "semanal",
       "initialDate": "29/06/13",
-      "endDate": "31/08/13"
+      "endDate": "31/08/13",
+      "rotations": [
+        {
+          "id": 10,
+          "code": "BCN-CPH-BCN",
+          "frequency": "semanal",
+          "initialDate": "29/06/13",
+          "endDate": "31/08/13",
+          "rotations": []
+        }
+      ]
     },
     {
-      "id": 6,
+      "id": 11,
       "code": "BCN-ARN-BCN",
       "frequency": "semanal",
       "initialDate": "29/06/13",
-      "endDate": "31/08/13"
+      "endDate": "31/08/13",
+      "rotations": [
+        {
+          "id": 12,
+          "code": "BCN-ARN-BCN",
+          "frequency": "semanal",
+          "initialDate": "29/06/13",
+          "endDate": "31/08/13",
+          "rotations": []
+        }
+      ]
     }
   ],
   "pageable": {

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18.718" height="13.217" viewBox="0 0 18.718 13.217">
+  <g transform="translate(-1651 -482.5)">
+    <path class="a" d="M18,12v4.705" transform="translate(1648.865 478.512)" />
+    <path class="a" d="M12,18h4.705" transform="translate(1652.513 474.865)" />
+    <g transform="translate(1457.056 -145.269)">
+      <path class="b" d="M207.1,628.268h5.067v5.067" />
+      <g class="c" transform="translate(193.944 634.269)">
+        <circle class="d" cx="2.5" cy="2.5" r="2.5" />
+        <circle class="e" cx="2.5" cy="2.5" r="2" />
+      </g>
+      <path class="c" d="M201.944,634.339l3.754-3.754,3.433,3.433,3.636-3.636" transform="translate(-2.927)" />
+    </g>
+  </g>
+</svg>

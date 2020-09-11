@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.217" height="14.217" viewBox="0 0 15.217 14.217">
+  <g transform="translate(-1738.5 -481.5)">
+    <g transform="translate(1746.194 488.193)">
+      <path class="a" d="M18,12v4.705" transform="translate(-13.329 -9.681)" />
+      <path class="a" d="M12,18h4.705" transform="translate(-9.682 -13.329)" />
+    </g>
+    <g transform="translate(1739.001 482)">
+      <path class="a" d="M12.512,7.756A4.756,4.756,0,1,1,7.756,3,4.756,4.756,0,0,1,12.512,7.756Z"
+        transform="translate(-3.001 -3)" />
+      <path class="a" d="M18,12v3.8" transform="translate(-13.244 -9.146)" />
+      <path class="a" d="M12,18h3.8" transform="translate(-9.147 -13.244)" />
+    </g>
+  </g>
+</svg>
