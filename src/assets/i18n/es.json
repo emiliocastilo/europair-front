@@ -373,6 +373,17 @@
       "OBSERVATIONS": "Observaciones"
     }
   },
+  "SEARCH_AIRCRAFT": {
+    "PAGE_TITLE": "Búsqueda de aviones",
+    "FILTER": "Filtros",
+    "AIRPORT_COUNTRY": "País del aeropuerto",
+    "AIRPORT": "Aeropuerto",
+    "NEARBY_AIRPORT": "Aeropuertos cercanos",
+    "AIRPORT_SEARCH_TEXT": "Escriba nombre aeropuerto",
+    "SELECT_AIRPORT": "Selecciona un aeropuerto",
+    "COUNTRY_SEARCH_TEXT": "Escriba nombre país",
+    "SELECT_COUNTRY": "Selecciona un país"
+  },
   "MEASURES": {
     "ABBREVIATION": {
       "FOOT": "ft",

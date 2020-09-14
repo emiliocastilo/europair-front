@@ -23,13 +23,17 @@ const routes: Routes = [
         data: { title: 'Nuevo Expediente', isFileDetail: false },
       },
       {
+        path: 'search/aircraft',
+        loadChildren: () => import('./components/search-aircraft/search-aircraft.module').then((m) => m.SearchAircraftModule)
+      },
+      {
         path: ':fileId',
         loadChildren: () =>
           import('./components/file-detail/file-detail.module').then(
             (m) => m.FileDetailModule
           ),
         data: { title: 'Detalles Tipo', isFileDetail: true },
-      },
+      }
     ],
   },
 ];
