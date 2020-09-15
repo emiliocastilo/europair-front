@@ -1,0 +1,150 @@
+<core-page-bar [pageTitle]="'SEARCH_AIRCRAFT.PAGE_TITLE' | translate"></core-page-bar>
+
+<mat-accordion class="example-headers-align" togglePosition="before" multi>
+    <mat-expansion-panel class="cmd-mb-2" [expanded]="filterExpanded">
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{ "SEARCH_AIRCRAFT.FILTER" | translate | sentenceCase }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+            <form [formGroup]="searchForm">
+
+                <div class="row">
+                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate" [id]="'search-airport-country'"
+                        [items]="countries$ | async" [minTermLength]="1" [loading]="countriesLoading"
+                        class="col s12 l4 cmd-mb-1"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.COUNTRY_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_COUNTRY' | translate"
+                        [hasErrors]="hasControlAnyError('country')" [typeahead]="countriesInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="country">
+                    </core-select>
+
+                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
+                        [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
+                        class="col s12 l4 cmd-mb-1"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+                        [hasErrors]="hasControlAnyError('airport')" [typeahead]="airportsInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="airport">
+                    </core-select>
+
+                    <core-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate" [id]="'search-aircraft-subcategory'"
+                        [items]="operators$ | async" [minTermLength]="1" [loading]="operatorsLoading"
+                        class="col s12 l4 cmd-mb-1"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.OPERATOR_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_OPERATOR' | translate"
+                        [hasErrors]="hasControlAnyError('subcategory')" [typeahead]="operatorsInput$"
+                        [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="operator">
+                    </core-select>
+
+                </div>
+
+                <div class="row">
+                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_CATEGORY' | translate"
+                        [id]="'search-aircraft-category'" [items]="categories$ | async" [minTermLength]="1"
+                        [loading]="categoriesLoading" class="col s12 l4 cmd-mb-1"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.CATEGORY_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate"
+                        [hasErrors]="hasControlAnyError('category')" [typeahead]="categoriesInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="category">
+                    </core-select>
+
+                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_SUBCATEGORY' | translate"
+                        [id]="'search-aircraft-subcategory'" [items]="subcategories$ | async" [minTermLength]="1"
+                        [loading]="subcategoriesLoading" class="col s12 l4 cmd-mb-1"
+                        [isDisabled]="!hasCategorySelected()"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.SUBCATEGORY_SEARCH_TEXT' | translate"
+                        [placeholder]="getSubcategoryPlaceholder() | translate"
+                        [hasErrors]="hasControlAnyError('subcategory')" [typeahead]="subcategoriesInput$"
+                        [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+                        formControlName="subcategory">
+                    </core-select>
+
+                    <core-select [label]="'SEARCH_AIRCRAFT.TYPE' | translate" [id]="'search-fleetType'"
+                        [items]="fleetTypes$ | async" [minTermLength]="1" [loading]="fleetTypesLoading"
+                        class="col s12 l4 cmd-mb-1" [multiple]="true" [searchable]="true"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.TYPE_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_TYPE' | translate"
+                        [hasErrors]="hasControlAnyError('fleetType')" [typeahead]="fleetTypesInput$"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="fleetType">
+                    </core-select>
+                </div>
+
+                <div class="row">
+                    <core-basic-input-text [id]="'search-nearby-airport-to'" class="col s12 l4"
+                        [label]="'SEARCH_AIRCRAFT.PASSENGER' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('passenger')" formControlName="passenger">
+                    </core-basic-input-text>
+                    <div class="col s12 l8">
+                        <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l4"
+                            [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate" formControlName="nearbyAirport">
+                        </core-basic-switch>
+                        <div class="col s12 l4" [hidden]="hiddenNearbyAirport()">
+                            <core-basic-input-text [id]="'search-nearby-airport-from'" [disabled]="" class="col s12 l8"
+                                [label]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate" [type]="'number'"
+                                [inputClass]="'text-right'" [hasErrors]="hasControlAnyError('nearbyAirportFrom')"
+                                formControlName="nearbyAirportFrom"> [min]="0">
+                                <ng-container inputErrors>
+                                    <ng-container *ngIf="hasControlAnyError('nearbyAirportFrom')">
+                                        <span *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')"
+                                            class="helper-text"
+                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_REQUIRED' | translate">
+                                        </span>
+                                    </ng-container>
+                                    <ng-container *ngIf="hasControlAnyError('nearbyAirportFrom')">
+                                        <span *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')"
+                                            class="helper-text"
+                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_MAX' | translate">
+                                        </span>
+                                    </ng-container>
+                                </ng-container>
+                            </core-basic-input-text>
+                            <span class="col s12 l4 search-measure">
+                                {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                            </span>
+                        </div>
+                        <div class="col s12 l4" [hidden]="hiddenNearbyAirport()">
+                            <core-basic-input-text [id]="'search-nearby-airport-to'" class="col s12 l8"
+                                [label]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate" [type]="'number'"
+                                [inputClass]="'text-right'" [hasErrors]="hasControlAnyError('nearbyAirportTo')"
+                                formControlName="nearbyAirportTo" [min]="0">
+                                <ng-container inputErrors>
+                                    <ng-container *ngIf="hasControlAnyError('nearbyAirportTo')">
+                                        <span *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')"
+                                            class="helper-text"
+                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_REQUIRED' | translate">
+                                        </span>
+                                    </ng-container>
+                                </ng-container>
+                            </core-basic-input-text>
+                            <span class="col s12 l4 search-measure">
+                                {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <button type="submit" (click)="filterAircraftTable()"
+                        class=" col s12 l2 offset-l10 waves-effect waves-light btn-large europair-icon-blue-1">
+                        <i class="material-icons">search</i>
+                        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.SEARCH' | translate}}</span>
+                    </button>
+                </div>
+            </form>
+        </ng-template>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion class="example-headers-align" togglePosition="before" multi>
+    <mat-expansion-panel class="cmd-mb-2" [expanded]="tableExpanded">
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{ "SEARCH_AIRCRAFT.AIRCRAFT_RESULT" | translate | sentenceCase }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+            <core-table [columnsHeader]="aircraftsColumnsHeader" [columnsData]="aircraftsColumnsData"
+                [pagination]="aircraftsPagination" (selectedItem)="onAircraftSelected($event)"
+                (search)="onFilterAircrafts($event)" (sortByColumn)="onSortAircrafts($event)">
+            </core-table>
+        </ng-template>
+    </mat-expansion-panel>
+</mat-accordion>

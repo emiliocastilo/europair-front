@@ -20,6 +20,7 @@ export class FleetTypesService {
   private readonly filterOptions: FilterOptions = {
     filter_code: OperatorEnum.CONTAINS,
     filter_description: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS,
     'filter_category.name': OperatorEnum.CONTAINS,
     'filter_subcategory.name': OperatorEnum.CONTAINS,
     filter_flightRange: OperatorEnum.EQUALS,

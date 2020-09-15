@@ -20,6 +20,7 @@ export class AirportsService {
     filter_name: OperatorEnum.CONTAINS,
     'filter_city.name': OperatorEnum.CONTAINS,
     'filter_country.name': OperatorEnum.CONTAINS,
+    'filter_country.id': OperatorEnum.EQUALS,
     filter_removedAt: OperatorEnum.IS_NULL,
     search: OperatorEnum.CONTAINS
     } as const;
