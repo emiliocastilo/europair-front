@@ -40,7 +40,7 @@ export class CountryDetailComponent {
     { value: '', disabled: false },
     [Validators.required, Validators.pattern('^[a-zA-Z]+$'), Validators.maxLength(this.maxLengthCode), Validators.minLength(this.maxLengthCode)]
   );
-  public europeanUnionControl: FormControl = this.fb.control({ value: null, disabled: false });
+  public europeanUnionControl: FormControl = this.fb.control({ value: false, disabled: false });
   private _countryDetail: Country;
 
   constructor(private readonly fb: FormBuilder ) { }
@@ -69,7 +69,7 @@ export class CountryDetailComponent {
       id: this._countryDetail.id,
       name: this.countryNameControl.value,
       code: this.countryCodeControl.value.toUpperCase(),
-      europeanUnion: this.europeanUnionControl.value
+      europeanUnion: this.europeanUnionControl.value === true
     });
   }
 }

@@ -25,9 +25,9 @@
     "CONFIRM_DISABLE_MULTIPLE": "Deshabilitar aeropuertos",
     "MSG_DISABLE": "¿Está seguro que desea deshabilitar el aeropuerto <strong>{{ airport }}</strong>?",
     "MSG_DISABLE_MULTIPLE": "¿Está seguro que desea deshabilitar los siguientes aeropuertos?",
-    "IATA_CODE":"Cód. IATA",
+    "IATA_CODE": "Cód. IATA",
     "IATA_CODE_REQUIRED": "Debe indicar el código IATA",
-    "ICAO_CODE":"Cód. ICAO",
+    "ICAO_CODE": "Cód. ICAO",
     "ICAO_CODE_REQUIRED": "Debe indicar el código ICAO",
     "NAME": "Nombre",
     "NAME_REQUIRED": "Debe indicar el nombre",
@@ -418,6 +418,31 @@
     "ERROR" : {
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
       "NEARBY_AIRPORT_MAX": "La medida 'Desde' debe de ser inferior a 'Hasta'"
+    }
+  },
+  "FILES": {
+    "PAGE_TITLE": "Expedientes",
+    "CREATE": "Crear expediente",
+    "VIEW_REGION": "Detalle expediente",
+    "EDIT_REGION": "Editar expediente",
+    "NEW": "Nuevo expediente",
+    "DELETE": "Eliminar",
+    "CANCEL": "Cancelar",
+    "EDIT": "Editar",
+    "CONFIRM": "Confirmar",
+    "SAVE": "Guardar",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE": "¿Está seguro que desea eliminar el expediente?",
+    "CODE": "ID Expediente",
+    "DESCRIPTION": "Descripción",
+    "STATUS": "Estado",
+    "CLIENT": "Cliente",
+    "ROUTES": "Rutas",
+    "ERRORS": {
+      "CODE": "Debe indicar un ID de Expediente",
+      "DESCRIPTION": "Debe indicar una descripción",
+      "STATUS": "Debe indicar un estado",
+      "CLIENT": "Debe indicar un cliente"
     }
   },
   "MEASURES": {

@@ -206,8 +206,9 @@ export class AircraftListComponent implements OnInit {
   }
 
   private updateOperatorFilterRouteQueryParams() {
-    const {airportId, operatorId} = this.route.snapshot.queryParams;
+    const {airportId, operatorId, aircrftCode} = this.route.snapshot.queryParams;
     this.operatorFilter['filter_bases.airport.id'] = airportId ?? '';
     this.operatorFilter['filter_operator.id'] = operatorId ?? '';
+    this.operatorFilter['filter_aircraftType.code'] = aircrftCode ?? '';
   }
 }

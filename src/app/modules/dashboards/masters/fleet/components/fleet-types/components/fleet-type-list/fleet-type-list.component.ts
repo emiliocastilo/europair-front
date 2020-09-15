@@ -147,8 +147,9 @@ export class FleetTypeListComponent implements OnInit {
     this.modalService.openModal();
   }
 
-  private viewFleet(selectedIndex: number): void {
-    this.router.navigate(['fleet/aircraft']);
+  private viewFleet(): void {
+    const itemSelectedIdex: number = this.selectedTypes[0];
+    this.router.navigate(['fleet/aircraft'], { queryParams: { aircrftCode: this.types[itemSelectedIdex].code} });
   }
 
   private editType(selectedItem: number): void {

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 13">
+
+  <g transform="translate(-1768 -483)">
+    <line class="a" x2="11" transform="translate(1768.5 489.5)" />
+    <g class="b" transform="translate(1768 483)">
+      <rect class="c" width="12" height="4" />
+      <rect class="d" x="0.5" y="0.5" width="11" height="3" />
+    </g>
+    <g class="b" transform="translate(1768 492)">
+      <rect class="c" width="12" height="4" />
+      <rect class="d" x="0.5" y="0.5" width="11" height="3" />
+    </g>
+  </g>
+</svg>
