@@ -13,6 +13,7 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FileRoutesService } from '../../services/file-routes.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-file-detail',
@@ -72,6 +73,7 @@ export class FileDetailComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private fileService: FilesService,
+    private router: Router,
     private fileRoutesService: FileRoutesService
   ) {}
 
@@ -90,9 +92,12 @@ export class FileDetailComponent implements OnInit {
     return new MatTableDataSource(fileRoute.rotations);
   }
 
-  public runAction(event: Event): void {
+  public runAction(event: Event, isPlane: boolean = false): void {
     event.preventDefault();
     event.stopPropagation();
+    if (isPlane) {
+      this.router.navigate(['/files/search/aircraft']);
+    }
   }
 
   public hasControlAnyError(controlName: string): boolean {
