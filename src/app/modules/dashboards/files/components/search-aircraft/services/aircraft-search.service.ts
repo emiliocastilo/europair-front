@@ -14,7 +14,7 @@ import { AircraftSearch } from '../models/aircraft-search.model';
 export class AircraftSearchService {
 
   private readonly mocked: boolean = false;
-  private readonly url = `${environment.apiUrl}/aircraft-search`;
+  private readonly url = `${environment.apiUrl}aircraft-search`;
 
   constructor(private readonly httpClient: HttpClient) { }
 
