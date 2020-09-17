@@ -8,6 +8,6 @@ import { SearchAircraftComponent } from './search-aircraft.component';
 
 @NgModule({
   declarations: [SearchAircraftComponent],
-  imports: [CommonModule, CoreModule, FormsModule, ReactiveFormsModule, MaterialModule, SearchAircraftRoutingModule],
+  imports: [CommonModule, CoreModule, FormsModule, ReactiveFormsModule, MaterialModule, SearchAircraftRoutingModule]
 })
 export class SearchAircraftModule {}

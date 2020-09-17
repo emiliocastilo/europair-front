@@ -13,7 +13,11 @@ export class AircraftSearch {
     fleetTypes: Array<FleetType>;
     nearbyAirportFrom: number;
     nearbyAirportTo: number;
-    passengers: number;
+    seatF: number;
+    seatC: number;
+    seatY: number;
+    beds: number;
+    stretchers: number;
 
     public getHttpParams(): HttpParams {
         let result: HttpParams = new HttpParams();
@@ -41,8 +45,20 @@ export class AircraftSearch {
         if (this.nearbyAirportTo) {
             result = result.append('nearbyAirportTo', this.nearbyAirportTo.toString());
         }
-        if (this.passengers) {
-            result = result.append('passengers', this.passengers.toString());
+        if (this.seatC) {
+            result = result.append('seatC', this.seatC.toString());
+        }
+        if (this.seatF) {
+            result = result.append('seatF', this.seatF.toString());
+        }
+        if (this.seatY) {
+            result = result.append('seatY', this.seatY.toString());
+        }
+        if (this.beds) {
+            result = result.append('beds', this.beds.toString());
+        }
+        if (this.stretchers) {
+            result = result.append('stretchers', this.stretchers.toString());
         }
         return result;
     }
