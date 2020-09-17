@@ -388,7 +388,7 @@
     "OPERATOR": "Operador",
     "DATE_AOC": "Fecha AOC",
     "INSURANCE_DATE": "Fecha seguro",
-    "SEATS": "Asientos (F/C/Y)",
+    "SEATS": "Asientos (F / C / Y)",
     "BEDS": "Camas y camillas",
     "MAXIMUM_LOAD": "Carga máxima",
     "OBSERVATIONS": "Observaciones",
@@ -403,7 +403,11 @@
     "AIRPORT_CATEGORY": "Categoría",
     "AIRPORT_SUBCATEGORY": "Subcategoría mínima",
     "OPERATORS": "Operador",
-    "PASSENGER": "Pasajeros",
+    "SEAT_F": "Asientos F",
+    "SEAT_C": "Asientos C",
+    "SEAT_Y": "Asientos Y",
+    "BEDS": "Camas",
+    "STRETCHERS": "Camillas",
     "OPERATOR_SEARCH_TEXT": "Escriba un operador",
     "SELECT_OPERATOR": "Selecciona un operador",
     "CATEGORY_SEARCH_TEXT": "Escriba una categoría",
@@ -415,11 +419,12 @@
     "SELECT_TYPE": "Selecciona un tipo de avión",
     "NEARBY_AIRPORT_FROM": "Desde",
     "NEARBY_AIRPORT_TO": "Hasta",
-    "QUOTE": "Cotizar",
+    "QUOTE": "Cotizar {{quantity}}",
     "CANCEL": "Cancelar",
     "ERROR" : {
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
-      "NEARBY_AIRPORT_MAX": "La medida 'Desde' debe de ser inferior a 'Hasta'"
+      "NEARBY_AIRPORT_MAX": "La medida 'Desde' debe de ser inferior a 'Hasta'",
+      "MIN_VALUE_0": "El valor debe de ser númerico y positivo."
     }
   },
   "FILES": {

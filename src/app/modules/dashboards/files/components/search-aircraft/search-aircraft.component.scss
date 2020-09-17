@@ -1,3 +1,104 @@
+@import "variables";
+
 .search-measure {
     margin-top: 4%;
+}
+
+.nearby-container {
+    min-height: 54px;
+}
+
+// COLORS
+.mat-expansion-panel {
+    background-color: $europair-color-blue-light-3;
+    &.mat-expanded {
+        background-color: $europair-color-blue-light-2;
+    }
+    .mat-expansion-panel-header-title {
+        color: $europair-color-blue-dark-1;
+    }
+    .mat-expansion-panel-header-description {
+        justify-content: flex-end;
+        align-items: center;
+        color: $europair-color-blue-dark-1;
+        .mat-icon {
+            padding-left: 8px;
+            fill: none;
+            stroke: $europair-color-blue-dark-1;
+        }
+    }
+}
+
+  
+// TABLE CONTAINER
+.table-container {
+    background-color: $europair-color-blue-light-3;
+    overflow: auto;
+}
+
+  
+.mat-header-cell {
+    border-bottom: 2px solid $europair-color-blue-light-3;
+    line-height: normal;
+    box-sizing: border-box;
+}
+  
+.mat-header-cell, .element-row {
+    font-weight: bold;
+}
+  
+.detail-row, .mat-header-row {
+    border-bottom: 0;
+}
+  
+.mat-header-cell, .mat-cell {
+    color: $europair-color-blue-dark-2;
+    padding: 12px;
+    min-width: 250px;
+    max-width: 250px;
+    box-sizing: border-box;
+    
+    &.mat-column-selection {
+        min-width: 40px;
+        max-width: 40px;
+    }
+
+    &.mat-column-dateAOC,
+    &.mat-column-insuranceDate,
+    &.mat-column-fleetType,
+    &.mat-column-quantity,
+    &.mat-column-seats,
+    &.mat-column-maximumLoad {
+        min-width: 110px;
+        max-width: 110px;
+    }
+}
+
+
+// .mat-cell,
+// .mat-header-cell {
+//     position: relative;
+//     &:after {
+//         content: "";
+//         position: absolute;
+//         left: 0;
+//         top: 25%;
+//         height: 50%;
+//         border-left: 1px solid $europair-color-blue-light-3;
+//     }
+// }
+
+.mat-header-row, .mat-row {
+    width: max-content;
+    border-bottom-color: $europair-color-blue-light-3;
+}
+  
+.mat-row {
+    &:hover {
+        background-color: $europair-color-blue-light-1;
+    }
+}
+
+.mat-checkbox-background {
+    background-color: $europair-color-blue-dark-1;
 }

@@ -62,6 +62,20 @@ $europair-management-front-theme: mat-light-theme(
   }
 }
 
+@for $mxincrement from 1 through 6 {
+  .cmd-mx-#{$mxincrement} {
+    margin-left: #{$mxincrement}rem !important;
+    margin-right: #{$mxincrement}rem !important;
+  }
+}
+
+@for $myincrement from 1 through 6 {
+  .cmd-my-#{$myincrement} {
+    margin-top: #{$myincrement}rem !important;
+    margin-bottom: #{$myincrement}rem !important;
+  }
+}
+
 //PADDING
 @for $pincrement from 1 through 6 {
   .cmd-p-#{$pincrement} {

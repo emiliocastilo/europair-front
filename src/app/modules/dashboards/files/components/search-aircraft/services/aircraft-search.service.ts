@@ -13,13 +13,13 @@ import { AircraftSearch } from '../models/aircraft-search.model';
 })
 export class AircraftSearchService {
 
-  private readonly mocked: boolean = false;
+  private readonly mocked: boolean = true;
   private readonly url = `${environment.apiUrl}aircraft-search`;
 
   constructor(private readonly httpClient: HttpClient) { }
 
   public searchAircraft(searchParams: AircraftSearch): Observable<Page<Aircraft>> {
-    const url: string = this.mocked ? '/assets/mocks/cities.json' : this.url;
+    const url: string = this.mocked ? '/assets/mocks/aircraft.json' : this.url;
     return this.httpClient.get<Page<Aircraft>>(url, {params: searchParams.getHttpParams()});
   }
 }

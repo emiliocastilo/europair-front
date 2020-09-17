@@ -1,47 +1,35 @@
 <core-page-bar [pageTitle]="'SEARCH_AIRCRAFT.PAGE_TITLE' | translate"></core-page-bar>
 
-<mat-accordion class="example-headers-align" togglePosition="before" multi>
+<mat-accordion class="table-expansion-panel" multi>
     <mat-expansion-panel class="cmd-mb-2" [expanded]="filterExpanded">
         <mat-expansion-panel-header>
             <mat-panel-title>{{ "SEARCH_AIRCRAFT.FILTER" | translate | sentenceCase }}</mat-panel-title>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
             <form [formGroup]="searchForm">
-
                 <div class="row">
-                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate" [id]="'search-airport-country'"
-                        [items]="countries$ | async" [minTermLength]="1" [loading]="countriesLoading"
-                        class="col s12 l4 cmd-mb-1" [multiple]="true"
-                        [typeToSearchText]="'SEARCH_AIRCRAFT.COUNTRY_SEARCH_TEXT' | translate"
-                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_COUNTRY' | translate"
-                        [hasErrors]="hasControlAnyError('countries')" [typeahead]="countriesInput$" [searchable]="true"
-                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="countries">
-                    </core-select>
 
                     <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
                         [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
-                        class="col s12 l4 cmd-mb-1" [multiple]="true"
+                        class="col s12 l12 cmd-mb-1" [multiple]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
                         [hasErrors]="hasControlAnyError('airports')" [typeahead]="airportsInput$" [searchable]="true"
                         [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="airports">
                     </core-select>
 
-                    <core-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate" [id]="'search-aircraft-subcategory'"
-                        [items]="operators$ | async" [minTermLength]="1" [loading]="operatorsLoading"
-                        class="col s12 l4 cmd-mb-1" [multiple]="true"
-                        [typeToSearchText]="'SEARCH_AIRCRAFT.OPERATOR_SEARCH_TEXT' | translate"
-                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_OPERATOR' | translate"
-                        [hasErrors]="hasControlAnyError('operators')" [typeahead]="operatorsInput$"
-                        [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="operators">
+                    <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate" [id]="'search-airport-country'"
+                        [items]="countries$ | async" [minTermLength]="1" [loading]="countriesLoading"
+                        class="col s12 l12 cmd-mb-1" [multiple]="true"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.COUNTRY_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_COUNTRY' | translate"
+                        [hasErrors]="hasControlAnyError('countries')" [typeahead]="countriesInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="countries">
                     </core-select>
 
-                </div>
-
-                <div class="row">
                     <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_CATEGORY' | translate"
                         [id]="'search-aircraft-category'" [items]="categories$ | async" [minTermLength]="1"
-                        [loading]="categoriesLoading" class="col s12 l4 cmd-mb-1"
+                        [loading]="categoriesLoading" class="col s12 l6 cmd-mb-1"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.CATEGORY_SEARCH_TEXT' | translate"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate"
                         [hasErrors]="hasControlAnyError('category')" [typeahead]="categoriesInput$" [searchable]="true"
@@ -50,7 +38,7 @@
 
                     <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_SUBCATEGORY' | translate"
                         [id]="'search-aircraft-subcategory'" [items]="subcategories$ | async" [minTermLength]="1"
-                        [loading]="subcategoriesLoading" class="col s12 l4 cmd-mb-1"
+                        [loading]="subcategoriesLoading" class="col s12 l6 cmd-mb-1"
                         [isDisabled]="!hasCategorySelected()"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.SUBCATEGORY_SEARCH_TEXT' | translate"
                         [placeholder]="getSubcategoryPlaceholder() | translate"
@@ -61,21 +49,88 @@
 
                     <core-select [label]="'SEARCH_AIRCRAFT.TYPE' | translate" [id]="'search-fleetType'"
                         [items]="fleetTypes$ | async" [minTermLength]="1" [loading]="fleetTypesLoading"
-                        class="col s12 l4 cmd-mb-1" [multiple]="true" [searchable]="true"
+                        class="col s12 l12 cmd-mb-1" [multiple]="true" [searchable]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.TYPE_SEARCH_TEXT' | translate"
-                        [itemDescription]="'description'"
-                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_TYPE' | translate"
+                        [itemDescription]="'description'" [placeholder]="'SEARCH_AIRCRAFT.SELECT_TYPE' | translate"
                         [hasErrors]="hasControlAnyError('fleetTypes')" [typeahead]="fleetTypesInput$"
                         [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="fleetTypes">
                     </core-select>
-                </div>
 
-                <div class="row">
-                    <core-basic-input-text [id]="'search-nearby-airport-to'" class="col s12 l4"
-                        [label]="'SEARCH_AIRCRAFT.PASSENGER' | translate" [type]="'number'"
-                        [hasErrors]="hasControlAnyError('passengers')" formControlName="passengers">
+                    <core-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate" [id]="'search-aircraft-subcategory'"
+                        [items]="operators$ | async" [minTermLength]="1" [loading]="operatorsLoading"
+                        class="col s12 l12 cmd-mb-1" [multiple]="true"
+                        [typeToSearchText]="'SEARCH_AIRCRAFT.OPERATOR_SEARCH_TEXT' | translate"
+                        [placeholder]="'SEARCH_AIRCRAFT.SELECT_OPERATOR' | translate"
+                        [hasErrors]="hasControlAnyError('operators')" [typeahead]="operatorsInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="operators">
+                    </core-select>
+
+                    <core-basic-input-text [id]="'search-passsenger-f'" class="col s12 l2"
+                        [label]="'SEARCH_AIRCRAFT.SEAT_F' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('seatF')" formControlName="seatF">
+                        <ng-container inputErrors>
+                            <ng-container *ngIf="hasControlAnyError('seatF')">
+                                <span *ngIf="hasControlSpecificError('seatF', 'min')"
+                                    class="helper-text"
+                                    [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                </span>
+                            </ng-container>
+                        </ng-container>
                     </core-basic-input-text>
-                    <div class="col s12 l8">
+
+                    <core-basic-input-text [id]="'search-passsenger-c'" class="col s12 l2"
+                        [label]="'SEARCH_AIRCRAFT.SEAT_C' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('seatC')" formControlName="seatC">
+                        <ng-container inputErrors>
+                            <ng-container *ngIf="hasControlAnyError('seatC')">
+                                <span *ngIf="hasControlSpecificError('seatC', 'min')"
+                                    class="helper-text"
+                                    [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                </span>
+                            </ng-container>
+                        </ng-container>
+                    </core-basic-input-text>
+
+                    <core-basic-input-text [id]="'search-passsenger-y'" class="col s12 l2"
+                        [label]="'SEARCH_AIRCRAFT.SEAT_Y' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('seatY')" formControlName="seatY">
+                        <ng-container inputErrors>
+                            <ng-container *ngIf="hasControlAnyError('seatY')">
+                                <span *ngIf="hasControlSpecificError('seatY', 'min')"
+                                    class="helper-text"
+                                    [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                </span>
+                            </ng-container>
+                        </ng-container>
+                    </core-basic-input-text>
+
+                    <core-basic-input-text [id]="'search-passsenger-bed'" class="col s12 l2"
+                        [label]="'SEARCH_AIRCRAFT.BEDS' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('beds')" formControlName="beds">
+                        <ng-container inputErrors>
+                            <ng-container *ngIf="hasControlAnyError('beds')">
+                                <span *ngIf="hasControlSpecificError('beds', 'min')"
+                                    class="helper-text"
+                                    [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                </span>
+                            </ng-container>
+                        </ng-container>
+                    </core-basic-input-text>
+
+                    <core-basic-input-text [id]="'search-passsenger-stretchers'" class="col s12 l2"
+                        [label]="'SEARCH_AIRCRAFT.STRETCHERS' | translate" [type]="'number'"
+                        [hasErrors]="hasControlAnyError('stretchers')" formControlName="stretchers">
+                        <ng-container inputErrors>
+                            <ng-container *ngIf="hasControlAnyError('stretchers')">
+                                <span *ngIf="hasControlSpecificError('stretchers', 'min')"
+                                    class="helper-text"
+                                    [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                </span>
+                            </ng-container>
+                        </ng-container>
+                    </core-basic-input-text>
+
+                    <div class="col s12 l12 cmd-my-2 nearby-container">
                         <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l4"
                             [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate" formControlName="nearbyAirport">
                         </core-basic-switch>
@@ -126,7 +181,7 @@
 
                 <div class="row">
                     <button type="submit" (click)="filterAircraftTable()"
-                        class=" col s12 l2 offset-l10 waves-effect waves-light btn-large europair-icon-blue-1">
+                        class=" col s12 l2 offset-l9 waves-effect waves-light btn-large europair-icon-blue-1">
                         <i class="material-icons">search</i>
                         <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.SEARCH' | translate}}</span>
                     </button>
@@ -136,27 +191,147 @@
     </mat-expansion-panel>
 </mat-accordion>
 
-<mat-accordion class="example-headers-align" togglePosition="before" multi>
-    <mat-expansion-panel class="cmd-mb-2" [expanded]="tableExpanded">
+<mat-accordion>
+    <mat-expansion-panel class="table-expansion-panel" [expanded]="tableExpanded">
         <mat-expansion-panel-header>
-            <mat-panel-title>{{ "SEARCH_AIRCRAFT.AIRCRAFT_RESULT" | translate | sentenceCase }}</mat-panel-title>
+            <mat-panel-title>
+                {{ "SEARCH_AIRCRAFT.AIRCRAFT_RESULT" | translate | sentenceCase }}
+            </mat-panel-title>
         </mat-expansion-panel-header>
-        <ng-template matExpansionPanelContent>
-            <core-table [columnsHeader]="aircraftsColumnsHeader" [columnsData]="aircraftsColumnsData"
-                [pagination]="aircraftsPagination" (selectedItems)="onAircraftSelected($event)">
-            </core-table>
-            <div class="row confirm">
-                <button type="submit" (click)="cancel()"
-                    class=" col s12 l2 waves-effect waves-light btn-large europair-icon-blue-1">
-                    <i class="material-icons">cancel</i>
-                    <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
-                </button>
-                <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
-                    class=" col s12 l2 offset-l8 waves-effect waves-light btn-large europair-icon-blue-1">
-                    <i class="material-icons">done</i>
-                    <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate}}</span>
-                </button>
-            </div>
-        </ng-template>
+
+        <div class="table-container">
+            <mat-table multiTemplateDataRows [dataSource]="dataSource">
+                <ng-container matColumnDef="selection">
+                    <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <mat-checkbox [id]="'aircraft' + element.id" [color]="'primary'"
+                        (change)="checkAircraft($event.checked, element.id)">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="operator">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.OPERATOR' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.operator?.name }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dateAOC">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.DATE_AOC' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.operator?.aocLastRevisionDate }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="insuranceDate">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.INSURANCE_DATE' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.operator?.insuranceExpirationDate }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="airport">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.AIRPORT' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{getAirportLabel(element)}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.CATEGORY' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.aircraftType?.category?.name }}
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="subcategory">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.SUBCATEGORY' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.aircraftType?.subcategory?.name }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fleetType">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.TYPE' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.aircraftType?.description }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.QUANTITY' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.quantity }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="seats">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.SEATS' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ getSeatsFCY(element) }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="maximumLoad">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.MAXIMUM_LOAD' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.load?.maximumLoad }}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Seats Column-->
+                <ng-container matColumnDef="observations">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.OBSERVATIONS' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.observations?.toString() }}
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: columnsToDisplay" class="element-row"
+                    (change)="checkAircraft($event.checked, element.id)">
+                </mat-row>
+            </mat-table>
+        </div>
+
+        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
+
+        <div class="row confirm">
+            <button type="submit" (click)="cancel()"
+                class=" col s12 l2 waves-effect waves-light btn-large europair-icon-blue-1">
+                <i class="material-icons">cancel</i>
+                <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
+            </button>
+            <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
+                class=" col s12 l2 offset-l8 waves-effect waves-light btn-large europair-icon-blue-1">
+                <i class="material-icons">done</i>
+                <span
+                    class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
+            </button>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
