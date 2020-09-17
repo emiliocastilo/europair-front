@@ -19,9 +19,11 @@
     <ng-template matExpansionPanelContent>
       <div class="route-generator valign-wrapper">
         <core-basic-input-text
+          #routeGenerator
           [id]="'route-code'"
           [label]="'Cód. Ruta' | translate"
           [(ngModel)]="routeCode"
+          (ngModelChange)="routeCode = $event.toUpperCase()"
           class="col s12 l4"
         >
         </core-basic-input-text>
@@ -92,7 +94,7 @@
           <core-basic-input-text
             [id]="'route-startDate'"
             [type]="'date'"
-            [label]="'AIRCRAFT.INSURANCE_END_DATE' | translate"
+            [label]="'Fecha inicio' | translate"
             [hasErrors]="hasControlAnyError('startDate')"
             formControlName="startDate"
             class="col s12 l4 cmd-mb-1"
@@ -112,7 +114,7 @@
           <core-basic-input-text
             [id]="'route-endDate'"
             [type]="'date'"
-            [label]="'AIRCRAFT.INSURANCE_END_DATE' | translate"
+            [label]="'Fecha fin' | translate"
             [hasErrors]="hasControlAnyError('endDate')"
             formControlName="endDate"
             class="col s12 l4"
@@ -137,7 +139,7 @@
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel>
+  <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ "vuelos" | translate | sentenceCase }}
