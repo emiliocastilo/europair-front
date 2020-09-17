@@ -11,29 +11,29 @@
                 <div class="row">
                     <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate" [id]="'search-airport-country'"
                         [items]="countries$ | async" [minTermLength]="1" [loading]="countriesLoading"
-                        class="col s12 l4 cmd-mb-1"
+                        class="col s12 l4 cmd-mb-1" [multiple]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.COUNTRY_SEARCH_TEXT' | translate"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_COUNTRY' | translate"
-                        [hasErrors]="hasControlAnyError('country')" [typeahead]="countriesInput$" [searchable]="true"
-                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="country">
+                        [hasErrors]="hasControlAnyError('countries')" [typeahead]="countriesInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="countries">
                     </core-select>
 
                     <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
                         [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
-                        class="col s12 l4 cmd-mb-1"
+                        class="col s12 l4 cmd-mb-1" [multiple]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
-                        [hasErrors]="hasControlAnyError('airport')" [typeahead]="airportsInput$" [searchable]="true"
-                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="airport">
+                        [hasErrors]="hasControlAnyError('airports')" [typeahead]="airportsInput$" [searchable]="true"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="airports">
                     </core-select>
 
                     <core-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate" [id]="'search-aircraft-subcategory'"
                         [items]="operators$ | async" [minTermLength]="1" [loading]="operatorsLoading"
-                        class="col s12 l4 cmd-mb-1"
+                        class="col s12 l4 cmd-mb-1" [multiple]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.OPERATOR_SEARCH_TEXT' | translate"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_OPERATOR' | translate"
-                        [hasErrors]="hasControlAnyError('subcategory')" [typeahead]="operatorsInput$"
-                        [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="operator">
+                        [hasErrors]="hasControlAnyError('operators')" [typeahead]="operatorsInput$"
+                        [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="operators">
                     </core-select>
 
                 </div>
@@ -63,16 +63,17 @@
                         [items]="fleetTypes$ | async" [minTermLength]="1" [loading]="fleetTypesLoading"
                         class="col s12 l4 cmd-mb-1" [multiple]="true" [searchable]="true"
                         [typeToSearchText]="'SEARCH_AIRCRAFT.TYPE_SEARCH_TEXT' | translate"
+                        [itemDescription]="'description'"
                         [placeholder]="'SEARCH_AIRCRAFT.SELECT_TYPE' | translate"
-                        [hasErrors]="hasControlAnyError('fleetType')" [typeahead]="fleetTypesInput$"
-                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="fleetType">
+                        [hasErrors]="hasControlAnyError('fleetTypes')" [typeahead]="fleetTypesInput$"
+                        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="fleetTypes">
                     </core-select>
                 </div>
 
                 <div class="row">
                     <core-basic-input-text [id]="'search-nearby-airport-to'" class="col s12 l4"
                         [label]="'SEARCH_AIRCRAFT.PASSENGER' | translate" [type]="'number'"
-                        [hasErrors]="hasControlAnyError('passenger')" formControlName="passenger">
+                        [hasErrors]="hasControlAnyError('passengers')" formControlName="passengers">
                     </core-basic-input-text>
                     <div class="col s12 l8">
                         <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l4"
@@ -142,9 +143,20 @@
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
             <core-table [columnsHeader]="aircraftsColumnsHeader" [columnsData]="aircraftsColumnsData"
-                [pagination]="aircraftsPagination" (selectedItem)="onAircraftSelected($event)"
-                (search)="onFilterAircrafts($event)" (sortByColumn)="onSortAircrafts($event)">
+                [pagination]="aircraftsPagination" (selectedItems)="onAircraftSelected($event)">
             </core-table>
+            <div class="row confirm">
+                <button type="submit" (click)="cancel()"
+                    class=" col s12 l2 waves-effect waves-light btn-large europair-icon-blue-1">
+                    <i class="material-icons">cancel</i>
+                    <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
+                </button>
+                <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
+                    class=" col s12 l2 offset-l8 waves-effect waves-light btn-large europair-icon-blue-1">
+                    <i class="material-icons">done</i>
+                    <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate}}</span>
+                </button>
+            </div>
         </ng-template>
     </mat-expansion-panel>
 </mat-accordion>

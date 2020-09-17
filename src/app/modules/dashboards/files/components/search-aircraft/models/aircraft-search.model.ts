@@ -5,52 +5,49 @@ import { FleetCategory, FleetSubcategory, FleetType } from 'src/app/modules/dash
 import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
 
 export class AircraftSearch {
-    country: Country;
-    airport: Airport;
-    operator: Operator;
-    category: FleetCategory;
-    subcategory: FleetSubcategory;
-    fleetType: FleetType;
+    countries: Array<Country>;
+    airports: Array<Airport>;
+    operators: Array<Operator>;
+    categories: Array<FleetCategory>;
+    subcategories: Array<FleetSubcategory>;
+    fleetTypes: Array<FleetType>;
     nearbyAirportFrom: number;
     nearbyAirportTo: number;
     passengers: number;
 
     public getHttpParams(): HttpParams {
-        const result: HttpParams = new HttpParams();
-        if (this.country) {
-            result.append('countryId', this.country.id.toString());
+        let result: HttpParams = new HttpParams();
+        if (this.countries && this.countries.length > 0) {
+            result = result.append('countryId', this.getParamsFromArray(this.countries));
         }
-        if (this.airport) {
-            result.append('airportId', this.airport.id.toString());
+        if (this.airports && this.airports.length > 0) {
+            result = result.append('airportId', this.getParamsFromArray(this.airports));
         }
-        if (this.operator) {
-            result.append('operatorId', this.operator.id.toString());
+        if (this.operators && this.operators.length > 0) {
+            result = result.append('operatorId', this.getParamsFromArray(this.operators));
         }
-
-        if (this.category) {
-            result.append('categoryId', this.category.id.toString());
+        if (this.categories && this.categories.length > 0) {
+            result = result.append('categoryId', this.getParamsFromArray(this.categories));
         }
-
-        if (this.subcategory) {
-            result.append('subcategoryId', this.subcategory.id.toString());
+        if (this.subcategories && this.subcategories.length > 0) {
+            result = result.append('subcategoryId', this.getParamsFromArray(this.subcategories));
         }
-
-        if (this.fleetType) {
-            result.append('fleetTypeId', this.fleetType.id.toString());
+        if (this.fleetTypes && this.fleetTypes.length > 0) {
+            result = result.append('fleetTypeId', this.getParamsFromArray(this.fleetTypes));
         }
-
         if (this.nearbyAirportFrom) {
-            result.append('nearbyAirportFrom', this.nearbyAirportFrom.toString());
+            result = result.append('nearbyAirportFrom', this.nearbyAirportFrom.toString());
         }
-
         if (this.nearbyAirportTo) {
-            result.append('nearbyAirportTo', this.nearbyAirportTo.toString());
+            result = result.append('nearbyAirportTo', this.nearbyAirportTo.toString());
         }
-
         if (this.passengers) {
-            result.append('passengers', this.passengers.toString());
+            result = result.append('passengers', this.passengers.toString());
         }
-
         return result;
+    }
+
+    private getParamsFromArray(items: Array<Partial<{id: number}>>): string {
+        return items.map((item: {id: number}) => item.id).toString();
     }
 }
