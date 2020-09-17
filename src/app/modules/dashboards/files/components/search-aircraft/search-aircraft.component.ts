@@ -127,9 +127,6 @@ export class SearchAircraftComponent implements OnInit {
     this.loadOperators();
     this.initTable();
     this.initGeneralDataFormSubscriptions();
-    $(document.body).keydown((event) => {
-      debugger;
-    })
   }
   private initGeneralDataFormSubscriptions(): void {
     this.searchForm.get('category').valueChanges.pipe(takeUntil(this.unsubscriber$)).subscribe(
