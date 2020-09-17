@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,6 +18,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { InputTextComponent } from 'src/app/core/components/basic/input-text/input-text.component';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
@@ -21,8 +29,10 @@ import { FrequencyType, FREQUENCY_LIST } from '../../models/FileRoute.model';
   templateUrl: './route-detail.component.html',
   styleUrls: ['./route-detail.component.scss'],
 })
-export class RouteDetailComponent implements OnInit {
+export class RouteDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) flightTable: MatTable<any>;
+  @ViewChild(InputTextComponent, { read: ElementRef })
+  routeGenerator: ElementRef;
 
   public routeCode: string;
 
@@ -36,17 +46,28 @@ export class RouteDetailComponent implements OnInit {
   public destinationAirportsLoading = false;
   public destinationAirportIdSelected: string;
 
-  private defaultFlight = {
-    origin: '',
-    destination: '',
-    beds: 0,
-    seatsF: 0,
-    seatsC: 0,
-    seatsY: 0,
-  };
+  private mockedFlights = [
+    {
+      origin: 'MAD',
+      destination: 'PMI',
+      startDate: '02/10/20',
+      endDate: '02/10/20',
+      seatsF: 50,
+      seatsC: 0,
+      seatsY: 0,
+    },
+    {
+      origin: 'PMI',
+      destination: 'MAD',
+      startDate: '02/10/20',
+      endDate: '02/10/20',
+      seatsF: 50,
+      seatsC: 0,
+      seatsY: 0,
+    },
+  ];
 
-  public dataSource = new MatTableDataSource<any>();
-
+  public dataSource = new MatTableDataSource<any>(this.mockedFlights);
   public frequencyList = [];
 
   public routeForm: FormGroup = this.fb.group({
@@ -60,11 +81,13 @@ export class RouteDetailComponent implements OnInit {
   public columnsToDisplay = [
     { title: 'Aeropuerto Origen', label: 'origin' },
     { title: 'Aeropuerto Origen', label: 'destination' },
-    { title: 'Pasajeros', label: 'beds' },
+    { title: 'Fecha inicio', label: 'startDate' },
+    { title: 'Fecha fin', label: 'endDate' },
     { title: 'Asientos F', label: 'seatsF' },
     { title: 'Asientos C', label: 'seatsC' },
     { title: 'Asientos Y', label: 'seatsY' },
   ];
+
   public columnsProps = this.columnsToDisplay.map((e) => e.label);
 
   constructor(
@@ -77,8 +100,9 @@ export class RouteDetailComponent implements OnInit {
     this.loadOriginAirports();
     this.loadDestinationAirports();
     this.loadFrequencies();
-    console.log(this.frequencyList);
   }
+
+  ngAfterViewInit(): void {}
 
   private loadOriginAirports(): void {
     this.originAirports$ = concat(
@@ -136,24 +160,24 @@ export class RouteDetailComponent implements OnInit {
   }
 
   public generateFlights() {
-    const routeSegments = this.routeCode.split('-').map((e) => e.toUpperCase());
-    routeSegments.forEach((segment, i) => {
-      if (routeSegments[i + 1]) {
-        this.dataSource.data.push({
-          ...this.defaultFlight,
-          origin: segment,
-          destination: routeSegments[i + 1],
-        });
-      }
-      if (routeSegments[i - 1]) {
-        this.dataSource.data.push({
-          ...this.defaultFlight,
-          origin: segment,
-          destination: routeSegments[i - 1],
-        });
-      }
-    });
-    this.flightTable.renderRows();
+    // const routeSegments = this.routeCode.split('-').map((e) => e.toUpperCase());
+    // routeSegments.forEach((segment, i) => {
+    //   if (routeSegments[i + 1]) {
+    //     this.dataSource.data.push({
+    //       ...this.defaultFlight,
+    //       origin: segment,
+    //       destination: routeSegments[i + 1],
+    //     });
+    //   }
+    //   if (routeSegments[i - 1]) {
+    //     this.dataSource.data.push({
+    //       ...this.defaultFlight,
+    //       origin: segment,
+    //       destination: routeSegments[i - 1],
+    //     });
+    //   }
+    // });
+    // this.flightTable.renderRows();
   }
 
   public hasControlAnyError(controlName: string): boolean {
