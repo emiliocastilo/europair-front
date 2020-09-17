@@ -361,7 +361,7 @@
       "MSG_DELETE": "¿Está seguro que desea eliminar el tipo <b>{{ type }}</b> ?",
       "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes tipos?",
       "CODE": "Código",
-      "DESCRIPTION" : "Descripción",
+      "DESCRIPTION": "Descripción",
       "CATEGORY": "Categoría",
       "SUBCATEGORY": "Subcategoría",
       "FLIGHT_RANGE": "Rango vuelo",
@@ -440,11 +440,21 @@
     "STATUS": "Estado",
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
+    "NEW_ROUTE": "Nueva ruta",
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
       "CLIENT": "Debe indicar un cliente"
+    }
+  },
+  "FREQUENCIES": {
+    "UNITS": {
+      "ADHOC": "ADHOC",
+      "DAILY": "diaria",
+      "WEEKLY": "semanal",
+      "BIWEEKLY": "bisemanal",
+      "DAY_OF_MONTH": "dia del mes"
     }
   },
   "MEASURES": {

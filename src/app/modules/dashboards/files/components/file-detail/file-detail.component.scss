@@ -14,6 +14,17 @@ $other-columns-number: 16;
   .mat-expansion-panel-header-title {
     color: #005795;
   }
+
+  .mat-expansion-panel-header-description {
+    justify-content: flex-end;
+    align-items: center;
+    color: #005795;
+    .mat-icon {
+      padding-left: 8px;
+      fill: none;
+      stroke: #005795;
+    }
+  }
 }
 
 .mat-cell.parent-route {
@@ -43,6 +54,22 @@ $other-columns-number: 16;
 }
 
 // ROW
+@mixin column-days($days...) {
+  @for $i from 0 to length($days) {
+    .mat-header-cell.mat-column-#{nth($days, $i + 1)} {
+      min-width: 50px;
+      max-width: 50px;
+    }
+
+    .mat-cell.mat-column-#{nth($days, $i + 1)} {
+      min-width: 50px;
+      max-width: 50px;
+    }
+  }
+}
+
+@include column-days("l", "m", "x", "j", "v", "s", "d");
+
 .mat-header-cell {
   border-bottom: 2px solid #cce0f2;
   line-height: normal;
