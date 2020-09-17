@@ -361,7 +361,7 @@
       "MSG_DELETE": "¿Está seguro que desea eliminar el tipo <b>{{ type }}</b> ?",
       "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes tipos?",
       "CODE": "Código",
-      "DESCRIPTION" : "Descripción",
+      "DESCRIPTION": "Descripción",
       "CATEGORY": "Categoría",
       "SUBCATEGORY": "Subcategoría",
       "FLIGHT_RANGE": "Rango vuelo",
@@ -415,7 +415,7 @@
     "SELECT_TYPE": "Selecciona un tipo de avión",
     "NEARBY_AIRPORT_FROM": "Desde",
     "NEARBY_AIRPORT_TO": "Hasta",
-    "ERROR" : {
+    "ERROR": {
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
       "NEARBY_AIRPORT_MAX": "La medida 'Desde' debe de ser inferior a 'Hasta'"
     }
@@ -438,11 +438,21 @@
     "STATUS": "Estado",
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
+    "NEW_ROUTE": "Nueva ruta",
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
       "CLIENT": "Debe indicar un cliente"
+    }
+  },
+  "FREQUENCIES": {
+    "UNITS": {
+      "ADHOC": "ADHOC",
+      "DAILY": "diaria",
+      "WEEKLY": "semanal",
+      "BIWEEKLY": "bisemanal",
+      "DAY_OF_MONTH": "dia del mes"
     }
   },
   "MEASURES": {

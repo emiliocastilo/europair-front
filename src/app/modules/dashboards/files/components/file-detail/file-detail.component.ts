@@ -30,10 +30,11 @@ import { Router } from '@angular/router';
     ]),
   ],
 })
-export class FileDetailComponent implements OnInit {
+export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) expandedTable: MatTable<any>;
 
+  public daysColumns = ['l', 'm', 'x', 'j', 'v', 's', 'd'];
   public columnsToDisplay = [
     'code',
     'frequency',
@@ -43,13 +44,7 @@ export class FileDetailComponent implements OnInit {
     'dayNumber',
     'operationInitialDate',
     'operationEndDate',
-    'l',
-    'm',
-    'x',
-    'j',
-    'v',
-    's',
-    'd',
+    ...this.daysColumns,
     'rotations.length',
     'seats',
     'status',
@@ -77,7 +72,7 @@ export class FileDetailComponent implements OnInit {
     private fileRoutesService: FileRoutesService
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.fileRoutesService
       .getFileRoutes(1)
       .subscribe((data: Page<FileRoute>) => {
@@ -87,6 +82,8 @@ export class FileDetailComponent implements OnInit {
         this.pageSize = data.size;
       });
   }
+
+  ngOnInit(): void {}
 
   public getChildRoutes(fileRoute: FileRoute): MatTableDataSource<FileRoute> {
     return new MatTableDataSource(fileRoute.rotations);
