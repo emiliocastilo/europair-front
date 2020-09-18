@@ -30,4 +30,11 @@ export class LeftSidebarComponent implements OnInit {
       this.collapseClick.emit(true);
     }
   }
+
+  public expandMenu(): void {
+    if (this.collapseMenu) {
+      this.collapseMenu = false;
+      this.collapseClick.emit(false);
+    }
+  }
 }
