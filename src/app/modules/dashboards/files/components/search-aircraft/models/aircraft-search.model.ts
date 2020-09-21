@@ -11,6 +11,7 @@ export class AircraftSearch {
     categories: Array<FleetCategory>;
     subcategories: Array<FleetSubcategory>;
     fleetTypes: Array<FleetType>;
+    nearbyAirport: boolean;
     nearbyAirportFrom: number;
     nearbyAirportTo: number;
     seatF: number;
@@ -39,10 +40,8 @@ export class AircraftSearch {
         if (this.fleetTypes && this.fleetTypes.length > 0) {
             result = result.append('fleetTypeId', this.getParamsFromArray(this.fleetTypes));
         }
-        if (this.nearbyAirportFrom) {
+        if (this.nearbyAirport) {
             result = result.append('nearbyAirportFrom', this.nearbyAirportFrom.toString());
-        }
-        if (this.nearbyAirportTo) {
             result = result.append('nearbyAirportTo', this.nearbyAirportTo.toString());
         }
         if (this.seatC) {
@@ -60,6 +59,7 @@ export class AircraftSearch {
         if (this.stretchers) {
             result = result.append('stretchers', this.stretchers.toString());
         }
+        result = result.append('bases', "1");
         return result;
     }
 
