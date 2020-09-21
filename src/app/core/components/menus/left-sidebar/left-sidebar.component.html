@@ -44,8 +44,12 @@
               <article class="icon-block center-align">
                 <a
                   class="btn-floating btn-small waves-effect waves-light europair-icon-blue-dark-6"
-                  ><i class="material-icons">{{ menuItem.icon }}</i></a
+                  (click)="expandMenu()"
                 >
+                  <i class="material-icons">
+                    {{ menuItem.icon }}
+                  </i>
+                </a>
               </article>
             </section>
             <section *ngIf="!collapseMenu" class="col m9 l9 valign-wrapper">
