@@ -2,102 +2,97 @@
   "content": [
     {
       "id": 1,
-      "code": "ABV-ZRH",
+      "label": "MAD-PMI",
       "frequency": "ADHOC",
-      "initialDate": "10/01/20",
-      "endDate": "10/01/20",
+      "initialDate": "01/10/2020",
+      "endDate": "01/10/2020",
+      "frequencyDays": [{ "id": 1, "weekday": 4, "monthDay": null }],
+      "rotationsNumber": 0,
       "rotations": [
         {
           "id": 2,
-          "code": "ABV-ZRH",
+          "label": "MAD-PMI",
           "frequency": "ADHOC",
-          "initialDate": "10/01/20",
-          "endDate": "10/01/20",
+          "initialDate": "01/10/2020 10:00",
+          "endDate": "01/10/2020 11:30",
           "rotations": []
         }
       ]
     },
     {
       "id": 3,
-      "code": "BCN-CMF-BCN",
+      "label": "BCN-BGO",
       "frequency": "ADHOC",
-      "initialDate": "02/01/20",
-      "endDate": "02/01/20",
+      "initialDate": "29/09/2020",
+      "endDate": "29/09/2020",
+      "frequencyDays": [{ "id": 1, "weekday": 2, "monthDay": null }],
+      "rotationsNumber": 1,
       "rotations": [
         {
           "id": 4,
-          "code": "ABV-ZRH",
+          "label": "BCN-BGO",
           "frequency": "ADHOC",
-          "initialDate": "10/01/20",
-          "endDate": "10/01/20",
+          "initialDate": "29/09/2020 10:00",
+          "endDate": "29/09/2020 11:00",
           "rotations": []
         }
       ]
     },
     {
       "id": 5,
-      "code": "BCN-BGO-BCN",
+      "label": "ABV-ZRH",
       "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13",
+      "initialDate": "28/09/2020",
+      "endDate": "02/11/2020",
+      "frequencyDays": [{ "id": 1, "weekday": 1, "monthDay": null }],
+      "rotationsNumber": 6,
       "rotations": [
         {
           "id": 6,
-          "code": "ABV-ZRH",
-          "frequency": "ADHOC",
-          "initialDate": "10/01/20",
-          "endDate": "10/01/20",
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "28/09/2020 10:00",
+          "endDate": "28/09/2020 13:00",
           "rotations": []
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "code": "BCN-EDI-BCN",
-      "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13",
-      "rotations": [
+        },
+        {
+          "id": 7,
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "05/10/2020 10:00",
+          "endDate": "05/10/2020 13:00",
+          "rotations": []
+        },
         {
           "id": 8,
-          "code": "BCN-EDI-BCN",
-          "frequency": "semanal",
-          "initialDate": "29/06/13",
-          "endDate": "31/08/13",
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "12/10/2020 10:00",
+          "endDate": "12/10/2020 13:00",
           "rotations": []
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "code": "BCN-CPH-BCN",
-      "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13",
-      "rotations": [
+        },
+        {
+          "id": 9,
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "19/10/2020 10:00",
+          "endDate": "19/10/2020 13:00",
+          "rotations": []
+        },
         {
           "id": 10,
-          "code": "BCN-CPH-BCN",
-          "frequency": "semanal",
-          "initialDate": "29/06/13",
-          "endDate": "31/08/13",
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "26/10/2020 10:00",
+          "endDate": "26/10/2020 13:00",
           "rotations": []
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "code": "BCN-ARN-BCN",
-      "frequency": "semanal",
-      "initialDate": "29/06/13",
-      "endDate": "31/08/13",
-      "rotations": [
+        },
         {
-          "id": 12,
-          "code": "BCN-ARN-BCN",
-          "frequency": "semanal",
-          "initialDate": "29/06/13",
-          "endDate": "31/08/13",
+          "id": 6,
+          "label": "ABV-ZRH",
+          "frequency": "",
+          "initialDate": "02/11/2020 10:00",
+          "endDate": "02/11/2020 13:00",
           "rotations": []
         }
       ]
@@ -117,7 +112,7 @@
   },
   "last": true,
   "totalPages": 1,
-  "totalElements": 6,
+  "totalElements": 3,
   "number": 0,
   "size": 20,
   "sort": {
@@ -125,7 +120,7 @@
     "unsorted": true,
     "empty": true
   },
-  "numberOfElements": 6,
+  "numberOfElements": 3,
   "first": true,
   "empty": false
 }
