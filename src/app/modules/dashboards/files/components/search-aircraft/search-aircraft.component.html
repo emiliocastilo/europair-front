@@ -298,6 +298,13 @@
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="bedsAndStretchers">
+                    <mat-header-cell [innerHTML]="'SEARCH_AIRCRAFT.BEDS_AND_STRETCHERS' | translate" *matHeaderCellDef mat-header>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                    </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="maximumLoad">
                     <mat-header-cell *matHeaderCellDef mat-header>
                         {{ 'SEARCH_AIRCRAFT.MAXIMUM_LOAD' | translate}}
@@ -307,13 +314,21 @@
                     </mat-cell>
                 </ng-container>
 
-                <!-- Seats Column-->
                 <ng-container matColumnDef="observations">
                     <mat-header-cell *matHeaderCellDef mat-header>
                         {{ 'SEARCH_AIRCRAFT.OBSERVATIONS' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         {{ element.observations?.toString() }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="flightTime">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.FLIGHT_TIME' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        3:20 h
                     </mat-cell>
                 </ng-container>
 

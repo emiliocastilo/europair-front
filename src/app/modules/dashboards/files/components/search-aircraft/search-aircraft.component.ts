@@ -123,7 +123,7 @@ export class SearchAircraftComponent implements OnInit {
     this.aircrafts = [];
     this.filterExpanded = true;
     this.tableExpanded = false;
-    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'maximumLoad', 'observations'];
+    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations', 'flightTime'];
   }
 
   private loadSelectsData() {
