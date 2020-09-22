@@ -7,13 +7,18 @@ import {
 } from '@angular/animations';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FileRoute } from '../../models/FileRoute.model';
+import {
+  FileRoute,
+  DAYS_LIST,
+  FrequencyDay,
+} from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-file-detail',
@@ -34,19 +39,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) expandedTable: MatTable<any>;
 
-  public daysColumns = ['l', 'm', 'x', 'j', 'v', 's', 'd'];
   public columnsToDisplay = [
-    'code',
+    'label',
     'frequency',
     'initialDate',
     'endDate',
-    'periodDays',
-    'dayNumber',
-    'operationInitialDate',
-    'operationEndDate',
-    ...this.daysColumns,
+    'frequencyDays',
     'rotations.length',
     'seats',
+    'periodDays',
+    'dayNumber',
     'status',
     'actions',
   ];
@@ -69,6 +71,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
+    private translateService: TranslateService,
     private fileRoutesService: FileRoutesService
   ) {}
 
@@ -83,10 +86,38 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getFormattedFrequency([]);
+  }
 
   public getChildRoutes(fileRoute: FileRoute): MatTableDataSource<FileRoute> {
     return new MatTableDataSource(fileRoute.rotations);
+  }
+
+  public getRotationNumber(
+    parentRoute: FileRoute,
+    rotation: FileRoute
+  ): string {
+    const index = parentRoute.rotations.indexOf(rotation);
+    return index === -1 ? '' : `${index + 1}`;
+  }
+
+  public getFormattedFrequency(frequencyDays: FrequencyDay[]): string {
+    if (!frequencyDays) {
+      return '';
+    }
+    const formattedWeek = [];
+    const frequency = frequencyDays.map((elm) => elm.weekday);
+    this.translateService
+      .get('DAYS.ABBREVIATION')
+      .subscribe((data: Array<string>) => {
+        DAYS_LIST.forEach((dayName, dayNumber: any) => {
+          formattedWeek.push(
+            frequency.includes(dayNumber) ? data[dayName] : '-'
+          );
+        });
+      });
+    return formattedWeek.join(' ');
   }
 
   public runAction(event: Event, isPlane: boolean = false): void {

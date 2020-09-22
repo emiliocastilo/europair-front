@@ -92,7 +92,7 @@
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel #routes class="table-expansion-panel">
+  <mat-expansion-panel #routes class="table-expansion-panel cmd-mb-2">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ "FILES.ROUTES" | translate | sentenceCase }}
@@ -108,8 +108,8 @@
     <!-- <ng-template matExpansionPanelContent> -->
     <div class="table-container">
       <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
-        <!-- Code Column -->
-        <ng-container matColumnDef="code" sticky>
+        <!-- Label Column -->
+        <ng-container matColumnDef="label" sticky>
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Rutas Petición
           </mat-header-cell>
@@ -121,14 +121,14 @@
             >
               expand_more
             </mat-icon>
-            {{ element.code }}
+            {{ element.label }}
           </mat-cell>
         </ng-container>
 
         <!-- Frequency Column -->
         <ng-container matColumnDef="frequency">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Frequencia
+            Frecuencia
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.frequency }}
@@ -138,7 +138,7 @@
         <!-- InitialDate Column-->
         <ng-container matColumnDef="initialDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha inicio (UTC)
+            Fecha inicio
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.initialDate }}
@@ -148,63 +148,21 @@
         <!-- EndDate Column-->
         <ng-container matColumnDef="endDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha Fin (UTC)
+            Fecha Fin
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.endDate }}
           </mat-cell>
         </ng-container>
 
-        <!-- PeriodDays Column-->
-        <ng-container matColumnDef="periodDays">
+        <!-- WeekDays Column-->
+        <ng-container matColumnDef="frequencyDays">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Dias Periodo
+            Días semana
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.periodDays }}
+            {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
           </mat-cell>
-        </ng-container>
-
-        <!-- Mont Day Column-->
-        <ng-container matColumnDef="dayNumber">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Día del mes (UTC)
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.dayNumber }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- Operation initial day Column-->
-        <ng-container matColumnDef="operationInitialDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha inicio operación
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.operationInitialDate }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- Operation end day Column-->
-        <ng-container matColumnDef="operationEndDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha fin operación
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.operationEndDate }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- Week days Columns-->
-        <ng-container *ngFor="let day of daysColumns">
-          <ng-container [matColumnDef]="day">
-            <mat-header-cell *matHeaderCellDef>
-              {{ day | uppercase }}
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              {{ element[day] }}
-            </mat-cell>
-          </ng-container>
         </ng-container>
 
         <!-- Rotations Column-->
@@ -220,10 +178,30 @@
         <!-- Seats Column-->
         <ng-container matColumnDef="seats">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Asientos
+            Asientos F/C/Y
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.seats }}
+          </mat-cell>
+        </ng-container>
+
+        <!-- PeriodDays Column-->
+        <ng-container matColumnDef="periodDays">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Días Periodo
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.periodDays }}
+          </mat-cell>
+        </ng-container>
+
+        <!-- Month Day Column-->
+        <ng-container matColumnDef="dayNumber">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            Día del mes
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.dayNumber }}
           </mat-cell>
         </ng-container>
 
@@ -232,7 +210,7 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             Estado
           </mat-header-cell>
-          <mat-cell *matCellDef="let element"> status </mat-cell>
+          <mat-cell *matCellDef="let element"> Pendiente </mat-cell>
         </ng-container>
 
         <!-- Actions Column-->
@@ -249,30 +227,6 @@
             ></mat-icon>
             <mat-icon
               (click)="runAction($event)"
-              svgIcon="europair_add_trace"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_trace"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_add"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_add_more"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_line_break"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_document"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
               svgIcon="europair_trash"
             ></mat-icon>
           </mat-cell>
@@ -280,16 +234,16 @@
 
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
         <ng-container matColumnDef="expandedDetail">
-          <mat-cell *matCellDef="let element">
-            <mat-table [dataSource]="getChildRoutes(element)">
-              <!-- Code Column -->
-              <ng-container matColumnDef="code">
+          <mat-cell *matCellDef="let parentElement">
+            <mat-table [dataSource]="getChildRoutes(parentElement)">
+              <!-- Label Column -->
+              <ng-container matColumnDef="label">
                 <mat-cell
                   *matCellDef="let element"
                   class="expanded-table-sticky start"
                 >
                   <span class="separator"> </span>
-                  {{ element.code }}
+                  {{ element.label }}
                 </mat-cell>
               </ng-container>
 
@@ -314,6 +268,27 @@
                 </mat-cell>
               </ng-container>
 
+              <!-- WeekDays Column-->
+              <ng-container matColumnDef="frequencyDays">
+                <mat-cell *matCellDef="let element">
+                  {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Rotations Column-->
+              <ng-container matColumnDef="rotations.length">
+                <mat-cell *matCellDef="let element">
+                  {{ getRotationNumber(parentElement, element) }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- Seats Column-->
+              <ng-container matColumnDef="seats">
+                <mat-cell *matCellDef="let element">
+                  {{ element.seats }}
+                </mat-cell>
+              </ng-container>
+
               <!-- PeriodDays Column-->
               <ng-container matColumnDef="periodDays">
                 <mat-cell *matCellDef="let element">
@@ -321,48 +296,12 @@
                 </mat-cell>
               </ng-container>
 
-              <!-- Mont Day Column-->
+              <!-- Month Day Column-->
               <ng-container matColumnDef="dayNumber">
-                <mat-cell *matCellDef="let element">
+                <mat-cell *matCellDef="let element" class="expanded-last-row">
                   {{ element.dayNumber }}
                 </mat-cell>
-              </ng-container>
-
-              <!-- Operation initial day Column-->
-              <ng-container matColumnDef="operationInitialDate">
-                <mat-cell *matCellDef="let element">
-                  {{ element.operationInitialDate }}
-                </mat-cell>
-              </ng-container>
-
-              <!-- Operation end day Column-->
-              <ng-container matColumnDef="operationEndDate">
-                <mat-cell *matCellDef="let element">
-                  {{ element.operationEndDate }}
-                </mat-cell>
-              </ng-container>
-
-              <!-- Week days Columns-->
-              <ng-container *ngFor="let day of daysColumns">
-                <ng-container [matColumnDef]="day">
-                  <mat-cell *matCellDef="let element">
-                    {{ element[day] }}
-                  </mat-cell>
-                </ng-container>
-              </ng-container>
-
-              <!-- Rotations Column-->
-              <ng-container matColumnDef="rotations.length">
-                <mat-cell *matCellDef="let element">
-                  {{ element.rotations.length }}
-                </mat-cell>
-              </ng-container>
-
-              <!-- Seats Column-->
-              <ng-container matColumnDef="seats">
-                <mat-cell *matCellDef="let element" class="expanded-last-row">
-                  {{ element.seats }}
-                </mat-cell>
+                <mat-cell> - </mat-cell>
               </ng-container>
 
               <!-- Status Column-->
@@ -371,7 +310,7 @@
                   *matCellDef="let element"
                   class="expanded-table-sticky end"
                 >
-                  status
+                  Pendiente
                 </mat-cell>
               </ng-container>
 
@@ -388,30 +327,6 @@
                   <mat-icon
                     (click)="runAction($event, true)"
                     svgIcon="europair_plane"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_add_trace"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_trace"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_add"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_add_more"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_line_break"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_document"
                   ></mat-icon>
                   <mat-icon
                     (click)="runAction($event)"
@@ -451,5 +366,14 @@
       [length]="resultsLength"
       [pageSize]="pageSize"
     ></mat-paginator>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel class="cmd-mb-2">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "Cotizaciones" | translate | sentenceCase }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent> </ng-template>
   </mat-expansion-panel>
 </mat-accordion>

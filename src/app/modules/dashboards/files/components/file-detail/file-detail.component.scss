@@ -1,17 +1,22 @@
-$code-width: 200px;
+$label-width: 200px;
 $status-width: 150px;
 $actions-width: 220px;
 
 $other-columns-width: 120px;
-$other-columns-number: 16;
 
 // COLORS
 .mat-expansion-panel {
   background-color: #cce0f2;
+  border-radius: 0;
+  box-shadow: none;
+  border-top: 1px solid #a0b9d4;
+  border-bottom: 2px solid #a0b9d4;
+
   &.mat-expanded {
     background-color: #eef7ff;
   }
   .mat-expansion-panel-header-title {
+    align-items: center;
     color: #005795;
   }
 
@@ -51,25 +56,13 @@ $other-columns-number: 16;
 .table-container {
   background-color: #cce0f2;
   overflow: auto;
-}
 
-// ROW
-@mixin column-days($days...) {
-  @for $i from 0 to length($days) {
-    .mat-header-cell.mat-column-#{nth($days, $i + 1)} {
-      min-width: 50px;
-      max-width: 50px;
-    }
-
-    .mat-cell.mat-column-#{nth($days, $i + 1)} {
-      min-width: 50px;
-      max-width: 50px;
-    }
+  & > .mat-table {
+    width: fit-content;
   }
 }
 
-@include column-days("l", "m", "x", "j", "v", "s", "d");
-
+// ROW
 .mat-header-cell {
   border-bottom: 2px solid #cce0f2;
   line-height: normal;
@@ -91,12 +84,11 @@ $other-columns-number: 16;
   color: #0d1644;
   padding: 12px;
   min-width: $other-columns-width;
-  max-width: $other-columns-width;
   box-sizing: border-box;
 }
 
-.mat-cell:not(.mat-column-code):not(.mat-column-status):not(.mat-column-frequency):not(.mat-column-expandedDetail),
-.mat-header-cell:not(.mat-column-code):not(.mat-column-status):not(.mat-column-frequency):not(.mat-column-expandedDetail) {
+.mat-cell:not(.mat-column-label):not(.mat-column-status):not(.mat-column-frequency):not(.mat-column-expandedDetail),
+.mat-header-cell:not(.mat-column-label):not(.mat-column-status):not(.mat-column-frequency):not(.mat-column-expandedDetail) {
   position: relative;
   &:after {
     content: "";
@@ -110,7 +102,6 @@ $other-columns-number: 16;
 
 .mat-header-row,
 .mat-row {
-  width: max-content;
   border-bottom-color: #cce0f2;
 }
 
@@ -130,8 +121,8 @@ $other-columns-number: 16;
   }
 }
 
-.mat-column-code {
-  min-width: $code-width;
+.mat-column-label {
+  min-width: $label-width;
   border-right: 1px solid #cce0f2;
 }
 
@@ -140,14 +131,21 @@ $other-columns-number: 16;
   min-width: $status-width;
 }
 
+.mat-column-initialDate,
+.mat-column-endDate {
+  min-width: 150px;
+}
+
 .mat-column-actions {
   min-width: $actions-width;
   .mat-icon:not(:last-child) {
+    cursor: pointer;
     padding-right: 8px;
     fill: none;
     stroke: #005795;
   }
   .mat-icon:last-child {
+    cursor: pointer;
     padding-right: 8px;
     fill: none;
     stroke: red;
@@ -163,7 +161,7 @@ $other-columns-number: 16;
 
     &.start {
       & + .mat-cell {
-        margin-left: $code-width;
+        margin-left: $label-width;
       }
     }
 
@@ -173,6 +171,7 @@ $other-columns-number: 16;
   }
 
   .expanded-last-row {
+    margin-right: $actions-width + $status-width;
     & + .expanded-table-sticky {
       margin-right: $actions-width;
     }
