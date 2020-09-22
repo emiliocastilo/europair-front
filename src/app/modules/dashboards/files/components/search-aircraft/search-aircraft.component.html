@@ -258,7 +258,7 @@
                         {{ 'SEARCH_AIRCRAFT.CATEGORY' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        {{ element.aircraftType?.category?.name }}
+                        {{ element.aircraftCategory?.name }}
                     </mat-cell>
                 </ng-container>
 
@@ -268,7 +268,7 @@
                         {{ 'SEARCH_AIRCRAFT.SUBCATEGORY' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        {{ element.aircraftType?.subcategory?.name }}
+                        {{ element.aircraftSubcategory?.name }}
                     </mat-cell>
                 </ng-container>
 
@@ -302,6 +302,7 @@
                     <mat-header-cell [innerHTML]="'SEARCH_AIRCRAFT.BEDS_AND_STRETCHERS' | translate" *matHeaderCellDef mat-header>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
+                        {{ getBedsAndStretchers(element) }}
                     </mat-cell>
                 </ng-container>
 
@@ -328,13 +329,12 @@
                         {{ 'SEARCH_AIRCRAFT.FLIGHT_TIME' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        3:20 h
+                        {{ getTimeOfFlight(element) }}
                     </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-                <mat-row *matRowDef="let element; columns: columnsToDisplay" class="element-row"
-                    (change)="checkAircraft($event.checked, element.id)">
+                <mat-row *matRowDef="let element; columns: columnsToDisplay" class="element-row">
                 </mat-row>
             </mat-table>
         </div>

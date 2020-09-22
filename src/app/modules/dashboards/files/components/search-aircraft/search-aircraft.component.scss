@@ -68,25 +68,12 @@
     &.mat-column-fleetType,
     &.mat-column-quantity,
     &.mat-column-seats,
+    &.mat-column-bedsAndStretchers,
     &.mat-column-maximumLoad {
         min-width: 110px;
         max-width: 110px;
     }
 }
-
-
-// .mat-cell,
-// .mat-header-cell {
-//     position: relative;
-//     &:after {
-//         content: "";
-//         position: absolute;
-//         left: 0;
-//         top: 25%;
-//         height: 50%;
-//         border-left: 1px solid $europair-color-blue-light-3;
-//     }
-// }
 
 .mat-header-row, .mat-row {
     width: max-content;

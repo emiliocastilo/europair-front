@@ -10,14 +10,15 @@ import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import { Country } from '../../../masters/countries/models/country';
 import { CountriesService } from '../../../masters/countries/services/countries.service';
-import { Aircraft, AircraftBase } from '../../../masters/fleet/components/aircraft/models/Aircraft.model';
+import { AircraftBase } from '../../../masters/fleet/components/aircraft/models/Aircraft.model';
 import { FleetCategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-subcategories.service';
 import { FleetTypesService } from '../../../masters/fleet/components/fleet-types/services/fleet-types.service';
 import { FleetCategory, FleetType } from '../../../masters/fleet/models/fleet';
 import { Operator } from '../../../masters/operators/models/Operator.model';
 import { OperatorsService } from '../../../masters/operators/services/operators.service';
-import { AircraftSearch } from './models/aircraft-search.model';
+import { AircraftFilter } from './models/aircraft-filter.model';
+import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
 
 
@@ -88,8 +89,8 @@ export class SearchAircraftComponent implements OnInit {
 
   private unsubscriber$: Subject<void> = new Subject();
 
-  public aircrafts: Array<Aircraft>;
-  public dataSource: MatTableDataSource<Aircraft>;
+  public aircrafts: Array<AircraftSearchResult>;
+  public dataSource: MatTableDataSource<AircraftSearchResult>;
   public resultsLength: number;
   public pageSize: number;
   public columnsToDisplay: Array<string>;
@@ -98,7 +99,7 @@ export class SearchAircraftComponent implements OnInit {
   public tableExpanded: boolean;
 
   private selectedItems: Array<number>;
-  private aircraftSearch: AircraftSearch;
+  private aircraftSearch: AircraftFilter;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -171,7 +172,7 @@ export class SearchAircraftComponent implements OnInit {
       this.tableExpanded = true;
       this.setAircraftFilter();
       this.searchAircraftService.searchAircraft(this.aircraftSearch)
-        .subscribe((aircrafts: Page<Aircraft>) => {
+        .subscribe((aircrafts: Page<AircraftSearchResult>) => {
           this.selectedItems = [];
           this.aircrafts = aircrafts.content;
           this.dataSource = new MatTableDataSource(aircrafts.content);
@@ -182,7 +183,7 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private setAircraftFilter(): void {
-    this.aircraftSearch = new AircraftSearch();
+    this.aircraftSearch = new AircraftFilter();
     this.aircraftSearch.airports = this.searchForm.value.airports ? this.searchForm.value.airports : [];
     this.aircraftSearch.countries = this.searchForm.value.countries ? this.searchForm.value.countries : [];
     this.aircraftSearch.operators = this.searchForm.value.operators ? this.searchForm.value.operators : [];
@@ -242,7 +243,7 @@ export class SearchAircraftComponent implements OnInit {
     return !this.disabledQuote() ? `(${this.selectedItems.length})` : '';
   }
 
-  public getAirportBaseLabel(aircraft: Aircraft): string {
+  public getAirportBaseLabel(aircraft: AircraftSearchResult): string {
     let airports: string = '';
     if (aircraft.bases) {
       const base: AircraftBase = aircraft.bases.find((aircraftBase: AircraftBase) => aircraftBase.mainBase);
@@ -251,8 +252,18 @@ export class SearchAircraftComponent implements OnInit {
     return airports;
   }
 
-  public getSeatsFCY(aircraft: Aircraft): string {
+  public getSeatsFCY(aircraft: AircraftSearchResult): string {
     return `${aircraft.seatingF} / ${aircraft.seatingC} / ${aircraft.seatingY}`;
+  }
+
+  public getBedsAndStretchers(aircraft: AircraftSearchResult): string {
+    return `${aircraft.beds} / ${aircraft.stretchers}`;
+  }
+
+  public getTimeOfFlight(aircraft: AircraftSearchResult): string {
+    const hour: number = Math.floor(aircraft.timeInHours);
+    const minutes: number = (aircraft.timeInHours - hour) * 60;
+    return `${hour}:${minutes}h`;
   }
 
   private loadCountries(): void {
