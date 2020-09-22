@@ -2,6 +2,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { concat, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -72,8 +73,8 @@ export class SearchAircraftComponent implements OnInit {
     countries: [[]],
     airports: [[]],
     nearbyAirport: [false],
-    nearbyAirportFrom: ['', [this.validatorRequiredNearbyAirport.bind(this), this.validatorMaxValueNearbyAirportFrom.bind(this)]],
-    nearbyAirportTo: ['', this.validatorRequiredNearbyAirport.bind(this)],
+    nearbyAirportFrom: ['', [this.validatorRequiredNearbyAirport.bind(this), this.validatorMaxValueNearbyAirportFrom.bind(this), Validators.min(0)]],
+    nearbyAirportTo: ['', [this.validatorRequiredNearbyAirport.bind(this), Validators.min(0)]],
     category: [''],
     subcategory: [''],
     fleetTypes: [[]],
@@ -101,6 +102,7 @@ export class SearchAircraftComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
     private readonly countriesService: CountriesService,
     private readonly airportsService: AirportsService,
     private readonly categoriesService: FleetCategoriesService,
@@ -111,18 +113,44 @@ export class SearchAircraftComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.init();
+    this.loadSelectsData();
+    this.obtainParams();
+    this.initGeneralDataFormSubscriptions();
+  }
+
+  private init() {
     this.aircrafts = [];
     this.filterExpanded = true;
     this.tableExpanded = false;
-    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'maximumLoad', 'observations'];
+    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations', 'flightTime'];
+  }
+
+  private loadSelectsData() {
     this.loadCountries();
     this.loadAirports();
     this.loadCategories();
     this.loadSubcategories();
     this.loadFleetTypes();
     this.loadOperators();
-    this.initGeneralDataFormSubscriptions();
   }
+
+  private obtainParams(): void {
+    const { seatsC, seatsY, seatsF, beds, stretchers, operationType } = this.route.snapshot.queryParams;
+    this.searchForm.get('seatF').setValue(seatsF);
+    this.searchForm.get('seatC').setValue(seatsC);
+    this.searchForm.get('seatY').setValue(seatsY);
+    this.searchForm.get('beds').setValue(beds);
+    this.searchForm.get('stretchers').setValue(stretchers);
+    if (operationType) {
+      this.categoriesService.getFleetCategories(
+        {'filter_code': this.obtainCategoryCodFromOperationType(operationType)}
+      ).subscribe((categories: Page<FleetCategory>) => {
+        this.searchForm.get('category').setValue(categories.content[0]);
+      });
+    }
+  }
+
   private initGeneralDataFormSubscriptions(): void {
     this.searchForm.get('category').valueChanges.pipe(takeUntil(this.unsubscriber$)).subscribe(
       (category: FleetCategory) => {
@@ -166,6 +194,7 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.seatY = this.searchForm.value.seatY;
     this.aircraftSearch.beds = this.searchForm.value.beds;
     this.aircraftSearch.stretchers = this.searchForm.value.stretchers;
+    this.aircraftSearch.nearbyAirport = this.searchForm.value.nearbyAirport;
     this.aircraftSearch.nearbyAirportFrom = this.searchForm.value.nearbyAirportFrom;
     this.aircraftSearch.nearbyAirportTo = this.searchForm.value.nearbyAirportTo;
   }
@@ -213,7 +242,7 @@ export class SearchAircraftComponent implements OnInit {
     return !this.disabledQuote() ? `(${this.selectedItems.length})` : '';
   }
 
-  public getAirportLabel(aircraft: Aircraft): string {
+  public getAirportBaseLabel(aircraft: Aircraft): string {
     let airports: string = '';
     if (aircraft.bases) {
       const base: AircraftBase = aircraft.bases.find((aircraftBase: AircraftBase) => aircraftBase.mainBase);
@@ -359,4 +388,22 @@ export class SearchAircraftComponent implements OnInit {
     }
     return validator;
   }
+  private obtainCategoryCodFromOperationType(operationType: string): string {
+    let categoryCod: string;
+    switch (operationType) {
+      case 'ACMI':
+      case 'COMMERCIAL':
+      case 'GROUP':
+        categoryCod = 'COMMERCIAL';
+        break;
+      case 'EXECUTIVE':
+        categoryCod = 'EXECUTIVE';
+        break;
+      case 'CHARGE':
+        categoryCod = 'CHARGE';
+        break;
+    }
+    return categoryCod;
+  }
 }
+
