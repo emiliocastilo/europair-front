@@ -37,7 +37,7 @@ export class AirportsService {
 
   public addAirport(airport: Airport): Observable<Airport> {
     if (this.mocked) {
-      airport.id = Math.floor(1000);
+      airport.id = Math.floor(Math.random() * 100);
       return of(airport);
     } else {
       return this.httpClient.post<Airport>(this.url, airport);

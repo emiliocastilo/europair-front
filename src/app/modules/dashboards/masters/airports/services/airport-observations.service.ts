@@ -27,7 +27,7 @@ export class AirportObservationsService {
 
   public addObservation(airportId: string, observation: Observation): Observable<Observation> {
     if (this.mocked) {
-      observation.id = Math.floor(1000);
+      observation.id = Math.floor(Math.random() * 100);
       return of(observation);
     } else {
       return this.httpClient.post<Observation>(`${this.url}/${airportId}/observations`, observation);

@@ -141,7 +141,7 @@ export class FleetCategoriesComponent implements OnInit {
       this.categories = data.content;
       this.categoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetCategories(this.categories);
       this.categoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
-      this.categoryPagination.lastPage = Math.floor(this.categories.length / this.categoryPagination.elementsPerPage);
+      this.categoryPagination.lastPage = this.categories.length / this.categoryPagination.elementsPerPage;
     });
   }
 
@@ -154,7 +154,7 @@ export class FleetCategoriesComponent implements OnInit {
       this.subcategories = data.content;
       this.subcategoriesColumnsData = this.fleetCategoriesTableAdapterService.getFleetSubcategories(this.subcategories);
       this.subcategoryPagination = this.fleetCategoriesTableAdapterService.getPagination();
-      this.subcategoryPagination.lastPage = Math.floor(this.subcategories.length / this.subcategoryPagination.elementsPerPage);
+      this.subcategoryPagination.lastPage = this.subcategories.length / this.subcategoryPagination.elementsPerPage;
     });
   }
 

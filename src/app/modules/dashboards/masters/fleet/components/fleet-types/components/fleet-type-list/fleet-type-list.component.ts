@@ -91,9 +91,7 @@ export class FleetTypeListComponent implements OnInit {
           this.types
         );
         this.typePagination = this.fleetTypesTableAdapterService.getPagination();
-        this.typePagination.lastPage = Math.floor(
-          this.types.length / this.typePagination.elementsPerPage
-        );
+        this.typePagination.lastPage =  this.types.length / this.typePagination.elementsPerPage;
       });
   }
 
