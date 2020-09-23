@@ -33,7 +33,7 @@ export class FlightService {
     });
   }
 
-  public saveFlight(fileId: number, routeId: number, flight: Flight): Observable<void> {
+  public createFlight(fileId: number, routeId: number, flight: Array<Flight>): Observable<void> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/flights`;
     return this.http.post<void>(url, flight);
   }

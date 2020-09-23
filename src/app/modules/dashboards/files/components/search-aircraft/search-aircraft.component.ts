@@ -1,5 +1,6 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +18,8 @@ import { FleetTypesService } from '../../../masters/fleet/components/fleet-types
 import { FleetCategory, FleetType } from '../../../masters/fleet/models/fleet';
 import { Operator } from '../../../masters/operators/models/Operator.model';
 import { OperatorsService } from '../../../masters/operators/services/operators.service';
+import { Flight } from '../../models/Flight.model';
+import { FlightService } from '../../services/flight.service';
 import { AircraftFilter } from './models/aircraft-filter.model';
 import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
@@ -104,13 +107,15 @@ export class SearchAircraftComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
+    private readonly _location: Location,
     private readonly countriesService: CountriesService,
     private readonly airportsService: AirportsService,
     private readonly categoriesService: FleetCategoriesService,
     private readonly subcategoriesService: FleetSubcategoriesService,
     private readonly fleetTypeService: FleetTypesService,
     private readonly operatorsService: OperatorsService,
-    private readonly searchAircraftService: AircraftSearchService
+    private readonly searchAircraftService: AircraftSearchService,
+    private readonly flightService: FlightService
   ) { }
 
   ngOnInit(): void {
@@ -145,7 +150,7 @@ export class SearchAircraftComponent implements OnInit {
     this.searchForm.get('stretchers').setValue(stretchers);
     if (operationType) {
       this.categoriesService.getFleetCategories(
-        {'filter_code': this.obtainCategoryCodFromOperationType(operationType)}
+        { 'filter_code': this.obtainCategoryCodFromOperationType(operationType) }
       ).subscribe((categories: Page<FleetCategory>) => {
         this.searchForm.get('category').setValue(categories.content[0]);
       });
@@ -172,12 +177,12 @@ export class SearchAircraftComponent implements OnInit {
       this.tableExpanded = true;
       this.setAircraftFilter();
       this.searchAircraftService.searchAircraft(this.aircraftSearch)
-        .subscribe((aircrafts: Page<AircraftSearchResult>) => {
+        .subscribe((aircrafts: Array<AircraftSearchResult>) => {
           this.selectedItems = [];
-          this.aircrafts = aircrafts.content;
-          this.dataSource = new MatTableDataSource(aircrafts.content);
-          this.resultsLength = aircrafts.totalElements;
-          this.pageSize = aircrafts.size;
+          this.aircrafts = aircrafts;
+          this.dataSource = new MatTableDataSource(aircrafts);
+          this.resultsLength = aircrafts.length;
+          this.pageSize = aircrafts.length;
         });
     }
   }
@@ -200,9 +205,40 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.nearbyAirportTo = this.searchForm.value.nearbyAirportTo;
   }
 
-  public quote(): void { }
+  public quote(): void {
+    if (this.selectedItems.length > 0) {
+      const aircraftSelected: Array<AircraftSearchResult> = this.aircrafts
+        .filter((aircraftSearch: AircraftSearchResult) => this.selectedItems.includes(aircraftSearch.id));
+      const flights: Array<Flight> = [];
+      aircraftSelected.forEach((aircraftSearch: AircraftSearchResult) => {
+        const flight: Flight = {
+          id: aircraftSearch.id,
+          operator: aircraftSearch.operator,
+          departureTime: '', // aircraftSearch.departureTime,
+          timeZone: '', // aircraftSearch.timeZone,
+          origin: '', // aircraftSearch.origin,
+          destination: '', // aircraftSearch.destination,
+          seatsF: aircraftSearch.seatingF,
+          seatsC: aircraftSearch.seatingC,
+          seatsY: aircraftSearch.seatingY,
+          beds: aircraftSearch.beds,
+          stretchers: aircraftSearch.stretchers,
+          bases: aircraftSearch.bases,
+          aircraftType: aircraftSearch.aircraftType,
+          quantity: aircraftSearch.id,
+          load: aircraftSearch.load
+        };
+        flights.push(flight);
+      });
+      this.flightService.createFlight(0, 0, flights).subscribe(() => {
+        this._location.back();
+      });
+    }
+  }
 
-  public cancel(): void { }
+  public cancel(): void {
+    this._location.back();
+  }
 
   public checkAircraft(checked: boolean, id: number): void {
     if (checked) {

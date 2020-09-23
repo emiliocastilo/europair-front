@@ -59,7 +59,8 @@ export class AircraftFilter {
         if (this.stretchers) {
             result = result.append('stretchers', this.stretchers.toString());
         }
-        result = result.append('bases', '1');
+        result = result.append('baseIds', '1');
+        result = result.append('destinationAirportId', '1');
         return result;
     }
 

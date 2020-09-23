@@ -341,18 +341,18 @@
 
         <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
 
-        <div class="row confirm">
-            <button type="submit" (click)="cancel()"
-                class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
-                <i class="material-icons">cancel</i>
-                <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
-            </button>
-            <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
-                class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
-                <i class="material-icons">done</i>
-                <span
-                    class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
-            </button>
-        </div>
     </mat-expansion-panel>
 </mat-accordion>
+<div class="row confirm">
+    <button type="submit" (click)="cancel()"
+        class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
+        <i class="material-icons">cancel</i>
+        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
+    </button>
+    <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
+        class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
+        <i class="material-icons">done</i>
+        <span
+            class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
+    </button>
+</div>
