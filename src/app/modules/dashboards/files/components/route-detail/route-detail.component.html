@@ -1,4 +1,4 @@
-<core-page-bar [pageTitle]="'FILES.PAGE_TITLE' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="'Detalle Ruta' | translate"></core-page-bar>
 
 <button
   color="primary"
@@ -10,32 +10,33 @@
 </button>
 
 <mat-accordion multi>
-  <mat-expansion-panel class="cmd-mb-2" expanded="true">
-    <mat-expansion-panel-header>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="cmd-mb-2">
       <mat-panel-title>
         {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      <div class="route-generator valign-wrapper">
-        <core-basic-input-text
-          #routeGenerator
-          [id]="'route-code'"
-          [label]="'Cód. Ruta' | translate"
+      <div class="row">
+        <app-input
+          [prefix]="'Cód. Ruta' | translate"
           [(ngModel)]="routeCode"
           (ngModelChange)="routeCode = $event.toUpperCase()"
           class="col s12 l4"
         >
-        </core-basic-input-text>
+        </app-input>
 
-        <button
-          color="primary"
-          mat-stroked-button
-          [disabled]="!routeCode"
-          (click)="generateFlights()"
-        >
-          Generar ruta
-        </button>
+        <div class="col s12 l2">
+          <button
+            class="route-generator browser-default"
+            color="primary"
+            mat-stroked-button
+            [disabled]="!routeCode"
+            (click)="generateFlights()"
+          >
+            Generar ruta
+          </button>
+        </div>
       </div>
 
       <hr class="cmd-mb-2" />
@@ -55,7 +56,7 @@
             [typeToSearchText]="
               'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
             "
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l3 cmd-mb-1"
             formControlName="origin"
           >
           </core-select>
@@ -73,13 +74,13 @@
             [typeToSearchText]="
               'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
             "
-            class="col s12 l4"
+            class="col s12 l3"
             formControlName="destination"
           >
           </core-select>
 
           <core-select
-            class="col s12 m4"
+            class="col s12 l3"
             [items]="frequencyList"
             [placeholder]="'Frecuencia' | translate"
             [searchable]="true"
@@ -88,50 +89,96 @@
             formControlName="frequency"
           >
           </core-select>
+
+          <div class="ferry-switch col s12 l3">
+            <core-basic-switch
+              [firstLabel]="'Ferry' | translate"
+              formControlName="ferry"
+            >
+            </core-basic-switch>
+          </div>
         </div>
 
         <div class="row">
-          <core-basic-input-text
-            [id]="'route-startDate'"
+          <app-input
             [type]="'date'"
-            [label]="'Fecha inicio' | translate"
+            [prefix]="'Fecha inicio' | translate"
             [hasErrors]="hasControlAnyError('startDate')"
             formControlName="startDate"
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l3"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('startDate')">
-                <span
-                  *ngIf="hasControlSpecificError('startDate', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'Debe indicar una fecha' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('startDate')">
+                {{ "Debe indicar una fecha" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
-          <core-basic-input-text
-            [id]="'route-endDate'"
+          <app-input
+            [type]="'time'"
+            [prefix]="'Hora inicio' | translate"
+            [hasErrors]="hasControlAnyError('startTime')"
+            formControlName="startTime"
+            class="col s12 l3"
+          >
+            <ng-container inputErrors>
+              <mat-error *ngIf="hasControlAnyError('startTime')">
+                {{ "Debe indicar una hora" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+
+          <app-input
             [type]="'date'"
-            [label]="'Fecha fin' | translate"
+            [prefix]="'Fecha fin' | translate"
             [hasErrors]="hasControlAnyError('endDate')"
             formControlName="endDate"
-            class="col s12 l4"
+            class="col s12 l3"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('endDate')">
-                <span
-                  *ngIf="hasControlSpecificError('endDate', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'Debe indicar una fecha' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('endDate')">
+                {{ "Debe indicar una fecha" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
-          <div class="col s12 l4 center-align">
+          <app-input
+            [type]="'time'"
+            [prefix]="'Hora fin' | translate"
+            [hasErrors]="hasControlAnyError('endTime')"
+            formControlName="endTime"
+            class="col s12 l3"
+          >
+            <ng-container inputErrors>
+              <mat-error *ngIf="hasControlAnyError('endTime')">
+                {{ "Debe indicar una hora" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+        </div>
+        <div class="row">
+          <app-input
+            [type]="'number'"
+            [prefix]="'Asientos F' | translate"
+            formControlName="seatsF"
+            class="col s12 l3"
+          >
+          </app-input>
+          <app-input
+            [type]="'number'"
+            [prefix]="'Asientos C' | translate"
+            formControlName="seatsC"
+            class="col s12 l3"
+          >
+          </app-input>
+          <app-input
+            [type]="'number'"
+            [prefix]="'Asientos Y' | translate"
+            formControlName="seatsY"
+            class="col s12 l3"
+          >
+          </app-input>
+          <div class="col s12 l3">
             <button color="primary" mat-raised-button>Añadir vuelo</button>
           </div>
         </div>
@@ -139,7 +186,7 @@
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="cmd-mb-2" expanded="true">
+  <mat-expansion-panel class="cmd-mb-3" expanded="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ "vuelos" | translate | sentenceCase }}
@@ -156,7 +203,15 @@
             {{ column.title }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element[column.label] }}
+            <ng-container *ngIf="column.label === 'ferry'; else textElement">
+              <mat-checkbox
+                disabled
+                [value]="element[column.label]"
+              ></mat-checkbox>
+            </ng-container>
+            <ng-template #textElement>
+              {{ element[column.label] }}
+            </ng-template>
           </mat-cell>
         </ng-container>
 
