@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { concat, Observable, of, Subject } from 'rxjs';
+import { concat, forkJoin, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport } from '../../../masters/airports/models/airport';
@@ -18,11 +18,11 @@ import { FleetTypesService } from '../../../masters/fleet/components/fleet-types
 import { FleetCategory, FleetType } from '../../../masters/fleet/models/fleet';
 import { Operator } from '../../../masters/operators/models/Operator.model';
 import { OperatorsService } from '../../../masters/operators/services/operators.service';
-import { Flight } from '../../models/Flight.model';
-import { FlightService } from '../../services/flight.service';
 import { AircraftFilter } from './models/aircraft-filter.model';
 import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
+import { ContributionService } from '../../services/contribution.service';
+import { Contribution, ContributionStates } from './models/contribution.model';
 
 
 @Component({
@@ -104,6 +104,9 @@ export class SearchAircraftComponent implements OnInit {
   private selectedItems: Array<number>;
   private aircraftSearch: AircraftFilter;
 
+  private fileId: number = 0;
+  private routeId: number = 0;
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
@@ -115,7 +118,7 @@ export class SearchAircraftComponent implements OnInit {
     private readonly fleetTypeService: FleetTypesService,
     private readonly operatorsService: OperatorsService,
     private readonly searchAircraftService: AircraftSearchService,
-    private readonly flightService: FlightService
+    private readonly contributionService: ContributionService
   ) { }
 
   ngOnInit(): void {
@@ -142,7 +145,9 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private obtainParams(): void {
-    const { seatsC, seatsY, seatsF, beds, stretchers, operationType } = this.route.snapshot.queryParams;
+    const { seatsC, seatsY, seatsF, beds, stretchers, operationType, fileId, routeId } = this.route.snapshot.queryParams;
+    this.fileId = fileId;
+    this.routeId = routeId;
     this.searchForm.get('seatF').setValue(seatsF);
     this.searchForm.get('seatC').setValue(seatsC);
     this.searchForm.get('seatY').setValue(seatsY);
@@ -209,29 +214,27 @@ export class SearchAircraftComponent implements OnInit {
     if (this.selectedItems.length > 0) {
       const aircraftSelected: Array<AircraftSearchResult> = this.aircrafts
         .filter((aircraftSearch: AircraftSearchResult) => this.selectedItems.includes(aircraftSearch.id));
-      const flights: Array<Flight> = [];
+      const contributionsCalls: Array<Observable<void>> = [];
       aircraftSelected.forEach((aircraftSearch: AircraftSearchResult) => {
-        const flight: Flight = {
-          id: aircraftSearch.id,
-          operator: aircraftSearch.operator,
-          departureTime: '', // aircraftSearch.departureTime,
-          timeZone: '', // aircraftSearch.timeZone,
-          origin: '', // aircraftSearch.origin,
-          destination: '', // aircraftSearch.destination,
-          seatsF: aircraftSearch.seatingF,
-          seatsC: aircraftSearch.seatingC,
-          seatsY: aircraftSearch.seatingY,
-          beds: aircraftSearch.beds,
-          stretchers: aircraftSearch.stretchers,
-          bases: aircraftSearch.bases,
-          aircraftType: aircraftSearch.aircraftType,
-          quantity: aircraftSearch.id,
-          load: aircraftSearch.load
+        const contribution: Contribution = {
+          aircraftId: aircraftSearch.id,
+          cargoAirborne: aircraftSearch.load?.maximumLoad,
+          contributionState: ContributionStates.QUOTED,
+          fileId: this.fileId,
+          routeId: this.routeId,
+          operatorId: aircraftSearch.operator?.id,
+          quotedTime: ''
         };
-        flights.push(flight);
+        contributionsCalls.push(this.contributionService.createContribution(
+          this.fileId,
+          this.routeId,
+          contribution
+        ));
       });
-      this.flightService.createFlight(0, 0, flights).subscribe(() => {
+      forkJoin(contributionsCalls).subscribe(() => {
         this._location.back();
+      }, (error) => {
+        console.log(error);
       });
     }
   }

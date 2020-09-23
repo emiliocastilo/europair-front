@@ -13,7 +13,7 @@ import { Flight } from '../models/Flight.model';
 
 export class FlightService {
   private readonly mocked: boolean = environment.mock;
-  private readonly url: string = `${environment.apiUrl}/files/`;
+  private readonly url: string = `${environment.apiUrl}files/`;
   private readonly filterOptions: FilterOptions = {} as const;
 
   constructor(
