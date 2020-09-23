@@ -27,7 +27,7 @@ export class CountriesService {
 
   public addCountry(country: Country): Observable<Country> {
     if (this.mocked) {
-      country.id = Math.floor(1000);
+      country.id = Math.floor(Math.random() * 100);
       return of(country);
     } else {
       return this.httpClient.post<Country>(this.url, country);

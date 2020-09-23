@@ -26,7 +26,7 @@ export class AirportOperatorsService {
 
   public addCertification(airportId: string, certification: Certification): Observable<Certification> {
     if (this.mocked) {
-      certification.id = Math.floor(1000);
+      certification.id = Math.floor(Math.random() * 100);
       return of(certification);
     } else {
       return this.httpClient.post<Certification>(`${this.url}/${airportId}/operators`, certification);

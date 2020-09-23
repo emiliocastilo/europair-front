@@ -24,7 +24,7 @@ export class RunwaysService {
 
   public addTrack(airportId: string, track: Track): Observable<Track> {
     if (this.mocked) {
-      track.id = Math.floor(1000);
+      track.id = Math.floor(Math.random() * 100);
       return of(track);
     } else {
       return this.httpClient.post<Track>(`${this.url}/${airportId}/runways`, track);

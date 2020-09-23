@@ -24,7 +24,7 @@ export class TerminalsService {
 
   public addTerminal(airportId: string, terminal: Terminal): Observable<Terminal> {
     if (this.mocked) {
-      terminal.id = Math.floor(1000);
+      terminal.id = Math.floor(Math.random() * 100);
       return of(terminal);
     } else {
       return this.httpClient.post<Terminal>(`${this.url}/${airportId}/terminals`, terminal);

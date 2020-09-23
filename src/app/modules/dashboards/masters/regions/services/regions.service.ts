@@ -22,7 +22,7 @@ export class RegionsService {
 
   public addRegion(region: Region): Observable<Region> {
     if (this.mocked) {
-      region.id = Math.floor(1000);
+      region.id = Math.floor(Math.random() * 100);
       return of(region);
     } else {
       return this.httpClient.post<Region>(this.url, region);
