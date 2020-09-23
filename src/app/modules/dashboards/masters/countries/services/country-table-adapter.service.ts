@@ -76,7 +76,7 @@ export class CountryTableAdapterService {
     const initPage: number = 1;
     const visiblePages: number = 4;
     const lastPage: number = 5;
-    const elementsPerPage: number = 20;
+    const elementsPerPage: number = 10;
     return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
 }
