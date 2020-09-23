@@ -1,12 +1,15 @@
-.route-generator {
-  padding: 15px;
-
-  button {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
+button.route-generator {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
 }
 
+.ferry-switch {
+  height: 45px;
+  display: flex;
+  align-items: center;
+}
+
+// COLORS
 .mat-raised-button.mat-primary {
   background-color: #005795;
   &:focus {
@@ -17,5 +20,42 @@
 .mat-stroked-button.mat-primary {
   &:focus {
     background-color: unset;
+  }
+}
+
+.mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none;
+
+  .mat-expansion-panel-header {
+    border-top: 1px solid #a0b9d4;
+    background-color: #cce0f2;
+    border-bottom: 2px solid #a0b9d4;
+
+    &:hover {
+      background-color: #b8cfe4;
+    }
+  }
+
+  &.mat-expanded {
+    .mat-expansion-panel-header {
+      background-color: #eef7ff;
+    }
+  }
+
+  .mat-expansion-panel-header-title {
+    align-items: center;
+    color: #005795;
+  }
+
+  .mat-expansion-panel-header-description {
+    justify-content: flex-end;
+    align-items: center;
+    color: #005795;
+    .mat-icon {
+      padding-left: 8px;
+      fill: none;
+      stroke: #005795;
+    }
   }
 }

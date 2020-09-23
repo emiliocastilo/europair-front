@@ -282,8 +282,47 @@ label {
 }
 
 //MATERIAL
-.table-expansion-panel .mat-expansion-panel-body {
+.app-expansion-panel .mat-expansion-panel-body {
   padding: 0;
+}
+
+.app-input.mat-form-field-appearance-outline {
+  width: 100%;
+
+  .mat-form-field-outline,
+  .mat-form-field-prefix {
+    top: 0;
+    padding-right: 0.75em;
+  }
+
+  .mat-form-field-wrapper .mat-form-field-flex {
+    padding-right: 0;
+    background-color: #f9fcff;
+  }
+
+  .mat-form-field-outline {
+    padding-right: 0;
+    color: #cce0f2;
+    z-index: 2;
+
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-gap,
+    .mat-form-field-outline-end {
+      border-radius: 0;
+    }
+  }
+
+  .mat-form-field-infix {
+    border-top: 0;
+    padding: 1em 0.5em 1em 0.5em;
+    background-color: white;
+  }
+
+  .mat-form-field-suffix {
+    top: 0;
+    display: flex;
+    align-self: center;
+  }
 }
 
 // MATERIALIZE CSS H4

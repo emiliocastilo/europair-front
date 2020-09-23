@@ -1,8 +1,8 @@
 <core-page-bar [pageTitle]="'FILES.PAGE_TITLE' | translate"></core-page-bar>
 
 <mat-accordion multi>
-  <mat-expansion-panel class="cmd-mb-2">
-    <mat-expansion-panel-header>
+  <mat-expansion-panel class="app-expansion-panel">
+    <mat-expansion-panel-header class="cmd-mb-2">
       <mat-panel-title>
         {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
       </mat-panel-title>
@@ -10,89 +10,69 @@
     <ng-template matExpansionPanelContent>
       <form [formGroup]="fileForm">
         <div class="row">
-          <core-basic-input-text
-            [id]="'file-code'"
-            [label]="'FILES.CODE' | translate"
+          <app-input
+            [prefix]="'FILES.CODE' | translate"
             [hasErrors]="hasControlAnyError('code')"
+            [errorStateMatcher]="matcher"
             formControlName="code"
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l4"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('code')">
-                <span
-                  *ngIf="hasControlSpecificError('code', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'FILES.ERRORS.CODE' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('code')">
+                {{ "FILES.ERRORS.CODE" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
-          <core-basic-input-text
-            [id]="'file-description'"
-            [label]="'FILES.DESCRIPTION' | translate"
+          <app-input
+            [prefix]="'FILES.DESCRIPTION' | translate"
             [hasErrors]="hasControlAnyError('description')"
+            [errorStateMatcher]="matcher"
             formControlName="description"
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l4"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('description')">
-                <span
-                  *ngIf="hasControlSpecificError('description', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'FILES.ERRORS.DESCRIPTION' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('description')">
+                {{ "FILES.ERRORS.DESCRIPTION" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
-          <core-basic-input-text
-            [id]="'file-status'"
-            [label]="'FILES.STATUS' | translate"
+          <app-input
+            [prefix]="'FILES.STATUS' | translate"
             [hasErrors]="hasControlAnyError('status')"
+            [errorStateMatcher]="matcher"
             formControlName="status"
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l4"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('status')">
-                <span
-                  *ngIf="hasControlSpecificError('status', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'FILES.ERRORS.STATUS' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('status')">
+                {{ "FILES.ERRORS.STATUS" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
         </div>
 
         <div class="row">
-          <core-basic-input-text
-            [id]="'file-client'"
-            [label]="'FILES.CLIENT' | translate"
+          <app-input
+            [prefix]="'FILES.CLIENT' | translate"
             [hasErrors]="hasControlAnyError('client')"
+            [errorStateMatcher]="matcher"
             formControlName="client"
-            class="col s12 l4 cmd-mb-1"
+            class="col s12 l4"
           >
             <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('client')">
-                <span
-                  *ngIf="hasControlSpecificError('client', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="'FILES.ERRORS.CLIENT' | translate"
-                >
-                </span>
-              </ng-container>
+              <mat-error *ngIf="hasControlAnyError('client')">
+                {{ "FILES.ERRORS.CLIENT" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
         </div>
       </form>
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel #routes class="table-expansion-panel cmd-mb-2">
+  <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2">
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ "FILES.ROUTES" | translate | sentenceCase }}

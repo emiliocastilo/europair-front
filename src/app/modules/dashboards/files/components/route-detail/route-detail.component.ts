@@ -34,7 +34,7 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(InputTextComponent, { read: ElementRef })
   routeGenerator: ElementRef;
 
-  public routeCode: string;
+  public routeCode = '';
 
   public originAirports$: Observable<Airport[]>;
   public originAirportsInput$ = new Subject<string>();
@@ -57,6 +57,7 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
       seatsF: 50,
       seatsC: 0,
       seatsY: 0,
+      ferry: false,
     },
     {
       origin: 'PMI',
@@ -68,6 +69,7 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
       seatsF: 50,
       seatsC: 0,
       seatsY: 0,
+      ferry: false,
     },
   ];
 
@@ -79,7 +81,13 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     destination: ['', Validators.required],
     frequency: ['', Validators.required],
     startDate: ['', Validators.required],
+    startTime: ['', Validators.required],
     endDate: ['', Validators.required],
+    endTime: ['', Validators.required],
+    seatsF: ['', Validators.required],
+    seatsC: ['', Validators.required],
+    seatsY: ['', Validators.required],
+    ferry: ['', Validators.required],
   });
 
   public columnsToDisplay = [
@@ -92,6 +100,7 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     { title: 'Asientos F', label: 'seatsF' },
     { title: 'Asientos C', label: 'seatsC' },
     { title: 'Asientos Y', label: 'seatsY' },
+    { title: 'Ferry', label: 'ferry' },
   ];
 
   public columnsProps = this.columnsToDisplay.map((e) => e.label);

@@ -101,16 +101,16 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
     operator: ['', Validators.required],
     quantity: ['', [Validators.required, Validators.min(1)]],
     aircraftType: [null, Validators.required],
-    insuranceEndDate: ['', Validators.required],
-    productionYear: ['', Validators.required],
+    insuranceEndDate: [''],
+    productionYear: [''],
     plateNumber: [''],
     ambulance: [false, Validators.required],
     bases: [''],
-    daytimeConfiguration: ['', [Validators.min(1), Validators.required]],
+    daytimeConfiguration: [''],
     seatingF: [''],
     seatingC: [''],
     seatingY: [''],
-    nighttimeConfiguration: ['', [Validators.min(1), Validators.required]],
+    nighttimeConfiguration: [''],
     insideUpgradeYear: [''],
     outsideUpgradeYear: [''],
     observations: [''],
@@ -124,7 +124,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   public aircraftObservationForm = this.fb.group({
     observation: ['', Validators.required],
   });
-  
+
   private readonly aircraftBaseFormDefaultValues = {
     id: null,
     airport: null,

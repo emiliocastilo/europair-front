@@ -1,0 +1,24 @@
+<mat-form-field appearance="outline" class="app-input">
+  <input
+    type="text"
+    class="browser-default"
+    matInput
+    [type]="type"
+    [value]="value"
+    [disabled]="isDisabled"
+    [errorStateMatcher]="errorStateMatcher"
+    (input)="onInput($event.target.value)"
+  />
+  <span matPrefix *ngIf="prefix">{{ prefix }}</span>
+  <button
+    class="browser-default"
+    mat-button
+    *ngIf="value"
+    matSuffix
+    mat-icon-button
+    aria-label="clear"
+    (click)="value = ''"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
