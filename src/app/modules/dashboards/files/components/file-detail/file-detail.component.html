@@ -215,7 +215,7 @@
         <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
         <ng-container matColumnDef="expandedDetail">
           <mat-cell *matCellDef="let parentElement">
-            <mat-table [dataSource]="getChildRoutes(parentElement)">
+            <mat-table class="expandedTable" [dataSource]="getChildRoutes(parentElement)">
               <!-- Label Column -->
               <ng-container matColumnDef="label">
                 <mat-cell
