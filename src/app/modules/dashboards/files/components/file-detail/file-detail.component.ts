@@ -6,7 +6,14 @@ import {
   trigger,
 } from '@angular/animations';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import {
   FileRoute,
   DAYS_LIST,
@@ -19,7 +26,22 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ErrorStateMatcher } from '@angular/material/core';
 
+/** Error when invalid control is dirty, touched, or submitted. */
+export class FileErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 @Component({
   selector: 'app-file-detail',
   templateUrl: './file-detail.component.html',
@@ -66,6 +88,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     status: ['', Validators.required],
     client: ['', Validators.required],
   });
+  public matcher = new FileErrorStateMatcher();
 
   constructor(
     private fb: FormBuilder,

@@ -10,15 +10,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules = [
+  MatButtonModule,
+  MatCheckboxModule,
   MatExpansionModule,
+  MatFormFieldModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatInputModule,
   MatPaginatorModule,
-  MatButtonModule,
   MatSortModule,
   MatTableModule,
-  MatCheckboxModule
 ];
 
 @NgModule({
