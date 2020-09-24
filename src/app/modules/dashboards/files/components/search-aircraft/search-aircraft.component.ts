@@ -15,7 +15,7 @@ import { AircraftBase } from '../../../masters/fleet/components/aircraft/models/
 import { FleetCategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-subcategories.service';
 import { FleetTypesService } from '../../../masters/fleet/components/fleet-types/services/fleet-types.service';
-import { FleetCategory, FleetType } from '../../../masters/fleet/models/fleet';
+import { FleetCategory, FleetSubcategory, FleetType } from '../../../masters/fleet/models/fleet';
 import { Operator } from '../../../masters/operators/models/Operator.model';
 import { OperatorsService } from '../../../masters/operators/services/operators.service';
 import { AircraftFilter } from './models/aircraft-filter.model';
@@ -23,6 +23,9 @@ import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
 import { ContributionService } from '../../services/contribution.service';
 import { Contribution, ContributionStates } from './models/contribution.model';
+import { OperationType } from '../../models/File.model';
+import { Region } from '../../../masters/regions/models/region';
+import { RegionsService } from '../../../masters/regions/services/regions.service';
 
 
 @Component({
@@ -56,14 +59,11 @@ export class SearchAircraftComponent implements OnInit {
   public airportsInput$ = new Subject<string>();
   public airportsLoading = false;
 
-  public categories$: Observable<Airport[]>;
-  public categoriesInput$ = new Subject<string>();
-  public categoriesLoading = false;
-  public categoryIdSelected: string;
+  public regions: Array<Region>;
 
-  public subcategories$: Observable<Airport[]>;
-  public subcategoriesInput$ = new Subject<string>();
-  public subcategoriesLoading = false;
+  public categories: Array<FleetCategory>;
+  public subcategories: Array<FleetSubcategory>;
+  public categoryIdSelected: string;
 
   public fleetTypes$: Observable<FleetType[]>;
   public fleetTypesInput$ = new Subject<string>();
@@ -74,13 +74,15 @@ export class SearchAircraftComponent implements OnInit {
   public operatorsLoading = false;
 
   public searchForm: FormGroup = this.fb.group({
+    regions: [[]],
     countries: [[]],
     airports: [[]],
     nearbyAirport: [false],
-    nearbyAirportFrom: ['', [this.validatorRequiredNearbyAirport.bind(this), this.validatorMaxValueNearbyAirportFrom.bind(this), Validators.min(0)]],
-    nearbyAirportTo: ['', [this.validatorRequiredNearbyAirport.bind(this), Validators.min(0)]],
+    nearbyAirportFrom: ['0', [this.validatorRequiredNearbyAirport.bind(this), this.validatorMaxValueNearbyAirportFrom.bind(this), Validators.min(0)]],
+    nearbyAirportTo: ['100', [this.validatorRequiredNearbyAirport.bind(this), Validators.min(0)]],
     category: [''],
     subcategory: [''],
+    minimunSubcategory: [true],
     fleetTypes: [[]],
     operators: [[]],
     seatF: ['', Validators.min(0)],
@@ -88,6 +90,8 @@ export class SearchAircraftComponent implements OnInit {
     seatY: ['', Validators.min(0)],
     beds: ['', Validators.min(0)],
     stretchers: ['', Validators.min(0)],
+    flightScales: [false],
+    flightScalesValue: ['1', Validators.min(0)]
   });
 
   private unsubscriber$: Subject<void> = new Subject();
@@ -106,11 +110,13 @@ export class SearchAircraftComponent implements OnInit {
 
   private fileId: number = 0;
   private routeId: number = 0;
+  private operationType: OperationType;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly _location: Location,
+    private readonly regionsService: RegionsService,
     private readonly countriesService: CountriesService,
     private readonly airportsService: AirportsService,
     private readonly categoriesService: FleetCategoriesService,
@@ -139,7 +145,7 @@ export class SearchAircraftComponent implements OnInit {
     this.loadCountries();
     this.loadAirports();
     this.loadCategories();
-    this.loadSubcategories();
+    this.loadRegions();
     this.loadFleetTypes();
     this.loadOperators();
   }
@@ -148,14 +154,15 @@ export class SearchAircraftComponent implements OnInit {
     const { seatsC, seatsY, seatsF, beds, stretchers, operationType, fileId, routeId } = this.route.snapshot.queryParams;
     this.fileId = fileId;
     this.routeId = routeId;
+    this.operationType = operationType;
     this.searchForm.get('seatF').setValue(seatsF);
     this.searchForm.get('seatC').setValue(seatsC);
     this.searchForm.get('seatY').setValue(seatsY);
     this.searchForm.get('beds').setValue(beds);
     this.searchForm.get('stretchers').setValue(stretchers);
-    if (operationType) {
+    if (this.operationType) {
       this.categoriesService.getFleetCategories(
-        { 'filter_code': this.obtainCategoryCodFromOperationType(operationType) }
+        { 'filter_code': this.obtainCategoryCodFromOperationType(this.operationType) }
       ).subscribe((categories: Page<FleetCategory>) => {
         this.searchForm.get('category').setValue(categories.content[0]);
       });
@@ -167,6 +174,7 @@ export class SearchAircraftComponent implements OnInit {
       (category: FleetCategory) => {
         if (category) {
           this.categoryIdSelected = category.id.toString();
+          this.loadSubcategories(category);
         } else {
           this.searchForm.get('subcategory').reset();
         }
@@ -198,16 +206,20 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.countries = this.searchForm.value.countries ? this.searchForm.value.countries : [];
     this.aircraftSearch.operators = this.searchForm.value.operators ? this.searchForm.value.operators : [];
     this.aircraftSearch.fleetTypes = this.searchForm.value.fleetTypes ? this.searchForm.value.fleetTypes : [];
-    this.aircraftSearch.categories = this.searchForm.value.category ? this.searchForm.value.category : [];
-    this.aircraftSearch.subcategories = this.searchForm.value.subcategory ? this.searchForm.value.subcategory : [];
     this.aircraftSearch.seatC = this.searchForm.value.seatC;
     this.aircraftSearch.seatF = this.searchForm.value.seatF;
     this.aircraftSearch.seatY = this.searchForm.value.seatY;
     this.aircraftSearch.beds = this.searchForm.value.beds;
+    this.aircraftSearch.category = this.searchForm.value.category;
+    this.aircraftSearch.subcategory = this.searchForm.value.subcategory;
+    this.aircraftSearch.minumunSubcategory = this.searchForm.value.minimunSubcategory;
     this.aircraftSearch.stretchers = this.searchForm.value.stretchers;
     this.aircraftSearch.nearbyAirport = this.searchForm.value.nearbyAirport;
     this.aircraftSearch.nearbyAirportFrom = this.searchForm.value.nearbyAirportFrom;
     this.aircraftSearch.nearbyAirportTo = this.searchForm.value.nearbyAirportTo;
+    this.aircraftSearch.flightScales = this.searchForm.value.flightScales;
+    this.aircraftSearch.flightScalesValue = this.searchForm.value.flightScalesValue;
+    this.aircraftSearch.operationType = this.operationType;
   }
 
   public quote(): void {
@@ -219,11 +231,10 @@ export class SearchAircraftComponent implements OnInit {
         const contribution: Contribution = {
           aircraftId: aircraftSearch.id,
           cargoAirborne: aircraftSearch.load?.maximumLoad,
-          contributionState: ContributionStates.QUOTED,
+          contributionState: ContributionStates.PENDING,
           fileId: this.fileId,
           routeId: this.routeId,
-          operatorId: aircraftSearch.operator?.id,
-          quotedTime: ''
+          operatorId: aircraftSearch.operator?.id
         };
         contributionsCalls.push(this.contributionService.createContribution(
           this.fileId,
@@ -268,6 +279,10 @@ export class SearchAircraftComponent implements OnInit {
 
   public hiddenNearbyAirport(): boolean {
     return !this.searchForm.get('nearbyAirport')?.value;
+  }
+
+  public hiddenFlightScalesValue(): boolean {
+    return !this.searchForm.get('flightScales')?.value;
   }
 
   public disabledQuote(): boolean {
@@ -341,38 +356,20 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private loadCategories(): void {
-    this.categories$ = concat(
-      of([]), // default items
-      this.categoriesInput$.pipe(
-        debounceTime(400),
-        distinctUntilChanged(),
-        tap(() => (this.categoriesLoading = true)),
-        switchMap((term: string): Observable<FleetCategory[]> =>
-          this.categoriesService.getFleetCategories({ filter_name: term }).pipe(
-            map((page: Page<FleetCategory>) => page.content),
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.categoriesLoading = false)))
-        )
-      )
+    this.categoriesService.getFleetCategories().subscribe(
+      (categories: Page<FleetCategory>) => this.categories = categories.content
     );
   }
 
-  private loadSubcategories(): void {
-    this.subcategories$ = concat(
-      of([]), // default items
-      this.subcategoriesInput$.pipe(
-        debounceTime(400),
-        distinctUntilChanged(),
-        tap(() => (this.subcategoriesLoading = true)),
-        switchMap((term: string): Observable<FleetCategory[]> => {
-          const filter = { filter_name: term };
-          const category: FleetCategory = { id: +this.categoryIdSelected };
-          return this.subcategoriesService.getFleetSubcategoriesFromCategory(category, filter).pipe(
-            map((page: Page<FleetCategory>) => page.content),
-            catchError(() => of([])), // empty list on error
-            tap(() => (this.subcategoriesLoading = false)));
-        })
-      )
+  private loadRegions(): void {
+    this.regionsService.getRegions().subscribe(
+      (regions: Page<Region>) => this.regions = regions.content
+    );
+  }
+
+  private loadSubcategories(category: FleetCategory): void {
+    this.subcategoriesService.getFleetSubcategoriesFromCategory(category).subscribe(
+      (subcategories: Page<FleetSubcategory>) => this.subcategories = subcategories.content
     );
   }
 
@@ -438,18 +435,18 @@ export class SearchAircraftComponent implements OnInit {
     }
     return validator;
   }
-  private obtainCategoryCodFromOperationType(operationType: string): string {
+  private obtainCategoryCodFromOperationType(operationType: OperationType): string {
     let categoryCod: string;
     switch (operationType) {
-      case 'ACMI':
-      case 'COMMERCIAL':
-      case 'GROUP':
+      case OperationType.ACMI:
+      case OperationType.COMMERCIAL:
+      case OperationType.GROUP:
         categoryCod = 'COMMERCIAL';
         break;
-      case 'EXECUTIVE':
+      case OperationType.EXECUTIVE:
         categoryCod = 'EXECUTIVE';
         break;
-      case 'CHARGE':
+      case OperationType.CHARGE:
         categoryCod = 'CHARGE';
         break;
     }

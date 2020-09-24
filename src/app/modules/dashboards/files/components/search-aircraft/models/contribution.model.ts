@@ -5,8 +5,8 @@ export interface Contribution {
     contributionState: ContributionStates;
     operatorId: number;
     aircraftId: number;
-    quotedTime: string;
-    cargoAirborne: number;
+    cargoAirborne?: number;
+    quotedTime?: string;
     requestTime?: string;
     comments?: string;
     purchasePrice?: number;
@@ -20,8 +20,8 @@ export interface Contribution {
 }
 
 export enum ContributionStates {
-    PENDING,
-    SENDED,
-    QUOTED,
-    CONFIRMED
+    PENDING = 'PENDING',
+    SENDED = 'SENDED',
+    QUOTED = 'QUOTED',
+    CONFIRMED = 'CONFIRMED'
 }
