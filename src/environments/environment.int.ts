@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: "http://212.51.59.56/services/",
+  apiUrl: "http://localhost:8080/services/",
   mock: false
 };
