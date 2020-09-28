@@ -31,6 +31,7 @@ import { MatDropdownDirective } from './directives/mat-dropdown.directive';
 import { TopBarComponent } from './components/menus/top-bar/top-bar.component';
 import { InputComponent } from './components/basic/input/input.component';
 import { MaterialModule } from '../material/material.module';
+import { TranslatedSnackBarComponent } from './components/snack-bar/translated-snack-bar/translated-snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { MaterialModule } from '../material/material.module';
     TableAuditTooltipDirective,
     TableComponent,
     TopBarComponent,
+    TranslatedSnackBarComponent,
   ],
   imports: [
     CommonModule,

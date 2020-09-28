@@ -15,7 +15,8 @@
       "ICAO_CODE": "Cód. ICAO"
     },
     "VIEW_DISABLED": "Ver inactivos",
-    "NOT_FOUND": "Sin resultados"
+    "NOT_FOUND": "Sin resultados",
+    "SUCCESSFUL_OPERATION": "Operación exitosa"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
