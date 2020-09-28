@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: "http://212.51.59.56/services/",
+  apiUrl: "https://dev-erp-europair.plexus.services/",
   mock: false
 };
