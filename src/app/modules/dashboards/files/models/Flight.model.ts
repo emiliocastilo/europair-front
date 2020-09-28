@@ -1,9 +1,10 @@
-import { Operator } from 'src/app/modules/dashboards/masters/airports/models/airport';
 import { AircraftBase, Load } from 'src/app/modules/dashboards/masters/fleet/components/aircraft/models/Aircraft.model';
 import { FleetType } from 'src/app/modules/dashboards/masters/fleet/models/fleet';
+import { Operator } from '../../masters/operators/models/Operator.model';
 
 export interface Flight {
     id: number;
+    operator: Operator;
     departureTime: string;
     timeZone: string;
     origin: string;
@@ -14,7 +15,6 @@ export interface Flight {
     beds: number;
     stretchers: number;
     bases: AircraftBase[];
-    operator: Operator;
     aircraftType: FleetType;
     quantity: number;
     load?: Load;

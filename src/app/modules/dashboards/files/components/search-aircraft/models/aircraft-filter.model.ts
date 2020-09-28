@@ -3,14 +3,16 @@ import { Airport } from 'src/app/modules/dashboards/masters/airports/models/airp
 import { Country } from 'src/app/modules/dashboards/masters/countries/models/country';
 import { FleetCategory, FleetSubcategory, FleetType } from 'src/app/modules/dashboards/masters/fleet/models/fleet';
 import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
+import { OperationType } from '../../../models/File.model';
 
 export class AircraftFilter {
     countries: Array<Country>;
     airports: Array<Airport>;
     operators: Array<Operator>;
-    categories: Array<FleetCategory>;
-    subcategories: Array<FleetSubcategory>;
     fleetTypes: Array<FleetType>;
+    category: FleetCategory;
+    subcategory: FleetSubcategory;
+    minumunSubcategory: boolean;
     nearbyAirport: boolean;
     nearbyAirportFrom: number;
     nearbyAirportTo: number;
@@ -19,30 +21,38 @@ export class AircraftFilter {
     seatY: number;
     beds: number;
     stretchers: number;
+    operationType: OperationType;
+    flightScales: boolean;
+    flightScalesValue: number;
 
     public getHttpParams(): HttpParams {
         let result: HttpParams = new HttpParams();
         if (this.countries && this.countries.length > 0) {
-            result = result.append('countryId', this.getParamsFromArray(this.countries));
+            result = result.append('countryIds', this.getParamsFromArray(this.countries));
         }
         if (this.airports && this.airports.length > 0) {
-            result = result.append('airportId', this.getParamsFromArray(this.airports));
+            result = result.append('baseIds', this.getParamsFromArray(this.airports));
         }
         if (this.operators && this.operators.length > 0) {
-            result = result.append('operatorId', this.getParamsFromArray(this.operators));
-        }
-        if (this.categories && this.categories.length > 0) {
-            result = result.append('categoryId', this.getParamsFromArray(this.categories));
-        }
-        if (this.subcategories && this.subcategories.length > 0) {
-            result = result.append('subcategoryId', this.getParamsFromArray(this.subcategories));
+            result = result.append('operators', this.getParamsFromArray(this.operators));
         }
         if (this.fleetTypes && this.fleetTypes.length > 0) {
-            result = result.append('fleetTypeId', this.getParamsFromArray(this.fleetTypes));
+            result = result.append('aircraftTypes', this.getParamsFromArray(this.fleetTypes));
         }
         if (this.nearbyAirport) {
-            result = result.append('nearbyAirportFrom', this.nearbyAirportFrom.toString());
-            result = result.append('nearbyAirportTo', this.nearbyAirportTo.toString());
+            result = result.append('fromDistance', this.nearbyAirportFrom.toString());
+            result = result.append('toDistance', this.nearbyAirportTo.toString());
+            result = result.append('distanceUnit', 'KILOMETER');
+        }
+        if (this.flightScales) {
+            result = result.append('flightScales', this.flightScalesValue.toString());
+        }
+        if (this.category) {
+            result = result.append('categoryId', this.category.id.toString());
+        }
+        if (this.subcategory) {
+            result = result.append('exactSubcategory', (!this.minumunSubcategory).toString());
+            result = result.append('subcategoryId', this.subcategory.id.toString());
         }
         if (this.seatC) {
             result = result.append('seatC', this.seatC.toString());
@@ -59,11 +69,14 @@ export class AircraftFilter {
         if (this.stretchers) {
             result = result.append('stretchers', this.stretchers.toString());
         }
-        result = result.append('bases', '1');
+        if (this.operationType) {
+            result = result.append('operationType', this.operationType.toString());
+        }
+        result = result.append('destinationAirportId', '1');
         return result;
     }
 
-    private getParamsFromArray(items: Array<Partial<{id: number}>>): string {
-        return items.map((item: {id: number}) => item.id).toString();
+    private getParamsFromArray(items: Array<Partial<{ id: number }>>): string {
+        return items.map((item: { id: number }) => item.id).toString();
     }
 }
