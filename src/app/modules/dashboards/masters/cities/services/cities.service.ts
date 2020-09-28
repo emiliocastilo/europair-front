@@ -14,9 +14,10 @@ import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 export class CitiesService {
   private readonly mocked: boolean = false;
   private readonly url = `${environment.apiUrl}cities`;
-  private readonly filterOptions: FilterOptions = { 
-    filter_name: OperatorEnum.CONTAINS, 
-    'filter_country.id': OperatorEnum.EQUALS 
+  private readonly filterOptions: FilterOptions = {
+    filter_name: OperatorEnum.CONTAINS,
+    'filter_country.id': OperatorEnum.EQUALS,
+    size: OperatorEnum.EMPTY
   } as const;
 
   constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }

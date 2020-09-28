@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { OperatorEnum } from '../models/search/operators-enum';
 import { SearchFilter, FilterOptions } from '../models/search/search-filter';
 
 @Injectable({
@@ -27,7 +28,7 @@ export class SearchFilterService {
     searchFilter: SearchFilter,
     filterOptions: FilterOptions
   ): void {
-    if (filterOptions[key] !== undefined) {
+    if (filterOptions[key] !== undefined && filterOptions[key] !== OperatorEnum.EMPTY) {
       searchFilter[key] = `${searchFilter[key]},${filterOptions[key]}`;
     }
   }

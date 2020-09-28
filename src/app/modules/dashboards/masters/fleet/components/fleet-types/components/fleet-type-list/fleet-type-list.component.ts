@@ -189,6 +189,7 @@ export class FleetTypeListComponent implements OnInit {
     const filter = {
       ...this.typeAdvancedSearchForm.value,
       ...this.typeSortForm.value,
+      size: '30000'
     };
     this.obtainTypes(filter);
   }
