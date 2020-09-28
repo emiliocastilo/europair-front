@@ -157,4 +157,21 @@ export class FleetTypesService {
     const removeFleetTypeSpeedAverageUrl = `${this.url}/${fleetTypeId}/average-speed/${speedAverageId}`;
     return this.http.delete(removeFleetTypeSpeedAverageUrl);
   }
+
+  public searchAirports(term: string): Observable<Page<FleetType>> {
+    const searchFilter: SearchFilter = {
+      filter_iataCode: term,
+      filter_icaoCode: term,
+      filter_description: term
+    };
+
+    const filterOption: FilterOptions = {
+      filter_iataCode: OperatorEnum.CONTAINS_OR,
+      filter_icaoCode: OperatorEnum.CONTAINS_OR,
+      filter_description: OperatorEnum.CONTAINS_OR
+    };
+    return this.http.get<Page<FleetType>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, filterOption)
+    });
+  }
 }

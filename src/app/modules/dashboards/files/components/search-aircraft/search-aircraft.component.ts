@@ -346,7 +346,7 @@ export class SearchAircraftComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.airportsLoading = true)),
         switchMap((term: string): Observable<Airport[]> =>
-          this.airportsService.getAirports({ filter_name: term }).pipe(
+          this.airportsService.searchAirports(term).pipe(
             map((page: Page<Airport>) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.airportsLoading = false)))
@@ -381,7 +381,7 @@ export class SearchAircraftComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.fleetTypesLoading = true)),
         switchMap((term: string) =>
-          this.fleetTypeService.getFleetTypes({ filter_description: term }).pipe(
+          this.fleetTypeService.searchAirports(term).pipe(
             map((page: Page<FleetType>) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.fleetTypesLoading = false))
@@ -399,7 +399,7 @@ export class SearchAircraftComponent implements OnInit {
         distinctUntilChanged(),
         tap(() => (this.operatorsLoading = true)),
         switchMap((term: string) =>
-          this.operatorsService.getOperators({ filter_name: term }).pipe(
+          this.operatorsService.searchAirports(term).pipe(
             map((page: Page<Operator>) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.operatorsLoading = false))
