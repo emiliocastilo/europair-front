@@ -30,8 +30,8 @@ export class AirportsService {
 
   public getAirports(searchFilter: SearchFilter = {}): Observable<Page<Airport>> {
     const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
-    return this.httpClient.get<Page<Airport>>(url, { 
-      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions) 
+    return this.httpClient.get<Page<Airport>>(url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
     });
   }
 
@@ -63,5 +63,25 @@ export class AirportsService {
   public getAirport(airportId: number): Observable<Airport> {
     const url: string = this.mocked ? '/assets/mocks/airport.json' : `${this.url}/${airportId}`;
     return this.httpClient.get<Airport>(url);
+  }
+
+  public searchAirports(term: string): Observable<Page<Airport>> {
+    const url: string = this.mocked ? '/assets/mocks/airports.json' : this.url;
+    const searchFilter: SearchFilter = {
+      filter_iataCode: term,
+      filter_icaoCode: term,
+      filter_name: term,
+      'filter_city.name': term
+    };
+
+    const filterOption: FilterOptions = {
+      filter_iataCode: OperatorEnum.CONTAINS_OR,
+      filter_icaoCode: OperatorEnum.CONTAINS_OR,
+      filter_name: OperatorEnum.CONTAINS_OR,
+      'filter_city.name': OperatorEnum.CONTAINS_OR
+    };
+    return this.httpClient.get<Page<Airport>>(url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, filterOption)
+    });
   }
 }

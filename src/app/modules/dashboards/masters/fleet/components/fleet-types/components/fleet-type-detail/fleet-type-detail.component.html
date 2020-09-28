@@ -128,6 +128,7 @@
                   [id]="'type-category'"
                   [label]="'Categoría'"
                   [searchable]="true"
+                  [itemDescription]="'code'"
                   (selectedValueEvent)="obtainSubcategories($event)"
                   [placeholder]="'Selecciona una categoría' | translate"
                   [formControl]="this.typeForm.get('category')"
@@ -154,6 +155,7 @@
                   [placeholder]="getSubcategoriePlaceholder()"
                   [label]="'Subcategoría'"
                   [searchable]="true"
+                  [itemDescription]="'code'"
                   [formControl]="getControl('subcategory')"
                   class="col s12 l3"
                 >

@@ -43,3 +43,11 @@ export interface Provider {
   vies: boolean;
   country: Country;
 }
+
+export enum OperationType {
+  ACMI = 'ACMI',
+  COMMERCIAL = 'COMMERCIAL',
+  EXECUTIVE = 'EXECUTIVE',
+  CHARGE = 'CHARGE',
+  GROUP = 'GROUP'
+}

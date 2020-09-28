@@ -70,6 +70,23 @@ export class OperatorsService {
     return this.http.delete(removeOperatorUrl);
   }
 
+  public searchAirports(term: string): Observable<Page<Operator>> {
+    const searchFilter: SearchFilter = {
+      filter_iataCode: term,
+      filter_icaoCode: term,
+      filter_name: term
+    };
+
+    const filterOption: FilterOptions = {
+      filter_iataCode: OperatorEnum.CONTAINS_OR,
+      filter_icaoCode: OperatorEnum.CONTAINS_OR,
+      filter_name: OperatorEnum.CONTAINS_OR
+    };
+    return this.http.get<Page<Operator>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, filterOption)
+    });
+  }
+
   public getOperatorCertifications(
     operatorId: number
   ): Observable<Page<Certification>> {

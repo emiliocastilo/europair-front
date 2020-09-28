@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Page } from 'src/app/core/models/table/pagination/page';
 import { environment } from 'src/environments/environment';
 import { AircraftFilter } from '../models/aircraft-filter.model';
 import { AircraftSearchResult } from '../models/aircraft-search.model';
@@ -16,8 +15,8 @@ export class AircraftSearchService {
 
   constructor( private readonly httpClient: HttpClient ) { }
 
-  public searchAircraft(searchParams: AircraftFilter): Observable<Page<AircraftSearchResult>> {
+  public searchAircraft(searchParams: AircraftFilter): Observable<Array<AircraftSearchResult>> {
     const url: string = this.mocked ? '/assets/mocks/aircraft-search.json' : this.url;
-    return this.httpClient.get<Page<AircraftSearchResult>>(url, {params: searchParams.getHttpParams()});
+    return this.httpClient.get<Array<AircraftSearchResult>>(url, {params: searchParams.getHttpParams()});
   }
 }
