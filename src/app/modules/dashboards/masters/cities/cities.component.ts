@@ -69,7 +69,7 @@ export class CitiesComponent implements OnInit {
 
   private initializeCityTable(): void {
     this.cityColumnsHeader = this.cityTableAdapterService.getCityColumnsHeader();
-    this.citiesService.getCities().subscribe((data: Page<City>) => {
+    this.citiesService.getCities({size: '30000'}).subscribe((data: Page<City>) => {
       this.cities = data.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
       this.cityPagination = this.cityTableAdapterService.getPagination();

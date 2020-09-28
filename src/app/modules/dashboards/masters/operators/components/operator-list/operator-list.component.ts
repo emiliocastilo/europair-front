@@ -191,6 +191,7 @@ export class OperatorListComponent implements OnInit {
     const filter = {
       ...this.operatorAdvancedSearchForm.value,
       ...this.operatorSortForm.value,
+      size: '30000'
     };
     this.initializeOperatorsTable(filter);
   }

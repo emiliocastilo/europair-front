@@ -67,7 +67,7 @@ export class CountriesComponent implements OnInit {
 
   private initializeCountryTable(): void {
     this.countryColumnsHeader = this.countryTableAdapterService.getCountryColumnsHeader();
-    this.countriesService.getCountries().subscribe((data: Page<Country>) => {
+    this.countriesService.getCountries({size: '30000'}).subscribe((data: Page<Country>) => {
       this.countries = data.content;
       this.countriesColumnsData = this.countryTableAdapterService.getCountryTableData(this.countries);
       this.countryPagination = this.countryTableAdapterService.getPagination();

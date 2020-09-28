@@ -22,6 +22,7 @@ export class OperatorsService {
     filter_icaoCode: OperatorEnum.CONTAINS,
     filter_name: OperatorEnum.CONTAINS,
     filter_removedAt: OperatorEnum.IS_NULL,
+    size: OperatorEnum.EMPTY
     } as const;
     
   constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
@@ -67,6 +68,23 @@ export class OperatorsService {
   public removeOperator(operator: Operator) {
     const removeOperatorUrl = `${this.url}/${operator.id}`;
     return this.http.delete(removeOperatorUrl);
+  }
+
+  public searchAirports(term: string): Observable<Page<Operator>> {
+    const searchFilter: SearchFilter = {
+      filter_iataCode: term,
+      filter_icaoCode: term,
+      filter_name: term
+    };
+
+    const filterOption: FilterOptions = {
+      filter_iataCode: OperatorEnum.CONTAINS_OR,
+      filter_icaoCode: OperatorEnum.CONTAINS_OR,
+      filter_name: OperatorEnum.CONTAINS_OR
+    };
+    return this.http.get<Page<Operator>>(this.url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, filterOption)
+    });
   }
 
   public getOperatorCertifications(

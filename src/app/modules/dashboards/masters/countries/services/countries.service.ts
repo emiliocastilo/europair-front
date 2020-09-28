@@ -14,7 +14,10 @@ import { SearchFilterService } from 'src/app/core/services/search-filter.service
 export class CountriesService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}countries`;
-  private readonly filterOptions: FilterOptions = { filter_name: OperatorEnum.CONTAINS } as const;
+  private readonly filterOptions: FilterOptions = {
+    filter_name: OperatorEnum.CONTAINS,
+    size: OperatorEnum.EMPTY
+  } as const;
 
   constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }
 

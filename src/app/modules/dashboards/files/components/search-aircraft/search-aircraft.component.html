@@ -10,6 +10,14 @@
                 <div class="row">
                     <div class="col s12 l9">
 
+                        <core-select [label]="'SEARCH_AIRCRAFT.REGIONS' | translate" [id]="'search-regions'"
+                            [items]="regions" class="col s12 l12 cmd-mb-1" [multiple]="true"
+                            [typeToSearchText]="'SEARCH_AIRCRAFT.REGIONS_SEARCH_TEXT' | translate"
+                            [placeholder]="'SEARCH_AIRCRAFT.SELECT_REGIONS' | translate"
+                            [hasErrors]="hasControlAnyError('regions')" [searchable]="true"
+                            [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="regions">
+                        </core-select>
+
                         <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
                             [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
                             class="col s12 l12 cmd-mb-1" [multiple]="true"
@@ -31,25 +39,26 @@
                         </core-select>
 
                         <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_CATEGORY' | translate"
-                            [id]="'search-aircraft-category'" [items]="categories$ | async" [minTermLength]="1"
-                            [loading]="categoriesLoading" class="col s12 l6 cmd-mb-1"
+                            [id]="'search-aircraft-category'" [items]="categories" class="col s12 l5 cmd-mb-1"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.CATEGORY_SEARCH_TEXT' | translate"
-                            [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate"
-                            [hasErrors]="hasControlAnyError('category')" [typeahead]="categoriesInput$"
-                            [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
-                            formControlName="category">
+                            [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate" [itemDescription]="'code'"
+                            [hasErrors]="hasControlAnyError('category')" [searchable]="true"
+                            [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="category">
                         </core-select>
 
                         <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_SUBCATEGORY' | translate"
-                            [id]="'search-aircraft-subcategory'" [items]="subcategories$ | async" [minTermLength]="1"
-                            [loading]="subcategoriesLoading" class="col s12 l6 cmd-mb-1"
-                            [isDisabled]="!hasCategorySelected()"
+                            [id]="'search-aircraft-subcategory'" [items]="subcategories" class="col s12 l4 cmd-mb-1"
+                            [isDisabled]="!hasCategorySelected()" [itemDescription]="'code'"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.SUBCATEGORY_SEARCH_TEXT' | translate"
                             [placeholder]="getSubcategoryPlaceholder() | translate"
-                            [hasErrors]="hasControlAnyError('subcategory')" [typeahead]="subcategoriesInput$"
-                            [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
-                            formControlName="subcategory">
+                            [hasErrors]="hasControlAnyError('subcategory')" [searchable]="true"
+                            [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="subcategory">
                         </core-select>
+
+                        <core-basic-switch [id]="'search-minimun-subcategory'" class="col s12 l3 cmd-my-1"
+                            [firstLabel]="'SEARCH_AIRCRAFT.MINIMUN_SUBCATEGORY' | translate"
+                            formControlName="minimunSubcategory">
+                        </core-basic-switch>
 
                         <core-select [label]="'SEARCH_AIRCRAFT.TYPE' | translate" [id]="'search-fleetType'"
                             [items]="fleetTypes$ | async" [minTermLength]="1" [loading]="fleetTypesLoading"
@@ -129,6 +138,24 @@
                                 </ng-container>
                             </ng-container>
                         </core-basic-input-text>
+                        <div class="col s12 l12">
+                            <core-basic-switch [id]="'search-scale'" class="col s12 l2 cmd-my-2 switch-scales"
+                                [firstLabel]="'SEARCH_AIRCRAFT.SCALES' | translate" formControlName="flightScales">
+                            </core-basic-switch>
+                            <core-basic-input-text [id]="'search-scale-value'" class="col s12 l2 cmd-my-2" [hidden]="hiddenFlightScalesValue()"
+                                [label]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate" [type]="'number'"
+                                [hasErrors]="hasControlAnyError('flightScalesValue')"
+                                formControlName="flightScalesValue" [min]="0">
+                                <ng-container inputErrors>
+                                    <ng-container *ngIf="hasControlAnyError('flightScalesValue')">
+                                        <span *ngIf="hasControlSpecificError('flightScalesValue', 'min')"
+                                            class="helper-text"
+                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
+                                        </span>
+                                    </ng-container>
+                                </ng-container>
+                            </core-basic-input-text>
+                        </div>
                     </div>
 
                     <div class="col s12 l3">
@@ -258,7 +285,7 @@
                         {{ 'SEARCH_AIRCRAFT.CATEGORY' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        {{ element.aircraftCategory?.name }}
+                        {{ element.aircraftCategory?.code }}
                     </mat-cell>
                 </ng-container>
 
@@ -268,7 +295,7 @@
                         {{ 'SEARCH_AIRCRAFT.SUBCATEGORY' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        {{ element.aircraftSubcategory?.name }}
+                        {{ element.aircraftSubcategory?.code }}
                     </mat-cell>
                 </ng-container>
 
@@ -299,7 +326,8 @@
                 </ng-container>
 
                 <ng-container matColumnDef="bedsAndStretchers">
-                    <mat-header-cell [innerHTML]="'SEARCH_AIRCRAFT.BEDS_AND_STRETCHERS' | translate" *matHeaderCellDef mat-header>
+                    <mat-header-cell [innerHTML]="'SEARCH_AIRCRAFT.BEDS_AND_STRETCHERS' | translate" *matHeaderCellDef
+                        mat-header>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         {{ getBedsAndStretchers(element) }}
@@ -341,18 +369,18 @@
 
         <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
 
-        <div class="row confirm">
-            <button type="submit" (click)="cancel()"
-                class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
-                <i class="material-icons">cancel</i>
-                <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
-            </button>
-            <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
-                class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
-                <i class="material-icons">done</i>
-                <span
-                    class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
-            </button>
-        </div>
     </mat-expansion-panel>
 </mat-accordion>
+<div class="row confirm">
+    <button type="submit" (click)="cancel()"
+        class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
+        <i class="material-icons">cancel</i>
+        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
+    </button>
+    <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
+        class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
+        <i class="material-icons">done</i>
+        <span
+            class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
+    </button>
+</div>
