@@ -174,6 +174,7 @@ export class AirportsListComponent implements OnInit {
     const filter = {
       ...this.airportAdvancedSearchForm.value,
       ...this.airportSortForm.value,
+      size: '30000'
     };
     this.obtainAirportsTable(filter);
   }

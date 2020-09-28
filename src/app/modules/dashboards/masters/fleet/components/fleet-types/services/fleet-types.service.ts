@@ -24,9 +24,10 @@ export class FleetTypesService {
     'filter_subcategory.name': OperatorEnum.CONTAINS,
     filter_flightRange: OperatorEnum.EQUALS,
     filter_removedAt: OperatorEnum.IS_NULL,
-    } as const;
+    size: OperatorEnum.EMPTY
+  } as const;
 
-  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}
+  constructor(private http: HttpClient, private searchFilterService: SearchFilterService) { }
 
   public getFleetTypes(searchFilter: SearchFilter = {}): Observable<Page<FleetType>> {
     return this.http.get<Page<FleetType>>(this.url, {

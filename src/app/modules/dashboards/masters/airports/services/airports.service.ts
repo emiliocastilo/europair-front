@@ -22,9 +22,9 @@ export class AirportsService {
     'filter_country.name': OperatorEnum.CONTAINS,
     'filter_country.id': OperatorEnum.EQUALS,
     filter_removedAt: OperatorEnum.IS_NULL,
-    search: OperatorEnum.CONTAINS
+    search: OperatorEnum.CONTAINS,
+    size: OperatorEnum.EMPTY
     } as const;
-
 
   constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }
 

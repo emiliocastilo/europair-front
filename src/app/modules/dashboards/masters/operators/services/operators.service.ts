@@ -22,6 +22,7 @@ export class OperatorsService {
     filter_icaoCode: OperatorEnum.CONTAINS,
     filter_name: OperatorEnum.CONTAINS,
     filter_removedAt: OperatorEnum.IS_NULL,
+    size: OperatorEnum.EMPTY
     } as const;
     
   constructor(private http: HttpClient, private searchFilterService: SearchFilterService) {}

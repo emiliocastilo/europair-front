@@ -10,4 +10,5 @@ export enum OperatorEnum {
   CONTAINS = 'CONTAINS',
   NOT_CONTAINS = 'NOT_CONTAINS',
   IN = 'IN',
+  EMPTY = ''
 }
