@@ -430,6 +430,7 @@
     "QUOTE": "Cotizar {{quantity}}",
     "CANCEL": "Cancelar",
     "ERROR": {
+      "AIRPORT_REQUIRED": "Debes indicar un aeropuerto al seleccionar 'Aeropuertos cercanos'",
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
       "NEARBY_AIRPORT_MAX": "La medida 'Desde' debe de ser inferior a 'Hasta'",
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo."
