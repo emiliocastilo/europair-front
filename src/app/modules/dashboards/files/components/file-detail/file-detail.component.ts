@@ -143,11 +143,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return formattedWeek.join(' ');
   }
 
-  public runAction(event: Event, isPlane: boolean = false): void {
+  public runAction(event: Event, isPlane: boolean = false, id: number = 0): void {
     event.preventDefault();
     event.stopPropagation();
     if (isPlane) {
-      this.router.navigate(['/files/search/aircraft']);
+      this.router.navigate(['/files/search/aircraft'], {queryParams: {routeId: id}});
     }
   }
 
