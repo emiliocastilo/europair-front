@@ -11,7 +11,6 @@ import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import { Country } from '../../../masters/countries/models/country';
 import { CountriesService } from '../../../masters/countries/services/countries.service';
-import { AircraftBase } from '../../../masters/fleet/components/aircraft/models/Aircraft.model';
 import { FleetCategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-categories.service';
 import { FleetSubcategoriesService } from '../../../masters/fleet/components/fleet-categories/services/fleet-subcategories.service';
 import { FleetTypesService } from '../../../masters/fleet/components/fleet-types/services/fleet-types.service';
@@ -76,7 +75,7 @@ export class SearchAircraftComponent implements OnInit {
   public searchForm: FormGroup = this.fb.group({
     regions: [[]],
     countries: [[]],
-    airports: [[]],
+    airports: [[], this.validatorRequiredNearbyAirport.bind(this)],
     nearbyAirport: [false],
     nearbyAirportFrom: ['0', [this.validatorRequiredNearbyAirport.bind(this), this.validatorMaxValueNearbyAirportFrom.bind(this), Validators.min(0)]],
     nearbyAirportTo: ['100', [this.validatorRequiredNearbyAirport.bind(this), Validators.min(0)]],
@@ -108,8 +107,8 @@ export class SearchAircraftComponent implements OnInit {
   private selectedItems: Array<number>;
   private aircraftSearch: AircraftFilter;
 
-  private fileId: number = 0;
-  private routeId: number = 0;
+  private fileId: number = 1;
+  private routeId: number = 1;
   private operationType: OperationType;
 
   constructor(
@@ -185,6 +184,7 @@ export class SearchAircraftComponent implements OnInit {
   public filterAircraftTable(): void {
     this.searchForm.get('nearbyAirportFrom').updateValueAndValidity();
     this.searchForm.get('nearbyAirportTo').updateValueAndValidity();
+    this.searchForm.get('airports').updateValueAndValidity();
     if (this.searchForm.valid) {
       this.filterExpanded = false;
       this.tableExpanded = true;
@@ -202,6 +202,7 @@ export class SearchAircraftComponent implements OnInit {
 
   private setAircraftFilter(): void {
     this.aircraftSearch = new AircraftFilter();
+    this.aircraftSearch.routeId = this.routeId;
     this.aircraftSearch.airports = this.searchForm.value.airports ? this.searchForm.value.airports : [];
     this.aircraftSearch.countries = this.searchForm.value.countries ? this.searchForm.value.countries : [];
     this.aircraftSearch.operators = this.searchForm.value.operators ? this.searchForm.value.operators : [];
@@ -230,11 +231,11 @@ export class SearchAircraftComponent implements OnInit {
       aircraftSelected.forEach((aircraftSearch: AircraftSearchResult) => {
         const contribution: Contribution = {
           aircraftId: aircraftSearch.id,
-          cargoAirborne: aircraftSearch.load?.maximumLoad,
+          cargoAirborne: aircraftSearch.maxCargo,
           contributionState: ContributionStates.PENDING,
           fileId: this.fileId,
           routeId: this.routeId,
-          operatorId: aircraftSearch.operator?.id
+          operatorId: aircraftSearch.operatorId
         };
         contributionsCalls.push(this.contributionService.createContribution(
           this.fileId,
@@ -297,21 +298,12 @@ export class SearchAircraftComponent implements OnInit {
     return !this.disabledQuote() ? `(${this.selectedItems.length})` : '';
   }
 
-  public getAirportBaseLabel(aircraft: AircraftSearchResult): string {
-    let airports: string = '';
-    if (aircraft.bases) {
-      const base: AircraftBase = aircraft.bases.find((aircraftBase: AircraftBase) => aircraftBase.mainBase);
-      airports = base?.airport.name || '';
-    }
-    return airports;
-  }
-
   public getSeatsFCY(aircraft: AircraftSearchResult): string {
     return `${aircraft.seatingF} / ${aircraft.seatingC} / ${aircraft.seatingY}`;
   }
 
   public getBedsAndStretchers(aircraft: AircraftSearchResult): string {
-    return `${aircraft.beds} / ${aircraft.stretchers}`;
+    return `${aircraft.nighttimeConfiguration} / ${aircraft.stretchers | 0}`;
   }
 
   public getTimeOfFlight(aircraft: AircraftSearchResult): string {
@@ -412,7 +404,7 @@ export class SearchAircraftComponent implements OnInit {
   private validatorRequiredNearbyAirport(formControl: FormControl): ValidationErrors {
     let validator: ValidationErrors = null;
     if (this.searchForm && this.searchForm.get('nearbyAirport').value
-      && formControl.value === '') {
+      && (formControl.value === '' || formControl.value?.length === 0)) {
       validator = {
         required: true
       };
