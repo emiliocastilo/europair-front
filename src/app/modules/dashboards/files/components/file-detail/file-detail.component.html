@@ -1,5 +1,10 @@
 <core-page-bar [pageTitle]="'FILES.PAGE_TITLE' | translate"></core-page-bar>
-
+<div class="row" *ngIf="showConfirmOperationButton()">
+  <button color="primary" class=" col s12 l2 offset-l10 cmd-mb-1" (click)="openConfirmOperationModal()"
+    mat-raised-button>
+    {{ "FILES.CONFIRM_OPERATION" | translate }}
+  </button>
+</div>
 <mat-accordion multi>
   <mat-expansion-panel class="app-expansion-panel">
     <mat-expansion-panel-header class="cmd-mb-2">
@@ -356,4 +361,50 @@
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent> </ng-template>
   </mat-expansion-panel>
+
+  <mat-expansion-panel class="cmd-mb-2">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "FILES.OBSERVATIONS" | translate | sentenceCase }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <div class="row">
+        <mat-form-field class="col s12 l12 cmd-mt-1">
+          <mat-label>{{'FILES.OBSERVATIONS_LABEL' |translate}}</mat-label>
+          <textarea matInput [(ngModel)]="observations"></textarea>
+        </mat-form-field>
+        <button color="primary" class=" col s12 l2 offset-l10" (click)="saveObservation()" mat-raised-button>
+          {{ "FILES.CONFIRM" | translate }}
+        </button>
+      </div>
+    </ng-template>
+  </mat-expansion-panel>
 </mat-accordion>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{ 'FILES.CONFIRM_OPERATION' | translate }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{ 'FILES.CANCEL' | translate }}
+      </a>
+    </section>
+    <section class="modal-body">
+      <div class="row">
+        <p>{{ 'FILES.MSG_OPERATION' | translate }}</p>
+        <mat-form-field class="col s12 l12 cmd-mt-1">
+          <mat-label>{{'FILES.OBSERVATIONS_LABEL' |translate}}</mat-label>
+          <textarea matInput [(ngModel)]="observations"></textarea>
+        </mat-form-field>
+      </div>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmOperation()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{ 'FILES.CONFIRM' | translate }}</span>
+    </a>
+  </ng-container>
+</core-modal>
