@@ -17,31 +17,105 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      <div class="row">
-        <app-input
-          [prefix]="'Cód. Ruta' | translate"
-          [(ngModel)]="routeCode"
-          (ngModelChange)="routeCode = $event.toUpperCase()"
-          class="col s12 l4"
-        >
-        </app-input>
-
-        <div class="col s12 l2">
-          <button
-            class="route-generator browser-default"
-            color="primary"
-            mat-stroked-button
-            [disabled]="!routeCode"
-            (click)="generateFlights()"
+      <form [formGroup]="routeForm" (ngSubmit)="generateFlights()">
+        <div class="row">
+          <app-input-mask
+            [prefix]="'Cód. Ruta' | translate"
+            class="col s12 l8"
+            [cssClasses]="'text-uppercase'"
+            [mask]="routeMask"
+            [maskPatterns]="routePattern"
+            formControlName="routeCode"
           >
-            Generar ruta
-          </button>
+            <ng-container inputErrors *ngIf="hasControlAnyError('routeCode')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('routeCode', 'required')"
+              >
+                {{ "FILES.ERRORS.ROUTE_CODE" | translate }}
+              </mat-error>
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('routeCode', 'minlength')"
+              >
+                {{ "FILES.ERRORS.ROUTE_CODE_MIN_LEN" | translate }}
+              </mat-error>
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="
+                  !hasControlSpecificError('routeCode', 'minlength') &&
+                  hasControlSpecificError(
+                    'routeCode',
+                    'routeCodeFormatNotValid'
+                  )
+                "
+              >
+                {{ "FILES.ERRORS.ROUTE_CODE_FORMAT" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input-mask>
+          <core-select
+            class="col s12 l4"
+            [items]="frequencyList"
+            [placeholder]="'Frecuencia' | translate"
+            [searchable]="true"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
+            formControlName="frequency"
+          >
+          </core-select>
         </div>
-      </div>
+        <div class="row">
+          <app-input
+            [type]="'date'"
+            [prefix]="'Fecha inicio' | translate"
+            [hasErrors]="hasControlAnyError('startDate')"
+            formControlName="startDate"
+            class="col s12 l4"
+          >
+            <ng-container inputErrors *ngIf="hasControlAnyError('startDate')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('startDate', 'required')"
+              >
+                {{ "FILES.ERRORS.START_DATE" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+
+          <app-input
+            [type]="'date'"
+            [prefix]="'Fecha fin' | translate"
+            [hasErrors]="hasControlAnyError('endDate')"
+            formControlName="endDate"
+            class="col s12 l4"
+          >
+            <ng-container inputErrors *ngIf="hasControlAnyError('endDate')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('endDate', 'required')"
+              >
+                {{ "FILES.ERRORS.END_DATE" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+
+          <div class="col s12 l2">
+            <button
+              class="route-generator browser-default"
+              color="primary"
+              type="submit"
+              mat-stroked-button
+            >
+              Generar ruta
+            </button>
+          </div>
+        </div>
+      </form>
 
       <hr class="cmd-mb-2" />
 
-      <form [formGroup]="routeForm">
+      <!-- <form [formGroup]="routeForm">
         <div class="row cmd-mt-2">
           <core-select
             [hasErrors]="hasControlAnyError('origin')"
@@ -182,7 +256,7 @@
             <button color="primary" mat-raised-button>Añadir vuelo</button>
           </div>
         </div>
-      </form>
+      </form> -->
     </ng-template>
   </mat-expansion-panel>
 

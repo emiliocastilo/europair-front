@@ -457,7 +457,12 @@
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
-      "CLIENT": "Debe indicar un cliente"
+      "CLIENT": "Debe indicar un cliente",
+      "ROUTE_CODE": "Debe indicar un código de ruta",
+      "ROUTE_CODE_MIN_LEN": "Un código de ruta debe tener como mínimo un origen y un destino",
+      "ROUTE_CODE_FORMAT": "El formato del código no es correcto (AAA-BBB-CCC...)",
+      "START_DATE": "Debe indicar una fecha inicio",
+      "END_DATE": "Debe indicar una fecha fin"
     }
   },
   "FREQUENCIES": {

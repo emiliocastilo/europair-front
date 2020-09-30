@@ -14,6 +14,7 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor';
@@ -22,6 +23,7 @@ import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
 }
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,6 +31,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    NgxMaskModule.forRoot(),
     // i18n
     TranslateModule.forRoot({
       defaultLanguage: 'es',
