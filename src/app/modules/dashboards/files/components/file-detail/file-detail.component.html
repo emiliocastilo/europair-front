@@ -207,7 +207,7 @@
               svgIcon="europair_edit"
             ></mat-icon>
             <mat-icon
-              (click)="runAction($event, true)"
+              (click)="runAction($event, true, element.id)"
               svgIcon="europair_plane"
             ></mat-icon>
             <mat-icon
@@ -310,7 +310,7 @@
                     svgIcon="europair_edit"
                   ></mat-icon>
                   <mat-icon
-                    (click)="runAction($event, true)"
+                    (click)="runAction($event, true, element.id)"
                     svgIcon="europair_plane"
                   ></mat-icon>
                   <mat-icon
@@ -372,7 +372,7 @@
       <div class="row">
         <mat-form-field class="col s12 l12 cmd-mt-1">
           <mat-label>{{'FILES.OBSERVATIONS_LABEL' |translate}}</mat-label>
-          <textarea matInput [(ngModel)]="observations"></textarea>
+          <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
         </mat-form-field>
         <button color="primary" class=" col s12 l2 offset-l10" (click)="saveObservation()" mat-raised-button>
           {{ "FILES.CONFIRM" | translate }}
@@ -396,7 +396,7 @@
         <p>{{ 'FILES.MSG_OPERATION' | translate }}</p>
         <mat-form-field class="col s12 l12 cmd-mt-1">
           <mat-label>{{'FILES.OBSERVATIONS_LABEL' |translate}}</mat-label>
-          <textarea matInput [(ngModel)]="observations"></textarea>
+          <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
         </mat-form-field>
       </div>
     </section>

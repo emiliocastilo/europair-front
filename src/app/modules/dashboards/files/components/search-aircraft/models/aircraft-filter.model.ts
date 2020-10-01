@@ -67,7 +67,6 @@ export class AircraftFilter {
         if (this.operationType) {
             result = result.append('operationType', this.operationType.toString());
         }
-        result = result.append('destinationAirportId', '1');
         return result;
     }
 

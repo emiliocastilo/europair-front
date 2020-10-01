@@ -87,6 +87,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public observations: string;
+  public observationMaxLength: number = 5000;
 
   public fileForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
@@ -151,11 +152,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return formattedWeek.join(' ');
   }
 
-  public runAction(event: Event, isPlane: boolean = false): void {
+  public runAction(event: Event, isPlane: boolean = false, id: number = 0): void {
     event.preventDefault();
     event.stopPropagation();
     if (isPlane) {
-      this.router.navigate(['/files/search/aircraft']);
+      this.router.navigate(['/files/search/aircraft'], {queryParams: {routeId: id}});
     }
   }
 
@@ -183,13 +184,13 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public showConfirmOperationButton(): boolean {
-    return false;
+    return true;
   }
 
   public saveObservation(): void {
     const file: File = {
       id: this.fileId,
-      observation: this.observations
+      observation: this.observations?.slice(0, this.observationMaxLength)
     };
     this.fileService.saveFile(file).subscribe();
   }
@@ -204,8 +205,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public onConfirmOperation(): void {
     const file: File = {
       id: this.fileId,
-      observation: this.observations,
-      status: {id: 1, code: '', name: ''}
+      observation: this.observations?.slice(0, this.observationMaxLength)/*,
+      status: {id: 1, code: '', name: ''}*/
     };
     this.fileService.saveFile(file).subscribe();
   }
