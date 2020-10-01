@@ -14,7 +14,7 @@ import { File } from '../models/File.model';
   providedIn: 'root',
 })
 export class FilesService {
-  private readonly mocked: boolean = true;
+  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}files`;
   private readonly filterOptions: FilterOptions = {} as const;
 

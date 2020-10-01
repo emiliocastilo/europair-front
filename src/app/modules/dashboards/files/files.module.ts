@@ -8,6 +8,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [FilesComponent],
-  imports: [CommonModule, CoreModule, MaterialModule, FilesRoutingModule],
+  imports: [CommonModule, FilesRoutingModule, CoreModule, MaterialModule],
 })
 export class FilesModule {}

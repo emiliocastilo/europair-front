@@ -1,359 +1,384 @@
-<core-page-bar [pageTitle]="'FILES.PAGE_TITLE' | translate"></core-page-bar>
+<ng-container *ngIf="routeData$ | async as routeData">
+  <core-page-bar [pageTitle]="routeData.title | translate"></core-page-bar>
 
-<mat-accordion multi>
-  <mat-expansion-panel class="app-expansion-panel">
-    <mat-expansion-panel-header class="cmd-mb-2">
-      <mat-panel-title>
-        {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent>
-      <form [formGroup]="fileForm">
-        <div class="row">
-          <app-input
-            [prefix]="'FILES.CODE' | translate"
-            [hasErrors]="hasControlAnyError('code')"
-            [errorStateMatcher]="matcher"
-            formControlName="code"
-            class="col s12 l4"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('code')">
-                {{ "FILES.ERRORS.CODE" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
+  <button
+    class="browser-default cmd-mb-2"
+    color="primary"
+    mat-raised-button
+    [disabled]="!fileForm.valid"
+    (click)="onSaveFile(routeData.isFileDetail)"
+  >
+    Guardar Expediente
+  </button>
 
-          <app-input
-            [prefix]="'FILES.DESCRIPTION' | translate"
-            [hasErrors]="hasControlAnyError('description')"
-            [errorStateMatcher]="matcher"
-            formControlName="description"
-            class="col s12 l4"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('description')">
-                {{ "FILES.ERRORS.DESCRIPTION" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-
-          <app-input
-            [prefix]="'FILES.STATUS' | translate"
-            [hasErrors]="hasControlAnyError('status')"
-            [errorStateMatcher]="matcher"
-            formControlName="status"
-            class="col s12 l4"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('status')">
-                {{ "FILES.ERRORS.STATUS" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-        </div>
-
-        <div class="row">
-          <app-input
-            [prefix]="'FILES.CLIENT' | translate"
-            [hasErrors]="hasControlAnyError('client')"
-            [errorStateMatcher]="matcher"
-            formControlName="client"
-            class="col s12 l4"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('client')">
-                {{ "FILES.ERRORS.CLIENT" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-        </div>
-      </form>
-    </ng-template>
-  </mat-expansion-panel>
-
-  <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ "FILES.ROUTES" | translate | sentenceCase }}
-      </mat-panel-title>
-      <mat-panel-description *ngIf="routes.expanded">
-        <a mat-button routerLink="routes/new">
-          {{ "FILES.NEW_ROUTE" | translate | sentenceCase }}
-          <mat-icon svgIcon="europair_add"></mat-icon>
-        </a>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-
-    <!-- <ng-template matExpansionPanelContent> -->
-    <div class="table-container">
-      <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
-        <!-- Label Column -->
-        <ng-container matColumnDef="label" sticky>
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Rutas Petición
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="parent-route">
-            <mat-icon
-              class="expand-icon"
-              *ngIf="element.rotations.length > 0"
-              [class.active]="expandedElements.includes(element)"
+  <mat-accordion multi>
+    <mat-expansion-panel class="app-expansion-panel" expanded="true">
+      <mat-expansion-panel-header class="cmd-mb-2">
+        <mat-panel-title>
+          {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <form [formGroup]="fileForm">
+          <div class="row">
+            <app-input
+              [prefix]="'FILES.CODE' | translate"
+              [hasErrors]="hasControlAnyError('code')"
+              [errorStateMatcher]="matcher"
+              formControlName="code"
+              class="col s12 l4"
             >
-              expand_more
-            </mat-icon>
-            {{ element.label }}
-          </mat-cell>
-        </ng-container>
+              <ng-container inputErrors>
+                <mat-error *ngIf="hasControlAnyError('code')">
+                  {{ "FILES.ERRORS.CODE" | translate }}
+                </mat-error>
+              </ng-container>
+            </app-input>
 
-        <!-- Frequency Column -->
-        <ng-container matColumnDef="frequency">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Frecuencia
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.frequency }}
-          </mat-cell>
-        </ng-container>
+            <app-input
+              [prefix]="'FILES.DESCRIPTION' | translate"
+              [hasErrors]="hasControlAnyError('description')"
+              [errorStateMatcher]="matcher"
+              formControlName="description"
+              class="col s12 l4"
+            >
+              <ng-container inputErrors>
+                <mat-error *ngIf="hasControlAnyError('description')">
+                  {{ "FILES.ERRORS.DESCRIPTION" | translate }}
+                </mat-error>
+              </ng-container>
+            </app-input>
 
-        <!-- InitialDate Column-->
-        <ng-container matColumnDef="initialDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha inicio
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.initialDate }}
-          </mat-cell>
-        </ng-container>
+            <app-autocomplete
+              class="col s12 l4"
+              [options]="statusOptions$ | async"
+              [prefix]="'FILES.STATUS' | translate"
+              optionValue="name"
+              optionLabel="name"
+              formControlName="status"
+            >
+            </app-autocomplete>
+          </div>
 
-        <!-- EndDate Column-->
-        <ng-container matColumnDef="endDate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Fecha Fin
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.endDate }}
-          </mat-cell>
-        </ng-container>
+          <div class="row">
+            <!-- <app-input
+              [prefix]="'FILES.CLIENT' | translate"
+              [hasErrors]="hasControlAnyError('client')"
+              [errorStateMatcher]="matcher"
+              formControlName="client"
+              class="col s12 l4"
+            >
+              <ng-container inputErrors>
+                <mat-error *ngIf="hasControlAnyError('client')">
+                  {{ "FILES.ERRORS.CLIENT" | translate }}
+                </mat-error>
+              </ng-container>
+            </app-input> -->
 
-        <!-- WeekDays Column-->
-        <ng-container matColumnDef="frequencyDays">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Días semana
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
-          </mat-cell>
-        </ng-container>
+            <app-autocomplete
+              class="col s12 l4"
+              [options]="clientOptions$ | async"
+              [prefix]="'FILES.CLIENT' | translate"
+              optionValue="name"
+              optionLabel="name"
+              formControlName="client"
+            >
+            </app-autocomplete>
+          </div>
+        </form>
+      </ng-template>
+    </mat-expansion-panel>
 
-        <!-- Rotations Column-->
-        <ng-container matColumnDef="rotations.length">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Rotaciones
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.rotations.length }}
-          </mat-cell>
-        </ng-container>
+    <ng-container *ngIf="routeData.isFileDetail">
+      <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "FILES.ROUTES" | translate | sentenceCase }}
+          </mat-panel-title>
+          <mat-panel-description *ngIf="routes.expanded">
+            <a mat-button routerLink="routes/new">
+              {{ "FILES.NEW_ROUTE" | translate | sentenceCase }}
+              <mat-icon svgIcon="europair_add"></mat-icon>
+            </a>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-        <!-- Seats Column-->
-        <ng-container matColumnDef="seats">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Asientos F/C/Y
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.seats }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- PeriodDays Column-->
-        <ng-container matColumnDef="periodDays">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Días Periodo
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.periodDays }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- Month Day Column-->
-        <ng-container matColumnDef="dayNumber">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Día del mes
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.dayNumber }}
-          </mat-cell>
-        </ng-container>
-
-        <!-- Status Column-->
-        <ng-container matColumnDef="status" stickyEnd>
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
-            Estado
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element"> Pendiente </mat-cell>
-        </ng-container>
-
-        <!-- Actions Column-->
-        <ng-container matColumnDef="actions" stickyEnd>
-          <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_edit"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event, true, element.id)"
-              svgIcon="europair_plane"
-            ></mat-icon>
-            <mat-icon
-              (click)="runAction($event)"
-              svgIcon="europair_trash"
-            ></mat-icon>
-          </mat-cell>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-          <mat-cell *matCellDef="let parentElement">
-            <mat-table class="expandedTable" [dataSource]="getChildRoutes(parentElement)">
-              <!-- Label Column -->
-              <ng-container matColumnDef="label">
-                <mat-cell
-                  *matCellDef="let element"
-                  class="expanded-table-sticky start"
+        <!-- <ng-template matExpansionPanelContent> -->
+        <div class="table-container">
+          <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
+            <!-- Label Column -->
+            <ng-container matColumnDef="label" sticky>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Rutas Petición
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="parent-route">
+                <mat-icon
+                  class="expand-icon"
+                  *ngIf="element.rotations.length > 0"
+                  [class.active]="expandedElements.includes(element)"
                 >
-                  <span class="separator"> </span>
-                  {{ element.label }}
-                </mat-cell>
-              </ng-container>
+                  expand_more
+                </mat-icon>
+                {{ element.label }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- Frequency Column -->
-              <ng-container matColumnDef="frequency">
-                <mat-cell *matCellDef="let element">
-                  {{ element.frequency }}
-                </mat-cell>
-              </ng-container>
+            <!-- Frequency Column -->
+            <ng-container matColumnDef="frequency">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Frecuencia
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.frequency }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- InitialDate Column-->
-              <ng-container matColumnDef="initialDate">
-                <mat-cell *matCellDef="let element">
-                  {{ element.initialDate }}
-                </mat-cell>
-              </ng-container>
+            <!-- InitialDate Column-->
+            <ng-container matColumnDef="initialDate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha inicio
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.initialDate }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- EndDate Column-->
-              <ng-container matColumnDef="endDate">
-                <mat-cell *matCellDef="let element">
-                  {{ element.endDate }}
-                </mat-cell>
-              </ng-container>
+            <!-- EndDate Column-->
+            <ng-container matColumnDef="endDate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Fecha Fin
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.endDate }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- WeekDays Column-->
-              <ng-container matColumnDef="frequencyDays">
-                <mat-cell *matCellDef="let element">
-                  {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
-                </mat-cell>
-              </ng-container>
+            <!-- WeekDays Column-->
+            <ng-container matColumnDef="frequencyDays">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Días semana
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- Rotations Column-->
-              <ng-container matColumnDef="rotations.length">
-                <mat-cell *matCellDef="let element">
-                  {{ getRotationNumber(parentElement, element) }}
-                </mat-cell>
-              </ng-container>
+            <!-- Rotations Column-->
+            <ng-container matColumnDef="rotations.length">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Rotaciones
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.rotations.length }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- Seats Column-->
-              <ng-container matColumnDef="seats">
-                <mat-cell *matCellDef="let element">
-                  {{ element.seats }}
-                </mat-cell>
-              </ng-container>
+            <!-- Seats Column-->
+            <ng-container matColumnDef="seats">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Asientos F/C/Y
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.seats }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- PeriodDays Column-->
-              <ng-container matColumnDef="periodDays">
-                <mat-cell *matCellDef="let element">
-                  {{ element.periodDays }}
-                </mat-cell>
-              </ng-container>
+            <!-- PeriodDays Column-->
+            <ng-container matColumnDef="periodDays">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Días Periodo
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.periodDays }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- Month Day Column-->
-              <ng-container matColumnDef="dayNumber">
-                <mat-cell *matCellDef="let element" class="expanded-last-row">
-                  {{ element.dayNumber }}
-                </mat-cell>
-                <mat-cell> - </mat-cell>
-              </ng-container>
+            <!-- Month Day Column-->
+            <ng-container matColumnDef="dayNumber">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Día del mes
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.dayNumber }}
+              </mat-cell>
+            </ng-container>
 
-              <!-- Status Column-->
-              <ng-container matColumnDef="status">
-                <mat-cell
-                  *matCellDef="let element"
-                  class="expanded-table-sticky end"
-                >
-                  Pendiente
-                </mat-cell>
-              </ng-container>
+            <!-- Status Column-->
+            <ng-container matColumnDef="status" stickyEnd>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                Estado
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element"> Pendiente </mat-cell>
+            </ng-container>
 
-              <!-- Actions Column-->
-              <ng-container matColumnDef="actions">
-                <mat-cell
-                  *matCellDef="let element"
-                  class="expanded-table-sticky end"
-                >
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_edit"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event, true, element.id)"
-                    svgIcon="europair_plane"
-                  ></mat-icon>
-                  <mat-icon
-                    (click)="runAction($event)"
-                    svgIcon="europair_trash"
-                  ></mat-icon>
-                </mat-cell>
-              </ng-container>
+            <!-- Actions Column-->
+            <ng-container matColumnDef="actions" stickyEnd>
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon
+                  (click)="runAction($event)"
+                  svgIcon="europair_edit"
+                ></mat-icon>
+                <mat-icon
+                  (click)="runAction($event, true)"
+                  svgIcon="europair_plane"
+                ></mat-icon>
+                <mat-icon
+                  (click)="runAction($event)"
+                  svgIcon="europair_trash"
+                ></mat-icon>
+              </mat-cell>
+            </ng-container>
 
-              <mat-row
-                *matRowDef="let element; columns: columnsToDisplay"
-              ></mat-row>
-            </mat-table>
-          </mat-cell>
-        </ng-container>
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+              <mat-cell *matCellDef="let parentElement">
+                <mat-table [dataSource]="getChildRoutes(parentElement)">
+                  <!-- Label Column -->
+                  <ng-container matColumnDef="label">
+                    <mat-cell
+                      *matCellDef="let element"
+                      class="expanded-table-sticky start"
+                    >
+                      <span class="separator"> </span>
+                      {{ element.label }}
+                    </mat-cell>
+                  </ng-container>
 
-        <mat-header-row
-          *matHeaderRowDef="columnsToDisplay; sticky: true"
-        ></mat-header-row>
-        <mat-row
-          *matRowDef="let element; columns: columnsToDisplay"
-          class="element-row"
-          [class.expanded-row]="expandedElements.includes(element)"
-          (click)="expandRow(element)"
-        ></mat-row>
-        <mat-row
-          class="detail-row"
-          *matRowDef="let element; columns: ['expandedDetail']"
-          [@detailExpand]="
-            expandedElements.includes(element) ? 'expanded' : 'collapsed'
-          "
-          style="overflow: hidden"
-        ></mat-row>
-      </mat-table>
-    </div>
+                  <!-- Frequency Column -->
+                  <ng-container matColumnDef="frequency">
+                    <mat-cell *matCellDef="let element">
+                      {{ element.frequency }}
+                    </mat-cell>
+                  </ng-container>
 
-    <mat-paginator
-      [length]="resultsLength"
-      [pageSize]="pageSize"
-    ></mat-paginator>
-  </mat-expansion-panel>
+                  <!-- InitialDate Column-->
+                  <ng-container matColumnDef="initialDate">
+                    <mat-cell *matCellDef="let element">
+                      {{ element.initialDate }}
+                    </mat-cell>
+                  </ng-container>
 
-  <mat-expansion-panel class="cmd-mb-2">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ "Cotizaciones" | translate | sentenceCase }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent> </ng-template>
-  </mat-expansion-panel>
-</mat-accordion>
+                  <!-- EndDate Column-->
+                  <ng-container matColumnDef="endDate">
+                    <mat-cell *matCellDef="let element">
+                      {{ element.endDate }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- WeekDays Column-->
+                  <ng-container matColumnDef="frequencyDays">
+                    <mat-cell *matCellDef="let element">
+                      {{
+                        getFormattedFrequency(element.frequencyDays) | uppercase
+                      }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Rotations Column-->
+                  <ng-container matColumnDef="rotations.length">
+                    <mat-cell *matCellDef="let element">
+                      {{ getRotationNumber(parentElement, element) }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Seats Column-->
+                  <ng-container matColumnDef="seats">
+                    <mat-cell *matCellDef="let element">
+                      {{ element.seats }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- PeriodDays Column-->
+                  <ng-container matColumnDef="periodDays">
+                    <mat-cell *matCellDef="let element">
+                      {{ element.periodDays }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Month Day Column-->
+                  <ng-container matColumnDef="dayNumber">
+                    <mat-cell
+                      *matCellDef="let element"
+                      class="expanded-last-row"
+                    >
+                      {{ element.dayNumber }}
+                    </mat-cell>
+                    <mat-cell> - </mat-cell>
+                  </ng-container>
+
+                  <!-- Status Column-->
+                  <ng-container matColumnDef="status">
+                    <mat-cell
+                      *matCellDef="let element"
+                      class="expanded-table-sticky end"
+                    >
+                      Pendiente
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Actions Column-->
+                  <ng-container matColumnDef="actions">
+                    <mat-cell
+                      *matCellDef="let element"
+                      class="expanded-table-sticky end"
+                    >
+                      <mat-icon
+                        (click)="runAction($event)"
+                        svgIcon="europair_edit"
+                      ></mat-icon>
+                      <mat-icon
+                        (click)="runAction($event, true)"
+                        svgIcon="europair_plane"
+                      ></mat-icon>
+                      <mat-icon
+                        (click)="runAction($event)"
+                        svgIcon="europair_trash"
+                      ></mat-icon>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-row
+                    *matRowDef="let element; columns: columnsToDisplay"
+                  ></mat-row>
+                </mat-table>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="columnsToDisplay; sticky: true"
+            ></mat-header-row>
+            <mat-row
+              *matRowDef="let element; columns: columnsToDisplay"
+              class="element-row"
+              [class.expanded-row]="expandedElements.includes(element)"
+              (click)="expandRow(element)"
+            ></mat-row>
+            <mat-row
+              class="detail-row"
+              *matRowDef="let element; columns: ['expandedDetail']"
+              [@detailExpand]="
+                expandedElements.includes(element) ? 'expanded' : 'collapsed'
+              "
+              style="overflow: hidden"
+            ></mat-row>
+          </mat-table>
+        </div>
+
+        <mat-paginator
+          [length]="resultsLength"
+          [pageSize]="pageSize"
+        ></mat-paginator>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="cmd-mb-2">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "Cotizaciones" | translate | sentenceCase }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent> </ng-template>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</ng-container>

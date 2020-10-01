@@ -49,6 +49,10 @@ $other-columns-width: 120px;
   }
 }
 
+.mat-raised-button.mat-primary:not(:disabled){
+  background-color: #005795;
+}
+
 // SEPARATOR
 .separator {
   width: 25%;
@@ -142,6 +146,8 @@ $other-columns-width: 120px;
 
 .mat-column-label {
   min-width: $label-width;
+  max-width: $label-width;
+  max-height: 49px;
   border-right: 1px solid #cce0f2;
 }
 

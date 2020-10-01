@@ -1,0 +1,73 @@
+{
+  "content": [
+    {
+      "createdAt": "2020-09-10",
+      "createdBy": "Sistema",
+      "modifiedAt": null,
+      "modifiedBy": null,
+      "id": 1,
+      "code": "TEST",
+      "name": "Test-client",
+      "type": "INDIVIDUAL",
+      "canaryIslands": false,
+      "vies": false,
+      "country": {
+        "createdAt": "2020-07-24",
+        "createdBy": "Sistema",
+        "modifiedAt": "2020-09-23",
+        "modifiedBy": "Noname Nosurname",
+        "id": 1,
+        "code": "ES",
+        "name": "España",
+        "europeanUnion": true
+      }
+    },
+    {
+      "createdAt": "2020-10-01",
+      "createdBy": "admin admin",
+      "modifiedAt": "2020-10-01",
+      "modifiedBy": "admin admin",
+      "id": 6,
+      "code": "TE",
+      "name": "Test client",
+      "type": "INDIVIDUAL",
+      "canaryIslands": false,
+      "vies": false,
+      "country": {
+        "createdAt": "2020-07-24",
+        "createdBy": "Sistema",
+        "modifiedAt": "2020-09-23",
+        "modifiedBy": "Noname Nosurname",
+        "id": 1,
+        "code": "ES",
+        "name": "España",
+        "europeanUnion": true
+      }
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "size": 20,
+  "number": 0,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "first": true,
+  "numberOfElements": 2,
+  "empty": false
+}

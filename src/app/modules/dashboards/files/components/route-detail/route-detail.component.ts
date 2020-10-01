@@ -33,7 +33,7 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import {
-  DAYS_OF_WEEK,
+  DAYS_LIST,
   FileRoute,
   FrequencyType,
   FREQUENCY_LIST,
@@ -210,7 +210,7 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     this.translateService
       .get('DAYS.COMPLETE')
       .subscribe((data: Array<string>) => {
-        this.weekDaysList = DAYS_OF_WEEK.map((weekDay: string) => {
+        this.weekDaysList = DAYS_LIST.map((weekDay: string) => {
           return {
             label: data[weekDay],
             value: weekDay,
