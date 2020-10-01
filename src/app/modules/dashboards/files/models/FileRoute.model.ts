@@ -1,6 +1,6 @@
 export interface FileRoute {
   id: number;
-  code: string;
+  label: string;
   frequency: FrequencyType;
   frequencyDays: FrequencyDay[];
   initialDate: Date;
@@ -9,9 +9,9 @@ export interface FileRoute {
 }
 
 export interface FrequencyDay {
-  id: number;
-  weekday: DayOfWeek;
-  monthDay: number;
+  id?: number;
+  weekday?: unknown;
+  monthDay?: number;
 }
 
 export enum DayOfWeek {
@@ -49,3 +49,13 @@ export const DAYS_LIST = new Map<DayOfWeek, string>([
   [DayOfWeek.SATURDAY, 'SATURDAY'],
   [DayOfWeek.SUNDAY, 'SUNDAY'],
 ]);
+
+export const DAYS_OF_WEEK = [
+  DayOfWeek[DayOfWeek.MONDAY],
+  DayOfWeek[DayOfWeek.TUESDAY],
+  DayOfWeek[DayOfWeek.WEDNESDAY],
+  DayOfWeek[DayOfWeek.THURSDAY],
+  DayOfWeek[DayOfWeek.FRIDAY],
+  DayOfWeek[DayOfWeek.SATURDAY],
+  DayOfWeek[DayOfWeek.SUNDAY],
+] as const;

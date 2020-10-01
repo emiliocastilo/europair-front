@@ -31,6 +31,8 @@ import { MatDropdownDirective } from './directives/mat-dropdown.directive';
 import { TopBarComponent } from './components/menus/top-bar/top-bar.component';
 import { InputComponent } from './components/basic/input/input.component';
 import { MaterialModule } from '../material/material.module';
+import { NgxMaskModule } from 'ngx-mask';
+import { InputMaskComponent } from './components/basic/input-mask/input-mask.component';
 import { TranslatedSnackBarComponent } from './components/snack-bar/translated-snack-bar/translated-snack-bar.component';
 
 @NgModule({
@@ -42,6 +44,7 @@ import { TranslatedSnackBarComponent } from './components/snack-bar/translated-s
     ColumnActionsComponent,
     ColumnCheckboxComponent,
     InputComponent,
+    InputMaskComponent,
     InputTextComponent,
     LeftSidebarComponent,
     LetterTableComponent,
@@ -71,12 +74,14 @@ import { TranslatedSnackBarComponent } from './components/snack-bar/translated-s
     NgSelectModule,
     RouterModule,
     TranslateModule,
+    NgxMaskModule,
   ],
   exports: [
     AdvancedSearchComponent,
     ButtonBarComponent,
     CheckboxComponent,
     InputComponent,
+    InputMaskComponent,
     InputTextComponent,
     LeftSidebarComponent,
     MatCollapsibleDirective,

@@ -39,6 +39,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() public minTermLength: number = 0;
   @Input() public notFoundText: string = 'No items found';
   @Input() public virtualScroll: boolean = false;
+  @Input() public dropdownPosition: 'bottom' | 'top' | 'auto' = 'auto';
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 

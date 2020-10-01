@@ -1,0 +1,8 @@
+button.browser-default {
+  &:focus {
+    background-color: unset;
+  }
+}
+input.text-uppercase {
+  text-transform: uppercase;
+}

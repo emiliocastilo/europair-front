@@ -7,22 +7,28 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss'],
+  selector: 'app-input-mask',
+  templateUrl: './input-mask.component.html',
+  styleUrls: ['./input-mask.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => InputMaskComponent),
       multi: true,
     },
   ],
 })
-export class InputComponent implements OnInit, ControlValueAccessor {
+export class InputMaskComponent implements OnInit, ControlValueAccessor {
   @Input() prefix = '';
   @Input() type = 'text';
   @Input() hasErrors: boolean;
   @Input() errorStateMatcher: ErrorStateMatcher;
+  @Input() maskPatterns: {
+    [character: string]: { pattern: RegExp; optional?: boolean };
+  };
+  @Input() mask: string;
+  @Input() maskValidation: boolean = false;
+  @Input() cssClasses: string;
 
   counter = 0;
   value: string;

@@ -29,6 +29,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@types/materialize-css": "^1.0.8",
     "materialize-css": "^1.0.0-rc.2",
+    "ngx-mask": "10.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
