@@ -33,6 +33,7 @@ import { InputComponent } from './components/basic/input/input.component';
 import { MaterialModule } from '../material/material.module';
 import { NgxMaskModule } from 'ngx-mask';
 import { InputMaskComponent } from './components/basic/input-mask/input-mask.component';
+import { TranslatedSnackBarComponent } from './components/snack-bar/translated-snack-bar/translated-snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { InputMaskComponent } from './components/basic/input-mask/input-mask.com
     TableAuditTooltipDirective,
     TableComponent,
     TopBarComponent,
+    TranslatedSnackBarComponent,
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Op
 import { OperationType } from '../../../models/File.model';
 
 export class AircraftFilter {
+    routeId: number;
     countries: Array<Country>;
     airports: Array<Airport>;
     operators: Array<Operator>;
@@ -26,7 +27,7 @@ export class AircraftFilter {
     flightScalesValue: number;
 
     public getHttpParams(): HttpParams {
-        let result: HttpParams = new HttpParams();
+        let result: HttpParams = new HttpParams().set('routeId', this.routeId.toString());
         if (this.countries && this.countries.length > 0) {
             result = result.append('countryIds', this.getParamsFromArray(this.countries));
         }
@@ -54,14 +55,8 @@ export class AircraftFilter {
             result = result.append('exactSubcategory', (!this.minumunSubcategory).toString());
             result = result.append('subcategoryId', this.subcategory.id.toString());
         }
-        if (this.seatC) {
-            result = result.append('seatC', this.seatC.toString());
-        }
-        if (this.seatF) {
-            result = result.append('seatF', this.seatF.toString());
-        }
-        if (this.seatY) {
-            result = result.append('seatY', this.seatY.toString());
+        if (this.seatC || this.seatF || this.seatY) {
+            result = result.append('seats', (this.seatC + this.seatF + this.seatY).toString());
         }
         if (this.beds) {
             result = result.append('beds', this.beds.toString());
@@ -72,7 +67,6 @@ export class AircraftFilter {
         if (this.operationType) {
             result = result.append('operationType', this.operationType.toString());
         }
-        result = result.append('destinationAirportId', '1');
         return result;
     }
 
