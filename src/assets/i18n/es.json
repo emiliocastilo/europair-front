@@ -16,6 +16,7 @@
     },
     "VIEW_DISABLED": "Ver inactivos",
     "NOT_FOUND": "Sin resultados",
+    "RETURN": "Volver",
     "SUCCESSFUL_OPERATION": "Operación exitosa"
   },
   "AIRPORTS": {
@@ -466,6 +467,24 @@
       "CLIENT": "Debe indicar un cliente"
     }
   },
+  "ROUTES": {
+    "ROUTE_CODE": "Cód. Ruta",
+    "FREQUENCY": "Frecuencia",
+    "START_DATE": "Fecha inicio",
+    "END_DATE": "Fecha fin",
+    "WEEKDAYS": "Días de la semana",
+    "MONTH_DAYS": "Dias del mes",
+    "GENERATE_ROUTE": "Generar ruta",
+    "ERRORS": {
+      "ROUTE_CODE": "Debe indicar un código de ruta",
+      "ROUTE_CODE_MIN_LEN": "Un código de ruta debe tener como mínimo un origen y un destino",
+      "ROUTE_CODE_FORMAT": "El formato del código no es correcto (AAA-BBB-CCC...)",
+      "START_DATE": "Debe indicar una fecha inicio",
+      "END_DATE": "Debe indicar una fecha fin",
+      "WEEKDAYS": "Debe indicar al menos un día de la semana",
+      "MONTH_DAYS": "Debe indicar al menos un día del mes"
+    }
+  },
   "FREQUENCIES": {
     "UNITS": {
       "ADHOC": "ADHOC",
@@ -484,6 +503,15 @@
       "FRIDAY": "v",
       "SATURDAY": "s",
       "SUNDAY": "d"
+    },
+    "COMPLETE": {
+      "MONDAY": "Lunes",
+      "TUESDAY": "Martes",
+      "WEDNESDAY": "Miercoles",
+      "THURSDAY": "Jueves",
+      "FRIDAY": "Viernes",
+      "SATURDAY": "Sabado",
+      "SUNDAY": "Domingo"
     }
   },
   "MEASURES": {

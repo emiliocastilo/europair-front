@@ -38,4 +38,12 @@ export class FileRoutesService {
 
     return this.http.get<Page<FileRoute>>(url);
   }
+
+  public createFileRoute(
+    fileId: number,
+    fileRoute: FileRoute
+  ): Observable<FileRoute> {
+    const url: string = `${this.url}/${fileId}/routes`;
+    return this.http.post<FileRoute>(url, fileRoute);
+  }
 }

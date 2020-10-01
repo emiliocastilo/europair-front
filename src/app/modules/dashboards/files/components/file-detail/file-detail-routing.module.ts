@@ -10,7 +10,7 @@ const routes: Routes = [
       import('../route-detail/route-detail.module').then(
         (m) => m.RouteDetailModule
       ),
-    data: { title: 'Nueva Ruta', isRouteDetail: false },
+    data: { title: 'FILES.NEW_ROUTE', isRouteDetail: false },
   },
   {
     path: 'routes/:routeId',

@@ -1,13 +1,16 @@
 <mat-form-field appearance="outline" class="app-input">
   <input
     type="text"
-    class="browser-default"
+    class="browser-default {{ cssClasses }}"
     matInput
     [formControl]="_control.control"
     [type]="type"
     [value]="value"
     [errorStateMatcher]="errorStateMatcher"
     (input)="onInput($event.target.value)"
+    [patterns]="maskPatterns"
+    [mask]="mask"
+    [validation]="maskValidation"
   />
   <span matPrefix *ngIf="prefix">{{ prefix }}</span>
   <button
