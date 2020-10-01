@@ -24,12 +24,23 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FileRoutesService } from '../../services/file-routes.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { File } from '../../models/File.model';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
+import { Observable, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { Client, File, FileStatus } from '../../models/File.model';
+import { FileStatusService } from '../../services/file-status.service';
+import { ClientsService } from '../../services/clients.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -66,6 +77,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmOperationModal: ElementRef;
 
+  public fileData: File;
+  public routeData$: Observable<Data>;
+  public pageTitle: string;
+
   public columnsToDisplay = [
     'label',
     'frequency',
@@ -92,24 +107,122 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public fileForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
     description: ['', Validators.required],
-    status: ['', Validators.required],
-    client: ['', Validators.required]
+    status: [''],
+    client: [''],
   });
+
+  public statusOptions$: Observable<FileStatus[]>;
+  public clientOptions$: Observable<Client[]>;
+
   public matcher = new FileErrorStateMatcher();
-  private fileId: number = 1;
 
   constructor(
     private modalService: ModalService,
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
+    private route: ActivatedRoute,
     private translateService: TranslateService,
-    private fileRoutesService: FileRoutesService
+    private fileRoutesService: FileRoutesService,
+    private fileStatusService: FileStatusService,
+    private clientService: ClientsService
   ) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(): void {}
+
+  ngOnInit(): void {
+    this.loadStatus();
+    this.loadClients();
+    this.routeData$ = this.route.data.pipe(tap(this.initFileData));
+  }
+
+  private loadStatus(): void {
+    this.fileForm
+      .get('status')
+      .valueChanges.pipe(
+        startWith(''),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => {
+        this.statusOptions$ = term ? this.getFilteredStatus(term) : of([]);
+      });
+  }
+
+  private loadClients(): void {
+    this.fileForm
+      .get('client')
+      .valueChanges.pipe(
+        startWith(''),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => {
+        console.log(term);
+
+        this.clientOptions$ = term ? this.getFilteredClients(term) : of([]);
+      });
+  }
+
+  private getFilteredStatus(term: string): Observable<FileStatus[]> {
+    const filter = {};
+    return this.fileStatusService.getStatus(filter).pipe(
+      map((page: Page<FileStatus>) => page.content),
+      map((response) =>
+        response.filter((p) => {
+          return (
+            p.code.toUpperCase().includes(term.toUpperCase()) ||
+            p.name.toUpperCase().includes(term.toUpperCase())
+          );
+        })
+      )
+    );
+  }
+
+  private getFilteredClients(term: string): Observable<Client[]> {
+    const filter = {};
+    return this.clientService.getClients(filter).pipe(
+      map((page: Page<Client>) => page.content),
+      map((response) =>
+        response.filter((p) => {
+          return (
+            p.code.toUpperCase().includes(term.toUpperCase()) ||
+            p.name.toUpperCase().includes(term.toUpperCase())
+          );
+        })
+      )
+    );
+  }
+
+  public getChildRoutes(fileRoute: FileRoute): MatTableDataSource<FileRoute> {
+    return new MatTableDataSource(fileRoute.rotations);
+  }
+
+  public initFileData = ({ isFileDetail }): void => {
+    if (isFileDetail) {
+      this.route.params
+        .pipe(
+          switchMap((params: Params) =>
+            this.fileService.getFileById(params.fileId)
+          )
+        )
+        .subscribe((file: File) => {
+          this.getFileData(file);
+        });
+    }
+  };
+
+  // TODO: fix general data inputs
+  private getFileData(file: File): void {
+    this.fileData = file;
+    this.fileForm.patchValue({
+      ...file,
+      status: file.status.name,
+      client: file.client.name,
+    });
+
     this.fileRoutesService
-      .getFileRoutes(this.fileId)
+      .getFileRoutes(file.id)
       .subscribe((data: Page<FileRoute>) => {
         this.dataSource = new MatTableDataSource(data.content);
         this.dataSource.sort = this.sort;
@@ -118,12 +231,23 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngOnInit(): void {
-    this.getFormattedFrequency([]);
-  }
+  public onSaveFile(update: boolean) {
+    if (this.fileForm.valid) {
+      this.fileData = {
+        ...this.fileData,
+        ...this.fileForm.value,
+      };
 
-  public getChildRoutes(fileRoute: FileRoute): MatTableDataSource<FileRoute> {
-    return new MatTableDataSource(fileRoute.rotations);
+      console.log('SAVING FILE', this.fileData);
+
+      this.fileService.saveFile(this.fileData).subscribe(() => {
+        if (!update) {
+          this.router.navigate([`/files/${this.fileData.id}`]);
+        } else {
+          this.getFileData(this.fileData);
+        }
+      });
+    }
   }
 
   public getRotationNumber(
@@ -140,23 +264,28 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
     const formattedWeek = [];
     const frequency = frequencyDays.map((elm) => elm.weekday);
+
     this.translateService
       .get('DAYS.ABBREVIATION')
       .subscribe((data: Array<string>) => {
-        DAYS_LIST.forEach((dayName, dayNumber: any) => {
-          formattedWeek.push(
-            frequency.includes(dayNumber) ? data[dayName] : '-'
-          );
+        DAYS_LIST.forEach((dayName) => {
+          formattedWeek.push(frequency.includes(dayName) ? data[dayName] : '-');
         });
       });
     return formattedWeek.join(' ');
   }
 
-  public runAction(event: Event, isPlane: boolean = false, id: number = 0): void {
+  public runAction(
+    event: Event,
+    isPlane: boolean = false,
+    id: number = 0
+  ): void {
     event.preventDefault();
     event.stopPropagation();
     if (isPlane) {
-      this.router.navigate(['/files/search/aircraft'], {queryParams: {routeId: id}});
+      this.router.navigate(['/files/search/aircraft'], {
+        queryParams: { routeId: id },
+      });
     }
   }
 
@@ -189,7 +318,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public saveObservation(): void {
     const file: File = {
-      id: this.fileId,
+      id: this.fileData.id,
       observation: this.observations?.slice(0, this.observationMaxLength)
     };
     this.fileService.saveFile(file).subscribe();
@@ -204,7 +333,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public onConfirmOperation(): void {
     const file: File = {
-      id: this.fileId,
+      id: this.fileData.id,
       observation: this.observations?.slice(0, this.observationMaxLength)/*,
       status: {id: 1, code: '', name: ''}*/
     };

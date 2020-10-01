@@ -15,13 +15,13 @@ export interface FrequencyDay {
 }
 
 export enum DayOfWeek {
-  MONDAY = 1,
-  TUESDAY = 2,
-  WEDNESDAY = 3,
-  THURSDAY = 4,
-  FRIDAY = 5,
-  SATURDAY = 6,
-  SUNDAY = 7,
+  MONDAY = 'MONDAY',
+  TUESDAY = 'TUESDAY',
+  WEDNESDAY = 'WEDNESDAY',
+  THURSDAY = 'THURSDAY',
+  FRIDAY = 'FRIDAY',
+  SATURDAY = 'SATURDAY',
+  SUNDAY = 'SUNDAY',
 }
 
 export enum FrequencyType {
@@ -40,22 +40,12 @@ export const FREQUENCY_LIST = [
   FrequencyType.WEEKLY,
 ];
 
-export const DAYS_LIST = new Map<DayOfWeek, string>([
-  [DayOfWeek.MONDAY, 'MONDAY'],
-  [DayOfWeek.TUESDAY, 'TUESDAY'],
-  [DayOfWeek.WEDNESDAY, 'WEDNESDAY'],
-  [DayOfWeek.THURSDAY, 'THURSDAY'],
-  [DayOfWeek.FRIDAY, 'FRIDAY'],
-  [DayOfWeek.SATURDAY, 'SATURDAY'],
-  [DayOfWeek.SUNDAY, 'SUNDAY'],
-]);
-
-export const DAYS_OF_WEEK = [
-  DayOfWeek[DayOfWeek.MONDAY],
-  DayOfWeek[DayOfWeek.TUESDAY],
-  DayOfWeek[DayOfWeek.WEDNESDAY],
-  DayOfWeek[DayOfWeek.THURSDAY],
-  DayOfWeek[DayOfWeek.FRIDAY],
-  DayOfWeek[DayOfWeek.SATURDAY],
-  DayOfWeek[DayOfWeek.SUNDAY],
-] as const;
+export const DAYS_LIST = [
+  DayOfWeek.MONDAY,
+  DayOfWeek.TUESDAY,
+  DayOfWeek.WEDNESDAY,
+  DayOfWeek.THURSDAY,
+  DayOfWeek.FRIDAY,
+  DayOfWeek.SATURDAY,
+  DayOfWeek.SUNDAY,
+];

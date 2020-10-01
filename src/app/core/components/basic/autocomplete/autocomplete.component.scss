@@ -1,0 +1,19 @@
+.app-autocomplete {
+  .mat-chip-list .mat-chip {
+    border-radius: 5px;
+    background-color: #f9fcff;
+    border: 1px solid #cce0f2;
+
+    .mat-chip-remove {
+      color: #005795;
+      margin: 0 8px 0 0;
+    }
+
+    &:hover {
+      background-color: #f9fcff;
+      &::after {
+        opacity: 0;
+      }
+    }
+  }
+}
