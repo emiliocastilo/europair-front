@@ -1,12 +1,12 @@
-<core-page-bar [pageTitle]="'Detalle Ruta' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="pageTitle | translate"></core-page-bar>
 
 <button
   color="primary"
   class="cmd-mb-2"
   mat-raised-button
-  routerLink="/files/new"
+  [routerLink]="getReturnRoute()"
 >
-  Guardar Ruta
+  {{ "COMMON.RETURN" | translate }}
 </button>
 
 <mat-accordion multi>
@@ -20,44 +20,41 @@
       <form [formGroup]="routeForm" (ngSubmit)="generateFlights()">
         <div class="row">
           <app-input-mask
-            [prefix]="'Cód. Ruta' | translate"
+            [prefix]="'ROUTES.ROUTE_CODE' | translate"
             class="col s12 l8"
             [cssClasses]="'text-uppercase'"
             [mask]="routeMask"
             [maskPatterns]="routePattern"
-            formControlName="routeCode"
+            formControlName="label"
           >
-            <ng-container inputErrors *ngIf="hasControlAnyError('routeCode')">
+            <ng-container inputErrors *ngIf="hasControlAnyError('label')">
               <mat-error
                 class="ep-error-msg"
-                *ngIf="hasControlSpecificError('routeCode', 'required')"
+                *ngIf="hasControlSpecificError('label', 'required')"
               >
-                {{ "FILES.ERRORS.ROUTE_CODE" | translate }}
+                {{ "ROUTES.ERRORS.ROUTE_CODE" | translate }}
               </mat-error>
               <mat-error
                 class="ep-error-msg"
-                *ngIf="hasControlSpecificError('routeCode', 'minlength')"
+                *ngIf="hasControlSpecificError('label', 'minlength')"
               >
-                {{ "FILES.ERRORS.ROUTE_CODE_MIN_LEN" | translate }}
+                {{ "ROUTES.ERRORS.ROUTE_CODE_MIN_LEN" | translate }}
               </mat-error>
               <mat-error
                 class="ep-error-msg"
                 *ngIf="
-                  !hasControlSpecificError('routeCode', 'minlength') &&
-                  hasControlSpecificError(
-                    'routeCode',
-                    'routeCodeFormatNotValid'
-                  )
+                  !hasControlSpecificError('label', 'minlength') &&
+                  hasControlSpecificError('label', 'labelFormatNotValid')
                 "
               >
-                {{ "FILES.ERRORS.ROUTE_CODE_FORMAT" | translate }}
+                {{ "ROUTES.ERRORS.ROUTE_CODE_FORMAT" | translate }}
               </mat-error>
             </ng-container>
           </app-input-mask>
           <core-select
             class="col s12 l4"
             [items]="frequencyList"
-            [placeholder]="'Frecuencia' | translate"
+            [placeholder]="'ROUTES.FREQUENCY' | translate"
             [searchable]="true"
             [itemDescription]="'label'"
             [itemValue]="'value'"
@@ -68,7 +65,7 @@
         <div class="row">
           <app-input
             [type]="'date'"
-            [prefix]="'Fecha inicio' | translate"
+            [prefix]="'ROUTES.START_DATE' | translate"
             [hasErrors]="hasControlAnyError('startDate')"
             formControlName="startDate"
             class="col s12 l4"
@@ -78,14 +75,14 @@
                 class="ep-error-msg"
                 *ngIf="hasControlSpecificError('startDate', 'required')"
               >
-                {{ "FILES.ERRORS.START_DATE" | translate }}
+                {{ "ROUTES.ERRORS.START_DATE" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
 
           <app-input
             [type]="'date'"
-            [prefix]="'Fecha fin' | translate"
+            [prefix]="'ROUTES.END_DATE' | translate"
             [hasErrors]="hasControlAnyError('endDate')"
             formControlName="endDate"
             class="col s12 l4"
@@ -95,172 +92,76 @@
                 class="ep-error-msg"
                 *ngIf="hasControlSpecificError('endDate', 'required')"
               >
-                {{ "FILES.ERRORS.END_DATE" | translate }}
+                {{ "ROUTES.ERRORS.END_DATE" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
+        </div>
+        <div class="row">
+          <core-select
+            class="col s12 l4"
+            [items]="weekDaysList"
+            [placeholder]="'ROUTES.WEEKDAYS' | translate"
+            [isDisabled]="isControlDisabled('weekdays')"
+            [hasErrors]="hasControlAnyError('weekdays')"
+            [searchable]="true"
+            [multiple]="true"
+            [dropdownPosition]="'top'"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
+            formControlName="weekdays"
+          >
+            <ng-container inputErrors *ngIf="hasControlAnyError('weekdays')">
+              <span
+                *ngIf="hasControlSpecificError('weekdays', 'required')"
+                class="helper-text"
+                [attr.data-error]="'ROUTES.ERRORS.WEEKDAYS' | translate"
+              >
+              </span>
+            </ng-container>
+          </core-select>
 
+          <core-select
+            class="col s12 l4"
+            [items]="monthDaysList"
+            [placeholder]="'ROUTES.MONTH_DAYS' | translate"
+            [isDisabled]="isControlDisabled('monthDays')"
+            [hasErrors]="hasControlAnyError('monthDays')"
+            [searchable]="true"
+            [multiple]="true"
+            [dropdownPosition]="'top'"
+            formControlName="monthDays"
+          >
+            <ng-container inputErrors *ngIf="hasControlAnyError('monthDays')">
+              <span
+                *ngIf="hasControlSpecificError('monthDays', 'required')"
+                class="helper-text"
+                [attr.data-error]="'ROUTES.ERRORS.MONTH_DAYS' | translate"
+              >
+              </span>
+            </ng-container>
+          </core-select>
           <div class="col s12 l2">
             <button
               class="route-generator browser-default"
               color="primary"
               type="submit"
+              [disabled]="isLoading"
               mat-stroked-button
             >
-              Generar ruta
+              {{ "ROUTES.GENERATE_ROUTE" | translate }}
             </button>
           </div>
         </div>
       </form>
-
-      <hr class="cmd-mb-2" />
-
-      <!-- <form [formGroup]="routeForm">
-        <div class="row cmd-mt-2">
-          <core-select
-            [hasErrors]="hasControlAnyError('origin')"
-            [items]="originAirports$ | async"
-            [label]="'Aeropuerto Origen' | translate"
-            [loading]="originAirportsLoading"
-            [minTermLength]="1"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
-            [searchable]="true"
-            [typeahead]="originAirportsInput$"
-            [typeToSearchText]="
-              'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
-            "
-            class="col s12 l3 cmd-mb-1"
-            formControlName="origin"
-          >
-          </core-select>
-
-          <core-select
-            [hasErrors]="hasControlAnyError('airport')"
-            [items]="destinationAirports$ | async"
-            [label]="'Aeropuerto Destino' | translate"
-            [loading]="destinationAirportsLoading"
-            [minTermLength]="1"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
-            [searchable]="true"
-            [typeahead]="destinationAirportsInput$"
-            [typeToSearchText]="
-              'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
-            "
-            class="col s12 l3"
-            formControlName="destination"
-          >
-          </core-select>
-
-          <core-select
-            class="col s12 l3"
-            [items]="frequencyList"
-            [placeholder]="'Frecuencia' | translate"
-            [searchable]="true"
-            [itemDescription]="'label'"
-            [itemValue]="'value'"
-            formControlName="frequency"
-          >
-          </core-select>
-
-          <div class="ferry-switch col s12 l3">
-            <core-basic-switch
-              [firstLabel]="'Ferry' | translate"
-              formControlName="ferry"
-            >
-            </core-basic-switch>
-          </div>
-        </div>
-
-        <div class="row">
-          <app-input
-            [type]="'date'"
-            [prefix]="'Fecha inicio' | translate"
-            [hasErrors]="hasControlAnyError('startDate')"
-            formControlName="startDate"
-            class="col s12 l3"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('startDate')">
-                {{ "Debe indicar una fecha" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-
-          <app-input
-            [type]="'time'"
-            [prefix]="'Hora inicio' | translate"
-            [hasErrors]="hasControlAnyError('startTime')"
-            formControlName="startTime"
-            class="col s12 l3"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('startTime')">
-                {{ "Debe indicar una hora" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-
-          <app-input
-            [type]="'date'"
-            [prefix]="'Fecha fin' | translate"
-            [hasErrors]="hasControlAnyError('endDate')"
-            formControlName="endDate"
-            class="col s12 l3"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('endDate')">
-                {{ "Debe indicar una fecha" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-
-          <app-input
-            [type]="'time'"
-            [prefix]="'Hora fin' | translate"
-            [hasErrors]="hasControlAnyError('endTime')"
-            formControlName="endTime"
-            class="col s12 l3"
-          >
-            <ng-container inputErrors>
-              <mat-error *ngIf="hasControlAnyError('endTime')">
-                {{ "Debe indicar una hora" | translate }}
-              </mat-error>
-            </ng-container>
-          </app-input>
-        </div>
-        <div class="row">
-          <app-input
-            [type]="'number'"
-            [prefix]="'Asientos F' | translate"
-            formControlName="seatsF"
-            class="col s12 l3"
-          >
-          </app-input>
-          <app-input
-            [type]="'number'"
-            [prefix]="'Asientos C' | translate"
-            formControlName="seatsC"
-            class="col s12 l3"
-          >
-          </app-input>
-          <app-input
-            [type]="'number'"
-            [prefix]="'Asientos Y' | translate"
-            formControlName="seatsY"
-            class="col s12 l3"
-          >
-          </app-input>
-          <div class="col s12 l3">
-            <button color="primary" mat-raised-button>Añadir vuelo</button>
-          </div>
-        </div>
-      </form> -->
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel class="cmd-mb-3" expanded="true">
+  <mat-expansion-panel
+    class="cmd-mb-3"
+    expanded="true"
+    *ngIf="this.paginatorLength > 0"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ "vuelos" | translate | sentenceCase }}
@@ -277,21 +178,20 @@
             {{ column.title }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <ng-container *ngIf="column.label === 'ferry'; else textElement">
-              <mat-checkbox
-                disabled
-                [value]="element[column.label]"
-              ></mat-checkbox>
-            </ng-container>
-            <ng-template #textElement>
-              {{ element[column.label] }}
-            </ng-template>
+            {{ element[column.label] }}
           </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="columnsProps"></mat-header-row>
         <mat-row *matRowDef="let row; columns: columnsProps"></mat-row>
       </mat-table>
+      <mat-paginator
+        [length]="this.paginatorLength"
+        [pageSize]="this.paginatorSize"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPage($event)"
+        showFirstLastButtons
+      ></mat-paginator>
     </div>
   </mat-expansion-panel>
 </mat-accordion>
