@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -27,6 +27,8 @@ import { FileRoutesService } from '../../services/file-routes.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -72,6 +74,8 @@ export class FileErrorStateMatcher implements ErrorStateMatcher {
 export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) expandedTable: MatTable<any>;
+  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  private readonly confirmOperationModal: ElementRef;
 
   public fileData: File;
   public routeData$: Observable<Data>;
@@ -97,6 +101,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public pageSize = 0;
   public isLoadingResults = true;
   public isRateLimitReached = false;
+  public observations: string;
+  public observationMaxLength: number = 5000;
 
   public fileForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
@@ -111,6 +117,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public matcher = new FileErrorStateMatcher();
 
   constructor(
+    private modalService: ModalService,
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
@@ -303,5 +310,33 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.expandedTable.updateStickyColumnStyles();
     }, 1000);
+  }
+
+  public showConfirmOperationButton(): boolean {
+    return true;
+  }
+
+  public saveObservation(): void {
+    const file: File = {
+      id: this.fileData.id,
+      observation: this.observations?.slice(0, this.observationMaxLength)
+    };
+    this.fileService.saveFile(file).subscribe();
+  }
+
+  public openConfirmOperationModal(): void {
+    this.modalService.initializeModal(this.confirmOperationModal, {
+      dismissible: false,
+    });
+    this.modalService.openModal();
+  }
+
+  public onConfirmOperation(): void {
+    const file: File = {
+      id: this.fileData.id,
+      observation: this.observations?.slice(0, this.observationMaxLength)/*,
+      status: {id: 1, code: '', name: ''}*/
+    };
+    this.fileService.saveFile(file).subscribe();
   }
 }
