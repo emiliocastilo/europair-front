@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/',
-  // apiUrl: 'http://192.168.210.22:8080/services/',
+  // apiUrl: "https://dev-erp-europair.plexus.services/services/",
   mock: false,
 };
 

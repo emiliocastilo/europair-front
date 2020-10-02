@@ -2,15 +2,16 @@ import { Country } from '../../masters/countries/models/country';
 
 export interface File {
   id: number;
-  code: string;
-  description: string;
-  status: FileStatus;
-  client: Client;
-  contact: Contact;
-  provider: Provider;
-  salePerson: string;
-  saleAgent: string;
-  operationType: string;
+  code?: string;
+  description?: string;
+  status?: FileStatus;
+  client?: Client;
+  contact?: Contact;
+  provider?: Provider;
+  salePerson?: string;
+  saleAgent?: string;
+  operationType?: string;
+  observation?: string;
 }
 
 export interface FileStatus {
