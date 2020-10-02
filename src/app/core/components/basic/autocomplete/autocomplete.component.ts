@@ -155,7 +155,7 @@ export class AutocompleteComponent
    * This is how result name is printed in the input box.
    */
   displayFn(result: any): any {
-    return result ? result[this.optionValue] : undefined;
+    return result ? result[this.optionLabel] : undefined;
   }
 
   isMinLength(value: string) {

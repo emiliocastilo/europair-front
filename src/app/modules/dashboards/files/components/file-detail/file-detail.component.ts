@@ -112,9 +112,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public fileForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
-    description: ['', Validators.required],
+    description: [''],
     status: [''],
     client: [''],
+    statusId: [''],
+    clientId: [''],
   });
 
   public statusOptions$: Observable<FileStatus[]>;
@@ -142,6 +144,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
   }
 
+  // TODO: Improve status statusId relation
   private loadStatus(): void {
     this.fileForm
       .get('status')
@@ -153,10 +156,13 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       .subscribe((term) => {
         if (typeof term === 'string') {
           this.statusOptions$ = term ? this.getFilteredStatus(term) : of([]);
+        } else {
+          this.fileForm.get('statusId').setValue(term.id);
         }
       });
   }
 
+  // TODO: Improve client clientId relation
   private loadClients(): void {
     this.fileForm
       .get('client')
@@ -168,6 +174,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       .subscribe((term) => {
         if (typeof term === 'string') {
           this.clientOptions$ = term ? this.getFilteredClients(term) : of([]);
+        } else {
+          this.fileForm.get('clientId').setValue(term.id);
         }
       });
   }
@@ -244,13 +252,25 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         ...this.fileForm.value,
       };
 
+      // TODO: Improve status - client Relations
+      delete this.fileData.client;
+      delete this.fileData.clientId;
+      delete this.fileData.status;
+
+      this.fileData.clientId = 1;
+      this.fileData.contactId = 1;
+      this.fileData.providerId = 1;
+      this.fileData.salePersonId = 1;
+      this.fileData.saleAgentId = 1;
+      this.fileData.operationType = 'COMMERCIAL';
+
       console.log('SAVING FILE', this.fileData);
 
-      this.fileService.saveFile(this.fileData).subscribe(() => {
+      this.fileService.saveFile(this.fileData).subscribe((resp) => {
         if (!update) {
-          this.router.navigate([`/files/${this.fileData.id}`]);
+          this.router.navigate([`/files/${resp.id}`]);
         } else {
-          this.getFileData(this.fileData);
+          this.getFileData(resp);
         }
       });
     }
