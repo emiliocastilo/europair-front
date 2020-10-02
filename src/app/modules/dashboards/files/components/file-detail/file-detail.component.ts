@@ -5,7 +5,13 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -145,7 +151,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         distinctUntilChanged()
       )
       .subscribe((term) => {
-        this.statusOptions$ = term ? this.getFilteredStatus(term) : of([]);
+        if (typeof term === 'string') {
+          this.statusOptions$ = term ? this.getFilteredStatus(term) : of([]);
+        }
       });
   }
 
@@ -158,9 +166,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         distinctUntilChanged()
       )
       .subscribe((term) => {
-        console.log(term);
-
-        this.clientOptions$ = term ? this.getFilteredClients(term) : of([]);
+        if (typeof term === 'string') {
+          this.clientOptions$ = term ? this.getFilteredClients(term) : of([]);
+        }
       });
   }
 
@@ -217,8 +225,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.fileData = file;
     this.fileForm.patchValue({
       ...file,
-      status: file.status.name,
-      client: file.client.name,
     });
 
     this.fileRoutesService
@@ -319,7 +325,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public saveObservation(): void {
     const file: File = {
       id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength)
+      observation: this.observations?.slice(0, this.observationMaxLength),
     };
     this.fileService.saveFile(file).subscribe();
   }
@@ -334,8 +340,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public onConfirmOperation(): void {
     const file: File = {
       id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength)/*,
-      status: {id: 1, code: '', name: ''}*/
+      observation: this.observations?.slice(
+        0,
+        this.observationMaxLength
+      ) /*,
+      status: {id: 1, code: '', name: ''}*/,
     };
     this.fileService.saveFile(file).subscribe();
   }

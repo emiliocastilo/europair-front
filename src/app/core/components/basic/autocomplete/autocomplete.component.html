@@ -12,17 +12,20 @@
     [formControl]="inputControl"
     [matAutocomplete]="auto"
   />
-  <mat-error *ngIf="!inputControl.valid && inputControl.errors?.required">
+  <mat-error
+    class="ep-error-msg"
+    *ngIf="!inputControl.valid && inputControl.errors?.required"
+  >
     Este campo es requerido
   </mat-error>
 
-  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
     <mat-option *ngIf="isSearching; else optionsTemplate" disabled="true">
       <em>Buscando...</em>
     </mat-option>
 
     <ng-template #optionsTemplate>
-      <mat-option *ngFor="let option of options" [value]="option[optionValue]">
+      <mat-option *ngFor="let option of options" [value]="option">
         {{ option[optionLabel] }}
       </mat-option>
     </ng-template>

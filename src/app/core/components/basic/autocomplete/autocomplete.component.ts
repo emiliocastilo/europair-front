@@ -84,7 +84,6 @@ export class AutocompleteComponent
   ngOnChanges(changes: SimpleChanges) {
     if (changes.options) {
       if (this.isSearching) {
-        console.log(changes);
         this.isSearching = false;
         if (!changes.options.firstChange && !changes.options.currentValue) {
           this.noResults = true;
@@ -156,7 +155,7 @@ export class AutocompleteComponent
    * This is how result name is printed in the input box.
    */
   displayFn(result: any): any {
-    return result ? result : undefined;
+    return result ? result[this.optionValue] : undefined;
   }
 
   isMinLength(value: string) {
