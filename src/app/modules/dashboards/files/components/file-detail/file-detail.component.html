@@ -1,6 +1,6 @@
 <ng-container *ngIf="routeData$ | async as routeData">
   <core-page-bar [pageTitle]="routeData.title | translate"></core-page-bar>
-  <div class="row" *ngIf="showConfirmOperationButton()">
+  <div class="row">
     <button
       class="browser-default col s12 l2 cmd-mb-2"
       color="primary"
@@ -12,6 +12,7 @@
     </button>
 
     <button
+      *ngIf="showConfirmOperationButton() && routeData.isFileDetail"
       color="primary"
       class="col s12 l2 offset-l8 cmd-mb-1"
       (click)="openConfirmOperationModal()"
@@ -70,7 +71,7 @@
               [options]="statusOptions$ | async"
               [prefix]="'FILES.STATUS' | translate"
               [lengthToTriggerSearch]="0"
-              optionValue="name"
+              optionValue="id"
               optionLabel="name"
               formControlName="status"
             >
@@ -97,7 +98,7 @@
               [options]="clientOptions$ | async"
               [prefix]="'FILES.CLIENT' | translate"
               [lengthToTriggerSearch]="0"
-              optionValue="name"
+              optionValue="id"
               optionLabel="name"
               formControlName="client"
             >

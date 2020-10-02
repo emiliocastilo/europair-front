@@ -12,6 +12,12 @@ export interface File {
   saleAgent?: string;
   operationType?: string;
   observation?: string;
+  statusId?: number;
+  clientId?: number;
+  contactId?: number;
+  providerId?: number;
+  salePersonId?: number;
+  saleAgentId?: number;
 }
 
 export interface FileStatus {
@@ -50,5 +56,5 @@ export enum OperationType {
   COMMERCIAL = 'COMMERCIAL',
   EXECUTIVE = 'EXECUTIVE',
   CHARGE = 'CHARGE',
-  GROUP = 'GROUP'
+  GROUP = 'GROUP',
 }
