@@ -1,0 +1,24 @@
+@import "variables";
+
+.mat-icon.europair-icon-primary {
+  fill: none;
+  stroke: $europair-color-blue-dark-1;
+}
+
+.mat-icon.europair-icon-warn {
+  fill: none;
+  stroke: red;
+}
+
+button:focus {
+  background-color: transparent;
+}
+
+.mat-row {
+  &:hover {
+    background-color: $europair-color-blue-light-3 !important;
+  }
+  &:nth-child(odd) {
+    background-color: $europair-color-blue-light-2;
+  }
+}
