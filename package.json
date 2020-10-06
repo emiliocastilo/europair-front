@@ -28,6 +28,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@types/materialize-css": "^1.0.8",
+    "angular-oauth2-oidc": "^10.0.3",
     "materialize-css": "^1.0.0-rc.2",
     "ngx-mask": "10.0.1",
     "rxjs": "~6.5.4",

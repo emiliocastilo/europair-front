@@ -6,6 +6,10 @@ import {
   InputTextIcon,
   InputTextIconPositions,
 } from 'src/app/core/models/basic/input-text/input-text-icon';
+import { OAuthErrorEvent, OAuthService } from 'angular-oauth2-oidc';
+import { oAuthConfig } from 'src/app/core/models/auth.config';
+import { SESSION_STORAGE_KEYS } from 'src/app/core/models/session-storage-keys';
+import { LOGIN_TYPES } from './models/login-types';
 
 @Component({
   selector: 'login',
@@ -20,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _oauthService: OAuthService
   ) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -47,10 +52,60 @@ export class LoginComponent implements OnInit {
   }
 
   private setTokenOnSessionStorage = (response) => {
-    sessionStorage.setItem('AUTH-TOKEN', response.jwtToken);
-    sessionStorage.setItem('USER-NAME', this.userNameControl.value);
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.AUTH_TOKEN, response.jwtToken);
+    sessionStorage.setItem(
+      SESSION_STORAGE_KEYS.USER_NAME,
+      this.userNameControl.value
+    );
+    sessionStorage.setItem(
+      SESSION_STORAGE_KEYS.LOGIN_TYPE,
+      LOGIN_TYPES.INTERNAL
+    );
     this._router.navigate(['/tasks']);
   };
+
+  public onAzureLogin() {
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.LOGIN_TYPE, LOGIN_TYPES.OAUTH);
+    this._oauthService.configure(oAuthConfig);
+    this._oauthService.loadDiscoveryDocumentAndLogin();
+    // this._oauthService
+    //   .loadDiscoveryDocumentAndLogin() // If we're still not logged in yet, try with a silent refresh:
+    //   // Get username, if possible.
+    //   .then(() => {
+    //     console.log('holaaaaaaaaaaaaa');
+    //     if (this._oauthService.getIdentityClaims()) {
+    //       console.log(this._oauthService.getIdentityClaims()['name']);
+    //       sessionStorage.setItem(
+    //         'USER-NAME',
+    //         this._oauthService.getIdentityClaims()['name']
+    //       );
+    //     }
+    //   });
+    // Load information from Auth0 (could also be configured manually)
+    // this._oauthService
+    //   .loadDiscoveryDocument()
+
+    //   // See if the hash fragment contains tokens (when user got redirected back)
+    //   .then(() => this._oauthService.tryLogin())
+
+    //   // If we're still not logged in yet, try with a silent refresh:
+    //   .then(() => {
+    //     if (!this._oauthService.hasValidAccessToken()) {
+    //       return this._oauthService.silentRefresh();
+    //     }
+    //   })
+
+    //   // Get username, if possible.
+    //   .then(() => {
+    //     if (this._oauthService.getIdentityClaims()) {
+    //       console.log(this._oauthService.getIdentityClaims()['name']);
+    //       sessionStorage.setItem(
+    //         'USER-NAME',
+    //         this._oauthService.getIdentityClaims()['name']
+    //       );
+    //     }
+    //   });
+  }
 
   private get userNameControl(): AbstractControl {
     return this.loginForm.get('username');

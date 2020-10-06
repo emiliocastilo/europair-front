@@ -15,7 +15,9 @@ import {
   TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { OAuthModule } from 'angular-oauth2-oidc';
 import { NgxMaskModule } from 'ngx-mask';
+import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
@@ -36,6 +38,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HttpClientModule,
     NgxMaskModule.forRoot(),
     MatSnackBarModule,
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: [environment.apiUrl],
+        sendAccessToken: true,
+      },
+    }),
     // i18n
     TranslateModule.forRoot({
       defaultLanguage: 'es',
@@ -50,8 +58,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     TranslateService,
     { provide: LOCALE_ID, useValue: 'es' },
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpSuccessInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpSuccessInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
