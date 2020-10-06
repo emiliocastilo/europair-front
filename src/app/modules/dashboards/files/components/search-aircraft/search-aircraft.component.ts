@@ -226,11 +226,11 @@ export class SearchAircraftComponent implements OnInit {
   public quote(): void {
     if (this.selectedItems.length > 0) {
       const aircraftSelected: Array<AircraftSearchResult> = this.aircrafts
-        .filter((aircraftSearch: AircraftSearchResult) => this.selectedItems.includes(aircraftSearch.id));
+        .filter((aircraftSearch: AircraftSearchResult) => this.selectedItems.includes(aircraftSearch.aircraftId));
       const contributionsCalls: Array<Observable<void>> = [];
       aircraftSelected.forEach((aircraftSearch: AircraftSearchResult) => {
         const contribution: Contribution = {
-          aircraftId: aircraftSearch.id,
+          aircraftId: aircraftSearch.aircraftId,
           cargoAirborne: aircraftSearch.maxCargo,
           contributionState: ContributionStates.PENDING,
           fileId: this.fileId,
@@ -255,11 +255,11 @@ export class SearchAircraftComponent implements OnInit {
     this._location.back();
   }
 
-  public checkAircraft(checked: boolean, id: number): void {
+  public checkAircraft(checked: boolean, aircraftId: number): void {
     if (checked) {
-      this.selectedItems.push(id);
+      this.selectedItems.push(aircraftId);
     } else {
-      const index: number = this.selectedItems.findIndex((item: number) => item === id);
+      const index: number = this.selectedItems.findIndex((item: number) => item === aircraftId);
       this.selectedItems.splice(index, 1);
     }
   }
