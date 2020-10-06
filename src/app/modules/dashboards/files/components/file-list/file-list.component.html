@@ -1,84 +1,48 @@
-<core-page-bar [pageTitle]="'Listado expedientes' | translate"></core-page-bar>
+<core-page-bar
+  [pageTitle]="'FILES.PAGE_TITLE_DETAIL' | translate"
+></core-page-bar>
 <div class="table-container">
   <mat-table
     matSort
     [dataSource]="dataSource"
     (matSortChange)="onSortFiles($event)"
   >
-    <!-- Client Column -->
-    <ng-container matColumnDef="selection">
-      <mat-header-cell *matHeaderCellDef>
-        <mat-checkbox color="primary"></mat-checkbox>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary"></mat-checkbox>
-      </mat-cell>
-    </ng-container>
     <!-- File ID Column -->
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="code">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILE.ID" | translate }}
+        {{ "FILES.CODE" | translate }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{ element.code }} </mat-cell>
     </ng-container>
 
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILE.DESCRIPTION" | translate }}
+        {{ "FILES.DESCRIPTION" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.description }} </mat-cell>
     </ng-container>
 
     <!-- File Status Column -->
-    <ng-container matColumnDef="status.name">
+    <ng-container matColumnDef="status-name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILE.STATUS" | translate }}
+        {{ "FILES.STATUS" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.status.name }} </mat-cell>
     </ng-container>
 
     <!-- Client Column -->
-    <ng-container matColumnDef="client.name">
+    <ng-container matColumnDef="client-name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILE.CLIENT" | translate }}
+        {{ "FILES.CLIENT" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.client.name }} </mat-cell>
-    </ng-container>
-
-    <!-- Actions Column-->
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          (click)="goToDetail(element)"
-          class="browser-default"
-          aria-label="Go to a file detail"
-        >
-          <mat-icon
-            svgIcon="europair_edit"
-            class="europair-icon-primary"
-          ></mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="goToDetail(element)"
-          class="browser-default"
-          aria-label="Deletes a file"
-        >
-          <mat-icon
-            svgIcon="europair_trash"
-            class="europair-icon-warn"
-          ></mat-icon>
-        </button>
-      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (click)="rowClicked(row)"
+      (dblclick)="goToDetail(row)"
     ></mat-row>
   </mat-table>
   <mat-paginator

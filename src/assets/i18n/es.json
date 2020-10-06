@@ -439,6 +439,7 @@
   },
   "FILES": {
     "PAGE_TITLE": "Expedientes",
+    "PAGE_TITLE_DETAIL": "Listado expedientes",
     "CREATE": "Crear expediente",
     "VIEW_REGION": "Detalle expediente",
     "EDIT_REGION": "Editar expediente",

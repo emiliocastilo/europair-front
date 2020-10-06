@@ -1,18 +1,5 @@
 @import "variables";
-
-.mat-icon.europair-icon-primary {
-  fill: none;
-  stroke: $europair-color-blue-dark-1;
-}
-
-.mat-icon.europair-icon-warn {
-  fill: none;
-  stroke: red;
-}
-
-button:focus {
-  background-color: transparent;
-}
+@import "mixins";
 
 .mat-row {
   &:hover {
@@ -22,3 +9,28 @@ button:focus {
     background-color: $europair-color-blue-light-2;
   }
 }
+
+.mat-header-cell {
+  border-bottom: 2px solid $europair-color-blue-light-3;
+  line-height: normal;
+  box-sizing: border-box;
+}
+
+.mat-header-cell,
+.element-row {
+  font-weight: bold;
+}
+
+.mat-header-row,
+.mat-row {
+  border-bottom-color: $europair-color-blue-light-3;
+}
+
+.mat-header-cell,
+.mat-cell {
+  color: $europair-color-blue-dark-2;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+@include mat-table-columns(("code", "description", "status-name"));

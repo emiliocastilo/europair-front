@@ -16,12 +16,10 @@ import { FilesService } from '../../services/files.service';
 export class FileListComponent implements OnInit {
   public dataSource = new MatTableDataSource<File>();
   public displayedColumns = [
-    'selection',
-    'id',
+    'code',
     'description',
-    'status.name',
-    'client.name',
-    'actions',
+    'status-name',
+    'client-name',
   ];
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
@@ -51,16 +49,12 @@ export class FileListComponent implements OnInit {
     this.router.navigate(['files', file.id]);
   }
 
-  public removeFile(file: File) {
-    console.log('REMOVE FILE', file);
-  }
-
-  public rowClicked(file: File) {
-    console.log('ROW CLICKED', file);
-  }
-
   public onSortFiles(sort: Sort) {
     console.log(sort);
+    this.fileSearchFilter['sort'] = `${sort.active.replace('-', '.')},${
+      sort.direction
+    }`;
+    this.getFileData(this.fileSearchFilter);
   }
 
   public onPage(pageEvent: PageEvent) {
