@@ -8,6 +8,7 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SESSION_STORAGE_KEYS } from '../models/session-storage-keys';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -27,6 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (this._authService.isLoggedIn()) {
       return true;
     } else {
+      this._authService.setRedirectLoginUrl(state.url);
       return this._router.parseUrl('/login');
     }
   }
@@ -41,6 +43,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (this._authService.isLoggedIn()) {
       return true;
     } else {
+      this._authService.setRedirectLoginUrl(state.url);
       return this._router.parseUrl('/login');
     }
   }

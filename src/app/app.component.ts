@@ -8,6 +8,7 @@ import {
 } from 'angular-oauth2-oidc';
 import { oAuthConfig } from './core/models/auth.config';
 import { SESSION_STORAGE_KEYS } from './core/models/session-storage-keys';
+import { AuthService } from './core/services/auth.service';
 import { LOGIN_TYPES } from './modules/login/models/login-types';
 
 @Component({
@@ -18,7 +19,11 @@ import { LOGIN_TYPES } from './modules/login/models/login-types';
 export class AppComponent implements OnInit {
   title = 'europair-management-front';
 
-  constructor(private _oauthService: OAuthService, private _router: Router) {}
+  constructor(
+    private _oauthService: OAuthService,
+    private _router: Router,
+    private _authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     if (
@@ -29,10 +34,10 @@ export class AppComponent implements OnInit {
     ) {
       this._oauthService.configure(oAuthConfig);
       this._oauthService.loadDiscoveryDocumentAndLogin().then(() => {
+        this._router.navigate([this._authService.getRedirectLoginUrl()]);
         if (this._oauthService.getIdentityClaims()) {
-          console.log(this._oauthService.getIdentityClaims()['name']);
           sessionStorage.setItem(
-            'USER-NAME',
+            SESSION_STORAGE_KEYS.USER_NAME,
             this._oauthService.getIdentityClaims()['name']
           );
         }
@@ -48,11 +53,7 @@ export class AppComponent implements OnInit {
 
   private onOAuthSuccessEvent(event: OAuthEvent) {
     console.log(event);
-    if (
-      event instanceof OAuthSuccessEvent &&
-      Object.is(event.type, 'discovery_document_loaded')
-    ) {
-      this._router.navigate(['tasks'], { queryParamsHandling: 'merge' });
+    if (event instanceof OAuthSuccessEvent && event.type !== 'token_received') {
     }
   }
 }

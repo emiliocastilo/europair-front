@@ -61,50 +61,17 @@ export class LoginComponent implements OnInit {
       SESSION_STORAGE_KEYS.LOGIN_TYPE,
       LOGIN_TYPES.INTERNAL
     );
-    this._router.navigate(['/tasks']);
+    this._router.navigate([this._authService.getRedirectLoginUrl()]);
   };
 
   public onAzureLogin() {
     sessionStorage.setItem(SESSION_STORAGE_KEYS.LOGIN_TYPE, LOGIN_TYPES.OAUTH);
     this._oauthService.configure(oAuthConfig);
-    this._oauthService.loadDiscoveryDocumentAndLogin();
-    // this._oauthService
-    //   .loadDiscoveryDocumentAndLogin() // If we're still not logged in yet, try with a silent refresh:
-    //   // Get username, if possible.
-    //   .then(() => {
-    //     console.log('holaaaaaaaaaaaaa');
-    //     if (this._oauthService.getIdentityClaims()) {
-    //       console.log(this._oauthService.getIdentityClaims()['name']);
-    //       sessionStorage.setItem(
-    //         'USER-NAME',
-    //         this._oauthService.getIdentityClaims()['name']
-    //       );
-    //     }
-    //   });
-    // Load information from Auth0 (could also be configured manually)
-    // this._oauthService
-    //   .loadDiscoveryDocument()
-
-    //   // See if the hash fragment contains tokens (when user got redirected back)
-    //   .then(() => this._oauthService.tryLogin())
-
-    //   // If we're still not logged in yet, try with a silent refresh:
-    //   .then(() => {
-    //     if (!this._oauthService.hasValidAccessToken()) {
-    //       return this._oauthService.silentRefresh();
-    //     }
-    //   })
-
-    //   // Get username, if possible.
-    //   .then(() => {
-    //     if (this._oauthService.getIdentityClaims()) {
-    //       console.log(this._oauthService.getIdentityClaims()['name']);
-    //       sessionStorage.setItem(
-    //         'USER-NAME',
-    //         this._oauthService.getIdentityClaims()['name']
-    //       );
-    //     }
-    //   });
+    if (this._oauthService.hasValidAccessToken()) {
+      this._router.navigate([this._authService.getRedirectLoginUrl()]);
+    } else {
+      this._oauthService.loadDiscoveryDocumentAndLogin();
+    }
   }
 
   private get userNameControl(): AbstractControl {

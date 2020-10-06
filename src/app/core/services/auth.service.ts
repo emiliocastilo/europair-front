@@ -36,7 +36,7 @@ export class AuthService {
     ) {
       this._oAuthService.logOut();
     } else {
-      sessionStorage.removeItem(SESSION_STORAGE_KEYS.AUTH_TOKEN);
+      sessionStorage.clear();
       this._router.navigate(['/login']);
     }
   }
@@ -46,16 +46,37 @@ export class AuthService {
       LOGIN_TYPES.OAUTH ===
       sessionStorage.getItem(SESSION_STORAGE_KEYS.LOGIN_TYPE)
     ) {
+      return this.isOAuthLoggedIn();
+    } else {
+      return this.isInternalLoggedIn();
+    }
+  }
+
+  private isOAuthLoggedIn(): boolean {
+    if (this._oAuthService.hasValidIdToken()) {
+      return true;
+    }
+    return false;
+  }
+
+  private isInternalLoggedIn(): boolean {
+    const token: string = sessionStorage.getItem(
+      SESSION_STORAGE_KEYS.AUTH_TOKEN
+    );
+    if (token) {
       return true;
     } else {
-      const token: string = sessionStorage.getItem(
-        SESSION_STORAGE_KEYS.AUTH_TOKEN
-      );
-      if (token) {
-        return true;
-      } else {
-        return false;
-      }
+      return false;
     }
+  }
+
+  public getRedirectLoginUrl(): string {
+    return (
+      sessionStorage.getItem(SESSION_STORAGE_KEYS.LOGIN_REDIRECT_URL) ?? 'tasks'
+    );
+  }
+
+  public setRedirectLoginUrl(url: string): void {
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.LOGIN_REDIRECT_URL, url);
   }
 }
