@@ -1,0 +1,9 @@
+@mixin mat-table-columns($columns) {
+  .mat-column- {
+    @each $colName in $columns {
+      &#{$colName} {
+        border-right: 1px solid #cce0f2;
+      }
+    }
+  }
+}
