@@ -457,6 +457,10 @@
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
     "NEW_ROUTE": "Nueva ruta",
+    "OBSERVATIONS": "Observaciones operaciones",
+    "OBSERVATIONS_LABEL": "Comentario:",
+    "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
+    "CONFIRM_OPERATION": "Confirmar operación",
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",

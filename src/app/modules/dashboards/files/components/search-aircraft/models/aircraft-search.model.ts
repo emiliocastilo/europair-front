@@ -1,5 +1,4 @@
 export interface AircraftSearchResult {
-    id: number;
     aircraftCategoryCode: string;
     aircraftCategoryId: number;
     aircraftId: number;

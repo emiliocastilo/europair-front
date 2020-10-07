@@ -2,15 +2,22 @@ import { Country } from '../../masters/countries/models/country';
 
 export interface File {
   id: number;
-  code: string;
-  description: string;
-  status: FileStatus;
-  client: Client;
-  contact: Contact;
-  provider: Provider;
-  salePerson: string;
-  saleAgent: string;
-  operationType: string;
+  code?: string;
+  description?: string;
+  status?: FileStatus;
+  client?: Client;
+  contact?: Contact;
+  provider?: Provider;
+  salePerson?: string;
+  saleAgent?: string;
+  operationType?: string;
+  observation?: string;
+  statusId?: number;
+  clientId?: number;
+  contactId?: number;
+  providerId?: number;
+  salePersonId?: number;
+  saleAgentId?: number;
 }
 
 export interface FileStatus {
@@ -49,5 +56,5 @@ export enum OperationType {
   COMMERCIAL = 'COMMERCIAL',
   EXECUTIVE = 'EXECUTIVE',
   CHARGE = 'CHARGE',
-  GROUP = 'GROUP'
+  GROUP = 'GROUP',
 }

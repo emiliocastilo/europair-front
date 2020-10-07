@@ -32,7 +32,7 @@ const routes: Routes = [
           import('./components/file-detail/file-detail.module').then(
             (m) => m.FileDetailModule
           ),
-        data: { title: 'Detalles Tipo', isFileDetail: true },
+        data: { title: 'Detalles Expediente', isFileDetail: true },
       }
     ],
   },
