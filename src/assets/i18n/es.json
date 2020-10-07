@@ -466,7 +466,8 @@
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
       "CLIENT": "Debe indicar un cliente"
-    }
+    },
+    "NEW_FILE": "Nuevo Expediente"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
