@@ -1,6 +1,10 @@
 @import "variables";
 @import "mixins";
 
+.mat-raised-button.mat-primary:not(:disabled) {
+  background-color: $europair-color-blue-dark-1;
+}
+
 .mat-row {
   &:hover {
     background-color: $europair-color-blue-light-3 !important;

@@ -1,6 +1,16 @@
 <core-page-bar
   [pageTitle]="'FILES.PAGE_TITLE_DETAIL' | translate"
 ></core-page-bar>
+<div class="row">
+  <button
+    class="browser-default col s12 l2 cmd-mb-2"
+    color="primary"
+    mat-raised-button
+    routerLink="/files/new"
+  >
+    Nuevo Expediente
+  </button>
+</div>
 <div class="table-container">
   <mat-table
     matSort
