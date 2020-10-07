@@ -45,7 +45,6 @@ export class FileListComponent implements OnInit {
   };
 
   public goToDetail(file: File) {
-    console.log('GO TO DETAIL', file);
     this.router.navigate(['files', file.id]);
   }
 
