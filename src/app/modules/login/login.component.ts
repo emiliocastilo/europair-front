@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     };
   }
 
-  public onLogin() {
+  public onExternalLogin() {
     console.log(this.loginForm.value);
     this._authService
       .login(this.loginForm.value)

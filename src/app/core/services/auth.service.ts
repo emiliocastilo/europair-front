@@ -11,7 +11,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly url = `${environment.apiUrl}login`;
+  private readonly url = `${environment.apiUrl}external/login`;
 
   constructor(
     private _httpClient: HttpClient,
