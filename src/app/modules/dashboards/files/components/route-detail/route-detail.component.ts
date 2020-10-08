@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -15,13 +9,14 @@ import {
 } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { concat, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  filter,
   finalize,
   map,
   switchMap,
@@ -48,25 +43,18 @@ import { FileErrorStateMatcher } from '../file-detail/file-detail.component';
   templateUrl: './route-detail.component.html',
   styleUrls: ['./route-detail.component.scss'],
 })
-export class RouteDetailComponent implements OnInit, AfterViewInit {
+export class RouteDetailComponent implements OnInit {
   @ViewChild(MatTable) flightTable: MatTable<any>;
   @ViewChild(InputTextComponent, { read: ElementRef })
   routeGenerator: ElementRef;
 
   public isLoading: boolean = false;
 
-  public originAirports$: Observable<Airport[]>;
-  public originAirportsInput$ = new Subject<string>();
-  public originAirportsLoading = false;
-  public originAirportIdSelected: string;
+  public airports$: Observable<Airport[]>;
+  public airportsInput$ = new Subject<string>();
+  public airportsLoading = false;
 
-  public destinationAirports$: Observable<Airport[]>;
-  public destinationAirportsInput$ = new Subject<string>();
-  public destinationAirportsLoading = false;
-  public destinationAirportIdSelected: string;
-
-  public readonly routeMask =
-    '000-000||000-000-000||000-000-000-000||000-000-000-000-000||000-000-000-000-000-000||000-000-000-000-000-000-000';
+  public readonly routeMask = '000-000-000-000-000-000-000-000-000-000-000-000';
   public readonly routePattern = {
     '0': { pattern: new RegExp('[a-zA-Z0-9]') },
   };
@@ -97,6 +85,8 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     monthDays: [{ value: [], disabled: true }, Validators.required],
   });
 
+  public airportsControl: FormControl = this.fb.control('');
+
   public columnsToDisplay = [
     { title: 'Aeropuerto Origen', label: 'origin' },
     { title: 'Aeropuerto Destino', label: 'destination' },
@@ -116,21 +106,14 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     private readonly translateService: TranslateService,
     private readonly fileRouteService: FileRoutesService,
     private readonly flightService: FlightService,
-    private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    // this.loadOriginAirports();
-    // this.loadDestinationAirports();
     this.getRouteInfo();
-    this.frequencyValueChangesSubscribe();
-    this.startDateValueChangesSubscribe();
-    this.loadFrequencies();
-    this.loadWeekDays();
+    this.activateFormSubcriptions();
+    this.loadSelectsData();
   }
-
-  ngAfterViewInit(): void {}
 
   private getRouteInfo() {
     this.route.paramMap.subscribe((params) => {
@@ -139,6 +122,39 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     this.route.data.subscribe((data) => {
       this.pageTitle = data.title;
     });
+  }
+
+  private activateFormSubcriptions() {
+    this.airportsControlValueChangesSubscribe();
+    this.frequencyValueChangesSubscribe();
+    this.startDateValueChangesSubscribe();
+  }
+
+  private airportsControlValueChangesSubscribe() {
+    this.airportsControl.valueChanges
+      .pipe(filter((airport: Airport) => !!airport?.iataCode))
+      .subscribe(this.onAirportControlChanges);
+  }
+
+  private onAirportControlChanges = (airportSelected: Airport) => {
+    const routeCode = this.routeForm.get('label').value;
+    this.routeForm
+      .get('label')
+      .setValue(
+        routeCode +
+          this.getRouteCodeSeparator(routeCode) +
+          airportSelected.iataCode
+      );
+    this.routeForm.get('label').updateValueAndValidity({ onlySelf: true });
+    this.airportsControl.patchValue([]);
+  };
+
+  private getRouteCodeSeparator(routeCode: string): string {
+    return this.isFirstAirport(routeCode) ? '' : '-';
+  }
+
+  private isFirstAirport(routeCode: string): boolean {
+    return !!!routeCode;
   }
 
   private frequencyValueChangesSubscribe() {
@@ -193,6 +209,12 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
     return new Date(year, month, 0).getDate();
   }
 
+  private loadSelectsData() {
+    this.loadFrequencies();
+    this.loadWeekDays();
+    this.loadAirports();
+  }
+
   private loadFrequencies() {
     this.translateService
       .get('FREQUENCIES.UNITS')
@@ -217,6 +239,25 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
           };
         });
       });
+  }
+
+  private loadAirports(): void {
+    this.airports$ = concat(
+      of([]), // default items
+      this.airportsInput$.pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => (this.airportsLoading = true)),
+        switchMap(
+          (term: string): Observable<Airport[]> =>
+            this.airportsService.searchAirports(term).pipe(
+              map((page: Page<Airport>) => page.content),
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.airportsLoading = false))
+            )
+        )
+      )
+    );
   }
 
   public generateFlights() {
@@ -321,46 +362,4 @@ export class RouteDetailComponent implements OnInit, AfterViewInit {
         : null;
     };
   }
-
-  // private loadOriginAirports(): void {
-  //   this.originAirports$ = concat(
-  //     of([]), // default items
-  //     this.originAirportsInput$.pipe(
-  //       debounceTime(400),
-  //       distinctUntilChanged(),
-  //       tap(() => (this.originAirportsLoading = true)),
-  //       switchMap(
-  //         (term: string): Observable<Airport[]> => {
-  //           const filter = { filter_name: term };
-  //           return this.airportsService.getAirports(filter).pipe(
-  //             map((page: Page<Airport>) => page.content),
-  //             catchError(() => of([])), // empty list on error
-  //             tap(() => (this.originAirportsLoading = false))
-  //           );
-  //         }
-  //       )
-  //     )
-  //   );
-  // }
-
-  // private loadDestinationAirports(): void {
-  //   this.destinationAirports$ = concat(
-  //     of([]), // default items
-  //     this.destinationAirportsInput$.pipe(
-  //       debounceTime(400),
-  //       distinctUntilChanged(),
-  //       tap(() => (this.destinationAirportsLoading = true)),
-  //       switchMap(
-  //         (term: string): Observable<Airport[]> => {
-  //           const filter = { filter_name: term };
-  //           return this.airportsService.getAirports(filter).pipe(
-  //             map((page: Page<Airport>) => page.content),
-  //             catchError(() => of([])), // empty list on error
-  //             tap(() => (this.destinationAirportsLoading = false))
-  //           );
-  //         }
-  //       )
-  //     )
-  //   );
-  // }
 }

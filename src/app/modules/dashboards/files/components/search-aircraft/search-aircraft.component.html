@@ -278,8 +278,8 @@
                 <ng-container matColumnDef="selection">
                     <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <mat-checkbox [id]="'aircraft' + element.id" [color]="'primary'"
-                            (change)="checkAircraft($event.checked, element.id)">
+                        <mat-checkbox [id]="'aircraft' + element.aircraftId" [color]="'primary'"
+                            (change)="checkAircraft($event.checked, element.aircraftId)">
                         </mat-checkbox>
                     </mat-cell>
                 </ng-container>

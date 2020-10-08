@@ -439,6 +439,7 @@
   },
   "FILES": {
     "PAGE_TITLE": "Expedientes",
+    "PAGE_TITLE_DETAIL": "Listado expedientes",
     "CREATE": "Crear expediente",
     "VIEW_REGION": "Detalle expediente",
     "EDIT_REGION": "Editar expediente",
@@ -465,7 +466,8 @@
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
       "CLIENT": "Debe indicar un cliente"
-    }
+    },
+    "NEW_FILE": "Nuevo Expediente"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
@@ -483,7 +485,9 @@
       "END_DATE": "Debe indicar una fecha fin",
       "WEEKDAYS": "Debe indicar al menos un día de la semana",
       "MONTH_DAYS": "Debe indicar al menos un día del mes"
-    }
+    },
+    "AIRPORT_SEARCHER": "Buscador de aeropuertos",
+    "SELECT_AIRPORT": "Selecciona un aeropuerto para añadirlo al 'Código de ruta'"
   },
   "FREQUENCIES": {
     "UNITS": {
