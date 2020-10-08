@@ -44,11 +44,11 @@ export interface Client {
 
 export interface Provider {
   id: number;
-  code: string;
-  name: string;
-  canaryIslands: boolean;
-  vies: boolean;
-  country: Country;
+  code?: string;
+  name?: string;
+  canaryIslands?: boolean;
+  vies?: boolean;
+  country?: Country;
 }
 
 export enum OperationType {

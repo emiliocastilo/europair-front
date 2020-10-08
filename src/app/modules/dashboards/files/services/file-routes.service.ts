@@ -39,6 +39,14 @@ export class FileRoutesService {
     return this.http.get<Page<FileRoute>>(url);
   }
 
+  public getFileRouteById(fileId: number, routeId: number): Observable<FileRoute> {
+    const url: string = this.mocked
+      ? '/assets/mocks/fileRoutes.json'
+      : `${this.url}/${fileId}/routes/${routeId}`;
+
+    return this.http.get<FileRoute>(url);
+  }
+
   public createFileRoute(
     fileId: number,
     fileRoute: FileRoute

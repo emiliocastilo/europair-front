@@ -1,9 +1,8 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { concat, forkJoin, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -114,7 +113,7 @@ export class SearchAircraftComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
-    private readonly _location: Location,
+    private readonly router: Router,
     private readonly regionsService: RegionsService,
     private readonly countriesService: CountriesService,
     private readonly airportsService: AirportsService,
@@ -150,9 +149,11 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private obtainParams(): void {
-    const { seatsC, seatsY, seatsF, beds, stretchers, operationType, fileId, routeId } = this.route.snapshot.queryParams;
-    this.fileId = fileId;
-    this.routeId = routeId;
+    const { seatsC, seatsY, seatsF, beds, stretchers, operationType } = this.route.snapshot.queryParams;
+    this.route.params.subscribe((params: {fileId: string, routeId: string}) => {
+      this.fileId = parseInt(params.fileId, 10);
+      this.routeId = parseInt(params.routeId, 10);
+    });
     this.operationType = operationType;
     this.searchForm.get('seatF').setValue(seatsF);
     this.searchForm.get('seatC').setValue(seatsC);
@@ -244,15 +245,15 @@ export class SearchAircraftComponent implements OnInit {
         ));
       });
       forkJoin(contributionsCalls).subscribe(() => {
-        this._location.back();
+        this.goBack();
       }, (error) => {
         console.log(error);
       });
     }
   }
 
-  public cancel(): void {
-    this._location.back();
+  public goBack(): void {
+    this.router.navigate([`/files/${this.fileId}`]);
   }
 
   public checkAircraft(checked: boolean, aircraftId: number): void {
