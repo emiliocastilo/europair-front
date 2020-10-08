@@ -485,7 +485,9 @@
       "END_DATE": "Debe indicar una fecha fin",
       "WEEKDAYS": "Debe indicar al menos un día de la semana",
       "MONTH_DAYS": "Debe indicar al menos un día del mes"
-    }
+    },
+    "AIRPORT_SEARCHER": "Buscador de aeropuertos",
+    "SELECT_AIRPORT": "Selecciona un aeropuerto para añadirlo al 'Código de ruta'"
   },
   "FREQUENCIES": {
     "UNITS": {
