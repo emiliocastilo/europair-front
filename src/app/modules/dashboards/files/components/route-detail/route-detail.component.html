@@ -18,7 +18,7 @@
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
       <form [formGroup]="routeForm" (ngSubmit)="generateFlights()">
-        <div class="row">
+        <div class="row cmd-mb-2">
           <app-input-mask
             [prefix]="'ROUTES.ROUTE_CODE' | translate"
             class="col s12 l8"
@@ -59,6 +59,26 @@
             [itemDescription]="'label'"
             [itemValue]="'value'"
             formControlName="frequency"
+          >
+          </core-select>
+        </div>
+        <div class="row">
+          <core-select
+            [label]="'ROUTES.AIRPORT_SEARCHER' | translate"
+            [id]="'search-airport'"
+            [items]="airports$ | async"
+            [minTermLength]="1"
+            [loading]="airportsLoading"
+            [clearable]="false"
+            class="col s12 l12 cmd-mb-1"
+            [typeToSearchText]="
+              'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
+            "
+            [placeholder]="'ROUTES.SELECT_AIRPORT' | translate"
+            [typeahead]="airportsInput$"
+            [searchable]="true"
+            [notFoundText]="'COMMON.NOT_FOUND' | translate"
+            [formControl]="airportsControl"
           >
           </core-select>
         </div>
