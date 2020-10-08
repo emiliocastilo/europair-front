@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { SESSION_STORAGE_KEYS } from 'src/app/core/models/session-storage-keys';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class PageBarComponent implements OnInit {
   constructor(private _authService: AuthService, private _router: Router) {}
 
   ngOnInit(): void {
-    this.userName = sessionStorage.getItem('USER-NAME');
+    this.userName = sessionStorage.getItem(SESSION_STORAGE_KEYS.USER_NAME);
   }
 
   public logout(): void {

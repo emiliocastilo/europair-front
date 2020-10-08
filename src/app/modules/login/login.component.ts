@@ -6,6 +6,10 @@ import {
   InputTextIcon,
   InputTextIconPositions,
 } from 'src/app/core/models/basic/input-text/input-text-icon';
+import { OAuthErrorEvent, OAuthService } from 'angular-oauth2-oidc';
+import { oAuthConfig } from 'src/app/core/models/auth.config';
+import { SESSION_STORAGE_KEYS } from 'src/app/core/models/session-storage-keys';
+import { LOGIN_TYPES } from './models/login-types';
 
 @Component({
   selector: 'login',
@@ -20,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _oauthService: OAuthService
   ) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -39,7 +44,7 @@ export class LoginComponent implements OnInit {
     };
   }
 
-  public onLogin() {
+  public onExternalLogin() {
     console.log(this.loginForm.value);
     this._authService
       .login(this.loginForm.value)
@@ -47,10 +52,27 @@ export class LoginComponent implements OnInit {
   }
 
   private setTokenOnSessionStorage = (response) => {
-    sessionStorage.setItem('AUTH-TOKEN', response.jwtToken);
-    sessionStorage.setItem('USER-NAME', this.userNameControl.value);
-    this._router.navigate(['/tasks']);
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.AUTH_TOKEN, response.jwtToken);
+    sessionStorage.setItem(
+      SESSION_STORAGE_KEYS.USER_NAME,
+      this.userNameControl.value
+    );
+    sessionStorage.setItem(
+      SESSION_STORAGE_KEYS.LOGIN_TYPE,
+      LOGIN_TYPES.INTERNAL
+    );
+    this._router.navigate([this._authService.getRedirectLoginUrl()]);
   };
+
+  public onAzureLogin() {
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.LOGIN_TYPE, LOGIN_TYPES.OAUTH);
+    this._oauthService.configure(oAuthConfig);
+    if (this._oauthService.hasValidAccessToken()) {
+      this._router.navigate([this._authService.getRedirectLoginUrl()]);
+    } else {
+      this._oauthService.loadDiscoveryDocumentAndLogin();
+    }
+  }
 
   private get userNameControl(): AbstractControl {
     return this.loginForm.get('username');

@@ -29,6 +29,10 @@
   align-items: center;
 }
 
+.azure-login-btn {
+  background-color: #fff;
+}
+
 @media #{$medium-and-up} {
   .card {
     max-width: 70%;

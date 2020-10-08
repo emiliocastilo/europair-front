@@ -8,12 +8,14 @@ import {
   Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SESSION_STORAGE_KEYS } from '../models/session-storage-keys';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private _router: Router) {}
+  constructor(private _router: Router, private _authService: AuthService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -23,11 +25,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const token: string = sessionStorage.getItem('AUTH-TOKEN');
-    if (token) {
+    if (this._authService.isLoggedIn()) {
       return true;
     } else {
-      return this._router.parseUrl('login');
+      this._authService.setRedirectLoginUrl(state.url);
+      return this._router.parseUrl('/login');
     }
   }
   canActivateChild(
@@ -38,11 +40,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    const token: string = sessionStorage.getItem('AUTH-TOKEN');
-    if (token) {
+    if (this._authService.isLoggedIn()) {
       return true;
     } else {
-      return this._router.parseUrl('login');
+      this._authService.setRedirectLoginUrl(state.url);
+      return this._router.parseUrl('/login');
     }
   }
 }
