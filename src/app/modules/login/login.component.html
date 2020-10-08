@@ -18,8 +18,13 @@
               </div>
             </div>
             <div class="card-action">
-              <button type="submit" (click)="onLogin()" class="waves-effect waves-light btn-large europair-icon-blue-1">
+              <button type="submit" (click)="onExternalLogin()" class="waves-effect waves-light btn-large europair-icon-blue-1">
                 <i class="material-icons">play_circle_outline</i>
+                <span class="full-width-btn-text">Login</span>
+              </button>
+              <h3 class="center-align cmd-mt-1">O usa tu cuenta de Microsoft</h3>
+              <button (click)="onAzureLogin()" type="button" class="waves-effect waves-light btn-large europair-icon-blue-1">
+                <img src="assets/images/microsoft-logo.svg" />
                 <span class="full-width-btn-text">Login</span>
               </button>
             </div>

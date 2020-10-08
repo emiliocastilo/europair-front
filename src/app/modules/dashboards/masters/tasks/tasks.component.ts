@@ -105,7 +105,7 @@ export class TasksComponent implements OnInit {
     private taskService: TasksService,
     private taskTableAdapterService: TasksTableAdapterService,
     private fb: FormBuilder,
-    private translateService: TranslateService
+    private translateService: TranslateService,
   ) { }
 
   ngOnInit(): void {
