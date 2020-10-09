@@ -46,13 +46,13 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
     route: ['', Validators.required],
     rotation: ['', Validators.required],
     flights: [[]],
-    code: ['', Validators.required],
     description: ['', Validators.required],
     quantity: ['', [Validators.required, Validators.min(1)]],
     provider: ['', Validators.required],
     purchasePrice: ['', [Validators.required, Validators.min(0)]],
     salePrice: ['', [Validators.required, Validators.min(0)]],
-    services: ['', Validators.required]
+    services: ['', Validators.required],
+    observation: ['']
   });
 
   constructor(
@@ -86,12 +86,14 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
 
   private obtainRoute(): void {
     this.fileRouteService.getFileRoutes(this.fileId)
-      .subscribe((filePage: Page<FileRoute>) => this.routes = filePage.content);
-  }
-
-  private obtainProviders(): void {
-    this.providerService.getProviders()
-      .subscribe((providerPage: Page<Provider>) => this.providers = providerPage.content);
+      .subscribe((filePage: Page<FileRoute>) => {
+        this.routes = filePage.content;
+        if (this.routes?.length === 1) {
+          const routeId: number = this.routes[0].id;
+          this.additionalServicesForm.get('route').setValue(routeId);
+          this.obtainRotation(routeId);
+        }
+      });
   }
 
   public obtainRotation(routeId: number): void {
@@ -110,12 +112,18 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
     this.rotationId = rotationId;
     this.flightService.getFlights(this.fileId, this.rotationId)
       .subscribe((flightsPage: Page<Flight>) => {
-        this.flights = flightsPage.content;
+        this.flights = flightsPage.content
+          .map((flight: Flight) => { return { ...flight, description: `${flight.origin} - ${flight.destination}` } });
         this.additionalServicesForm.get('flights').reset();
         if (this.flights?.length === 1) {
           this.additionalServicesForm.get('flights').setValue([this.flights[0].id]);
         }
       });
+  }
+
+  private obtainProviders(): void {
+    this.providerService.getProviders()
+      .subscribe((providerPage: Page<Provider>) => this.providers = providerPage.content);
   }
 
   private loadServices(): void {
@@ -144,14 +152,14 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
       return;
     }
     const additionalService: AdditionalService = {
-      code: this.additionalServicesForm.get('code').value,
       description: this.additionalServicesForm.get('description').value,
       providerId: this.additionalServicesForm.get('provider').value,
       purchasePrice: this.additionalServicesForm.get('purchasePrice').value,
       salePrice: this.additionalServicesForm.get('salePrice').value,
       quantity: this.additionalServicesForm.get('quantity').value,
       serviceId: this.additionalServicesForm.get('services').value.id,
-      flightIdList: this.additionalServicesForm.get('flights').value
+      flightIdList: this.additionalServicesForm.get('flights').value,
+      comment: this.additionalServicesForm.get('observation').value
     };
     this.additionalServicesService.createAdditionalService(this.fileId, this.rotationId, additionalService)
       .subscribe(() => {
@@ -159,7 +167,6 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
         this.isLoading = false;
       }, () => this.isLoading = false, () => this.isLoading = false);
   }
-
 
   public getReturnRoute() {
     return `/files/${this.fileId}`;

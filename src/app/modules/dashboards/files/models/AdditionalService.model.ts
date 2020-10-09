@@ -2,7 +2,6 @@ import { FileStatus, Provider } from './File.model';
 
 export interface AdditionalService {
     id?: number;
-    code?: string;
     serviceId?: number;
     flightIdList?: Array<number>;
     flightId?: number;
