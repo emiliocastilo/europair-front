@@ -28,7 +28,7 @@
       </core-select>
       <core-select class="col s12 l4" [items]="flights"
         [placeholder]="'FILES.ADDITIONAL_SERVICES.FLIGHTS_PLACEHOLDER' | translate" [searchable]="true"
-        [multiple]="true" [itemDescription]="'destination'" [itemValue]="'id'" formControlName="flights">
+        [multiple]="true" [itemDescription]="'description'" [itemValue]="'id'" formControlName="flights">
         <ng-container inputErrors *ngIf="hasControlAnyError('flights')">
           <span *ngIf="hasControlSpecificError('flights', 'required')" class="helper-text"
             [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
@@ -37,30 +37,34 @@
       </core-select>
     </div>
     <div class="row">
-      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.CODE' | translate" [hasErrors]="hasControlAnyError('code')"
-        formControlName="code" class="col s12 l4">
-        <ng-container inputErrors *ngIf="hasControlAnyError('code')">
-          <mat-error *ngIf="hasControlSpecificError('code', 'required')" class="ep-error-msg">
-            {{ "FILES.ERRORS.REQUIRED" | translate }}
-          </mat-error>
+      <core-select [label]="'FILES.ADDITIONAL_SERVICES.SERVICES' | translate" [id]="'search-aircraft-subcategory'"
+        [items]="services$ | async" [minTermLength]="1" [loading]="servicesLoading" class="col s12 l4 cmd-mb-1"
+        [typeToSearchText]="'FILES.ADDITIONAL_SERVICES.SERVICES_SEARCH_TEXT' | translate"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.SELECT_SERVICES' | translate" [itemDescription]="'code'"
+        [hasErrors]="hasControlAnyError('services')" [typeahead]="servicesInput$" [searchable]="true"
+        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="services">
+        <ng-container inputErrors *ngIf="hasControlAnyError('services')">
+          <span *ngIf="hasControlSpecificError('services', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
         </ng-container>
-      </app-input>
-      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.DESCRIPTION' | translate"
-        [hasErrors]="hasControlAnyError('description')" formControlName="description" class="col s12 l4">
-        <ng-container inputErrors *ngIf="hasControlAnyError('description')">
-          <mat-error *ngIf="hasControlSpecificError('description', 'required')" class="ep-error-msg">
-            {{ "FILES.ERRORS.REQUIRED" | translate }}
-          </mat-error>
-        </ng-container>
-      </app-input>
+      </core-select>
       <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.QUANTITY' | translate"
-        [hasErrors]="hasControlAnyError('quantity')" formControlName="quantity" [type]="'number'" class="col s12 l4">
+        [hasErrors]="hasControlAnyError('quantity')" formControlName="quantity" [type]="'number'" class="col s12 l2">
         <ng-container inputErrors *ngIf="hasControlAnyError('quantity')">
           <mat-error *ngIf="hasControlSpecificError('quantity', 'required')" class="ep-error-msg">
             {{ "FILES.ERRORS.REQUIRED" | translate }}
           </mat-error>
           <mat-error *ngIf="hasControlSpecificError('quantity', 'min')" class="ep-error-msg">
             {{ "FILES.ERRORS.MIN_VALUE_0" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.DESCRIPTION' | translate"
+        [hasErrors]="hasControlAnyError('description')" formControlName="description" class="col s12 l6">
+        <ng-container inputErrors *ngIf="hasControlAnyError('description')">
+          <mat-error *ngIf="hasControlSpecificError('description', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
           </mat-error>
         </ng-container>
       </app-input>
@@ -100,21 +104,18 @@
       </app-input>
     </div>
     <div class="row">
-      <core-select [label]="'FILES.ADDITIONAL_SERVICES.SERVICES' | translate" [id]="'search-aircraft-subcategory'"
-        [items]="services$ | async" [minTermLength]="1" [loading]="servicesLoading" class="col s12 l12 cmd-mb-1"
-        [typeToSearchText]="'FILES.ADDITIONAL_SERVICES.SERVICES_SEARCH_TEXT' | translate"
-        [placeholder]="'FILES.ADDITIONAL_SERVICES.SELECT_SERVICES' | translate"
-        [hasErrors]="hasControlAnyError('services')" [typeahead]="servicesInput$" [searchable]="true"
-        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="services">
-        <ng-container inputErrors *ngIf="hasControlAnyError('services')">
-          <span *ngIf="hasControlSpecificError('services', 'required')" class="helper-text"
-            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
-          </span>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.OBSERVATION' | translate"
+        [hasErrors]="hasControlAnyError('observation')" formControlName="observation" class="col s12 l12">
+        <ng-container inputErrors *ngIf="hasControlAnyError('observation')">
+          <mat-error *ngIf="hasControlSpecificError('observation', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
         </ng-container>
-      </core-select>
+      </app-input>
     </div>
     <div class="row">
-      <button class="col s12 l2 offset-l9 browser-default" color="primary" type="submit" [disabled]="isLoading" mat-stroked-button>
+      <button class="col s12 l2 offset-l9 browser-default" color="primary" type="submit" [disabled]="isLoading"
+        mat-stroked-button>
         {{ "FILES.ADDITIONAL_SERVICES.CREATE" | translate }}
       </button>
     </div>
