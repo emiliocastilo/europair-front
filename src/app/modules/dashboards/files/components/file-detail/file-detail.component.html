@@ -395,7 +395,7 @@
           <mat-panel-title>
             {{ "FILES.ADDITIONAL_SERVICES.TITLE" | translate | sentenceCase }}
           </mat-panel-title>
-          <mat-panel-description *ngIf="additionalServices.expanded">
+          <mat-panel-description *ngIf="additionalServices.expanded && hasRoutes">
             <a mat-button routerLink="additional-services">
               {{ "FILES.ADDITIONAL_SERVICES.NEW" | translate | sentenceCase }}
               <mat-icon svgIcon="europair_add"></mat-icon>

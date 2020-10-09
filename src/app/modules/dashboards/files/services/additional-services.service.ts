@@ -21,10 +21,10 @@ export class AdditionalServiceService {
     private searchFilterService: SearchFilterService
   ) { }
 
-  public getAdditionalServices(fileId: number, routeId: number, searchFilter: SearchFilter = {}): Observable<Page<AdditionalService>> {
+  public getAdditionalServices(fileId: number, routeId: number, flightId: number, searchFilter: SearchFilter = {}): Observable<Page<AdditionalService>> {
     const url: string = this.mocked
       ? '/assets/mocks/**.json'
-      : `${this.url}/${fileId}/routes/${routeId}/flights/services`;
+      : `${this.url}/${fileId}/routes/${routeId}/flights/${flightId}/services`;
     return this.http.get<Page<AdditionalService>>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,
