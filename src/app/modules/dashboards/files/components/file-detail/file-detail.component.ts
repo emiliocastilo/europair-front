@@ -100,8 +100,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'status',
     'actions',
   ];
+  public columnsAdditionalServicesToDisplay = ['code', 'description', 'quantity', 'provider', 'purchasePrice', 'salePrice', 'tax', 'commision', 'comment', 'seller', 'status'];
 
   public dataSource = new MatTableDataSource();
+  public dataSourceAdditionalService = new MatTableDataSource();
   public expandedElements: FileRoute[] = [];
   public resultsLength = 0;
   public pageSize = 0;
@@ -243,6 +245,13 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.resultsLength = data.totalElements;
         this.pageSize = data.size;
       });
+/* FIXME: Aclarar que hay que mostrar
+    this.additionalServiceService.getAdditionalServices(this.fileData.id, this.route).subscribe((data: Page<Services>) => {
+      this.dataSource = new MatTableDataSource(data.content);
+      this.dataSource.sort = this.matSortAdditionalService;
+      this.resultsLength = data.totalElements;
+      this.pageSize = data.size;
+    });*/
   }
 
   public onSaveFile(update: boolean) {
@@ -309,9 +318,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     event.preventDefault();
     event.stopPropagation();
     if (isPlane) {
-      this.router.navigate(['/files/search/aircraft'], {
-        queryParams: { routeId: id },
-      });
+      this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
     }
   }
 

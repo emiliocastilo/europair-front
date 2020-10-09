@@ -23,7 +23,7 @@ const routes: Routes = [
         data: { title: 'Nuevo Expediente', isFileDetail: false },
       },
       {
-        path: 'search/aircraft',
+        path: 'search-aircraft/:fileId/:routeId',
         loadChildren: () => import('./components/search-aircraft/search-aircraft.module').then((m) => m.SearchAircraftModule)
       },
       {

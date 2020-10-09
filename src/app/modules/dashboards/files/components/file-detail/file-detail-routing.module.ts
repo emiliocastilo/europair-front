@@ -20,6 +20,14 @@ const routes: Routes = [
       ),
     data: { title: 'Editar Ruta', isRouteDetail: false },
   },
+  {
+    path: 'additional-services',
+    loadChildren: () =>
+      import('../additional-services/additional-services.module').then(
+        (m) => m.AditionalServicesModule
+      ),
+    data: { title: 'NEW', isRouteDetail: false },
+  }
 ];
 
 @NgModule({
