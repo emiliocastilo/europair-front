@@ -126,7 +126,7 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
         distinctUntilChanged(),
         tap(() => (this.servicesLoading = true)),
         switchMap((term: string) =>
-          this.servicesService.getServices({filter_name: term}).pipe(
+          this.servicesService.getServices({ filter_name: term }).pipe(
             map((page: Page<Services>) => page.content),
             catchError(() => of([])), // empty list on error
             tap(() => (this.servicesLoading = false))
@@ -145,24 +145,19 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
     }
     const additionalService: AdditionalService = {
       code: this.additionalServicesForm.get('code').value,
-      // comment: this.additionalServicesForm.get('comment').value,
-      // commision: this.additionalServicesForm.get('commision').value,
       description: this.additionalServicesForm.get('description').value,
-      provider: {id: this.additionalServicesForm.get('provider').value},
+      providerId: this.additionalServicesForm.get('provider').value,
       purchasePrice: this.additionalServicesForm.get('purchasePrice').value,
       salePrice: this.additionalServicesForm.get('salePrice').value,
       quantity: this.additionalServicesForm.get('quantity').value,
-      // seller: this.additionalServicesForm.get('seller').value,
-      // status: this.additionalServicesForm.get('status').value,
-      // tax: this.additionalServicesForm.get('tax').value,
       serviceId: this.additionalServicesForm.get('services').value.id,
       flightIdList: this.additionalServicesForm.get('flights').value
     };
     this.additionalServicesService.createAdditionalService(this.fileId, this.rotationId, additionalService)
-    .subscribe(() => {
-      this.router.navigate([this.getReturnRoute()]);
-      this.isLoading = false;
-    },() => this.isLoading = false, () => this.isLoading = false);
+      .subscribe(() => {
+        this.router.navigate([this.getReturnRoute()]);
+        this.isLoading = false;
+      }, () => this.isLoading = false, () => this.isLoading = false);
   }
 
 

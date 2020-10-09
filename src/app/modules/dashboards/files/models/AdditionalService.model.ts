@@ -9,6 +9,7 @@ export interface AdditionalService {
     description?: string;
     quantity?: number;
     provider?: Provider;
+    providerId?: number;
     purchasePrice?: number;
     salePrice?: number;
     tax?: number;
