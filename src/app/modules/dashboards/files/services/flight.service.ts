@@ -33,14 +33,14 @@ export class FlightService {
     });
   }
 
-  public createFlight(fileId: number, routeId: number, flight: Array<Flight>): Observable<void> {
+  public createFlight(fileId: number, routeId: number, flight: Flight): Observable<Flight> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/flights`;
-    return this.http.post<void>(url, flight);
+    return this.http.post<Flight>(url, flight);
   }
 
-  public updateFlight(fileId: number, routeId: number, flight: Flight): Observable<void> {
+  public updateFlight(fileId: number, routeId: number, flight: Flight): Observable<Flight> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/flights/${flight.id}`;
-    return this.http.put<void>(url, flight);
+    return this.http.put<Flight>(url, flight);
   }
 
   public deleteFlight(fileId: number, routeId: number, flight: Flight): Observable<void> {

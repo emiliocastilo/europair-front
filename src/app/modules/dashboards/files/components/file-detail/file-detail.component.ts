@@ -308,11 +308,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   ): void {
     event.preventDefault();
     event.stopPropagation();
-    if (isPlane) {
-      this.router.navigate(['/files/search/aircraft'], {
-        queryParams: { routeId: id },
-      });
-    }
+  }
+
+  public navigateToSearchAircraft(id: number) {
+    this.router.navigate(['/files/search/aircraft'], {
+      queryParams: { routeId: id },
+    });
+  }
+
+  public editRotation(route: FileRoute, rotation: FileRoute) {
+    this.router.navigate(['routes', route.id, 'rotations', rotation.id], {relativeTo: this.route})
   }
 
   public hasControlAnyError(controlName: string): boolean {

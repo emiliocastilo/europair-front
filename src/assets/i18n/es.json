@@ -489,6 +489,27 @@
     "AIRPORT_SEARCHER": "Buscador de aeropuertos",
     "SELECT_AIRPORT": "Selecciona un aeropuerto para añadirlo al 'Código de ruta'"
   },
+  "ROTATIONS": {
+    "ORIGIN_AIRPORT": "Aeropuerto origen",
+    "DESTINATION_AIRPORT": "Aeropuerto destino",
+    "DEPARTURE_DATE": "Fecha salida",
+    "DEPARTURE_TIME": "Hora salida",
+    "SEATS_F": "Asientos F",
+    "SEATS_C": "Asientos C",
+    "SEATS_Y": "Asientos Y",
+    "BEDS": "Camas",
+    "STRECHERS": "Camillas",
+    "TIME_ZONE": "Zona horaria",
+    "FLIGHTS": "Vuelos",
+    "FLIGHT_DATA": "Datos vuelo",
+    "ERRORS": {
+      "DEPARTURE_DATE": "Debe indicar una fecha de salida",
+      "DEPARTURE_DATE_BF_LIMIT": "No puede ser anterior a la fecha de inicio de la rotación",
+      "DEPARTURE_TIME": "Debe indicar una hora de salida",
+      "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
+      "TIME_ZONE": "Debe indicar una zona horaria"
+    }
+  },
   "FREQUENCIES": {
     "UNITS": {
       "ADHOC": "ADHOC",

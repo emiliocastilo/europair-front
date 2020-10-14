@@ -1,0 +1,315 @@
+<core-page-bar [pageTitle]="pageTitle | translate"></core-page-bar>
+
+<button
+  color="primary"
+  class="cmd-mb-2"
+  mat-raised-button
+  [routerLink]="getReturnRoute()"
+>
+  {{ "COMMON.RETURN" | translate }}
+</button>
+
+<mat-accordion multi>
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header class="cmd-mb-2">
+      <mat-panel-title>
+        {{ "COMMON.GENERAL_DATA" | translate | sentenceCase }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <form [formGroup]="rotationForm">
+        <div class="row cmd-mb-2">
+          <app-input-mask
+            [prefix]="'ROUTES.ROUTE_CODE' | translate"
+            class="col s12 l8"
+            formControlName="label"
+          >
+          </app-input-mask>
+          <core-select
+            class="col s12 l4"
+            [items]="frequencyList"
+            [placeholder]="'ROUTES.FREQUENCY' | translate"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
+            formControlName="frequency"
+          >
+          </core-select>
+        </div>
+        <div class="row">
+          <app-input
+            [type]="'date'"
+            [prefix]="'ROUTES.START_DATE' | translate"
+            formControlName="startDate"
+            class="col s12 l4"
+          >
+          </app-input>
+          <app-input
+            [type]="'date'"
+            [prefix]="'ROUTES.END_DATE' | translate"
+            formControlName="endDate"
+            class="col s12 l4"
+          >
+          </app-input>
+        </div>
+        <div class="row">
+          <core-select
+            class="col s12 l4"
+            [items]="weekDaysList"
+            [placeholder]="'ROUTES.WEEKDAYS' | translate"
+            [isDisabled]="isControlDisabled('weekdays')"
+            [multiple]="true"
+            [dropdownPosition]="'top'"
+            [itemDescription]="'label'"
+            [itemValue]="'value'"
+            formControlName="weekdays"
+          >
+          </core-select>
+          <core-select
+            class="col s12 l4"
+            [items]="monthDaysList"
+            [placeholder]="'ROUTES.MONTH_DAYS' | translate"
+            [isDisabled]="isControlDisabled('monthDays')"
+            [multiple]="true"
+            [dropdownPosition]="'top'"
+            formControlName="monthDays"
+          >
+          </core-select>
+        </div>
+      </form>
+    </ng-template>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel
+    class="cmd-mb-3"
+    expanded="true"
+    *ngIf="this.paginatorLength > 0"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "ROTATIONS.FLIGHTS" | translate | sentenceCase }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="table-container">
+      <mat-table #flightsTable [dataSource]="dataSource">
+        <ng-container
+          [matColumnDef]="column.label"
+          *ngFor="let column of columnsToDisplay"
+        >
+          <mat-header-cell *matHeaderCellDef>
+            {{ column.title }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <ng-container *ngIf="column.isCheckbox; else textCell">
+              <mat-checkbox
+                color="primary"
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(element) : null"
+                [checked]="selection.isSelected(element)"
+              ></mat-checkbox>
+            </ng-container>
+            <ng-template #textCell>
+              {{ element[column.label] }}
+            </ng-template>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsProps"></mat-header-row>
+        <mat-row
+          *matRowDef="let row; columns: columnsProps"
+          (click)="onFlightSelected(row)"
+          [ngClass]="{ 'selected-row': selection.isSelected(row) }"
+        ></mat-row>
+      </mat-table>
+      <mat-paginator
+        [length]="this.paginatorLength"
+        [pageSize]="this.paginatorSize"
+        [pageSizeOptions]="[10, 20, 50]"
+        (page)="onPage($event)"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel expanded="true" *ngIf="selectedFlight">
+    <mat-expansion-panel-header class="cmd-mb-2">
+      <mat-panel-title>
+        {{ "ROTATIONS.FLIGHT_DATA" | translate | sentenceCase }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+      <div class="row">
+        <app-input
+          [prefix]="'ROTATIONS.ORIGIN_AIRPORT' | translate"
+          formControlName="origin"
+          class="col s12 l6 cmd-pb-1"
+        >
+        </app-input>
+        <app-input
+          [prefix]="'ROTATIONS.DESTINATION_AIRPORT' | translate"
+          formControlName="destination"
+          class="col s12 l6 cmd-pb-1"
+        >
+        </app-input>
+        <app-input
+          [type]="'date'"
+          [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate"
+          formControlName="departureDate"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('departureDate', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
+            </mat-error>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="
+                hasControlSpecificError('departureDate', 'dateBeforeLimit')
+              "
+            >
+              {{ "ROTATIONS.ERRORS.DEPARTURE_DATE_BF_LIMIT" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [type]="'time'"
+          [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate"
+          formControlName="departureTime"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('departureTime', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <core-select
+          [items]="timeZones$ | async"
+          [id]="'type-category'"
+          [label]="'AIRPORTS.TIMEZONE' | translate"
+          [searchable]="true"
+          [placeholder]="'AIRPORTS.SELECT_TIMEZONE' | translate"
+          [itemValue]="'name'"
+          [itemDescription]="'description'"
+          [hasErrors]="hasControlAnyError('timeZone')"
+          formControlName="timeZone"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('timeZone')">
+            <span
+              *ngIf="hasControlSpecificError('timeZone', 'required')"
+              class="helper-text"
+              [attr.data-error]="'ROTATIONS.ERRORS.TIME_ZONE' | translate"
+            >
+            </span>
+          </ng-container>
+        </core-select>
+      </div>
+      <div class="row">
+        <app-input
+          [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
+          [hasErrors]="hasControlAnyError('seatsF')"
+          formControlName="seatsF"
+          [type]="'number'"
+          [defaultValue]="'0'"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('seatsF', 'min')"
+            >
+              {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate"
+          [hasErrors]="hasControlAnyError('seatsC')"
+          formControlName="seatsC"
+          [type]="'number'"
+          [defaultValue]="'0'"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('seatsC', 'min')"
+            >
+              {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate"
+          [hasErrors]="hasControlAnyError('seatsY')"
+          formControlName="seatsY"
+          [type]="'number'"
+          [defaultValue]="'0'"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('seatsY', 'min')"
+            >
+              {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [prefix]="'SEARCH_AIRCRAFT.BEDS' | translate"
+          [hasErrors]="hasControlAnyError('beds')"
+          formControlName="beds"
+          [type]="'number'"
+          [defaultValue]="'0'"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('beds', 'min')"
+            >
+              {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+
+        <app-input
+          [prefix]="'SEARCH_AIRCRAFT.STRETCHERS' | translate"
+          [hasErrors]="hasControlAnyError('stretchers')"
+          formControlName="stretchers"
+          [type]="'number'"
+          [defaultValue]="'0'"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container inputErrors>
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('stretchers', 'min')"
+            >
+              {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+      </div>
+      <div class="row">
+        <button
+          type="submit"
+          color="primary"
+          class="cmd-mb-2"
+          mat-raised-button
+        >
+          {{ "COMMON.SAVE" | translate | titlecase }}
+        </button>
+      </div>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>
