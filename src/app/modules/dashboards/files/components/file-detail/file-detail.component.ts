@@ -18,12 +18,13 @@ import {
   FormGroup,
   FormGroupDirective,
   NgForm,
-  Validators,
+  ValidationErrors,
 } from '@angular/forms';
 import {
   FileRoute,
   DAYS_LIST,
   FrequencyDay,
+  RouteStatus,
 } from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -44,11 +45,10 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { Client, File, FileStatus } from '../../models/File.model';
+import { Client, File, FileStatus, FileStatusCode } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
 import { AdditionalServiceService } from '../../services/additional-services.service';
-import { Services } from '../../models/Services.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -63,6 +63,14 @@ export class FileErrorStateMatcher implements ErrorStateMatcher {
       (control.dirty || control.touched || isSubmitted)
     );
   }
+}
+
+enum FileAction {
+  CONFIRM_OPERATION = 'CONFIRM_OPERATION',
+  CREATE_ROUTES = 'CREATE_ROUTES',
+  CREATE_CONTRACT = 'CREATE_CONTRACT',
+  MODIFY_FILE = 'MODIFY_FILE',
+  SIGN_FILE = 'SIGN_FILE'
 }
 @Component({
   selector: 'app-file-detail',
@@ -79,6 +87,7 @@ export class FileErrorStateMatcher implements ErrorStateMatcher {
     ]),
   ],
 })
+
 export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatTable) expandedTable: MatTable<any>;
@@ -86,8 +95,12 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   private readonly confirmOperationModal: ElementRef;
 
   public fileData: File;
+  public routes: Array<FileRoute>;
   public routeData$: Observable<Data>;
-  public pageTitle: string;
+  public pageTitle: string; 
+
+  public fileStatus: typeof FileStatusCode = FileStatusCode;
+  public fileAction: typeof FileAction = FileAction;
 
   public columnsToDisplay = [
     'label',
@@ -116,19 +129,20 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
-    code: ['', Validators.required],
+    code: [''],
     description: [''],
     status: [''],
     client: [''],
-    statusId: [''],
+    statusId: ['', this.validatorRequiredEditMode.bind(this)],
     clientId: [''],
   });
 
-  public statusOptions$: Observable<FileStatus[]>;
+  public statusOptions: FileStatus[] = [];
   public clientOptions$: Observable<Client[]>;
 
   public matcher = new FileErrorStateMatcher();
 
+  private isFileDetail: boolean;
   constructor(
     private modalService: ModalService,
     private fb: FormBuilder,
@@ -145,27 +159,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
-    this.loadStatus();
     this.loadClients();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
-  }
-
-  // TODO: Improve status statusId relation
-  private loadStatus(): void {
-    this.fileForm
-      .get('status')
-      .valueChanges.pipe(
-        startWith(''),
-        debounceTime(500),
-        distinctUntilChanged()
-      )
-      .subscribe((term) => {
-        if (typeof term === 'string') {
-          this.statusOptions$ = term ? this.getFilteredStatus(term) : of([]);
-        } else {
-          this.fileForm.get('statusId').setValue(term.id);
-        }
-      });
   }
 
   // TODO: Improve client clientId relation
@@ -184,21 +179,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
           this.fileForm.get('clientId').setValue(term.id);
         }
       });
-  }
-
-  private getFilteredStatus(term: string): Observable<FileStatus[]> {
-    const filter = {};
-    return this.fileStatusService.getStatus(filter).pipe(
-      map((page: Page<FileStatus>) => page.content),
-      map((response) =>
-        response.filter((p) => {
-          return (
-            p.code.toUpperCase().includes(term.toUpperCase()) ||
-            p.name.toUpperCase().includes(term.toUpperCase())
-          );
-        })
-      )
-    );
   }
 
   private getFilteredClients(term: string): Observable<Client[]> {
@@ -221,6 +201,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public initFileData = ({ isFileDetail }): void => {
+    this.isFileDetail = isFileDetail;
     if (isFileDetail) {
       this.route.params
         .pipe(
@@ -239,21 +220,31 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.fileData = file;
     this.fileForm.patchValue({
       ...file,
+      status: file.status?.id
     });
 
+    this.loadStatus();
+    this.loadFileRoutes(file);
+  }
+
+  private loadStatus(): void {
+    this.fileStatusService.getAvailableStatus(this.fileData?.status)
+      .subscribe((fileStatus: Page<FileStatus>) => this.statusOptions = fileStatus.content);
+  }
+
+  private loadFileRoutes(file: File) {
     this.fileRoutesService
       .getFileRoutes(file.id)
       .subscribe((data: Page<FileRoute>) => {
         this.dataSource = new MatTableDataSource(data.content);
+        this.routes = data.content;
         this.dataSource.sort = this.sort;
         this.resultsLength = data.totalElements;
         this.pageSize = data.size;
         this.hasRoutes = data.totalElements > 0;
-        /*if (this.hasRoutes) {
-          this.obtainAdditionalServices(data.content[0].id, data.content[0].rotations[0].);
-        }*/
       });
   }
+
   /**
   private obtainAdditionalServices(routeId: number, flightId: number): void {
     this.additionalServicesService.getAdditionalServices(this.fileData.id, routeId, flightId).subscribe((data: Page<Services>) => {
@@ -289,7 +280,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         if (!update) {
           this.router.navigate([`/files/${resp.id}`]);
         } else {
-          this.getFileData(resp);
+          this.fileService.getFileById(this.fileData.id).subscribe((resp: File) => this.getFileData(resp));
         }
       });
     }
@@ -359,14 +350,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return true;
   }
 
-  public saveObservation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength),
-    };
-    this.fileService.saveFile(file).subscribe();
-  }
-
   public openConfirmOperationModal(): void {
     this.modalService.initializeModal(this.confirmOperationModal, {
       dismissible: false,
@@ -374,15 +357,74 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.modalService.openModal();
   }
 
+  public createContract(): void {
+    // TODO: nothing yet
+  }
+
+  public signFile(): void {
+    // TODO: nothing yet
+  }
+
+  public saveObservation(): void {
+    const file: File = {
+      id: this.fileData.id,
+      observation: this.observations?.slice(0, this.observationMaxLength)
+    };
+    this.fileService.saveFile(file).subscribe();
+  }
+
   public onConfirmOperation(): void {
     const file: File = {
       id: this.fileData.id,
-      observation: this.observations?.slice(
-        0,
-        this.observationMaxLength
-      ) /*,
-      status: {id: 1, code: '', name: ''}*/,
+      observation: this.observations?.slice(0, this.observationMaxLength)/**,
+       status: */
     };
     this.fileService.saveFile(file).subscribe();
+  }
+
+  public showAction(action: FileAction): boolean {
+    let show: boolean;
+    const fileStatus: FileStatusCode = this.fileData?.status?.code;
+    switch (action) {
+      case FileAction.CONFIRM_OPERATION:
+        show = fileStatus === FileStatusCode.GREEN_BOOKED;
+        break;
+      case FileAction.CREATE_ROUTES:
+        show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
+        break;
+      case FileAction.CREATE_CONTRACT:
+        show = this.routes?.filter((fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON).length > 0;
+        break;
+      case FileAction.MODIFY_FILE:
+        show = fileStatus !== FileStatusCode.CNX;
+        break;
+      case FileAction.SIGN_FILE:
+        show = fileStatus === FileStatusCode.BLUE_BOOKED;
+        break;
+      default:
+        show = false;
+        break;
+    }
+    return show;
+  }
+
+  public isBookedGreen(): boolean{
+    const statusId = this.fileForm?.get('statusId').value;
+    return this.statusOptions.find((status: FileStatus) => status.id === statusId)?.code === 'GREEN_BOOKED';
+  }
+
+  public isBookedBlue(): boolean{
+    const statusId = this.fileForm?.get('statusId').value;
+    return this.statusOptions.find((status: FileStatus) => status.id === statusId)?.code === 'BLUE_BOOKED';
+  }
+
+  private validatorRequiredEditMode(formControl: FormControl): ValidationErrors {
+    let error: ValidationErrors = null;
+    if((!formControl || !formControl.value) && this.isFileDetail) {
+      error = {
+        required: true
+      };
+    }
+    return error;
   }
 }

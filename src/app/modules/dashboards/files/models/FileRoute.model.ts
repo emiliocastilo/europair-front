@@ -6,6 +6,7 @@ export interface FileRoute {
   initialDate: Date;
   endDate: Date;
   rotations: FileRoute[];
+  status?: RouteStatus;
 }
 
 export interface FrequencyDay {
@@ -49,3 +50,10 @@ export const DAYS_LIST = [
   DayOfWeek.SATURDAY,
   DayOfWeek.SUNDAY,
 ];
+
+export enum RouteStatus {
+  SALES = "SALES",
+  WON = "WON",
+  LOST = "LOST",
+  LOST_EXPIRED = "LOST_EXPIRED"
+}

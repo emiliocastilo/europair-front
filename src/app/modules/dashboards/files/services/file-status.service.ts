@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -8,7 +8,7 @@ import {
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { FileStatus } from '../models/File.model';
+import { File, FileStatus, FileStatusCode } from '../models/File.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +35,11 @@ export class FileStatusService {
         this.filterOptions
       ),
     });
+  }
+
+  public getAvailableStatus(fileStatus: FileStatus): Observable<Page<FileStatus>> {
+    const url: string = this.mocked ? '/assets/mocks/file-status.json' : this.url;
+    const params = new HttpParams().set('fileStatusId', fileStatus.id.toString());
+    return this.http.get<Page<FileStatus>>(url, { params });
   }
 }

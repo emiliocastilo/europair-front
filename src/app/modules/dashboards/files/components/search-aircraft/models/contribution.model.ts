@@ -23,5 +23,5 @@ export enum ContributionStates {
     PENDING = 'PENDING',
     SENDED = 'SENDED',
     QUOTED = 'QUOTED',
-    CONFIRMED = 'CONFIRMED'
+    WON = 'WON'
 }

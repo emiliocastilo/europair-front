@@ -460,7 +460,9 @@
     "OBSERVATIONS": "Observaciones operaciones",
     "OBSERVATIONS_LABEL": "Comentario:",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
-    "CONFIRM_OPERATION": "Confirmar operación",
+    "CONFIRM_OPERATION": "Confirmar Operación",
+    "CREATE_CONTRACT": "Crear Contrato",
+    "SING_FILE": "Firmar Expediente",
     "ADDITIONAL_SERVICES": {
       "CREATE": "Añadir servicio",
       "TITLE": "Servicios adicionales",

@@ -206,6 +206,25 @@ $other-columns-width: 120px;
   }
 }
 
+
+.booked-blue {
+  background-color: #5DE2FC;
+  border-color: #3c6696;
+  &:hover {
+    background-color: #6db0ff !important;
+    opacity: 0.8;
+  }
+}
+
+.booked-green {
+  background-color: #c8ffca;
+  border-color: #57a359;
+  &:hover {
+    background-color: #c8ffca !important;
+    opacity: 0.5;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

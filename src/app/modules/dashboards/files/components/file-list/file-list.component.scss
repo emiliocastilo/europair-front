@@ -35,6 +35,24 @@
   color: $europair-color-blue-dark-2;
   padding: 1rem;
   box-sizing: border-box;
+  
+  &.booked-blue {
+    background-color: #5DE2FC;
+    border-color: #3c6696;
+    &:hover {
+      background-color: #5DE2FC !important;
+      opacity: 0.8;
+    }
+  }
+
+  &.booked-green {
+    background-color: #c8ffca;
+    border-color: #57a359;
+    &:hover {
+      background-color: #c8ffca !important;
+      opacity: 0.5;
+    }
+  }
 }
 
 @include mat-table-columns(("code", "description", "status-name"));
