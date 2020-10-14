@@ -90,7 +90,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public columnsToDisplay = [
     'label',
     'frequency',
-    'initialDate',
+    'startDate',
     'endDate',
     'frequencyDays',
     'rotations.length',

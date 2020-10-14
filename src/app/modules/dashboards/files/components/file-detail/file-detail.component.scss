@@ -49,7 +49,7 @@ $other-columns-width: 120px;
   }
 }
 
-.mat-raised-button.mat-primary:not(:disabled){
+.mat-raised-button.mat-primary:not(:disabled) {
   background-color: #005795;
 }
 
@@ -156,7 +156,7 @@ $other-columns-width: 120px;
   min-width: $status-width;
 }
 
-.mat-column-initialDate,
+.mat-column-startDate,
 .mat-column-endDate {
   min-width: 150px;
 }
