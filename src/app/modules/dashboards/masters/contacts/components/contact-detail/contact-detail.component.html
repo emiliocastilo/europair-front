@@ -1,0 +1,117 @@
+<core-page-bar [pageTitle]="'CONTACTS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+
+<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
+  {{ "COMMON.RETURN" | translate }}
+</button>
+<div class="row">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.CODE' | translate }}</label>
+      <span>{{ contact?.code }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.CMS_CODE' | translate }}</label>
+      <span>{{ contact?.crmCode }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.CONTACT_TYPE' | translate }}</label>
+      <span>{{ contact?.contactType }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.COMPANY_CODE' | translate }}</label>
+      <span>{{ contact?.companyCode }}</span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.NAME' | translate }}</label>
+      <span>{{ contact?.name }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.ALIAS' | translate }}</label>
+      <span>{{ contact?.alias }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.ADDRESS' | translate }}</label>
+      <span>{{ contact?.address }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.CITY' | translate }}</label>
+      <span>{{ contact?.city?.name }}</span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.POSTAL_CODE' | translate }}</label>
+      <span>{{ contact?.postalCode }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.PROVINCE' | translate }}</label>
+      <span>{{ contact?.province }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.COUNTRY' | translate }}</label>
+      <span>{{ contact?.country?.name }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.COMMON_OPERATION_TYPE' | translate }}</label>
+      <span>{{ contact?.commonOperationType }}</span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.MAIL' | translate }}</label>
+      <span>{{ contact?.email }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.PHONE_NUMBER' | translate }}</label>
+      <span>{{ contact?.phoneNumber }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.MOBILE_PHONE_NUMBER' | translate }}</label>
+      <span>{{ contact?.mobilePhoneNumber }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.FAX' | translate }}</label>
+      <span>{{ contact?.faxNumber }}</span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 l12 field-colum">
+    <div class="field-container">
+      <label>{{'CONTACTS.OBSERVATION' | translate }}</label>
+      <span>{{ contact?.observation }}</span>
+    </div>
+  </div>
+</div>

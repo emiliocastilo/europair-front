@@ -21,9 +21,9 @@ import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
 import { ContributionService } from '../../services/contribution.service';
 import { Contribution, ContributionStates } from './models/contribution.model';
-import { OperationType } from '../../models/File.model';
 import { Region } from '../../../masters/regions/models/region';
 import { RegionsService } from '../../../masters/regions/services/regions.service';
+import { OperationType } from '../../../masters/contacts/models/contact';
 
 
 @Component({

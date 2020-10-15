@@ -23,6 +23,7 @@ const routes: Routes = [
       { path: 'airports', loadChildren: () => import('./masters/airports/airports.module').then(m => m.AirportsModule) },
       { path: 'fleet', loadChildren: () => import('./masters/fleet/fleet.module').then(m => m.FleetModule) },
       { path: 'operators', loadChildren: () => import('./masters/operators/operators.module').then(m => m.OperatorsModule) },
+      { path: 'contacts', loadChildren: () => import('./masters/contacts/contacts.module').then(m => m.ContactsModule) },
       { path: 'files', loadChildren: () => import('./files/files.module').then(m => m.FilesModule) }
     ]
   }
