@@ -9,8 +9,8 @@ import { Contact } from '../models/contact';
   providedIn: 'root',
 })
 export class ContactsService {
-  private readonly mocked: boolean = true; // environment.mock;
-  private readonly url = `${environment.apiUrl}contact`;
+  private readonly mocked: boolean = environment.mock;
+  private readonly url = `${environment.apiUrl}contacts`;
   constructor(private http: HttpClient) {}
 
   public getContacts(): Observable<Page<Contact>> {

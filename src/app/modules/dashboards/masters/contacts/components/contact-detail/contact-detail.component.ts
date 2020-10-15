@@ -25,11 +25,9 @@ export class ContactDetailComponent implements OnInit {
   private getContact(): void {
     this.route.params.pipe(
         switchMap((params: Params) =>
-          //this.contactsService.getContactById(params.id)
-          this.contactsService.getContacts()
+          this.contactsService.getContactById(params.id)
         )
-      //).subscribe((contact: Contact) => this.contact = contact);
-      ).subscribe((contact: Page<Contact>) => this.contact = contact.content[0]);
+      ).subscribe((contact: Contact) => this.contact = contact);
   }
 
   public routeToBack(): string {
