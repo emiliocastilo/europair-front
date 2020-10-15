@@ -262,6 +262,27 @@
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     }
   },
+  "CONTACTS": {
+    "PAGE_TITLE": "Contactos",
+    "DETAIL_PAGE_TITLE": "Detalle de contacto",
+    "CODE": "Código",
+    "NAME": "Nombre",
+    "ALIAS": "Alias",
+    "CONTACT_TYPE": "Tipo de contacto",
+    "CMS_CODE": "Código CMS",
+    "PHONE_NUMBER": "Teléfono",
+    "MAIL": "Email",
+    "COMPANY_CODE": "Código de empresa asociada",
+    "ADDRESS": "Dirección",
+    "POSTAL_CODE": "Código postal",
+    "PROVINCE": "Provincia",
+    "COUNTRY": "País",
+    "CITY": "Ciudad",
+    "COMMON_OPERATION_TYPE": "Tipo de operación frecuente",
+    "MOBILE_PHONE_NUMBER": "Teléfono movil",
+    "FAX": "Fax",
+    "OBSERVATION": "Observaciones"
+  },
   "FLEET": {
     "CATEGORIES": {
       "PAGE_TITLE": "Categorías",
