@@ -47,6 +47,8 @@ import {
 import { Client, File, FileStatus } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
+import { AdditionalServiceService } from '../../services/additional-services.service';
+import { Services } from '../../models/Services.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -100,8 +102,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'status',
     'actions',
   ];
+  public columnsAdditionalServicesToDisplay = ['code', 'description', 'quantity', 'provider', 'purchasePrice', 'salePrice', 'tax', 'commision', 'comment', 'seller', 'status'];
 
   public dataSource = new MatTableDataSource();
+  public dataSourceAdditionalService = new MatTableDataSource();
   public expandedElements: FileRoute[] = [];
   public resultsLength = 0;
   public pageSize = 0;
@@ -109,6 +113,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isRateLimitReached = false;
   public observations: string;
   public observationMaxLength: number = 5000;
+  public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
     code: ['', Validators.required],
@@ -133,7 +138,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
-    private clientService: ClientsService
+    private clientService: ClientsService,
+    private additionalServicesService: AdditionalServiceService
   ) {}
 
   ngAfterViewInit(): void {}
@@ -242,8 +248,21 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
         this.resultsLength = data.totalElements;
         this.pageSize = data.size;
+        this.hasRoutes = data.totalElements > 0;
+        /*if (this.hasRoutes) {
+          this.obtainAdditionalServices(data.content[0].id, data.content[0].rotations[0].);
+        }*/
       });
   }
+  /**
+  private obtainAdditionalServices(routeId: number, flightId: number): void {
+    this.additionalServicesService.getAdditionalServices(this.fileData.id, routeId, flightId).subscribe((data: Page<Services>) => {
+      this.dataSource = new MatTableDataSource(data.content);
+      this.dataSource.sort = this.sort;
+      this.resultsLength = data.totalElements;
+      this.pageSize = data.size;
+    });
+  }*/
 
   public onSaveFile(update: boolean) {
     if (this.fileForm.valid) {
@@ -308,6 +327,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   ): void {
     event.preventDefault();
     event.stopPropagation();
+    if (isPlane) {
+      this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
+    }
   }
 
   public navigateToSearchAircraft(id: number) {

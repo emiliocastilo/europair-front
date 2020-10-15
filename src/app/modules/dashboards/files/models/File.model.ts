@@ -44,17 +44,9 @@ export interface Client {
 
 export interface Provider {
   id: number;
-  code: string;
-  name: string;
-  canaryIslands: boolean;
-  vies: boolean;
-  country: Country;
-}
-
-export enum OperationType {
-  ACMI = 'ACMI',
-  COMMERCIAL = 'COMMERCIAL',
-  EXECUTIVE = 'EXECUTIVE',
-  CHARGE = 'CHARGE',
-  GROUP = 'GROUP',
+  code?: string;
+  name?: string;
+  canaryIslands?: boolean;
+  vies?: boolean;
+  country?: Country;
 }

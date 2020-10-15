@@ -1,0 +1,87 @@
+{
+   "content": [
+      {
+         "id": 1,
+         "code": "ABC",
+         "name": "Contacto 1",
+         "crmCode": "CRM_1",
+         "contactType": "INDIVIDUAL",
+         "companyCode": "CMP ABC",
+         "companyName": "Company 1",
+         "contactCategory": "OPERATOR",
+         "alias": "Contacts uno",
+         "address": "calle 24",
+         "cityId": 1,
+         "city": {
+            "id": 1,
+            "name": "Mérida"
+         },
+         "postalCode": "06800",
+         "province": "Badajoz",
+         "countryId": 1,
+         "country": {
+            "id": 1,
+            "name": "España"
+         },
+         "commonOperationType": "ACMI",
+         "email": "test@europair.com",
+         "phoneNumber": "678912345",
+         "mobilePhoneNumber": "924302182",
+         "faxNumber": "924302183",
+         "observation": "Estas son las observaciones"
+      },
+      {
+         "id": 2,
+         "code": "DEF",
+         "name": "Contacto 2",
+         "crmCode": "CRM_2",
+         "contactType": "BUSINES",
+         "companyCode": "string",
+         "companyName": "string",
+         "contactCategory": "GENERAL_SERVICE_PROVIDER",
+         "alias": "Contacts dos",
+         "address": "string",
+         "cityId": 1,
+         "city": {
+            "id": 1
+         },
+         "postalCode": "string",
+         "province": "string",
+         "countryId": 1,
+         "country": {
+            "id": 1
+         },
+         "commonOperationType": "ACMI",
+         "email": "ejemplo@europair.com",
+         "phoneNumber": "string",
+         "mobilePhoneNumber": "987654321",
+         "faxNumber": "string",
+         "observation": "string"
+      }
+   ],
+   "pageable": {
+      "sort": {
+         "sorted": false,
+         "unsorted": true,
+         "empty": true
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 5,
+      "paged": true,
+      "unpaged": false
+   },
+   "last": true,
+   "totalPages": 1,
+   "totalElements": 2,
+   "number": 0,
+   "size": 10,
+   "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+   },
+   "numberOfElements": 2,
+   "first": true,
+   "empty": false
+}

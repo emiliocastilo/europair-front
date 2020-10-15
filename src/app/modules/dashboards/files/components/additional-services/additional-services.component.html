@@ -1,0 +1,123 @@
+<core-page-bar [pageTitle]="pageTitle | translate"></core-page-bar>
+
+<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="getReturnRoute()">
+  {{ "COMMON.RETURN" | translate }}
+</button>
+<div>
+  <form [formGroup]="additionalServicesForm" (ngSubmit)="addAdditionalService()">
+    <div class="row">
+      <core-select class="col s12 l4" [items]="routes"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.ROUTES_PLACEHOLDER' | translate" [searchable]="true"
+        [itemDescription]="'label'" [itemValue]="'id'" formControlName="route"
+        (selectedValueEvent)="obtainRotation($event)">
+        <ng-container inputErrors *ngIf="hasControlAnyError('route')">
+          <span *ngIf="hasControlSpecificError('route', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
+        </ng-container>
+      </core-select>
+      <core-select class="col s12 l4" [items]="rotations"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.ROTATIONS_PLACEHOLDER' | translate" [searchable]="true"
+        [itemDescription]="'startDate'" [itemValue]="'id'" formControlName="rotation"
+        (selectedValueEvent)="obtainFlights($event)">
+        <ng-container inputErrors *ngIf="hasControlAnyError('rotation')">
+          <span *ngIf="hasControlSpecificError('rotation', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
+        </ng-container>
+      </core-select>
+      <core-select class="col s12 l4" [items]="flights"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.FLIGHTS_PLACEHOLDER' | translate" [searchable]="true"
+        [multiple]="true" [itemDescription]="'description'" [itemValue]="'id'" formControlName="flights">
+        <ng-container inputErrors *ngIf="hasControlAnyError('flights')">
+          <span *ngIf="hasControlSpecificError('flights', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
+        </ng-container>
+      </core-select>
+    </div>
+    <div class="row">
+      <core-select [label]="'FILES.ADDITIONAL_SERVICES.SERVICES' | translate" [id]="'search-aircraft-subcategory'"
+        [items]="services$ | async" [minTermLength]="1" [loading]="servicesLoading" class="col s12 l4 cmd-mb-1"
+        [typeToSearchText]="'FILES.ADDITIONAL_SERVICES.SERVICES_SEARCH_TEXT' | translate"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.SELECT_SERVICES' | translate" [itemDescription]="'code'"
+        [hasErrors]="hasControlAnyError('services')" [typeahead]="servicesInput$" [searchable]="true"
+        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="services">
+        <ng-container inputErrors *ngIf="hasControlAnyError('services')">
+          <span *ngIf="hasControlSpecificError('services', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
+        </ng-container>
+      </core-select>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.QUANTITY' | translate"
+        [hasErrors]="hasControlAnyError('quantity')" formControlName="quantity" [type]="'number'" class="col s12 l2">
+        <ng-container inputErrors *ngIf="hasControlAnyError('quantity')">
+          <mat-error *ngIf="hasControlSpecificError('quantity', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+          <mat-error *ngIf="hasControlSpecificError('quantity', 'min')" class="ep-error-msg">
+            {{ "FILES.ERRORS.MIN_VALUE_0" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.DESCRIPTION' | translate"
+        [hasErrors]="hasControlAnyError('description')" formControlName="description" class="col s12 l6">
+        <ng-container inputErrors *ngIf="hasControlAnyError('description')">
+          <mat-error *ngIf="hasControlSpecificError('description', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+    </div>
+    <div class="row">
+      <core-select class="col s12 l4" [items]="providers"
+        [placeholder]="'FILES.ADDITIONAL_SERVICES.PROVIDER_PLACEHOLDER' | translate" [searchable]="true"
+        [itemDescription]="'name'" [itemValue]="'id'" formControlName="provider">
+        <ng-container inputErrors *ngIf="hasControlAnyError('provider')">
+          <span *ngIf="hasControlSpecificError('provider', 'required')" class="helper-text"
+            [attr.data-error]="'ROUTES.ERRORS.REQUIRED' | translate">
+          </span>
+        </ng-container>
+      </core-select>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.PURCHASE_AMOUNT' | translate"
+        [hasErrors]="hasControlAnyError('purchasePrice')" formControlName="purchasePrice" [type]="'number'"
+        class="col s12 l4">
+        <ng-container inputErrors *ngIf="hasControlAnyError('purchasePrice')">
+          <mat-error *ngIf="hasControlSpecificError('purchasePrice', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+          <mat-error *ngIf="hasControlSpecificError('purchasePrice', 'min')" class="ep-error-msg">
+            {{ "FILES.ERRORS.MIN_VALUE_0" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.SALE_AMOUNT' | translate"
+        [hasErrors]="hasControlAnyError('salePrice')" formControlName="salePrice" [type]="'number'" class="col s12 l4">
+        <ng-container inputErrors *ngIf="hasControlAnyError('salePrice')">
+          <mat-error *ngIf="hasControlSpecificError('salePrice', 'min')" class="ep-error-msg">
+            {{ "FILES.ERRORS.MIN_VALUE_0" | translate }}
+          </mat-error>
+          <mat-error *ngIf="hasControlSpecificError('salePrice', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+    </div>
+    <div class="row">
+      <app-input [prefix]="'FILES.ADDITIONAL_SERVICES.OBSERVATION' | translate"
+        [hasErrors]="hasControlAnyError('observation')" formControlName="observation" class="col s12 l12">
+        <ng-container inputErrors *ngIf="hasControlAnyError('observation')">
+          <mat-error *ngIf="hasControlSpecificError('observation', 'required')" class="ep-error-msg">
+            {{ "FILES.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+    </div>
+    <div class="row">
+      <button class="col s12 l2 offset-l9 browser-default" color="primary" type="submit" [disabled]="isLoading"
+        mat-stroked-button>
+        {{ "FILES.ADDITIONAL_SERVICES.CREATE" | translate }}
+      </button>
+    </div>
+  </form>
+</div>

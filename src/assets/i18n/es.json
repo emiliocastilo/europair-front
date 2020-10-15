@@ -263,6 +263,27 @@
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     }
   },
+  "CONTACTS": {
+    "PAGE_TITLE": "Contactos",
+    "DETAIL_PAGE_TITLE": "Detalle de contacto",
+    "CODE": "Código",
+    "NAME": "Nombre",
+    "ALIAS": "Alias",
+    "CONTACT_TYPE": "Tipo de contacto",
+    "CMS_CODE": "Código CMS",
+    "PHONE_NUMBER": "Teléfono",
+    "MAIL": "Email",
+    "COMPANY_CODE": "Código de empresa asociada",
+    "ADDRESS": "Dirección",
+    "POSTAL_CODE": "Código postal",
+    "PROVINCE": "Provincia",
+    "COUNTRY": "País",
+    "CITY": "Ciudad",
+    "COMMON_OPERATION_TYPE": "Tipo de operación frecuente",
+    "MOBILE_PHONE_NUMBER": "Teléfono movil",
+    "FAX": "Fax",
+    "OBSERVATION": "Observaciones"
+  },
   "FLEET": {
     "CATEGORIES": {
       "PAGE_TITLE": "Categorías",
@@ -462,11 +483,38 @@
     "OBSERVATIONS_LABEL": "Comentario:",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
     "CONFIRM_OPERATION": "Confirmar operación",
+    "ADDITIONAL_SERVICES": {
+      "CREATE": "Añadir servicio",
+      "TITLE": "Servicios adicionales",
+      "NEW": "Nuevo servicio",
+      "ACTIONS": "Aciones",
+      "OBSERVATION": "Observación",
+      "DESCRIPTION": "Descripción",
+      "QUANTITY": "Cantidad",
+      "PURCHASE_AMOUNT": "Importe de compra",
+      "SALE_AMOUNT": "Importe de venta",
+      "TAX": "Impuestos",
+      "COMMISSION": "Comision (%)",
+      "COMMENT": "Comentarios",
+      "SELLER": "Vendedor",
+      "STATUS": "Estado",
+      "PROVIDER_PLACEHOLDER": "Proveedor",
+      "PROVIDER": "Proveedor",
+      "SERVICE_CODE": "Servicio",
+      "ROUTES_PLACEHOLDER": "Rutas",
+      "ROTATIONS_PLACEHOLDER": "Rotaciones",
+      "FLIGHTS_PLACEHOLDER": "Destino",
+      "SERVICES": "Servicio",
+      "SERVICES_SEARCH_TEXT": "Escribe el nombre del servicio",
+      "SELECT_SERVICES": "Selecciona un servicio"
+    },
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",
       "STATUS": "Debe indicar un estado",
-      "CLIENT": "Debe indicar un cliente"
+      "CLIENT": "Debe indicar un cliente",
+      "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
+      "REQUIRED": "El campo es requerido."
     },
     "NEW_FILE": "Nuevo Expediente"
   },
