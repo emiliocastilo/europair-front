@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   OAuthErrorEvent,
   OAuthEvent,
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
     ) {
       this._oauthService.configure(oAuthConfig);
       this._oauthService.loadDiscoveryDocumentAndLogin().then(() => {
-        this._router.navigate([this._authService.getRedirectLoginUrl()]);
+        this.afterLoginNavigateTo();
         if (this._oauthService.getIdentityClaims()) {
           sessionStorage.setItem(
             SESSION_STORAGE_KEYS.USER_NAME,
@@ -48,6 +48,24 @@ export class AppComponent implements OnInit {
           : this.onOAuthSuccessEvent(e)
       );
       this._oauthService.setupAutomaticSilentRefresh();
+    }
+  }
+
+  private afterLoginNavigateTo() {
+    if (this.isLoginLastAction()) {
+      this._router.navigate([this._authService.getRedirectLoginUrl()]);
+    }
+  }
+
+  private isLoginLastAction(): boolean {
+    // Redirect only if login was last action (before app was destroyed)
+    const item = sessionStorage.getItem(SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION);
+    sessionStorage.removeItem(SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION);
+    if (item) {
+      const isLoginLastAction = JSON.parse(item);
+      return isLoginLastAction;
+    } else {
+      return false;
     }
   }
 

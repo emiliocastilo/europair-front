@@ -25,10 +25,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    this._authService.setRedirectLoginUrl(state.url);
     if (this._authService.isLoggedIn()) {
       return true;
     } else {
-      this._authService.setRedirectLoginUrl(state.url);
       return this._router.parseUrl('/login');
     }
   }
@@ -40,10 +40,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    this._authService.setRedirectLoginUrl(state.url);
     if (this._authService.isLoggedIn()) {
       return true;
     } else {
-      this._authService.setRedirectLoginUrl(state.url);
       return this._router.parseUrl('/login');
     }
   }

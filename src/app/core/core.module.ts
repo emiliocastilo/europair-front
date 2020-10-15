@@ -34,6 +34,7 @@ import { MatDropdownDirective } from './directives/mat-dropdown.directive';
 import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
+import { ConfirmOperationDialogComponent } from './components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
     TopBarComponent,
     TranslatedSnackBarComponent,
     AutocompleteComponent,
+    ConfirmOperationDialogComponent,
   ],
   imports: [
     CommonModule,

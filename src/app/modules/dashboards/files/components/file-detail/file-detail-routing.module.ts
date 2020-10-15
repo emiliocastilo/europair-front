@@ -13,12 +13,12 @@ const routes: Routes = [
     data: { title: 'FILES.NEW_ROUTE', isRouteDetail: false },
   },
   {
-    path: 'routes/:routeId',
+    path: 'routes/:routeId/rotations/:rotationId',
     loadChildren: () =>
-      import('../route-detail/route-detail.module').then(
-        (m) => m.RouteDetailModule
+      import('../rotation-detail/rotation-detail.module').then(
+        (m) => m.RotationDetailModule
       ),
-    data: { title: 'Editar Ruta', isRouteDetail: false },
+    data: { title: 'Editar Rotacion', isRouteDetail: false },
   },
   {
     path: 'additional-services',

@@ -3,7 +3,7 @@ export interface FileRoute {
   label: string;
   frequency: FrequencyType;
   frequencyDays: FrequencyDay[];
-  initialDate: Date;
+  startDate: Date;
   endDate: Date;
   rotations: FileRoute[];
 }
