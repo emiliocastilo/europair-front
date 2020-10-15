@@ -8,7 +8,6 @@
 >
   {{ "COMMON.RETURN" | translate }}
 </button>
-
 <mat-accordion multi>
   <mat-expansion-panel expanded="true">
     <mat-expansion-panel-header class="cmd-mb-2">
@@ -21,65 +20,33 @@
         <div class="row cmd-mb-2">
           <app-input-mask
             [prefix]="'ROUTES.ROUTE_CODE' | translate"
-            class="col s12 l8"
+            class="col s12 l12"
             formControlName="label"
           >
           </app-input-mask>
-          <core-select
-            class="col s12 l4"
-            [items]="frequencyList"
-            [placeholder]="'ROUTES.FREQUENCY' | translate"
-            [itemDescription]="'label'"
-            [itemValue]="'value'"
-            formControlName="frequency"
-          >
-          </core-select>
         </div>
         <div class="row">
           <app-input
             [type]="'date'"
             [prefix]="'ROUTES.START_DATE' | translate"
             formControlName="startDate"
-            class="col s12 l4"
+            class="col s12 l6"
           >
           </app-input>
           <app-input
             [type]="'date'"
             [prefix]="'ROUTES.END_DATE' | translate"
             formControlName="endDate"
-            class="col s12 l4"
+            class="col s12 l6"
           >
           </app-input>
-        </div>
-        <div class="row">
-          <core-select
-            class="col s12 l4"
-            [items]="weekDaysList"
-            [placeholder]="'ROUTES.WEEKDAYS' | translate"
-            [isDisabled]="isControlDisabled('weekdays')"
-            [multiple]="true"
-            [dropdownPosition]="'top'"
-            [itemDescription]="'label'"
-            [itemValue]="'value'"
-            formControlName="weekdays"
-          >
-          </core-select>
-          <core-select
-            class="col s12 l4"
-            [items]="monthDaysList"
-            [placeholder]="'ROUTES.MONTH_DAYS' | translate"
-            [isDisabled]="isControlDisabled('monthDays')"
-            [multiple]="true"
-            [dropdownPosition]="'top'"
-            formControlName="monthDays"
-          >
-          </core-select>
         </div>
       </form>
     </ng-template>
   </mat-expansion-panel>
 
   <mat-expansion-panel
+    #flightPanel
     class="cmd-mb-3"
     expanded="true"
     *ngIf="this.paginatorLength > 0"
@@ -88,37 +55,99 @@
       <mat-panel-title>
         {{ "ROTATIONS.FLIGHTS" | translate | sentenceCase }}
       </mat-panel-title>
+      <mat-panel-description *ngIf="flightPanel.expanded">
+        <a mat-button (click)="newFlight($event)">
+          {{ "ROTATIONS.NEW_FLIGHT" | translate | sentenceCase }}
+          <mat-icon svgIcon="europair_add"></mat-icon>
+        </a>
+      </mat-panel-description>
     </mat-expansion-panel-header>
 
     <div class="table-container">
-      <mat-table #flightsTable [dataSource]="dataSource">
-        <ng-container
-          [matColumnDef]="column.label"
-          *ngFor="let column of columnsToDisplay"
-        >
-          <mat-header-cell *matHeaderCellDef>
-            {{ column.title }}
-          </mat-header-cell>
+      <mat-table
+        [dataSource]="dataSource"
+        cdkDropList
+        [cdkDropListData]="dataSource"
+        (cdkDropListDropped)="dropRowFlight($event)"
+      >
+        <!-- Selection Column-->
+        <ng-container matColumnDef="selection">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <ng-container *ngIf="column.isCheckbox; else textCell">
-              <mat-checkbox
-                color="primary"
-                (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(element) : null"
-                [checked]="selection.isSelected(element)"
-              ></mat-checkbox>
-            </ng-container>
-            <ng-template #textCell>
-              {{ element[column.label] }}
-            </ng-template>
+            <mat-checkbox
+              color="primary"
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selection.toggle(element) : null"
+              [checked]="selection.isSelected(element)"
+            ></mat-checkbox>
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="columnsProps"></mat-header-row>
+        <!-- Origin Column-->
+        <ng-container matColumnDef="origin">
+          <mat-header-cell *matHeaderCellDef>
+            Aeropuerto Origen
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.origin }}
+          </mat-cell>
+        </ng-container>
+        <!-- Destination Column-->
+        <ng-container matColumnDef="destination">
+          <mat-header-cell *matHeaderCellDef>
+            Aeropuerto Destino
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.destination }}
+          </mat-cell>
+        </ng-container>
+        <!-- Departure Date Column-->
+        <ng-container matColumnDef="departureTime">
+          <mat-header-cell *matHeaderCellDef> Fecha Salida </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.departureTime }}
+          </mat-cell>
+        </ng-container>
+        <!-- Seats F Column-->
+        <ng-container matColumnDef="seatsF">
+          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.seatsF }}
+          </mat-cell>
+        </ng-container>
+        <!-- Seats C Column-->
+        <ng-container matColumnDef="seatsC">
+          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.seatsC }}
+          </mat-cell>
+        </ng-container>
+        <!-- Seats Y Column-->
+        <ng-container matColumnDef="seatsY">
+          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.seatsY }}
+          </mat-cell>
+        </ng-container>
+        <!-- Status Column-->
+        <ng-container matColumnDef="actions" stickyEnd>
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-icon
+              (click)="$event.stopPropagation(); deleteFlight(element)"
+              svgIcon="europair_trash"
+            ></mat-icon>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
         <mat-row
-          *matRowDef="let row; columns: columnsProps"
+          *matRowDef="let row; columns: columnsToDisplay"
           (click)="onFlightSelected(row)"
           [ngClass]="{ 'selected-row': selection.isSelected(row) }"
+          cdkDragLockAxis="y"
+          cdkDrag
+          [cdkDragData]="row"
         ></mat-row>
       </mat-table>
       <mat-paginator
@@ -129,29 +158,89 @@
         showFirstLastButtons
       ></mat-paginator>
     </div>
+    <div class="row">
+      <button
+        *ngIf="isFlightDataReorderer"
+        type="button"
+        color="primary"
+        class="cmd-mb-2"
+        mat-raised-button
+        (click)="reorderFlights()"
+      >
+        {{ "COMMON.SAVE_ORDER" | translate | titlecase }}
+      </button>
+    </div>
   </mat-expansion-panel>
 
-  <mat-expansion-panel expanded="true" *ngIf="selectedFlight">
+  <mat-expansion-panel expanded="true" *ngIf="isFlightDataVisible">
     <mat-expansion-panel-header class="cmd-mb-2">
       <mat-panel-title>
         {{ "ROTATIONS.FLIGHT_DATA" | translate | sentenceCase }}
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+    <form [formGroup]="flightForm">
       <div class="row">
-        <app-input
-          [prefix]="'ROTATIONS.ORIGIN_AIRPORT' | translate"
+        <core-select
+          [label]="'ROTATIONS.ORIGIN_AIRPORT' | translate"
+          [id]="'search-origin-airport'"
+          [items]="airports$ | async"
+          [minTermLength]="1"
+          [loading]="airportsLoading"
+          class="col s12 l6 cmd-mb-1"
+          [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+          [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+          [hasErrors]="hasControlAnyError('origin')"
+          [typeahead]="airportsInput$"
+          [searchable]="true"
+          [itemValue]="'iataCode'"
+          [itemDescription]="'iataCode'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="origin"
-          class="col s12 l6 cmd-pb-1"
         >
-        </app-input>
-        <app-input
-          [prefix]="'ROTATIONS.DESTINATION_AIRPORT' | translate"
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasControlAnyError('origin')">
+              <span
+                *ngIf="hasControlSpecificError('origin', 'required')"
+                class="helper-text"
+                [attr.data-error]="
+                  'ROTATIONS.ERRORS.ORIGIN_AIRPORT' | translate
+                "
+              >
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-select>
+        <core-select
+          [label]="'ROTATIONS.DESTINATION_AIRPORT' | translate"
+          [id]="'search-destination-airport'"
+          [items]="airports$ | async"
+          [minTermLength]="1"
+          [loading]="airportsLoading"
+          class="col s12 l6 cmd-mb-1"
+          [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+          [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+          [hasErrors]="hasControlAnyError('destination')"
+          [typeahead]="airportsInput$"
+          [searchable]="true"
+          [itemValue]="'iataCode'"
+          [itemDescription]="'iataCode'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="destination"
-          class="col s12 l6 cmd-pb-1"
         >
-        </app-input>
+          <ng-container inputErrors>
+            <ng-container *ngIf="hasControlAnyError('destination')">
+              <span
+                *ngIf="hasControlSpecificError('destination', 'required')"
+                class="helper-text"
+                [attr.data-error]="
+                  'ROTATIONS.ERRORS.DESTINATION_AIRPORT' | translate
+                "
+              >
+              </span>
+            </ng-container>
+          </ng-container>
+        </core-select>
         <app-input
           [type]="'date'"
           [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate"
@@ -302,13 +391,26 @@
       </div>
       <div class="row">
         <button
+          *ngIf="selection.isEmpty(); else editFlightButton"
           type="submit"
           color="primary"
           class="cmd-mb-2"
           mat-raised-button
+          (click)="createFlight()"
         >
-          {{ "COMMON.SAVE" | translate | titlecase }}
+          {{ "COMMON.CREATE" | translate | titlecase }}
         </button>
+        <ng-template #editFlightButton>
+          <button
+            type="submit"
+            color="primary"
+            class="cmd-mb-2"
+            mat-raised-button
+            (click)="editFlight()"
+          >
+            {{ "COMMON.SAVE" | translate | titlecase }}
+          </button>
+        </ng-template>
       </div>
     </form>
   </mat-expansion-panel>

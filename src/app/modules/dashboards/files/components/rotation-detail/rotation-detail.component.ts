@@ -1,17 +1,22 @@
 import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { concat, Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { TimeZone } from 'src/app/core/models/base/time-zone';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
-import { DAYS_LIST, FileRoute, FrequencyType, FREQUENCY_LIST } from '../../models/FileRoute.model';
+import { AirportsService } from '../../../masters/airports/services/airports.service';
+import { Airport } from '../../../masters/regions/models/airport';
+import { DAYS_LIST, FrequencyType, FREQUENCY_LIST } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { FlightService } from '../../services/flight.service';
@@ -22,8 +27,9 @@ import { FlightService } from '../../services/flight.service';
   styleUrls: ['./rotation-detail.component.scss']
 })
 export class RotationDetailComponent implements OnInit {
-  public isLoading: boolean = false;
-
+  public airports$: Observable<Airport[]>;
+  public airportsInput$ = new Subject<string>();
+  public airportsLoading = false;
   public dataSource = new MatTableDataSource<Flight>();
   public selection = new SelectionModel<Flight>(false, []);
   public frequencyList = [];
@@ -32,40 +38,30 @@ export class RotationDetailComponent implements OnInit {
   public pageTitle: string;
   private fileId: number;
   private rotationId: number;
-  private rotation: FileRoute;
   private flightSearchFilter: SearchFilter = {};
   public selectedFlight: Flight;
   public timeZones$: Observable<TimeZone[]>;
-
+  public isFlightDataVisible: boolean = false;
+  public isFlightDataReorderer: boolean = false;
 
   public rotationForm: FormGroup = this.fb.group({
     label: [ { value: '', disabled: true}],
-    frequency: [{ value: '', disabled: true}],
     startDate: [{ value: '', disabled: true}],
     endDate: [{ value: '', disabled: true}],
-    weekdays: [{ value: [], disabled: true }],
-    monthDays: [{ value: [], disabled: true }],
   });
 
-  public columnsToDisplay = [
-    { title: '', label: 'selection', isCheckbox: true},
-    { title: 'Aeropuerto Origen', label: 'origin' },
-    { title: 'Aeropuerto Destino', label: 'destination' },
-    { title: 'Fecha salida', label: 'departureTime' },
-    { title: 'Asientos F', label: 'seatsF' },
-    { title: 'Asientos C', label: 'seatsC' },
-    { title: 'Asientos Y', label: 'seatsY' },
+  public columnsToDisplay = ['selection', 'origin', 'destination', 'departureTime', 'seatsF' , 'seatsC',
+  'seatsY', 'actions'
   ];
 
-  public columnsProps = this.columnsToDisplay.map((e) => e.label);
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
 
   public flightForm: FormGroup = this.fb.group({
     id: [null],
-    origin: [ { value: '', disabled: true}],
-    destination: [{ value: '', disabled: true}],
-    departureDate: [null, [Validators.required, this.getDepartureDateNotBeforeValidator()]],
+    origin: ['', Validators.required],
+    destination: ['', Validators.required],
+    departureDate: [null, Validators.required],
     departureTime: [null, Validators.required],
     timeZone: [null, Validators.required],
     seatsF: ['', Validators.min(0)],
@@ -81,7 +77,9 @@ export class RotationDetailComponent implements OnInit {
     private readonly flightService: FlightService,
     private readonly route: ActivatedRoute,
     private readonly translateService: TranslateService,
-    private readonly timeConversionService: TimeConversionService
+    private readonly timeConversionService: TimeConversionService,
+    private readonly airportsService: AirportsService,
+    private readonly matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -93,32 +91,55 @@ export class RotationDetailComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.fileId = +params.get('fileId');
       this.rotationId = +params.get('rotationId');
-      this.getRotationData(this.fileId, this.rotationId);
-      this.getFlightData(this.fileId, this.rotationId);
+      this.refreshScreenData();
     });
     this.route.data.subscribe((data) => {
       this.pageTitle = data.title;
     });
   }
 
-  private getRotationData(fileId: number, rotationId: number): void {
-    this.fileRouteService.getFileRouteById(fileId, rotationId)
-    .pipe(
-      tap(rotation => this.rotation = rotation)
-    )
+  private refreshScreenData() {
+    this.selectedFlight = undefined;
+    this.selection.clear();
+    this.hideReorderButton();
+    this.hideFlightData();
+    this.getRotationData();
+    this.getFlightData();
+  }
+
+  private getRotationData(): void {
+    this.fileRouteService.getFileRouteById(this.fileId, this.rotationId)
     .subscribe(rotation => this.rotationForm.patchValue(rotation));
   }
 
-  private getFlightData(fileId: number, rotationId: number) {
+  private getFlightData() {
     this.flightService
-    .getFlights(fileId, rotationId)
+    .getFlights(this.fileId, this.rotationId, this.flightSearchFilter)
     .subscribe(this.updateFlightData);
   }
 
   private loadSelectsData() {
+    this.loadAirports();
     this.loadFrequencies();
     this.loadWeekDays();
     this.loadTimeZones();
+  }
+
+  private loadAirports(): void {
+    this.airports$ = concat(
+      of([]), // default items
+      this.airportsInput$.pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => (this.airportsLoading = true)),
+        switchMap((term: string): Observable<Airport[]> =>
+          this.airportsService.searchAirports(term).pipe(
+            map((page: Page<Airport>) => page.content),
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.airportsLoading = false)))
+        )
+      )
+    );
   }
 
   private loadFrequencies() {
@@ -165,17 +186,18 @@ export class RotationDetailComponent implements OnInit {
   public onPage(pageEvent: PageEvent) {
     this.flightSearchFilter['page'] = pageEvent.pageIndex.toString();
     this.flightSearchFilter['size'] = pageEvent.pageSize.toString();
-    this.flightService
-      .getFlights(this.fileId, this.rotationId, this.flightSearchFilter)
-      .subscribe(this.updateFlightData);
+    this.getFlightData();
   }
 
   public onFlightSelected(flight: Flight) {
     this.selection.toggle(flight);
     this.selectedFlight = this.selection.isEmpty()? undefined : flight;
-    if(!this.selection.isEmpty()) {
+    if(this.selection.isEmpty()) {
+      this.hideFlightData();
+    }else {
       this.flightForm.reset();
       this.updateFlightForm();
+      this.showFlightData();
     }
   }
 
@@ -185,15 +207,45 @@ export class RotationDetailComponent implements OnInit {
     this.flightForm.patchValue({...flightWithoutDepartureTime, departureDate, departureTime});
   }
 
-  public saveFlight() {
+  public deleteFlight(flight: Flight) {
+    const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
+      data: {
+        title: 'ROTATIONS.DELETE_FLIGHT_TITLE',
+        message: 'ROTATIONS.DELETE_FLIGHT_MSG',
+        translationParams: {
+          origin: flight.origin,
+          destination: flight.destination,
+          departureTime: flight.departureTime
+        }
+      }
+    });
+    confirmOperationRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.flightService.deleteFlight(this.fileId, this.rotationId, flight).subscribe(_ => this.refreshScreenData());
+      }
+    });
+  }
+
+  public editFlight() {
     if (!this.flightForm.valid) {
       this.flightForm.markAllAsTouched();
       return;
     }
     this.flightService.updateFlight(this.fileId, this.rotationId, this.createFlightFromFlightFormValue(this.flightForm.value))
     .subscribe((flight: Flight)=> {
+      this.refreshScreenData();
+    });
+  }
+
+  public createFlight() {
+    if (!this.flightForm.valid) {
+      this.flightForm.markAllAsTouched();
+      return;
+    }
+    this.flightService.createFlight(this.fileId, this.rotationId, this.createFlightFromFlightFormValue(this.flightForm.value))
+    .subscribe((flight: Flight)=> {
       this.selectedFlight = undefined;
-      this.getFlightData(this.fileId, this.rotationId);
+      this.refreshScreenData();
     });
   }
 
@@ -202,10 +254,28 @@ export class RotationDetailComponent implements OnInit {
 
     return {
       ...flightData,
-      departureTime: departureDate + ' ' + departureTime,
-      origin: this.selectedFlight.origin,
-      destination: this.selectedFlight.destination
+      departureTime: departureDate + ' ' + departureTime
     };
+  }
+
+  public newFlight(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.selection.clear();
+    this.showFlightData();
+    this.flightForm.reset();
+  }
+
+  public dropRowFlight(event: CdkDragDrop<Flight[]>) {
+    moveItemInArray(this.dataSource.data, event.previousIndex, event.currentIndex);
+    this.dataSource = new MatTableDataSource<Flight>(this.dataSource.data)
+    this.showReorderButton();
+  }
+
+  public reorderFlights() {
+    //TODO add reorder logic
+    console.log(this.dataSource.data);
+    this.hideReorderButton();
   }
 
   public hasControlAnyError(controlName: string): boolean {
@@ -226,22 +296,19 @@ export class RotationDetailComponent implements OnInit {
     return control?.disabled;
   }
 
-  public getDepartureDateNotBeforeValidator(): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: any } | null => {
-      return this.isFlightDepartureDateBeforeThanRotationStartDate(control.value)
-        ? { dateBeforeLimit: { value: control.value } }
-        : null;
-    };
+  private showReorderButton(): void {
+    this.isFlightDataReorderer = true;
   }
 
-  private isFlightDepartureDateBeforeThanRotationStartDate(departureDate: string): boolean {
-    if (this.rotation && departureDate) {
-      const rotationStartDate = new Date(this.rotation.startDate);
-      const flightDepartureDate = new Date(departureDate);
-      return flightDepartureDate.getTime() < rotationStartDate.getTime();
-    } else {
-      return false;
-    }
+  private hideReorderButton(): void {
+    this.isFlightDataReorderer = false;
+  }
 
+  private showFlightData(): void {
+    this.isFlightDataVisible = true;
+  }
+
+  private hideFlightData(): void {
+    this.isFlightDataVisible = false;
   }
 }

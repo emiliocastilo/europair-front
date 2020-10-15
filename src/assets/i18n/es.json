@@ -17,7 +17,8 @@
     "VIEW_DISABLED": "Ver inactivos",
     "NOT_FOUND": "Sin resultados",
     "RETURN": "Volver",
-    "SUCCESSFUL_OPERATION": "Operación exitosa"
+    "SUCCESSFUL_OPERATION": "Operación exitosa",
+    "SAVE_ORDER": "Guardar orden"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -490,6 +491,7 @@
     "SELECT_AIRPORT": "Selecciona un aeropuerto para añadirlo al 'Código de ruta'"
   },
   "ROTATIONS": {
+    "NEW_FLIGHT": "Nuevo vuelo",
     "ORIGIN_AIRPORT": "Aeropuerto origen",
     "DESTINATION_AIRPORT": "Aeropuerto destino",
     "DEPARTURE_DATE": "Fecha salida",
@@ -502,7 +504,11 @@
     "TIME_ZONE": "Zona horaria",
     "FLIGHTS": "Vuelos",
     "FLIGHT_DATA": "Datos vuelo",
+    "DELETE_FLIGHT_TITLE": "Confirmar elminación vuelo",
+    "DELETE_FLIGHT_MSG": "¿Está seguro que desea eliminar el vuelo <b>{{ origin }}-{{destination}} con salida el {{departureTime}}</b>?",
     "ERRORS": {
+      "ORIGIN_AIRPORT": "Debe indicar un aeropuerto de origen",
+      "DESTINATION_AIRPORT": "Debe indicar un aeropuerto de destino",
       "DEPARTURE_DATE": "Debe indicar una fecha de salida",
       "DEPARTURE_DATE_BF_LIMIT": "No puede ser anterior a la fecha de inicio de la rotación",
       "DEPARTURE_TIME": "Debe indicar una hora de salida",
