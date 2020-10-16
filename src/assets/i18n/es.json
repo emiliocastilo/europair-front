@@ -17,7 +17,8 @@
     "VIEW_DISABLED": "Ver inactivos",
     "NOT_FOUND": "Sin resultados",
     "RETURN": "Volver",
-    "SUCCESSFUL_OPERATION": "Operación exitosa"
+    "SUCCESSFUL_OPERATION": "Operación exitosa",
+    "SAVE_ORDER": "Guardar orden"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -261,6 +262,27 @@
       "NAME": "Debe indicar el nombre de la región",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     }
+  },
+  "CONTACTS": {
+    "PAGE_TITLE": "Contactos",
+    "DETAIL_PAGE_TITLE": "Detalle de contacto",
+    "CODE": "Código",
+    "NAME": "Nombre",
+    "ALIAS": "Alias",
+    "CONTACT_TYPE": "Tipo de contacto",
+    "CMS_CODE": "Código CMS",
+    "PHONE_NUMBER": "Teléfono",
+    "MAIL": "Email",
+    "COMPANY_CODE": "Código de empresa asociada",
+    "ADDRESS": "Dirección",
+    "POSTAL_CODE": "Código postal",
+    "PROVINCE": "Provincia",
+    "COUNTRY": "País",
+    "CITY": "Ciudad",
+    "COMMON_OPERATION_TYPE": "Tipo de operación frecuente",
+    "MOBILE_PHONE_NUMBER": "Teléfono movil",
+    "FAX": "Fax",
+    "OBSERVATION": "Observaciones"
   },
   "FLEET": {
     "CATEGORIES": {
@@ -517,6 +539,32 @@
     },
     "AIRPORT_SEARCHER": "Buscador de aeropuertos",
     "SELECT_AIRPORT": "Selecciona un aeropuerto para añadirlo al 'Código de ruta'"
+  },
+  "ROTATIONS": {
+    "NEW_FLIGHT": "Nuevo vuelo",
+    "ORIGIN_AIRPORT": "Aeropuerto origen",
+    "DESTINATION_AIRPORT": "Aeropuerto destino",
+    "DEPARTURE_DATE": "Fecha salida",
+    "DEPARTURE_TIME": "Hora salida",
+    "SEATS_F": "Asientos F",
+    "SEATS_C": "Asientos C",
+    "SEATS_Y": "Asientos Y",
+    "BEDS": "Camas",
+    "STRECHERS": "Camillas",
+    "TIME_ZONE": "Zona horaria",
+    "FLIGHTS": "Vuelos",
+    "FLIGHT_DATA": "Datos vuelo",
+    "DELETE_FLIGHT_TITLE": "Confirmar elminación vuelo",
+    "DELETE_FLIGHT_MSG": "¿Está seguro que desea eliminar el vuelo <b>{{ origin }}-{{destination}} con salida el {{departureTime}}</b>?",
+    "ERRORS": {
+      "ORIGIN_AIRPORT": "Debe indicar un aeropuerto de origen",
+      "DESTINATION_AIRPORT": "Debe indicar un aeropuerto de destino",
+      "DEPARTURE_DATE": "Debe indicar una fecha de salida",
+      "DEPARTURE_DATE_BF_LIMIT": "No puede ser anterior a la fecha de inicio de la rotación",
+      "DEPARTURE_TIME": "Debe indicar una hora de salida",
+      "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
+      "TIME_ZONE": "Debe indicar una zona horaria"
+    }
   },
   "FREQUENCIES": {
     "UNITS": {

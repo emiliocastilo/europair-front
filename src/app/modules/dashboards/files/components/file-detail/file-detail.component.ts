@@ -105,7 +105,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public columnsToDisplay = [
     'label',
     'frequency',
-    'initialDate',
+    'startDate',
     'endDate',
     'frequencyDays',
     'rotations.length',
@@ -321,6 +321,14 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     if (isPlane) {
       this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
     }
+  }
+
+  public navigateToSearchAircraft(id: number) {
+    this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
+  }
+
+  public editRotation(route: FileRoute, rotation: FileRoute) {
+    this.router.navigate(['routes', route.id, 'rotations', rotation.id], {relativeTo: this.route})
   }
 
   public hasControlAnyError(controlName: string): boolean {

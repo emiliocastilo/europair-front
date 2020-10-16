@@ -23,6 +23,7 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   @Input() type = 'text';
   @Input() hasErrors: boolean;
   @Input() errorStateMatcher: ErrorStateMatcher;
+  @Input() defaultValue: string = '';
 
   counter = 0;
   value: string;
@@ -39,7 +40,8 @@ export class InputComponent implements OnInit, ControlValueAccessor {
   }
 
   public clearInput(): void {
-    this.value = '';
+    this.value = this.defaultValue;
+    console.log(this.value);
     this.onTouch();
     this.onChange(this.value);
   }
@@ -53,10 +55,10 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(value: any): void {
     if (value) {
-      this.value = value || '';
+      this.value = value || this.defaultValue;
       this.counter = value.length;
     } else {
-      this.value = '';
+      this.value = this.defaultValue;
     }
   }
 

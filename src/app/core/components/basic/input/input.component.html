@@ -14,7 +14,7 @@
     class="browser-default"
     type="button"
     mat-button
-    *ngIf="value"
+    *ngIf="!_control.disabled && value"
     matSuffix
     mat-icon-button
     aria-label="clear"

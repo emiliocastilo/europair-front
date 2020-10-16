@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data?.title | translate }}</h2>
+<mat-dialog-content class="mat-typography">
+  <p [innerHTML]="data?.message | translate: data?.translationParams"></p>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="warn" [mat-dialog-close]="false">
+    {{ "COMMON.CANCEL" | translate | titlecase }}
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="true"
+    cdkFocusInitial
+  >
+    {{ "COMMON.CONFIRM" | translate | titlecase }}
+  </button>
+</mat-dialog-actions>

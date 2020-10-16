@@ -65,6 +65,7 @@ export class LoginComponent implements OnInit {
   };
 
   public onAzureLogin() {
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION, JSON.stringify(true));
     sessionStorage.setItem(SESSION_STORAGE_KEYS.LOGIN_TYPE, LOGIN_TYPES.OAUTH);
     this._oauthService.configure(oAuthConfig);
     if (this._oauthService.hasValidAccessToken()) {

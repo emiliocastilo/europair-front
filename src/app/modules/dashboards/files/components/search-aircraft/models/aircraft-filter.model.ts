@@ -1,9 +1,9 @@
 import { HttpParams } from '@angular/common/http';
 import { Airport } from 'src/app/modules/dashboards/masters/airports/models/airport';
+import { OperationType } from 'src/app/modules/dashboards/masters/contacts/models/contact';
 import { Country } from 'src/app/modules/dashboards/masters/countries/models/country';
 import { FleetCategory, FleetSubcategory, FleetType } from 'src/app/modules/dashboards/masters/fleet/models/fleet';
 import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
-import { OperationType } from '../../../models/File.model';
 
 export class AircraftFilter {
     routeId: number;

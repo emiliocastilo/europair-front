@@ -121,13 +121,13 @@
               </mat-cell>
             </ng-container>
 
-            <!-- InitialDate Column-->
-            <ng-container matColumnDef="initialDate">
+            <!-- startDate Column-->
+            <ng-container matColumnDef="startDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 Fecha inicio
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.initialDate }}
+                {{ element.startDate }}
               </mat-cell>
             </ng-container>
 
@@ -203,9 +203,18 @@
             <ng-container matColumnDef="actions" stickyEnd>
               <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                <mat-icon (click)="runAction($event)" svgIcon="europair_edit"></mat-icon>
-                <mat-icon (click)="runAction($event, true, element.id)" svgIcon="europair_plane"></mat-icon>
-                <mat-icon (click)="runAction($event)" svgIcon="europair_trash"></mat-icon>
+                <!-- <mat-icon
+                  (click)="runAction($event)"
+                  svgIcon="europair_edit"
+                ></mat-icon> -->
+                <mat-icon
+                  (click)="navigateToSearchAircraft(element.id)"
+                  svgIcon="europair_plane"
+                ></mat-icon>
+                <mat-icon
+                  (click)="runAction($event)"
+                  svgIcon="europair_trash"
+                ></mat-icon>
               </mat-cell>
             </ng-container>
 
@@ -228,10 +237,10 @@
                     </mat-cell>
                   </ng-container>
 
-                  <!-- InitialDate Column-->
-                  <ng-container matColumnDef="initialDate">
+                  <!-- startDate Column-->
+                  <ng-container matColumnDef="startDate">
                     <mat-cell *matCellDef="let element">
-                      {{ element.initialDate }}
+                      {{ element.startDate }}
                     </mat-cell>
                   </ng-container>
 
@@ -289,10 +298,22 @@
 
                   <!-- Actions Column-->
                   <ng-container matColumnDef="actions">
-                    <mat-cell *matCellDef="let element" class="expanded-table-sticky end">
-                      <mat-icon (click)="runAction($event)" svgIcon="europair_edit"></mat-icon>
-                      <mat-icon (click)="runAction($event, true, element.id)" svgIcon="europair_plane"></mat-icon>
-                      <mat-icon (click)="runAction($event)" svgIcon="europair_trash"></mat-icon>
+                    <mat-cell
+                      *matCellDef="let element"
+                      class="expanded-table-sticky end"
+                    >
+                      <mat-icon
+                        (click)="editRotation(parentElement, element)"
+                        svgIcon="europair_edit"
+                      ></mat-icon>
+                      <mat-icon
+                        (click)="navigateToSearchAircraft(element.id)"
+                        svgIcon="europair_plane"
+                      ></mat-icon>
+                      <mat-icon
+                        (click)="runAction($event)"
+                        svgIcon="europair_trash"
+                      ></mat-icon>
                     </mat-cell>
                   </ng-container>
 
