@@ -333,9 +333,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToSearchAircraft(id: number) {
-    this.router.navigate(['/files/search/aircraft'], {
-      queryParams: { routeId: id },
-    });
+    this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
   }
 
   public editRotation(route: FileRoute, rotation: FileRoute) {
