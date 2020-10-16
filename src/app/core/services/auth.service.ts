@@ -72,7 +72,7 @@ export class AuthService {
 
   public getRedirectLoginUrl(): string {
     return (
-      sessionStorage.getItem(SESSION_STORAGE_KEYS.LOGIN_REDIRECT_URL) ?? 'tasks'
+      sessionStorage.getItem(SESSION_STORAGE_KEYS.LOGIN_REDIRECT_URL) ?? ''
     );
   }
 
