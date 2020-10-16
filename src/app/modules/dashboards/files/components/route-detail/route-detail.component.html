@@ -190,20 +190,45 @@
 
     <div class="table-container">
       <mat-table #flightsTable [dataSource]="dataSource">
-        <ng-container
-          [matColumnDef]="column.label"
-          *ngFor="let column of columnsToDisplay"
-        >
+        <!-- Origin Column-->
+        <ng-container matColumnDef="origin">
           <mat-header-cell *matHeaderCellDef>
-            {{ column.title }}
+            {{ "FLIGHT.ORIGIN_AIRPORT" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element[column.label] }}
+            {{ element.origin.iataCode }}
+          </mat-cell>
+        </ng-container>
+        <!-- Destination Column-->
+        <ng-container matColumnDef="destination">
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.DESTINATION_AIRPORT" | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.destination.iataCode }}
+          </mat-cell>
+        </ng-container>
+        <!-- Departure Time Column-->
+        <ng-container matColumnDef="departureTime">
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.DEPARTURE_TIME" | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.departureTime }}
+          </mat-cell>
+        </ng-container>
+        <!-- Arrival Time Column-->
+        <ng-container matColumnDef="arrivalTime">
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.ARRIVAL_TIME" | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.arrivalTime }}
           </mat-cell>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="columnsProps"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: columnsProps"></mat-row>
+        <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
       </mat-table>
       <mat-paginator
         [length]="this.paginatorLength"

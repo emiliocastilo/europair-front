@@ -87,16 +87,9 @@ export class RouteDetailComponent implements OnInit {
 
   public airportsControl: FormControl = this.fb.control('');
 
-  public columnsToDisplay = [
-    { title: 'Aeropuerto Origen', label: 'origin' },
-    { title: 'Aeropuerto Destino', label: 'destination' },
-    { title: 'Fecha salida', label: 'departureTime' },
-    { title: 'Asientos F', label: 'seatsF' },
-    { title: 'Asientos C', label: 'seatsC' },
-    { title: 'Asientos Y', label: 'seatsY' },
-  ];
+  public columnsToDisplay = ['origin', 'destination', 'departureTime', 'arrivalTime'];
 
-  public columnsProps = this.columnsToDisplay.map((e) => e.label);
+
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
 

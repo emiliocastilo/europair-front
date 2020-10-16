@@ -86,45 +86,62 @@
         <!-- Origin Column-->
         <ng-container matColumnDef="origin">
           <mat-header-cell *matHeaderCellDef>
-            Aeropuerto Origen
+            {{ "FLIGHT.ORIGIN_AIRPORT" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.origin }}
+            {{ element.origin.iataCode }}
           </mat-cell>
         </ng-container>
         <!-- Destination Column-->
         <ng-container matColumnDef="destination">
           <mat-header-cell *matHeaderCellDef>
-            Aeropuerto Destino
+            {{ "FLIGHT.DESTINATION_AIRPORT" | translate }}
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.destination }}
+            {{ element.destination.iataCode }}
           </mat-cell>
         </ng-container>
         <!-- Departure Date Column-->
         <ng-container matColumnDef="departureTime">
-          <mat-header-cell *matHeaderCellDef> Fecha Salida </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.DEPARTURE_TIME" | translate }}
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.departureTime }}
           </mat-cell>
         </ng-container>
+        <!-- Departure Date Column-->
+        <ng-container matColumnDef="arrivalTime">
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.ARRIVAL_TIME" | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.arrivalTime }}
+          </mat-cell>
+        </ng-container>
         <!-- Seats F Column-->
         <ng-container matColumnDef="seatsF">
-          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.SEATS_F" | translate }}
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.seatsF }}
           </mat-cell>
         </ng-container>
         <!-- Seats C Column-->
         <ng-container matColumnDef="seatsC">
-          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.SEATS_C" | translate }}
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.seatsC }}
           </mat-cell>
         </ng-container>
         <!-- Seats Y Column-->
         <ng-container matColumnDef="seatsY">
-          <mat-header-cell *matHeaderCellDef> Asientos F </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ "FLIGHT.SEATS_Y" | translate }}
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{ element.seatsY }}
           </mat-cell>
@@ -180,20 +197,19 @@
     </mat-expansion-panel-header>
 
     <form [formGroup]="flightForm">
-      <div class="row">
+      <div class="row row-no-margin-bottom">
         <core-select
           [label]="'ROTATIONS.ORIGIN_AIRPORT' | translate"
           [id]="'search-origin-airport'"
           [items]="airports$ | async"
           [minTermLength]="1"
           [loading]="airportsLoading"
-          class="col s12 l6 cmd-mb-1"
+          class="col s12 l6 cmd-pb-1"
           [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
           [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
           [hasErrors]="hasControlAnyError('origin')"
           [typeahead]="airportsInput$"
           [searchable]="true"
-          [itemValue]="'iataCode'"
           [itemDescription]="'iataCode'"
           [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="origin"
@@ -217,13 +233,12 @@
           [items]="airports$ | async"
           [minTermLength]="1"
           [loading]="airportsLoading"
-          class="col s12 l6 cmd-mb-1"
+          class="col s12 l6 cmd-pb-1"
           [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
           [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
           [hasErrors]="hasControlAnyError('destination')"
           [typeahead]="airportsInput$"
           [searchable]="true"
-          [itemValue]="'iataCode'"
           [itemDescription]="'iataCode'"
           [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="destination"
@@ -241,44 +256,8 @@
             </ng-container>
           </ng-container>
         </core-select>
-        <app-input
-          [type]="'date'"
-          [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate"
-          formControlName="departureDate"
-          class="col s12 l4 cmd-pb-1"
-        >
-          <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
-            <mat-error
-              class="ep-error-msg"
-              *ngIf="hasControlSpecificError('departureDate', 'required')"
-            >
-              {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
-            </mat-error>
-            <mat-error
-              class="ep-error-msg"
-              *ngIf="
-                hasControlSpecificError('departureDate', 'dateBeforeLimit')
-              "
-            >
-              {{ "ROTATIONS.ERRORS.DEPARTURE_DATE_BF_LIMIT" | translate }}
-            </mat-error>
-          </ng-container>
-        </app-input>
-        <app-input
-          [type]="'time'"
-          [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate"
-          formControlName="departureTime"
-          class="col s12 l4 cmd-pb-1"
-        >
-          <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
-            <mat-error
-              class="ep-error-msg"
-              *ngIf="hasControlSpecificError('departureTime', 'required')"
-            >
-              {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
-            </mat-error>
-          </ng-container>
-        </app-input>
+      </div>
+      <div class="row row-no-margin-bottom">
         <core-select
           [items]="timeZones$ | async"
           [id]="'type-category'"
@@ -289,7 +268,7 @@
           [itemDescription]="'description'"
           [hasErrors]="hasControlAnyError('timeZone')"
           formControlName="timeZone"
-          class="col s12 l4 cmd-pb-1"
+          class="col s12 l6 cmd-pb-1"
         >
           <ng-container inputErrors *ngIf="hasControlAnyError('timeZone')">
             <span
@@ -301,7 +280,71 @@
           </ng-container>
         </core-select>
       </div>
-      <div class="row">
+      <div class="row row-no-margin-bottom">
+        <app-input
+          [type]="'date'"
+          [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate"
+          formControlName="departureDate"
+          class="col s12 l6 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('departureDate', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [type]="'time'"
+          [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate"
+          formControlName="departureTime"
+          class="col s12 l6 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('departureTime', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+      </div>
+      <div class="row row-no-margin-bottom">
+        <app-input
+          [type]="'date'"
+          [prefix]="'ROTATIONS.ARRIVAL_DATE' | translate"
+          formControlName="arrivalDate"
+          class="col s12 l6 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('arrivalDate')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('arrivalDate', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [type]="'time'"
+          [prefix]="'ROTATIONS.ARRIVAL_TIME' | translate"
+          formControlName="arrivalTime"
+          class="col s12 l6 cmd-pb-1"
+        >
+          <ng-container inputErrors *ngIf="hasControlAnyError('arrivalTime')">
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="hasControlSpecificError('arrivalTime', 'required')"
+            >
+              {{ "ROTATIONS.ERRORS.ARRIVAL_TIME" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+      </div>
+      <div class="row row-no-margin-bottom">
         <app-input
           [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
           [hasErrors]="hasControlAnyError('seatsF')"
@@ -353,6 +396,8 @@
             </mat-error>
           </ng-container>
         </app-input>
+      </div>
+      <div class="row">
         <app-input
           [prefix]="'SEARCH_AIRCRAFT.BEDS' | translate"
           [hasErrors]="hasControlAnyError('beds')"

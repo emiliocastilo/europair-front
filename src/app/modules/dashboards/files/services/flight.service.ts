@@ -5,7 +5,7 @@ import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-f
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { Flight } from '../models/Flight.model';
+import { Flight, FlightOrder } from '../models/Flight.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +46,10 @@ export class FlightService {
   public deleteFlight(fileId: number, routeId: number, flight: Flight): Observable<void> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/flights/${flight.id}`;
     return this.http.delete<void>(url);
+  }
+
+  public reorderFlights(fileId: number, routeId: number, flightsOrder: FlightOrder[]): Observable<void> {
+    const url: string = `${this.url}${fileId}/routes/${routeId}/flights/reorder`;
+    return this.http.put<void>(url, flightsOrder);
   }
 }
