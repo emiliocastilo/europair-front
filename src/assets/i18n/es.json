@@ -546,6 +546,8 @@
     "DESTINATION_AIRPORT": "Aeropuerto destino",
     "DEPARTURE_DATE": "Fecha salida",
     "DEPARTURE_TIME": "Hora salida",
+    "ARRIVAL_DATE": "Fecha llegada",
+    "ARRIVAL_TIME": "Hora llegada",
     "SEATS_F": "Asientos F",
     "SEATS_C": "Asientos C",
     "SEATS_Y": "Asientos Y",
@@ -560,11 +562,21 @@
       "ORIGIN_AIRPORT": "Debe indicar un aeropuerto de origen",
       "DESTINATION_AIRPORT": "Debe indicar un aeropuerto de destino",
       "DEPARTURE_DATE": "Debe indicar una fecha de salida",
-      "DEPARTURE_DATE_BF_LIMIT": "No puede ser anterior a la fecha de inicio de la rotación",
       "DEPARTURE_TIME": "Debe indicar una hora de salida",
+      "ARRIVAL_DATE": "Debe indicar una fecha de llegada",
+      "ARRIVAL_TIME": "Debe indicar una hora de llegada",
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
       "TIME_ZONE": "Debe indicar una zona horaria"
     }
+  },
+  "FLIGHT": {
+    "ORIGIN_AIRPORT": "Aeropuerto origen",
+    "DESTINATION_AIRPORT": "Aeropuerto destino",
+    "DEPARTURE_TIME": "Salida",
+    "ARRIVAL_TIME": "Llegada",
+    "SEATS_F": "Asientos F",
+    "SEATS_C": "Asientos C",
+    "SEATS_Y": "Asientos Y"
   },
   "FREQUENCIES": {
     "UNITS": {

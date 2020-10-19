@@ -41,7 +41,6 @@ export class InputComponent implements OnInit, ControlValueAccessor {
 
   public clearInput(): void {
     this.value = this.defaultValue;
-    console.log(this.value);
     this.onTouch();
     this.onChange(this.value);
   }

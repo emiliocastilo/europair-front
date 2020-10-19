@@ -5,6 +5,10 @@
   background-color: $europair-color-blue-dark-1;
 }
 
+.row-no-margin-bottom {
+  margin-bottom: 0 !important;
+}
+
 // MAT EXPANSION PANEL
 .mat-expansion-panel {
   border-radius: 0 !important;
@@ -91,5 +95,13 @@
 }
 
 @include mat-table-columns(
-  ("origin", "destination", "departureTime", "seatsF", "seatsC", "seatsY")
+  (
+    "origin",
+    "destination",
+    "departureTime",
+    "arrivalTime",
+    "seatsF",
+    "seatsC",
+    "seatsY"
+  )
 );

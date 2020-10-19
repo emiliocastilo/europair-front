@@ -113,7 +113,7 @@ export class AdditionalServicesComponent implements OnInit, AfterViewInit {
     this.flightService.getFlights(this.fileId, this.rotationId)
       .subscribe((flightsPage: Page<Flight>) => {
         this.flights = flightsPage.content
-          .map((flight: Flight) => { return { ...flight, description: `${flight.origin} - ${flight.destination}` } });
+          .map((flight: Flight) => { return { ...flight, description: `${flight.origin.iataCode} - ${flight.destination.iataCode}` } });
         this.additionalServicesForm.get('flights').reset();
         if (this.flights?.length === 1) {
           this.additionalServicesForm.get('flights').setValue([this.flights[0].id]);

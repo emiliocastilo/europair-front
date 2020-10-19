@@ -13,11 +13,12 @@ import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs
 import { TimeZone } from 'src/app/core/models/base/time-zone';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { SortOrder } from 'src/app/core/models/table/sort-button/sort-by-column';
 import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import { Airport } from '../../../masters/regions/models/airport';
 import { DAYS_LIST, FrequencyType, FREQUENCY_LIST } from '../../models/FileRoute.model';
-import { Flight } from '../../models/Flight.model';
+import { Flight, FlightOrder } from '../../models/Flight.model';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { FlightService } from '../../services/flight.service';
 
@@ -50,7 +51,7 @@ export class RotationDetailComponent implements OnInit {
     endDate: [{ value: '', disabled: true}],
   });
 
-  public columnsToDisplay = ['selection', 'origin', 'destination', 'departureTime', 'seatsF' , 'seatsC',
+  public columnsToDisplay = ['selection', 'origin', 'destination', 'departureTime', 'arrivalTime', 'seatsF' , 'seatsC',
   'seatsY', 'actions'
   ];
 
@@ -59,10 +60,13 @@ export class RotationDetailComponent implements OnInit {
 
   public flightForm: FormGroup = this.fb.group({
     id: [null],
+    order: [null],
     origin: ['', Validators.required],
     destination: ['', Validators.required],
     departureDate: [null, Validators.required],
     departureTime: [null, Validators.required],
+    arrivalDate: [null, Validators.required],
+    arrivalTime: [null, Validators.required],
     timeZone: [null, Validators.required],
     seatsF: ['', Validators.min(0)],
     seatsC: ['', Validators.min(0)],
@@ -83,6 +87,7 @@ export class RotationDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.flightSearchFilter['sort'] = `order,${SortOrder.ASC}`;
     this.getRouteInfo();
     this.loadSelectsData();
   }
@@ -202,9 +207,10 @@ export class RotationDetailComponent implements OnInit {
   }
 
   private updateFlightForm() {
-    const {departureTime: departureDateTime, ...flightWithoutDepartureTime} = this.selectedFlight;
-    const [departureDate, departureTime] = departureDateTime.split(' ');
-    this.flightForm.patchValue({...flightWithoutDepartureTime, departureDate, departureTime});
+    const {departureTime: departureDateTime, arrivalTime: arrivaleDateTime, ...flightWithoutDepartureTime} = this.selectedFlight;
+    const [departureDate, departureTime] = typeof departureDateTime === 'string'? departureDateTime.split(' ') : [null, null];
+    const [arrivalDate, arrivalTime] = typeof arrivaleDateTime === 'string'? arrivaleDateTime.split(' ') : [null, null];;
+    this.flightForm.patchValue({ ...flightWithoutDepartureTime, departureDate, departureTime, arrivalDate, arrivalTime });
   }
 
   public deleteFlight(flight: Flight) {
@@ -213,8 +219,8 @@ export class RotationDetailComponent implements OnInit {
         title: 'ROTATIONS.DELETE_FLIGHT_TITLE',
         message: 'ROTATIONS.DELETE_FLIGHT_MSG',
         translationParams: {
-          origin: flight.origin,
-          destination: flight.destination,
+          origin: flight.origin.iataCode,
+          destination: flight.destination.iataCode,
           departureTime: flight.departureTime
         }
       }
@@ -227,6 +233,7 @@ export class RotationDetailComponent implements OnInit {
   }
 
   public editFlight() {
+    console.log(this.flightForm.value);
     if (!this.flightForm.valid) {
       this.flightForm.markAllAsTouched();
       return;
@@ -250,11 +257,14 @@ export class RotationDetailComponent implements OnInit {
   }
 
   private createFlightFromFlightFormValue(flightFormValue: any): Flight {
-    const {departureTime, departureDate, ...flightData} = flightFormValue;
+    const {departureTime, departureDate, arrivalDate, arrivalTime, origin, destination, ...flightData} = flightFormValue;
 
     return {
       ...flightData,
-      departureTime: departureDate + ' ' + departureTime
+      departureTime: departureDate + ' ' + departureTime,
+      arrivalTime: arrivalDate + ' ' + arrivalTime,
+      originId: origin.id,
+      destinationId: destination.id
     };
   }
 
@@ -273,9 +283,14 @@ export class RotationDetailComponent implements OnInit {
   }
 
   public reorderFlights() {
-    //TODO add reorder logic
-    console.log(this.dataSource.data);
-    this.hideReorderButton();
+    this.flightService.reorderFlights(this.fileId, this.rotationId, this.getFlightsOrder(this.dataSource.data))
+      .subscribe(_ => this.refreshScreenData());
+
+    console.log(this.getFlightsOrder(this.dataSource.data));
+  }
+
+  public getFlightsOrder(flights: Flight[]): FlightOrder[] {
+    return flights.map((flight: Flight, index: number) => ({ id: flight.id, order: index + 1 }));
   }
 
   public hasControlAnyError(controlName: string): boolean {
