@@ -353,11 +353,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       this.expandedTable.updateStickyColumnStyles();
     }, 1000);
   }
-
-  public showConfirmOperationButton(): boolean {
-    return true;
-  }
-
+  
   public openConfirmOperationModal(): void {
     this.modalService.initializeModal(this.confirmOperationModal, {
       dismissible: false,
