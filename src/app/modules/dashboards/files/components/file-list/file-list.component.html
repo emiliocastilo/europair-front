@@ -38,7 +38,8 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "FILES.STATUS" | translate }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.status.name }} </mat-cell>
+      <mat-cell *matCellDef="let element"
+      [ngClass]="{'booked-blue': isBookedBlue(element), 'booked-green': isBookedGreen(element)}"> {{ element.status.name }} </mat-cell>
     </ng-container>
 
     <!-- Client Column -->

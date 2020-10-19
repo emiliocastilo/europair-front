@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { File } from '../../models/File.model';
+import { File, FileStatusCode } from '../../models/File.model';
 import { FilesService } from '../../services/files.service';
 
 @Component({
@@ -43,6 +43,14 @@ export class FileListComponent implements OnInit {
     this.paginatorLength = files.totalElements;
     this.paginatorSize = files.size;
   };
+
+  public isBookedBlue(file: File): boolean {
+    return file.status?.code === FileStatusCode.BLUE_BOOKED;
+  }
+
+  public isBookedGreen(file: File): boolean {
+    return file.status?.code === FileStatusCode.GREEN_BOOKED;
+  }
 
   public goToDetail(file: File) {
     this.router.navigate(['files', file.id]);

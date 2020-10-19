@@ -1,24 +1,24 @@
 <ng-container *ngIf="routeData$ | async as routeData">
   <core-page-bar [pageTitle]="routeData.title | translate"></core-page-bar>
   <div class="row">
-    <button
-      class="browser-default col s12 l2 cmd-mb-2"
-      color="primary"
-      mat-raised-button
-      [disabled]="!fileForm.valid"
-      (click)="onSaveFile(routeData.isFileDetail)"
-    >
+    <button class="browser-default col s12 l2 cmd-mb-2" color="primary" mat-raised-button [disabled]="!fileForm.valid"
+      *ngIf="showAction(fileAction.MODIFY_FILE)" (click)="onSaveFile(routeData.isFileDetail)">
       Guardar Expediente
     </button>
 
-    <button
-      *ngIf="showConfirmOperationButton() && routeData.isFileDetail"
-      color="primary"
-      class="col s12 l2 offset-l8 cmd-mb-1"
-      (click)="openConfirmOperationModal()"
-      mat-raised-button
-    >
+    <button *ngIf="showAction(fileAction.CONFIRM_OPERATION)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
+      (click)="openConfirmOperationModal()" mat-raised-button>
       {{ "FILES.CONFIRM_OPERATION" | translate }}
+    </button>
+
+    <button *ngIf="showAction(fileAction.CREATE_CONTRACT)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
+      (click)="createContract()" mat-raised-button>
+      {{ "FILES.CREATE_CONTRACT" | translate }}
+    </button>
+
+    <button *ngIf="showAction(fileAction.SIGN_FILE)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
+      (click)="signFile()" mat-raised-button>
+      {{ "FILES.SING_FILE" | translate }}
     </button>
   </div>
 
@@ -32,50 +32,28 @@
       <ng-template matExpansionPanelContent>
         <form [formGroup]="fileForm">
           <div class="row">
-            <app-input
-              [prefix]="'FILES.CODE' | translate"
-              [hasErrors]="hasControlAnyError('code')"
-              [errorStateMatcher]="matcher"
-              formControlName="code"
-              class="col s12 l4"
-            >
-              <ng-container inputErrors>
-                <mat-error
-                  class="ep-error-msg"
-                  *ngIf="hasControlAnyError('code')"
-                >
-                  {{ "FILES.ERRORS.CODE" | translate }}
-                </mat-error>
-              </ng-container>
+            <app-input [prefix]="'FILES.CODE' | translate" [hasErrors]="hasControlAnyError('code')"
+              [errorStateMatcher]="matcher" formControlName="code" class="col s12 l4">
             </app-input>
 
-            <app-input
-              [prefix]="'FILES.DESCRIPTION' | translate"
-              [hasErrors]="hasControlAnyError('description')"
-              [errorStateMatcher]="matcher"
-              formControlName="description"
-              class="col s12 l4"
-            >
+            <app-input [prefix]="'FILES.DESCRIPTION' | translate" [hasErrors]="hasControlAnyError('description')"
+              [errorStateMatcher]="matcher" formControlName="description" class="col s12 l4">
               <ng-container inputErrors>
-                <mat-error
-                  class="ep-error-msg"
-                  *ngIf="hasControlAnyError('description')"
-                >
+                <mat-error class="ep-error-msg" *ngIf="hasControlAnyError('description')">
                   {{ "FILES.ERRORS.DESCRIPTION" | translate }}
                 </mat-error>
               </ng-container>
             </app-input>
 
-            <app-autocomplete
-              class="col s12 l4"
-              [options]="statusOptions$ | async"
-              [prefix]="'FILES.STATUS' | translate"
-              [lengthToTriggerSearch]="0"
-              optionValue="id"
-              optionLabel="name"
-              formControlName="status"
-            >
-            </app-autocomplete>
+            <core-select class="col s12 l4" [items]="statusOptions"
+              [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
+              [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
+              <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
+                <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
+                  [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
+                </span>
+              </ng-container>
+            </core-select>
           </div>
 
           <div class="row">
@@ -93,15 +71,9 @@
               </ng-container>
             </app-input> -->
 
-            <app-autocomplete
-              class="col s12 l4"
-              [options]="clientOptions$ | async"
-              [prefix]="'FILES.CLIENT' | translate"
-              [lengthToTriggerSearch]="0"
-              optionValue="id"
-              optionLabel="name"
-              formControlName="client"
-            >
+            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
+              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="client">
             </app-autocomplete>
           </div>
         </form>
@@ -114,7 +86,7 @@
           <mat-panel-title>
             {{ "FILES.ROUTES" | translate | sentenceCase }}
           </mat-panel-title>
-          <mat-panel-description *ngIf="routes.expanded">
+          <mat-panel-description *ngIf="routes.expanded && showAction(fileAction.CREATE_ROUTES)">
             <a mat-button routerLink="routes/new">
               {{ "FILES.NEW_ROUTE" | translate | sentenceCase }}
               <mat-icon svgIcon="europair_add"></mat-icon>
@@ -131,11 +103,8 @@
                 Rutas Petición
               </mat-header-cell>
               <mat-cell *matCellDef="let element" class="parent-route">
-                <mat-icon
-                  class="expand-icon"
-                  *ngIf="element.rotations.length > 0"
-                  [class.active]="expandedElements.includes(element)"
-                >
+                <mat-icon class="expand-icon" *ngIf="element.rotations.length > 0"
+                  [class.active]="expandedElements.includes(element)">
                   expand_more
                 </mat-icon>
                 {{ element.label }}
@@ -255,10 +224,7 @@
                 <mat-table [dataSource]="getChildRoutes(parentElement)">
                   <!-- Label Column -->
                   <ng-container matColumnDef="label">
-                    <mat-cell
-                      *matCellDef="let element"
-                      class="expanded-table-sticky start"
-                    >
+                    <mat-cell *matCellDef="let element" class="expanded-table-sticky start">
                       <span class="separator"> </span>
                       {{ element.label }}
                     </mat-cell>
@@ -317,10 +283,7 @@
 
                   <!-- Month Day Column-->
                   <ng-container matColumnDef="dayNumber">
-                    <mat-cell
-                      *matCellDef="let element"
-                      class="expanded-last-row"
-                    >
+                    <mat-cell *matCellDef="let element" class="expanded-last-row">
                       {{ element.dayNumber }}
                     </mat-cell>
                     <mat-cell> - </mat-cell>
@@ -328,10 +291,7 @@
 
                   <!-- Status Column-->
                   <ng-container matColumnDef="status">
-                    <mat-cell
-                      *matCellDef="let element"
-                      class="expanded-table-sticky end"
-                    >
+                    <mat-cell *matCellDef="let element" class="expanded-table-sticky end">
                       Pendiente
                     </mat-cell>
                   </ng-container>
@@ -357,37 +317,21 @@
                     </mat-cell>
                   </ng-container>
 
-                  <mat-row
-                    *matRowDef="let element; columns: columnsToDisplay"
-                  ></mat-row>
+                  <mat-row *matRowDef="let element; columns: columnsToDisplay"></mat-row>
                 </mat-table>
               </mat-cell>
             </ng-container>
 
-            <mat-header-row
-              *matHeaderRowDef="columnsToDisplay; sticky: true"
-            ></mat-header-row>
-            <mat-row
-              *matRowDef="let element; columns: columnsToDisplay"
-              class="element-row"
-              [class.expanded-row]="expandedElements.includes(element)"
-              (click)="expandRow(element)"
-            ></mat-row>
-            <mat-row
-              class="detail-row"
-              *matRowDef="let element; columns: ['expandedDetail']"
-              [@detailExpand]="
+            <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: columnsToDisplay" class="element-row"
+              [class.expanded-row]="expandedElements.includes(element)" (click)="expandRow(element)"></mat-row>
+            <mat-row class="detail-row" *matRowDef="let element; columns: ['expandedDetail']" [@detailExpand]="
                 expandedElements.includes(element) ? 'expanded' : 'collapsed'
-              "
-              style="overflow: hidden"
-            ></mat-row>
+              " style="overflow: hidden"></mat-row>
           </mat-table>
         </div>
 
-        <mat-paginator
-          [length]="resultsLength"
-          [pageSize]="pageSize"
-        ></mat-paginator>
+        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
       </mat-expansion-panel>
 
       <mat-expansion-panel #additionalServices class="cmd-mb-2">
@@ -480,7 +424,8 @@
               </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="columnsAdditionalServicesToDisplay"></mat-header-row>
-            <mat-row *matRowDef="let element; columns: columnsAdditionalServicesToDisplay" class="element-row"></mat-row>
+            <mat-row *matRowDef="let element; columns: columnsAdditionalServicesToDisplay" class="element-row">
+            </mat-row>
           </mat-table>
         </div>
         <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
@@ -507,18 +452,9 @@
               <mat-label>{{
                 "FILES.OBSERVATIONS_LABEL" | translate
               }}</mat-label>
-              <textarea
-                matInput
-                [(ngModel)]="observations"
-                [maxlength]="observationMaxLength"
-              ></textarea>
+              <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
             </mat-form-field>
-            <button
-              color="primary"
-              class="col s12 l2 offset-l10"
-              (click)="saveObservation()"
-              mat-raised-button
-            >
+            <button color="primary" class="col s12 l2 offset-l10" (click)="saveObservation()" mat-raised-button>
               {{ "FILES.CONFIRM" | translate }}
             </button>
           </div>
@@ -542,20 +478,13 @@
         <p>{{ "FILES.MSG_OPERATION" | translate }}</p>
         <mat-form-field class="col s12 l12 cmd-mt-1">
           <mat-label>{{ "FILES.OBSERVATIONS_LABEL" | translate }}</mat-label>
-          <textarea
-            matInput
-            [(ngModel)]="observations"
-            [maxlength]="observationMaxLength"
-          ></textarea>
+          <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
         </mat-form-field>
       </div>
     </section>
   </ng-container>
   <ng-container footer>
-    <a
-      class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
-      (click)="onConfirmOperation()"
-    >
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmOperation()">
       <i class="material-icons">check_circle</i>
       <span class="full-width-btn-text">{{ "FILES.CONFIRM" | translate }}</span>
     </a>

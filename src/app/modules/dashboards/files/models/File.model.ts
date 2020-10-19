@@ -1,3 +1,4 @@
+import { HttpLoaderFactory } from 'src/app/app.module';
 import { Country } from '../../masters/countries/models/country';
 
 export interface File {
@@ -22,7 +23,7 @@ export interface File {
 
 export interface FileStatus {
   id: number;
-  code: string;
+  code: FileStatusCode;
   name: string;
 }
 
@@ -49,4 +50,23 @@ export interface Provider {
   canaryIslands?: boolean;
   vies?: boolean;
   country?: Country;
+}
+
+export enum OperationType {
+  ACMI = 'ACMI',
+  COMMERCIAL = 'COMMERCIAL',
+  EXECUTIVE = 'EXECUTIVE',
+  CHARGE = 'CHARGE',
+  GROUP = 'GROUP',
+}
+
+export enum FileStatusCode {
+  NEW_REQUEST = 'NEW_REQUEST',
+  SALES = 'SALES',
+  OPTIONED = 'OPTIONED',
+  BLUE_BOOKED = 'BLUE_BOOKED',
+  GREEN_BOOKED = 'GREEN_BOOKED',
+  PREFLIGHT = 'PREFLIGHT',
+  CNX = 'CNX',
+  TEST_STATUS= 'TEST'
 }
