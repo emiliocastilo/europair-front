@@ -54,7 +54,7 @@
             </section>
             <section *ngIf="!collapseMenu" class="col m9 l9 valign-wrapper">
               <article class="text-block">
-                <span>{{ menuItem.label }}</span>
+                <span>{{ menuItem.label | translate }}</span>
               </article>
             </section>
           </div>
@@ -84,7 +84,7 @@
                     (click)="expandReduceMenu()"
                     routerLinkActive="active-link"
                   >
-                    {{ child.label }}
+                    {{ child.label | translate }}
                   </a>
                 </article>
               </section>
