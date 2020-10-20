@@ -1,10 +1,10 @@
-export class LeftSideBarModel {
+export class MenuModel {
     constructor(
         public id:number,
         public name:string,
         public label:string,
         public icon:string,
         public route:string,
-        public childs:Array<LeftSideBarModel>
+        public childs:Array<MenuModel>
     ) { }
 }

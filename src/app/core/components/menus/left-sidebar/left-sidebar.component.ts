@@ -1,6 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { LeftSidebarService } from 'src/app/core/services/left-sidebar.service';
-import { LeftSideBarModel } from 'src/app/core/models/menus/left-sidebar.model';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { MenuModel } from 'src/app/core/models/menus/left-sidebar.model';
 
 @Component({
   selector: 'core-left-sidebar',
@@ -8,17 +7,13 @@ import { LeftSideBarModel } from 'src/app/core/models/menus/left-sidebar.model';
   styleUrls: ['./left-sidebar.component.scss'],
 })
 export class LeftSidebarComponent implements OnInit {
+  @Input() public menu: MenuModel;
   @Output() collapseClick: EventEmitter<boolean> = new EventEmitter<boolean>();
-  public menu: LeftSideBarModel;
   public collapseMenu: boolean;
 
-  constructor(private leftSideBarService: LeftSidebarService) {}
 
   ngOnInit(): void {
     this.collapseMenu = false;
-    this.leftSideBarService.getMenu().subscribe((data) => {
-      this.menu = data;
-    });
   }
 
   public expandReduceMenu(): void {
