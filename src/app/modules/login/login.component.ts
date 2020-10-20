@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
   }
 
   public onExternalLogin() {
-    console.log(this.loginForm.value);
     this._authService
       .login(this.loginForm.value)
       .subscribe(this.setTokenOnSessionStorage);

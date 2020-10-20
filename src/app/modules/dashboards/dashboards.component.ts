@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuModel } from 'src/app/core/models/menus/left-sidebar.model';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'dashboards',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardsComponent implements OnInit {
   public menuCollapsed: boolean;
-  constructor() {}
+  public menu: MenuModel;
+  constructor(private readonly menuService: MenuService) { }
 
   ngOnInit(): void {
     this.menuCollapsed = false;
+    this.menuService.getMenu().subscribe((data: MenuModel) => {
+      this.menu = data;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -21,10 +27,10 @@ export class DashboardsComponent implements OnInit {
     });
   }
 
-  public onCollapseClick(event:any): void{
-    if(event){
+  public onCollapseClick(event: any): void {
+    if (event) {
       this.menuCollapsed = true;
-    } else{
+    } else {
       this.menuCollapsed = false;
     }
   }

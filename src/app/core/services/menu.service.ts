@@ -3,17 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
-import { LeftSideBarModel } from '../models/menus/left-sidebar.model';
+import { MenuModel } from '../models/menus/left-sidebar.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LeftSidebarService {
+export class MenuService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getMenu():Observable<LeftSideBarModel>{
+  public getMenu(): Observable<MenuModel> {
     const url = environment.apiUrl + 'v1/menu/1';
-    return this.httpClient.get<LeftSideBarModel>(url);
+    return this.httpClient.get<MenuModel>(url);
   }
 }
