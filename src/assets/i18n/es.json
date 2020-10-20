@@ -12,6 +12,7 @@
       "OPERATORS": "Operadores",
       "CONTACTS": "Contactos",
       "FLEET": {
+        "TITLE": "Flota",
         "AIRCRAFT": "Aeronaves",
         "CATEGORIES": "Categorías",
         "TYPES": "Tipos"
