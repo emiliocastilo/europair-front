@@ -3,23 +3,21 @@
 <section class="button-bar cmd-mt-1">
   <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
     [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
-    <i class="material-icons left">{{ "save" }}</i>
+    <i class="material-icons left">save</i>
     {{ "COMMON.SAVE" | translate }}
   </a>
-  <div class="fixed-action-btn">
-    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
-      [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
-      <i class="material-icons">{{ "save" }}</i>
-    </a>
-  </div>
   <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only" (click)="viewFleet()">
-    <i class="material-icons left">{{ "visibility" }}</i>
+    <i class="material-icons left">visibility</i>
     {{ "OPERATORS.VIEW_FLEET" | translate }}
   </a>
   <div class="fixed-action-btn">
     <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
       (click)="viewFleet()">
-      <i class="material-icons">{{ "visibility" }}</i>
+      <i class="material-icons">visibility</i>
+    </a>
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      [ngClass]="{ disabled: !operatorForm.valid }" (click)="onSaveOperator()">
+      <i class="material-icons">save</i>
     </a>
   </div>
 </section>
