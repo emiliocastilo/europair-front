@@ -2,7 +2,7 @@ import { HttpLoaderFactory } from 'src/app/app.module';
 import { Country } from '../../masters/countries/models/country';
 
 export interface File {
-  id: number;
+  id?: number;
   code?: string;
   description?: string;
   status?: FileStatus;
