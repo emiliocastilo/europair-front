@@ -27,7 +27,14 @@ const routes: Routes = [
         (m) => m.AditionalServicesModule
       ),
     data: { title: 'NEW', isRouteDetail: false },
-  }
+  },
+  {
+    path: 'routes/:routeId/contributions/:contributionId',
+    loadChildren: () =>
+      import('../contribution-detail/contribution-detail.module').then(
+        (m) => m.ContributionDetailModule
+      ),
+  },
 ];
 
 @NgModule({
