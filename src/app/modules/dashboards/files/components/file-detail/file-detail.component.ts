@@ -50,6 +50,8 @@ import { Client, File, FileStatus, FileStatusCode } from '../../models/File.mode
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
 import { AdditionalServiceService } from '../../services/additional-services.service';
+import { ContributionService } from '../../services/contribution.service';
+import { Contribution } from '../search-aircraft/models/contribution.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -117,7 +119,19 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'actions',
   ];
   public columnsAdditionalServicesToDisplay = ['code', 'description', 'quantity', 'provider', 'purchasePrice', 'salePrice', 'tax', 'commision', 'comment', 'seller', 'status'];
-
+  public columnsContributionsToDisplay = [
+    'label',
+    'frequency',
+    'startDate',
+    'endDate',
+    'frequencyDays',
+    'rotations.length',
+    'seats',
+    'periodDays',
+    'dayNumber',
+    'status',
+    'actions',
+  ];
   public dataSource = new MatTableDataSource();
   public dataSourceAdditionalService = new MatTableDataSource();
   public expandedElements: FileRoute[] = [];
@@ -144,6 +158,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public matcher = new FileErrorStateMatcher();
 
   private isFileDetail: boolean;
+  private fileContributionsMap: Map<number, Contribution[]> = new Map();
   constructor(
     private modalService: ModalService,
     private fb: FormBuilder,
@@ -153,7 +168,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
-    private clientService: ClientsService
+    private clientService: ClientsService,
+    private contributionService: ContributionService,
   ) {}
 
   ngAfterViewInit(): void {}
@@ -430,5 +446,35 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       };
     }
     return error;
+  }
+
+  public getContributionData(fileRoute: FileRoute): MatTableDataSource<Contribution> {
+    return new MatTableDataSource(this.fileContributionsMap.get(fileRoute.id));
+  }
+
+  public expandContributionsRow(element: FileRoute) {
+    const index: number = this.expandedElements.indexOf(element);
+    index !== -1
+      ? this.expandedElements.splice(index, 1)
+      : this.expandedElements.push(element);
+    setTimeout(() => {
+      this.expandedTable.updateStickyColumnStyles();
+    }, 1000);
+    this.getFileRouteContributionData(element);
+  }
+
+  public getFileRouteContributionData(fileRoute: FileRoute): void {
+    this.contributionService.getContributions(this.fileData.id, fileRoute.id)
+    .pipe(map(page => page.content))
+    .subscribe((contributions: Contribution[]) => this.fileContributionsMap.set(fileRoute.id, contributions));
+  }
+
+  public navigateToContributionDetail(fileRoute: FileRoute, contribution: Contribution) {
+    console.log('NAVIGATING TO CONTRIBUTION DETAIL', fileRoute, contribution);
+    this.router.navigate(['routes', fileRoute.id,'contributions', contribution.id], {relativeTo: this.route});
+  }
+
+  public deleteContribution(contribution: Contribution) {
+    console.log('DELETING CONTRIBUTION', contribution);
   }
 }
