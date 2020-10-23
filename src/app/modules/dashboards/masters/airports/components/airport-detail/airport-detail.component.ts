@@ -43,7 +43,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
 
   public generalDataForm = this.fb.group({
     id: [null],
-    iataCode: ['', Validators.required],
+    iataCode: [''],
     icaoCode: ['', Validators.required],
     name: ['', Validators.required],
     country: ['', Validators.required],
