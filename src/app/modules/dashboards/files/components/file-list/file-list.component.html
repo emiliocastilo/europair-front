@@ -53,7 +53,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (dblclick)="goToDetail(row)"
+      (dblclick)="goToDetail(row)" (touchend)="goToDetail(row)"
     ></mat-row>
   </mat-table>
   <mat-paginator
