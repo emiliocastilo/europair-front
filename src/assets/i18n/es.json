@@ -1,4 +1,31 @@
 {
+  "MENU": {
+    "MASTERS" : {
+      "REGIONS": "Regiones",
+      "COUNTRIES": "Paises",
+      "CITIES": "Ciudades",
+      "TITLE": "Maestros",
+      "TASKS": "Tareas",
+      "ROLES": "Roles",
+      "USERS": "Usuarios",
+      "AIRPORTS": "Aeropuertos",
+      "OPERATORS": "Operadores",
+      "CONTACTS": "Contactos",
+      "FLEET": {
+        "TITLE": "Flota",
+        "AIRCRAFT": "Aeronaves",
+        "CATEGORIES": "Categorías",
+        "TYPES": "Tipos"
+      }
+    },
+    "FILES": {
+      "TITLE": "Expedientes",
+      "LIST": "Listado"
+    },
+    "CONFIGURATION": {
+      "TITLE": "Configuración"
+    }
+  },
   "COMMON": {
     "CERTIFICATIONS": "certificaciones",
     "CONFIRM": "confirmar",

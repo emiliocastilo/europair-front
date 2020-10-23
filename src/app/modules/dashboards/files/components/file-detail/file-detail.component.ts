@@ -19,6 +19,7 @@ import {
   FormGroupDirective,
   NgForm,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 import {
   FileRoute,
@@ -129,12 +130,12 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
-    code: [''],
+    code: [{value: '', disabled: true}],
     description: [''],
     status: [''],
-    client: [''],
+    client: ['', Validators.required],
     statusId: ['', this.validatorRequiredEditMode.bind(this)],
-    clientId: [''],
+    clientId: ['', Validators.required]
   });
 
   public statusOptions: FileStatus[] = [];
@@ -152,8 +153,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
-    private clientService: ClientsService,
-    private additionalServicesService: AdditionalServiceService
+    private clientService: ClientsService
   ) {}
 
   ngAfterViewInit(): void {}
@@ -424,7 +424,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private validatorRequiredEditMode(formControl: FormControl): ValidationErrors {
     let error: ValidationErrors = null;
-    if((!formControl || !formControl.value) && this.isFileDetail) {
+    if ((!formControl || !formControl.value) && this.isFileDetail) {
       error = {
         required: true
       };

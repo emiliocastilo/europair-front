@@ -92,8 +92,8 @@ export class AirportsTableAdapterService {
       airportRow.pushColumn(new ColumnDataModel('text', airport.iataCode));
       airportRow.pushColumn(new ColumnDataModel('text', airport.icaoCode));
       airportRow.pushColumn(new ColumnDataModel('text', airport.name));
-      airportRow.pushColumn(new ColumnDataModel('text', airport.city.name));
-      airportRow.pushColumn(new ColumnDataModel('text', airport.country.name));
+      airportRow.pushColumn(new ColumnDataModel('text', airport.city?.name));
+      airportRow.pushColumn(new ColumnDataModel('text', airport.country?.name));
       airportRow.pushColumn(this.getTrackColumnData(airport));
       airportRow.pushColumn(new ColumnDataModel('actions', actions));
       airportRow.setAuditParams(airport);

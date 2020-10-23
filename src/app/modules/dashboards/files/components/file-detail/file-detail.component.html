@@ -45,15 +45,10 @@
               </ng-container>
             </app-input>
 
-            <core-select class="col s12 l4" [items]="statusOptions"
-              [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
-              [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
-              <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
-                <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
-                  [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
-                </span>
-              </ng-container>
-            </core-select>
+            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
+              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="client">
+            </app-autocomplete>
           </div>
 
           <div class="row">
@@ -71,10 +66,15 @@
               </ng-container>
             </app-input> -->
 
-            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
-              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
-              formControlName="client">
-            </app-autocomplete>
+            <core-select class="col s12 l4" [items]="statusOptions" *ngIf="routeData.isFileDetail"
+              [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
+              [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
+              <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
+                <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
+                  [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
+                </span>
+              </ng-container>
+            </core-select>
           </div>
         </form>
       </ng-template>

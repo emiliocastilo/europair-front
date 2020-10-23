@@ -19,11 +19,11 @@
       </div>
     </nav>
   </div>
-
-  <ul class="sidenav" id="mobile-demo">
-    <li><a [routerLink]="['/roles']">Roles</a></li>
-    <li><a [routerLink]="['/tasks']">Tareas</a></li>
-    <li><a [routerLink]="['/regions']">Regiones</a></li>
-    <li><a [routerLink]="['/users']">Usuarios</a></li>
-  </ul>
+<ul class="sidenav" id="mobile-demo">
+  <li *ngFor="let menuItem of menu?.childs; let first = first">{{ menuItem.label | translate}}
+    <ul>
+      <li *ngFor="let child of menuItem.childs"><a [routerLink]="[child.route]" routerLinkActive="active-link" (click)="expandReduceMenu()">{{ child.label | translate }}</a></li>
+    </ul>
+  </li>
+</ul>
          
