@@ -506,8 +506,6 @@
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
     "NEW_ROUTE": "Nueva ruta",
-    "OBSERVATIONS": "Observaciones operaciones",
-    "OBSERVATIONS_LABEL": "Comentario:",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
     "CONFIRM_OPERATION": "Confirmar Operación",
     "CREATE_CONTRACT": "Crear Contrato",
@@ -536,6 +534,20 @@
       "SERVICES": "Servicio",
       "SERVICES_SEARCH_TEXT": "Escribe el nombre del servicio",
       "SELECT_SERVICES": "Selecciona un servicio"
+    },
+    "OPERATIONS_OBSERVATIONS": {
+      "TITLE": "Observaciones operaciones",
+      "FLIGHT_REASON": "Motivo del vuelo",
+      "CONECTIONS": "Conexiones",
+      "FLIGHT_LIMITATION": "Limitaciones vuelo",
+      "FUEL": "Fuel fijo o variable",
+      "EQUIPMENT": "Equipaje",
+      "SPECIAL_EQUIPMENT": "Equipajes especiales",
+      "SERVICE_ON_BOARD": "Servicio a bordo",
+      "SPECIAL_REQUEST": "Peticiones especiales",
+      "OTHER_CHARGES": "Otros cargos previstos",
+      "OPERATIVE": "Operativa",
+      "OBSERVATIONS": "Comentario:"
     },
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",

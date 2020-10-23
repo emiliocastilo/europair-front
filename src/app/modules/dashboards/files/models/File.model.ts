@@ -70,3 +70,17 @@ export enum FileStatusCode {
   CNX = 'CNX',
   TEST_STATUS= 'TEST'
 }
+
+export interface ConfirmOperation {
+  flightReason?: string;
+  conections?: string;
+  flightLimitation?: string;
+  fuel?: string;
+  equipment?: string;
+  especialEquipment?: string;
+  serviceOnBoard?: string;
+  specialRequest?: string;
+  otherCharges?: string;
+  operative?: string;
+  observations?: string;
+}

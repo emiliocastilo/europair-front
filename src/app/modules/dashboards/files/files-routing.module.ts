@@ -33,6 +33,13 @@ const routes: Routes = [
             (m) => m.FileDetailModule
           ),
         data: { title: 'Detalles Expediente', isFileDetail: true },
+      },
+      {
+        path: ':fileId/confirm-operation',
+        loadChildren: () =>
+          import('./components/confirm-operation/confirm-operation.module').then(
+            (m) => m.ConfirmOperationModule
+          )
       }
     ],
   },

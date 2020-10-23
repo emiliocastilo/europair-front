@@ -46,10 +46,11 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { Client, File, FileStatus, FileStatusCode } from '../../models/File.model';
+import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
 import { AdditionalServiceService } from '../../services/additional-services.service';
+import { ConfirmOperationService } from '../../services/confirm-operation.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -94,6 +95,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatTable) expandedTable: MatTable<any>;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmOperationModal: ElementRef;
+  public readonly observationMaxLength: number = 5000;
 
   public fileData: File;
   public routes: Array<FileRoute>;
@@ -126,7 +128,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public observations: string;
-  public observationMaxLength: number = 5000;
   public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
@@ -138,6 +139,20 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     clientId: ['', Validators.required]
   });
 
+  public operationForm: FormGroup = this.fb.group({
+    flightReason: [''],
+    conections: [''],
+    flightLimitation: [''],
+    fuel: [''],
+    equipment: [''],
+    especialEquipment: [''],
+    serviceOnBoard: [''],
+    specialRequest: [''],
+    otherCharges: [''],
+    operative: [''],
+    observations: ['']
+  });
+
   public statusOptions: FileStatus[] = [];
   public clientOptions$: Observable<Client[]>;
 
@@ -145,7 +160,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private isFileDetail: boolean;
   constructor(
-    private modalService: ModalService,
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
@@ -153,7 +167,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
-    private clientService: ClientsService
+    private clientService: ClientsService,
+    private confirmOperationService: ConfirmOperationService
   ) {}
 
   ngAfterViewInit(): void {}
@@ -225,6 +240,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
     this.loadStatus();
     this.loadFileRoutes(file);
+    this.obtainOperation(file)
   }
 
   private loadStatus(): void {
@@ -243,6 +259,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.pageSize = data.size;
         this.hasRoutes = data.totalElements > 0;
       });
+  }
+
+  private obtainOperation(file: File): void {
+    this.confirmOperationService.getConfirmOperations(file.id)
+      .subscribe((operation: ConfirmOperation) => this.operationForm.patchValue(operation));
   }
 
   /**
@@ -323,6 +344,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public navigateConfirmOperation(): void {
+    this.router.navigate(['/files', this.fileData.id, 'confirm-operation']);
+  }
+
   public navigateToSearchAircraft(id: number) {
     this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
   }
@@ -353,13 +378,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       this.expandedTable.updateStickyColumnStyles();
     }, 1000);
   }
-  
-  public openConfirmOperationModal(): void {
-    this.modalService.initializeModal(this.confirmOperationModal, {
-      dismissible: false,
-    });
-    this.modalService.openModal();
-  }
 
   public createContract(): void {
     // TODO: nothing yet
@@ -369,21 +387,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
-  public saveObservation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength)
+  public saveObservations(): void {
+    const operation: ConfirmOperation = {
+      ...this.operationForm.value
     };
-    this.fileService.saveFile(file).subscribe();
-  }
-
-  public onConfirmOperation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength)/**,
-       status: */
-    };
-    this.fileService.saveFile(file).subscribe();
+    this.confirmOperationService.updateConfirmOperation(this.fileData.id, operation). subscribe();
   }
 
   public showAction(action: FileAction): boolean {
