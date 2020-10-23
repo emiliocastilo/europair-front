@@ -262,21 +262,19 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         ...this.fileForm.value,
       };
 
-      // TODO: Improve status - client Relations
-      delete this.fileData.client;
-      delete this.fileData.clientId;
-      delete this.fileData.status;
+      const file: File = {
+        clientId: this.fileForm.get('clientId').value,
+        description: this.fileForm.get('description').value,
+        contactId: 1,
+        providerId: 1,
+        salePersonId: 1,
+        saleAgentId: 1,
+        operationType: 'COMMERCIAL'
+      };
 
-      this.fileData.clientId = 1;
-      this.fileData.contactId = 1;
-      this.fileData.providerId = 1;
-      this.fileData.salePersonId = 1;
-      this.fileData.saleAgentId = 1;
-      this.fileData.operationType = 'COMMERCIAL';
+      console.log('SAVING FILE', file);
 
-      console.log('SAVING FILE', this.fileData);
-
-      this.fileService.saveFile(this.fileData).subscribe((resp) => {
+      this.fileService.saveFile(file).subscribe((resp) => {
         if (!update) {
           this.router.navigate([`/files/${resp.id}`]);
         } else {
