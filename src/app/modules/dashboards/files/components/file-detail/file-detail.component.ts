@@ -264,7 +264,12 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
       const file: File = {
         clientId: this.fileForm.get('clientId').value,
-        description: this.fileForm.get('description').value
+        description: this.fileForm.get('description').value,
+        contactId: 1,
+        providerId: 1,
+        salePersonId: 1,
+        saleAgentId: 1,
+        operationType: 'COMMERCIAL'
       };
 
       console.log('SAVING FILE', file);
