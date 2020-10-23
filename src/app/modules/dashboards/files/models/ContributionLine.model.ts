@@ -11,6 +11,12 @@ export interface ContributionLine {
   type: ServiceTypeEnum;
 }
 
+export interface RotationContributionLine {
+  contributionLine: ContributionLine;
+  rotation: string;
+  price: number;
+}
+
 export enum CurrencyEnum {
   AUD = 'AUD', // Dolar australiano
   CHF = 'CHF', // Franco suizo
@@ -52,14 +58,14 @@ export enum LineContributionRouteType {
 }
 
 export enum ServiceTypeEnum {
-  FLIGHT = 'VUE',
-  CARGO = 'CAR',
-  COMMISSION = 'COM',
-  TRANSPORT = 'TRA',
-  AIRPORT_TAX = 'ATX',
-  EXTRAS_ON_BOARD = 'EOB',
-  EXTRAS_ON_GROUND = 'EOG',
-  CATERING_ON_BOARD = 'COB',
-  CATERING_ON_GROUND = 'COG',
-  CANCEL_FEE = 'CNX',
+  FLIGHT = 'FLIGHT',
+  CARGO = 'CARGO',
+  COMMISSION = 'COMMISSION',
+  TRANSPORT = 'TRANSPORT',
+  AIRPORT_TAX = 'AIRPORT_TAX',
+  EXTRAS_ON_BOARD = 'EXTRAS_ON_BOARD',
+  EXTRAS_ON_GROUND = 'EXTRAS_ON_GROUND',
+  CATERING_ON_BOARD = 'CATERING_ON_BOARD',
+  CATERING_ON_GROUND = 'CATERING_ON_GROUND',
+  CANCEL_FEE = 'CANCEL_FEE',
 }

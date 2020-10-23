@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DatePipe, formatDate } from '@angular/common';
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -25,6 +26,7 @@ import {
   CURRENCIES,
   Currency,
   LineContributionRouteType,
+  RotationContributionLine,
   ServiceTypeEnum,
 } from '../../models/ContributionLine.model';
 import { Services } from '../../models/Services.model';
@@ -44,12 +46,13 @@ export class ContributionDetailComponent implements OnInit {
   private routeId: number;
   private contributionId: number;
   private contribution: Contribution;
+  private rotationsLabelMap: Map<number, string> = new Map();
   public purchasePriceControls: FormArray;
   public salePriceControls: FormArray;
-  public purchaseRotationContributionLines: ContributionLine[] = [];
+  public purchaseRotationContributionLines: RotationContributionLine[] = [];
   public purchaseServiceContributionLines: ContributionLine[] = [];
-  public saleRotationContributionLines: any[] = [];
-  public saleServiceContributionLines: any[] = [];
+  public saleRotationContributionLines: RotationContributionLine[] = [];
+  public saleServiceContributionLines: ContributionLine[] = [];
   public rotationsColumnsToDisplay = ['rotation', 'price'];
   public servicesColumnsToDisplay = [
     'service',
@@ -64,6 +67,7 @@ export class ContributionDetailComponent implements OnInit {
   public services$: Observable<Services[]>;
   public servicesInput$ = new Subject<string>();
   public servicesLoading = false;
+  private datePipe: DatePipe;
 
   public purchaseServiceForm = this.fb.group({
     type: ['', Validators.required],
@@ -101,8 +105,11 @@ export class ContributionDetailComponent implements OnInit {
     private readonly servicesService: ServicesService,
     private readonly contributionService: ContributionService,
     private readonly contributionLineService: ContributionLineService,
-    private readonly routesService: FileRoutesService
-  ) {}
+    private readonly routesService: FileRoutesService,
+    @Inject(LOCALE_ID) locale: string
+  ) {
+    this.datePipe = new DatePipe(locale);
+  }
 
   ngOnInit(): void {
     this.getRouteInfo();
@@ -121,8 +128,26 @@ export class ContributionDetailComponent implements OnInit {
 
   private refreshScreenData() {
     this.refreshContributionData();
-    this.refreshPurchaseData();
-    this.refreshSaleData();
+    this.routesService
+      .getFileRouteById(this.fileId, this.routeId)
+      .pipe(
+        map((route) => route.rotations),
+        tap((rotations) =>
+          rotations.map((rotation) =>
+            this.rotationsLabelMap.set(
+              rotation.id,
+              `${rotation.label} ${this.datePipe.transform(
+                rotation.endDate,
+                'dd/MM/yyyy'
+              )}`
+            )
+          )
+        )
+      )
+      .subscribe((rotations) => {
+        this.refreshPurchaseData();
+        this.refreshSaleData();
+      });
   }
 
   private refreshContributionData() {
@@ -166,16 +191,14 @@ export class ContributionDetailComponent implements OnInit {
       )
       .pipe(map((page) => page.content))
       .subscribe((lines) => {
-        this.purchaseRotationContributionLines = this.getRotationsLines(lines);
+        this.purchaseRotationContributionLines = this.createRotationsLines(
+          lines
+        );
         this.purchasePriceControls = new FormArray(
           this.purchaseRotationContributionLines.map(this.createPriceControls)
         );
         this.purchaseServiceContributionLines = this.getServicesLines(lines);
       });
-    // TODO: Get Rotation label
-    // this.routesService
-    //   .getFileRouteById(this.fileId, this.routeId)
-    //   .subscribe((route) => console.log(route.rotations));
   }
 
   private refreshSaleData() {
@@ -183,22 +206,28 @@ export class ContributionDetailComponent implements OnInit {
       .getSaleContributionLines(this.fileId, this.routeId, this.contributionId)
       .pipe(map((page) => page.content))
       .subscribe((lines) => {
-        this.saleRotationContributionLines = this.getRotationsLines(lines);
+        this.saleRotationContributionLines = this.createRotationsLines(lines);
         this.salePriceControls = new FormArray(
           this.saleRotationContributionLines.map(this.createPriceControls)
         );
         this.saleServiceContributionLines = this.getServicesLines(lines);
       });
-    // TODO: Get Rotation label
-    // this.routesService
-    //   .getFileRouteById(this.fileId, this.routeId)
-    //   .subscribe((route) => console.log(route.rotations));
   }
 
-  private getRotationsLines(lines: ContributionLine[]): ContributionLine[] {
-    return lines.filter(
-      (line: ContributionLine) => line.type === ServiceTypeEnum.FLIGHT
-    );
+  private createRotationsLines(
+    lines: ContributionLine[]
+  ): RotationContributionLine[] {
+    return lines
+      .filter((line: ContributionLine) => line.type === ServiceTypeEnum.FLIGHT)
+      .map((line: ContributionLine) => ({
+        contributionLine: line,
+        rotation: this.createRotationLabel(line),
+        price: line.price,
+      }));
+  }
+
+  private createRotationLabel(line: ContributionLine): string {
+    return this.rotationsLabelMap.get(line.routeId) ?? '';
   }
 
   private getServicesLines(lines: ContributionLine[]): ContributionLine[] {
@@ -208,10 +237,9 @@ export class ContributionDetailComponent implements OnInit {
   }
 
   private createPriceControls = (
-    rotationPurchaseContributionLine: ContributionLine
+    rotationPurchaseContributionLine: RotationContributionLine
   ): FormGroup => {
     return new FormGroup({
-      id: new FormControl(rotationPurchaseContributionLine.id),
       price: new FormControl(rotationPurchaseContributionLine.price),
     });
   };
@@ -308,11 +336,16 @@ export class ContributionDetailComponent implements OnInit {
         this.purchaseRotationContributionLines[index],
         control.value
       );
-      this.purchaseRotationContributionLines[index] = {
-        ...this.purchaseRotationContributionLines[index],
-        price: control.value,
-      };
-      this.refreshScreenData();
+      this.contributionLineService
+        .updateContributionLine(
+          this.fileId,
+          this.routeId,
+          this.contributionId,
+          this.getContributionLinePriceUpdated(
+            this.purchaseRotationContributionLines[index]
+          )
+        )
+        .subscribe((_) => this.refreshPurchaseData());
     }
   }
 
@@ -321,14 +354,19 @@ export class ContributionDetailComponent implements OnInit {
     if (control.valid && control.dirty) {
       console.log(
         'MODIFICANDO',
-        this.purchaseRotationContributionLines[index],
+        this.saleRotationContributionLines[index],
         control.value
       );
-      this.saleRotationContributionLines[index] = {
-        ...this.saleRotationContributionLines[index],
-        price: control.value,
-      };
-      this.refreshScreenData();
+      this.contributionLineService
+        .updateContributionLine(
+          this.fileId,
+          this.routeId,
+          this.contributionId,
+          this.getContributionLinePriceUpdated(
+            this.saleRotationContributionLines[index]
+          )
+        )
+        .subscribe((_) => this.refreshSaleData());
     }
   }
 
@@ -338,6 +376,15 @@ export class ContributionDetailComponent implements OnInit {
     fieldName: string
   ): FormControl {
     return controlsArray.at(index).get(fieldName) as FormControl;
+  }
+
+  private getContributionLinePriceUpdated(
+    rotationContributionLine: RotationContributionLine
+  ): ContributionLine {
+    return {
+      ...rotationContributionLine.contributionLine,
+      price: rotationContributionLine.price,
+    };
   }
 
   public newPurchaseService() {
@@ -425,6 +472,28 @@ export class ContributionDetailComponent implements OnInit {
 
   public copyPurchaseToSale(event: Event) {
     event.stopPropagation();
+    const confirmOperationRef = this.matDialog.open(
+      ConfirmOperationDialogComponent,
+      {
+        data: {
+          title: 'COMMON.CONFIRM_OPERATION',
+          message: 'CONTRIBUTIONS.OVERWRITE_SALES_MSG',
+        },
+      }
+    );
+    confirmOperationRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.contributionLineService
+          .generateContributionSaleLines(
+            this.fileId,
+            this.routeId,
+            this.contributionId
+          )
+          .subscribe((_) => {
+            this.refreshSaleData();
+          });
+      }
+    });
   }
 
   public hasControlAnyError(form: FormGroup, controlName: string): boolean {

@@ -119,7 +119,6 @@
     ></mat-header-row>
     <mat-row *matRowDef="let row; columns: rotationsColumnsToDisplay"></mat-row>
   </mat-table>
-
   <mat-table [dataSource]="purchaseServiceContributionLines" class="cmd-mb-2">
     <!-- Service Column-->
     <ng-container matColumnDef="service">

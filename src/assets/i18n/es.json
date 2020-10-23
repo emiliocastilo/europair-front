@@ -18,7 +18,8 @@
     "NOT_FOUND": "Sin resultados",
     "RETURN": "Volver",
     "SUCCESSFUL_OPERATION": "Operación exitosa",
-    "SAVE_ORDER": "Guardar orden"
+    "SAVE_ORDER": "Guardar orden",
+    "CONFIRM_OPERATION": "Confirmar Operación"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -587,6 +588,7 @@
     "OBSERVATIONS": "Observaciones",
     "DELETE_SERVICE_TITLE": "Confirmar eliminación servicio",
     "DELETE_SERVICE_MSG": "¿Está seguro que desea eliminar el servicio de tipo <b>{{ type }}</b> con importe <b>{{ price }}</b>?",
+    "OVERWRITE_SALES_MSG": "¿Está seguro que desea sobreescribir la información de <b>Ventas</b> con los datos actuales de <b>Compras</b>?",
     "SALES_COPY": "Copiar en ventas",
     "ERRORS": {
       "SERVICE_REQ": "Debe indicar un servicio",

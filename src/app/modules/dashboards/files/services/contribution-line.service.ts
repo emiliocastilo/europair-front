@@ -112,6 +112,16 @@ export class ContributionLineService {
     return this.http.post<number>(url, line);
   }
 
+  public updateContributionLine(
+    fileId: number,
+    routeId: number,
+    contributionId: number,
+    line: ContributionLine
+  ): Observable<void> {
+    const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/${contributionId}/linecontributionroute/${line.id}`;
+    return this.http.put<void>(url, line);
+  }
+
   public deleteContributionLine(
     fileId: number,
     routeId: number,
@@ -120,6 +130,15 @@ export class ContributionLineService {
   ): Observable<void> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/${contributionId}/linecontributionroute/${line.id}`;
     return this.http.delete<void>(url);
+  }
+
+  public generateContributionSaleLines(
+    fileId: number,
+    routeId: number,
+    contributionId: number
+  ) {
+    const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/${contributionId}/generate-sale-lines`;
+    return this.http.post<void>(url, {});
   }
 
   private getPurchaseSearchFilter(): SearchFilter {
