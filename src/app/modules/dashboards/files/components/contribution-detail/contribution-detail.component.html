@@ -1,0 +1,540 @@
+<core-page-bar [pageTitle]="'Detalle Contribución' | translate"></core-page-bar>
+<button
+  color="primary"
+  class="cmd-mb-2"
+  mat-raised-button
+  [routerLink]="getReturnRoute()"
+>
+  {{ "COMMON.RETURN" | translate }}
+</button>
+<mat-expansion-panel
+  #purchasePanel
+  class="app-expansion-panel cmd-mb-2"
+  expanded="true"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ "CONTRIBUTIONS.PURCHASE" | translate | sentenceCase }}
+    </mat-panel-title>
+    <mat-panel-description *ngIf="purchasePanel.expanded">
+      <a mat-button (click)="copyPurchaseToSale($event)">
+        {{ "CONTRIBUTIONS.SALES_COPY" | translate | sentenceCase }}
+        <mat-icon svgIcon="europair_add_trace"></mat-icon>
+      </a>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <form
+    class="cmd-mt-2"
+    [formGroup]="purchaseContributionForm"
+    (ngSubmit)="updateContributionPurchaseData()"
+  >
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        formControlName="purchasePrice"
+        class="col s12 l8 cmd-pb-1"
+      >
+      </app-input>
+      <core-select
+        [items]="currencies"
+        [id]="'purchase-currency'"
+        [label]="'CONTRIBUTIONS.CURRENCY' | translate"
+        [searchable]="true"
+        [placeholder]="'CONTRIBUTIONS.CURRENCY_PLACEHOLDER' | translate"
+        [itemDescription]="'description'"
+        [itemValue]="'value'"
+        formControlName="currency"
+        class="col s12 l4 cmd-pb-1"
+      >
+      </core-select>
+    </div>
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TAXES_PRICE' | translate"
+        formControlName="taxesPrice"
+        class="col s12 l8 cmd-pb-1"
+      >
+      </app-input>
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TAXES' | translate"
+        formControlName="taxes"
+        class="col s12 l4 cmd-pb-1"
+      >
+      </app-input>
+    </div>
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [prefix]="'CONTRIBUTIONS.OBSERVATIONS' | translate"
+        formControlName="observation"
+        class="col s12 l12 cmd-pb-1"
+      >
+      </app-input>
+    </div>
+    <button
+      *ngIf="purchaseContributionForm.touched"
+      type="submit"
+      color="primary"
+      class="cmd-mb-2"
+      mat-raised-button
+    >
+      {{ "COMMON.SAVE" | translate | titlecase }}
+    </button>
+  </form>
+  <mat-table [dataSource]="purchaseRotationContributionLines" class="cmd-mb-2">
+    <!-- Rotation Column-->
+    <ng-container matColumnDef="rotation">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.ROTATION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.rotation }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.PRICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        <core-editable (update)="updatePurchasePrice(index, 'price')">
+          <ng-template appViewMode>
+            {{ element.price | number: "1.2-2" }}
+          </ng-template>
+          <ng-template appEditMode>
+            <input
+              type="number"
+              [formControl]="getControl(purchasePriceControls, index, 'price')"
+              appFocusable
+              appEditOnEnter
+            />
+          </ng-template>
+        </core-editable>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="rotationsColumnsToDisplay"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: rotationsColumnsToDisplay"></mat-row>
+  </mat-table>
+  <mat-table [dataSource]="purchaseServiceContributionLines" class="cmd-mb-2">
+    <!-- Service Column-->
+    <ng-container matColumnDef="service">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.SERVICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.type }}
+      </mat-cell>
+    </ng-container>
+    <!-- Quantity Column-->
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.QUANTITY" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.quantity | number }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="servicePrice">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.PRICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.price | number: "1.2-2" }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="observation">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.comments }}
+      </mat-cell>
+    </ng-container>
+    <!-- Status Column-->
+    <ng-container matColumnDef="actions" stickyEnd>
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon
+          (click)="deleteService(element)"
+          svgIcon="europair_trash"
+        ></mat-icon>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="servicesColumnsToDisplay"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: servicesColumnsToDisplay"></mat-row>
+  </mat-table>
+  <button
+    *ngIf="isVisibleButtonNewPurchaseService; else purchaseFormTemplate"
+    color="primary"
+    class="cmd-mb-2"
+    mat-raised-button
+    (click)="newPurchaseService()"
+  >
+    {{ "CONTRIBUTIONS.NEW_ADDITIONAL_SERVICE" | translate }}
+  </button>
+  <ng-template #purchaseFormTemplate>
+    <form [formGroup]="purchaseServiceForm" (ngSubmit)="addPurchaseService()">
+      <div class="row row-no-margin-bottom">
+        <core-select
+          [label]="'CONTRIBUTIONS.SERVICE' | translate"
+          [id]="'type-purchase-service'"
+          [items]="services$ | async"
+          [minTermLength]="1"
+          [loading]="servicesLoading"
+          class="col s12 l4 cmd-pb-1"
+          [typeToSearchText]="
+            'FILES.ADDITIONAL_SERVICES.SERVICES_SEARCH_TEXT' | translate
+          "
+          [placeholder]="'CONTRIBUTIONS.SERVICE_PLACEHOLDER' | translate"
+          [itemDescription]="'name'"
+          [itemValue]="'type'"
+          [hasErrors]="hasControlAnyError(purchaseServiceForm, 'type')"
+          [typeahead]="servicesInput$"
+          [searchable]="true"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
+          formControlName="type"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(purchaseServiceForm, 'type')"
+          >
+            <span
+              *ngIf="
+                hasControlSpecificError(purchaseServiceForm, 'type', 'required')
+              "
+              class="helper-text"
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate"
+            >
+            </span>
+          </ng-container>
+        </core-select>
+        <app-input
+          [type]="'number'"
+          [prefix]="'CONTRIBUTIONS.QUANTITY' | translate"
+          formControlName="quantity"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(purchaseServiceForm, 'quantity')"
+          >
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="
+                hasControlSpecificError(
+                  purchaseServiceForm,
+                  'quantity',
+                  'required'
+                )
+              "
+            >
+              {{ "CONTRIBUTIONS.ERRORS.QUANTITY_REQ" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [type]="'number'"
+          [prefix]="'CONTRIBUTIONS.PRICE' | translate"
+          formControlName="price"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(purchaseServiceForm, 'price')"
+          >
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="
+                hasControlSpecificError(
+                  purchaseServiceForm,
+                  'price',
+                  'required'
+                )
+              "
+            >
+              {{ "CONTRIBUTIONS.ERRORS.PRICE_REQ" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <div class="row row-no-margin-bottom">
+          <app-input
+            [prefix]="'CONTRIBUTIONS.OBSERVATIONS' | translate"
+            formControlName="comments"
+            class="col s12 l12 cmd-pb-1"
+          >
+          </app-input>
+        </div>
+      </div>
+      <button type="submit" color="primary" class="cmd-mb-2" mat-raised-button>
+        {{ "CONTRIBUTIONS.ADD_ADDITIONAL_SERVICE" | translate }}
+      </button>
+    </form>
+  </ng-template>
+</mat-expansion-panel>
+
+<mat-expansion-panel class="app-expansion-panel cmd-mb-2">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ "CONTRIBUTIONS.SALE" | translate | sentenceCase }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form
+    class="cmd-mt-2"
+    [formGroup]="saleContributionForm"
+    (ngSubmit)="updateContributionSaleData()"
+  >
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        formControlName="salesPrice"
+        class="col s12 l8 cmd-pb-1"
+      >
+      </app-input>
+      <core-select
+        [items]="currencies"
+        [id]="'sale-currency'"
+        [label]="'CONTRIBUTIONS.CURRENCY' | translate"
+        [searchable]="true"
+        [placeholder]="'CONTRIBUTIONS.CURRENCY_PLACEHOLDER' | translate"
+        [itemDescription]="'description'"
+        [itemValue]="'value'"
+        formControlName="currencyOnSale"
+        class="col s12 l4 cmd-pb-1"
+      >
+      </core-select>
+    </div>
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TAXES_PRICE' | translate"
+        formControlName="taxesPrice"
+        class="col s12 l8 cmd-pb-1"
+      >
+      </app-input>
+      <app-input
+        [type]="'number'"
+        [prefix]="'CONTRIBUTIONS.TAXES' | translate"
+        formControlName="taxes"
+        class="col s12 l4 cmd-pb-1"
+      >
+      </app-input>
+    </div>
+    <div class="row row-no-margin-bottom">
+      <app-input
+        [prefix]="'CONTRIBUTIONS.OBSERVATIONS' | translate"
+        formControlName="observation"
+        class="col s12 l12 cmd-pb-1"
+      >
+      </app-input>
+    </div>
+    <button
+      *ngIf="saleContributionForm.touched"
+      type="submit"
+      color="primary"
+      class="cmd-mb-2"
+      mat-raised-button
+    >
+      {{ "COMMON.SAVE" | translate | titlecase }}
+    </button>
+  </form>
+  <mat-table [dataSource]="saleRotationContributionLines" class="cmd-mb-2">
+    <!-- Rotation Column-->
+    <ng-container matColumnDef="rotation">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.ROTATION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.rotation }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.PRICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        <core-editable (update)="updateSalePrice(index, 'price')">
+          <ng-template appViewMode>
+            {{ element.price | number: "1.2-2" }}
+          </ng-template>
+          <ng-template appEditMode>
+            <input
+              type="number"
+              [formControl]="getControl(salePriceControls, index, 'price')"
+              appFocusable
+              appEditOnEnter
+            />
+          </ng-template>
+        </core-editable>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="rotationsColumnsToDisplay"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: rotationsColumnsToDisplay"></mat-row>
+  </mat-table>
+  <mat-table [dataSource]="saleServiceContributionLines" class="cmd-mb-2">
+    <!-- Service Column-->
+    <ng-container matColumnDef="service">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.SERVICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        {{ element.type }}
+      </mat-cell>
+    </ng-container>
+    <!-- Quantity Column-->
+    <ng-container matColumnDef="quantity">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.QUANTITY" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.quantity | number }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="servicePrice">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.PRICE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.price | number: "1.2-2" }}
+      </mat-cell>
+    </ng-container>
+    <!-- Price Column-->
+    <ng-container matColumnDef="observation">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element; let index = index">
+        {{ element.comments }}
+      </mat-cell>
+    </ng-container>
+    <!-- Status Column-->
+    <ng-container matColumnDef="actions" stickyEnd>
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon
+          (click)="deleteService(element)"
+          svgIcon="europair_trash"
+        ></mat-icon>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row
+      *matHeaderRowDef="servicesColumnsToDisplay"
+    ></mat-header-row>
+    <mat-row *matRowDef="let row; columns: servicesColumnsToDisplay"></mat-row>
+  </mat-table>
+  <button
+    *ngIf="isVisibleButtonNewSaleService; else saleFormTemplate"
+    color="primary"
+    class="cmd-mb-2"
+    mat-raised-button
+    (click)="newSaleService()"
+  >
+    {{ "CONTRIBUTIONS.NEW_ADDITIONAL_SERVICE" | translate }}
+  </button>
+  <ng-template #saleFormTemplate>
+    <form [formGroup]="saleServiceForm" (ngSubmit)="addSaleService()">
+      <div class="row row-no-margin-bottom">
+        <core-select
+          [label]="'CONTRIBUTIONS.SERVICE' | translate"
+          [id]="'type-sale-service'"
+          [items]="services$ | async"
+          [minTermLength]="1"
+          [loading]="servicesLoading"
+          class="col s12 l4 cmd-pb-1"
+          [typeToSearchText]="
+            'FILES.ADDITIONAL_SERVICES.SERVICES_SEARCH_TEXT' | translate
+          "
+          [placeholder]="'CONTRIBUTIONS.SERVICE_PLACEHOLDER' | translate"
+          [itemDescription]="'name'"
+          [itemValue]="'type'"
+          [hasErrors]="hasControlAnyError(saleServiceForm, 'type')"
+          [typeahead]="servicesInput$"
+          [searchable]="true"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
+          formControlName="type"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(saleServiceForm, 'type')"
+          >
+            <span
+              *ngIf="
+                hasControlSpecificError(saleServiceForm, 'type', 'required')
+              "
+              class="helper-text"
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate"
+            >
+            </span>
+          </ng-container>
+        </core-select>
+        <app-input
+          [type]="'number'"
+          [prefix]="'CONTRIBUTIONS.QUANTITY' | translate"
+          formControlName="quantity"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(saleServiceForm, 'quantity')"
+          >
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="
+                hasControlSpecificError(
+                  purchaseServiceForm,
+                  'quantity',
+                  'required'
+                )
+              "
+            >
+              {{ "CONTRIBUTIONS.ERRORS.QUANTITY_REQ" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input
+          [type]="'number'"
+          [prefix]="'CONTRIBUTIONS.PRICE' | translate"
+          formControlName="price"
+          class="col s12 l4 cmd-pb-1"
+        >
+          <ng-container
+            inputErrors
+            *ngIf="hasControlAnyError(saleServiceForm, 'price')"
+          >
+            <mat-error
+              class="ep-error-msg"
+              *ngIf="
+                hasControlSpecificError(saleServiceForm, 'price', 'required')
+              "
+            >
+              {{ "CONTRIBUTIONS.ERRORS.PRICE_REQ" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <div class="row row-no-margin-bottom">
+          <app-input
+            [prefix]="'CONTRIBUTIONS.OBSERVATIONS' | translate"
+            formControlName="comments"
+            class="col s12 l12 cmd-pb-1"
+          >
+          </app-input>
+        </div>
+      </div>
+      <button type="submit" color="primary" class="cmd-mb-2" mat-raised-button>
+        {{ "CONTRIBUTIONS.ADD_ADDITIONAL_SERVICE" | translate }}
+      </button>
+    </form>
+  </ng-template>
+</mat-expansion-panel>

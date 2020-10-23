@@ -45,7 +45,8 @@
     "NOT_FOUND": "Sin resultados",
     "RETURN": "Volver",
     "SUCCESSFUL_OPERATION": "Operación exitosa",
-    "SAVE_ORDER": "Guardar orden"
+    "SAVE_ORDER": "Guardar orden",
+    "CONFIRM_OPERATION": "Confirmar Operación"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -596,6 +597,32 @@
       "TIME_ZONE": "Debe indicar una zona horaria"
     }
   },
+  "CONTRIBUTIONS": {
+    "PURCHASE": "Compra",
+    "SALE": "Venta",
+    "TOTAL_PRICE": "Importe total",
+    "CURRENCY": "Moneda",
+    "CURRENCY_PLACEHOLDER": "Seleccione una moneda",
+    "TAXES": "% Impuestos",
+    "TAXES_PRICE": "Importe impuestos",
+    "ROTATION": "Rotación",
+    "PRICE": "Importe",
+    "NEW_ADDITIONAL_SERVICE": "Nuevo servicio adicional",
+    "ADD_ADDITIONAL_SERVICE": "Añadir servicio adicional",
+    "SERVICE": "Servicio",
+    "SERVICE_PLACEHOLDER": "Seleccione un servicio",
+    "QUANTITY": "Cantidad",
+    "OBSERVATIONS": "Observaciones",
+    "DELETE_SERVICE_TITLE": "Confirmar eliminación servicio",
+    "DELETE_SERVICE_MSG": "¿Está seguro que desea eliminar el servicio de tipo <b>{{ type }}</b> con importe <b>{{ price }}</b>?",
+    "OVERWRITE_SALES_MSG": "¿Está seguro que desea sobreescribir la información de <b>Ventas</b> con los datos actuales de <b>Compras</b>?",
+    "SALES_COPY": "Copiar en ventas",
+    "ERRORS": {
+      "SERVICE_REQ": "Debe indicar un servicio",
+      "QUANTITY_REQ": "Debe de indicar una cantidad",
+      "PRICE_REQ": "Debe indicar un importe"
+    }
+  },
   "FLIGHT": {
     "ORIGIN_AIRPORT": "Aeropuerto origen",
     "DESTINATION_AIRPORT": "Aeropuerto destino",
@@ -662,5 +689,19 @@
       "KNOTS": "nudos",
       "INCH": "pulgadas"
     }
+  },
+  "CURRENCIES": {
+    "AUD": "Dolar australiano",
+    "CHF": "Franco suizo",
+    "DKK": "Corona danesa",
+    "EUR": "Euro",
+    "GBP": "Libra esterlina",
+    "NOK": "Corona noruega",
+    "PLN": "Zloty polaco",
+    "RUR": "Rublo ruso",
+    "SEK": "Corona sueca",
+    "THB": "Baht de Tailandia",
+    "USD": "Dólar de EE.UU.",
+    "ZAR": "Rand sudáfricano"
   }
 }
