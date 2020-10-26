@@ -168,7 +168,7 @@ export class ContributionDetailComponent implements OnInit {
         contribution.purchasePrice,
         contribution.purchaseCommissionPercent
       ),
-      observation: contribution.comments,
+      observation: contribution.purchaseComments,
     });
     this.saleContributionForm.reset({
       salesPrice: contribution.salesPrice,
@@ -178,7 +178,7 @@ export class ContributionDetailComponent implements OnInit {
         contribution.salesPrice,
         contribution.salesCommissionPercent
       ),
-      observation: contribution.comments,
+      observation: contribution.salesComments,
     });
   }
 
@@ -312,7 +312,7 @@ export class ContributionDetailComponent implements OnInit {
         ...this.contribution,
         purchasePrice: this.purchaseContributionForm.value.purchasePrice,
         currency: this.purchaseContributionForm.value.currency,
-        comments: this.purchaseContributionForm.value.observation,
+        purchaseComments: this.purchaseContributionForm.value.observation,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -323,7 +323,7 @@ export class ContributionDetailComponent implements OnInit {
         ...this.contribution,
         salesPrice: this.saleContributionForm.value.salesPrice,
         currencyOnSale: this.saleContributionForm.value.currencyOnSale,
-        comments: this.saleContributionForm.value.observation,
+        salesComments: this.saleContributionForm.value.observation,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -342,7 +342,8 @@ export class ContributionDetailComponent implements OnInit {
           this.routeId,
           this.contributionId,
           this.getContributionLinePriceUpdated(
-            this.purchaseRotationContributionLines[index]
+            this.purchaseRotationContributionLines[index],
+            control
           )
         )
         .subscribe((_) => this.refreshPurchaseData());
@@ -363,7 +364,8 @@ export class ContributionDetailComponent implements OnInit {
           this.routeId,
           this.contributionId,
           this.getContributionLinePriceUpdated(
-            this.saleRotationContributionLines[index]
+            this.saleRotationContributionLines[index],
+            control
           )
         )
         .subscribe((_) => this.refreshSaleData());
@@ -379,11 +381,12 @@ export class ContributionDetailComponent implements OnInit {
   }
 
   private getContributionLinePriceUpdated(
-    rotationContributionLine: RotationContributionLine
+    rotationContributionLine: RotationContributionLine,
+    control: FormControl
   ): ContributionLine {
     return {
       ...rotationContributionLine.contributionLine,
-      price: rotationContributionLine.price,
+      price: control.value,
     };
   }
 
