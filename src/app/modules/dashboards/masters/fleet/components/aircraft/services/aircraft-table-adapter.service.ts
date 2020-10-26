@@ -158,10 +158,10 @@ export class AircraftTableAdapterService {
       const aircraftRow: RowDataModel = new RowDataModel();
       aircraftRow.pushColumn(new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true)));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.operator?.name));
-      aircraftRow.pushColumn(new ColumnDataModel('text', 'airport'));
+      aircraftRow.pushColumn(new ColumnDataModel('text', this.getAirportBase(aircraft)));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.code));
-      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.category?.name));
-      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.subcategory?.name));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.category?.code));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.subcategory?.code));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.plateNumber));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.productionYear));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.outsideUpgradeYear));
@@ -172,6 +172,11 @@ export class AircraftTableAdapterService {
       aircraftTableData.push(aircraftRow);
     });
     return aircraftTableData;
+  }
+
+  private getAirportBase(aircraft: Aircraft): string {
+    const mainBase: AircraftBase = aircraft.bases.find((base: AircraftBase) => base.mainBase);
+    return mainBase?.airport?.iataCode;
   }
 
   public getAircraftBaseTableData(bases: AircraftBase[]): RowDataModel[] {

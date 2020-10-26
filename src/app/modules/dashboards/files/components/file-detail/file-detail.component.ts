@@ -303,8 +303,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       };
 
       const file: File = {
+        id: this.fileData?.id,
         clientId: this.fileForm.get('clientId').value,
         description: this.fileForm.get('description').value,
+        statusId: this.fileForm.get('statusId').value,
         contactId: 1,
         providerId: 1,
         salePersonId: 1,

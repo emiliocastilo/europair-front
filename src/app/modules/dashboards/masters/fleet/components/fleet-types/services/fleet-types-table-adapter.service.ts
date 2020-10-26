@@ -150,10 +150,10 @@ export class FleetTypesTableAdapterService {
         new ColumnDataModel('text', fleetType.description)
       );
       fleetTypeRow.pushColumn(
-        new ColumnDataModel('text', fleetType.category?.name)
+        new ColumnDataModel('text', fleetType.category?.code)
       );
       fleetTypeRow.pushColumn(
-        new ColumnDataModel('text', fleetType.subcategory?.name)
+        new ColumnDataModel('text', fleetType.subcategory?.code)
       );
       fleetTypeRow.pushColumn(this.getFlightRangeColumn(fleetType));
       fleetTypeRow.pushColumn(new ColumnDataModel('actions', actions));
