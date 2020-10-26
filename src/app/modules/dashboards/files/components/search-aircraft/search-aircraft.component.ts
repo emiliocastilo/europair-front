@@ -193,7 +193,7 @@ export class SearchAircraftComponent implements OnInit {
       this.tableExpanded = true;
       this.setAircraftFilter();
       this.searchAircraftService.searchAircraft(this.aircraftSearch)
-        .subscribe((aircrafts: Array<AircraftSearchResult>) => {debugger;
+        .subscribe((aircrafts: Array<AircraftSearchResult>) => {
           this.selectedItems = [];
           this.aircrafts = aircrafts;
           this.dataSource = new MatTableDataSource(aircrafts);
@@ -315,8 +315,9 @@ export class SearchAircraftComponent implements OnInit {
 
   public getTimeOfFlight(aircraft: AircraftSearchResult): string {
     const hour: number = Math.floor(aircraft.timeInHours);
-    const minutes: number = (aircraft.timeInHours - hour) * 60;
-    return `${hour}:${minutes}h`;
+    const minutes: number = Math.floor((aircraft.timeInHours - hour) * 60);
+    const minutesStr: string = minutes < 10 ? `0${minutes}` : minutes.toString();
+    return `${hour}:${minutesStr}h`;
   }
 
   private loadCountries(): void {
