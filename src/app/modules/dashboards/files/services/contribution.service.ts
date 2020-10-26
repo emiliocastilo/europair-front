@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import {
   FilterOptions,
   SearchFilter,
@@ -16,7 +17,9 @@ import { Contribution } from '../components/search-aircraft/models/contribution.
 export class ContributionService {
   private readonly mocked: boolean = environment.mock;
   private readonly url: string = `${environment.apiUrl}files/`;
-  private readonly filterOptions: FilterOptions = {} as const;
+  private readonly filterOptions: FilterOptions = {
+    filter_removedAt: OperatorEnum.IS_NULL,
+  } as const;
 
   constructor(
     private http: HttpClient,
@@ -32,6 +35,22 @@ export class ContributionService {
       ? '/assets/mocks/**.json'
       : `${this.url}${fileId}/routes/${routeId}/contributions`;
     return this.http.get<Page<Contribution>>(url, {
+      params: this.searchFilterService.createHttpParams(
+        searchFilter,
+        this.filterOptions
+      ),
+    });
+  }
+
+  public getContributionsWithTableData(
+    fileId: number,
+    routeId: number,
+    searchFilter: SearchFilter = {}
+  ): Observable<Contribution[]> {
+    const url: string = this.mocked
+      ? '/assets/mocks/**.json'
+      : `${this.url}${fileId}/routes/${routeId}/withcontribution`;
+    return this.http.get<Contribution[]>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,
         this.filterOptions

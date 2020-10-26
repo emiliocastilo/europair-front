@@ -1,6 +1,6 @@
 {
   "MENU": {
-    "MASTERS" : {
+    "MASTERS": {
       "REGIONS": "Regiones",
       "COUNTRIES": "Paises",
       "CITIES": "Ciudades",
@@ -537,6 +537,18 @@
       "SERVICES": "Servicio",
       "SERVICES_SEARCH_TEXT": "Escribe el nombre del servicio",
       "SELECT_SERVICES": "Selecciona un servicio"
+    },
+    "CONTRIBUTIONS": {
+      "DELETE_MSG": "¿Está seguro que desea eliminar la cotización?",
+      "ROUTES": "Rutas",
+      "REQUEST_TIME": "Fecha creación",
+      "OPERATOR": "Operador",
+      "AIRCRAFT_TYPE": "Tipo de avión",
+      "TOTAL_PASSENGERS": "Total pasajeros",
+      "PURCHASE_PRICE": "Precio compra",
+      "SALES_PRICE": "Precio venta",
+      "STATUS": "Estado",
+      "ACTIONS": "Aciones"
     },
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",

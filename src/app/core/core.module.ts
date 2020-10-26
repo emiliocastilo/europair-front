@@ -40,6 +40,7 @@ import { ViewModeDirective } from './components/editable/view-mode.directive';
 import { EditModeDirective } from './components/editable/edit-mode.directive';
 import { EditOnEnterDirective } from './components/editable/edit-on-enter.directive';
 import { FocusableDirective } from './directives/focusable.directive';
+import { MaxlengthDirective } from './directives/maxlength.directive';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { FocusableDirective } from './directives/focusable.directive';
     EditModeDirective,
     EditOnEnterDirective,
     FocusableDirective,
+    MaxlengthDirective,
   ],
   imports: [
     CommonModule,
@@ -118,6 +120,7 @@ import { FocusableDirective } from './directives/focusable.directive';
     EditModeDirective,
     EditOnEnterDirective,
     FocusableDirective,
+    MaxlengthDirective,
   ],
 })
 export class CoreModule {}

@@ -1,3 +1,5 @@
+import { Aircraft } from 'src/app/modules/dashboards/masters/fleet/components/aircraft/models/Aircraft.model';
+import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
 import { CurrencyEnum } from '../../../models/ContributionLine.model';
 
 export interface Contribution {
@@ -10,9 +12,10 @@ export interface Contribution {
   cargoAirborne?: number;
   quotedTime?: string;
   requestTime?: string;
-  comments?: string;
+  purchaseComments?: string;
   purchasePrice?: number;
   purchaseCommissionPercent?: number;
+  salesComments?: string;
   salesPrice?: number;
   salesCommissionPercent?: number;
   salesPricewithoutIVA?: boolean;
@@ -20,6 +23,11 @@ export interface Contribution {
   exchangeBuyType?: { code: string; description: string };
   currency?: CurrencyEnum;
   currencyOnSale?: CurrencyEnum;
+  operator?: Operator;
+  aircraft?: Aircraft;
+  seatingC?: number;
+  seatingF?: number;
+  seatingY?: number;
 }
 
 export enum ContributionStates {
