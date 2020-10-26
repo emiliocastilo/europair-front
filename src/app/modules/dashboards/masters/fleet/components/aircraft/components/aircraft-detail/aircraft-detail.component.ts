@@ -216,7 +216,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
 
   private initializeOperators() {
     this.operatorsService
-      .getOperators()
+      .getOperators({ size: '3000'})
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((operatorPage: Page<Operator>) => {
         this.operators = operatorPage.content;
@@ -224,7 +224,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
   }
 
   private initializeFleetType() {
-    this.fleetTypeService.getFleetTypes({filter_removedAt: null}).subscribe(
+    this.fleetTypeService.getFleetTypes({filter_removedAt: null, size: '3000'}).subscribe(
       (fleetTypes: Page<FleetType>) => this.aircraftTypes = fleetTypes.content);
   }
 

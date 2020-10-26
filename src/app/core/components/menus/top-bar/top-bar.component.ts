@@ -16,6 +16,9 @@ export class TopBarComponent implements OnInit {
   @Input()
   public itemsSelectedCount: number = 0;
 
+  @Input()
+  public showSearchField: boolean = true;
+
   @Output()
   public executeAction: EventEmitter<BarButtonType> = new EventEmitter();
 

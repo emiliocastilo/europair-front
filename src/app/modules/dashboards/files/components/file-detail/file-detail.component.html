@@ -66,9 +66,9 @@
               </ng-container>
             </app-input> -->
 
-            <core-select class="col s12 l4" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
+            <core-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
               [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
-              [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
+              [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
               <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
                 <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
                   [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">

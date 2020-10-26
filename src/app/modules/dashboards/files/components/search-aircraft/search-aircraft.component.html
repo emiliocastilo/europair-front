@@ -274,12 +274,12 @@
         </mat-expansion-panel-header>
 
         <div class="table-container">
-            <mat-table multiTemplateDataRows [dataSource]="dataSource">
+            <mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="selection">
                     <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         <mat-checkbox [id]="'aircraft' + element.aircraftId" [color]="'primary'"
-                            (change)="checkAircraft($event.checked, element.aircraftId)">
+                           [checked]="isChecked(element.aircraftId)" (change)="checkAircraft($event.checked, element.aircraftId)">
                         </mat-checkbox>
                     </mat-cell>
                 </ng-container>
