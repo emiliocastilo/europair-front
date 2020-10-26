@@ -1,7 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concat, forkJoin, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError, takeUntil } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { Contribution, ContributionStates } from './models/contribution.model';
 import { Region } from '../../../masters/regions/models/region';
 import { RegionsService } from '../../../masters/regions/services/regions.service';
 import { OperationType } from '../../../masters/contacts/models/contact';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 @Component({
@@ -47,6 +48,7 @@ import { OperationType } from '../../../masters/contacts/models/contact';
 })
 
 export class SearchAircraftComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   public countries$: Observable<Country[]>;
   public countriesInput$ = new Subject<string>();
@@ -96,8 +98,8 @@ export class SearchAircraftComponent implements OnInit {
 
   public aircrafts: Array<AircraftSearchResult>;
   public dataSource: MatTableDataSource<AircraftSearchResult>;
-  public resultsLength: number;
-  public pageSize: number;
+  public resultsLength: number = 0;
+  public pageSize: number = 15;
   public columnsToDisplay: Array<string>;
 
   public filterExpanded: boolean;
@@ -191,12 +193,12 @@ export class SearchAircraftComponent implements OnInit {
       this.tableExpanded = true;
       this.setAircraftFilter();
       this.searchAircraftService.searchAircraft(this.aircraftSearch)
-        .subscribe((aircrafts: Array<AircraftSearchResult>) => {
+        .subscribe((aircrafts: Array<AircraftSearchResult>) => {debugger;
           this.selectedItems = [];
           this.aircrafts = aircrafts;
           this.dataSource = new MatTableDataSource(aircrafts);
+          this.dataSource.paginator = this.paginator;
           this.resultsLength = aircrafts.length;
-          this.pageSize = aircrafts.length;
         });
     }
   }
@@ -254,6 +256,10 @@ export class SearchAircraftComponent implements OnInit {
 
   public goBack(): void {
     this.router.navigate([`/files/${this.fileId}`]);
+  }
+
+  public isChecked(aircraftId: number): boolean {
+    return this.selectedItems.includes(aircraftId);
   }
 
   public checkAircraft(checked: boolean, aircraftId: number): void {
