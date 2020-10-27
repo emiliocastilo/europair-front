@@ -6,10 +6,19 @@
     <i class="material-icons left">{{ "save" }}</i>
     {{ "COMMON.SAVE" | translate }}
   </a>
+  <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
+    [routerLink]="'/fleet/aircraft'">
+    <i class="material-icons left">keyboard_return</i>
+    {{ "COMMON.RETURN" | translate }}
+  </a>
   <div class="fixed-action-btn">
     <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
       [ngClass]="{ disabled: !aircraftForm.valid }" (click)="onSaveAircraft()">
       <i class="material-icons">{{ "save" }}</i>
+    </a>
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      [routerLink]="'/fleet/aircraft'">
+      <i class="material-icons">keyboard_return</i>
     </a>
   </div>
 </section>

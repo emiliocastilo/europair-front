@@ -99,7 +99,7 @@ export class SearchAircraftComponent implements OnInit {
   public aircrafts: Array<AircraftSearchResult>;
   public dataSource: MatTableDataSource<AircraftSearchResult>;
   public resultsLength: number = 0;
-  public pageSize: number = 15;
+  public pageSize: number = 10;
   public columnsToDisplay: Array<string>;
 
   public filterExpanded: boolean;
@@ -138,7 +138,7 @@ export class SearchAircraftComponent implements OnInit {
     this.aircrafts = [];
     this.filterExpanded = true;
     this.tableExpanded = false;
-    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations', 'flightTime'];
+    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'fleetType', 'subcategory', 'flightTime', 'insuranceDate', 'airport', 'category', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations'];
   }
 
   private loadSelectsData() {

@@ -1,6 +1,17 @@
 <section>
   <ng-container *ngFor="let barButton of barButtons">
     <ng-container [ngSwitch]="barButton.type">
+      <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.GO_BACK">
+        <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only" 
+        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.GO_BACK)">
+          <i class="material-icons left">keyboard_return</i>
+          {{ 'COMMON.RETURN' | translate }}
+        </a>
+        <a class="btn-floating waves-effect waves-light europair-icon-blue-1 hide-on-med-and-up" 
+        (click)="onBarButtonClicked(BAR_BUTTON_TYPE.GO_BACK)">
+          <i class="material-icons left">keyboard_return</i>
+        </a>
+      </ng-container>
       <ng-container *ngSwitchCase="BAR_BUTTON_TYPE.NEW">
         <a
           class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
