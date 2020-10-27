@@ -1,5 +1,8 @@
 <core-page-bar [pageTitle]="'SEARCH_AIRCRAFT.PAGE_TITLE' | translate"></core-page-bar>
 
+<button color="primary" class="cmd-mb-2" mat-raised-button (click)="goBack()">
+    {{ "COMMON.RETURN" | translate }}
+</button>
 <mat-accordion class="table-expansion-panel" multi>
     <mat-expansion-panel class="cmd-mb-2" [expanded]="filterExpanded">
         <mat-expansion-panel-header>
@@ -402,16 +405,8 @@
 
     </mat-expansion-panel>
 </mat-accordion>
-<div class="row confirm">
-    <button type="submit" (click)="goBack()"
-        class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
-        <i class="material-icons">cancel</i>
-        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
-    </button>
-    <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
-        class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
-        <i class="material-icons">done</i>
-        <span
-            class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
+<div class="row">
+    <button color="primary" type="submit" (click)="quote()" mat-raised-button [disabled]="disabledQuote()" class="col s12 l2 offset-l10">
+        {{ 'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}
     </button>
 </div>
