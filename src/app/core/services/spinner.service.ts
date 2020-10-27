@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { debounceTime, delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class SpinnerService {
   }
 
   public getVisibility$(): Observable<boolean> {
-    return this._visibility.asObservable();
+    return this._visibility.asObservable().pipe(debounceTime(200), delay(0));
   }
 
   public show(): void {
