@@ -17,7 +17,9 @@
     <mat-panel-title>
       {{ "CONTRIBUTIONS.PURCHASE" | translate | sentenceCase }}
     </mat-panel-title>
-    <mat-panel-description *ngIf="purchasePanel.expanded">
+    <mat-panel-description
+      *ngIf="purchasePanel.expanded && !purchaseContributionForm.dirty"
+    >
       <a mat-button (click)="copyPurchaseToSale($event)">
         {{ "CONTRIBUTIONS.SALES_COPY" | translate | sentenceCase }}
         <mat-icon svgIcon="europair_add_trace"></mat-icon>
@@ -77,7 +79,7 @@
       </app-input>
     </div>
     <button
-      *ngIf="purchaseContributionForm.touched"
+      *ngIf="purchaseContributionForm.dirty"
       type="submit"
       color="primary"
       class="cmd-mb-2"
@@ -284,7 +286,7 @@
   </ng-template>
 </mat-expansion-panel>
 
-<mat-expansion-panel class="app-expansion-panel cmd-mb-2">
+<mat-expansion-panel class="app-expansion-panel cmd-mb-2" #salePanel>
   <mat-expansion-panel-header>
     <mat-panel-title>
       {{ "CONTRIBUTIONS.SALE" | translate | sentenceCase }}

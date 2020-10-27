@@ -1,5 +1,5 @@
-import { DatePipe, formatDate } from '@angular/common';
-import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { concat, Observable, of, Subject } from 'rxjs';
@@ -42,6 +43,8 @@ import { Contribution } from '../search-aircraft/models/contribution.model';
   styleUrls: ['./contribution-detail.component.scss'],
 })
 export class ContributionDetailComponent implements OnInit {
+  @ViewChild('purchasePanel') purchasePanel: MatExpansionPanel;
+  @ViewChild('salePanel') salePanel: MatExpansionPanel;
   public fileId: number;
   private routeId: number;
   private contributionId: number;
@@ -494,6 +497,8 @@ export class ContributionDetailComponent implements OnInit {
           )
           .subscribe((_) => {
             this.refreshSaleData();
+            this.purchasePanel.close();
+            this.salePanel.open();
           });
       }
     });
