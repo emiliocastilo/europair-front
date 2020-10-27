@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { File, FileStatusCode } from '../../models/File.model';
 import { FilesService } from '../../services/files.service';
 
@@ -27,6 +28,7 @@ export class FileListComponent implements OnInit {
 
   constructor(
     private readonly fileService: FilesService,
+    private readonly spinnerService: SpinnerService,
     private router: Router
   ) {}
 

@@ -7,9 +7,11 @@ import {
   OAuthService,
   OAuthSuccessEvent,
 } from 'angular-oauth2-oidc';
+import { Observable } from 'rxjs';
 import { oAuthConfig } from './core/models/auth.config';
 import { SESSION_STORAGE_KEYS } from './core/models/session-storage-keys';
 import { AuthService } from './core/services/auth.service';
+import { SpinnerService } from './core/services/spinner.service';
 import { LOGIN_TYPES } from './modules/login/models/login-types';
 
 @Component({
@@ -19,12 +21,14 @@ import { LOGIN_TYPES } from './modules/login/models/login-types';
 })
 export class AppComponent implements OnInit {
   title = 'europair-management-front';
+  public spinner$: Observable<boolean> = this._spinnerService.getVisibility$();
 
   constructor(
     private _oauthService: OAuthService,
     private _router: Router,
     private _authService: AuthService,
-    private _translateService: TranslateService
+    private _translateService: TranslateService,
+    private _spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {

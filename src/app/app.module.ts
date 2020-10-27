@@ -6,6 +6,7 @@ import {
 import '@angular/common/locales/global/es';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // I18N
@@ -20,9 +21,11 @@ import { NgxMaskModule } from 'ngx-mask';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SpinnerComponent } from './core/components/basic/spinner/spinner.component';
 import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor';
 import { HttpSuccessInterceptor } from './core/interceptors/http-success.interceptor';
 import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor';
+import { HttpSpinnerInterceptor } from './core/interceptors/http-spinner.interceptor';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -30,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SpinnerComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -38,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HttpClientModule,
     NgxMaskModule.forRoot(),
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     OAuthModule.forRoot({
       resourceServer: {
         allowedUrls: [environment.apiUrl],
@@ -64,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       multi: true,
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpSpinnerInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })
