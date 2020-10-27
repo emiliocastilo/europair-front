@@ -80,15 +80,22 @@ export class RouteDetailComponent implements OnInit {
     ],
     frequency: [''],
     startDate: ['', Validators.required],
-    endDate: ['', Validators.required],
+    endDate: [{ value: '', disabled: true }, Validators.required],
     weekdays: [{ value: [], disabled: true }, Validators.required],
     monthDays: [{ value: [], disabled: true }, Validators.required],
+    seatsF: [0, Validators.min(0)],
+    seatsC: [0, Validators.min(0)],
+    seatsY: [0, Validators.min(0)],
   });
 
   public airportsControl: FormControl = this.fb.control('');
 
-  public columnsToDisplay = ['origin', 'destination', 'departureTime', 'arrivalTime'];
-
+  public columnsToDisplay = [
+    'origin',
+    'destination',
+    'departureTime',
+    'arrivalTime',
+  ];
 
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
@@ -160,6 +167,7 @@ export class RouteDetailComponent implements OnInit {
     this.routeForm.enable({ emitEvent: false });
     switch (frequencyType) {
       case FrequencyType.ADHOC:
+        this.resetAndDisableControl(this.routeForm.get('endDate'));
         this.resetAndDisableControl(this.routeForm.get('weekdays'));
         this.resetAndDisableControl(this.routeForm.get('monthDays'));
         break;
@@ -173,6 +181,7 @@ export class RouteDetailComponent implements OnInit {
         break;
 
       default:
+        this.resetAndDisableControl(this.routeForm.get('endDate'));
         this.resetAndDisableControl(this.routeForm.get('weekdays'));
         this.resetAndDisableControl(this.routeForm.get('monthDays'));
         break;
@@ -258,13 +267,13 @@ export class RouteDetailComponent implements OnInit {
       this.routeForm.markAllAsTouched();
       return;
     }
-    this.isLoading = true;
     this.fileRouteService
       .createFileRoute(
         this.fileId,
         this.createFilteRouteFromRouteForm(this.routeForm)
       )
       .pipe(
+        tap((_) => (this.isLoading = true)),
         tap((fileRoute: FileRoute) => (this.fileRoute = fileRoute)),
         switchMap((fileRoute: FileRoute) =>
           this.flightService.getFlights(this.fileId, fileRoute.id)
@@ -282,11 +291,15 @@ export class RouteDetailComponent implements OnInit {
 
   private createFilteRouteFromRouteForm(routeForm: FormGroup): FileRoute {
     let { weekdays, monthDays, ...fileRoute } = routeForm.value;
-    if (routeForm.value?.frequency === '') {
+    if (
+      routeForm.value?.frequency === '' ||
+      routeForm.value?.frequency === FrequencyType.ADHOC
+    ) {
       fileRoute = {
         ...fileRoute,
         label: fileRoute.label.toUpperCase(),
         frequency: FrequencyType.ADHOC,
+        endDate: routeForm.value.startDate,
       };
     } else {
       fileRoute = {

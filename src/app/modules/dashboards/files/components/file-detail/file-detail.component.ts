@@ -151,6 +151,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'actions',
   ];
   public dataSource = new MatTableDataSource();
+  public dataSourceRouteContributions = new MatTableDataSource();
   public dataSourceAdditionalService = new MatTableDataSource();
   public expandedRoutes: FileRoute[] = [];
   public expandedContributions: FileRoute[] = [];
@@ -277,6 +278,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       .getFileRoutes(file.id)
       .subscribe((data: Page<FileRoute>) => {
         this.dataSource = new MatTableDataSource(data.content);
+        this.dataSourceRouteContributions = new MatTableDataSource(data.content.filter(route => this.hasRouteContributions(route)));
         this.routes = data.content;
         this.dataSource.sort = this.sort;
         this.resultsLength = data.totalElements;
@@ -561,6 +563,36 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
           );
       }
     });
+  }
+
+  public sendContribution(fileRoute: FileRoute, contribution: Contribution) {
+    const confirmOperationRef = this.matDialog.open(
+      ConfirmOperationDialogComponent,
+      {
+        data: {
+          title: 'COMMON.CONFIRM_OPERATION',
+          message: 'FILES.CONTRIBUTIONS.SEND_MSG',
+        },
+      }
+    );
+    confirmOperationRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log('SENDING CONTRIBUTION', contribution);
+        //TODO send contribution api call
+        // this.contributionService
+        //   .deleteContribution(this.fileData.id, fileRoute.id, contribution)
+        //   .pipe(
+        //     switchMap((_) => this.getFileRouteContributionData$(fileRoute.id))
+        //   )
+        //   .subscribe((contributions: Contribution[]) =>
+        //     this.fileContributionsMap.set(fileRoute.id, contributions)
+        //   );
+      }
+    });
+  }
+
+  public hasRouteContributions(route: FileRoute) {
+    return route?.contributions?.length > 0;
   }
 
   public getTotalPassengers(contribution: Contribution) {
