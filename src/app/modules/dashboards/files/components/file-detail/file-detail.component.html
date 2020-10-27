@@ -483,14 +483,14 @@
                   <!-- Rotations Column-->
                   <ng-container matColumnDef="purchasePrice">
                     <mat-cell *matCellDef="let element">
-                      {{ element?.purchasePrice }}
+                      {{ element?.purchasePrice | number }}
                     </mat-cell>
                   </ng-container>
 
                   <!-- Seats Column-->
                   <ng-container matColumnDef="salesPrice">
                     <mat-cell *matCellDef="let element" class="expanded-last-row">
-                      {{ element?.salesPrice }}
+                      {{ element?.salesPrice | number }}
                     </mat-cell>
                   </ng-container>
 
