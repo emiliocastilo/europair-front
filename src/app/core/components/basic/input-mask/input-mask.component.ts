@@ -28,6 +28,8 @@ export class InputMaskComponent implements OnInit, ControlValueAccessor {
   };
   @Input() mask: string;
   @Input() maskValidation: boolean = false;
+  @Input() thousandSeparator: string;
+  @Input() separatorLimit: string;
   @Input() cssClasses: string;
 
   counter = 0;

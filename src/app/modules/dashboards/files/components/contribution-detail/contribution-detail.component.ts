@@ -161,7 +161,7 @@ export class ContributionDetailComponent implements OnInit {
 
   private updateContributionForms(contribution: Contribution) {
     this.purchaseContributionForm.reset({
-      purchasePrice: contribution.purchasePrice,
+      purchasePrice: this.maskPrice(contribution.purchasePrice),
       currency: contribution.currency,
       taxes: contribution.purchaseCommissionPercent,
       taxesPrice: this.getTaxesPrice(
@@ -171,7 +171,7 @@ export class ContributionDetailComponent implements OnInit {
       observation: contribution.purchaseComments,
     });
     this.saleContributionForm.reset({
-      salesPrice: contribution.salesPrice,
+      salesPrice: this.maskPrice(contribution.salesPrice),
       currencyOnSale: contribution.currencyOnSale,
       taxes: contribution.salesCommissionPercent,
       taxesPrice: this.getTaxesPrice(
@@ -306,7 +306,9 @@ export class ContributionDetailComponent implements OnInit {
     this.contributionService
       .updateContribution(this.fileId, this.routeId, {
         ...this.contribution,
-        purchasePrice: this.purchaseContributionForm.value.purchasePrice,
+        purchasePrice: this.unmaskPrice(
+          this.purchaseContributionForm.value.purchasePrice
+        ),
         currency: this.purchaseContributionForm.value.currency,
         purchaseComments: this.purchaseContributionForm.value.observation,
       })
@@ -317,7 +319,9 @@ export class ContributionDetailComponent implements OnInit {
     this.contributionService
       .updateContribution(this.fileId, this.routeId, {
         ...this.contribution,
-        salesPrice: this.saleContributionForm.value.salesPrice,
+        salesPrice: this.unmaskPrice(
+          this.saleContributionForm.value.salesPrice
+        ),
         currencyOnSale: this.saleContributionForm.value.currencyOnSale,
         salesComments: this.saleContributionForm.value.observation,
       })
@@ -507,5 +511,18 @@ export class ContributionDetailComponent implements OnInit {
   ): boolean {
     const control = form.get(controlName);
     return control && control.hasError(errorName);
+  }
+
+  private maskPrice(price: number): string {
+    return (
+      price
+        ?.toString()
+        ?.replace('.', ',')
+        ?.replace(/\B(?=(\d{3})+(?!\d))/g, '.') ?? '0'
+    );
+  }
+
+  private unmaskPrice(price: string): number {
+    return +price?.replace(/\./g, '')?.replace(',', '.') ?? 0;
   }
 }

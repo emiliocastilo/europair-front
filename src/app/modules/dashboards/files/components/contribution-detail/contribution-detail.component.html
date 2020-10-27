@@ -30,13 +30,15 @@
     (ngSubmit)="updateContributionPurchaseData()"
   >
     <div class="row row-no-margin-bottom">
-      <app-input
-        [type]="'number'"
+      <app-input-mask
         [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        mask="separator.2"
+        thousandSeparator="."
+        separatorLimit="99999999"
         formControlName="purchasePrice"
         class="col s12 l8 cmd-pb-1"
       >
-      </app-input>
+      </app-input-mask>
       <core-select
         [items]="currencies"
         [id]="'purchase-currency'"
@@ -294,13 +296,15 @@
     (ngSubmit)="updateContributionSaleData()"
   >
     <div class="row row-no-margin-bottom">
-      <app-input
-        [type]="'number'"
+      <app-input-mask
         [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        mask="separator.2"
+        thousandSeparator="."
+        separatorLimit="99999999"
         formControlName="salesPrice"
         class="col s12 l8 cmd-pb-1"
       >
-      </app-input>
+      </app-input-mask>
       <core-select
         [items]="currencies"
         [id]="'sale-currency'"
