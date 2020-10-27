@@ -42,7 +42,7 @@ import { Contribution } from '../search-aircraft/models/contribution.model';
   styleUrls: ['./contribution-detail.component.scss'],
 })
 export class ContributionDetailComponent implements OnInit {
-  private fileId: number;
+  public fileId: number;
   private routeId: number;
   private contributionId: number;
   private contribution: Contribution;
@@ -300,10 +300,6 @@ export class ContributionDetailComponent implements OnInit {
     } else {
       return 0;
     }
-  }
-
-  public getReturnRoute() {
-    return `/files/${this.fileId}`;
   }
 
   public updateContributionPurchaseData() {

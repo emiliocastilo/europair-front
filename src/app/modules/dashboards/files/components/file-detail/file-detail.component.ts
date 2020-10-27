@@ -378,9 +378,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public editRotation(route: FileRoute, rotation: FileRoute) {
-    this.router.navigate(['routes', route.id, 'rotations', rotation.id], {
-      relativeTo: this.route,
-    });
+    this.router.navigate(['files', this.fileData.id, 'routes', route.id, 'rotations', rotation.id]);
   }
 
   public hasControlAnyError(controlName: string): boolean {
@@ -542,8 +540,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     contribution: Contribution
   ) {
     this.router.navigate(
-      ['routes', fileRoute.id, 'contributions', contribution.id],
-      { relativeTo: this.route }
+      ['files', this.fileData.id, 'routes', fileRoute.id, 'contributions', contribution.id]
     );
   }
 
