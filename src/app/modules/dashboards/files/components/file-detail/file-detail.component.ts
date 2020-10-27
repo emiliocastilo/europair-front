@@ -82,6 +82,7 @@ enum FileAction {
   CREATE_CONTRACT = 'CREATE_CONTRACT',
   MODIFY_FILE = 'MODIFY_FILE',
   SIGN_FILE = 'SIGN_FILE',
+  SHOW_ADDITIONAL_SERVICE = 'SHOW_ADDITIONAL_SERVICE'
 }
 @Component({
   selector: 'app-file-detail',
@@ -462,6 +463,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         break;
       case FileAction.SIGN_FILE:
         show = fileStatus === FileStatusCode.BLUE_BOOKED;
+        break;
+      case FileAction.SHOW_ADDITIONAL_SERVICE:
+        show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus != FileStatusCode.SALES;
         break;
       default:
         show = false;

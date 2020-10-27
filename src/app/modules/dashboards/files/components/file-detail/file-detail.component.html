@@ -334,103 +334,6 @@
         <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
       </mat-expansion-panel>
 
-      <mat-expansion-panel #additionalServices class="cmd-mb-2">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ "FILES.ADDITIONAL_SERVICES.TITLE" | translate | sentenceCase }}
-          </mat-panel-title>
-          <mat-panel-description *ngIf="additionalServices.expanded && hasRoutes">
-            <a mat-button routerLink="additional-services">
-              {{ "FILES.ADDITIONAL_SERVICES.NEW" | translate | sentenceCase }}
-              <mat-icon svgIcon="europair_add"></mat-icon>
-            </a>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="table-container additional-services-table">
-          <mat-table matSort multiTemplateDataRows [dataSource]="dataSourceAdditionalService">
-            <ng-container matColumnDef="code">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.SERVICE_CODE" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="description">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.DESCRIPTION" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="quantity">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.QUANTITY" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="provider">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.PROVIDER" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.provider?.name }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="purchasePrice">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.PURCHASE_AMOUNT" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.purchasePrice }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="salePrice">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.SALE_AMOUNT" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.salePrice }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="tax">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.TAX" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.tax }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="commision">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.COMMISSION" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.commision }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="comment">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.COMMENT" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.comment }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="seller">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.SELLER" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.seller }}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="status">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                {{ "FILES.ADDITIONAL_SERVICES.STATUS" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.status }}</mat-cell>
-            </ng-container>
-            <!-- Actions Column-->
-            <ng-container matColumnDef="actions">
-              <mat-header-cell *matHeaderCellDef>
-                {{ "FILES.ADDITIONAL_SERVICES.ACTIONS" | translate}}
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-icon (click)="runAction($event)" svgIcon="europair_trash"></mat-icon>
-              </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="columnsAdditionalServicesToDisplay"></mat-header-row>
-            <mat-row *matRowDef="let element; columns: columnsAdditionalServicesToDisplay" class="element-row">
-            </mat-row>
-          </mat-table>
-        </div>
-        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
-      </mat-expansion-panel>
-
       <mat-expansion-panel class="app-expansion-panel cmd-mb-2" [expanded]="expandedQuote">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -634,6 +537,103 @@
               " style="overflow: hidden"></mat-row>
           </mat-table>
         </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel #additionalServices class="cmd-mb-2" *ngIf="showAction(fileAction.SHOW_ADDITIONAL_SERVICE)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "FILES.ADDITIONAL_SERVICES.TITLE" | translate | sentenceCase }}
+          </mat-panel-title>
+          <mat-panel-description *ngIf="additionalServices.expanded && hasRoutes">
+            <a mat-button routerLink="additional-services">
+              {{ "FILES.ADDITIONAL_SERVICES.NEW" | translate | sentenceCase }}
+              <mat-icon svgIcon="europair_add"></mat-icon>
+            </a>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="table-container additional-services-table">
+          <mat-table matSort multiTemplateDataRows [dataSource]="dataSourceAdditionalService">
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.SERVICE_CODE" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="description">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.DESCRIPTION" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="quantity">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.QUANTITY" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.quantity }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="provider">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.PROVIDER" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.provider?.name }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="purchasePrice">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.PURCHASE_AMOUNT" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.purchasePrice }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="salePrice">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.SALE_AMOUNT" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.salePrice }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="tax">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.TAX" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.tax }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="commision">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.COMMISSION" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.commision }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="comment">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.COMMENT" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.comment }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="seller">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.SELLER" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.seller }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.ADDITIONAL_SERVICES.STATUS" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.status }}</mat-cell>
+            </ng-container>
+            <!-- Actions Column-->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>
+                {{ "FILES.ADDITIONAL_SERVICES.ACTIONS" | translate}}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon (click)="runAction($event)" svgIcon="europair_trash"></mat-icon>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="columnsAdditionalServicesToDisplay"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: columnsAdditionalServicesToDisplay" class="element-row">
+            </mat-row>
+          </mat-table>
+        </div>
+        <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
       </mat-expansion-panel>
 
       <mat-expansion-panel class="cmd-mb-2">
