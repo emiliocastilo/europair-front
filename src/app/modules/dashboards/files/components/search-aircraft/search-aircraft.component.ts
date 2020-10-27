@@ -247,15 +247,13 @@ export class SearchAircraftComponent implements OnInit {
         ));
       });
       forkJoin(contributionsCalls).subscribe(() => {
-        this.goBack();
-      }, (error) => {
-        console.log(error);
-      });
+        this.goBack(true);
+      }, (error) => console.log(error));
     }
   }
 
-  public goBack(): void {
-    this.router.navigate([`/files/${this.fileId}`]);
+  public goBack(expandedQuote: boolean = false): void {
+    this.router.navigate([`/files/${this.fileId}`], {queryParams: {expandedQuote}});
   }
 
   public isChecked(aircraftId: number): boolean {

@@ -431,7 +431,7 @@
         <mat-paginator [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
       </mat-expansion-panel>
 
-      <mat-expansion-panel class="app-expansion-panel cmd-mb-2">
+      <mat-expansion-panel class="app-expansion-panel cmd-mb-2" [expanded]="expandedQuote">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ "Cotizaciones" | translate | sentenceCase }}
