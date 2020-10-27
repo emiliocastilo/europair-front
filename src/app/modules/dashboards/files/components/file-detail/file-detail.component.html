@@ -81,7 +81,7 @@
     </mat-expansion-panel>
 
     <ng-container *ngIf="routeData.isFileDetail">
-      <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2">
+      <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2" expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ "FILES.ROUTES" | translate | sentenceCase }}
@@ -341,7 +341,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="table-container">
-          <mat-table #contributionsTable matSort multiTemplateDataRows [dataSource]="dataSource">
+          <mat-table #contributionsTable matSort multiTemplateDataRows [dataSource]="dataSourceRouteContributions">
             <!-- Label Column -->
             <ng-container matColumnDef="label" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -509,12 +509,16 @@
                     >
                       <mat-icon
                         (click)="navigateToContributionDetail(parentElement, element)"
-                        svgIcon="europair_edit"
-                      ></mat-icon>
+                        svgIcon="europair_edit">
+                      </mat-icon>
+                      <mat-icon
+                        (click)="sendContribution(parentElement, element)"
+                        svgIcon="europair_trace">
+                      </mat-icon>
                       <mat-icon
                         (click)="deleteContribution(parentElement, element)"
-                        svgIcon="europair_trash"
-                      ></mat-icon>
+                        svgIcon="europair_trash">
+                      </mat-icon>
                     </mat-cell>
                   </ng-container>
 

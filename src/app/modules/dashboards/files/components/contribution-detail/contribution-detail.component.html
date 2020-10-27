@@ -3,7 +3,8 @@
   color="primary"
   class="cmd-mb-2"
   mat-raised-button
-  [routerLink]="getReturnRoute()"
+  [routerLink]="['/files/', fileId]"
+  [queryParams]="{ expandedQuote: true }"
 >
   {{ "COMMON.RETURN" | translate }}
 </button>

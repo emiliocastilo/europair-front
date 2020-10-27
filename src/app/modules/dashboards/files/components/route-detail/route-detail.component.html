@@ -70,7 +70,7 @@
             [minTermLength]="1"
             [loading]="airportsLoading"
             [clearable]="false"
-            class="col s12 l12 cmd-mb-1"
+            class="col s12 l8 cmd-mb-1"
             [typeToSearchText]="
               'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
             "
@@ -161,6 +161,59 @@
               </span>
             </ng-container>
           </core-select>
+        </div>
+        <div class="row">
+          <app-input
+            [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
+            [hasErrors]="hasControlAnyError('seatsF')"
+            formControlName="seatsF"
+            [type]="'number'"
+            [defaultValue]="'0'"
+            class="col s12 l3 cmd-pb-1"
+          >
+            <ng-container inputErrors>
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('seatsF', 'min')"
+              >
+                {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+          <app-input
+            [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate"
+            [hasErrors]="hasControlAnyError('seatsC')"
+            formControlName="seatsC"
+            [type]="'number'"
+            [defaultValue]="'0'"
+            class="col s12 l3 cmd-pb-1"
+          >
+            <ng-container inputErrors>
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('seatsC', 'min')"
+              >
+                {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
+          <app-input
+            [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate"
+            [hasErrors]="hasControlAnyError('seatsY')"
+            formControlName="seatsY"
+            [type]="'number'"
+            [defaultValue]="'0'"
+            class="col s12 l3 cmd-pb-1"
+          >
+            <ng-container inputErrors>
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('seatsY', 'min')"
+              >
+                {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+              </mat-error>
+            </ng-container>
+          </app-input>
           <div class="col s12 l2">
             <button
               class="route-generator browser-default"
@@ -184,7 +237,7 @@
   >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{ "vuelos" | translate | sentenceCase }}
+        {{ "ROUTES.FLIGHTS" | translate | sentenceCase }}
       </mat-panel-title>
     </mat-expansion-panel-header>
 

@@ -540,6 +540,7 @@
     },
     "CONTRIBUTIONS": {
       "DELETE_MSG": "¿Está seguro que desea eliminar la cotización?",
+      "SEND_MSG": "¿Está seguro que desea enviar esta cotización?",
       "ROUTES": "Rutas",
       "REQUEST_TIME": "Fecha creación",
       "OPERATOR": "Operador",
@@ -568,6 +569,7 @@
     "WEEKDAYS": "Días de la semana",
     "MONTH_DAYS": "Dias del mes",
     "GENERATE_ROUTE": "Generar ruta",
+    "FLIGHTS": "Vuelos",
     "ERRORS": {
       "ROUTE_CODE": "Debe indicar un código de ruta",
       "ROUTE_CODE_MIN_LEN": "Un código de ruta debe tener como mínimo un origen y un destino",
