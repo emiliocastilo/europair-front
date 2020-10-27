@@ -112,6 +112,8 @@ export class SearchAircraftComponent implements OnInit {
   private routeId: number = 1;
   private operationType: OperationType;
 
+  public loading: boolean = false;
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
@@ -189,17 +191,20 @@ export class SearchAircraftComponent implements OnInit {
     this.searchForm.get('nearbyAirportTo').updateValueAndValidity();
     this.searchForm.get('airports').updateValueAndValidity();
     if (this.searchForm.valid) {
+      this.loading = true;
       this.filterExpanded = false;
       this.tableExpanded = true;
       this.setAircraftFilter();
       this.searchAircraftService.searchAircraft(this.aircraftSearch)
         .subscribe((aircrafts: Array<AircraftSearchResult>) => {
+          this.loading = false;
           this.selectedItems = [];
           this.aircrafts = aircrafts;
           this.dataSource = new MatTableDataSource(aircrafts);
           this.dataSource.paginator = this.paginator;
           this.resultsLength = aircrafts.length;
-        });
+        },
+        () => this.loading = false);
     }
   }
 
@@ -231,6 +236,7 @@ export class SearchAircraftComponent implements OnInit {
       const aircraftSelected: Array<AircraftSearchResult> = this.aircrafts
         .filter((aircraftSearch: AircraftSearchResult) => this.selectedItems.includes(aircraftSearch.aircraftId));
       const contributionsCalls: Array<Observable<void>> = [];
+      this.loading = true;
       aircraftSelected.forEach((aircraftSearch: AircraftSearchResult) => {
         const contribution: Contribution = {
           aircraftId: aircraftSearch.aircraftId,
@@ -247,15 +253,17 @@ export class SearchAircraftComponent implements OnInit {
         ));
       });
       forkJoin(contributionsCalls).subscribe(() => {
-        this.goBack();
+        this.loading = false;
+        this.goBack(true);
       }, (error) => {
+        this.loading = false;
         console.log(error);
       });
     }
   }
 
-  public goBack(): void {
-    this.router.navigate([`/files/${this.fileId}`]);
+  public goBack(expandedQuote: boolean = false): void {
+    this.router.navigate([`/files/${this.fileId}`], {queryParams: {expandedQuote}});
   }
 
   public isChecked(aircraftId: number): boolean {

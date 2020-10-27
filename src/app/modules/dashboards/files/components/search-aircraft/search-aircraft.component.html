@@ -1,3 +1,6 @@
+<div *ngIf="loading" class="loading-spinner">
+    <mat-progress-spinner class="spinner" [mode]="'indeterminate'"></mat-progress-spinner>
+</div>
 <core-page-bar [pageTitle]="'SEARCH_AIRCRAFT.PAGE_TITLE' | translate"></core-page-bar>
 
 <mat-accordion class="table-expansion-panel" multi>

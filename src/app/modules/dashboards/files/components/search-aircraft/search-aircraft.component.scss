@@ -1,5 +1,22 @@
 @import "variables";
 
+.loading-spinner {
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(199, 199, 199, 0.7);
+    .spinner {
+        margin: calc(50vh - 10px) auto;
+    }
+}
+
 .search-measure {
     margin-top: 14%;
 }

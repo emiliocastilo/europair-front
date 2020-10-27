@@ -154,6 +154,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public dataSourceAdditionalService = new MatTableDataSource();
   public expandedRoutes: FileRoute[] = [];
   public expandedContributions: FileRoute[] = [];
+  public expandedQuote: boolean;
   public resultsLength = 0;
   public pageSize = 0;
   public isLoadingResults = true;
@@ -196,6 +197,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadClients();
+    this.obtainParams();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
   }
 
@@ -215,6 +217,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
           this.fileForm.get('clientId').setValue(term.id);
         }
       });
+  }
+
+  private obtainParams(): void {
+    this.route.queryParams.subscribe((params: Params) => this.expandedQuote = params.expandedQuote === "true");
   }
 
   private getFilteredClients(term: string): Observable<Client[]> {
