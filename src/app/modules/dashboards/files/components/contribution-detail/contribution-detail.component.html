@@ -17,7 +17,9 @@
     <mat-panel-title>
       {{ "CONTRIBUTIONS.PURCHASE" | translate | sentenceCase }}
     </mat-panel-title>
-    <mat-panel-description *ngIf="purchasePanel.expanded">
+    <mat-panel-description
+      *ngIf="purchasePanel.expanded && !purchaseContributionForm.dirty"
+    >
       <a mat-button (click)="copyPurchaseToSale($event)">
         {{ "CONTRIBUTIONS.SALES_COPY" | translate | sentenceCase }}
         <mat-icon svgIcon="europair_add_trace"></mat-icon>
@@ -30,13 +32,15 @@
     (ngSubmit)="updateContributionPurchaseData()"
   >
     <div class="row row-no-margin-bottom">
-      <app-input
-        [type]="'number'"
+      <app-input-mask
         [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        mask="separator.2"
+        thousandSeparator="."
+        separatorLimit="99999999"
         formControlName="purchasePrice"
         class="col s12 l8 cmd-pb-1"
       >
-      </app-input>
+      </app-input-mask>
       <core-select
         [items]="currencies"
         [id]="'purchase-currency'"
@@ -75,7 +79,7 @@
       </app-input>
     </div>
     <button
-      *ngIf="purchaseContributionForm.touched"
+      *ngIf="purchaseContributionForm.dirty"
       type="submit"
       color="primary"
       class="cmd-mb-2"
@@ -282,7 +286,7 @@
   </ng-template>
 </mat-expansion-panel>
 
-<mat-expansion-panel class="app-expansion-panel cmd-mb-2">
+<mat-expansion-panel class="app-expansion-panel cmd-mb-2" #salePanel>
   <mat-expansion-panel-header>
     <mat-panel-title>
       {{ "CONTRIBUTIONS.SALE" | translate | sentenceCase }}
@@ -294,13 +298,15 @@
     (ngSubmit)="updateContributionSaleData()"
   >
     <div class="row row-no-margin-bottom">
-      <app-input
-        [type]="'number'"
+      <app-input-mask
         [prefix]="'CONTRIBUTIONS.TOTAL_PRICE' | translate"
+        mask="separator.2"
+        thousandSeparator="."
+        separatorLimit="99999999"
         formControlName="salesPrice"
         class="col s12 l8 cmd-pb-1"
       >
-      </app-input>
+      </app-input-mask>
       <core-select
         [items]="currencies"
         [id]="'sale-currency'"
