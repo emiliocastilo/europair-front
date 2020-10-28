@@ -312,6 +312,13 @@
     "FAX": "Fax",
     "OBSERVATION": "Observaciones"
   },
+  "SERVICES": {
+    "PAGE_TITLE": "Servicios adicionales",
+    "CODE": "Código",
+    "NAME": "Nombre",
+    "SERVICE_TYPE": "Tipo",
+    "DETAIL_PAGE_TITLE": "Detalle de servicio"
+  },
   "FLEET": {
     "CATEGORIES": {
       "PAGE_TITLE": "Categorías",

@@ -30,6 +30,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   private unsubscriber$: Subject<void> = new Subject();
   public routeData$: Observable<Data>;
   private readonly newAirportBarButtons: BarButton[] = [
+    { type: BarButtonType.GO_BACK, text: 'Volver' },
     { type: BarButtonType.NEW, text: 'Crear aeropuerto' },
   ];
   private readonly editAirportBarButtons: BarButton[] = [

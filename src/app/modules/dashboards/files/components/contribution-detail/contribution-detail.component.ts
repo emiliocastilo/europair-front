@@ -30,11 +30,11 @@ import {
   RotationContributionLine,
   ServiceTypeEnum,
 } from '../../models/ContributionLine.model';
-import { Services } from '../../models/Services.model';
+import { Services } from '../../../masters/services/models/services.model';
 import { ContributionLineService } from '../../services/contribution-line.service';
 import { ContributionService } from '../../services/contribution.service';
 import { FileRoutesService } from '../../services/file-routes.service';
-import { ServicesService } from '../../services/services.service';
+import { ServicesService } from '../../../masters/services/services/services.service';
 import { Contribution } from '../search-aircraft/models/contribution.model';
 
 @Component({
