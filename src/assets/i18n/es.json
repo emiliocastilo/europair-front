@@ -657,6 +657,18 @@
     "SEATS_C": "Asientos C",
     "SEATS_Y": "Asientos Y"
   },
+  "FLIGHT_TRACKING": {
+    "TITLE": "Seguimiento de vuelo",
+    "ROTATIONS_TITLE": "Rotaciones / Vuelos",
+    "ROTATIONS_PLACEHOLDER": "Selecciona una rotación",
+    "FLIGHTS_PLACEHOLDER": "Selecciona un vuelo",
+    "SLOT_PLACEHOLDER": "Selecciona un slot",
+    "PARKING_PLACEHOLDER": "Selecciona un parking",
+    "FLIGHTS_DETAIL": "Detalle del vuelo",
+    "PARKING": "Parking",
+    "SLOT": "Slot",
+    "FLIGHT_NUMBER": "Nº Vuelo"
+  },
   "FREQUENCIES": {
     "UNITS": {
       "ADHOC": "ADHOC",
