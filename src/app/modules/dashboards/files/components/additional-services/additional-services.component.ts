@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { concat, Observable, of, Operator, Subject } from 'rxjs';
+import { concat, Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError } from 'rxjs/operators';
 import { InputTextComponent } from 'src/app/core/components/basic/input-text/input-text.component';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -10,12 +10,12 @@ import { AdditionalService } from '../../models/AdditionalService.model';
 import { Provider } from '../../models/File.model';
 import { FileRoute } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
-import { Services } from '../../models/Services.model';
+import { Services } from '../../../masters/services/models/services.model';
 import { AdditionalServiceService } from '../../services/additional-services.service';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { FlightService } from '../../services/flight.service';
 import { ProviderService } from '../../services/provider.service';
-import { ServicesService } from '../../services/services.service';
+import { ServicesService } from '../../../masters/services/services/services.service';
 
 @Component({
   selector: 'app-additional-services',
