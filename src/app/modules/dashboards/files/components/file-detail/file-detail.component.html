@@ -453,7 +453,7 @@
                   <!-- Frequency Column -->
                   <ng-container matColumnDef="requestTime">
                     <mat-cell *matCellDef="let element">
-                      {{ element?.requestTime }}
+                      {{ element?.requestTime | date: 'dd/MM/yyyy' }}
                     </mat-cell>
                   </ng-container>
 
