@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { FilterOptions } from 'src/app/core/models/search/search-filter';
+import {
+  FilterOptions,
+  SearchFilter,
+} from 'src/app/core/models/search/search-filter';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { FileRoute } from '../models/FileRoute.model';
 import { Observable } from 'rxjs';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +17,9 @@ import { Page } from 'src/app/core/models/table/pagination/page';
 export class FileRoutesService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}files`;
-  private readonly filterOptions: FilterOptions = {} as const;
+  private readonly filterOptions: FilterOptions = {
+    filter_routeState: OperatorEnum.EQUALS,
+  } as const;
 
   constructor(
     private http: HttpClient,
@@ -31,15 +37,26 @@ export class FileRoutesService {
     return this.http.get<Page<FileRoute>>(searchFileRouteUrl, { params });
   }
 
-  public getFileRoutes(fileId: number): Observable<Page<FileRoute>> {
+  public getFileRoutes(
+    fileId: number,
+    searchFilter: SearchFilter = {}
+  ): Observable<Page<FileRoute>> {
     const url: string = this.mocked
       ? '/assets/mocks/fileRoutes.json'
       : `${this.url}/${fileId}/routes`;
 
-    return this.http.get<Page<FileRoute>>(url);
+    return this.http.get<Page<FileRoute>>(url, {
+      params: this.searchFilterService.createHttpParams(
+        searchFilter,
+        this.filterOptions
+      ),
+    });
   }
 
-  public getFileRouteById(fileId: number, routeId: number): Observable<FileRoute> {
+  public getFileRouteById(
+    fileId: number,
+    routeId: number
+  ): Observable<FileRoute> {
     const url: string = `${this.url}/${fileId}/routes/${routeId}`;
 
     return this.http.get<FileRoute>(url);

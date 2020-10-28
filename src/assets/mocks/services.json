@@ -1,0 +1,53 @@
+{
+  "content": [
+    {
+      "id": 1,
+      "name": "Catering a bordo",
+      "code": "CAT",
+      "type": "CATERING_ON_BOARD"
+    },
+    {
+      "id": 2,
+      "name": "Botella de vozka",
+      "code": "BOT_VOZ",
+      "type": "SERVICING_ON_BOARD"
+    },
+    {
+      "id": 3,
+      "name": "Botella de vino",
+      "code": "BOT_VIN",
+      "type": "SERVICING_ON_BOARD"
+    },
+    {
+      "id": 4,
+      "name": "Botella de Cocacola",
+      "code": "BOT_COC",
+      "type": "SERVICING_ON_BOARD"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true,
+      "empty": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 20,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "number": 0,
+  "size": 20,
+  "sort": {
+    "sorted": false,
+    "unsorted": true,
+    "empty": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

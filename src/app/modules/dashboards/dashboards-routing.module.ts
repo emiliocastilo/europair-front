@@ -24,6 +24,7 @@ const routes: Routes = [
       { path: 'fleet', loadChildren: () => import('./masters/fleet/fleet.module').then(m => m.FleetModule) },
       { path: 'operators', loadChildren: () => import('./masters/operators/operators.module').then(m => m.OperatorsModule) },
       { path: 'contacts', loadChildren: () => import('./masters/contacts/contacts.module').then(m => m.ContactsModule) },
+      { path: 'services', loadChildren: () => import('./masters/services/services.module').then(m => m.ServicesModule) },
       { path: 'files', loadChildren: () => import('./files/files.module').then(m => m.FilesModule) }
     ]
   }
