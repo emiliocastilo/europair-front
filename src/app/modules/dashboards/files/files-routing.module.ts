@@ -23,8 +23,25 @@ const routes: Routes = [
         data: { title: 'Nuevo Expediente', isFileDetail: false },
       },
       {
+        path: 'tracking',
+        loadChildren: () =>
+          import('./components/flight-tracking/flight-tracking.module').then(
+            (m) => m.FlightTrackingModule
+          ),
+      },
+      {
+        path: 'tracking/:fileId',
+        loadChildren: () =>
+          import('./components/tracking-detail/tracking-detail.module').then(
+            (m) => m.TrackingDetailModule
+          ),
+      },
+      {
         path: 'search-aircraft/:fileId/:routeId',
-        loadChildren: () => import('./components/search-aircraft/search-aircraft.module').then((m) => m.SearchAircraftModule)
+        loadChildren: () =>
+          import('./components/search-aircraft/search-aircraft.module').then(
+            (m) => m.SearchAircraftModule
+          ),
       },
       {
         path: ':fileId',
@@ -33,7 +50,7 @@ const routes: Routes = [
             (m) => m.FileDetailModule
           ),
         data: { title: 'Detalles Expediente', isFileDetail: true },
-      }
+      },
     ],
   },
 ];
