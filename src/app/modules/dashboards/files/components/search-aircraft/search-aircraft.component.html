@@ -318,7 +318,6 @@
                     </mat-cell>
                 </ng-container>
 
-
                 <ng-container matColumnDef="subcategory">
                     <mat-header-cell *matHeaderCellDef mat-header>
                         {{ 'SEARCH_AIRCRAFT.SUBCATEGORY' | translate}}
@@ -334,6 +333,15 @@
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         {{ element.aircraftTypeDescription }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="connectionFlights">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.SCALES' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.connectionFlights }}
                     </mat-cell>
                 </ng-container>
 
