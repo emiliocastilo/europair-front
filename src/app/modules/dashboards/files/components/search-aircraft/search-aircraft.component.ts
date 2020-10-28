@@ -25,6 +25,10 @@ import { Region } from '../../../masters/regions/models/region';
 import { RegionsService } from '../../../masters/regions/services/regions.service';
 import { OperationType } from '../../../masters/contacts/models/contact';
 import { MatPaginator } from '@angular/material/paginator';
+import { FileRoutesService } from '../../services/file-routes.service';
+import { FileRoute } from '../../models/FileRoute.model';
+import { FlightService } from '../../services/flight.service';
+import { Flight } from '../../models/Flight.model';
 
 
 @Component({
@@ -108,8 +112,8 @@ export class SearchAircraftComponent implements OnInit {
   private selectedItems: Array<number>;
   private aircraftSearch: AircraftFilter;
 
-  private fileId: number = 1;
-  private routeId: number = 1;
+  private fileId: number;
+  private routeId: number;
   private operationType: OperationType;
 
   constructor(
@@ -124,7 +128,8 @@ export class SearchAircraftComponent implements OnInit {
     private readonly fleetTypeService: FleetTypesService,
     private readonly operatorsService: OperatorsService,
     private readonly searchAircraftService: AircraftSearchService,
-    private readonly contributionService: ContributionService
+    private readonly contributionService: ContributionService,
+    private readonly flightService: FlightService
   ) { }
 
   ngOnInit(): void {
@@ -151,17 +156,20 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private obtainParams(): void {
-    const { seatsC, seatsY, seatsF, beds, stretchers, operationType } = this.route.snapshot.queryParams;
+    const { operationType } = this.route.snapshot.queryParams;
     this.route.params.subscribe((params: {fileId: string, routeId: string}) => {
       this.fileId = parseInt(params.fileId, 10);
       this.routeId = parseInt(params.routeId, 10);
+      this.flightService.getFlights(this.fileId, this.routeId).subscribe((page: Page<Flight>) => {
+        const flight: Flight =  page.content[0];
+        this.searchForm.get('seatF').setValue(flight.seatsF);
+        this.searchForm.get('seatC').setValue(flight.seatsC);
+        this.searchForm.get('seatY').setValue(flight.seatsY);
+        this.searchForm.get('beds').setValue(flight.beds);
+        this.searchForm.get('stretchers').setValue(flight.stretchers);
+      });
     });
     this.operationType = operationType;
-    this.searchForm.get('seatF').setValue(seatsF);
-    this.searchForm.get('seatC').setValue(seatsC);
-    this.searchForm.get('seatY').setValue(seatsY);
-    this.searchForm.get('beds').setValue(beds);
-    this.searchForm.get('stretchers').setValue(stretchers);
     if (this.operationType) {
       this.categoriesService.getFleetCategories(
         { 'filter_code': this.obtainCategoryCodFromOperationType(this.operationType) }
