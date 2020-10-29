@@ -20,6 +20,11 @@
       (click)="signFile()" mat-raised-button>
       {{ "FILES.SING_FILE" | translate }}
     </button>
+
+    <button *ngIf="showAction(fileAction.GENERATE_PLANING)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
+      (click)="generatePlanning()" mat-raised-button>
+      {{ "FILES.GENERATE_PLANING" | translate }}
+    </button>
   </div>
 
   <mat-accordion multi>
@@ -66,7 +71,7 @@
               </ng-container>
             </app-input> -->
 
-            <core-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
+            <app-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
               [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
               [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
               <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
@@ -74,7 +79,7 @@
                   [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
                 </span>
               </ng-container>
-            </core-select>
+            </app-select>
           </div>
         </form>
       </ng-template>
