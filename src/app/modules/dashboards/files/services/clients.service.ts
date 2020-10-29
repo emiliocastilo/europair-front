@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import {
   FilterOptions,
   SearchFilter,
@@ -16,7 +17,9 @@ import { Client } from '../models/File.model';
 export class ClientsService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}clients`;
-  private readonly filterOptions: FilterOptions = {} as const;
+  private readonly filterOptions: FilterOptions = {
+    filter_name: OperatorEnum.CONTAINS,
+  } as const;
 
   constructor(
     private http: HttpClient,
@@ -24,9 +27,7 @@ export class ClientsService {
   ) {}
 
   public getClients(searchFilter: SearchFilter = {}): Observable<Page<Client>> {
-    const url: string = this.mocked
-      ? '/assets/mocks/clients.json'
-      : this.url;
+    const url: string = this.mocked ? '/assets/mocks/clients.json' : this.url;
     return this.http.get<Page<Client>>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,

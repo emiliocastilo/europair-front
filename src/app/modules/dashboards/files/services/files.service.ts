@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import {
   FilterOptions,
   SearchFilter,
@@ -16,14 +17,18 @@ import { File } from '../models/File.model';
 export class FilesService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}files`;
-  private readonly filterOptions: FilterOptions = {} as const;
+  private readonly filterOptions: FilterOptions = {
+    filter_code: OperatorEnum.CONTAINS,
+    filter_statusId: OperatorEnum.EQUALS,
+    filter_clientId: OperatorEnum.EQUALS,
+  } as const;
 
   constructor(
     private http: HttpClient,
     private searchFilterService: SearchFilterService
   ) {}
 
-  public searchFile(text: string = '', pageable: any): Observable<Page<File>> {
+  public searchFile(pageable: any, text: string = ''): Observable<Page<File>> {
     const params = new HttpParams();
     params.set('text', text);
     params.set('pageable', String(pageable));
