@@ -18,6 +18,7 @@ export class FilesComponent implements OnInit {
     'europair_plane',
     'europair_trace',
     'europair_trash',
+    'europair_feather_mail',
   ];
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

@@ -627,6 +627,7 @@
     }
   },
   "CONTRIBUTIONS": {
+    "TITLE": "Detalle cotización",
     "PURCHASE": "Compra",
     "SALE": "Venta",
     "TOTAL_PRICE": "Importe total",
