@@ -493,7 +493,6 @@
     "CANCEL": "Cancelar",
     "EXACT": "Búsqueda Exacta",
     "F_C": "F + C",
-    "TOTAL_PAX": "Total Pax",
     "ERROR": {
       "AIRPORT_REQUIRED": "Debes indicar un aeropuerto al seleccionar 'Aeropuertos cercanos'",
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
@@ -573,7 +572,8 @@
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
       "REQUIRED": "El campo es requerido."
     },
-    "NEW_FILE": "Nuevo Expediente"
+    "NEW_FILE": "Nuevo Expediente",
+    "GENERATE_PLANING": "Generar planing"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

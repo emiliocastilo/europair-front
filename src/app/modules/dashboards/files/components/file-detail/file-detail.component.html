@@ -20,6 +20,11 @@
       (click)="signFile()" mat-raised-button>
       {{ "FILES.SING_FILE" | translate }}
     </button>
+
+    <button *ngIf="showAction(fileAction.GENERATE_PLANING)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
+      (click)="generatePlanning()" mat-raised-button>
+      {{ "FILES.GENERATE_PLANING" | translate }}
+    </button>
   </div>
 
   <mat-accordion multi>
