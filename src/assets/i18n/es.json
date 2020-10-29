@@ -482,7 +482,7 @@
     "SELECT_CATEGORY": "Selecciona una categoría",
     "SUBCATEGORY_SEARCH_TEXT": "Escriba una subcategoría",
     "SELECT_SUBCATEGORY": "Selecciona una subcategoría",
-    "SELECT_CATEGORY_FIRST": "Selecciona una categoría primero",
+    "SELECT_CATEGORY_FIRST": "Selecciona una categoría",
     "TYPE_SEARCH_TEXT": "Escriba un tipo de avión",
     "SELECT_TYPE": "Selecciona un tipo de avión",
     "NEARBY_AIRPORT_FROM": "Desde",
@@ -491,6 +491,9 @@
     "SCALES_VALUE": "Nº de escalas",
     "QUOTE": "Cotizar {{quantity}}",
     "CANCEL": "Cancelar",
+    "EXACT": "Búsqueda Exacta",
+    "F_C": "F + C",
+    "TOTAL_PAX": "Total Pax",
     "ERROR": {
       "AIRPORT_REQUIRED": "Debes indicar un aeropuerto al seleccionar 'Aeropuertos cercanos'",
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
