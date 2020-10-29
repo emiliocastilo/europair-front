@@ -1,0 +1,29 @@
+<div
+  class="core-basic-select-field input-field select-field"
+  [ngClass]="{ invalid: hasErrors }"
+>
+  <label [for]="id" class="active">{{ label }}</label>
+  <ng-select
+    id="{{ id }}"
+    (ngModelChange)="changeSelect($event)"
+    [addTag]="tag"
+    [bindLabel]="itemDescription"
+    [bindValue]="itemValue"
+    [items]="items"
+    [loading]="loading"
+    [minTermLength]="minTermLength"
+    [multiple]="multiple"
+    [ngModel]="value"
+    [notFoundText]="notFoundText"
+    [placeholder]="placeholder"
+    [searchable]="searchable"
+    [searchFn]="customSearchFn"
+    [typeahead]="typeahead"
+    [typeToSearchText]="typeToSearchText"
+    [virtualScroll]="virtualScroll"
+    [disabled]="isDisabled"
+    [clearable]="clearable"
+    [dropdownPosition]="dropdownPosition"
+  ></ng-select>
+  <ng-content select="[inputErrors]"></ng-content>
+</div>

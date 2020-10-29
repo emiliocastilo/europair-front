@@ -76,7 +76,8 @@ enum FileAction {
   CREATE_CONTRACT = 'CREATE_CONTRACT',
   MODIFY_FILE = 'MODIFY_FILE',
   SIGN_FILE = 'SIGN_FILE',
-  SHOW_ADDITIONAL_SERVICE = 'SHOW_ADDITIONAL_SERVICE'
+  SHOW_ADDITIONAL_SERVICE = 'SHOW_ADDITIONAL_SERVICE',
+  GENERATE_PLANING = 'GENERATE_PLANING'
 }
 @Component({
   selector: 'app-file-detail',
@@ -431,7 +432,20 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
-  public saveObservations(): void {
+  public generatePlanning(): void {
+    // TODO: nothing yet
+  }
+
+  public saveObservation(): void {
+    const file: File = {
+      id: this.fileData.id,
+      ...this.operationForm.value,
+      observation: this.observations?.slice(0, this.observationMaxLength),
+    };
+    this.fileService.saveFile(file).subscribe();
+  }
+
+  public onConfirmOperation(): void {
     const operation: ConfirmOperation = {
       ...this.operationForm.value
     };
@@ -463,7 +477,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         show = fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       case FileAction.SHOW_ADDITIONAL_SERVICE:
-        show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus != FileStatusCode.SALES;
+        show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus !== FileStatusCode.SALES;
+        break;
+      case FileAction.GENERATE_PLANING:
+        show = fileStatus === FileStatusCode.OPTIONED || fileStatus == FileStatusCode.BLUE_BOOKED;
         break;
       default:
         show = false;

@@ -41,6 +41,7 @@ import { EditModeDirective } from './components/editable/edit-mode.directive';
 import { EditOnEnterDirective } from './components/editable/edit-on-enter.directive';
 import { FocusableDirective } from './directives/focusable.directive';
 import { MaxlengthDirective } from './directives/maxlength.directive';
+import { SelectFormComponent } from './components/basic/select-form/select-form.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { MaxlengthDirective } from './directives/maxlength.directive';
     PaginationComponent,
     SearchBarComponent,
     SelectComponent,
+    SelectFormComponent,
     SentenceCasePipe,
     SortButtonComponent,
     SortMenuComponent,
@@ -108,6 +110,7 @@ import { MaxlengthDirective } from './directives/maxlength.directive';
     PageBarComponent,
     SearchBarComponent,
     SelectComponent,
+    SelectFormComponent,
     SentenceCasePipe,
     SortMenuComponent,
     SwitchComponent,

@@ -5,6 +5,11 @@ import { Country } from 'src/app/modules/dashboards/masters/countries/models/cou
 import { FleetCategory, FleetSubcategory, FleetType } from 'src/app/modules/dashboards/masters/fleet/models/fleet';
 import { Operator } from 'src/app/modules/dashboards/masters/operators/models/Operator.model';
 
+export enum TypeFilterSeat {
+    EXACT = 'EXACT',
+    TOTAL_PAX = 'TOTAL_PAX',
+    F_C = 'F_C'
+}
 export class AircraftFilter {
     routeId: number;
     countries: Array<Country>;
@@ -17,11 +22,10 @@ export class AircraftFilter {
     nearbyAirport: boolean;
     nearbyAirportFrom: number;
     nearbyAirportTo: number;
+    typeFilterSeat: TypeFilterSeat;
     seatF: number;
-    seatFC: number;
     seatC: number;
     seatY: number;
-    seats: number;
     beds: number;
     stretchers: number;
     operationType: OperationType;
@@ -57,15 +61,15 @@ export class AircraftFilter {
             result = result.append('exactSubcategory', (!this.minumunSubcategory).toString());
             result = result.append('subcategoryId', this.subcategory.id.toString());
         }
-        if (this.seatFC) {
-            result = result.append('seatingFC', this.seatFC.toString());
+        if (this.typeFilterSeat === TypeFilterSeat.F_C) {
+            result = result.append('seatingFC', `${+this.seatF + +this.seatC}`);
             result = result.append('seatingY', (this.seatY ? this.seatY.toString() : '0'));
-        } else if (this.seatC || this.seatF || this.seatY) {
+        } else if (this.typeFilterSeat === TypeFilterSeat.EXACT) {
             result = result.append('seatingC', (this.seatC ? this.seatC.toString() : '0'));
             result = result.append('seatingF', (this.seatF ? this.seatF.toString() : '0'));
             result = result.append('seatingY', (this.seatY ? this.seatY.toString() : '0'));
-        } else if (this.seats) {
-            result = result.append('seats', this.seats.toString());
+        } else if (this.typeFilterSeat === TypeFilterSeat.TOTAL_PAX) {
+            result = result.append('seats', `${+this.seatF + +this.seatC + +this.seatY}`);
         }
         if (this.beds) {
             result = result.append('beds', this.beds.toString());

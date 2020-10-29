@@ -1,7 +1,7 @@
 @import "variables";
 
 .search-measure {
-    margin-top: 14%;
+    margin-top: 10%;
 }
 
 .nearby-container, .switch-scales {
@@ -69,6 +69,9 @@
     &.mat-column-quantity,
     &.mat-column-seats,
     &.mat-column-bedsAndStretchers,
+    &.mat-column-subcategory,
+    &.mat-column-connectionFlights,
+    &.mat-column-flightTime,
     &.mat-column-maximumLoad {
         min-width: 110px;
         max-width: 110px;

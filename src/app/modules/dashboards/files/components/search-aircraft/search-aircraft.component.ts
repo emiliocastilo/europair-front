@@ -16,7 +16,7 @@ import { FleetTypesService } from '../../../masters/fleet/components/fleet-types
 import { FleetCategory, FleetSubcategory, FleetType } from '../../../masters/fleet/models/fleet';
 import { Operator } from '../../../masters/operators/models/Operator.model';
 import { OperatorsService } from '../../../masters/operators/services/operators.service';
-import { AircraftFilter } from './models/aircraft-filter.model';
+import { AircraftFilter, TypeFilterSeat } from './models/aircraft-filter.model';
 import { AircraftSearchResult } from './models/aircraft-search.model';
 import { AircraftSearchService } from './services/aircraft-search.service';
 import { ContributionService } from '../../services/contribution.service';
@@ -27,7 +27,7 @@ import { OperationType } from '../../../masters/contacts/models/contact';
 import { MatPaginator } from '@angular/material/paginator';
 import { FlightService } from '../../services/flight.service';
 import { Flight } from '../../models/Flight.model';
-
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-aircraft',
@@ -48,13 +48,8 @@ import { Flight } from '../../models/Flight.model';
     ]),
   ]
 })
-
 export class SearchAircraftComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  private readonly SEAT_FILTER_EXACT: string = 'Busqueda Exacta';
-  private readonly SEAT_FILTER_TOTAL_PAX: string = 'Total Pax';
-  private readonly SEAT_FILTER_F_C: string = 'F + C';
 
   public countries$: Observable<Country[]>;
   public countriesInput$ = new Subject<string>();
@@ -79,7 +74,7 @@ export class SearchAircraftComponent implements OnInit {
   public operatorsInput$ = new Subject<string>();
   public operatorsLoading = false;
 
-  public seatFilterType: Array<string>;
+  public seatFilterType: Array<{value: string, description: string}>;
 
   public searchForm: FormGroup = this.fb.group({
     regions: [[]],
@@ -93,9 +88,7 @@ export class SearchAircraftComponent implements OnInit {
     minimunSubcategory: [true],
     fleetTypes: [[]],
     operators: [[]],
-    filterSeat: [this.SEAT_FILTER_EXACT],
-    seatTotalPax: ['', Validators.min(0)],
-    seatFC: ['', Validators.min(0)],
+    filterSeat: [TypeFilterSeat.EXACT],
     seatF: ['', Validators.min(0)],
     seatC: ['', Validators.min(0)],
     seatY: ['', Validators.min(0)],
@@ -136,7 +129,8 @@ export class SearchAircraftComponent implements OnInit {
     private readonly operatorsService: OperatorsService,
     private readonly searchAircraftService: AircraftSearchService,
     private readonly contributionService: ContributionService,
-    private readonly flightService: FlightService
+    private readonly flightService: FlightService,
+    private readonly translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -150,8 +144,16 @@ export class SearchAircraftComponent implements OnInit {
     this.aircrafts = [];
     this.filterExpanded = true;
     this.tableExpanded = false;
-    this.seatFilterType = [this.SEAT_FILTER_EXACT, this.SEAT_FILTER_TOTAL_PAX, this.SEAT_FILTER_F_C];
+    this.seatFilterType = this.itemsSelectSeatFilter();
     this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'fleetType', 'subcategory', 'flightTime', 'connectionFlights', 'insuranceDate', 'airport', 'category', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations'];
+  }
+
+  private itemsSelectSeatFilter(): Array<{value: string, description: string}> {
+    return [
+      {value: TypeFilterSeat.EXACT, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.EXACT}`)},
+      {value: TypeFilterSeat.F_C, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.F_C}`)},
+      {value: TypeFilterSeat.TOTAL_PAX, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.TOTAL_PAX}`)},
+    ]
   }
 
   private loadSelectsData() {
@@ -172,9 +174,6 @@ export class SearchAircraftComponent implements OnInit {
         const flight: Flight =  page.content[0];
         this.searchForm.get('seatF').setValue(flight.seatsF);
         this.searchForm.get('seatC').setValue(flight.seatsC);
-        this.searchForm.get('seatY').setValue(flight.seatsY);
-        this.searchForm.get('seatTotalPax').setValue(flight.seatsY + flight.seatsF + flight.seatsC);
-        this.searchForm.get('seatFC').setValue(flight.seatsF + flight.seatsC);
         this.searchForm.get('beds').setValue(flight.beds);
         this.searchForm.get('stretchers').setValue(flight.stretchers);
         this.searchForm.get('airports').setValue([flight.origin]);
@@ -240,17 +239,10 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.flightScales = this.searchForm.value.flightScales;
     this.aircraftSearch.flightScalesValue = this.searchForm.value.flightScalesValue;
     this.aircraftSearch.operationType = this.operationType;
-    const filterSeat: string = this.searchForm.get('filterSeat').value;
-    if (filterSeat === this.SEAT_FILTER_EXACT) {
-      this.aircraftSearch.seatC = this.searchForm.value.seatC;
-      this.aircraftSearch.seatF = this.searchForm.value.seatF;
-      this.aircraftSearch.seatY = this.searchForm.value.seatY;
-    } else if (filterSeat === this.SEAT_FILTER_F_C) {
-      this.aircraftSearch.seatFC = this.searchForm.value.seatFC;
-      this.aircraftSearch.seatY = this.searchForm.value.seatY;
-    } else {
-      this.aircraftSearch.seats = this.searchForm.value.seatTotalPax;
-    }
+    this.aircraftSearch.typeFilterSeat = this.searchForm.value.filterSeat;
+    this.aircraftSearch.seatC = this.searchForm.value.seatC;
+    this.aircraftSearch.seatF = this.searchForm.value.seatF;
+    this.aircraftSearch.seatY = this.searchForm.value.seatY;
   }
 
   public quote(): void {
@@ -343,30 +335,6 @@ export class SearchAircraftComponent implements OnInit {
     const minutes: number = Math.floor((aircraft.timeInHours - hour) * 60);
     const minutesStr: string = minutes < 10 ? `0${minutes}` : minutes.toString();
     return `${hour}:${minutesStr}h`;
-  }
-
-  public showSeatFilter(field: string): boolean {
-    let showSeat: boolean = false;
-    const filterType: string = this.searchForm.get('filterSeat')?.value;
-    switch (field) {
-      case 'seatF':
-      case 'seatC':
-        showSeat = filterType === this.SEAT_FILTER_EXACT;
-        break;
-      case 'seatY':
-        showSeat = filterType !== this.SEAT_FILTER_TOTAL_PAX;
-        break;
-      case 'seatTotalPax':
-        showSeat = filterType === this.SEAT_FILTER_TOTAL_PAX;
-        break;
-      case 'seatFC':
-        showSeat = filterType === this.SEAT_FILTER_F_C;
-        break;
-        default:
-          showSeat = false;
-        break;
-    }
-    return showSeat;
   }
 
   private loadCountries(): void {

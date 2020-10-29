@@ -1,6 +1,6 @@
 $label-width: 200px;
 $status-width: 150px;
-$actions-width: 220px;
+$actions-width: 150px;
 
 $other-columns-width: 120px;
 
@@ -159,6 +159,14 @@ $other-columns-width: 120px;
 .mat-column-startDate,
 .mat-column-endDate {
   min-width: 150px;
+}
+
+.mat-column-totalPassengers {
+  min-width: 100px;
+}
+
+.mat-column-operator {
+  min-width: 200px;
 }
 
 .mat-column-route-actions,

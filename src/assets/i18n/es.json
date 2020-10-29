@@ -483,7 +483,7 @@
     "SELECT_CATEGORY": "Selecciona una categoría",
     "SUBCATEGORY_SEARCH_TEXT": "Escriba una subcategoría",
     "SELECT_SUBCATEGORY": "Selecciona una subcategoría",
-    "SELECT_CATEGORY_FIRST": "Selecciona una categoría primero",
+    "SELECT_CATEGORY_FIRST": "Selecciona una categoría",
     "TYPE_SEARCH_TEXT": "Escriba un tipo de avión",
     "SELECT_TYPE": "Selecciona un tipo de avión",
     "NEARBY_AIRPORT_FROM": "Desde",
@@ -492,6 +492,8 @@
     "SCALES_VALUE": "Nº de escalas",
     "QUOTE": "Cotizar {{quantity}}",
     "CANCEL": "Cancelar",
+    "EXACT": "Búsqueda Exacta",
+    "F_C": "F + C",
     "ERROR": {
       "AIRPORT_REQUIRED": "Debes indicar un aeropuerto al seleccionar 'Aeropuertos cercanos'",
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
@@ -586,7 +588,8 @@
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
       "REQUIRED": "El campo es requerido."
     },
-    "NEW_FILE": "Nuevo Expediente"
+    "NEW_FILE": "Nuevo Expediente",
+    "GENERATE_PLANING": "Generar planing"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
