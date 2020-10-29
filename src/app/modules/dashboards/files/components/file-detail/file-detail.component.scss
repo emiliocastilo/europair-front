@@ -161,7 +161,8 @@ $other-columns-width: 120px;
   min-width: 150px;
 }
 
-.mat-column-actions {
+.mat-column-route-actions,
+.mat-column-contribution-actions {
   min-width: $actions-width;
   max-height: 23px;
   .mat-icon:not(:last-child) {
@@ -206,11 +207,10 @@ $other-columns-width: 120px;
   }
 }
 
-
 .booked-blue {
   margin-top: -15px;
   padding-top: 15px;
-  background-color: #5DE2FC;
+  background-color: #5de2fc;
   border-color: #3c6696;
   &:hover {
     background-color: #6db0ff !important;

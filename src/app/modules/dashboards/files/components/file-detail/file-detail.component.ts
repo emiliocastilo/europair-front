@@ -125,7 +125,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'periodDays',
     'dayNumber',
     'status',
-    'actions',
+    'route-actions',
   ];
   public columnsAdditionalServicesToDisplay = [
     'code',
@@ -149,7 +149,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'purchasePrice',
     'salesPrice',
     'status',
-    'actions',
+    'contribution-actions',
   ];
   public dataSource = new MatTableDataSource();
   public dataSourceRouteContributions = new MatTableDataSource();
