@@ -226,8 +226,8 @@ export class RegionsComponent implements OnInit {
 
   private getCountriesAndAirports$() {
     return forkJoin({
-      countries: this.countriesService.getCountries(),
-      airports: this.airportService.getAirports(),
+      countries: this.countriesService.getCountries({size: '30000'}),
+      airports: this.airportService.getAirports({ size: '30000'}),
     }).pipe(
       tap((data: any) => {
         this.countries = data.countries.content;

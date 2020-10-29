@@ -61,7 +61,7 @@ export class CityDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.countriesService.getCountries().subscribe((data: Page<Country>) => this.countries = data.content);
+    this.countriesService.getCountries({ size: '30000' }).subscribe((data: Page<Country>) => this.countries = data.content);
   }
 
   public hasCityNameControlErrors(): boolean {
