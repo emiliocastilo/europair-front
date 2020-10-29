@@ -1,0 +1,99 @@
+@import "variables";
+@import "mixins";
+
+input:focus {
+  border-bottom: 1px solid $europair-color-blue-light-3 !important;
+  box-shadow: 0 1px 0 0 $europair-color-blue-light-3 !important;
+}
+
+.mat-raised-button.mat-primary:not(:disabled) {
+  background-color: $europair-color-blue-dark-1;
+}
+
+.mat-expansion-panel {
+  border-radius: 0 !important;
+  box-shadow: none;
+
+  .mat-expansion-panel-header {
+    border-top: 1px solid #a0b9d4;
+    background-color: #cce0f2;
+    border-bottom: 2px solid #a0b9d4;
+
+    &:hover {
+      background-color: #b8cfe4;
+    }
+  }
+
+  &.mat-expanded {
+    .mat-expansion-panel-header {
+      background-color: #eef7ff;
+    }
+  }
+
+  .mat-expansion-panel-header-title {
+    align-items: center;
+    color: #005795;
+  }
+
+  .mat-expansion-panel-header-description {
+    justify-content: flex-end;
+    align-items: center;
+    color: #005795;
+    .mat-icon {
+      padding-left: 8px;
+      fill: none;
+      stroke: #005795;
+    }
+  }
+}
+
+//MAT TABLE
+.mat-row {
+  &:hover {
+    background-color: $europair-color-blue-light-3 !important;
+  }
+  &:nth-child(odd) {
+    background-color: $europair-color-blue-light-2;
+  }
+}
+
+.selected-row {
+  background-color: $europair-color-blue-light-3 !important;
+}
+
+.mat-header-cell {
+  border-bottom: 2px solid $europair-color-blue-light-3;
+  line-height: normal;
+  box-sizing: border-box;
+}
+
+.mat-header-cell,
+.element-row {
+  font-weight: bold;
+}
+
+.mat-header-row,
+.mat-row {
+  border-bottom-color: $europair-color-blue-light-3;
+}
+
+.mat-header-cell,
+.mat-cell {
+  color: $europair-color-blue-dark-2;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.mat-column-actions {
+  max-height: 23px;
+  .mat-icon {
+    cursor: pointer;
+    padding-right: 8px;
+    fill: none;
+    stroke: red;
+  }
+}
+
+@include mat-table-columns(
+  ("rotation", "service", "quantity", "servicePrice", "observation")
+);

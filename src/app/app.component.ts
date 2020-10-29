@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   OAuthErrorEvent,
   OAuthEvent,
   OAuthService,
   OAuthSuccessEvent,
 } from 'angular-oauth2-oidc';
+import { Observable } from 'rxjs';
 import { oAuthConfig } from './core/models/auth.config';
 import { SESSION_STORAGE_KEYS } from './core/models/session-storage-keys';
 import { AuthService } from './core/services/auth.service';
+import { SpinnerService } from './core/services/spinner.service';
 import { LOGIN_TYPES } from './modules/login/models/login-types';
 
 @Component({
@@ -18,14 +21,21 @@ import { LOGIN_TYPES } from './modules/login/models/login-types';
 })
 export class AppComponent implements OnInit {
   title = 'europair-management-front';
+  public spinner$: Observable<boolean> = this._spinnerService.getVisibility$();
 
   constructor(
     private _oauthService: OAuthService,
     private _router: Router,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private _translateService: TranslateService,
+    private _spinnerService: SpinnerService
   ) {}
 
   ngOnInit(): void {
+    // this language will be used as a fallback when a translation isn't found in the current language
+    this._translateService.setDefaultLang('es');
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    this._translateService.use('es');
     if (
       Object.is(
         sessionStorage.getItem(SESSION_STORAGE_KEYS.LOGIN_TYPE),
@@ -59,7 +69,9 @@ export class AppComponent implements OnInit {
 
   private isLoginLastAction(): boolean {
     // Redirect only if login was last action (before app was destroyed)
-    const item = sessionStorage.getItem(SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION);
+    const item = sessionStorage.getItem(
+      SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION
+    );
     sessionStorage.removeItem(SESSION_STORAGE_KEYS.IS_LOGIN_LAST_ACTION);
     if (item) {
       const isLoginLastAction = JSON.parse(item);

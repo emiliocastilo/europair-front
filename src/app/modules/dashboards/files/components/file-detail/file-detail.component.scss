@@ -161,7 +161,8 @@ $other-columns-width: 120px;
   min-width: 150px;
 }
 
-.mat-column-actions {
+.mat-column-route-actions,
+.mat-column-contribution-actions {
   min-width: $actions-width;
   max-height: 23px;
   .mat-icon:not(:last-child) {
@@ -206,22 +207,23 @@ $other-columns-width: 120px;
   }
 }
 
-
 .booked-blue {
-  background-color: #5DE2FC;
+  margin-top: -15px;
+  padding-top: 15px;
+  background-color: #5de2fc;
   border-color: #3c6696;
   &:hover {
     background-color: #6db0ff !important;
-    opacity: 0.8;
   }
 }
 
 .booked-green {
+  margin-top: -15px;
+  padding-top: 15px;
   background-color: #c8ffca;
   border-color: #57a359;
   &:hover {
     background-color: #c8ffca !important;
-    opacity: 0.5;
   }
 }
 

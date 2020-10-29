@@ -35,6 +35,12 @@ import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { ConfirmOperationDialogComponent } from './components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { EditableComponent } from './components/editable/editable.component';
+import { ViewModeDirective } from './components/editable/view-mode.directive';
+import { EditModeDirective } from './components/editable/edit-mode.directive';
+import { EditOnEnterDirective } from './components/editable/edit-on-enter.directive';
+import { FocusableDirective } from './directives/focusable.directive';
+import { MaxlengthDirective } from './directives/maxlength.directive';
 
 @NgModule({
   declarations: [
@@ -68,6 +74,12 @@ import { ConfirmOperationDialogComponent } from './components/dialogs/confirm-op
     TranslatedSnackBarComponent,
     AutocompleteComponent,
     ConfirmOperationDialogComponent,
+    EditableComponent,
+    ViewModeDirective,
+    EditModeDirective,
+    EditOnEnterDirective,
+    FocusableDirective,
+    MaxlengthDirective,
   ],
   imports: [
     CommonModule,
@@ -103,6 +115,12 @@ import { ConfirmOperationDialogComponent } from './components/dialogs/confirm-op
     TableComponent,
     TopBarComponent,
     TranslateModule,
+    EditableComponent,
+    ViewModeDirective,
+    EditModeDirective,
+    EditOnEnterDirective,
+    FocusableDirective,
+    MaxlengthDirective,
   ],
 })
 export class CoreModule {}

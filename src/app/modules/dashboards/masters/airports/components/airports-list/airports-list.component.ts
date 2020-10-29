@@ -84,7 +84,7 @@ export class AirportsListComponent implements OnInit {
         return {
           ...airport,
           simpleCustoms: airport.customs === CustomsType.YES
-        }
+        };
       });
       this.paginarDatos();
     });

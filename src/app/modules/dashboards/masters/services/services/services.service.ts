@@ -6,7 +6,7 @@ import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-f
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { Services } from '../models/Services.model';
+import { Services } from '../models/services.model';
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +25,7 @@ export class ServicesService {
 
   public getServices(searchFilter: SearchFilter = {}): Observable<Page<Services>> {
     const url: string = this.mocked
-      ? '/assets/mocks/**.json'
+      ? '/assets/mocks/services.json'
       : this.url;
     return this.http.get<Page<Services>>(url, {
       params: this.searchFilterService.createHttpParams(
@@ -33,6 +33,10 @@ export class ServicesService {
         this.filterOptions
       ),
     });
+  }
+
+  public getServiceById(serviceId: number): Observable<Services> {
+    return this.http.get<Services>(`${this.url}/${serviceId}`);
   }
 
   public createServices(services: Services): Observable<void> {

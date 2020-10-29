@@ -1,5 +1,8 @@
 <core-page-bar [pageTitle]="'SEARCH_AIRCRAFT.PAGE_TITLE' | translate"></core-page-bar>
 
+<button color="primary" class="cmd-mb-2" mat-raised-button (click)="goBack()">
+    {{ "COMMON.RETURN" | translate }}
+</button>
 <mat-accordion class="table-expansion-panel" multi>
     <mat-expansion-panel class="cmd-mb-2" [expanded]="filterExpanded">
         <mat-expansion-panel-header>
@@ -85,179 +88,164 @@
                             [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
                             formControlName="operators">
                         </core-select>
+                    </div>
 
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate" [hasErrors]="hasControlAnyError('seatF')"
-                            formControlName="seatF" [type]="'number'" class="col s12 l4">
+                    <div class="col s12 l12">
+                        <core-select [label]="'SEARCH_AIRCRAFT.FILTER_SEAT' | translate"
+                            [id]="'search-aircraft-seat-filter'" [items]="seatFilterType"
+                            class="col s12 l4 cmd-mb-1" formControlName="filterSeat"
+                            [placeholder]="'SEARCH_AIRCRAFT.SELECT_FILTER_SEAT' | translate"
+                            [hasErrors]="hasControlAnyError('filterSeat')" [clearable]="false" >
+                        </core-select>
+                    </div>
+
+                    <div class="col s12 l12" *ngIf="showSeatFilter('seatFC')">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F_C' | translate"
+                            [hasErrors]="hasControlAnyError('seatFC')" formControlName="seatFC" [type]="'number'"
+                            class="col s12 l4">
+                            <ng-container inputErrors>
+                                <mat-error *ngIf="hasControlSpecificError('seatFC', 'min')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                </mat-error>
+                            </ng-container>
+                        </app-input>
+                    </div>
+
+                    <div class="col s12 l12" *ngIf="showSeatFilter('seatF')">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
+                            [hasErrors]="hasControlAnyError('seatF')" formControlName="seatF" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('seatF', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate" [hasErrors]="hasControlAnyError('seatC')"
-                            formControlName="seatC" [type]="'number'" class="col s12 l4">
+                    </div>
+
+                    <div class="col s12 l12" *ngIf="showSeatFilter('seatC')">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate"
+                            [hasErrors]="hasControlAnyError('seatC')" formControlName="seatC" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('seatC', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate" [hasErrors]="hasControlAnyError('seatY')"
-                            formControlName="seatY" [type]="'number'" class="col s12 l4">
+                    </div>
+
+                    <div class="col s12 l12" *ngIf="showSeatFilter('seatY')">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate"
+                            [hasErrors]="hasControlAnyError('seatY')" formControlName="seatY" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('seatY', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
+                    </div>
 
-                        <!-- <core-basic-input-text [id]="'search-passsenger-y'" class="col s12 l2"
-                            [label]="'SEARCH_AIRCRAFT.SEAT_Y' | translate" [type]="'number'"
-                            [hasErrors]="hasControlAnyError('seatY')" formControlName="seatY">
+                    <div class="col s12 l12" *ngIf="showSeatFilter('seatTotalPax')">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.TOTAL_PAX' | translate"
+                            [hasErrors]="hasControlAnyError('seatTotalPax')" formControlName="seatTotalPax" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
-                                <ng-container *ngIf="hasControlAnyError('seatY')">
-                                    <span *ngIf="hasControlSpecificError('seatY', 'min')" class="helper-text"
-                                        [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
-                                    </span>
-                                </ng-container>
+                                <mat-error *ngIf="hasControlSpecificError('seatTotalPax', 'min')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                </mat-error>
                             </ng-container>
-                        </core-basic-input-text> -->
+                        </app-input>
+                    </div>
 
-                        
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.BEDS' | translate" [hasErrors]="hasControlAnyError('seatY')"
-                            formControlName="beds" [type]="'number'" class="col s12 l4">
+                    <div class="col s12 l12">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.BEDS' | translate"
+                            [hasErrors]="hasControlAnyError('beds')" formControlName="beds" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('beds', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
-                        
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.STRETCHERS' | translate" [hasErrors]="hasControlAnyError('seatY')"
-                            formControlName="stretchers" [type]="'number'" class="col s12 l4">
+                    </div>
+
+                    <div class="col s12 l12">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.STRETCHERS' | translate"
+                            [hasErrors]="hasControlAnyError('stretchers')" formControlName="stretchers" [type]="'number'"
+                            class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('stretchers', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
-
-                        <div class="col s12 l12">
-                            <core-basic-switch [id]="'search-scale'" class="col s12 l2 cmd-my-2 switch-scales"
-                                [firstLabel]="'SEARCH_AIRCRAFT.SCALES' | translate" formControlName="flightScales">
-                            </core-basic-switch>
-                            
-                            <app-input [prefix]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate" [hasErrors]="hasControlAnyError('flightScalesValue')"
-                                formControlName="flightScalesValue" [type]="'number'" class="col s12 l3 cmd-my-2"
-                                [hidden]="hiddenFlightScalesValue()">
-                                <ng-container inputErrors>
-                                    <mat-error *ngIf="hasControlSpecificError('flightScalesValue', 'min')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                    </mat-error>
-                                </ng-container>
-                            </app-input>
-                            <!-- <core-basic-input-text [id]="'search-scale-value'" class="col s12 l2 cmd-my-2"
-                                [hidden]="hiddenFlightScalesValue()"
-                                [label]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate" [type]="'number'"
-                                [hasErrors]="hasControlAnyError('flightScalesValue')"
-                                formControlName="flightScalesValue" [min]="0">
-                                <ng-container inputErrors>
-                                    <ng-container *ngIf="hasControlAnyError('flightScalesValue')">
-                                        <span *ngIf="hasControlSpecificError('flightScalesValue', 'min')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
-                                        </span>
-                                    </ng-container>
-                                </ng-container>
-                            </core-basic-input-text> -->
-                        </div>
                     </div>
-
-                    <div class="col s12 l3">
-                        <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l12 cmd-my-2"
-                            [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate" formControlName="nearbyAirport">
+                    <div class="col s12 l12">
+                        <core-basic-switch [id]="'search-scale'" class="col s12 l2 cmd-my-2 switch-scales"
+                            [firstLabel]="'SEARCH_AIRCRAFT.SCALES' | translate" formControlName="flightScales">
                         </core-basic-switch>
-                        <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
-                            <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate" [hasErrors]="hasControlAnyError('nearbyAirportFrom')"
-                                formControlName="nearbyAirportFrom" [type]="'number'" class="col s12 l8 cmd-my-2">
-                                <ng-container inputErrors>
-                                    <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
-                                    </mat-error>
-                                    <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_MAX" | translate }}
-                                    </mat-error>
-                                    <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'min')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                    </mat-error>
-                                </ng-container>
-                            </app-input>
-                            <!-- <core-basic-input-text [id]="'search-nearby-airport-from'" class="col s12 l8 cmd-my-2"
-                                [label]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate" [type]="'number'"
-                                [inputClass]="'text-right'" [hasErrors]="hasControlAnyError('nearbyAirportFrom')"
-                                formControlName="nearbyAirportFrom" [min]="0">
-                                <ng-container inputErrors>
-                                    <ng-container *ngIf="hasControlAnyError('nearbyAirportFrom')">
-                                        <span *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_REQUIRED' | translate">
-                                        </span>
-                                        <span *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_MAX' | translate">
-                                        </span>
-                                        <span *ngIf="hasControlSpecificError('nearbyAirportFrom', 'min')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
-                                        </span>
-                                    </ng-container>
-                                </ng-container>
-                            </core-basic-input-text> -->
-                            <span class="col s12 l4 search-measure">
-                                {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
-                            </span>
-                        </div>
-                        <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
-                            <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate" [hasErrors]="hasControlAnyError('nearbyAirportTo')"
-                                formControlName="nearbyAirportTo" [type]="'number'" class="col s12 l8 cmd-my-2">
-                                <ng-container inputErrors>
-                                    <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
-                                    </mat-error>
-                                    <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'min')">
-                                        {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                    </mat-error>
-                                </ng-container>
-                            </app-input>
-                            <!-- <core-basic-input-text [id]="'search-nearby-airport-to'" class="col s12 l8 cmd-my-2"
-                                [label]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate" [type]="'number'"
-                                [inputClass]="'text-right'" [hasErrors]="hasControlAnyError('nearbyAirportTo')"
-                                formControlName="nearbyAirportTo" [min]="0">
-                                <ng-container inputErrors>
-                                    <ng-container *ngIf="hasControlAnyError('nearbyAirportTo')">
-                                        <span *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.NEARBY_AIRPORT_REQUIRED' | translate">
-                                        </span>
-                                        <span *ngIf="hasControlSpecificError('nearbyAirportTo', 'min')"
-                                            class="helper-text"
-                                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.MIN_VALUE_0' | translate">
-                                        </span>
-                                    </ng-container>
-                                </ng-container>
-                            </core-basic-input-text> -->
-                            <span class="col s12 l4 search-measure">
-                                {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
-                            </span>
-                        </div>
+
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate"
+                            [hasErrors]="hasControlAnyError('flightScalesValue')" formControlName="flightScalesValue"
+                            [type]="'number'" class="col s12 l3 cmd-my-2" [hidden]="hiddenFlightScalesValue()">
+                            <ng-container inputErrors>
+                                <mat-error *ngIf="hasControlSpecificError('flightScalesValue', 'min')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                </mat-error>
+                            </ng-container>
+                        </app-input>
+                    </div>
+                </div>
+
+                <div class="col s12 l3">
+                    <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l12 cmd-my-2"
+                        [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate" formControlName="nearbyAirport">
+                    </core-basic-switch>
+                    <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate"
+                            [hasErrors]="hasControlAnyError('nearbyAirportFrom')" formControlName="nearbyAirportFrom"
+                            [type]="'number'" class="col s12 l8 cmd-my-2">
+                            <ng-container inputErrors>
+                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
+                                </mat-error>
+                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_MAX" | translate }}
+                                </mat-error>
+                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'min')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                </mat-error>
+                            </ng-container>
+                        </app-input>
+                        <span class="col s12 l4 search-measure">
+                            {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                        </span>
+                    </div>
+                    <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
+                        <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate"
+                            [hasErrors]="hasControlAnyError('nearbyAirportTo')" formControlName="nearbyAirportTo"
+                            [type]="'number'" class="col s12 l8 cmd-my-2">
+                            <ng-container inputErrors>
+                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
+                                </mat-error>
+                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'min')">
+                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                </mat-error>
+                            </ng-container>
+                        </app-input>
+                        <span class="col s12 l4 search-measure">
+                            {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                        </span>
                     </div>
                 </div>
 
                 <div class="row">
-                    <button type="submit" (click)="filterAircraftTable()"
-                        class=" col s12 l2 offset-l9 waves-effect waves-light btn-large europair-icon-blue-1">
-                        <i class="material-icons">search</i>
-                        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.SEARCH' | translate}}</span>
+                    <button color="primary" type="submit" (click)="filterAircraftTable()" mat-raised-button
+                        class="col s12 l2 offset-l10">
+                        {{ 'SEARCH_AIRCRAFT.SEARCH' | translate }}
                     </button>
                 </div>
             </form>
@@ -274,11 +262,12 @@
         </mat-expansion-panel-header>
 
         <div class="table-container">
-            <mat-table multiTemplateDataRows [dataSource]="dataSource">
-                <ng-container matColumnDef="selection">
+            <mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="selection" sticky>
                     <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         <mat-checkbox [id]="'aircraft' + element.aircraftId" [color]="'primary'"
+                            [checked]="isChecked(element.aircraftId)"
                             (change)="checkAircraft($event.checked, element.aircraftId)">
                         </mat-checkbox>
                     </mat-cell>
@@ -329,7 +318,6 @@
                     </mat-cell>
                 </ng-container>
 
-
                 <ng-container matColumnDef="subcategory">
                     <mat-header-cell *matHeaderCellDef mat-header>
                         {{ 'SEARCH_AIRCRAFT.SUBCATEGORY' | translate}}
@@ -345,6 +333,15 @@
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         {{ element.aircraftTypeDescription }}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="connectionFlights">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                        {{ 'SEARCH_AIRCRAFT.SCALES' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        {{ element.connectionFlights }}
                     </mat-cell>
                 </ng-container>
 
@@ -411,16 +408,9 @@
 
     </mat-expansion-panel>
 </mat-accordion>
-<div class="row confirm">
-    <button type="submit" (click)="goBack()"
-        class=" col s12 l2 offset-l1 waves-effect waves-light btn-large europair-icon-blue-1">
-        <i class="material-icons">cancel</i>
-        <span class="full-width-btn-text">{{'SEARCH_AIRCRAFT.CANCEL' | translate}}</span>
-    </button>
-    <button type="submit" (click)="quote()" [disabled]="disabledQuote()"
-        class=" col s12 l2 offset-l6 waves-effect waves-light btn-large europair-icon-blue-1">
-        <i class="material-icons">done</i>
-        <span
-            class="full-width-btn-text">{{'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}</span>
+<div class="row">
+    <button color="primary" type="submit" (click)="quote()" mat-raised-button [disabled]="disabledQuote()"
+        class="col s12 l2 offset-l10">
+        {{ 'SEARCH_AIRCRAFT.QUOTE' | translate: {quantity: getQuantityQuote()} }}
     </button>
 </div>

@@ -17,6 +17,7 @@ export class ButtonBarComponent implements OnInit {
   ];
   @Input()
   public itemsSelectedCount: number = 0;
+  @Input() goBackRoute: string;
   @Output()
   public executeAction: EventEmitter<BarButtonType> = new EventEmitter();
   public showButtonBar: boolean = true;

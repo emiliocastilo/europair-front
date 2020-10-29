@@ -1,0 +1,30 @@
+<core-page-bar [pageTitle]="'SERVICES.PAGE_TITLE' | translate"></core-page-bar>
+<div class="table-container additional-services-table">
+  <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "SERVICES.CODE" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "SERVICES.NAME" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "SERVICES.SERVICE_TYPE" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.type }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="columnToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let element; columns: columnToDisplay" class="element-row"
+    (dblclick)="goToDetail(element)"></mat-row>
+  </mat-table>
+</div>
+<mat-paginator
+  [length]="resultsLength"
+  [pageSize]="pageSize"
+></mat-paginator>

@@ -13,4 +13,5 @@ export enum BarButtonType {
   CHECK = 'check',
   EDIT = 'edit',
   VIEW = 'view',
+  GO_BACK = 'goBack'
 }

@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import {
   BarButton,
@@ -14,7 +13,6 @@ import { Aircraft, EMPTY_AIRCRAFT } from '../../models/Aircraft.model';
 import { AircraftTableAdapterService } from '../../services/aircraft-table-adapter.service';
 import { AircraftService } from '../../services/aircraft.service';
 import { AircraftDetailComponent } from '../aircraft-detail/aircraft-detail.component';
-import { Observable } from 'rxjs';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
 import { FormBuilder } from '@angular/forms';
@@ -201,6 +199,7 @@ export class AircraftListComponent implements OnInit {
     const filter = {
       ...this.aircraftAdvancedSearchForm.value,
       ...this.aircraftSortForm.value,
+      size: '30000'
     };
     this.initializeAircraftTable(filter);
   }

@@ -11,9 +11,12 @@
     [patterns]="maskPatterns"
     [mask]="mask"
     [validation]="maskValidation"
+    [thousandSeparator]="thousandSeparator"
+    [separatorLimit]="separatorLimit"
   />
   <span matPrefix *ngIf="prefix">{{ prefix }}</span>
   <button
+    tabindex="-1"
     class="browser-default"
     type="button"
     mat-button

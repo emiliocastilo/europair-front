@@ -30,9 +30,11 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   private unsubscriber$: Subject<void> = new Subject();
   public routeData$: Observable<Data>;
   private readonly newAirportBarButtons: BarButton[] = [
+    { type: BarButtonType.GO_BACK, text: 'Volver' },
     { type: BarButtonType.NEW, text: 'Crear aeropuerto' },
   ];
   private readonly editAirportBarButtons: BarButton[] = [
+    { type: BarButtonType.GO_BACK, text: 'Volver' },
     { type: BarButtonType.EDIT, text: 'Guardar aeropuerto' },
     { type: BarButtonType.DELETE, text: 'Eliminar aeropuerto' },
     { type: BarButtonType.VIEW, text: 'Ver flota' }
@@ -120,6 +122,10 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
     }
   };
   // TODO REFACTOR DRY
+  private goBack = () => {
+    this.router.navigate(['/airports']);
+  };
+  // TODO REFACTOR DRY
   private editAirport = () => {
     if (this.generalDataForm.valid) {
       this.airportData = {
@@ -157,6 +163,7 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
   }
 
   private barButtonActions = {
+    goBack: this.goBack,
     new: this.newAirport,
     edit: this.editAirport,
     delete: this.deleteAirport,
@@ -175,6 +182,10 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
 
   public onSpecialConditionsChanged(hasAirportSpecialConditions: boolean) {
     this.hasAirportSpecialConditions = hasAirportSpecialConditions;
+  }
+
+  public getReturnRoute(): string {
+    return '/airports';
   }
 
   private initializeModal(modalContainer: ElementRef) {

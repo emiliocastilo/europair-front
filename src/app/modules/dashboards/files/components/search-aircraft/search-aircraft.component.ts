@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, ValidationErrors, FormControl, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +24,9 @@ import { Contribution, ContributionStates } from './models/contribution.model';
 import { Region } from '../../../masters/regions/models/region';
 import { RegionsService } from '../../../masters/regions/services/regions.service';
 import { OperationType } from '../../../masters/contacts/models/contact';
+import { MatPaginator } from '@angular/material/paginator';
+import { FlightService } from '../../services/flight.service';
+import { Flight } from '../../models/Flight.model';
 
 
 @Component({
@@ -47,6 +50,11 @@ import { OperationType } from '../../../masters/contacts/models/contact';
 })
 
 export class SearchAircraftComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  private readonly SEAT_FILTER_EXACT: string = 'Busqueda Exacta';
+  private readonly SEAT_FILTER_TOTAL_PAX: string = 'Total Pax';
+  private readonly SEAT_FILTER_F_C: string = 'F + C';
 
   public countries$: Observable<Country[]>;
   public countriesInput$ = new Subject<string>();
@@ -71,6 +79,8 @@ export class SearchAircraftComponent implements OnInit {
   public operatorsInput$ = new Subject<string>();
   public operatorsLoading = false;
 
+  public seatFilterType: Array<string>;
+
   public searchForm: FormGroup = this.fb.group({
     regions: [[]],
     countries: [[]],
@@ -83,6 +93,9 @@ export class SearchAircraftComponent implements OnInit {
     minimunSubcategory: [true],
     fleetTypes: [[]],
     operators: [[]],
+    filterSeat: [this.SEAT_FILTER_EXACT],
+    seatTotalPax: ['', Validators.min(0)],
+    seatFC: ['', Validators.min(0)],
     seatF: ['', Validators.min(0)],
     seatC: ['', Validators.min(0)],
     seatY: ['', Validators.min(0)],
@@ -96,8 +109,8 @@ export class SearchAircraftComponent implements OnInit {
 
   public aircrafts: Array<AircraftSearchResult>;
   public dataSource: MatTableDataSource<AircraftSearchResult>;
-  public resultsLength: number;
-  public pageSize: number;
+  public resultsLength: number = 0;
+  public pageSize: number = 10;
   public columnsToDisplay: Array<string>;
 
   public filterExpanded: boolean;
@@ -106,8 +119,8 @@ export class SearchAircraftComponent implements OnInit {
   private selectedItems: Array<number>;
   private aircraftSearch: AircraftFilter;
 
-  private fileId: number = 1;
-  private routeId: number = 1;
+  private fileId: number;
+  private routeId: number;
   private operationType: OperationType;
 
   constructor(
@@ -122,7 +135,8 @@ export class SearchAircraftComponent implements OnInit {
     private readonly fleetTypeService: FleetTypesService,
     private readonly operatorsService: OperatorsService,
     private readonly searchAircraftService: AircraftSearchService,
-    private readonly contributionService: ContributionService
+    private readonly contributionService: ContributionService,
+    private readonly flightService: FlightService
   ) { }
 
   ngOnInit(): void {
@@ -136,7 +150,8 @@ export class SearchAircraftComponent implements OnInit {
     this.aircrafts = [];
     this.filterExpanded = true;
     this.tableExpanded = false;
-    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'insuranceDate', 'airport', 'category', 'subcategory', 'fleetType', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations', 'flightTime'];
+    this.seatFilterType = [this.SEAT_FILTER_EXACT, this.SEAT_FILTER_TOTAL_PAX, this.SEAT_FILTER_F_C];
+    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'fleetType', 'subcategory', 'flightTime', 'connectionFlights', 'insuranceDate', 'airport', 'category', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations'];
   }
 
   private loadSelectsData() {
@@ -149,17 +164,23 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private obtainParams(): void {
-    const { seatsC, seatsY, seatsF, beds, stretchers, operationType } = this.route.snapshot.queryParams;
+    const { operationType } = this.route.snapshot.queryParams;
     this.route.params.subscribe((params: {fileId: string, routeId: string}) => {
       this.fileId = parseInt(params.fileId, 10);
       this.routeId = parseInt(params.routeId, 10);
+      this.flightService.getFlights(this.fileId, this.routeId).subscribe((page: Page<Flight>) => {
+        const flight: Flight =  page.content[0];
+        this.searchForm.get('seatF').setValue(flight.seatsF);
+        this.searchForm.get('seatC').setValue(flight.seatsC);
+        this.searchForm.get('seatY').setValue(flight.seatsY);
+        this.searchForm.get('seatTotalPax').setValue(flight.seatsY + flight.seatsF + flight.seatsC);
+        this.searchForm.get('seatFC').setValue(flight.seatsF + flight.seatsC);
+        this.searchForm.get('beds').setValue(flight.beds);
+        this.searchForm.get('stretchers').setValue(flight.stretchers);
+        this.searchForm.get('airports').setValue([flight.origin]);
+      });
     });
     this.operationType = operationType;
-    this.searchForm.get('seatF').setValue(seatsF);
-    this.searchForm.get('seatC').setValue(seatsC);
-    this.searchForm.get('seatY').setValue(seatsY);
-    this.searchForm.get('beds').setValue(beds);
-    this.searchForm.get('stretchers').setValue(stretchers);
     if (this.operationType) {
       this.categoriesService.getFleetCategories(
         { 'filter_code': this.obtainCategoryCodFromOperationType(this.operationType) }
@@ -195,8 +216,8 @@ export class SearchAircraftComponent implements OnInit {
           this.selectedItems = [];
           this.aircrafts = aircrafts;
           this.dataSource = new MatTableDataSource(aircrafts);
+          this.dataSource.paginator = this.paginator;
           this.resultsLength = aircrafts.length;
-          this.pageSize = aircrafts.length;
         });
     }
   }
@@ -208,9 +229,6 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.countries = this.searchForm.value.countries ? this.searchForm.value.countries : [];
     this.aircraftSearch.operators = this.searchForm.value.operators ? this.searchForm.value.operators : [];
     this.aircraftSearch.fleetTypes = this.searchForm.value.fleetTypes ? this.searchForm.value.fleetTypes : [];
-    this.aircraftSearch.seatC = this.searchForm.value.seatC;
-    this.aircraftSearch.seatF = this.searchForm.value.seatF;
-    this.aircraftSearch.seatY = this.searchForm.value.seatY;
     this.aircraftSearch.beds = this.searchForm.value.beds;
     this.aircraftSearch.category = this.searchForm.value.category;
     this.aircraftSearch.subcategory = this.searchForm.value.subcategory;
@@ -222,6 +240,17 @@ export class SearchAircraftComponent implements OnInit {
     this.aircraftSearch.flightScales = this.searchForm.value.flightScales;
     this.aircraftSearch.flightScalesValue = this.searchForm.value.flightScalesValue;
     this.aircraftSearch.operationType = this.operationType;
+    const filterSeat: string = this.searchForm.get('filterSeat').value;
+    if (filterSeat === this.SEAT_FILTER_EXACT) {
+      this.aircraftSearch.seatC = this.searchForm.value.seatC;
+      this.aircraftSearch.seatF = this.searchForm.value.seatF;
+      this.aircraftSearch.seatY = this.searchForm.value.seatY;
+    } else if (filterSeat === this.SEAT_FILTER_F_C) {
+      this.aircraftSearch.seatFC = this.searchForm.value.seatFC;
+      this.aircraftSearch.seatY = this.searchForm.value.seatY;
+    } else {
+      this.aircraftSearch.seats = this.searchForm.value.seatTotalPax;
+    }
   }
 
   public quote(): void {
@@ -245,15 +274,17 @@ export class SearchAircraftComponent implements OnInit {
         ));
       });
       forkJoin(contributionsCalls).subscribe(() => {
-        this.goBack();
-      }, (error) => {
-        console.log(error);
-      });
+        this.goBack(true);
+      }, (error) => console.log(error));
     }
   }
 
-  public goBack(): void {
-    this.router.navigate([`/files/${this.fileId}`]);
+  public goBack(expandedQuote: boolean = false): void {
+    this.router.navigate([`/files/${this.fileId}`], {queryParams: {expandedQuote}});
+  }
+
+  public isChecked(aircraftId: number): boolean {
+    return this.selectedItems.includes(aircraftId);
   }
 
   public checkAircraft(checked: boolean, aircraftId: number): void {
@@ -309,8 +340,33 @@ export class SearchAircraftComponent implements OnInit {
 
   public getTimeOfFlight(aircraft: AircraftSearchResult): string {
     const hour: number = Math.floor(aircraft.timeInHours);
-    const minutes: number = (aircraft.timeInHours - hour) * 60;
-    return `${hour}:${minutes}h`;
+    const minutes: number = Math.floor((aircraft.timeInHours - hour) * 60);
+    const minutesStr: string = minutes < 10 ? `0${minutes}` : minutes.toString();
+    return `${hour}:${minutesStr}h`;
+  }
+
+  public showSeatFilter(field: string): boolean {
+    let showSeat: boolean = false;
+    const filterType: string = this.searchForm.get('filterSeat')?.value;
+    switch (field) {
+      case 'seatF':
+      case 'seatC':
+        showSeat = filterType === this.SEAT_FILTER_EXACT;
+        break;
+      case 'seatY':
+        showSeat = filterType !== this.SEAT_FILTER_TOTAL_PAX;
+        break;
+      case 'seatTotalPax':
+        showSeat = filterType === this.SEAT_FILTER_TOTAL_PAX;
+        break;
+      case 'seatFC':
+        showSeat = filterType === this.SEAT_FILTER_F_C;
+        break;
+        default:
+          showSeat = false;
+        break;
+    }
+    return showSeat;
   }
 
   private loadCountries(): void {

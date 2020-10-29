@@ -11,6 +11,41 @@
     {{ "FILES.NEW_FILE" | translate }}
   </button>
 </div>
+
+<div id="file-filter">
+  <h3 class="title"> {{ 'COMMON.SEARCH_FILTERS' | translate }}:</h3>
+  <form [formGroup]="fileFilterForm">
+    <div class="row">
+      <app-input
+        [type]="'text'"
+        [prefix]="'FILES.CODE' | translate"
+        formControlName="filter_code"
+        class="col s12 l4">
+      </app-input>
+      <core-select class="col s12 l4 " [id]="'select-file-status'" [items]="fileStatus$ | async" 
+        [placeholder]="'FILES.SELECT_STATUS' | translate" [label]="'FILES.STATUS' | translate"
+        [itemDescription]="'name'" [itemValue]="'id'" formControlName="filter_statusId">
+      </core-select>
+      <core-select
+          [label]="'FILES.CLIENT' | translate"
+          [id]="'search-clients'"
+          [items]="clients$ | async"
+          [minTermLength]="1"
+          [loading]="clientsLoading"
+          class="col s12 l4 cmd-pb-1"
+          [typeToSearchText]="'FILES.CLIENT_SEARCH_TEXT' | translate"
+          [placeholder]="'FILES.SELECT_CLIENT' | translate"
+          [typeahead]="clientsInput$"
+          [searchable]="true"
+          [itemDescription]="'name'"
+          [itemValue]="'id'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
+          formControlName="filter_clientId"
+        >
+        </core-select>
+    </div>
+  </form>
+</div>
 <div class="table-container">
   <mat-table
     matSort
@@ -53,7 +88,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (dblclick)="goToDetail(row)"
+      (dblclick)="goToDetail(row)" (touchend)="goToDetail(row)"
     ></mat-row>
   </mat-table>
   <mat-paginator

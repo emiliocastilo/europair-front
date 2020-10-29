@@ -1,6 +1,6 @@
 {
   "MENU": {
-    "MASTERS" : {
+    "MASTERS": {
       "REGIONS": "Regiones",
       "COUNTRIES": "Paises",
       "CITIES": "Ciudades",
@@ -45,7 +45,9 @@
     "NOT_FOUND": "Sin resultados",
     "RETURN": "Volver",
     "SUCCESSFUL_OPERATION": "Operación exitosa",
-    "SAVE_ORDER": "Guardar orden"
+    "SAVE_ORDER": "Guardar orden",
+    "CONFIRM_OPERATION": "Confirmar Operación",
+    "SEARCH_FILTERS": "Filtros de búsqueda"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -311,6 +313,13 @@
     "FAX": "Fax",
     "OBSERVATION": "Observaciones"
   },
+  "SERVICES": {
+    "PAGE_TITLE": "Servicios adicionales",
+    "CODE": "Código",
+    "NAME": "Nombre",
+    "SERVICE_TYPE": "Tipo",
+    "DETAIL_PAGE_TITLE": "Detalle de servicio"
+  },
   "FLEET": {
     "CATEGORIES": {
       "PAGE_TITLE": "Categorías",
@@ -459,9 +468,13 @@
     "AIRPORT_SUBCATEGORY": "Subcategoría",
     "MINIMUN_SUBCATEGORY": "Subcategoría mínima",
     "OPERATORS": "Operador",
+    "FILTER_SEAT": "Filtro Asientos",
+    "SELECT_FILTER_SEAT": "Selecciona un tipo de filtro",
     "SEAT_F": "Asientos F",
     "SEAT_C": "Asientos C",
     "SEAT_Y": "Asientos Y",
+    "SEAT_F_C": "Asientos F + C",
+    "TOTAL_PAX": "Total Pax",
     "BEDS": "Camas",
     "STRETCHERS": "Camillas",
     "OPERATOR_SEARCH_TEXT": "Escriba un operador",
@@ -510,6 +523,9 @@
     "CONFIRM_OPERATION": "Confirmar Operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
+    "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
+    "SELECT_CLIENT": "Selecciona un cliente",
+    "SELECT_STATUS": "Selecciona un estado",
     "ADDITIONAL_SERVICES": {
       "CREATE": "Añadir servicio",
       "TITLE": "Servicios adicionales",
@@ -549,6 +565,19 @@
       "OPERATIVE": "Operativa",
       "OBSERVATIONS": "Comentario:"
     },
+    "CONTRIBUTIONS": {
+      "DELETE_MSG": "¿Está seguro que desea eliminar la cotización?",
+      "SEND_MSG": "¿Está seguro que desea enviar esta cotización?",
+      "ROUTES": "Rutas",
+      "REQUEST_TIME": "Fecha creación",
+      "OPERATOR": "Operador",
+      "AIRCRAFT_TYPE": "Tipo de avión",
+      "TOTAL_PASSENGERS": "Total pasajeros",
+      "PURCHASE_PRICE": "Precio compra",
+      "SALES_PRICE": "Precio venta",
+      "STATUS": "Estado",
+      "ACTIONS": "Aciones"
+    },
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",
       "DESCRIPTION": "Debe indicar una descripción",
@@ -567,6 +596,7 @@
     "WEEKDAYS": "Días de la semana",
     "MONTH_DAYS": "Dias del mes",
     "GENERATE_ROUTE": "Generar ruta",
+    "FLIGHTS": "Vuelos",
     "ERRORS": {
       "ROUTE_CODE": "Debe indicar un código de ruta",
       "ROUTE_CODE_MIN_LEN": "Un código de ruta debe tener como mínimo un origen y un destino",
@@ -608,6 +638,33 @@
       "TIME_ZONE": "Debe indicar una zona horaria"
     }
   },
+  "CONTRIBUTIONS": {
+    "TITLE": "Detalle cotización",
+    "PURCHASE": "Compra",
+    "SALE": "Venta",
+    "TOTAL_PRICE": "Importe total",
+    "CURRENCY": "Moneda",
+    "CURRENCY_PLACEHOLDER": "Seleccione una moneda",
+    "TAXES": "% Impuestos",
+    "TAXES_PRICE": "Importe impuestos",
+    "ROTATION": "Rotación",
+    "PRICE": "Importe",
+    "NEW_ADDITIONAL_SERVICE": "Nuevo servicio adicional",
+    "ADD_ADDITIONAL_SERVICE": "Añadir servicio adicional",
+    "SERVICE": "Servicio",
+    "SERVICE_PLACEHOLDER": "Seleccione un servicio",
+    "QUANTITY": "Cantidad",
+    "OBSERVATIONS": "Observaciones",
+    "DELETE_SERVICE_TITLE": "Confirmar eliminación servicio",
+    "DELETE_SERVICE_MSG": "¿Está seguro que desea eliminar el servicio de tipo <b>{{ type }}</b> con importe <b>{{ price }}</b>?",
+    "OVERWRITE_SALES_MSG": "¿Está seguro que desea sobreescribir la información de <b>Ventas</b> con los datos actuales de <b>Compras</b>?",
+    "SALES_COPY": "Copiar en ventas",
+    "ERRORS": {
+      "SERVICE_REQ": "Debe indicar un servicio",
+      "QUANTITY_REQ": "Debe de indicar una cantidad",
+      "PRICE_REQ": "Debe indicar un importe"
+    }
+  },
   "FLIGHT": {
     "ORIGIN_AIRPORT": "Aeropuerto origen",
     "DESTINATION_AIRPORT": "Aeropuerto destino",
@@ -616,6 +673,18 @@
     "SEATS_F": "Asientos F",
     "SEATS_C": "Asientos C",
     "SEATS_Y": "Asientos Y"
+  },
+  "FLIGHT_TRACKING": {
+    "TITLE": "Seguimiento de vuelo",
+    "ROTATIONS_TITLE": "Rotaciones / Vuelos",
+    "ROTATIONS_PLACEHOLDER": "Selecciona una rotación",
+    "FLIGHTS_PLACEHOLDER": "Selecciona un vuelo",
+    "SLOT_PLACEHOLDER": "Selecciona un slot",
+    "PARKING_PLACEHOLDER": "Selecciona un parking",
+    "FLIGHTS_DETAIL": "Detalle del vuelo",
+    "PARKING": "Parking",
+    "SLOT": "Slot",
+    "FLIGHT_NUMBER": "Nº Vuelo"
   },
   "FREQUENCIES": {
     "UNITS": {
@@ -674,5 +743,19 @@
       "KNOTS": "nudos",
       "INCH": "pulgadas"
     }
+  },
+  "CURRENCIES": {
+    "AUD": "Dolar australiano",
+    "CHF": "Franco suizo",
+    "DKK": "Corona danesa",
+    "EUR": "Euro",
+    "GBP": "Libra esterlina",
+    "NOK": "Corona noruega",
+    "PLN": "Zloty polaco",
+    "RUR": "Rublo ruso",
+    "SEK": "Corona sueca",
+    "THB": "Baht de Tailandia",
+    "USD": "Dólar de EE.UU.",
+    "ZAR": "Rand sudáfricano"
   }
 }

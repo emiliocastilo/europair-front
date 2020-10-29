@@ -1,3 +1,5 @@
+import { Contribution } from '../components/search-aircraft/models/contribution.model';
+
 export interface FileRoute {
   id: number;
   label: string;
@@ -7,6 +9,7 @@ export interface FileRoute {
   endDate: Date;
   rotations: FileRoute[];
   status?: RouteStatus;
+  contributions?: Contribution[];
 }
 
 export interface FrequencyDay {
@@ -52,8 +55,8 @@ export const DAYS_LIST = [
 ];
 
 export enum RouteStatus {
-  SALES = "SALES",
-  WON = "WON",
-  LOST = "LOST",
-  LOST_EXPIRED = "LOST_EXPIRED"
+  SALES = 'SALES',
+  WON = 'WON',
+  LOST = 'LOST',
+  LOST_EXPIRED = 'LOST_EXPIRED',
 }

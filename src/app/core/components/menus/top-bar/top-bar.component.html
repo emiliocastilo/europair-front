@@ -1,7 +1,7 @@
 <core-button-bar [barButtons]="barButtons" [itemsSelectedCount]="itemsSelectedCount"
     (executeAction)="onBarButtonClicked($event)">
     <ng-container additionalContent>
-        <core-basic-input-text [class]="'waves-effect waves-light search-field'" [icon]="'search'" [label]="'Buscar'"
+        <core-basic-input-text [class]="'waves-effect waves-light search-field'" *ngIf="showSearchField" [icon]="'search'" [label]="'Buscar'"
             [clearable]="true" (searchChanged)="onSearch($event)"></core-basic-input-text>
         <core-checkbox [id]="'check-button-bar'" [label]="'COMMON.VIEW_DISABLED'" (selectedValueEvent)="onChangeCheck($event)"
             class="waves-effect check" [value]="checked"></core-checkbox>
