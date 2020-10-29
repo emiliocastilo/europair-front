@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/',
-  // apiUrl: "https://dev-erp-europair.plexus.services/services/",
+  powerAppUrl:
+    'https://apps.powerapps.com/play/754e4380-9895-42fe-a608-01551e5bde67?tenantId=55f61621-dc4f-492f-86ec-62ffaace576e',
   mock: false,
   oAuthConfig: {
     issuer:

@@ -60,6 +60,7 @@ import { ContributionService } from '../../services/contribution.service';
 import { Contribution } from '../search-aircraft/models/contribution.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { environment } from 'src/environments/environment';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -126,7 +127,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'periodDays',
     'dayNumber',
     'status',
-    'actions',
+    'route-actions',
   ];
   public columnsAdditionalServicesToDisplay = [
     'code',
@@ -150,7 +151,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'purchasePrice',
     'salesPrice',
     'status',
-    'actions',
+    'contribution-actions',
   ];
   public dataSource = new MatTableDataSource();
   public dataSourceRouteContributions = new MatTableDataSource();
@@ -592,16 +593,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     );
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log('SENDING CONTRIBUTION', contribution);
-        //TODO send contribution api call
-        // this.contributionService
-        //   .deleteContribution(this.fileData.id, fileRoute.id, contribution)
-        //   .pipe(
-        //     switchMap((_) => this.getFileRouteContributionData$(fileRoute.id))
-        //   )
-        //   .subscribe((contributions: Contribution[]) =>
-        //     this.fileContributionsMap.set(fileRoute.id, contributions)
-        //   );
+        window.open(`${environment.powerAppUrl}?contributionId=${contribution.id}`);
       }
     });
   }
