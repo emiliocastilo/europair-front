@@ -46,7 +46,8 @@
     "RETURN": "Volver",
     "SUCCESSFUL_OPERATION": "Operación exitosa",
     "SAVE_ORDER": "Guardar orden",
-    "CONFIRM_OPERATION": "Confirmar Operación"
+    "CONFIRM_OPERATION": "Confirmar Operación",
+    "SEARCH_FILTERS": "Filtros de búsqueda"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -524,6 +525,9 @@
     "CONFIRM_OPERATION": "Confirmar Operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
+    "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
+    "SELECT_CLIENT": "Selecciona un cliente",
+    "SELECT_STATUS": "Selecciona un estado",
     "ADDITIONAL_SERVICES": {
       "CREATE": "Añadir servicio",
       "TITLE": "Servicios adicionales",
