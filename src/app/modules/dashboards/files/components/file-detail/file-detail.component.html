@@ -73,7 +73,7 @@
 
             <app-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
               [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
-              [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
+              [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId" (selectedValueEvent)="updateFileState($event)">
               <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
                 <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
                   [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
@@ -631,32 +631,32 @@
           <form [formGroup]="operationForm">
             <div class="row  cmd-mt-1">
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate" [hasErrors]="hasControlAnyError('flightReason')"
-                formControlName="flightReason" class="col s12 l4">
+                formControlName="flightMotive" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate" [hasErrors]="hasControlAnyError('conections')"
-                formControlName="conections" class="col s12 l4">
+                formControlName="connections" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate" [hasErrors]="hasControlAnyError('flightLimitation')"
-                formControlName="flightLimitation" class="col s12 l4">
+                formControlName="limitations" class="col s12 l4">
               </app-input>
             </div>
             <div class="row">
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FUEL' | translate" [hasErrors]="hasControlAnyError('fuel')"
-                formControlName="fuel" class="col s12 l4">
+                formControlName="fixedVariableFuel" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('equipment')"
-                formControlName="equipment" class="col s12 l4">
+                formControlName="luggage" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('especialEquipment')"
-                formControlName="especialEquipment" class="col s12 l4">
+                formControlName="specialLuggage" class="col s12 l4">
               </app-input>
             </div>
             <div class="row">
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate" [hasErrors]="hasControlAnyError('serviceOnBoard')"
-                formControlName="serviceOnBoard" class="col s12 l4">
+                formControlName="onBoardService" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate" [hasErrors]="hasControlAnyError('specialRequest')"
-                formControlName="specialRequest" class="col s12 l4">
+                formControlName="specialRequests" class="col s12 l4">
               </app-input>
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate" [hasErrors]="hasControlAnyError('otherCharges')"
                 formControlName="otherCharges" class="col s12 l4">
@@ -664,15 +664,15 @@
             </div>
             <div class="row">
               <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate" [hasErrors]="hasControlAnyError('operative')"
-                formControlName="operative" class="col s12 l4">
+                formControlName="operationalInfo" class="col s12 l4">
               </app-input>
             </div>
             <div class="row">
               <mat-form-field class="col s12 l12">
                 <mat-label>{{ "FILES.OPERATIONS_OBSERVATIONS.OBSERVATIONS" | translate }}</mat-label>
-                <textarea matInput formControlName="observations" [maxlength]="observationMaxLength"></textarea>
+                <textarea matInput formControlName="observation" [maxlength]="observationMaxLength"></textarea>
               </mat-form-field>
-              <button color="primary" class="col s12 l2 offset-l10" (click)="saveObservations()" mat-raised-button>
+              <button color="primary" class="col s12 l2 offset-l10" (click)="onConfirmOperation()" mat-raised-button>
                 {{ "FILES.CONFIRM" | translate }}
               </button>
             </div>

@@ -522,7 +522,7 @@
     "ROUTES": "Rutas",
     "NEW_ROUTE": "Nueva ruta",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
-    "CONFIRM_OPERATION": "Confirmar Operación",
+    "CONFIRM_OPERATION": "Notificar operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
     "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
@@ -554,7 +554,7 @@
       "SELECT_SERVICES": "Selecciona un servicio"
     },
     "OPERATIONS_OBSERVATIONS": {
-      "TITLE": "Observaciones operaciones",
+      "TITLE": "Información operaciones",
       "FLIGHT_REASON": "Motivo del vuelo",
       "CONECTIONS": "Conexiones",
       "FLIGHT_LIMITATION": "Limitaciones vuelo",
@@ -589,7 +589,9 @@
       "REQUIRED": "El campo es requerido."
     },
     "NEW_FILE": "Nuevo Expediente",
-    "GENERATE_PLANING": "Generar planing"
+    "GENERATE_PLANING": "Generar planing",
+    "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
+    "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

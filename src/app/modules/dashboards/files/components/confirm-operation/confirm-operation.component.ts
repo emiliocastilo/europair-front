@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalComponent } from 'src/app/core/components/modal/modal.component';
+import { ModalService } from 'src/app/core/components/modal/modal.service';
+import { Page } from 'src/app/core/models/table/pagination/page';
+import { environment } from 'src/environments/environment';
 import { ConfirmOperation } from '../../models/File.model';
 import { ConfirmOperationService } from '../../services/confirm-operation.service';
 @Component({
@@ -9,27 +13,32 @@ import { ConfirmOperationService } from '../../services/confirm-operation.servic
   styleUrls: ['./confirm-operation.component.scss'],
 })
 export class ConfirmOperationComponent implements OnInit {
-  public readonly observationMaxLength: number = 5000;
+  @ViewChild(ModalComponent, { static: true, read: ElementRef })
+  private readonly confirmOperationModal: ElementRef;
+
+  public readonly observationMaxLength: number = 1500;
   public isLoading: boolean = false;
   private fileId: number;
 
   public operationForm: FormGroup = this.fb.group({
-    flightReason: [''],
+    flightMotive: [''],
     conections: [''],
-    flightLimitation: [''],
-    fuel: [''],
-    equipment: [''],
-    especialEquipment: [''],
-    serviceOnBoard: [''],
-    specialRequest: [''],
+    limitations: [''],
+    fixedVariableFuel: [''],
+    luggage: [''],
+    specialLuggage: [''],
+    onBoardService: [''],
+    specialRequests: [''],
     otherCharges: [''],
-    operative: [''],
-    observations: ['']
+    operationalInfo: [''],
+    observation: ['']
   });
 
 
   constructor(
+    private readonly modalService: ModalService,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly confirmOperationService: ConfirmOperationService
   ) { }
@@ -47,10 +56,21 @@ export class ConfirmOperationComponent implements OnInit {
 
   private obtainOperation(): void {
     this.confirmOperationService.getConfirmOperations(this.fileId)
-      .subscribe((operation: ConfirmOperation) => this.operationForm.patchValue(operation));
+      .subscribe((operation: Page<ConfirmOperation>) => {
+        if (operation.content.length > 0) {
+          this.operationForm.patchValue(operation.content[0])
+        }
+      });
   }
 
-  public saveObservations() {
+  public openModalConfirmOperation(): void {
+    this.modalService.initializeModal(this.confirmOperationModal, {
+      dismissible: false,
+    });
+    this.modalService.openModal();
+  }
+
+  public saveAndConfirmObservations(): void {
     this.isLoading = true;
     this.operationForm.markAsTouched();
     if (!this.operationForm.valid) {
@@ -58,19 +78,17 @@ export class ConfirmOperationComponent implements OnInit {
       return;
     }
 
-    const observations = {
+    const observations: ConfirmOperation = {
       ...this.operationForm.value
     };
-    /*
-    this.additionalServicesService.createAdditionalService(this.fileId, this.rotationId, additionalService)
-      .subscribe(() => {
-        this.router.navigate([this.getReturnRoute()]);
-        this.isLoading = false;
-      }, () => this.isLoading = false, () => this.isLoading = false);
-      */
+
+    this.confirmOperationService.updateConfirmOperation(this.fileId, observations).subscribe(() => {
+      window.open(environment.powerAppUrl.confirmOperation, "_blank");
+      this.router.navigate([this.getReturnRoute()]);
+    });
   }
 
-  public getReturnRoute() {
+  public getReturnRoute(): string {
     return `/files/${this.fileId}`;
   }
 
@@ -82,10 +100,5 @@ export class ConfirmOperationComponent implements OnInit {
   public hasControlSpecificError(controlName: string, errorName: string): boolean {
     const control = this.operationForm.get(controlName);
     return control && control.hasError(errorName);
-  }
-
-  public isControlDisabled(controlName: string): boolean {
-    const control = this.operationForm.get(controlName);
-    return control?.disabled;
   }
 }

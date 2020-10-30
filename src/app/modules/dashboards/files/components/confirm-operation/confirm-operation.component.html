@@ -1,4 +1,4 @@
-<core-page-bar [pageTitle]="'FILES.CONFIRM_OPERATION' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="'FILES.CONFIRM_OPERATION_TITLE' | translate"></core-page-bar>
 
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="getReturnRoute()">
   {{ "COMMON.RETURN" | translate }}
@@ -7,32 +7,32 @@
   <form [formGroup]="operationForm">
     <div class="row  cmd-mt-1">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate" [hasErrors]="hasControlAnyError('flightReason')"
-        formControlName="flightReason" class="col s12 l4">
+        formControlName="flightMotive" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate" [hasErrors]="hasControlAnyError('conections')"
-        formControlName="conections" class="col s12 l4">
+        formControlName="connections" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate" [hasErrors]="hasControlAnyError('flightLimitation')"
-        formControlName="flightLimitation" class="col s12 l4">
+        formControlName="limitations" class="col s12 l4">
       </app-input>
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FUEL' | translate" [hasErrors]="hasControlAnyError('fuel')"
-        formControlName="fuel" class="col s12 l4">
+        formControlName="fixedVariableFuel" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('equipment')"
-        formControlName="equipment" class="col s12 l4">
+        formControlName="luggage" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('especialEquipment')"
-        formControlName="especialEquipment" class="col s12 l4">
+        formControlName="specialLuggage" class="col s12 l4">
       </app-input>
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate" [hasErrors]="hasControlAnyError('serviceOnBoard')"
-        formControlName="serviceOnBoard" class="col s12 l4">
+        formControlName="onBoardService" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate" [hasErrors]="hasControlAnyError('specialRequest')"
-        formControlName="specialRequest" class="col s12 l4">
+        formControlName="specialRequests" class="col s12 l4">
       </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate" [hasErrors]="hasControlAnyError('otherCharges')"
         formControlName="otherCharges" class="col s12 l4">
@@ -40,17 +40,38 @@
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate" [hasErrors]="hasControlAnyError('operative')"
-        formControlName="operative" class="col s12 l4">
+        formControlName="operationalInfo" class="col s12 l4">
       </app-input>
     </div>
     <div class="row">
       <mat-form-field class="col s12 l12">
         <mat-label>{{ "FILES.OPERATIONS_OBSERVATIONS.OBSERVATIONS" | translate }}</mat-label>
-        <textarea matInput formControlName="observations" [maxlength]="observationMaxLength"></textarea>
+        <textarea matInput formControlName="observation" [maxlength]="observationMaxLength"></textarea>
       </mat-form-field>
-      <button color="primary" class="col s12 l2 offset-l10" (click)="saveObservations()" mat-raised-button>
+      <button color="primary" class="col s12 l2 offset-l10" (click)="openModalConfirmOperation()" mat-raised-button>
         {{ "FILES.CONFIRM" | translate }}
       </button>
     </div>
   </form>
 </div>
+
+<core-modal>
+  <ng-container content>
+    <section class="modal-header">
+      <h4>{{ 'FILES.CONFIRM_OPERATION' | translate }}</h4>
+      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
+        <i class="material-icons right">close</i>
+        {{ 'FILES.CANCEL' | translate }}
+      </a>
+    </section>
+    <section class="modal-body">
+      <p>{{ 'FILES.MSG_CONFIRM_OPERATION' | translate }}</p>
+    </section>
+  </ng-container>
+  <ng-container footer>
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="saveAndConfirmObservations()">
+      <i class="material-icons">check_circle</i>
+      <span class="full-width-btn-text">{{ 'FILES.CONFIRM' | translate }}</span>
+    </a>
+  </ng-container>
+</core-modal>

@@ -5,15 +5,9 @@ import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ConfirmOperationRoutingModule } from './confirm-operation-routing.module';
 import { ConfirmOperationComponent } from './confirm-operation.component';
+
 @NgModule({
   declarations: [ConfirmOperationComponent],
-  imports: [
-    CommonModule,
-    CoreModule,
-    ConfirmOperationRoutingModule,
-    FormsModule,
-    MaterialModule,
-    ReactiveFormsModule
-  ],
+  imports: [ CommonModule, CoreModule, ConfirmOperationRoutingModule, FormsModule, MaterialModule, ReactiveFormsModule],
 })
 export class ConfirmOperationModule {}

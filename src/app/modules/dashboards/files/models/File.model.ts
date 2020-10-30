@@ -72,15 +72,16 @@ export enum FileStatusCode {
 }
 
 export interface ConfirmOperation {
-  flightReason?: string;
-  conections?: string;
-  flightLimitation?: string;
-  fuel?: string;
-  equipment?: string;
-  especialEquipment?: string;
-  serviceOnBoard?: string;
-  specialRequest?: string;
+  id?: number;
+  flightMotive?: string;
+  connections?: string;
+  limitations?: string;
+  fixedVariableFuel?: string;
+  luggage?: string;
+  specialLuggage?: string;
+  onBoardService?: string;
+  specialRequests?: string;
   otherCharges?: string;
-  operative?: string;
-  observations?: string;
+  operationalInfo?: string;
+  observation?: string;
 }

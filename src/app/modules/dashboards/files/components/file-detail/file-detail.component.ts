@@ -170,17 +170,17 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   });
 
   public operationForm: FormGroup = this.fb.group({
-    flightReason: [''],
-    conections: [''],
-    flightLimitation: [''],
-    fuel: [''],
-    equipment: [''],
-    especialEquipment: [''],
-    serviceOnBoard: [''],
-    specialRequest: [''],
+    flightMotive: [''],
+    connections: [''],
+    limitations: [''],
+    fixedVariableFuel: [''],
+    luggage: [''],
+    specialLuggage: [''],
+    onBoardService: [''],
+    specialRequests: [''],
     otherCharges: [''],
-    operative: [''],
-    observations: ['']
+    operationalInfo: [''],
+    observation: ['']
   });
 
   public statusOptions: FileStatus[] = [];
@@ -306,7 +306,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private obtainOperation(file: File): void {
     this.confirmOperationService.getConfirmOperations(file.id)
-      .subscribe((operation: ConfirmOperation) => this.operationForm.patchValue(operation));
+      .subscribe((operation: Page<ConfirmOperation>) => {
+        if (operation.content.length > 0) {
+          this.operationForm.patchValue(operation.content[0])
+        }
+      });
   }
 
   /**
@@ -350,6 +354,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  public updateFileState(statusId): void {
+    debugger;
+    const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
+    this.fileService.updateState(this.fileData, state).subscribe(() => {
+      this.fileService
+        .getFileById(this.fileData.id)
+        .subscribe((resp: File) => this.getFileData(resp));
+    })
   }
 
   public getRotationNumber(
@@ -436,15 +450,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
-  public saveObservation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      ...this.operationForm.value,
-      observation: this.observations?.slice(0, this.observationMaxLength),
-    };
-    this.fileService.saveFile(file).subscribe();
-  }
-
   public onConfirmOperation(): void {
     const operation: ConfirmOperation = {
       ...this.operationForm.value
@@ -457,30 +462,26 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     const fileStatus: FileStatusCode = this.fileData?.status?.code;
     switch (action) {
       case FileAction.CONFIRM_OPERATION:
-        show = fileStatus === FileStatusCode.GREEN_BOOKED;
+        show = true;//fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       case FileAction.CREATE_ROUTES:
-        show =
-          fileStatus === FileStatusCode.NEW_REQUEST ||
-          fileStatus === FileStatusCode.SALES;
+        show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
         break;
       case FileAction.CREATE_CONTRACT:
         show =
-          this.routes?.filter(
-            (fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON
-          ).length > 0;
+          this.routes?.filter((fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON).length > 0;
         break;
       case FileAction.MODIFY_FILE:
         show = fileStatus !== FileStatusCode.CNX;
         break;
       case FileAction.SIGN_FILE:
-        show = fileStatus === FileStatusCode.BLUE_BOOKED;
+        show = false; //fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       case FileAction.SHOW_ADDITIONAL_SERVICE:
         show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus !== FileStatusCode.SALES;
         break;
       case FileAction.GENERATE_PLANING:
-        show = fileStatus === FileStatusCode.OPTIONED || fileStatus == FileStatusCode.BLUE_BOOKED;
+        show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       default:
         show = false;
@@ -599,7 +600,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     );
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
-        window.open(`${environment.powerAppUrl}?contributionId=${contribution.id}`);
+        window.open(`${environment.powerAppUrl.sendContribution}?contributionId=${contribution.id}`);
       }
     });
   }
