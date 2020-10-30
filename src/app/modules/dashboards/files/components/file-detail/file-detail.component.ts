@@ -3,14 +3,13 @@ import {
   state,
   style,
   transition,
-  trigger,
+  trigger
 } from '@angular/animations';
 import {
   Component,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  ElementRef,
+  AfterViewInit
 } from '@angular/core';
 import {
   FormBuilder,
@@ -19,13 +18,13 @@ import {
   FormGroupDirective,
   NgForm,
   ValidationErrors,
-  Validators,
+  Validators
 } from '@angular/forms';
 import {
   FileRoute,
   DAYS_LIST,
   FrequencyDay,
-  RouteStatus,
+  RouteStatus
 } from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -35,11 +34,8 @@ import { FileRoutesService } from '../../services/file-routes.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import {
-  concatMap,
   debounceTime,
   distinctUntilChanged,
   map,
@@ -47,20 +43,17 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import {
-  Client,
-  File,
-  FileStatus,
-  FileStatusCode,
-} from '../../models/File.model';
+import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
-import { AdditionalServiceService } from '../../services/additional-services.service';
 import { ContributionService } from '../../services/contribution.service';
 import { Contribution, ContributionStates } from '../search-aircraft/models/contribution.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { environment } from 'src/environments/environment';
+import { ConfirmOperationService } from '../../services/confirm-operation.service';
+import { Contact, OperationType } from '../../../masters/contacts/models/contact';
+import { ContactsService } from '../../../masters/contacts/services/contact.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -105,8 +98,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('routesTable') routesTable: MatTable<any>;
   @ViewChild('contributionsTable') contributionsTable: MatTable<any>;
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
-  private readonly confirmOperationModal: ElementRef;
+  public readonly observationMaxLength: number = 5000;
 
   public fileData: File;
   public routes: Array<FileRoute>;
@@ -166,7 +158,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public observations: string;
-  public observationMaxLength: number = 5000;
   public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
@@ -174,19 +165,37 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     description: [''],
     status: [''],
     client: ['', Validators.required],
-    statusId: ['', this.validatorRequiredEditMode.bind(this)],
     clientId: ['', Validators.required],
+    contact: ['', Validators.required],
+    contactId: ['', Validators.required],
+    statusId: ['', this.validatorRequiredEditMode.bind(this)],
+    operationType: ['', this.validatorRequiredEditMode.bind(this)]
+  });
+
+  public operationForm: FormGroup = this.fb.group({
+    flightMotive: [''],
+    connections: [''],
+    limitations: [''],
+    fixedVariableFuel: [''],
+    luggage: [''],
+    specialLuggage: [''],
+    onBoardService: [''],
+    specialRequests: [''],
+    otherCharges: [''],
+    operationalInfo: [''],
+    observation: ['']
   });
 
   public statusOptions: FileStatus[] = [];
+  public operationsType: OperationType[] = [];
   public clientOptions$: Observable<Client[]>;
+  public contactOptions$: Observable<Client[]>;
 
   public matcher = new FileErrorStateMatcher();
 
   private isFileDetail: boolean;
   private fileContributionsMap: Map<number, Contribution[]> = new Map();
   constructor(
-    private modalService: ModalService,
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
@@ -195,6 +204,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
     private clientService: ClientsService,
+    private contactService: ContactsService,
+    private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
     private readonly matDialog: MatDialog
   ) {}
@@ -203,6 +214,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadClients();
+    this.loadContacts()
     this.obtainParams();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
   }
@@ -225,6 +237,24 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
+  // TODO: Improve client clientId relation
+  private loadContacts(): void {
+    this.fileForm
+      .get('contact')
+      .valueChanges.pipe(
+        startWith(''),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => {
+        if (typeof term === 'string') {
+          this.contactOptions$ = term ? this.getFilteredContacts(term) : of([]);
+        } else {
+          this.fileForm.get('contactId').setValue(term.id);
+        }
+      });
+  }
+
   private obtainParams(): void {
     this.route.queryParams.subscribe((params: Params) => this.expandedQuote = params.expandedQuote === "true");
   }
@@ -233,6 +263,21 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     const filter = {};
     return this.clientService.getClients(filter).pipe(
       map((page: Page<Client>) => page.content),
+      map((response) =>
+        response.filter((p) => {
+          return (
+            p.code.toUpperCase().includes(term.toUpperCase()) ||
+            p.name.toUpperCase().includes(term.toUpperCase())
+          );
+        })
+      )
+    );
+  }
+
+  private getFilteredContacts(term: string): Observable<Contact[]> {
+    const filter = {};
+    return this.contactService.getContacts(filter).pipe(
+      map((page: Page<Contact>) => page.content),
       map((response) =>
         response.filter((p) => {
           return (
@@ -272,7 +317,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     });
 
     this.loadStatus();
+    this.loadOperationType();
     this.loadFileRoutes(file);
+    this.obtainOperation(file);
   }
 
   private loadStatus(): void {
@@ -282,6 +329,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         (fileStatus: Page<FileStatus>) =>
           (this.statusOptions = fileStatus.content)
       );
+  }
+
+  private loadOperationType(): void {
+    this.operationsType = [
+      OperationType.ACMI,
+      OperationType.CHARGE,
+      OperationType.COMMERCIAL,
+      OperationType.EXECUTIVE,
+      OperationType.GROUP
+    ];
   }
 
   private loadFileRoutes(file: File) {
@@ -295,6 +352,15 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.resultsLength = data.totalElements;
         this.pageSize = data.size;
         this.hasRoutes = data.totalElements > 0;
+      });
+  }
+
+  private obtainOperation(file: File): void {
+    this.confirmOperationService.getConfirmOperations(file.id)
+      .subscribe((operation: Page<ConfirmOperation>) => {
+        if (operation.content.length > 0) {
+          this.operationForm.patchValue(operation.content[0])
+        }
       });
   }
 
@@ -320,11 +386,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         clientId: this.fileForm.get('clientId').value,
         description: this.fileForm.get('description').value,
         statusId: this.fileForm.get('statusId').value,
-        contactId: 1,
+        contactId: this.fileForm.get('contactId').value,
         providerId: 1,
         salePersonId: 1,
         saleAgentId: 1,
-        operationType: 'COMMERCIAL',
+        operationType: this.fileForm.get('operationType').value || 'COMMERCIAL',
       };
 
       console.log('SAVING FILE', file);
@@ -339,6 +405,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  public updateFileState(statusId): void {
+    debugger;
+    const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
+    this.fileService.updateState(this.fileData, state).subscribe(() => {
+      this.fileService
+        .getFileById(this.fileData.id)
+        .subscribe((resp: File) => this.getFileData(resp));
+    })
   }
 
   public getRotationNumber(
@@ -378,6 +454,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public navigateConfirmOperation(): void {
+    this.router.navigate(['/files', this.fileData.id, 'confirm-operation']);
+  }
+
   public navigateToSearchAircraft(id: number) {
     this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
   }
@@ -409,13 +489,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  public openConfirmOperationModal(): void {
-    this.modalService.initializeModal(this.confirmOperationModal, {
-      dismissible: false,
-    });
-    this.modalService.openModal();
-  }
-
   public createContract(): void {
     // TODO: nothing yet
   }
@@ -428,24 +501,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
-  public saveObservation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength),
-    };
-    this.fileService.saveFile(file).subscribe();
-  }
-
   public onConfirmOperation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(
-        0,
-        this.observationMaxLength
-      ) /**,
-       status: */,
+    const operation: ConfirmOperation = {
+      ...this.operationForm.value
     };
-    this.fileService.saveFile(file).subscribe();
+    this.confirmOperationService.updateConfirmOperation(this.fileData.id, operation). subscribe();
   }
 
   public showAction(action: FileAction): boolean {
@@ -456,27 +516,23 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         show = fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       case FileAction.CREATE_ROUTES:
-        show =
-          fileStatus === FileStatusCode.NEW_REQUEST ||
-          fileStatus === FileStatusCode.SALES;
+        show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
         break;
       case FileAction.CREATE_CONTRACT:
         show =
-          this.routes?.filter(
-            (fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON
-          ).length > 0;
+          this.routes?.filter((fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON).length > 0;
         break;
       case FileAction.MODIFY_FILE:
         show = fileStatus !== FileStatusCode.CNX;
         break;
       case FileAction.SIGN_FILE:
-        show = fileStatus === FileStatusCode.BLUE_BOOKED;
+        show = false; //fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       case FileAction.SHOW_ADDITIONAL_SERVICE:
         show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus !== FileStatusCode.SALES;
         break;
       case FileAction.GENERATE_PLANING:
-        show = fileStatus === FileStatusCode.OPTIONED || fileStatus == FileStatusCode.BLUE_BOOKED;
+        show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       default:
         show = false;
@@ -595,7 +651,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     );
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
-        window.open(`${environment.powerAppUrl}?contributionId=${contribution.id}`);
+        window.open(`${environment.powerAppUrl.sendContribution}?contributionId=${contribution.id}`);
         if (contribution.contributionState === ContributionStates.PENDING) {
           this.contributionService
           .updateContributionsState(contribution.fileId, contribution.routeId, contribution, ContributionStates.SENDED)

@@ -15,6 +15,6 @@ import { FileDetailComponent } from './file-detail.component';
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,
-  ],
+  ]
 })
 export class FileDetailModule {}

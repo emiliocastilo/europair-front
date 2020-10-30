@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Contact } from '../models/contact';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +14,24 @@ import { Contact } from '../models/contact';
 export class ContactsService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}contacts`;
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = {
+    filter_name: OperatorEnum.CONTAINS,
+  } as const;
 
-  public getContacts(): Observable<Page<Contact>> {
+  
+  constructor(
+    private http: HttpClient,
+    private searchFilterService: SearchFilterService
+  ) {}
+
+  public getContacts(searchFilter: SearchFilter = {}): Observable<Page<Contact>> {
     const url: string = this.mocked ? '/assets/mocks/contacts.json' : this.url;
-    return this.http.get<Page<Contact>>(url);
+    return this.http.get<Page<Contact>>(url, {
+      params: this.searchFilterService.createHttpParams(
+        searchFilter,
+        this.filterOptions
+      ),
+    });
   }
 
   public getContactById(contactId: number): Observable<Contact> {
