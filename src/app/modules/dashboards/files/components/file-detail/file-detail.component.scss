@@ -125,10 +125,12 @@ $other-columns-width: 120px;
 
 .mat-header-row,
 .mat-row {
+  min-width: fit-content;
   border-bottom-color: #cce0f2;
 }
 
 .mat-row {
+  min-width: fit-content;
   &:hover {
     background-color: #f9fcff;
   }

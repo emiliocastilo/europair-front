@@ -401,10 +401,28 @@
               </mat-cell>
             </ng-container>
 
+            <!-- purchaseCommissionPercent price Column-->
+            <ng-container matColumnDef="purchaseCommissionPercent">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.PURCHASE_TAXES" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
             <!-- Sale price Column-->
             <ng-container matColumnDef="salesPrice">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 {{ "FILES.CONTRIBUTIONS.SALES_PRICE" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- salesCommissionPercent price Column-->
+            <ng-container matColumnDef="salesCommissionPercent">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.SALES_TAXES" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
               </mat-cell>
@@ -485,9 +503,23 @@
                   </ng-container>
 
                   <!-- salesPrice Column-->
+                  <ng-container matColumnDef="purchaseCommissionPercent">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.purchaseCommissionPercent }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- salesPrice Column-->
                   <ng-container matColumnDef="salesPrice">
-                    <mat-cell *matCellDef="let element" class="expanded-last-row">
+                    <mat-cell *matCellDef="let element">
                       {{ element?.salesPrice | number }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- salesPrice Column-->
+                  <ng-container matColumnDef="salesCommissionPercent">
+                    <mat-cell *matCellDef="let element" class="expanded-last-row">
+                      {{ element?.salesCommissionPercent }}
                     </mat-cell>
                   </ng-container>
 
@@ -508,7 +540,7 @@
                         (click)="navigateToContributionDetail(parentElement, element)"
                         svgIcon="europair_edit">
                       </mat-icon>
-                      <mat-icon
+                      <mat-icon *ngIf="isContributionSendable(element) "
                         (click)="sendContribution(parentElement, element)"
                         svgIcon="europair_feather_mail">
                       </mat-icon>

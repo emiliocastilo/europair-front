@@ -1,13 +1,22 @@
 <core-page-bar [pageTitle]="'CONTRIBUTIONS.TITLE' | translate"></core-page-bar>
-<button
-  color="primary"
-  class="cmd-mb-2"
-  mat-raised-button
-  [routerLink]="['/files/', fileId]"
-  [queryParams]="{ expandedQuote: true }"
->
-  {{ "COMMON.RETURN" | translate }}
-</button>
+<div class="row">
+  <button
+    class="col s2 l2 cmd-mb-1"
+    color="primary"
+    mat-raised-button
+    [routerLink]="['/files/', fileId]"
+    [queryParams]="{ expandedQuote: true }">
+    {{ "COMMON.RETURN" | translate }}
+  </button>
+  <app-select
+    [items]="conributionStates"
+    [id]="'contribution-states'"
+    [label]="'CONTRIBUTIONS.STATUS' | translate"
+    [searchable]="true"
+    class="col s12 l4 offset-l6"
+    [formControl]="contributionStateControl"
+  ></app-select>
+</div>
 <mat-expansion-panel
   #purchasePanel
   class="app-expansion-panel cmd-mb-2"

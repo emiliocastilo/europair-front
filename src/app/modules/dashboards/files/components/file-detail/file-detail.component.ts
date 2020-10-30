@@ -47,7 +47,7 @@ import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../.
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
 import { ContributionService } from '../../services/contribution.service';
-import { Contribution } from '../search-aircraft/models/contribution.model';
+import { Contribution, ContributionStates } from '../search-aircraft/models/contribution.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { environment } from 'src/environments/environment';
@@ -141,7 +141,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'aircraftType',
     'totalPassengers',
     'purchasePrice',
+    'purchaseCommissionPercent',
     'salesPrice',
+    'salesCommissionPercent',
     'status',
     'contribution-actions',
   ];
@@ -650,8 +652,17 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
         window.open(`${environment.powerAppUrl.sendContribution}?contributionId=${contribution.id}`);
+        if (contribution.contributionState === ContributionStates.PENDING) {
+          this.contributionService
+          .updateContributionsState(contribution.fileId, contribution.routeId, contribution, ContributionStates.SENDED)
+          .subscribe(() => this.expandContributionsRow(fileRoute));
+        }
       }
     });
+  }
+
+  public isContributionSendable({ contributionState }: Contribution): boolean {
+    return contributionState === ContributionStates.PENDING || contributionState === ContributionStates.SENDED;
   }
 
   public hasRouteContributions(route: FileRoute) {
