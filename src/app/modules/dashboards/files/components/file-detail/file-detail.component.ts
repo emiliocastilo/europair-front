@@ -3,14 +3,13 @@ import {
   state,
   style,
   transition,
-  trigger,
+  trigger
 } from '@angular/animations';
 import {
   Component,
   OnInit,
   ViewChild,
-  AfterViewInit,
-  ElementRef,
+  AfterViewInit
 } from '@angular/core';
 import {
   FormBuilder,
@@ -19,13 +18,13 @@ import {
   FormGroupDirective,
   NgForm,
   ValidationErrors,
-  Validators,
+  Validators
 } from '@angular/forms';
 import {
   FileRoute,
   DAYS_LIST,
   FrequencyDay,
-  RouteStatus,
+  RouteStatus
 } from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -35,7 +34,6 @@ import { FileRoutesService } from '../../services/file-routes.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -48,12 +46,14 @@ import {
 import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
-import { ConfirmOperationService } from '../../services/confirm-operation.service';
 import { ContributionService } from '../../services/contribution.service';
 import { Contribution } from '../search-aircraft/models/contribution.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { environment } from 'src/environments/environment';
+import { ConfirmOperationService } from '../../services/confirm-operation.service';
+import { Contact, OperationType } from '../../../masters/contacts/models/contact';
+import { ContactsService } from '../../../masters/contacts/services/contact.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -98,8 +98,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('routesTable') routesTable: MatTable<any>;
   @ViewChild('contributionsTable') contributionsTable: MatTable<any>;
-  @ViewChild(ModalComponent, { static: true, read: ElementRef })
-  private readonly confirmOperationModal: ElementRef;
   public readonly observationMaxLength: number = 5000;
 
   public fileData: File;
@@ -165,8 +163,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     description: [''],
     status: [''],
     client: ['', Validators.required],
-    statusId: ['', this.validatorRequiredEditMode.bind(this)],
     clientId: ['', Validators.required],
+    contact: ['', Validators.required],
+    contactId: ['', Validators.required],
+    statusId: ['', this.validatorRequiredEditMode.bind(this)],
+    operationType: ['', this.validatorRequiredEditMode.bind(this)]
   });
 
   public operationForm: FormGroup = this.fb.group({
@@ -184,7 +185,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   });
 
   public statusOptions: FileStatus[] = [];
+  public operationsType: OperationType[] = [];
   public clientOptions$: Observable<Client[]>;
+  public contactOptions$: Observable<Client[]>;
 
   public matcher = new FileErrorStateMatcher();
 
@@ -199,6 +202,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
     private clientService: ClientsService,
+    private contactService: ContactsService,
     private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
     private readonly matDialog: MatDialog
@@ -208,6 +212,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadClients();
+    this.loadContacts()
     this.obtainParams();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
   }
@@ -230,6 +235,24 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
+  // TODO: Improve client clientId relation
+  private loadContacts(): void {
+    this.fileForm
+      .get('contact')
+      .valueChanges.pipe(
+        startWith(''),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => {
+        if (typeof term === 'string') {
+          this.contactOptions$ = term ? this.getFilteredContacts(term) : of([]);
+        } else {
+          this.fileForm.get('contactId').setValue(term.id);
+        }
+      });
+  }
+
   private obtainParams(): void {
     this.route.queryParams.subscribe((params: Params) => this.expandedQuote = params.expandedQuote === "true");
   }
@@ -238,6 +261,21 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     const filter = {};
     return this.clientService.getClients(filter).pipe(
       map((page: Page<Client>) => page.content),
+      map((response) =>
+        response.filter((p) => {
+          return (
+            p.code.toUpperCase().includes(term.toUpperCase()) ||
+            p.name.toUpperCase().includes(term.toUpperCase())
+          );
+        })
+      )
+    );
+  }
+
+  private getFilteredContacts(term: string): Observable<Contact[]> {
+    const filter = {};
+    return this.contactService.getContacts(filter).pipe(
+      map((page: Page<Contact>) => page.content),
       map((response) =>
         response.filter((p) => {
           return (
@@ -277,8 +315,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     });
 
     this.loadStatus();
+    this.loadOperationType();
     this.loadFileRoutes(file);
-    this.obtainOperation(file)
+    this.obtainOperation(file);
   }
 
   private loadStatus(): void {
@@ -288,6 +327,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         (fileStatus: Page<FileStatus>) =>
           (this.statusOptions = fileStatus.content)
       );
+  }
+
+  private loadOperationType(): void {
+    this.operationsType = [
+      OperationType.ACMI,
+      OperationType.CHARGE,
+      OperationType.COMMERCIAL,
+      OperationType.EXECUTIVE,
+      OperationType.GROUP
+    ];
   }
 
   private loadFileRoutes(file: File) {
@@ -335,11 +384,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         clientId: this.fileForm.get('clientId').value,
         description: this.fileForm.get('description').value,
         statusId: this.fileForm.get('statusId').value,
-        contactId: 1,
+        contactId: this.fileForm.get('contactId').value,
         providerId: 1,
         salePersonId: 1,
         saleAgentId: 1,
-        operationType: 'COMMERCIAL',
+        operationType: this.fileForm.get('operationType').value || 'COMMERCIAL',
       };
 
       console.log('SAVING FILE', file);
@@ -462,7 +511,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     const fileStatus: FileStatusCode = this.fileData?.status?.code;
     switch (action) {
       case FileAction.CONFIRM_OPERATION:
-        show = true;//fileStatus === FileStatusCode.GREEN_BOOKED;
+        show = fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       case FileAction.CREATE_ROUTES:
         show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
