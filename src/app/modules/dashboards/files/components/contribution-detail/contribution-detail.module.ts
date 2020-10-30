@@ -5,8 +5,7 @@ import { ContributionDetailRoutingModule } from './contribution-detail-routing.m
 import { ContributionDetailComponent } from './contribution-detail.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ContributionDetailComponent],
@@ -16,6 +15,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     CoreModule,
     MaterialModule,
     ReactiveFormsModule,
-  ]
+  ],
 })
-export class ContributionDetailModule { }
+export class ContributionDetailModule {}

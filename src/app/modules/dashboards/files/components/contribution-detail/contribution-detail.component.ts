@@ -16,6 +16,7 @@ import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  finalize,
   map,
   switchMap,
   tap,
@@ -35,7 +36,11 @@ import { ContributionLineService } from '../../services/contribution-line.servic
 import { ContributionService } from '../../services/contribution.service';
 import { FileRoutesService } from '../../services/file-routes.service';
 import { ServicesService } from '../../../masters/services/services/services.service';
-import { Contribution } from '../search-aircraft/models/contribution.model';
+import {
+  Contribution,
+  ContributionStates,
+  CONTRIBUTION_STATES,
+} from '../search-aircraft/models/contribution.model';
 
 @Component({
   selector: 'app-contribution-detail',
@@ -71,6 +76,7 @@ export class ContributionDetailComponent implements OnInit {
   public servicesInput$ = new Subject<string>();
   public servicesLoading = false;
   private datePipe: DatePipe;
+  public conributionStates = CONTRIBUTION_STATES;
 
   public purchaseServiceForm = this.fb.group({
     type: ['', Validators.required],
@@ -100,6 +106,8 @@ export class ContributionDetailComponent implements OnInit {
     observation: [''],
   });
 
+  public contributionStateControl = this.fb.control(null);
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
@@ -118,6 +126,7 @@ export class ContributionDetailComponent implements OnInit {
     this.getRouteInfo();
     this.loadSelectData();
     this.controlSubscribes();
+    this.onChangeContributionState();
   }
 
   private getRouteInfo() {
@@ -156,10 +165,39 @@ export class ContributionDetailComponent implements OnInit {
   private refreshContributionData() {
     this.contributionService
       .getContribution(this.fileId, this.routeId, this.contributionId)
-      .pipe(tap((contribution) => (this.contribution = contribution)))
+      .pipe(
+        tap((contribution) => (this.contribution = contribution)),
+        tap(this.updateContributionStateControl)
+      )
       .subscribe((contribution: Contribution) =>
         this.updateContributionForms(contribution)
       );
+  }
+
+  private updateContributionStateControl = (
+    contribution: Contribution
+  ): void => {
+    this.contributionStateControl.setValue(contribution.contributionState, {
+      emitEvent: false,
+    });
+  };
+
+  private onChangeContributionState() {
+    this.contributionStateControl.valueChanges.subscribe(
+      (newState: ContributionStates) => this.updateContributionState(newState)
+    );
+  }
+
+  private updateContributionState(newState: ContributionStates) {
+    this.contributionService
+      .updateContributionsState(
+        this.fileId,
+        this.routeId,
+        this.contribution,
+        newState
+      )
+      .pipe(finalize(() => this.refreshContributionData()))
+      .subscribe();
   }
 
   private updateContributionForms(contribution: Contribution) {

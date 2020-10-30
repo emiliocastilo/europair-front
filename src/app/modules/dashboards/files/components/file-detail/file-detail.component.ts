@@ -149,7 +149,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'aircraftType',
     'totalPassengers',
     'purchasePrice',
+    'purchaseCommissionPercent',
     'salesPrice',
+    'salesCommissionPercent',
     'status',
     'contribution-actions',
   ];

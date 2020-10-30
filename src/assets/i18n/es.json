@@ -564,7 +564,9 @@
       "AIRCRAFT_TYPE": "Tipo de avión",
       "TOTAL_PASSENGERS": "Total pasajeros",
       "PURCHASE_PRICE": "Precio compra",
+      "PURCHASE_TAXES": "% Impuestos compra",
       "SALES_PRICE": "Precio venta",
+      "SALES_TAXES": "% Impuestos venta",
       "STATUS": "Estado",
       "ACTIONS": "Aciones"
     },
@@ -640,6 +642,7 @@
     "TAXES_PRICE": "Importe impuestos",
     "ROTATION": "Rotación",
     "PRICE": "Importe",
+    "STATUS": "Estado",
     "NEW_ADDITIONAL_SERVICE": "Nuevo servicio adicional",
     "ADD_ADDITIONAL_SERVICE": "Añadir servicio adicional",
     "SERVICE": "Servicio",

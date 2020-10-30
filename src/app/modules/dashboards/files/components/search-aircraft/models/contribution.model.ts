@@ -36,3 +36,10 @@ export enum ContributionStates {
   QUOTED = 'QUOTED',
   CONFIRMED = 'CONFIRMED',
 }
+
+export const CONTRIBUTION_STATES: ContributionStates[] = [
+  ContributionStates.CONFIRMED,
+  ContributionStates.PENDING,
+  ContributionStates.QUOTED,
+  ContributionStates.SENDED,
+];

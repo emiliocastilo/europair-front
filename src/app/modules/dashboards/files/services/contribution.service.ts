@@ -9,7 +9,10 @@ import {
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { Contribution } from '../components/search-aircraft/models/contribution.model';
+import {
+  Contribution,
+  ContributionStates,
+} from '../components/search-aircraft/models/contribution.model';
 
 @Injectable({
   providedIn: 'root',
@@ -83,6 +86,19 @@ export class ContributionService {
   ): Observable<Contribution> {
     const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/${contribution.id}`;
     return this.http.put<Contribution>(url, contribution);
+  }
+
+  public updateContributionsState(
+    fileId: number,
+    routeId: number,
+    contribution: Contribution,
+    contributionState: ContributionStates
+  ): Observable<void> {
+    const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/state`;
+    return this.http.put<void>(url, {
+      idList: [contribution.id],
+      state: contributionState,
+    });
   }
 
   public deleteContribution(
