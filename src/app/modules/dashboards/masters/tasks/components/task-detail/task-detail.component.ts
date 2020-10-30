@@ -70,7 +70,7 @@ export class TaskDetailComponent implements OnInit {
         (screen: Screen) => screen.id !== screenId
       );
     } else {
-      const screenToAdd = this.screens[event.selectedItem];
+      const screenToAdd = this.screens.find((screen: Screen) => screen.id === screenId);
       this._taskDetail.screens = [...this._taskDetail.screens, screenToAdd];
     }
   }
