@@ -11,6 +11,7 @@
       "AIRPORTS": "Aeropuertos",
       "OPERATORS": "Operadores",
       "CONTACTS": "Contactos",
+      "SERVICES": "Servicios",
       "FLEET": {
         "TITLE": "Flota",
         "AIRCRAFT": "Aeronaves",
@@ -591,7 +592,9 @@
     "NEW_FILE": "Nuevo Expediente",
     "GENERATE_PLANING": "Generar planing",
     "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
-    "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?"
+    "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?",
+    "OPERATION_TYPE": "Tipo operación",
+    "CONTACT": "Contacto"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

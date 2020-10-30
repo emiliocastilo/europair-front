@@ -50,29 +50,9 @@
               </ng-container>
             </app-input>
 
-            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
-              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
-              formControlName="client">
-            </app-autocomplete>
-          </div>
 
-          <div class="row">
-            <!-- <app-input
-              [prefix]="'FILES.CLIENT' | translate"
-              [hasErrors]="hasControlAnyError('client')"
-              [errorStateMatcher]="matcher"
-              formControlName="client"
-              class="col s12 l4"
-            >
-              <ng-container inputErrors>
-                <mat-error *ngIf="hasControlAnyError('client')">
-                  {{ "FILES.ERRORS.CLIENT" | translate }}
-                </mat-error>
-              </ng-container>
-            </app-input> -->
-
-            <app-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
-              [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
+            <app-select class="col s12 l4" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail"
+              [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}" [clearable]="false"
               [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId" (selectedValueEvent)="updateFileState($event)">
               <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
                 <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
@@ -80,6 +60,29 @@
                 </span>
               </ng-container>
             </app-select>
+          </div>
+
+          <div class="row">
+            <app-select class="col s12 l4" [id]="'select-file-operation-type'" [items]="operationsType" *ngIf="routeData.isFileDetail"
+              [placeholder]="'FILES.OPERATION_TYPE' | translate" [clearable]="false"
+              [label]="'FILES.OPERATION_TYPE' | translate" formControlName="operationType">
+              <ng-container inputErrors *ngIf="hasControlAnyError('operationType')">
+                <span *ngIf="hasControlSpecificError('operationType', 'required')" class="helper-text"
+                  [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
+                </span>
+              </ng-container>
+            </app-select>
+
+            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
+              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="client">
+            </app-autocomplete>
+          </div>
+          <div class="row">
+            <app-autocomplete class="col s12 l4" [options]="contactOptions$ | async"
+              [prefix]="'FILES.CONTACT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="contact">
+            </app-autocomplete>
           </div>
         </form>
       </ng-template>
