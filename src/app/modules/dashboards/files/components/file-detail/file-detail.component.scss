@@ -162,11 +162,19 @@ $other-columns-width: 120px;
 }
 
 .mat-column-totalPassengers {
-  min-width: 100px;
+  min-width: 80px;
+  max-width: 80px;
 }
 
 .mat-column-operator {
   min-width: 200px;
+  max-width: 200px;
+}
+
+.operator-container {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mat-column-route-actions,
