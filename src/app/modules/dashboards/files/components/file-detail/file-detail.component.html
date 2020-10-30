@@ -348,7 +348,7 @@
               </mat-cell>
             </ng-container>
 
-            <!-- Creation date Column -->
+            <!-- requestTime Column -->
             <ng-container matColumnDef="requestTime">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 {{ "FILES.CONTRIBUTIONS.REQUEST_TIME" | translate }}
@@ -430,28 +430,37 @@
                     </mat-cell>
                   </ng-container>
 
-                  <!-- Frequency Column -->
+                  <!-- requestTime Column -->
                   <ng-container matColumnDef="requestTime">
                     <mat-cell *matCellDef="let element">
                       {{ element?.requestTime | date: 'dd/MM/yyyy' }}
                     </mat-cell>
                   </ng-container>
 
-                  <!-- startDate Column-->
+                  <!-- operator Column-->
                   <ng-container matColumnDef="operator">
                     <mat-cell *matCellDef="let element">
-                      {{ element?.operator?.name }}
+                      <ng-container *ngIf="element?.operator?.name?.length > 25; else operatorText">
+                        <div class="operator-container" [matTooltip]="element?.operator?.name" [matTooltipClass]="'europair-tooltip'">
+                          {{ element?.operator?.name }}
+                        </div>
+                      </ng-container>
+                      <ng-template #operatorText>
+                        <div class="operator-container">
+                          {{ element?.operator?.name }}
+                        </div>
+                      </ng-template>
                     </mat-cell>
                   </ng-container>
 
-                  <!-- EndDate Column-->
+                  <!-- aircraftType Column-->
                   <ng-container matColumnDef="aircraftType">
                     <mat-cell *matCellDef="let element">
                       {{ element?.aircraft?.aircraftType?.code }}
                     </mat-cell>
                   </ng-container>
 
-                  <!-- WeekDays Column-->
+                  <!-- totalPassengers Column-->
                   <ng-container matColumnDef="totalPassengers">
                     <mat-cell *matCellDef="let element">
                       {{
@@ -460,14 +469,14 @@
                     </mat-cell>
                   </ng-container>
 
-                  <!-- Rotations Column-->
+                  <!-- purchasePrice Column-->
                   <ng-container matColumnDef="purchasePrice">
                     <mat-cell *matCellDef="let element">
                       {{ element?.purchasePrice | number }}
                     </mat-cell>
                   </ng-container>
 
-                  <!-- Seats Column-->
+                  <!-- salesPrice Column-->
                   <ng-container matColumnDef="salesPrice">
                     <mat-cell *matCellDef="let element" class="expanded-last-row">
                       {{ element?.salesPrice | number }}
