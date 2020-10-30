@@ -512,7 +512,7 @@
     "DELETE": "Eliminar",
     "CANCEL": "Cancelar",
     "EDIT": "Editar",
-    "CONFIRM": "Confirmar",
+    "CONFIRM": "Notificar",
     "SAVE": "Guardar",
     "CONFIRM_DELETE": "Confirmar eliminación",
     "MSG_DELETE": "¿Está seguro que desea eliminar el expediente?",
@@ -590,7 +590,7 @@
       "REQUIRED": "El campo es requerido."
     },
     "NEW_FILE": "Nuevo Expediente",
-    "GENERATE_PLANING": "Generar planing",
+    "GENERATE_PLANING": "Generar planning",
     "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
     "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?",
     "OPERATION_TYPE": "Tipo operación",
