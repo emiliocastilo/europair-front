@@ -12,16 +12,15 @@
             <form [formGroup]="searchForm">
                 <div class="row">
                     <div class="col s12 l9">
-
-                        <core-select [label]="'SEARCH_AIRCRAFT.REGIONS' | translate" [id]="'search-regions'"
+                        <app-select [label]="'SEARCH_AIRCRAFT.REGIONS' | translate" [id]="'search-regions'"
                             [items]="regions" class="col s12 l12 cmd-mb-1" [multiple]="true"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.REGIONS_SEARCH_TEXT' | translate"
                             [placeholder]="'SEARCH_AIRCRAFT.SELECT_REGIONS' | translate"
                             [hasErrors]="hasControlAnyError('regions')" [searchable]="true"
                             [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="regions">
-                        </core-select>
+                        </app-select>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
+                        <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
                             [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
                             class="col s12 l12 cmd-mb-1" [multiple]="true"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
@@ -36,9 +35,9 @@
                                     </span>
                                 </ng-container>
                             </ng-container>
-                        </core-select>
+                        </app-select>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate"
+                        <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT_COUNTRY' | translate"
                             [id]="'search-airport-country'" [items]="countries$ | async" [minTermLength]="1"
                             [loading]="countriesLoading" class="col s12 l12 cmd-mb-1" [multiple]="true"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.COUNTRY_SEARCH_TEXT' | translate"
@@ -46,40 +45,40 @@
                             [hasErrors]="hasControlAnyError('countries')" [typeahead]="countriesInput$"
                             [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
                             formControlName="countries">
-                        </core-select>
+                        </app-select>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_CATEGORY' | translate"
+                        <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT_CATEGORY' | translate"
                             [id]="'search-aircraft-category'" [items]="categories" class="col s12 l5 cmd-mb-1"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.CATEGORY_SEARCH_TEXT' | translate"
                             [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate" [itemDescription]="'code'"
                             [hasErrors]="hasControlAnyError('category')" [searchable]="true"
                             [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="category">
-                        </core-select>
+                        </app-select>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.AIRPORT_SUBCATEGORY' | translate"
+                        <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT_SUBCATEGORY' | translate"
                             [id]="'search-aircraft-subcategory'" [items]="subcategories" class="col s12 l4 cmd-mb-1"
                             [isDisabled]="!hasCategorySelected()" [itemDescription]="'code'"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.SUBCATEGORY_SEARCH_TEXT' | translate"
                             [placeholder]="getSubcategoryPlaceholder() | translate"
                             [hasErrors]="hasControlAnyError('subcategory')" [searchable]="true"
                             [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="subcategory">
-                        </core-select>
+                        </app-select>
 
                         <core-basic-switch [id]="'search-minimun-subcategory'" class="col s12 l3 cmd-my-1"
                             [firstLabel]="'SEARCH_AIRCRAFT.MINIMUN_SUBCATEGORY' | translate"
                             formControlName="minimunSubcategory">
                         </core-basic-switch>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.TYPE' | translate" [id]="'search-fleetType'"
+                        <app-select [label]="'SEARCH_AIRCRAFT.TYPE' | translate" [id]="'search-fleetType'"
                             [items]="fleetTypes$ | async" [minTermLength]="1" [loading]="fleetTypesLoading"
                             class="col s12 l12 cmd-mb-1" [multiple]="true" [searchable]="true"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.TYPE_SEARCH_TEXT' | translate"
                             [itemDescription]="'description'" [placeholder]="'SEARCH_AIRCRAFT.SELECT_TYPE' | translate"
                             [hasErrors]="hasControlAnyError('fleetTypes')" [typeahead]="fleetTypesInput$"
                             [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="fleetTypes">
-                        </core-select>
+                        </app-select>
 
-                        <core-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate"
+                        <app-select [label]="'SEARCH_AIRCRAFT.OPERATORS' | translate"
                             [id]="'search-aircraft-subcategory'" [items]="operators$ | async" [minTermLength]="1"
                             [loading]="operatorsLoading" class="col s12 l12 cmd-mb-1" [multiple]="true"
                             [typeToSearchText]="'SEARCH_AIRCRAFT.OPERATOR_SEARCH_TEXT' | translate"
@@ -87,31 +86,80 @@
                             [hasErrors]="hasControlAnyError('operators')" [typeahead]="operatorsInput$"
                             [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
                             formControlName="operators">
-                        </core-select>
+                        </app-select>
+                    </div>
+                    <div class="col s12 l3">
+                        <div class="col s12 l12 cmd-my-1">
+                            <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l12"
+                                [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate"
+                                formControlName="nearbyAirport">
+                            </core-basic-switch>
+                            <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
+                                <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate"
+                                    [hasErrors]="hasControlAnyError('nearbyAirportFrom')"
+                                    formControlName="nearbyAirportFrom" [type]="'number'" class="col s12 l8 cmd-my-1">
+                                    <ng-container inputErrors>
+                                        <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')">
+                                            {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
+                                        </mat-error>
+                                        <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')">
+                                            {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_MAX" | translate }}
+                                        </mat-error>
+                                        <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'min')">
+                                            {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                        </mat-error>
+                                    </ng-container>
+                                </app-input>
+                                <span class="col s12 l4 search-measure">
+                                    {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                                </span>
+                            </div>
+                            <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
+                                <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate"
+                                    [hasErrors]="hasControlAnyError('nearbyAirportTo')" formControlName="nearbyAirportTo"
+                                    [type]="'number'" class="col s12 l8 cmd-my-1">
+                                    <ng-container inputErrors>
+                                        <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')">
+                                            {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
+                                        </mat-error>
+                                        <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'min')">
+                                            {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                        </mat-error>
+                                    </ng-container>
+                                </app-input>
+                                <span class="col s12 l4 search-measure">
+                                    {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col s12 l12 cmd-my-1">
+                            <core-basic-switch [id]="'search-scale'" class="col s12 l12 switch-scales"
+                                [firstLabel]="'SEARCH_AIRCRAFT.SCALES' | translate" formControlName="flightScales">
+                            </core-basic-switch>
+
+                            <app-input [prefix]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate"
+                                [hasErrors]="hasControlAnyError('flightScalesValue')"
+                                formControlName="flightScalesValue" [type]="'number'" class="col s12 l12"
+                                [hidden]="hiddenFlightScalesValue()">
+                                <ng-container inputErrors>
+                                    <mat-error *ngIf="hasControlSpecificError('flightScalesValue', 'min')">
+                                        {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
+                                    </mat-error>
+                                </ng-container>
+                            </app-input>
+                        </div>
                     </div>
 
                     <div class="col s12 l12">
-                        <core-select [label]="'SEARCH_AIRCRAFT.FILTER_SEAT' | translate"
-                            [id]="'search-aircraft-seat-filter'" [items]="seatFilterType"
-                            class="col s12 l4 cmd-mb-1" formControlName="filterSeat"
+                        <app-select [label]="'SEARCH_AIRCRAFT.FILTER_SEAT' | translate"
+                            [id]="'search-aircraft-seat-filter'" [items]="seatFilterType" class="col s12 l4 cmd-mb-1"
+                            formControlName="filterSeat" [itemValue]="'value'" [itemDescription]="'description'"
                             [placeholder]="'SEARCH_AIRCRAFT.SELECT_FILTER_SEAT' | translate"
-                            [hasErrors]="hasControlAnyError('filterSeat')" [clearable]="false" >
-                        </core-select>
+                            [hasErrors]="hasControlAnyError('filterSeat')" [clearable]="false">
+                        </app-select>
                     </div>
 
-                    <div class="col s12 l12" *ngIf="showSeatFilter('seatFC')">
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F_C' | translate"
-                            [hasErrors]="hasControlAnyError('seatFC')" formControlName="seatFC" [type]="'number'"
-                            class="col s12 l4">
-                            <ng-container inputErrors>
-                                <mat-error *ngIf="hasControlSpecificError('seatFC', 'min')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                </mat-error>
-                            </ng-container>
-                        </app-input>
-                    </div>
-
-                    <div class="col s12 l12" *ngIf="showSeatFilter('seatF')">
+                    <div class="col s12 l12">
                         <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
                             [hasErrors]="hasControlAnyError('seatF')" formControlName="seatF" [type]="'number'"
                             class="col s12 l4">
@@ -123,7 +171,7 @@
                         </app-input>
                     </div>
 
-                    <div class="col s12 l12" *ngIf="showSeatFilter('seatC')">
+                    <div class="col s12 l12">
                         <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate"
                             [hasErrors]="hasControlAnyError('seatC')" formControlName="seatC" [type]="'number'"
                             class="col s12 l4">
@@ -135,24 +183,12 @@
                         </app-input>
                     </div>
 
-                    <div class="col s12 l12" *ngIf="showSeatFilter('seatY')">
+                    <div class="col s12 l12">
                         <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate"
                             [hasErrors]="hasControlAnyError('seatY')" formControlName="seatY" [type]="'number'"
                             class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('seatY', 'min')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                </mat-error>
-                            </ng-container>
-                        </app-input>
-                    </div>
-
-                    <div class="col s12 l12" *ngIf="showSeatFilter('seatTotalPax')">
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.TOTAL_PAX' | translate"
-                            [hasErrors]="hasControlAnyError('seatTotalPax')" formControlName="seatTotalPax" [type]="'number'"
-                            class="col s12 l4">
-                            <ng-container inputErrors>
-                                <mat-error *ngIf="hasControlSpecificError('seatTotalPax', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
@@ -173,72 +209,14 @@
 
                     <div class="col s12 l12">
                         <app-input [prefix]="'SEARCH_AIRCRAFT.STRETCHERS' | translate"
-                            [hasErrors]="hasControlAnyError('stretchers')" formControlName="stretchers" [type]="'number'"
-                            class="col s12 l4">
+                            [hasErrors]="hasControlAnyError('stretchers')" formControlName="stretchers"
+                            [type]="'number'" class="col s12 l4">
                             <ng-container inputErrors>
                                 <mat-error *ngIf="hasControlSpecificError('stretchers', 'min')">
                                     {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
                                 </mat-error>
                             </ng-container>
                         </app-input>
-                    </div>
-                    <div class="col s12 l12">
-                        <core-basic-switch [id]="'search-scale'" class="col s12 l2 cmd-my-2 switch-scales"
-                            [firstLabel]="'SEARCH_AIRCRAFT.SCALES' | translate" formControlName="flightScales">
-                        </core-basic-switch>
-
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.SCALES_VALUE' | translate"
-                            [hasErrors]="hasControlAnyError('flightScalesValue')" formControlName="flightScalesValue"
-                            [type]="'number'" class="col s12 l3 cmd-my-2" [hidden]="hiddenFlightScalesValue()">
-                            <ng-container inputErrors>
-                                <mat-error *ngIf="hasControlSpecificError('flightScalesValue', 'min')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                </mat-error>
-                            </ng-container>
-                        </app-input>
-                    </div>
-                </div>
-
-                <div class="col s12 l3">
-                    <core-basic-switch [id]="'search-nearby-airport'" class="col s12 l12 cmd-my-2"
-                        [firstLabel]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT' | translate" formControlName="nearbyAirport">
-                    </core-basic-switch>
-                    <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_FROM' | translate"
-                            [hasErrors]="hasControlAnyError('nearbyAirportFrom')" formControlName="nearbyAirportFrom"
-                            [type]="'number'" class="col s12 l8 cmd-my-2">
-                            <ng-container inputErrors>
-                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'required')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
-                                </mat-error>
-                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'maxValue')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_MAX" | translate }}
-                                </mat-error>
-                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportFrom', 'min')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                </mat-error>
-                            </ng-container>
-                        </app-input>
-                        <span class="col s12 l4 search-measure">
-                            {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
-                        </span>
-                    </div>
-                    <div class="col s12 l12" [hidden]="hiddenNearbyAirport()">
-                        <app-input [prefix]="'SEARCH_AIRCRAFT.NEARBY_AIRPORT_TO' | translate"
-                            [hasErrors]="hasControlAnyError('nearbyAirportTo')" formControlName="nearbyAirportTo"
-                            [type]="'number'" class="col s12 l8 cmd-my-2">
-                            <ng-container inputErrors>
-                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'required')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.NEARBY_AIRPORT_REQUIRED" | translate }}
-                                </mat-error>
-                                <mat-error *ngIf="hasControlSpecificError('nearbyAirportTo', 'min')">
-                                    {{ "SEARCH_AIRCRAFT.ERRORS.MIN_VALUE_0" | translate }}
-                                </mat-error>
-                            </ng-container>
-                        </app-input>
-                        <span class="col s12 l4 search-measure">
-                            {{'MEASURES.ABBREVIATION.KILOMETER' | translate}}
-                        </span>
                     </div>
                 </div>
 
