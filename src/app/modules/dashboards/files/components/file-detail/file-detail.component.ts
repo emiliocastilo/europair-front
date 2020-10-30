@@ -36,10 +36,8 @@ import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
-import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import {
-  concatMap,
   debounceTime,
   distinctUntilChanged,
   map,
@@ -47,15 +45,10 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import {
-  Client,
-  File,
-  FileStatus,
-  FileStatusCode,
-} from '../../models/File.model';
+import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
 import { FileStatusService } from '../../services/file-status.service';
 import { ClientsService } from '../../services/clients.service';
-import { AdditionalServiceService } from '../../services/additional-services.service';
+import { ConfirmOperationService } from '../../services/confirm-operation.service';
 import { ContributionService } from '../../services/contribution.service';
 import { Contribution } from '../search-aircraft/models/contribution.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -107,6 +100,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('contributionsTable') contributionsTable: MatTable<any>;
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmOperationModal: ElementRef;
+  public readonly observationMaxLength: number = 5000;
 
   public fileData: File;
   public routes: Array<FileRoute>;
@@ -164,7 +158,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isLoadingResults = true;
   public isRateLimitReached = false;
   public observations: string;
-  public observationMaxLength: number = 5000;
   public hasRoutes: boolean;
 
   public fileForm: FormGroup = this.fb.group({
@@ -176,6 +169,20 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     clientId: ['', Validators.required],
   });
 
+  public operationForm: FormGroup = this.fb.group({
+    flightMotive: [''],
+    connections: [''],
+    limitations: [''],
+    fixedVariableFuel: [''],
+    luggage: [''],
+    specialLuggage: [''],
+    onBoardService: [''],
+    specialRequests: [''],
+    otherCharges: [''],
+    operationalInfo: [''],
+    observation: ['']
+  });
+
   public statusOptions: FileStatus[] = [];
   public clientOptions$: Observable<Client[]>;
 
@@ -184,7 +191,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   private isFileDetail: boolean;
   private fileContributionsMap: Map<number, Contribution[]> = new Map();
   constructor(
-    private modalService: ModalService,
     private fb: FormBuilder,
     private fileService: FilesService,
     private router: Router,
@@ -193,6 +199,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
     private clientService: ClientsService,
+    private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
     private readonly matDialog: MatDialog
   ) {}
@@ -271,6 +278,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
     this.loadStatus();
     this.loadFileRoutes(file);
+    this.obtainOperation(file)
   }
 
   private loadStatus(): void {
@@ -293,6 +301,15 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.resultsLength = data.totalElements;
         this.pageSize = data.size;
         this.hasRoutes = data.totalElements > 0;
+      });
+  }
+
+  private obtainOperation(file: File): void {
+    this.confirmOperationService.getConfirmOperations(file.id)
+      .subscribe((operation: Page<ConfirmOperation>) => {
+        if (operation.content.length > 0) {
+          this.operationForm.patchValue(operation.content[0])
+        }
       });
   }
 
@@ -339,6 +356,16 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public updateFileState(statusId): void {
+    debugger;
+    const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
+    this.fileService.updateState(this.fileData, state).subscribe(() => {
+      this.fileService
+        .getFileById(this.fileData.id)
+        .subscribe((resp: File) => this.getFileData(resp));
+    })
+  }
+
   public getRotationNumber(
     parentRoute: FileRoute,
     rotation: FileRoute
@@ -376,6 +403,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  public navigateConfirmOperation(): void {
+    this.router.navigate(['/files', this.fileData.id, 'confirm-operation']);
+  }
+
   public navigateToSearchAircraft(id: number) {
     this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
   }
@@ -407,13 +438,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  public openConfirmOperationModal(): void {
-    this.modalService.initializeModal(this.confirmOperationModal, {
-      dismissible: false,
-    });
-    this.modalService.openModal();
-  }
-
   public createContract(): void {
     // TODO: nothing yet
   }
@@ -426,24 +450,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
-  public saveObservation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(0, this.observationMaxLength),
-    };
-    this.fileService.saveFile(file).subscribe();
-  }
-
   public onConfirmOperation(): void {
-    const file: File = {
-      id: this.fileData.id,
-      observation: this.observations?.slice(
-        0,
-        this.observationMaxLength
-      ) /**,
-       status: */,
+    const operation: ConfirmOperation = {
+      ...this.operationForm.value
     };
-    this.fileService.saveFile(file).subscribe();
+    this.confirmOperationService.updateConfirmOperation(this.fileData.id, operation). subscribe();
   }
 
   public showAction(action: FileAction): boolean {
@@ -451,30 +462,26 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     const fileStatus: FileStatusCode = this.fileData?.status?.code;
     switch (action) {
       case FileAction.CONFIRM_OPERATION:
-        show = fileStatus === FileStatusCode.GREEN_BOOKED;
+        show = true;//fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       case FileAction.CREATE_ROUTES:
-        show =
-          fileStatus === FileStatusCode.NEW_REQUEST ||
-          fileStatus === FileStatusCode.SALES;
+        show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
         break;
       case FileAction.CREATE_CONTRACT:
         show =
-          this.routes?.filter(
-            (fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON
-          ).length > 0;
+          this.routes?.filter((fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON).length > 0;
         break;
       case FileAction.MODIFY_FILE:
         show = fileStatus !== FileStatusCode.CNX;
         break;
       case FileAction.SIGN_FILE:
-        show = fileStatus === FileStatusCode.BLUE_BOOKED;
+        show = false; //fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       case FileAction.SHOW_ADDITIONAL_SERVICE:
         show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus !== FileStatusCode.SALES;
         break;
       case FileAction.GENERATE_PLANING:
-        show = fileStatus === FileStatusCode.OPTIONED || fileStatus == FileStatusCode.BLUE_BOOKED;
+        show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       default:
         show = false;
@@ -593,7 +600,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     );
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
-        window.open(`${environment.powerAppUrl}?contributionId=${contribution.id}`);
+        window.open(`${environment.powerAppUrl.sendContribution}?contributionId=${contribution.id}`);
       }
     });
   }

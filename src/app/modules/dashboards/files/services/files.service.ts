@@ -9,7 +9,7 @@ import {
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { File } from '../models/File.model';
+import { File, FileStatus } from '../models/File.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +61,11 @@ export class FilesService {
   private updateFile(file: File): Observable<File> {
     const updateFileUrl = `${this.url}/${file.id}`;
     return this.http.put<File>(updateFileUrl, file);
+  }
+
+  public updateState(file: File, status: FileStatus): Observable<void> {
+    const state: {idList: Array<number>, state: string} = {idList: [file.id], state: status.code};
+    return this.http.put<void>(`${this.url}/state`, state);
   }
 
   public removeFile(file: File) {

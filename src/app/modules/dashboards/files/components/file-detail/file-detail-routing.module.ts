@@ -35,6 +35,13 @@ const routes: Routes = [
         (m) => m.ContributionDetailModule
       ),
   },
+  {
+    path: 'confirm-operation',
+    loadChildren: () =>
+      import('../confirm-operation/confirm-operation.module').then(
+        (m) => m.ConfirmOperationModule
+      ),
+  },
 ];
 
 @NgModule({

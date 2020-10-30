@@ -521,10 +521,8 @@
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
     "NEW_ROUTE": "Nueva ruta",
-    "OBSERVATIONS": "Observaciones operaciones",
-    "OBSERVATIONS_LABEL": "Comentario:",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
-    "CONFIRM_OPERATION": "Confirmar Operación",
+    "CONFIRM_OPERATION": "Notificar operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
     "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
@@ -555,6 +553,20 @@
       "SERVICES_SEARCH_TEXT": "Escribe el nombre del servicio",
       "SELECT_SERVICES": "Selecciona un servicio"
     },
+    "OPERATIONS_OBSERVATIONS": {
+      "TITLE": "Información operaciones",
+      "FLIGHT_REASON": "Motivo del vuelo",
+      "CONECTIONS": "Conexiones",
+      "FLIGHT_LIMITATION": "Limitaciones vuelo",
+      "FUEL": "Fuel fijo o variable",
+      "EQUIPMENT": "Equipaje",
+      "SPECIAL_EQUIPMENT": "Equipajes especiales",
+      "SERVICE_ON_BOARD": "Servicio a bordo",
+      "SPECIAL_REQUEST": "Peticiones especiales",
+      "OTHER_CHARGES": "Otros cargos previstos",
+      "OPERATIVE": "Operativa",
+      "OBSERVATIONS": "Comentario:"
+    },
     "CONTRIBUTIONS": {
       "DELETE_MSG": "¿Está seguro que desea eliminar la cotización?",
       "SEND_MSG": "¿Está seguro que desea enviar esta cotización?",
@@ -577,7 +589,9 @@
       "REQUIRED": "El campo es requerido."
     },
     "NEW_FILE": "Nuevo Expediente",
-    "GENERATE_PLANING": "Generar planing"
+    "GENERATE_PLANING": "Generar planing",
+    "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
+    "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

@@ -174,6 +174,7 @@ export class SearchAircraftComponent implements OnInit {
         const flight: Flight =  page.content[0];
         this.searchForm.get('seatF').setValue(flight.seatsF);
         this.searchForm.get('seatC').setValue(flight.seatsC);
+        this.searchForm.get('seatY').setValue(flight.seatsY);
         this.searchForm.get('beds').setValue(flight.beds);
         this.searchForm.get('stretchers').setValue(flight.stretchers);
         this.searchForm.get('airports').setValue([flight.origin]);

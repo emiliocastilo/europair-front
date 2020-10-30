@@ -7,7 +7,7 @@
     </button>
 
     <button *ngIf="showAction(fileAction.CONFIRM_OPERATION)" color="primary" class="col s12 l2 offset-l8 cmd-mb-1"
-      (click)="openConfirmOperationModal()" mat-raised-button>
+      (click)="navigateConfirmOperation()" mat-raised-button>
       {{ "FILES.CONFIRM_OPERATION" | translate }}
     </button>
 
@@ -73,7 +73,7 @@
 
             <app-select class="col s12 l4 offset-l8" [id]="'select-file-status'" [items]="statusOptions" *ngIf="routeData.isFileDetail" [dropdownPosition]="'top'"
               [placeholder]="'FILES.STATUS' | translate" [ngClass]="{'booked-blue': isBookedBlue(), 'booked-green': isBookedGreen()}"
-              [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId">
+              [label]="'FILES.STATUS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="statusId" (selectedValueEvent)="updateFileState($event)">
               <ng-container inputErrors *ngIf="hasControlAnyError('statusId')">
                 <span *ngIf="hasControlSpecificError('statusId', 'required')" class="helper-text"
                   [attr.data-error]="'FILES.ERRORS.REQUIRED' | translate">
@@ -633,50 +633,61 @@
       <mat-expansion-panel class="cmd-mb-2">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ "FILES.OBSERVATIONS" | translate | sentenceCase }}
+            {{ "FILES.OPERATIONS_OBSERVATIONS.TITLE" | translate | sentenceCase }}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
-          <div class="row">
-            <mat-form-field class="col s12 l12 cmd-mt-1">
-              <mat-label>{{
-                "FILES.OBSERVATIONS_LABEL" | translate
-              }}</mat-label>
-              <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
-            </mat-form-field>
-            <button color="primary" class="col s12 l2 offset-l10" (click)="saveObservation()" mat-raised-button>
-              {{ "FILES.CONFIRM" | translate }}
-            </button>
-          </div>
+          <form [formGroup]="operationForm">
+            <div class="row  cmd-mt-1">
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate" [hasErrors]="hasControlAnyError('flightReason')"
+                formControlName="flightMotive" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate" [hasErrors]="hasControlAnyError('conections')"
+                formControlName="connections" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate" [hasErrors]="hasControlAnyError('flightLimitation')"
+                formControlName="limitations" class="col s12 l4">
+              </app-input>
+            </div>
+            <div class="row">
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FUEL' | translate" [hasErrors]="hasControlAnyError('fuel')"
+                formControlName="fixedVariableFuel" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('equipment')"
+                formControlName="luggage" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('especialEquipment')"
+                formControlName="specialLuggage" class="col s12 l4">
+              </app-input>
+            </div>
+            <div class="row">
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate" [hasErrors]="hasControlAnyError('serviceOnBoard')"
+                formControlName="onBoardService" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate" [hasErrors]="hasControlAnyError('specialRequest')"
+                formControlName="specialRequests" class="col s12 l4">
+              </app-input>
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate" [hasErrors]="hasControlAnyError('otherCharges')"
+                formControlName="otherCharges" class="col s12 l4">
+              </app-input>
+            </div>
+            <div class="row">
+              <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate" [hasErrors]="hasControlAnyError('operative')"
+                formControlName="operationalInfo" class="col s12 l4">
+              </app-input>
+            </div>
+            <div class="row">
+              <mat-form-field class="col s12 l12">
+                <mat-label>{{ "FILES.OPERATIONS_OBSERVATIONS.OBSERVATIONS" | translate }}</mat-label>
+                <textarea matInput formControlName="observation" [maxlength]="observationMaxLength"></textarea>
+              </mat-form-field>
+              <button color="primary" class="col s12 l2 offset-l10" (click)="onConfirmOperation()" mat-raised-button>
+                {{ "FILES.CONFIRM" | translate }}
+              </button>
+            </div>
+          </form>
         </ng-template>
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>
 </ng-container>
-
-<core-modal>
-  <ng-container content>
-    <section class="modal-header">
-      <h4>{{ "FILES.CONFIRM_OPERATION" | translate }}</h4>
-      <a class="waves-effect btn-flat modal-close europair-button-blue-1">
-        <i class="material-icons right">close</i>
-        {{ "FILES.CANCEL" | translate }}
-      </a>
-    </section>
-    <section class="modal-body">
-      <div class="row">
-        <p>{{ "FILES.MSG_OPERATION" | translate }}</p>
-        <mat-form-field class="col s12 l12 cmd-mt-1">
-          <mat-label>{{ "FILES.OBSERVATIONS_LABEL" | translate }}</mat-label>
-          <textarea matInput [(ngModel)]="observations" [maxlength]="observationMaxLength"></textarea>
-        </mat-form-field>
-      </div>
-    </section>
-  </ng-container>
-  <ng-container footer>
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmOperation()">
-      <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">{{ "FILES.CONFIRM" | translate }}</span>
-    </a>
-  </ng-container>
-</core-modal>
