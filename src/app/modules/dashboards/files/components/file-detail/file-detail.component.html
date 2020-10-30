@@ -537,7 +537,7 @@
                         (click)="navigateToContributionDetail(parentElement, element)"
                         svgIcon="europair_edit">
                       </mat-icon>
-                      <mat-icon
+                      <mat-icon *ngIf="isContributionSendable(element) "
                         (click)="sendContribution(parentElement, element)"
                         svgIcon="europair_feather_mail">
                       </mat-icon>
