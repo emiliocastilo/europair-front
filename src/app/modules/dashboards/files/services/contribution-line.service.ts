@@ -146,6 +146,7 @@ export class ContributionLineService {
       size: '1000',
       filter_lineContributionRouteType: LineContributionRouteType.PURCHASE,
       filter_removedAt: null,
+      sort: 'route.endDate',
     };
   }
 
@@ -154,6 +155,7 @@ export class ContributionLineService {
       size: '1000',
       filter_lineContributionRouteType: LineContributionRouteType.SALE,
       filter_removedAt: null,
+      sort: 'route.endDate',
     };
   }
 }
