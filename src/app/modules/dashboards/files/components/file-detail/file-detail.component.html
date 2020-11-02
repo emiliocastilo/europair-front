@@ -175,7 +175,7 @@
                 Asientos F/C/Y
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.seats }}
+                {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
               </mat-cell>
             </ng-container>
 
@@ -274,7 +274,7 @@
                   <!-- Seats Column-->
                   <ng-container matColumnDef="seats">
                     <mat-cell *matCellDef="let element">
-                      {{ element.seats }}
+                      {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
                     </mat-cell>
                   </ng-container>
 
