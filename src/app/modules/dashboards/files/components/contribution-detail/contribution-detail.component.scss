@@ -94,6 +94,20 @@ input:focus {
   }
 }
 
+.warning-card {
+  // background-color: $europair-color-blue-light-2;
+  // background-color: #ffc107;
+  margin: auto 1em;
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
+.warning-msg {
+  vertical-align: middle;
+  color: #856404;
+}
+
 @include mat-table-columns(
   ("rotation", "service", "quantity", "servicePrice", "observation")
 );

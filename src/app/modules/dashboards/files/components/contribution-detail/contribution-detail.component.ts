@@ -53,7 +53,7 @@ export class ContributionDetailComponent implements OnInit {
   public fileId: number;
   private routeId: number;
   private contributionId: number;
-  private contribution: Contribution;
+  public contribution: Contribution;
   private rotationsLabelMap: Map<number, string> = new Map();
   public purchasePriceControls: FormArray;
   public salePriceControls: FormArray;
@@ -94,14 +94,14 @@ export class ContributionDetailComponent implements OnInit {
   public purchaseContributionForm = this.fb.group({
     purchasePrice: [0],
     currency: [''],
-    taxes: [{ value: 0, disabled: true }],
+    taxes: [{ value: 0 }],
     taxesPrice: [{ value: 0, disabled: true }],
     observation: [''],
   });
   public saleContributionForm = this.fb.group({
     salesPrice: [0],
     currencyOnSale: [''],
-    taxes: [{ value: 0, disabled: true }],
+    taxes: [{ value: 0 }],
     taxesPrice: [{ value: 0, disabled: true }],
     observation: [''],
   });
@@ -352,6 +352,7 @@ export class ContributionDetailComponent implements OnInit {
         ),
         currency: this.purchaseContributionForm.value.currency,
         purchaseComments: this.purchaseContributionForm.value.observation,
+        purchaseCommissionPercent: this.purchaseContributionForm.value.taxes,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -365,6 +366,7 @@ export class ContributionDetailComponent implements OnInit {
         ),
         currencyOnSale: this.saleContributionForm.value.currencyOnSale,
         salesComments: this.saleContributionForm.value.observation,
+        salesCommissionPercent: this.purchaseContributionForm.value.taxes,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -372,11 +374,6 @@ export class ContributionDetailComponent implements OnInit {
   public updatePurchasePrice(index: number, field: string) {
     const control = this.getControl(this.purchasePriceControls, index, field);
     if (control.valid && control.dirty) {
-      console.log(
-        'MODIFICANDO',
-        this.purchaseRotationContributionLines[index],
-        control.value
-      );
       this.contributionLineService
         .updateContributionLine(
           this.fileId,
@@ -394,11 +391,6 @@ export class ContributionDetailComponent implements OnInit {
   public updateSalePrice(index: number, field: string) {
     const control = this.getControl(this.salePriceControls, index, field);
     if (control.valid && control.dirty) {
-      console.log(
-        'MODIFICANDO',
-        this.saleRotationContributionLines[index],
-        control.value
-      );
       this.contributionLineService
         .updateContributionLine(
           this.fileId,
