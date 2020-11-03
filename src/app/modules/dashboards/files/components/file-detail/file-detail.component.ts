@@ -375,6 +375,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     });
   }*/
 
+  public returnToFileList() {
+    this.router.navigate(['files'], { queryParams: this.route.snapshot.queryParams });
+  }
+
   public onSaveFile(update: boolean) {
     if (this.fileForm.valid) {
       this.fileData = {

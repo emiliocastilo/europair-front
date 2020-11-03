@@ -253,3 +253,8 @@ $other-columns-width: 120px;
     opacity: 1;
   }
 }
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+}
