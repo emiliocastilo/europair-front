@@ -22,7 +22,7 @@ export class ConfirmOperationComponent implements OnInit {
 
   public operationForm: FormGroup = this.fb.group({
     flightMotive: [''],
-    conections: [''],
+    connections: [''],
     limitations: [''],
     fixedVariableFuel: [''],
     luggage: [''],

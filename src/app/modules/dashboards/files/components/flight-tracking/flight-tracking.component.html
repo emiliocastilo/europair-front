@@ -1,6 +1,47 @@
-<core-page-bar [pageTitle]="'FILES.PAGE_TITLE_DETAIL' | translate">
-</core-page-bar>
+<core-page-bar
+  [pageTitle]="'FILES.PAGE_TITLE_DETAIL' | translate"
+></core-page-bar>
+<div class="row">
+  <button
+    class="browser-default col s12 l2 cmd-mb-2"
+    color="primary"
+    mat-raised-button
+    routerLink="/files/new"
+  >
+    {{ "FILES.NEW_FILE" | translate }}
+  </button>
+</div>
 
+<div id="file-filter">
+  <h3 class="title"> {{ 'COMMON.SEARCH_FILTERS' | translate }}:</h3>
+  <form [formGroup]="fileFilterForm">
+    <div class="row">
+      <app-input
+        [type]="'text'"
+        [prefix]="'FILES.CODE' | translate"
+        formControlName="filter_code"
+        class="col s12 l4">
+      </app-input>
+      <core-select
+          [label]="'FILES.CLIENT' | translate"
+          [id]="'search-clients'"
+          [items]="clients$ | async"
+          [minTermLength]="1"
+          [loading]="clientsLoading"
+          class="col s12 l4 cmd-pb-1"
+          [typeToSearchText]="'FILES.CLIENT_SEARCH_TEXT' | translate"
+          [placeholder]="'FILES.SELECT_CLIENT' | translate"
+          [typeahead]="clientsInput$"
+          [searchable]="true"
+          [itemDescription]="'name'"
+          [itemValue]="'id'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
+          formControlName="filter_clientId"
+        >
+        </core-select>
+    </div>
+  </form>
+</div>
 <div class="table-container">
   <mat-table
     matSort
@@ -28,15 +69,8 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "FILES.STATUS" | translate }}
       </mat-header-cell>
-      <mat-cell
-        *matCellDef="let element"
-        [ngClass]="{
-          'booked-blue': isBookedBlue(element),
-          'booked-green': isBookedGreen(element)
-        }"
-      >
-        {{ element.status.name }}
-      </mat-cell>
+      <mat-cell *matCellDef="let element"
+      [ngClass]="{'booked-blue': isBookedBlue(element), 'booked-green': isBookedGreen(element)}"> {{ element.status.name }} </mat-cell>
     </ng-container>
 
     <!-- Client Column -->
@@ -50,7 +84,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
-      (click)="goToTracking(row)"
+      (dblclick)="goToTracking(row)" (touchend)="goToTracking(row)"
     ></mat-row>
   </mat-table>
   <mat-paginator
