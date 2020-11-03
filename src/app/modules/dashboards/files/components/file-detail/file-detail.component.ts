@@ -116,7 +116,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     'frequencyDays',
     'rotations.length',
     'seats',
-    'periodDays',
     'dayNumber',
     'status',
     'route-actions',
