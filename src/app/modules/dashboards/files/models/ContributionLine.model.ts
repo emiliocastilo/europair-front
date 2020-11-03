@@ -1,3 +1,4 @@
+import { ServiceType } from '../../masters/services/models/services.model';
 import { FileRoute } from './FileRoute.model';
 
 export interface ContributionLine {
@@ -8,7 +9,7 @@ export interface ContributionLine {
   comments: string;
   price: number;
   lineContributionRouteType: LineContributionRouteType;
-  type: ServiceTypeEnum;
+  type: ServiceType;
 }
 
 export interface RotationContributionLine {
@@ -55,17 +56,4 @@ export const CURRENCIES: Currency[] = [
 export enum LineContributionRouteType {
   PURCHASE = 'PURCHASE',
   SALE = 'SALE',
-}
-
-export enum ServiceTypeEnum {
-  FLIGHT = 'FLIGHT',
-  CARGO = 'CARGO',
-  COMMISSION = 'COMMISSION',
-  TRANSPORT = 'TRANSPORT',
-  AIRPORT_TAX = 'AIRPORT_TAX',
-  EXTRAS_ON_BOARD = 'EXTRAS_ON_BOARD',
-  EXTRAS_ON_GROUND = 'EXTRAS_ON_GROUND',
-  CATERING_ON_BOARD = 'CATERING_ON_BOARD',
-  CATERING_ON_GROUND = 'CATERING_ON_GROUND',
-  CANCEL_FEE = 'CANCEL_FEE',
 }

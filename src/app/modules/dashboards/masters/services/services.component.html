@@ -1,4 +1,17 @@
 <core-page-bar [pageTitle]="'SERVICES.PAGE_TITLE' | translate"></core-page-bar>
+<section class="save cmd-mt-1">
+  <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
+    (click)="createService()">
+    <i class="material-icons left">add</i>
+    {{ "COMMON.CREATE" | translate }}
+  </a>
+  <div class="fixed-action-btn">
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      (click)="createService()">
+      <i class="material-icons">add</i>
+    </a>
+  </div>
+</section>
 <div class="table-container additional-services-table">
   <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
     <ng-container matColumnDef="code">
@@ -17,7 +30,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "SERVICES.SERVICE_TYPE" | translate}}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.type }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ 'SERVICES.TYPES.' + element.type | translate }}</mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="columnToDisplay"></mat-header-row>
     <mat-row *matRowDef="let element; columns: columnToDisplay" class="element-row"

@@ -213,7 +213,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadClients();
-    this.loadContacts()
+    this.loadContacts();
+    this.loadOperationType();
     this.obtainParams();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
   }
@@ -316,7 +317,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     });
 
     this.loadStatus();
-    this.loadOperationType();
     this.loadFileRoutes(file);
     this.obtainOperation(file);
   }
@@ -332,11 +332,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private loadOperationType(): void {
     this.operationsType = [
-      OperationType.ACMI,
-      OperationType.CHARGE,
       OperationType.COMMERCIAL,
       OperationType.EXECUTIVE,
-      OperationType.GROUP
+      OperationType.FREIGHT,
+      OperationType.GROUP,
+      OperationType.ACMI
     ];
   }
 

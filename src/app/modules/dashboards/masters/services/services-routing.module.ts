@@ -5,7 +5,14 @@ import { ServicesComponent } from './services.component';
 
 const routes: Routes = [
   { path: '', component: ServicesComponent },
-  { path: ':id', component: ServiceDetailComponent}
+  {
+    path: 'new', component: ServiceDetailComponent,
+    data: { title: 'SERVICES.NEW', isServiceDetail: false }
+  },
+  {
+    path: ':id', component: ServiceDetailComponent,
+    data: { title: 'SERVICES.DETAIL_PAGE_TITLE', isServiceDetail: true }
+  }
 ];
 
 @NgModule({

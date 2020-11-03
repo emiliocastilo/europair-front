@@ -39,11 +39,15 @@ export class ServicesService {
     return this.http.get<Services>(`${this.url}/${serviceId}`);
   }
 
-  public createServices(services: Services): Observable<void> {
+  public saveService(services: Services): Observable<void> {
+    return services.id ? this.updateServices(services) : this.createServices(services);
+  }
+
+  private createServices(services: Services): Observable<void> {
     return this.http.post<void>(this.url, services);
   }
 
-  public updateServices(services: Services): Observable<void> {
+  private updateServices(services: Services): Observable<void> {
     return this.http.put<void>(`${this.url}/${services.id}`, services);
   }
 
