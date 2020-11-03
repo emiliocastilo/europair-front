@@ -54,6 +54,7 @@ import { environment } from 'src/environments/environment';
 import { ConfirmOperationService } from '../../services/confirm-operation.service';
 import { Contact, OperationType } from '../../../masters/contacts/models/contact';
 import { ContactsService } from '../../../masters/contacts/services/contact.service';
+import { IntegrationOfficeService } from '../../services/integration-office.service';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -206,7 +207,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private contactService: ContactsService,
     private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
-    private readonly matDialog: MatDialog
+    private readonly matDialog: MatDialog,
+    private readonly integrationOfficeService: IntegrationOfficeService
   ) {}
 
   ngAfterViewInit(): void {}
@@ -406,8 +408,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public updateFileState(statusId): void {
-    debugger;
+  public updateFileState(statusId: number): void {
     const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
     this.fileService.updateState(this.fileData, state).subscribe(() => {
       this.fileService
@@ -509,7 +510,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public generatePlanning(): void {
-    // TODO: nothing yet
+    this.integrationOfficeService.generatePlanning(this.fileData).subscribe();
   }
 
   public onConfirmOperation(): void {
