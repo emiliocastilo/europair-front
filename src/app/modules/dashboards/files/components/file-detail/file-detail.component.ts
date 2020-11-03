@@ -406,8 +406,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  public updateFileState(statusId): void {
-    debugger;
+  public updateFileState(statusId: number): void {
     const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
     this.fileService.updateState(this.fileData, state).subscribe(() => {
       this.fileService
