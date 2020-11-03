@@ -40,7 +40,7 @@ export class FileListComponent implements OnInit {
   ];
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
-  private fileSearchFilter: SearchFilter = {};
+  private fileSearchFilter: SearchFilter = { sort: 'code,DESC' };
   public fileStatus$: Observable<FileStatus[]>;
   public clients$: Observable<Client[]>;
   public clientsInput$ = new Subject<string>();
