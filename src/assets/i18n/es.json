@@ -319,7 +319,23 @@
     "CODE": "Código",
     "NAME": "Nombre",
     "SERVICE_TYPE": "Tipo",
-    "DETAIL_PAGE_TITLE": "Detalle de servicio"
+    "NEW": "Nuevo servicio",
+    "DETAIL_PAGE_TITLE": "Detalle de servicio",
+    "TYPES": {
+      "FLIGHT": "Vuelo",
+      "CARGO": "Carga",
+      "COMMISSION": "Comision",
+      "TRANSPORT": "Transporte",
+      "AIRPORT_TAX": "Impuesto",
+      "EXTRAS_ON_BOARD": "Extras a bordo",
+      "EXTRAS_ON_GROUND": "Extras en tierra",
+      "CATERING_ON_BOARD": "Catering a bordo",
+      "CATERING_ON_GROUND": "Catering en tierra",
+      "CANCEL_FEE": "Tarifa de cancelación"
+    },
+    "ERRORS": {
+      "REQUIRED": "Este campo es obligatorio"
+    }
   },
   "FLEET": {
     "CATEGORIES": {

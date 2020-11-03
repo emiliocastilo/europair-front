@@ -29,9 +29,8 @@ import {
   Currency,
   LineContributionRouteType,
   RotationContributionLine,
-  ServiceTypeEnum,
 } from '../../models/ContributionLine.model';
-import { Services } from '../../../masters/services/models/services.model';
+import { Services, ServiceType } from '../../../masters/services/models/services.model';
 import { ContributionLineService } from '../../services/contribution-line.service';
 import { ContributionService } from '../../services/contribution.service';
 import { FileRoutesService } from '../../services/file-routes.service';
@@ -259,7 +258,7 @@ export class ContributionDetailComponent implements OnInit {
     lines: ContributionLine[]
   ): RotationContributionLine[] {
     return lines
-      .filter((line: ContributionLine) => line.type === ServiceTypeEnum.FLIGHT)
+      .filter((line: ContributionLine) => line.type === ServiceType.FLIGHT)
       .map((line: ContributionLine) => ({
         contributionLine: line,
         rotation: this.createRotationLabel(line),
@@ -273,7 +272,7 @@ export class ContributionDetailComponent implements OnInit {
 
   private getServicesLines(lines: ContributionLine[]): ContributionLine[] {
     return lines.filter(
-      (line: ContributionLine) => line.type !== ServiceTypeEnum.FLIGHT
+      (line: ContributionLine) => line.type !== ServiceType.FLIGHT
     );
   }
 
