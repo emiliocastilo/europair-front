@@ -63,7 +63,18 @@
           </div>
 
           <div class="row">
-            <app-select class="col s12 l4" [id]="'select-file-operation-type'" [items]="operationsType" *ngIf="routeData.isFileDetail"
+            <app-autocomplete class="col s12 l4" [options]="contactOptions$ | async"
+              [prefix]="'FILES.CONTACT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="contact">
+            </app-autocomplete>
+
+            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
+              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
+              formControlName="client">
+            </app-autocomplete>
+          </div>
+          <div class="row">
+            <app-select class="col s12 l4" [id]="'select-file-operation-type'" [items]="operationsType" [dropdownPosition]="'top'"
               [placeholder]="'FILES.OPERATION_TYPE' | translate" [clearable]="false"
               [label]="'FILES.OPERATION_TYPE' | translate" formControlName="operationType">
               <ng-container inputErrors *ngIf="hasControlAnyError('operationType')">
@@ -72,17 +83,6 @@
                 </span>
               </ng-container>
             </app-select>
-
-            <app-autocomplete class="col s12 l4" [options]="clientOptions$ | async"
-              [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
-              formControlName="client">
-            </app-autocomplete>
-          </div>
-          <div class="row">
-            <app-autocomplete class="col s12 l4" [options]="contactOptions$ | async"
-              [prefix]="'FILES.CONTACT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
-              formControlName="contact">
-            </app-autocomplete>
           </div>
         </form>
       </ng-template>

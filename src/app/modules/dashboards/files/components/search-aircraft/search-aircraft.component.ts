@@ -464,8 +464,8 @@ export class SearchAircraftComponent implements OnInit {
       case OperationType.EXECUTIVE:
         categoryCod = 'EXECUTIVE';
         break;
-      case OperationType.CHARGE:
-        categoryCod = 'CHARGE';
+      case OperationType.FREIGHT:
+        categoryCod = 'FREIGHT';
         break;
     }
     return categoryCod;

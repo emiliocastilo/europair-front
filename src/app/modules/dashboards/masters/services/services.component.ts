@@ -30,6 +30,7 @@ export class ServicesComponent implements OnInit {
   ngOnInit(): void {
     this.initializeServicesTable();
   }
+
   private initializeServicesTable() {
     this.servicesService.getServices().subscribe((data: Page<Services>) => {
       this.dataSource = new MatTableDataSource(data.content);
@@ -37,6 +38,10 @@ export class ServicesComponent implements OnInit {
       this.resultsLength = data.totalElements;
       this.pageSize = data.size;
     });
+  }
+
+  public createService(): void {
+    this.router.navigate(['services', 'new']);
   }
 
   public goToDetail(service: Services): void {

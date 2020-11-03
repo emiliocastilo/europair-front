@@ -1,25 +1,54 @@
-<core-page-bar [pageTitle]="'SERVICES.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="pageTitle | translate"></core-page-bar>
+<section class="save cmd-mt-1">
+  <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only" [routerLink]="routeToBack()">
+    <i class="material-icons left">keyboard_return</i>
+    {{ "COMMON.RETURN" | translate }}
+  </a>
+  <a class="waves-effect waves-light btn europair-icon-blue-1 cmd-mr-1 hide-on-small-only"
+    [ngClass]="{ disabled: !servicesForm.valid }" (click)="saveService()">
+    <i class="material-icons left">{{ "save" }}</i>
+    {{ "COMMON.SAVE" | translate }}
+  </a>
+  <div class="fixed-action-btn">
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      [routerLink]="routeToBack()">
+      <i class="material-icons">keyboard_return</i>
+    </a>
+    <a class="btn-floating waves-effect waves-light europair-icon-blue-1 cmd-mr-1 hide-on-med-and-up"
+      [ngClass]="{ disabled: !servicesForm.valid }" (click)="saveService()">
+      <i class="material-icons">{{ "save" }}</i>
+    </a>
+  </div>
+</section>
+<div class="row cmd-mt-2">
+  <form [formGroup]="servicesForm">
+    <app-input [prefix]="'SERVICES.CODE' | translate" [hasErrors]="hasControlAnyError('code')" formControlName="code"
+      class="col s12 l4">
+      <ng-container inputErrors *ngIf="hasControlAnyError('code')">
+        <mat-error *ngIf="hasControlSpecificError('code', 'required')" class="ep-error-msg">
+          {{ "SERVICES.ERRORS.REQUIRED" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
 
-<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
-  {{ "COMMON.RETURN" | translate }}
-</button>
-<div class="row">
-  <div class="col s12 l4 field-colum">
-    <div class="field-container">
-      <label>{{'SERVICES.CODE' | translate }}</label>
-      <span>{{ service?.code }}</span>
-    </div>
-  </div>
-  <div class="col s12 l4 field-colum">
-    <div class="field-container">
-      <label>{{'SERVICES.NAME' | translate }}</label>
-      <span>{{ service?.name }}</span>
-    </div>
-  </div>
-  <div class="col s12 l4 field-colum">
-    <div class="field-container">
-      <label>{{'SERVICES.SERVICE_TYPE' | translate }}</label>
-      <span>{{ service?.type }}</span>
-    </div>
-  </div>
+    <app-input [prefix]="'SERVICES.NAME' | translate" [hasErrors]="hasControlAnyError('name')" formControlName="name"
+      class="col s12 l4">
+      <ng-container inputErrors *ngIf="hasControlAnyError('name')">
+        <mat-error *ngIf="hasControlSpecificError('name', 'required')" class="ep-error-msg">
+          {{ "SERVICES.ERRORS.REQUIRED" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    
+    <app-select class="col s12 l4" [id]="'select-service-type'" [items]="serviceTypeOptions"
+      [placeholder]="'SERVICES.SERVICE_TYPE' | translate" [clearable]="false"
+      [label]="'SERVICES.SERVICE_TYPE' | translate" [itemDescription]="'description'" [itemValue]="'value'" formControlName="type">
+      <ng-container inputErrors *ngIf="hasControlAnyError('type')">
+        <span *ngIf="hasControlSpecificError('type', 'required')" class="helper-text"
+          [attr.data-error]="'SERVICES.ERRORS.REQUIRED' | translate">
+        </span>
+      </ng-container>
+    </app-select>
+
+  </form>
 </div>
