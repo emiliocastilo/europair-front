@@ -13,6 +13,14 @@ const routes: Routes = [
     data: { title: 'FILES.NEW_ROUTE', isRouteDetail: false },
   },
   {
+    path: 'routes/:routeId',
+    loadChildren: () =>
+      import('../route-detail/route-detail.module').then(
+        (m) => m.RouteDetailModule
+      ),
+    data: { title: 'FILES.COPY_ROUTE', isRouteDetail: true },
+  },
+  {
     path: 'routes/:routeId/rotations/:rotationId',
     loadChildren: () =>
       import('../rotation-detail/rotation-detail.module').then(

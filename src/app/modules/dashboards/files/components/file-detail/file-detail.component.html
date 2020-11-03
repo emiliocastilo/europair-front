@@ -185,7 +185,7 @@
                 Día del mes
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.dayNumber }}
+                {{ getFormattedMonthDays(element.frequencyDays) }}
               </mat-cell>
             </ng-container>
 
@@ -201,6 +201,10 @@
             <ng-container matColumnDef="route-actions" stickyEnd>
               <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
               <mat-cell *matCellDef="let element">
+                <mat-icon
+                  (click)="navigateToCopyRoute(element.id)"
+                  svgIcon="europair_add_trace"
+                ></mat-icon>
                 <mat-icon
                   (click)="navigateToSearchAircraft(element.id)"
                   svgIcon="europair_plane"
