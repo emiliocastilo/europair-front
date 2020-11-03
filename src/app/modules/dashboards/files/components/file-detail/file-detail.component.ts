@@ -373,6 +373,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     });
   }*/
 
+  public returnToFileList() {
+    this.router.navigate(['files'], { queryParams: this.route.snapshot.queryParams });
+  }
+
   public onSaveFile(update: boolean) {
     if (this.fileForm.valid) {
       this.fileData = {
@@ -407,7 +411,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public updateFileState(statusId): void {
-    debugger;
     const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
     this.fileService.updateState(this.fileData, state).subscribe(() => {
       this.fileService

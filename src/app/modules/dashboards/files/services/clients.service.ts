@@ -35,4 +35,11 @@ export class ClientsService {
       ),
     });
   }
+
+  public getClientById(clientId: number): Observable<Client> {
+    const url: string = this.mocked
+      ? '/assets/mocks/clients.json'
+      : `${this.url}/${clientId}`;
+    return this.http.get<Client>(url);
+  }
 }

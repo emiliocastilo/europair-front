@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { concat, Observable, of, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, concat, merge, Observable, of, Subject } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -40,11 +40,12 @@ export class FileListComponent implements OnInit {
   ];
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
-  private fileSearchFilter: SearchFilter = { sort: 'code,DESC' };
+  private fileSearchFilter: SearchFilter;
   public fileStatus$: Observable<FileStatus[]>;
   public clients$: Observable<Client[]>;
   public clientsInput$ = new Subject<string>();
   public clientsLoading = false;
+  private selectedClient$ = new BehaviorSubject<Client[]>([]);
 
   public fileFilterForm: FormGroup = this.fb.group({
     filter_code: [''],
@@ -57,13 +58,56 @@ export class FileListComponent implements OnInit {
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly fileStatusService: FileStatusService,
-    private readonly clientsService: ClientsService
+    private readonly clientsService: ClientsService,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.refreshScreenData();
     this.getSelectsData();
+    this.initializeFilters();
+    this.refreshScreenData();
     this.fileFilterFormValueChangesSubscribe();
+  }
+
+  private initializeFilters() {
+    this.fileSearchFilter =
+      Object.keys(this.route.snapshot.queryParams).length > 0
+        ? this.route.snapshot.queryParams
+        : { sort: 'code,DESC' };
+    console.log(this.fileSearchFilter);
+    this.fileFilterForm.patchValue(
+      this.getFilterFormValue(this.fileSearchFilter)
+    );
+  }
+
+  private getFilterFormValue(fileSearchFilter: any) {
+    let {
+      filter_statusId,
+      filter_clientId,
+      ...filterFormValue
+    } = fileSearchFilter;
+    if (!!filter_clientId) {
+      this.clientsService
+        .getClientById(+filter_clientId)
+        .pipe(
+          map((client) => [client]),
+          catchError(() => of([]))
+        )
+        .subscribe((clients) => this.selectedClient$.next(clients));
+      filterFormValue = {
+        ...filterFormValue,
+        filter_clientId: +filter_clientId,
+      };
+    }
+
+    if (!!filter_statusId) {
+      filterFormValue = {
+        ...filterFormValue,
+        filter_statusId: +filter_statusId,
+      };
+    }
+
+    return filterFormValue;
   }
 
   private refreshScreenData(searchFilter: SearchFilter = {}): void {
@@ -93,8 +137,8 @@ export class FileListComponent implements OnInit {
   }
 
   private loadClients(): void {
-    this.clients$ = concat(
-      of([]), // default items
+    this.clients$ = merge(
+      this.selectedClient$.asObservable(),
       this.clientsInput$.pipe(
         debounceTime(400),
         distinctUntilChanged(),
@@ -142,7 +186,9 @@ export class FileListComponent implements OnInit {
   }
 
   public goToDetail(file: File): void {
-    this.router.navigate(['files', file.id]);
+    this.router.navigate(['files', file.id], {
+      queryParams: this.fileSearchFilter,
+    });
   }
 
   public onSortFiles(sort: Sort): void {
