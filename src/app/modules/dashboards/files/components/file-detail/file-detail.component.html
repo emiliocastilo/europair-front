@@ -179,16 +179,6 @@
               </mat-cell>
             </ng-container>
 
-            <!-- PeriodDays Column-->
-            <ng-container matColumnDef="periodDays">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Días Periodo
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.periodDays }}
-              </mat-cell>
-            </ng-container>
-
             <!-- Month Day Column-->
             <ng-container matColumnDef="dayNumber">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -275,13 +265,6 @@
                   <ng-container matColumnDef="seats">
                     <mat-cell *matCellDef="let element">
                       {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
-                    </mat-cell>
-                  </ng-container>
-
-                  <!-- PeriodDays Column-->
-                  <ng-container matColumnDef="periodDays">
-                    <mat-cell *matCellDef="let element">
-                      {{ element.periodDays }}
                     </mat-cell>
                   </ng-container>
 
