@@ -66,6 +66,7 @@ export class RouteDetailComponent implements OnInit {
   public monthDaysList: number[];
   public pageTitle: string;
   private fileId: number;
+  private routeId: number;
   private fileRoute: FileRoute;
   private flightSearchFilter: SearchFilter = {};
 
@@ -116,13 +117,32 @@ export class RouteDetailComponent implements OnInit {
   }
 
   private getRouteInfo() {
-    this.route.paramMap.subscribe((params) => {
-      this.fileId = +params.get('fileId');
-    });
-    this.route.data.subscribe((data) => {
-      this.pageTitle = data.title;
-    });
+    this.route.paramMap
+      .pipe(
+        tap((params) => (this.fileId = +params.get('fileId'))),
+        tap((params) => (this.routeId = +params.get('routeId'))),
+        switchMap((params) => this.route.data)
+      )
+      .subscribe((data) => {
+        this.pageTitle = data.title;
+        if (data.isRouteDetail) {
+          this.getRouteDetail();
+        }
+      });
   }
+
+  private getRouteDetail(): void {
+    this.fileRouteService
+      .getFileRouteById(this.fileId, this.routeId)
+      .subscribe(this.initializeRouteFormForCopyRoute);
+  }
+
+  private initializeRouteFormForCopyRoute = (route: FileRoute): void => {
+    this.routeForm.patchValue(route);
+    this.routeForm.get('label').disable();
+    this.routeForm.get('frequency').disable();
+    this.airportsControl.disable();
+  };
 
   private activateFormSubcriptions() {
     this.airportsControlValueChangesSubscribe();
@@ -164,7 +184,7 @@ export class RouteDetailComponent implements OnInit {
   }
 
   private onFrequencyChanges = (frequencyType: FrequencyType) => {
-    this.routeForm.enable({ emitEvent: false });
+    this.enableAllFrequencyRelatedControls();
     switch (frequencyType) {
       case FrequencyType.ADHOC:
         this.resetAndDisableControl(this.routeForm.get('endDate'));
@@ -188,6 +208,12 @@ export class RouteDetailComponent implements OnInit {
     }
   };
 
+  private enableAllFrequencyRelatedControls() {
+    this.routeForm.get('endDate').enable({ emitEvent: false });
+    this.routeForm.get('weekdays').enable({ emitEvent: false });
+    this.routeForm.get('monthDays').enable({ emitEvent: false });
+  }
+
   private resetAndDisableControl(control: AbstractControl) {
     control.reset();
     control.disable();
@@ -196,7 +222,8 @@ export class RouteDetailComponent implements OnInit {
   private startDateValueChangesSubscribe() {
     this.routeForm
       .get('startDate')
-      .valueChanges.subscribe(this.onStartDateChanges);
+      .valueChanges.pipe(filter((value) => value !== null))
+      .subscribe(this.onStartDateChanges);
   }
 
   private onStartDateChanges = (startDate: string) => {
@@ -290,16 +317,16 @@ export class RouteDetailComponent implements OnInit {
   };
 
   private createFilteRouteFromRouteForm(routeForm: FormGroup): FileRoute {
-    let { weekdays, monthDays, ...fileRoute } = routeForm.value;
+    let { weekdays, monthDays, ...fileRoute } = routeForm.getRawValue();
     if (
-      routeForm.value?.frequency === '' ||
-      routeForm.value?.frequency === FrequencyType.ADHOC
+      fileRoute?.frequency === '' ||
+      fileRoute?.frequency === FrequencyType.ADHOC
     ) {
       fileRoute = {
         ...fileRoute,
         label: fileRoute.label.toUpperCase(),
         frequency: FrequencyType.ADHOC,
-        endDate: routeForm.value.startDate,
+        endDate: fileRoute.startDate,
       };
     } else {
       fileRoute = {
