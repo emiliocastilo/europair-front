@@ -539,6 +539,7 @@
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
     "NEW_ROUTE": "Nueva ruta",
+    "COPY_ROUTE": "Copiar ruta",
     "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
     "CONFIRM_OPERATION": "Notificar operación",
     "CREATE_CONTRACT": "Crear Contrato",

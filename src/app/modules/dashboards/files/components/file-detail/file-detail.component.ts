@@ -344,7 +344,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private loadFileRoutes(file: File) {
     this.fileRoutesService
-      .getFileRoutes(file.id)
+      .getFileRoutes(file.id, { size: '100'})
       .subscribe((data: Page<FileRoute>) => {
         this.dataSource = new MatTableDataSource(data.content);
         this.dataSourceRouteContributions = new MatTableDataSource(data.content.filter(route => this.hasRouteContributions(route)));
@@ -442,6 +442,14 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return formattedWeek.join(' ');
   }
 
+  public getFormattedMonthDays(frequencyDays: FrequencyDay[]): string {
+    return frequencyDays.filter(frequencyDay => frequencyDay.monthDay !== null).reduce(this.monthDayReducer, '');
+  }
+
+  private monthDayReducer = (monthDaysFormatted: string, frequencyDay: FrequencyDay): string => 
+    monthDaysFormatted !== ''? `${monthDaysFormatted},${frequencyDay.monthDay}` : `${frequencyDay.monthDay}`;
+  
+
   public runAction(
     event: Event,
     isPlane: boolean = false,
@@ -456,6 +464,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public navigateConfirmOperation(): void {
     this.router.navigate(['/files', this.fileData.id, 'confirm-operation']);
+  }
+
+  public navigateToCopyRoute(routeId: number) {
+    this.router.navigate(['files', this.fileData.id,'routes' ,routeId]);
   }
 
   public navigateToSearchAircraft(id: number) {
