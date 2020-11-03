@@ -44,7 +44,7 @@ export enum OperationType {
   ACMI = 'ACMI',
   COMMERCIAL = 'COMMERCIAL',
   EXECUTIVE = 'EXECUTIVE',
-  CHARGE = 'CHARGE',
+  FREIGHT = 'FREIGHT',
   GROUP = 'GROUP'
 }
 
