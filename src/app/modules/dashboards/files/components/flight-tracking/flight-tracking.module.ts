@@ -5,6 +5,7 @@ import { FlightTrackingRoutingModule } from './flight-tracking-routing.module';
 import { FlightTrackingComponent } from './flight-tracking.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [FlightTrackingComponent],
@@ -13,6 +14,7 @@ import { MaterialModule } from 'src/app/material/material.module';
     CoreModule,
     MaterialModule,
     FlightTrackingRoutingModule,
+    ReactiveFormsModule
   ],
 })
 export class FlightTrackingModule {}

@@ -20,7 +20,8 @@ export class FilesService {
   private readonly filterOptions: FilterOptions = {
     filter_code: OperatorEnum.CONTAINS,
     filter_statusId: OperatorEnum.EQUALS,
-    filter_clientId: OperatorEnum.EQUALS,
+    'filter_status.code': OperatorEnum.EQUALS,
+    filter_clientId: OperatorEnum.EQUALS
   } as const;
 
   constructor(
