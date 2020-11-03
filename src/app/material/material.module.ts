@@ -13,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 const modules = [
   MatAutocompleteModule,
@@ -31,6 +32,7 @@ const modules = [
   DragDropModule,
   MatDialogModule,
   MatTooltipModule,
+  MatCardModule,
 ];
 
 @NgModule({

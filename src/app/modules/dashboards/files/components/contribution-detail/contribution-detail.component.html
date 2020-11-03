@@ -5,7 +5,8 @@
     color="primary"
     mat-raised-button
     [routerLink]="['/files/', fileId]"
-    [queryParams]="{ expandedQuote: true }">
+    [queryParams]="{ expandedQuote: true }"
+  >
     {{ "COMMON.RETURN" | translate }}
   </button>
   <app-select
@@ -78,6 +79,14 @@
         class="col s12 l4 cmd-pb-1"
       >
       </app-input>
+    </div>
+    <div class="row" *ngIf="contribution.purchaseVATMsg">
+      <mat-card class="warning-card">
+        <mat-label>
+          <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
+          <span>{{ contribution.purchaseVATMsg }}</span>
+        </mat-label>
+      </mat-card>
     </div>
     <div class="row row-no-margin-bottom">
       <app-input
@@ -344,6 +353,14 @@
         class="col s12 l4 cmd-pb-1"
       >
       </app-input>
+    </div>
+    <div class="row" *ngIf="contribution.saleVATMsg">
+      <mat-card class="warning-card">
+        <mat-label>
+          <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
+          <span>{{ contribution.saleVATMsg }}</span>
+        </mat-label>
+      </mat-card>
     </div>
     <div class="row row-no-margin-bottom">
       <app-input
