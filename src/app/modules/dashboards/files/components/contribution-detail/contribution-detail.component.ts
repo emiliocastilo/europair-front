@@ -30,7 +30,10 @@ import {
   LineContributionRouteType,
   RotationContributionLine,
 } from '../../models/ContributionLine.model';
-import { Services, ServiceType } from '../../../masters/services/models/services.model';
+import {
+  Services,
+  ServiceType,
+} from '../../../masters/services/models/services.model';
 import { ContributionLineService } from '../../services/contribution-line.service';
 import { ContributionService } from '../../services/contribution.service';
 import { FileRoutesService } from '../../services/file-routes.service';
@@ -525,7 +528,7 @@ export class ContributionDetailComponent implements OnInit {
             this.contributionId
           )
           .subscribe((_) => {
-            this.refreshSaleData();
+            this.refreshScreenData();
             this.purchasePanel.close();
             this.salePanel.open();
           });
