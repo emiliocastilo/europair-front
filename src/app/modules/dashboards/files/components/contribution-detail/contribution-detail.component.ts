@@ -30,7 +30,10 @@ import {
   LineContributionRouteType,
   RotationContributionLine,
 } from '../../models/ContributionLine.model';
-import { Services, ServiceType } from '../../../masters/services/models/services.model';
+import {
+  Services,
+  ServiceType,
+} from '../../../masters/services/models/services.model';
 import { ContributionLineService } from '../../services/contribution-line.service';
 import { ContributionService } from '../../services/contribution.service';
 import { FileRoutesService } from '../../services/file-routes.service';
@@ -94,14 +97,14 @@ export class ContributionDetailComponent implements OnInit {
     purchasePrice: [0],
     currency: [''],
     taxes: [{ value: 0 }],
-    taxesPrice: [{ value: 0, disabled: true }],
+    taxesPrice: [{ value: 0 }],
     observation: [''],
   });
   public saleContributionForm = this.fb.group({
     salesPrice: [0],
     currencyOnSale: [''],
     taxes: [{ value: 0 }],
-    taxesPrice: [{ value: 0, disabled: true }],
+    taxesPrice: [{ value: 0 }],
     observation: [''],
   });
 
@@ -124,7 +127,7 @@ export class ContributionDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getRouteInfo();
     this.loadSelectData();
-    this.controlSubscribes();
+    // this.controlSubscribes();
     this.onChangeContributionState();
   }
 
@@ -204,20 +207,14 @@ export class ContributionDetailComponent implements OnInit {
       purchasePrice: this.maskPrice(contribution.purchasePrice),
       currency: contribution.currency,
       taxes: contribution.purchaseCommissionPercent,
-      taxesPrice: this.getTaxesPrice(
-        contribution.purchasePrice,
-        contribution.purchaseCommissionPercent
-      ),
+      taxesPrice: contribution.vatAmountOnPurchase,
       observation: contribution.purchaseComments,
     });
     this.saleContributionForm.reset({
       salesPrice: this.maskPrice(contribution.salesPrice),
       currencyOnSale: contribution.currencyOnSale,
       taxes: contribution.salesCommissionPercent,
-      taxesPrice: this.getTaxesPrice(
-        contribution.salesPrice,
-        contribution.salesCommissionPercent
-      ),
+      taxesPrice: contribution.vatAmountOnSale,
       observation: contribution.salesComments,
     });
   }
@@ -314,33 +311,33 @@ export class ContributionDetailComponent implements OnInit {
     }));
   }
 
-  private controlSubscribes() {
-    this.purchaseContributionForm
-      .get('purchasePrice')
-      .valueChanges.subscribe((value) =>
-        this.setTaxesPrice(this.purchaseContributionForm, value)
-      );
-    this.saleContributionForm
-      .get('salesPrice')
-      .valueChanges.subscribe((value) =>
-        this.setTaxesPrice(this.saleContributionForm, value)
-      );
-  }
+  // private controlSubscribes() {
+  //   this.purchaseContributionForm
+  //     .get('purchasePrice')
+  //     .valueChanges.subscribe((value) =>
+  //       this.setTaxesPrice(this.purchaseContributionForm, value)
+  //     );
+  //   this.saleContributionForm
+  //     .get('salesPrice')
+  //     .valueChanges.subscribe((value) =>
+  //       this.setTaxesPrice(this.saleContributionForm, value)
+  //     );
+  // }
 
-  private setTaxesPrice(form: FormGroup, stringValue: string) {
-    const totalPrice = Number.parseInt(stringValue);
-    const taxes = Number.parseInt(form.get('taxes').value);
-    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
-  }
+  // private setTaxesPrice(form: FormGroup, stringValue: string) {
+  //   const totalPrice = Number.parseInt(stringValue);
+  //   const taxes = Number.parseInt(form.get('taxes').value);
+  //   form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+  // }
 
-  private getTaxesPrice(totalPrice: number, taxes: number) {
-    if (taxes && totalPrice) {
-      const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
-      return taxesPriceValue.toFixed(2);
-    } else {
-      return 0;
-    }
-  }
+  // private getTaxesPrice(totalPrice: number, taxes: number) {
+  //   if (taxes && totalPrice) {
+  //     const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
+  //     return taxesPriceValue.toFixed(2);
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   public updateContributionPurchaseData() {
     this.contributionService
@@ -352,6 +349,7 @@ export class ContributionDetailComponent implements OnInit {
         currency: this.purchaseContributionForm.value.currency,
         purchaseComments: this.purchaseContributionForm.value.observation,
         purchaseCommissionPercent: this.purchaseContributionForm.value.taxes,
+        vatAmountOnPurchase: this.purchaseContributionForm.value.taxesPrice,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -365,7 +363,8 @@ export class ContributionDetailComponent implements OnInit {
         ),
         currencyOnSale: this.saleContributionForm.value.currencyOnSale,
         salesComments: this.saleContributionForm.value.observation,
-        salesCommissionPercent: this.purchaseContributionForm.value.taxes,
+        salesCommissionPercent: this.saleContributionForm.value.taxes,
+        vatAmountOnSale: this.saleContributionForm.value.taxesPrice,
       })
       .subscribe((contribution) => this.updateContributionForms(contribution));
   }
@@ -525,7 +524,7 @@ export class ContributionDetailComponent implements OnInit {
             this.contributionId
           )
           .subscribe((_) => {
-            this.refreshSaleData();
+            this.refreshScreenData();
             this.purchasePanel.close();
             this.salePanel.open();
           });
