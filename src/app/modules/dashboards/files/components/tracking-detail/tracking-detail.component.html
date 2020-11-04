@@ -105,19 +105,9 @@
               <mat-cell *matCellDef="let element"></mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="seatsF">
-              <mat-header-cell *matHeaderCellDef> F </mat-header-cell>
-              <mat-cell *matCellDef="let element"></mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="seatsC">
-              <mat-header-cell *matHeaderCellDef> C </mat-header-cell>
-              <mat-cell *matCellDef="let element"></mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="seatsY">
-              <mat-header-cell *matHeaderCellDef> Y </mat-header-cell>
-              <mat-cell *matCellDef="let element"></mat-cell>
+            <ng-container matColumnDef="seats">
+              <mat-header-cell *matHeaderCellDef mat-header>Asientos F/C/Y</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ getSeatsFCY(element) }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="flightNumber">
@@ -181,21 +171,9 @@
                     </mat-cell>
                   </ng-container>
 
-                  <ng-container matColumnDef="seatsF">
+                  <ng-container matColumnDef="seats">
                     <mat-cell *matCellDef="let element">
-                      {{ element?.seatsF }}
-                    </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="seatsC">
-                    <mat-cell *matCellDef="let element">
-                      {{ element?.seatsC }}
-                    </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="seatsY">
-                    <mat-cell *matCellDef="let element">
-                      {{ element?.seatsY }}
+                      {{ getSeatsFCY(element) }}
                     </mat-cell>
                   </ng-container>
 

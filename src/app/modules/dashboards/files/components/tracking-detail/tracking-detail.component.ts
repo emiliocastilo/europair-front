@@ -97,9 +97,7 @@ export class TrackingDetailComponent implements OnInit {
     'departureTime',
     'arrivalDate',
     'arrivalTime',
-    'seatsF',
-    'seatsC',
-    'seatsY',
+    'seats',
     'flightNumber',
     'slot',
     'parking',
@@ -190,7 +188,12 @@ export class TrackingDetailComponent implements OnInit {
     this.routeId = routeId;
     this.rotations = this.routes.find(
       (route: FileRoute) => route.id === routeId
-    ).rotations;
+    ).rotations?.map((rotation: FileRoute) => {
+     return {
+        ...rotation,
+        label: `${rotation.label} ${rotation.startDate}`
+      };
+    });
     this.selectFlight(null);
     if (this.rotations?.length === 1) {
       const rotationId = this.rotations[0].id;
@@ -212,6 +215,9 @@ export class TrackingDetailComponent implements OnInit {
             description: `${flight.origin.iataCode} - ${flight.destination.iataCode}`,
           };
         });
+        if (this.flights?.length === 1) {
+          this.selectFlight(this.flights[0].id);
+        }
       });
   }
 
@@ -247,6 +253,10 @@ export class TrackingDetailComponent implements OnInit {
 
   public getDate(date: string, format: string) {
     return date ? this.datePipe.transform(new Date(date), format) : '';
+  }
+
+  public getSeatsFCY(element: Flight): string {
+    return `${element.seatsF}/${element.seatsC}/${element.seatsY}`;
   }
 
   public expandRow(element: FileRoute) {
