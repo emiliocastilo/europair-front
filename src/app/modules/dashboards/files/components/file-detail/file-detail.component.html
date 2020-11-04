@@ -184,7 +184,7 @@
                 Asientos F/C/Y
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
+                {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
               </mat-cell>
             </ng-container>
 
@@ -265,7 +265,7 @@
                   <ng-container matColumnDef="frequencyDays">
                     <mat-cell *matCellDef="let element">
                       {{
-                        getFormattedFrequency(element.frequencyDays) | uppercase
+                        element.startDate | date:'EEEE'
                       }}
                     </mat-cell>
                   </ng-container>
@@ -280,14 +280,14 @@
                   <!-- Seats Column-->
                   <ng-container matColumnDef="seats">
                     <mat-cell *matCellDef="let element">
-                      {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
+                      {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
                     </mat-cell>
                   </ng-container>
 
                   <!-- Month Day Column-->
                   <ng-container matColumnDef="dayNumber">
                     <mat-cell *matCellDef="let element" class="expanded-last-row">
-                      {{ element.dayNumber }}
+                      {{ element.startDate | date:'dd' }}
                     </mat-cell>
                     <mat-cell> - </mat-cell>
                   </ng-container>
