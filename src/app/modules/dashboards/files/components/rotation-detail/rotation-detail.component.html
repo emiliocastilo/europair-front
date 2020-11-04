@@ -327,6 +327,14 @@
               {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
             </mat-error>
           </ng-container>
+          <ng-container
+            inputErrors
+            *ngIf="flightForm.errors?.endDateNotBeforeStartDateValidator"
+          >
+            <mat-error class="ep-error-msg">
+              {{ "ROTATIONS.ERRORS.ARRIVAL_BEFORE_DEPARTURE" | translate }}
+            </mat-error>
+          </ng-container>
         </app-input>
         <app-input
           [type]="'time'"

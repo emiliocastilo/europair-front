@@ -7,6 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -23,8 +24,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { InputTextComponent } from 'src/app/core/components/basic/input-text/input-text.component';
+import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { endDateNotBeforeStartDateValidator } from 'src/app/core/validators/date-validators';
 import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import {
@@ -70,24 +73,27 @@ export class RouteDetailComponent implements OnInit {
   private fileRoute: FileRoute;
   private flightSearchFilter: SearchFilter = {};
 
-  public routeForm: FormGroup = this.fb.group({
-    label: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(6),
-        this.getLabelFormatValidator(),
+  public routeForm: FormGroup = this.fb.group(
+    {
+      label: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          this.getLabelFormatValidator(),
+        ],
       ],
-    ],
-    frequency: [''],
-    startDate: ['', Validators.required],
-    endDate: [{ value: '', disabled: true }, Validators.required],
-    weekdays: [{ value: [], disabled: true }, Validators.required],
-    monthDays: [{ value: [], disabled: true }, Validators.required],
-    seatsF: [0, Validators.min(0)],
-    seatsC: [0, Validators.min(0)],
-    seatsY: [0, Validators.min(0)],
-  });
+      frequency: [''],
+      startDate: ['', Validators.required],
+      endDate: [{ value: '', disabled: true }, Validators.required],
+      weekdays: [{ value: [], disabled: true }, Validators.required],
+      monthDays: [{ value: [], disabled: true }, Validators.required],
+      seatsF: [0, Validators.min(0)],
+      seatsC: [0, Validators.min(0)],
+      seatsY: [0, Validators.min(0)],
+    },
+    { validators: endDateNotBeforeStartDateValidator('startDate', 'endDate') }
+  );
 
   public airportsControl: FormControl = this.fb.control('');
 
@@ -107,7 +113,8 @@ export class RouteDetailComponent implements OnInit {
     private readonly translateService: TranslateService,
     private readonly fileRouteService: FileRoutesService,
     private readonly flightService: FlightService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly matDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -294,6 +301,42 @@ export class RouteDetailComponent implements OnInit {
       this.routeForm.markAllAsTouched();
       return;
     }
+    this.hasRouteAnyPassenger()
+      ? this.createFileRoute()
+      : this.confirmRouteNoPassengers();
+  }
+
+  private hasRouteAnyPassenger(): boolean {
+    return (
+      +this.getNumberOfPassengers(this.routeForm.get('seatsF')) +
+        +this.getNumberOfPassengers(this.routeForm.get('seatsC')) +
+        +this.getNumberOfPassengers(this.routeForm.get('seatsY')) >
+      0
+    );
+  }
+
+  private getNumberOfPassengers(control: AbstractControl): string {
+    return control.value ?? '0';
+  }
+
+  private confirmRouteNoPassengers() {
+    const confirmOperationRef = this.matDialog.open(
+      ConfirmOperationDialogComponent,
+      {
+        data: {
+          title: 'ROUTES.CONFIRM_GENERATION_TITLE',
+          message: 'ROUTES.MSG_GENERATION_OPERATION',
+        },
+      }
+    );
+    confirmOperationRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.createFileRoute();
+      }
+    });
+  }
+
+  private createFileRoute() {
     this.fileRouteService
       .createFileRoute(
         this.fileId,
