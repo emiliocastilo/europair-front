@@ -153,6 +153,8 @@
             <mat-icon
               (click)="$event.stopPropagation(); deleteFlight(element)"
               svgIcon="europair_trash"
+              [matTooltip]="'TOOLTIPS.REMOVE_FLIGHT' | translate"
+              [matTooltipClass]="'europair-tooltip'"
             ></mat-icon>
           </mat-cell>
         </ng-container>

@@ -51,6 +51,18 @@
     "CONFIRM_OPERATION": "Confirmar Operación",
     "SEARCH_FILTERS": "Filtros de búsqueda"
   },
+  "TOOLTIPS": {
+    "COPY_ROUTE": "Copiar ruta",
+    "SEARCH_AIRCRAFT": "Buscar aviones",
+    "REMOVE_ROUTE": "Eliminar ruta",
+    "EDIT_ROTATION": "Editar rotación",
+    "REMOVE_ROTATION": "Eliminar rotación",
+    "EDIT_CONTRIBUTION": "Editar cotización",
+    "SEND_CONTRIBUTION": "Enviar cotización",
+    "REMOVE_CONTRIBUTION": "Eliminar cotización",
+    "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
+    "REMOVE_FLIGHT": "Eliminar vuelo"
+  },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
     "NEW": "Nuevo Aeropuerto",
@@ -538,9 +550,11 @@
     "STATUS": "Estado",
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
+    "ROUTE_DELETE_MSG": "¿Está seguro que desea eliminar la ruta?",
+    "ROTATION_DELETE_MSG": "¿Está seguro que desea eliminar la rotación?",
     "NEW_ROUTE": "Nueva ruta",
     "COPY_ROUTE": "Copiar ruta",
-    "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
+    "MSG_OPERATION": "¿Está seguro que desea confirmar la operación?",
     "CONFIRM_OPERATION": "Notificar operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
