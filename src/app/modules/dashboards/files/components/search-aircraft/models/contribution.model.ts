@@ -30,6 +30,8 @@ export interface Contribution {
   seatingY?: number;
   purchaseVATMsg?: string;
   saleVATMsg?: string;
+  vatAmountOnPurchase?: number;
+  vatAmountOnSale?: number;
 }
 
 export enum ContributionStates {
