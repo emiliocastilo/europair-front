@@ -19,6 +19,7 @@ export class FileRoutesService {
   private readonly url = `${environment.apiUrl}files`;
   private readonly filterOptions: FilterOptions = {
     filter_routeState: OperatorEnum.EQUALS,
+    filter_removedAt: OperatorEnum.IS_NULL,
   } as const;
 
   constructor(
@@ -60,6 +61,15 @@ export class FileRoutesService {
     const url: string = `${this.url}/${fileId}/routes/${routeId}`;
 
     return this.http.get<FileRoute>(url);
+  }
+
+  public deleteFileRouteById(
+    fileId: number,
+    routeId: number
+  ): Observable<void> {
+    const url: string = `${this.url}/${fileId}/routes/${routeId}`;
+
+    return this.http.delete<void>(url);
   }
 
   public createFileRoute(
