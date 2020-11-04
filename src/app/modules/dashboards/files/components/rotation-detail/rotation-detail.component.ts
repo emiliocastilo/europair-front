@@ -15,6 +15,7 @@ import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SortOrder } from 'src/app/core/models/table/sort-button/sort-by-column';
 import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
+import { endDateNotBeforeStartDateValidator } from 'src/app/core/validators/date-validators';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import { Airport } from '../../../masters/regions/models/airport';
 import { DAYS_LIST, FrequencyType, FREQUENCY_LIST } from '../../models/FileRoute.model';
@@ -73,7 +74,7 @@ export class RotationDetailComponent implements OnInit {
     seatsY: ['', Validators.min(0)],
     beds: ['', Validators.min(0)],
     stretchers: ['', Validators.min(0)],
-  });
+  }, { validators: endDateNotBeforeStartDateValidator('departureDate', 'arrivalDate')});
 
   constructor(
     private readonly fb: FormBuilder,
@@ -233,7 +234,6 @@ export class RotationDetailComponent implements OnInit {
   }
 
   public editFlight() {
-    console.log(this.flightForm.value);
     if (!this.flightForm.valid) {
       this.flightForm.markAllAsTouched();
       return;
@@ -285,8 +285,6 @@ export class RotationDetailComponent implements OnInit {
   public reorderFlights() {
     this.flightService.reorderFlights(this.fileId, this.rotationId, this.getFlightsOrder(this.dataSource.data))
       .subscribe(_ => this.refreshScreenData());
-
-    console.log(this.getFlightsOrder(this.dataSource.data));
   }
 
   public getFlightsOrder(flights: Flight[]): FlightOrder[] {
