@@ -334,6 +334,8 @@
     "SERVICE_TYPE": "Tipo",
     "NEW": "Nuevo servicio",
     "DETAIL_PAGE_TITLE": "Detalle de servicio",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "MSG_DELETE_SERVICE": "¿Está seguro que desea eliminar el servicio <b>{{name}}</b>?",
     "TYPES": {
       "FLIGHT": "Vuelo",
       "CARGO": "Carga",

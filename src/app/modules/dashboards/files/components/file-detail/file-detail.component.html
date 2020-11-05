@@ -265,7 +265,7 @@
                   <ng-container matColumnDef="frequencyDays">
                     <mat-cell *matCellDef="let element">
                       {{
-                        element.startDate | date:'EEEE'
+                        getRotationFormattedFrequency(element.startDate) | uppercase
                       }}
                     </mat-cell>
                   </ng-container>

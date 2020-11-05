@@ -15,7 +15,7 @@ export class ServicesService {
   private readonly mocked: boolean = environment.mock;
   private readonly url: string = `${environment.apiUrl}services`;
   private readonly filterOptions: FilterOptions = {
-    filter_name: OperatorEnum.CONTAINS
+    filter_name: OperatorEnum.CONTAINS,
   } as const;
 
   constructor(
