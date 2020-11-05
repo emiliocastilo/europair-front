@@ -153,6 +153,8 @@
             <mat-icon
               (click)="$event.stopPropagation(); deleteFlight(element)"
               svgIcon="europair_trash"
+              [matTooltip]="'TOOLTIPS.REMOVE_FLIGHT' | translate"
+              [matTooltipClass]="'europair-tooltip'"
             ></mat-icon>
           </mat-cell>
         </ng-container>
@@ -325,6 +327,14 @@
               *ngIf="hasControlSpecificError('arrivalDate', 'required')"
             >
               {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
+            </mat-error>
+          </ng-container>
+          <ng-container
+            inputErrors
+            *ngIf="flightForm.errors?.endDateNotBeforeStartDateValidator"
+          >
+            <mat-error class="ep-error-msg">
+              {{ "ROTATIONS.ERRORS.ARRIVAL_BEFORE_DEPARTURE" | translate }}
             </mat-error>
           </ng-container>
         </app-input>

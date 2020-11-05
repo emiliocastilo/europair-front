@@ -115,6 +115,14 @@
                 {{ "ROUTES.ERRORS.END_DATE" | translate }}
               </mat-error>
             </ng-container>
+            <ng-container
+              inputErrors
+              *ngIf="routeForm.errors?.endDateNotBeforeStartDateValidator"
+            >
+              <mat-error class="ep-error-msg">
+                {{ "ROUTES.ERRORS.END_DATE_BEFORE_START_DATE" | translate }}
+              </mat-error>
+            </ng-container>
           </app-input>
         </div>
         <div class="row">

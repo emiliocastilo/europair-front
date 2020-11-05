@@ -344,7 +344,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private loadFileRoutes(file: File) {
     this.fileRoutesService
-      .getFileRoutes(file.id, { size: '100'})
+      .getFileRoutes(file.id, { size: '100' })
       .subscribe((data: Page<FileRoute>) => {
         this.dataSource = new MatTableDataSource(data.content);
         this.dataSourceRouteContributions = new MatTableDataSource(data.content.filter(route => this.hasRouteContributions(route)));
@@ -476,6 +476,24 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public navigateToSearchAircraft(id: number) {
     this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
+  }
+
+  public deleteRoute(routeId: number, confirmMsg: string): void {
+    const confirmOperationRef = this.matDialog.open(
+      ConfirmOperationDialogComponent,
+      {
+        data: {
+          title: 'COMMON.CONFIRM_OPERATION',
+          message: confirmMsg,
+        },
+      }
+    );
+    confirmOperationRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.fileRoutesService.deleteFileRouteById(this.fileData.id, routeId)
+        .subscribe(() => this.loadFileRoutes(this.fileData));
+      }
+    });
   }
 
   public editRotation(route: FileRoute, rotation: FileRoute) {

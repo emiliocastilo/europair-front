@@ -51,6 +51,18 @@
     "CONFIRM_OPERATION": "Confirmar Operación",
     "SEARCH_FILTERS": "Filtros de búsqueda"
   },
+  "TOOLTIPS": {
+    "COPY_ROUTE": "Copiar ruta",
+    "SEARCH_AIRCRAFT": "Buscar aviones",
+    "REMOVE_ROUTE": "Eliminar ruta",
+    "EDIT_ROTATION": "Editar rotación",
+    "REMOVE_ROTATION": "Eliminar rotación",
+    "EDIT_CONTRIBUTION": "Editar cotización",
+    "SEND_CONTRIBUTION": "Enviar cotización",
+    "REMOVE_CONTRIBUTION": "Eliminar cotización",
+    "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
+    "REMOVE_FLIGHT": "Eliminar vuelo"
+  },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
     "NEW": "Nuevo Aeropuerto",
@@ -538,9 +550,11 @@
     "STATUS": "Estado",
     "CLIENT": "Cliente",
     "ROUTES": "Rutas",
+    "ROUTE_DELETE_MSG": "¿Está seguro que desea eliminar la ruta?",
+    "ROTATION_DELETE_MSG": "¿Está seguro que desea eliminar la rotación?",
     "NEW_ROUTE": "Nueva ruta",
     "COPY_ROUTE": "Copiar ruta",
-    "MSG_OPERATION": "¿Estas seguro que deseas confirmar la operación?",
+    "MSG_OPERATION": "¿Está seguro que desea confirmar la operación?",
     "CONFIRM_OPERATION": "Notificar operación",
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
@@ -612,7 +626,7 @@
     "NEW_FILE": "Nuevo Expediente",
     "GENERATE_PLANING": "Generar planning",
     "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
-    "MSG_CONFIRM_OPERATION": "¿Estas seguro que deseas notificar operación confirmada?",
+    "MSG_CONFIRM_OPERATION": "¿Está seguro que deseas notificar operación confirmada?",
     "OPERATION_TYPE": "Tipo operación",
     "CONTACT": "Contacto"
   },
@@ -625,12 +639,15 @@
     "MONTH_DAYS": "Dias del mes",
     "GENERATE_ROUTE": "Generar ruta",
     "FLIGHTS": "Vuelos",
+    "CONFIRM_GENERATION_TITLE": "Confirmar creación de ruta",
+    "MSG_GENERATION_OPERATION": "¿Está seguro que desea generar una ruta sin pasajeros asignados?",
     "ERRORS": {
       "ROUTE_CODE": "Debe indicar un código de ruta",
       "ROUTE_CODE_MIN_LEN": "Un código de ruta debe tener como mínimo un origen y un destino",
       "ROUTE_CODE_FORMAT": "El formato del código no es correcto (AAA-BBB-CCC...)",
       "START_DATE": "Debe indicar una fecha inicio",
       "END_DATE": "Debe indicar una fecha fin",
+      "END_DATE_BEFORE_START_DATE": "La fecha de fin no puede ser anterior a la de inicio",
       "WEEKDAYS": "Debe indicar al menos un día de la semana",
       "MONTH_DAYS": "Debe indicar al menos un día del mes"
     },
@@ -662,6 +679,7 @@
       "DEPARTURE_TIME": "Debe indicar una hora de salida",
       "ARRIVAL_DATE": "Debe indicar una fecha de llegada",
       "ARRIVAL_TIME": "Debe indicar una hora de llegada",
+      "ARRIVAL_BEFORE_DEPARTURE": "La fecha de llegada no puede ser anterior a la de salida",
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
       "TIME_ZONE": "Debe indicar una zona horaria"
     }

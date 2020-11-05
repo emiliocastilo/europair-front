@@ -184,7 +184,7 @@
                 Asientos F/C/Y
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
+                {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
               </mat-cell>
             </ng-container>
 
@@ -213,14 +213,17 @@
                 <mat-icon
                   (click)="navigateToCopyRoute(element.id)"
                   svgIcon="europair_add_trace"
+                  [matTooltip]="'TOOLTIPS.COPY_ROUTE'| translate" [matTooltipClass]="'europair-tooltip'"
                 ></mat-icon>
                 <mat-icon
                   (click)="navigateToSearchAircraft(element.id)"
                   svgIcon="europair_plane"
+                  [matTooltip]="'TOOLTIPS.SEARCH_AIRCRAFT'| translate" [matTooltipClass]="'europair-tooltip'"
                 ></mat-icon>
                 <mat-icon
-                  (click)="runAction($event)"
+                  (click)="deleteRoute(element.id, 'FILES.ROUTE_DELETE_MSG')"
                   svgIcon="europair_trash"
+                  [matTooltip]="'TOOLTIPS.REMOVE_ROUTE'| translate" [matTooltipClass]="'europair-tooltip'"
                 ></mat-icon>
               </mat-cell>
             </ng-container>
@@ -262,7 +265,7 @@
                   <ng-container matColumnDef="frequencyDays">
                     <mat-cell *matCellDef="let element">
                       {{
-                        getFormattedFrequency(element.frequencyDays) | uppercase
+                        element.startDate | date:'EEEE'
                       }}
                     </mat-cell>
                   </ng-container>
@@ -277,14 +280,14 @@
                   <!-- Seats Column-->
                   <ng-container matColumnDef="seats">
                     <mat-cell *matCellDef="let element">
-                      {{ element.seatsF }}/{{ element.seatsC }}/{{ element.seatsY }}
+                      {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
                     </mat-cell>
                   </ng-container>
 
                   <!-- Month Day Column-->
                   <ng-container matColumnDef="dayNumber">
                     <mat-cell *matCellDef="let element" class="expanded-last-row">
-                      {{ element.dayNumber }}
+                      {{ element.startDate | date:'dd' }}
                     </mat-cell>
                     <mat-cell> - </mat-cell>
                   </ng-container>
@@ -305,10 +308,12 @@
                       <mat-icon
                         (click)="editRotation(parentElement, element)"
                         svgIcon="europair_edit"
+                        [matTooltip]="'TOOLTIPS.EDIT_ROTATION'| translate" [matTooltipClass]="'europair-tooltip'"
                       ></mat-icon>
                       <mat-icon                       
-                        (click)="runAction($event)"
+                        (click)="deleteRoute(element.id, 'FILES.ROTATION_DELETE_MSG')"
                         svgIcon="europair_trash"
+                        [matTooltip]="'TOOLTIPS.REMOVE_ROTATION'| translate" [matTooltipClass]="'europair-tooltip'"
                       ></mat-icon>
                     </mat-cell>
                   </ng-container>
@@ -534,15 +539,18 @@
                     >
                       <mat-icon
                         (click)="navigateToContributionDetail(parentElement, element)"
-                        svgIcon="europair_edit">
+                        svgIcon="europair_edit"
+                        [matTooltip]="'TOOLTIPS.EDIT_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
                       </mat-icon>
                       <mat-icon *ngIf="isContributionSendable(element) "
                         (click)="sendContribution(parentElement, element)"
-                        svgIcon="europair_feather_mail">
+                        svgIcon="europair_feather_mail"
+                        [matTooltip]="'TOOLTIPS.SEND_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
                       </mat-icon>
                       <mat-icon
                         (click)="deleteContribution(parentElement, element)"
-                        svgIcon="europair_trash">
+                        svgIcon="europair_trash"
+                        [matTooltip]="'TOOLTIPS.REMOVE_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
                       </mat-icon>
                     </mat-cell>
                   </ng-container>
@@ -650,7 +658,8 @@
                 {{ "FILES.ADDITIONAL_SERVICES.ACTIONS" | translate}}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                <mat-icon (click)="runAction($event)" svgIcon="europair_trash"></mat-icon>
+                <mat-icon (click)="runAction($event)" svgIcon="europair_trash"
+                [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE'| translate" [matTooltipClass]="'europair-tooltip'"></mat-icon>
               </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="columnsAdditionalServicesToDisplay"></mat-header-row>
