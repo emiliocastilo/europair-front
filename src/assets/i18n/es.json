@@ -598,7 +598,10 @@
       "SPECIAL_REQUEST": "Peticiones especiales",
       "OTHER_CHARGES": "Otros cargos previstos",
       "OPERATIVE": "Operativa",
-      "OBSERVATIONS": "Comentario:"
+      "OBSERVATIONS": "Comentario:",
+      "ERROR": {
+        "MAX_LENGTH": "Campo demasiado grande"
+      }
     },
     "CONTRIBUTIONS": {
       "DELETE_MSG": "¿Está seguro que desea eliminar la cotización?",

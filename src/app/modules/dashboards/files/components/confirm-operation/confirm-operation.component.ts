@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
@@ -16,22 +16,23 @@ export class ConfirmOperationComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmOperationModal: ElementRef;
 
-  public readonly observationMaxLength: number = 1500;
+  public readonly fieldMaxLength: number = 1500;
+  public readonly observationMaxLength: number = 1300;
   public isLoading: boolean = false;
   private fileId: number;
 
   public operationForm: FormGroup = this.fb.group({
-    flightMotive: [''],
-    connections: [''],
-    limitations: [''],
-    fixedVariableFuel: [''],
-    luggage: [''],
-    specialLuggage: [''],
-    onBoardService: [''],
-    specialRequests: [''],
-    otherCharges: [''],
-    operationalInfo: [''],
-    observation: ['']
+    flightMotive: ['', Validators.maxLength(this.fieldMaxLength)],
+    connections: ['', Validators.maxLength(this.fieldMaxLength)],
+    limitations: ['', Validators.maxLength(this.fieldMaxLength)],
+    fixedVariableFuel: ['', Validators.maxLength(this.fieldMaxLength)],
+    luggage: ['', Validators.maxLength(this.fieldMaxLength)],
+    specialLuggage: ['', Validators.maxLength(this.fieldMaxLength)],
+    onBoardService: ['', Validators.maxLength(this.fieldMaxLength)],
+    specialRequests: ['', Validators.maxLength(this.fieldMaxLength)],
+    otherCharges: ['', Validators.maxLength(this.fieldMaxLength)],
+    operationalInfo: ['', Validators.maxLength(this.fieldMaxLength)],
+    observation: ['', Validators.maxLength(this.observationMaxLength)]
   });
 
 

@@ -99,7 +99,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('routesTable') routesTable: MatTable<any>;
   @ViewChild('contributionsTable') contributionsTable: MatTable<any>;
-  public readonly observationMaxLength: number = 5000;
+  public readonly fieldMaxLength: number = 1500;
+  public readonly observationMaxLength: number = 1300;
 
   public fileData: File;
   public routes: Array<FileRoute>;
@@ -173,17 +174,17 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   });
 
   public operationForm: FormGroup = this.fb.group({
-    flightMotive: [''],
-    connections: [''],
-    limitations: [''],
-    fixedVariableFuel: [''],
-    luggage: [''],
-    specialLuggage: [''],
-    onBoardService: [''],
-    specialRequests: [''],
-    otherCharges: [''],
-    operationalInfo: [''],
-    observation: ['']
+    flightMotive: ['', Validators.maxLength(this.fieldMaxLength)],
+    connections: ['', Validators.maxLength(this.fieldMaxLength)],
+    limitations: ['', Validators.maxLength(this.fieldMaxLength)],
+    fixedVariableFuel: ['', Validators.maxLength(this.fieldMaxLength)],
+    luggage: ['', Validators.maxLength(this.fieldMaxLength)],
+    specialLuggage: ['', Validators.maxLength(this.fieldMaxLength)],
+    onBoardService: ['', Validators.maxLength(this.fieldMaxLength)],
+    specialRequests: ['', Validators.maxLength(this.fieldMaxLength)],
+    otherCharges: ['', Validators.maxLength(this.fieldMaxLength)],
+    operationalInfo: ['', Validators.maxLength(this.fieldMaxLength)],
+    observation: ['', Validators.maxLength(this.observationMaxLength)]
   });
 
   public statusOptions: FileStatus[] = [];
@@ -501,18 +502,22 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public hasControlAnyError(controlName: string): boolean {
-    const control = this.fileForm.get(controlName);
+    return this.hasControlAnyErrorSpecificForm(this.fileForm, controlName);
+  }
+
+  public hasControlAnyErrorSpecificForm(formGroup: FormGroup, controlName: string): boolean {
+    const control = formGroup.get(controlName);
     return control && control.invalid && (control.dirty || control.touched);
   }
 
-  public hasControlSpecificError(
-    controlName: string,
-    errorName: string
-  ): boolean {
-    const control = this.fileForm.get(controlName);
-    return control && control.hasError(errorName);
+  public hasControlSpecificError(controlName: string, errorName: string): boolean {
+    return this.hasControlSpecificErrorSpecificForm(this.fileForm, controlName, errorName);
   }
 
+  public hasControlSpecificErrorSpecificForm(formGroup: FormGroup, controlName: string, errorName: string): boolean {
+    const control = formGroup.get(controlName);
+    return control && control.hasError(errorName);
+  }
   public expandRow(element: FileRoute) {
     const index: number = this.expandedRoutes.indexOf(element);
     index !== -1

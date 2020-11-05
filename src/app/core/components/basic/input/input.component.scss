@@ -13,3 +13,15 @@ button.browser-default {
     }
   }
 }
+.mat-form-field-invalid::ng-deep .helper-text[data-error]{
+  position: absolute;
+  top: 27px;
+  left: 11px;
+
+  &::after {
+    width: calc(100% - 3rem);
+    color: #f44336;
+    content: attr(data-error);
+    font-size: 12px;
+  }
+}
