@@ -24,7 +24,8 @@ import {
   FileRoute,
   DAYS_LIST,
   FrequencyDay,
-  RouteStatus
+  RouteStatus,
+  StandardWeekDays
 } from '../../models/FileRoute.model';
 import { FilesService } from '../../services/files.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
@@ -445,6 +446,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         });
       });
     return formattedWeek.join(' ');
+  }
+
+  public getRotationFormattedFrequency(startDate: string): string {
+    return this.getFormattedFrequency([{ weekday: StandardWeekDays[new Date(startDate).getDay()]}]);
   }
 
   public getFormattedMonthDays(frequencyDays: FrequencyDay[]): string {

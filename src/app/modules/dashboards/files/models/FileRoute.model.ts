@@ -28,6 +28,16 @@ export enum DayOfWeek {
   SUNDAY = 'SUNDAY',
 }
 
+export enum StandardWeekDays {
+  SUNDAY = 0,
+  MONDAY = 1,
+  TUESDAY = 2,
+  WEDNESDAY = 3,
+  THURSDAY = 4,
+  FRIDAY = 5,
+  SATURDAY = 6,
+}
+
 export enum FrequencyType {
   ADHOC = 'ADHOC',
   DAILY = 'DAILY',
