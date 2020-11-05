@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -19,7 +19,8 @@ export class IntegrationOfficeService {
   public generatePlanning(file: File): Observable<void> {
     const url: string = this.mocked
       ? '/assets/mocks/**.json'
-      : `${this.url}${file.id}/planning`;
-    return this.http.post<void>(url, {fileId: file.id});
+      : `${this.url}/planning`;
+    const params: HttpParams = new HttpParams().set('fileId', file.id.toString());
+    return this.http.get<void>(url, { params });
   }
 }

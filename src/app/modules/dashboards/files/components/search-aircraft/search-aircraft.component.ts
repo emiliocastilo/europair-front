@@ -88,7 +88,7 @@ export class SearchAircraftComponent implements OnInit {
     minimunSubcategory: [true],
     fleetTypes: [[]],
     operators: [[]],
-    filterSeat: [TypeFilterSeat.EXACT],
+    filterSeat: [TypeFilterSeat.TOTAL_PAX],
     seatF: ['', Validators.min(0)],
     seatC: ['', Validators.min(0)],
     seatY: ['', Validators.min(0)],
@@ -150,9 +150,9 @@ export class SearchAircraftComponent implements OnInit {
 
   private itemsSelectSeatFilter(): Array<{value: string, description: string}> {
     return [
-      {value: TypeFilterSeat.EXACT, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.EXACT}`)},
-      {value: TypeFilterSeat.F_C, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.F_C}`)},
       {value: TypeFilterSeat.TOTAL_PAX, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.TOTAL_PAX}`)},
+      {value: TypeFilterSeat.EXACT, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.EXACT}`)},
+      {value: TypeFilterSeat.F_C, description: this.translateService.instant(`SEARCH_AIRCRAFT.${TypeFilterSeat.F_C}`)}
     ]
   }
 
