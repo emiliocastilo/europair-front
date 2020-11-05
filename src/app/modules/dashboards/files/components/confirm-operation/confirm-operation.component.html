@@ -6,49 +6,128 @@
 <div>
   <form [formGroup]="operationForm">
     <div class="row  cmd-mt-1">
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate" [hasErrors]="hasControlAnyError('flightReason')"
-        formControlName="flightMotive" class="col s12 l4">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate"
+        [hasErrors]="hasControlAnyError('flightMotive')" formControlName="flightMotive" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('flightMotive')">
+            <span *ngIf="hasControlSpecificError('flightMotive', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
       </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate" [hasErrors]="hasControlAnyError('conections')"
-        formControlName="connections" class="col s12 l4">
-      </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate" [hasErrors]="hasControlAnyError('flightLimitation')"
-        formControlName="limitations" class="col s12 l4">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate"
+        [hasErrors]="hasControlAnyError('connections')" formControlName="connections" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('connections')">
+            <span *ngIf="hasControlSpecificError('connections', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
       </app-input>
     </div>
     <div class="row">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate"
+        [hasErrors]="hasControlAnyError('limitations')" formControlName="limitations" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('limitations')">
+            <span *ngIf="hasControlSpecificError('limitations', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FUEL' | translate" [hasErrors]="hasControlAnyError('fuel')"
-        formControlName="fixedVariableFuel" class="col s12 l4">
-      </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('equipment')"
-        formControlName="luggage" class="col s12 l4">
-      </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate" [hasErrors]="hasControlAnyError('especialEquipment')"
-        formControlName="specialLuggage" class="col s12 l4">
-      </app-input>
-    </div>
-    <div class="row">
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate" [hasErrors]="hasControlAnyError('serviceOnBoard')"
-        formControlName="onBoardService" class="col s12 l4">
-      </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate" [hasErrors]="hasControlAnyError('specialRequest')"
-        formControlName="specialRequests" class="col s12 l4">
-      </app-input>
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate" [hasErrors]="hasControlAnyError('otherCharges')"
-        formControlName="otherCharges" class="col s12 l4">
+        formControlName="fixedVariableFuel" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('fixedVariableFuel')">
+            <span *ngIf="hasControlSpecificError('fixedVariableFuel', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
       </app-input>
     </div>
     <div class="row">
-      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate" [hasErrors]="hasControlAnyError('operative')"
-        formControlName="operationalInfo" class="col s12 l4">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate"
+        [hasErrors]="hasControlAnyError('luggage')" formControlName="luggage" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('luggage')">
+            <span *ngIf="hasControlSpecificError('luggage', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate"
+        [hasErrors]="hasControlAnyError('specialLuggage')" formControlName="specialLuggage" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('specialLuggage')">
+            <span *ngIf="hasControlSpecificError('specialLuggage', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
+    </div>
+    <div class="row">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate"
+        [hasErrors]="hasControlAnyError('onBoardService')" formControlName="onBoardService" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('onBoardService')">
+            <span *ngIf="hasControlSpecificError('onBoardService', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate"
+        [hasErrors]="hasControlAnyError('specialRequests')" formControlName="specialRequests" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('specialRequests')">
+            <span *ngIf="hasControlSpecificError('specialRequests', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
+    </div>
+    <div class="row">
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate"
+        [hasErrors]="hasControlAnyError('otherCharges')" formControlName="otherCharges" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('otherCharges')">
+            <span *ngIf="hasControlSpecificError('otherCharges', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate"
+        [hasErrors]="hasControlAnyError('operationalInfo')" formControlName="operationalInfo" class="col s12 l6">
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('operationalInfo')">
+            <span *ngIf="hasControlSpecificError('operationalInfo', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
       </app-input>
     </div>
     <div class="row">
       <mat-form-field class="col s12 l12">
         <mat-label>{{ "FILES.OPERATIONS_OBSERVATIONS.OBSERVATIONS" | translate }}</mat-label>
-        <textarea matInput formControlName="observation" [maxlength]="observationMaxLength"></textarea>
+        <textarea matInput formControlName="observation"></textarea>
+        <ng-container inputErrors>
+          <ng-container *ngIf="hasControlAnyError('observation')">
+            <span *ngIf="hasControlSpecificError('observation', 'maxlength')" class="helper-text"
+              [attr.data-error]="'FILES.OPERATIONS_OBSERVATIONS.ERROR.MAX_LENGTH' | translate">
+            </span>
+          </ng-container>
+        </ng-container>
       </mat-form-field>
-      <button color="primary" class="col s12 l2 offset-l10" (click)="openModalConfirmOperation()" mat-raised-button>
+      <button color="primary" class="col s12 l2 offset-l10" [disabled]="operationForm.invalid" (click)="openModalConfirmOperation()" mat-raised-button>
         {{ "FILES.CONFIRM" | translate }}
       </button>
     </div>
