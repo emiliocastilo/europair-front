@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Services } from './models/services.model';
 import { ServicesService } from './services/services.service';
@@ -14,8 +16,6 @@ import { ServicesService } from './services/services.service';
   styleUrls: ['./services.component.scss'],
 })
 export class ServicesComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
-
   public services: Services[];
   public serviceDetailTitle: string;
 
@@ -23,6 +23,7 @@ export class ServicesComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public resultsLength: number = 0;
   public pageSize: number = 0;
+  private servicesSearchFilter: SearchFilter = {};
   
   constructor(
     private readonly servicesService: ServicesService,
@@ -34,10 +35,10 @@ export class ServicesComponent implements OnInit {
     this.initializeServicesTable();
   }
 
-  private initializeServicesTable() {
-    this.servicesService.getServices().subscribe((data: Page<Services>) => {
+  private initializeServicesTable(searchFilter: SearchFilter = {}) {
+    this.servicesSearchFilter = {...this.servicesSearchFilter, ...searchFilter};
+    this.servicesService.getServices(this.servicesSearchFilter).subscribe((data: Page<Services>) => {
       this.dataSource = new MatTableDataSource(data.content);
-      this.dataSource.sort = this.sort;
       this.resultsLength = data.totalElements;
       this.pageSize = data.size;
     });
@@ -69,5 +70,18 @@ export class ServicesComponent implements OnInit {
 
   public goToDetail(service: Services): void {
     this.router.navigate(['services', service.id]);
+  }
+
+  public onSortServices(sort: Sort): void {
+    this.initializeServicesTable({
+      sort: `${sort.active.replace('-', '.')},${sort.direction}`,
+    });
+  }
+
+  public onPage(pageEvent: PageEvent): void {
+    this.initializeServicesTable({
+      page: pageEvent.pageIndex.toString(),
+      size: pageEvent.pageSize.toString(),
+    });
   }
 }
