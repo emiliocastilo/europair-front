@@ -42,6 +42,7 @@ import { EditOnEnterDirective } from './components/editable/edit-on-enter.direct
 import { FocusableDirective } from './directives/focusable.directive';
 import { MaxlengthDirective } from './directives/maxlength.directive';
 import { SelectFormComponent } from './components/basic/select-form/select-form.component';
+import { HeaderStickyDirective } from './directives/header-sticky.directive';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { SelectFormComponent } from './components/basic/select-form/select-form.
     EditModeDirective,
     EditOnEnterDirective,
     FocusableDirective,
+    HeaderStickyDirective,
     MaxlengthDirective,
   ],
   imports: [
@@ -123,6 +125,7 @@ import { SelectFormComponent } from './components/basic/select-form/select-form.
     EditModeDirective,
     EditOnEnterDirective,
     FocusableDirective,
+    HeaderStickyDirective,
     MaxlengthDirective,
   ],
 })
