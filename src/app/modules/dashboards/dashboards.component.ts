@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { MenuModel } from 'src/app/core/models/menus/left-sidebar.model';
 import { MenuService } from 'src/app/core/services/menu.service';
 
@@ -8,9 +10,28 @@ import { MenuService } from 'src/app/core/services/menu.service';
   styleUrls: ['./dashboards.component.scss'],
 })
 export class DashboardsComponent implements OnInit {
+  readonly icons = [
+    'europair_add',
+    'europair_add_more',
+    'europair_add_trace',
+    'europair_document',
+    'europair_edit',
+    'europair_line_break',
+    'europair_plane',
+    'europair_trace',
+    'europair_trash',
+    'europair_feather_mail',
+  ];
   public menuCollapsed: boolean;
   public menu: MenuModel;
-  constructor(private readonly menuService: MenuService) { }
+  constructor(private readonly menuService: MenuService, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) { 
+    this.icons.forEach((i) => {
+      iconRegistry.addSvgIcon(
+        i,
+        sanitizer.bypassSecurityTrustResourceUrl(`assets/svg/${i}.svg`)
+      );
+    });
+  }
 
   ngOnInit(): void {
     this.menuCollapsed = false;
