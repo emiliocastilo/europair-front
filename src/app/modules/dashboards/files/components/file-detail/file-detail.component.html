@@ -1,6 +1,6 @@
 <ng-container *ngIf="routeData$ | async as routeData">
   <core-page-bar [pageTitle]="routeData.title | translate"></core-page-bar>
-  <div class="button-row">
+  <div class="button-row" appHeaderSticky>
     <div class="cmd-mb-2">
       <button class="browser-default cmd-mr-2" color="primary" mat-raised-button
         (click)="returnToFileList()">

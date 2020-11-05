@@ -4,6 +4,15 @@ $actions-width: 150px;
 
 $other-columns-width: 120px;
 
+.button-panel-fixed {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 60px;
+  background: white;
+  padding: 20px 0;
+}
+
 // COLORS
 .mat-expansion-panel {
   border-radius: 0 !important;
