@@ -38,11 +38,11 @@ export enum ContributionStates {
   PENDING = 'PENDING',
   SENDED = 'SENDED',
   QUOTED = 'QUOTED',
-  CONFIRMED = 'CONFIRMED',
+  WON = 'WON',
 }
 
 export const CONTRIBUTION_STATES: ContributionStates[] = [
-  ContributionStates.CONFIRMED,
+  ContributionStates.WON,
   ContributionStates.PENDING,
   ContributionStates.QUOTED,
   ContributionStates.SENDED,

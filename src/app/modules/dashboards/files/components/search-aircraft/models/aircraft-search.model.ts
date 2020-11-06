@@ -11,7 +11,7 @@ export interface AircraftSearchResult {
     stretchers: number;
     insuranceEndDate: string;
     mainBaseId: number;
-    mainBaseName: string;
+    mainBaseIataCode: string;
     maxCargo: number;
     nighttimeConfiguration: number;
     observations: Array<string>;
