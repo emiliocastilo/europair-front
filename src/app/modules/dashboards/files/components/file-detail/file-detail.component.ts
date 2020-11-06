@@ -576,7 +576,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         show = fileStatus !== FileStatusCode.NEW_REQUEST && fileStatus !== FileStatusCode.SALES;
         break;
       case FileAction.GENERATE_PLANING:
-        show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED;
+        show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED || fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       default:
         show = false;
