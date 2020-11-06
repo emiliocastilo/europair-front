@@ -56,6 +56,7 @@ import { ConfirmOperationService } from '../../services/confirm-operation.servic
 import { Contact, OperationType } from '../../../masters/contacts/models/contact';
 import { ContactsService } from '../../../masters/contacts/services/contact.service';
 import { IntegrationOfficeService } from '../../services/integration-office.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -197,6 +198,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private isFileDetail: boolean;
   private fileContributionsMap: Map<number, Contribution[]> = new Map();
+
   constructor(
     private fb: FormBuilder,
     private fileService: FilesService,
@@ -210,7 +212,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
     private readonly matDialog: MatDialog,
-    private readonly integrationOfficeService: IntegrationOfficeService
+    private readonly integrationOfficeService: IntegrationOfficeService,
+    private readonly breakpointObserver: BreakpointObserver
   ) {}
 
   ngAfterViewInit(): void {}
@@ -221,6 +224,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.loadOperationType();
     this.obtainParams();
     this.routeData$ = this.route.data.pipe(tap(this.initFileData));
+  }
+
+  public isSmallScreen(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 993px)');
   }
 
   // TODO: Improve client clientId relation

@@ -234,7 +234,7 @@
                 <mat-table [dataSource]="getChildRoutes(parentElement)">
                   <!-- Label Column -->
                   <ng-container matColumnDef="label">
-                    <mat-cell *matCellDef="let element" class="expanded-table-sticky start">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky start': !isSmallScreen()}">
                       <span class="separator"> </span>
                       {{ element.label }}
                     </mat-cell>
@@ -286,7 +286,7 @@
 
                   <!-- Month Day Column-->
                   <ng-container matColumnDef="dayNumber">
-                    <mat-cell *matCellDef="let element" class="expanded-last-row">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-last-row': !isSmallScreen()}">
                       {{ element.startDate | date:'dd' }}
                     </mat-cell>
                     <mat-cell> - </mat-cell>
@@ -294,7 +294,7 @@
 
                   <!-- Status Column-->
                   <ng-container matColumnDef="status">
-                    <mat-cell *matCellDef="let element" class="expanded-table-sticky end">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}">
                       {{ element.routeState }}
                     </mat-cell>
                   </ng-container>
@@ -303,7 +303,7 @@
                   <ng-container matColumnDef="route-actions">
                     <mat-cell
                       *matCellDef="let element"
-                      class="expanded-table-sticky end"
+                      [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}"
                     >
                       <mat-icon
                         (click)="editRotation(parentElement, element)"
@@ -452,7 +452,7 @@
                 <mat-table [dataSource]="getContributionData(parentElement)">
                   <!-- Label Column -->
                   <ng-container matColumnDef="label">
-                    <mat-cell *matCellDef="let element" class="expanded-table-sticky start">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky start': !isSmallScreen()}">
                       <span class="separator"> </span>
                     </mat-cell>
                   </ng-container>
@@ -519,14 +519,14 @@
 
                   <!-- salesPrice Column-->
                   <ng-container matColumnDef="salesCommissionPercent">
-                    <mat-cell *matCellDef="let element" class="expanded-last-row">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-last-row': !isSmallScreen()}">
                       {{ element?.salesCommissionPercent }}
                     </mat-cell>
                   </ng-container>
 
                   <!-- Status Column-->
                   <ng-container matColumnDef="status">
-                    <mat-cell *matCellDef="let element" class="expanded-table-sticky end">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}">
                       {{ element?.contributionState }}
                     </mat-cell>
                   </ng-container>
@@ -535,7 +535,7 @@
                   <ng-container matColumnDef="contribution-actions">
                     <mat-cell
                       *matCellDef="let element"
-                      class="expanded-table-sticky end"
+                      [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}"
                     >
                       <mat-icon
                         (click)="navigateToContributionDetail(parentElement, element)"
