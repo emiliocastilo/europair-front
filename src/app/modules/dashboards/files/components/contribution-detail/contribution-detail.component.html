@@ -80,7 +80,7 @@
       >
       </app-input>
     </div>
-    <div class="row" *ngIf="contribution.purchaseVATMsg">
+    <div class="row" *ngIf="contribution?.purchaseVATMsg">
       <mat-card class="warning-card">
         <mat-label>
           <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
@@ -356,7 +356,7 @@
       >
       </app-input>
     </div>
-    <div class="row" *ngIf="contribution.saleVATMsg">
+    <div class="row" *ngIf="contribution?.saleVATMsg">
       <mat-card class="warning-card">
         <mat-label>
           <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
