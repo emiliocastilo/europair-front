@@ -119,6 +119,7 @@
         <mat-cell *matCellDef="let element">
           {{ element.rotation }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="price">
@@ -143,6 +144,7 @@
             </ng-template>
           </core-editable>
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ purchaseRotationLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
       </ng-container>
       <mat-header-row
         *matHeaderRowDef="rotationsColumnsToDisplay"
@@ -150,6 +152,7 @@
       <mat-row
         *matRowDef="let row; columns: rotationsColumnsToDisplay"
       ></mat-row>
+      <mat-footer-row *matFooterRowDef="rotationsColumnsToDisplay"></mat-footer-row>
     </mat-table>
   </div>
   <div class="responsive-table-container">
@@ -162,6 +165,7 @@
         <mat-cell *matCellDef="let element">
           {{ element.type }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
       </ng-container>
       <!-- Quantity Column-->
       <ng-container matColumnDef="quantity">
@@ -171,6 +175,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.quantity | number }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="servicePrice">
@@ -180,6 +185,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.price | number: "1.2-2" }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ purchaseServiceLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="observation">
@@ -189,6 +195,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.comments }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <!-- Status Column-->
       <ng-container matColumnDef="actions" stickyEnd>
@@ -201,6 +208,7 @@
             [matTooltipClass]="'europair-tooltip'"
           ></mat-icon>
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <mat-header-row
         *matHeaderRowDef="servicesColumnsToDisplay"
@@ -208,6 +216,7 @@
       <mat-row
         *matRowDef="let row; columns: servicesColumnsToDisplay"
       ></mat-row>
+      <mat-footer-row *matFooterRowDef="servicesColumnsToDisplay"></mat-footer-row>
     </mat-table>
   </div>
   <button
@@ -405,6 +414,7 @@
         <mat-cell *matCellDef="let element">
           {{ element.rotation }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="price">
@@ -426,6 +436,7 @@
             </ng-template>
           </core-editable>
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ saleRotationLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
       </ng-container>
       <mat-header-row
         *matHeaderRowDef="rotationsColumnsToDisplay"
@@ -433,6 +444,7 @@
       <mat-row
         *matRowDef="let row; columns: rotationsColumnsToDisplay"
       ></mat-row>
+      <mat-footer-row *matFooterRowDef="rotationsColumnsToDisplay"></mat-footer-row>
     </mat-table>
   </div>
   <div class="responsive-table-container">
@@ -445,6 +457,7 @@
         <mat-cell *matCellDef="let element">
           {{ element.type }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
       </ng-container>
       <!-- Quantity Column-->
       <ng-container matColumnDef="quantity">
@@ -454,6 +467,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.quantity | number }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="servicePrice">
@@ -463,6 +477,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.price | number: "1.2-2" }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ saleServiceLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
       </ng-container>
       <!-- Price Column-->
       <ng-container matColumnDef="observation">
@@ -472,6 +487,7 @@
         <mat-cell *matCellDef="let element; let index = index">
           {{ element.comments }}
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <!-- Status Column-->
       <ng-container matColumnDef="actions" stickyEnd>
@@ -484,6 +500,7 @@
             [matTooltipClass]="'europair-tooltip'"
           ></mat-icon>
         </mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
       </ng-container>
       <mat-header-row
         *matHeaderRowDef="servicesColumnsToDisplay"
@@ -491,6 +508,7 @@
       <mat-row
         *matRowDef="let row; columns: servicesColumnsToDisplay"
       ></mat-row>
+      <mat-footer-row *matFooterRowDef="servicesColumnsToDisplay"></mat-footer-row>
     </mat-table>
   </div>
   <button

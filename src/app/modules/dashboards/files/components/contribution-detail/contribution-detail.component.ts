@@ -60,9 +60,13 @@ export class ContributionDetailComponent implements OnInit {
   public purchasePriceControls: FormArray;
   public salePriceControls: FormArray;
   public purchaseRotationContributionLines: RotationContributionLine[] = [];
+  public purchaseRotationLinesTotalAmount: number = 0;
   public purchaseServiceContributionLines: ContributionLine[] = [];
+  public purchaseServiceLinesTotalAmount: number = 0;
   public saleRotationContributionLines: RotationContributionLine[] = [];
+  public saleRotationLinesTotalAmount: number = 0;
   public saleServiceContributionLines: ContributionLine[] = [];
+  public saleServiceLinesTotalAmount: number = 0;
   public rotationsColumnsToDisplay = ['rotation', 'price'];
   public servicesColumnsToDisplay = [
     'service',
@@ -228,13 +232,16 @@ export class ContributionDetailComponent implements OnInit {
       )
       .pipe(map((page) => page.content))
       .subscribe((lines) => {
+        const flightLines = this.getFlightLines(lines);
+        this.purchaseServiceContributionLines = this.getServicesLines(lines);
+        this.purchaseRotationLinesTotalAmount = this.getTotalAmount(flightLines);
+        this.purchaseServiceLinesTotalAmount = this.getTotalAmount(this.purchaseServiceContributionLines);
         this.purchaseRotationContributionLines = this.createRotationsLines(
-          lines
+          flightLines
         );
         this.purchasePriceControls = new FormArray(
           this.purchaseRotationContributionLines.map(this.createPriceControls)
         );
-        this.purchaseServiceContributionLines = this.getServicesLines(lines);
       });
   }
 
@@ -243,19 +250,27 @@ export class ContributionDetailComponent implements OnInit {
       .getSaleContributionLines(this.fileId, this.routeId, this.contributionId)
       .pipe(map((page) => page.content))
       .subscribe((lines) => {
-        this.saleRotationContributionLines = this.createRotationsLines(lines);
+        const flightLines = this.getFlightLines(lines);
+        this.saleServiceContributionLines = this.getServicesLines(lines);
+        this.saleRotationLinesTotalAmount = this.getTotalAmount(flightLines);
+        this.saleServiceLinesTotalAmount = this.getTotalAmount(this.saleServiceContributionLines);
+        this.saleRotationContributionLines = this.createRotationsLines(flightLines);
         this.salePriceControls = new FormArray(
           this.saleRotationContributionLines.map(this.createPriceControls)
         );
-        this.saleServiceContributionLines = this.getServicesLines(lines);
       });
   }
+
+  private getTotalAmount(lines: ContributionLine[]) {
+    return lines.reduce(this.totalAmountReducer, 0);
+  }
+
+  private totalAmountReducer = (totalAmount: number, line: ContributionLine): number => line.price? totalAmount + line.price : totalAmount;
 
   private createRotationsLines(
     lines: ContributionLine[]
   ): RotationContributionLine[] {
     return lines
-      .filter((line: ContributionLine) => line.type === ServiceType.FLIGHT)
       .map((line: ContributionLine) => ({
         contributionLine: line,
         rotation: this.createRotationLabel(line),
@@ -265,6 +280,10 @@ export class ContributionDetailComponent implements OnInit {
 
   private createRotationLabel(line: ContributionLine): string {
     return this.rotationsLabelMap.get(line.routeId) ?? '';
+  }
+
+  private getFlightLines(lines: ContributionLine[]) {
+    return lines.filter((line: ContributionLine) => line.type === ServiceType.FLIGHT);
   }
 
   private getServicesLines(lines: ContributionLine[]): ContributionLine[] {

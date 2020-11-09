@@ -49,7 +49,8 @@
     "SUCCESSFUL_OPERATION": "Operación exitosa",
     "SAVE_ORDER": "Guardar orden",
     "CONFIRM_OPERATION": "Confirmar Operación",
-    "SEARCH_FILTERS": "Filtros de búsqueda"
+    "SEARCH_FILTERS": "Filtros de búsqueda",
+    "TOTAL": "Total"
   },
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
