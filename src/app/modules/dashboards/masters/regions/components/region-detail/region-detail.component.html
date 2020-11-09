@@ -41,7 +41,7 @@
             class="material-icons">keyboard_arrow_down</i>{{'REGIONS.COUNTRIES' | translate}}</div>
         <div class="collapsible-body"><span>
             <section class="region-country-detail-table">
-              <div class="table-container">
+              <div class="responsive-table-container">
                 <mat-table [dataSource]="dataSourceCountries">
                   <ng-container matColumnDef="selection" sticky>
                     <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
@@ -84,7 +84,7 @@
             class="material-icons">keyboard_arrow_down</i>{{'REGIONS.AIRPORTS' | translate}}</div>
         <div class="collapsible-body"><span>
             <section class="region-airport-detail-table">
-              <div class="table-container">
+              <div class="responsive-table-container">
                 <mat-table [dataSource]="dataSourceAirports">
                   <ng-container matColumnDef="selection" sticky>
                     <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
