@@ -394,7 +394,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }*/
 
   public returnToFileList() {
-    this.router.navigate(['files'], { queryParams: this.route.snapshot.queryParams });
+    // Remove file-detail related queryparams before navigate to file list
+    this.router.navigate(['files'], {
+        queryParams: {...this.route.snapshot.queryParams, expandedQuote: null}, 
+        queryParamsHandling: 'merge' 
+    });
   }
 
   public onSaveFile(update: boolean) {
