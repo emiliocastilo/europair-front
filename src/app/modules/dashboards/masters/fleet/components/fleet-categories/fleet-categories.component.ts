@@ -95,7 +95,7 @@ export class FleetCategoriesComponent implements OnInit {
     filter_name: [''],
   });
   public subcategorySortForm = this.fb.group({
-    sort: [SortOrder.ASC],
+    sort: ['order,ASC'],
   });
 
   constructor(
