@@ -33,5 +33,5 @@
   box-sizing: border-box;
 }
 
-@include mat-table-columns(("code", "description", "status-name"));
+@include mat-table-columns(("code", "name", "alias", "contactType", "cmsCode", "phoneNumber"));
  
