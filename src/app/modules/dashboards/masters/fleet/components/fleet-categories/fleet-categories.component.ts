@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
 import { FormBuilder } from '@angular/forms';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
-import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { SortByColumn, SortOrder } from 'src/app/core/models/table/sort-button/sort-by-column';
 
 @Component({
   selector: 'app-fleet-categories',
@@ -95,7 +95,7 @@ export class FleetCategoriesComponent implements OnInit {
     filter_name: [''],
   });
   public subcategorySortForm = this.fb.group({
-    sort: [''],
+    sort: [SortOrder.ASC],
   });
 
   constructor(
