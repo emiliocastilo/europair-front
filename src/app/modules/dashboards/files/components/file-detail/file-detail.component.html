@@ -120,7 +120,7 @@
                 Rutas Petición
               </mat-header-cell>
               <mat-cell *matCellDef="let element" class="parent-route">
-                <mat-icon class="expand-icon" *ngIf="element.rotations.length > 0"
+                <mat-icon class="expand-icon" *ngIf="element?.hasContributions"
                   [class.active]="expandedRoutes.includes(element)">
                   expand_more
                 </mat-icon>
