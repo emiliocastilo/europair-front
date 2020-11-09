@@ -386,7 +386,7 @@ export class SearchAircraftComponent implements OnInit {
   }
 
   private loadSubcategories(category: FleetCategory): void {
-    this.subcategoriesService.getFleetSubcategoriesFromCategory(category).subscribe(
+    this.subcategoriesService.getFleetSubcategoriesFromCategory(category, {sort: 'order'}).subscribe(
       (subcategories: Page<FleetSubcategory>) => this.subcategories = subcategories.content
     );
   }
