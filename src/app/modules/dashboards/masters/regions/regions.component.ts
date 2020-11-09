@@ -8,15 +8,10 @@ import { RegionsTableAdapterService } from './services/regions-table-adapter.ser
 import { RegionDetailComponent } from './components/region-detail/region-detail.component';
 import { ModalService } from 'src/app/core/components/modal/modal.service';
 import { Validators, FormBuilder } from '@angular/forms';
-import { Airport } from './models/airport';
 import { forkJoin, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
-import { Country } from '../countries/models/country';
-import { CountriesService } from '../countries/services/countries.service';
 import { TranslateService } from '@ngx-translate/core';
-import { AirportsService } from '../airports/services/airports.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Component({
@@ -33,14 +28,6 @@ export class RegionsComponent implements OnInit {
   public regionColumnsHeader: ColumnHeaderModel[] = [];
   public regionColumnsData: RowDataModel[] = [];
   public regionColumnsPagination: PaginationModel;
-  public regionCountryColumnsHeader: ColumnHeaderModel[] = [];
-  public regionCountryColumnsData: RowDataModel[] = [];
-  public regionCountryColumnsPagination: PaginationModel;
-  public regionAirportColumnsHeader: ColumnHeaderModel[] = [];
-  public regionAirportColumnsData: RowDataModel[] = [];
-  public regionAirportColumnsPagination: PaginationModel;
-  public countries: Country[];
-  public airports: Airport[];
   public regions: Region[];
   public regionSelected: Region = EMPTY_REGION;
   public regionDetailTitle: string;
@@ -57,9 +44,7 @@ export class RegionsComponent implements OnInit {
     private regionsTableAdapterService: RegionsTableAdapterService,
     private modalService: ModalService,
     private fb: FormBuilder,
-    private countriesService: CountriesService,
-    private translateService: TranslateService,
-    private airportService: AirportsService
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -82,8 +67,6 @@ export class RegionsComponent implements OnInit {
 
   private initializeTablesColumnsHeader() {
     this.regionColumnsHeader = this.regionsTableAdapterService.getRegionColumnsHeader();
-    this.regionCountryColumnsHeader = this.regionsTableAdapterService.getRegionCountryColumnsHeader();
-    this.regionAirportColumnsHeader = this.regionsTableAdapterService.getRegionAirportColumnsHeader();
   }
 
   private initializeRegionsTable() {
@@ -102,19 +85,16 @@ export class RegionsComponent implements OnInit {
     });
   }
 
-  private newRegion = () => {
-    this.getCountriesAndAirports$().subscribe(this.getNewRegionDetailData);
-  };
 
   private getNewRegionDetailData = (data: any) => {
     this.regionSelected = { ...EMPTY_REGION };
     this.regionForm.enable();
     this.regionForm.reset();
-    this.getRegionDetailData(data, this.translateService.instant('REGIONS.CREATE'), EMPTY_REGION);
+    this.getRegionDetailData(this.translateService.instant('REGIONS.CREATE'));
   };
 
   private barButtonActions = {
-    new: this.newRegion,
+    new: this.getNewRegionDetailData,
   };
 
   public onBarButtonClicked(barButtonType: BarButtonType) {
@@ -127,14 +107,10 @@ export class RegionsComponent implements OnInit {
     this.regionTableActions[action.actionId](action.selectedItem);
   }
 
-  private editRegion = (selectedItem: number) => {
-    this.getCountriesAndAirports$().subscribe(this.getEditRegionDetailData);
-  };
-
   private getEditRegionDetailData = (data: any) => {
     this.updateRegionrForm(this.regionSelected);
     this.regionForm.enable();
-    this.getRegionDetailData(data, this.translateService.instant('REGIONS.EDIT_REGION'), this.regionSelected);
+    this.getRegionDetailData(this.translateService.instant('REGIONS.EDIT_REGION'));
   };
 
   private deleteRegion = (selectedItem: number) => {
@@ -153,87 +129,21 @@ export class RegionsComponent implements OnInit {
   }
 
   private regionTableActions = {
-    edit: this.editRegion,
+    edit: this.getEditRegionDetailData,
     delete: this.deleteRegion,
   };
 
-  private getRegionDetailData = (
-    data: any,
-    regionDetailTitle: string,
-    regionSelected: Region,
-    editable = true
-  ) => {
-    this.regionCountryColumnsData = this.getRegionCountryTableDataForRegion(
-      regionSelected,
-      data.countries.content,
-      editable
-    );
-    this.regionCountryColumnsPagination = this.initializeClientTablePagination(
-      this.regionCountryColumnsData
-    );
-    this.regionAirportColumnsData = this.getRegionAirportTableDataForRegion(
-      regionSelected,
-      data.airports.content,
-      editable
-    );
-    this.regionAirportColumnsPagination = this.initializeClientTablePagination(
-      this.regionAirportColumnsData
-    );
-    this.regionCountryColumnsPagination = this.regionsTableAdapterService.getPagination();
-    this.regionCountryColumnsPagination.lastPage =
-      this.regionCountryColumnsData.length /
-      this.regionCountryColumnsPagination.elementsPerPage;
+  private getRegionDetailData = (regionDetailTitle: string) => {
     this.regionDetailTitle = regionDetailTitle;
     this.initializeModal(this.regionDetailModal);
     this.modalService.openModal();
   };
-
-  private getRegionCountryTableDataForRegion(
-    region: Region,
-    countries: Country[] = [],
-    editable = true
-  ): RowDataModel[] {
-    const regionCountries = region ? region.countries : [];
-    return this.regionsTableAdapterService.getRegionCountryTableData(
-      countries,
-      regionCountries,
-      'assigned-country-',
-      editable
-    );
-  }
-
-  private getRegionAirportTableDataForRegion(
-    region: Region,
-    airports: Airport[] = [],
-    editable = true
-  ): RowDataModel[] {
-    console.log(airports);
-    const regionAirports = region ? region.airports : [];
-    return this.regionsTableAdapterService.getRegionAirportTableData(
-      airports,
-      regionAirports,
-      'assigned-airport-',
-      editable
-    );
-  }
 
   private updateRegionrForm(selectedRegion: Region) {
     this.regionForm.setValue({
       code: selectedRegion.code,
       name: selectedRegion.name,
     });
-  }
-
-  private getCountriesAndAirports$() {
-    return forkJoin({
-      countries: this.countriesService.getCountries({size: '30000'}),
-      airports: this.airportService.getAirports({ size: '30000'}),
-    }).pipe(
-      tap((data: any) => {
-        this.countries = data.countries.content;
-        this.airports = data.airports.content;
-      })
-    );
   }
 
   private initializeClientTablePagination(

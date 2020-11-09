@@ -10,7 +10,8 @@
     <section class="region-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="regionForm">
         <div class="row">
-          <core-basic-input-text [id]="'region-code'" [label]="'REGIONS.CODE' | translate" formControlName="code" [hasErrors]="hasControlAnyError('code')">
+          <core-basic-input-text [id]="'region-code'" [label]="'REGIONS.CODE' | translate" formControlName="code"
+            [hasErrors]="hasControlAnyError('code')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('code')">
                 <span *ngIf="hasControlSpecificError('code', 'required')" class="helper-text"
@@ -21,7 +22,8 @@
           </core-basic-input-text>
         </div>
         <div class="row">
-          <core-basic-input-text [id]="'region-name'" [label]="'REGIONS.NAME' | translate" formControlName="name" [hasErrors]="hasControlAnyError('name')">
+          <core-basic-input-text [id]="'region-name'" [label]="'REGIONS.NAME' | translate" formControlName="name"
+            [hasErrors]="hasControlAnyError('name')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('name')">
                 <span *ngIf="hasControlSpecificError('name', 'required')" class="helper-text"
@@ -35,44 +37,104 @@
     </section>
     <ul class="collapsible expandable" appMatCollapsible>
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{'REGIONS.COUNTRIES' | translate}}</div>
+        <div class="collapsible-header"><i
+            class="material-icons">keyboard_arrow_down</i>{{'REGIONS.COUNTRIES' | translate}}</div>
         <div class="collapsible-body"><span>
-          <section class="region-country-detail-table">
-            <core-table
-            [columnsHeader]="regionCountryColumnsHeader"
-            [columnsData]="regionCountryColumnsData"
-            [pagination]="regionCountryColumnsPagination"
-            (switchChangesStatus)="regionCountryAssignedChanged($event)"
-            ></core-table>
-          </section>
-        </span></div>
+            <section class="region-country-detail-table">
+              <div class="table-container">
+                <mat-table [dataSource]="dataSourceCountries">
+                  <ng-container matColumnDef="selection" sticky>
+                    <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <mat-checkbox [id]="'country' + element.id" [color]="'primary'"
+                        [checked]="isCountryChecked(element.id)" (change)="checkCountry($event.checked, element)">
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                      {{ 'REGIONS.COUNTRY_CODE' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      {{ element.code }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                      {{ 'REGIONS.COUNTRY_NAME' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      {{ element.name }}
+                    </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="columnsAirportsToDisplay"></mat-header-row>
+                  <mat-row *matRowDef="let element; columns: columnsAirportsToDisplay" class="element-row">
+                  </mat-row>
+                </mat-table>
+                <mat-paginator [length]="this.resultsCountriesLength" [pageSize]="this.pageCountriesSize"
+                  (page)="onPageCountries($event)" showFirstLastButtons></mat-paginator>
+              </div>
+            </section>
+          </span></div>
       </li>
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{'REGIONS.AIRPORTS' | translate}}</div>
+        <div class="collapsible-header"><i
+            class="material-icons">keyboard_arrow_down</i>{{'REGIONS.AIRPORTS' | translate}}</div>
         <div class="collapsible-body"><span>
-          <section class="region-airport-detail-table">
-            <core-table
-            [columnsHeader]="regionAirportColumnsHeader"
-            [columnsData]="regionAirportColumnsData"
-            [pagination]="regionAirportColumnsPagination"
-            (switchChangesStatus)="regionAirportAssignedChanged($event)"
-            ></core-table>
-          </section>
-        </span></div>
+            <section class="region-airport-detail-table">
+              <div class="table-container">
+                <mat-table [dataSource]="dataSourceAirports">
+                  <ng-container matColumnDef="selection" sticky>
+                    <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <mat-checkbox [id]="'airport' + element.id" [color]="'primary'"
+                        [checked]="isAirportChecked(element.id)" (change)="checkAirport($event.checked, element)">
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                      {{ 'REGIONS.AIRPORT_CODE' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      {{ element.iataCode }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef mat-header>
+                      {{ 'REGIONS.AIRPORT_NAME' | translate}}
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      {{ element.name }}
+                    </mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="columnsAirportsToDisplay"></mat-header-row>
+                  <mat-row *matRowDef="let element; columns: columnsAirportsToDisplay" class="element-row">
+                  </mat-row>
+                </mat-table>
+                <mat-paginator [length]="this.resultsAirportsLength" [pageSize]="this.pageAirportsSize"
+                  (page)="onPageAirports($event)" showFirstLastButtons></mat-paginator>
+              </div>
+            </section>
+          </span></div>
       </li>
     </ul>
   </div>
   <div class="modal-footer">
-    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
-      *ngIf="regionForm.disabled;else saveBtn">
+    <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" *ngIf="regionForm.disabled;else saveBtn">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text" *ngIf="regionForm.disabled;else saveBtn">{{'REGIONS.CONFIRM' | translate}}</span>
+      <span class="full-width-btn-text"
+        *ngIf="regionForm.disabled;else saveBtn">{{'REGIONS.CONFIRM' | translate}}</span>
     </a>
     <ng-template #saveBtn>
-      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
-      [ngClass]="{'disabled': !regionForm.valid }" (click)="onSaveRegion()">
+      <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100"
+        [ngClass]="{'disabled': !regionForm.valid }" (click)="onSaveRegion()">
         <i class="material-icons">check_circle</i>
-        <span class="full-width-btn-text" >{{'REGIONS.SAVE' | translate}}</span>
+        <span class="full-width-btn-text">{{'REGIONS.SAVE' | translate}}</span>
       </a>
     </ng-template>
   </div>

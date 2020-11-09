@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Region } from '../models/region';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Airport } from '../models/airport';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { environment } from 'src/environments/environment';
 

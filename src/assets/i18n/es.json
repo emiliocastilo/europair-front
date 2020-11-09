@@ -304,7 +304,11 @@
       "CODE": "Debe indicar el código de la región",
       "NAME": "Debe indicar el nombre de la región",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
-    }
+    },
+    "AIRPORT_CODE": "IATA",
+    "AIRPORT_NAME": "Nombre",
+    "COUNTRY_CODE": "Código",
+    "COUNTRY_NAME": "Nombre"
   },
   "CONTACTS": {
     "PAGE_TITLE": "Contactos",
