@@ -37,9 +37,8 @@ export class FileStatusService {
     });
   }
 
-  public getAvailableStatus(fileStatus: FileStatus): Observable<Page<FileStatus>> {
-    const url: string = this.mocked ? '/assets/mocks/file-status.json' : this.url;
-    const params = new HttpParams().set('fileStatusId', fileStatus.id.toString());
-    return this.http.get<Page<FileStatus>>(url, { params });
+  public getAvailableStatus(file: File): Observable<Array<FileStatusCode>> {
+    const url: string = this.mocked ? '/assets/mocks/file-status.json' : `${environment.apiUrl}files/${file.id}/state`;
+    return this.http.get<Array<FileStatusCode>>(url);
   }
 }

@@ -190,6 +190,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   });
 
   public statusOptions: FileStatus[] = [];
+  private fileStatusList: FileStatus[];
   public operationsType: OperationType[] = [];
   public clientOptions$: Observable<Client[]>;
   public contactOptions$: Observable<Client[]>;
@@ -333,12 +334,20 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   private loadStatus(): void {
-    this.fileStatusService
-      .getAvailableStatus(this.fileData?.status)
-      .subscribe(
-        (fileStatus: Page<FileStatus>) =>
-          (this.statusOptions = fileStatus.content)
-      );
+    this.fileStatusService.getStatus()
+      .subscribe((page: Page<FileStatus>) => {
+        this.fileStatusList = page.content;
+        this.loadStatusFile();
+      });
+  }
+
+  private loadStatusFile(): void {
+    this.fileStatusService.getAvailableStatus(this.fileData)
+      .subscribe((fileStatus: Array<FileStatusCode>) => {
+        const status: FileStatus[] = this.fileStatusList.filter((statusList: FileStatus) => fileStatus.includes(statusList.code));
+        status.unshift(this.fileData.status);
+        this.statusOptions = status;
+      });
   }
 
   private loadOperationType(): void {
@@ -599,7 +608,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isBookedGreen(): boolean {
     const statusId = this.fileForm?.get('statusId').value;
     return (
-      this.statusOptions.find((status: FileStatus) => status.id === statusId)
+      this.statusOptions?.find((status: FileStatus) => status.id === statusId)
         ?.code === 'GREEN_BOOKED'
     );
   }
@@ -607,7 +616,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public isBookedBlue(): boolean {
     const statusId = this.fileForm?.get('statusId').value;
     return (
-      this.statusOptions.find((status: FileStatus) => status.id === statusId)
+      this.statusOptions?.find((status: FileStatus) => status.id === statusId)
         ?.code === 'BLUE_BOOKED'
     );
   }
