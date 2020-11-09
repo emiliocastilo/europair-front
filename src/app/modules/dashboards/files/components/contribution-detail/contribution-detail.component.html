@@ -106,97 +106,110 @@
       {{ "COMMON.SAVE" | translate | titlecase }}
     </button>
   </form>
-  <mat-table [dataSource]="purchaseRotationContributionLines" class="cmd-mb-2">
-    <!-- Rotation Column-->
-    <ng-container matColumnDef="rotation">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.ROTATION" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.rotation }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.PRICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        <core-editable (update)="updatePurchasePrice(index, 'price')">
-          <ng-template appViewMode>
-            {{ element.price | number: "1.2-2" }}
-          </ng-template>
-          <ng-template appEditMode>
-            <input
-              type="number"
-              [formControl]="getControl(purchasePriceControls, index, 'price')"
-              appFocusable
-              appEditOnEnter
-              [appMaxlength]="10"
-            />
-          </ng-template>
-        </core-editable>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row
-      *matHeaderRowDef="rotationsColumnsToDisplay"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: rotationsColumnsToDisplay"></mat-row>
-  </mat-table>
-  <mat-table [dataSource]="purchaseServiceContributionLines" class="cmd-mb-2">
-    <!-- Service Column-->
-    <ng-container matColumnDef="service">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.SERVICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.type }}
-      </mat-cell>
-    </ng-container>
-    <!-- Quantity Column-->
-    <ng-container matColumnDef="quantity">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.QUANTITY" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.quantity | number }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="servicePrice">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.PRICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.price | number: "1.2-2" }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="observation">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.comments }}
-      </mat-cell>
-    </ng-container>
-    <!-- Status Column-->
-    <ng-container matColumnDef="actions" stickyEnd>
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-icon
-          (click)="deleteService(element)"
-          svgIcon="europair_trash"
-          [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
-          [matTooltipClass]="'europair-tooltip'"
-        ></mat-icon>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row
-      *matHeaderRowDef="servicesColumnsToDisplay"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: servicesColumnsToDisplay"></mat-row>
-  </mat-table>
+  <div class="responsive-table-container">
+    <mat-table
+      [dataSource]="purchaseRotationContributionLines"
+      class="cmd-mb-2"
+    >
+      <!-- Rotation Column-->
+      <ng-container matColumnDef="rotation">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.ROTATION" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.rotation }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <core-editable (update)="updatePurchasePrice(index, 'price')">
+            <ng-template appViewMode>
+              {{ element.price | number: "1.2-2" }}
+            </ng-template>
+            <ng-template appEditMode>
+              <input
+                type="number"
+                [formControl]="
+                  getControl(purchasePriceControls, index, 'price')
+                "
+                appFocusable
+                appEditOnEnter
+                [appMaxlength]="10"
+              />
+            </ng-template>
+          </core-editable>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="rotationsColumnsToDisplay"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: rotationsColumnsToDisplay"
+      ></mat-row>
+    </mat-table>
+  </div>
+  <div class="responsive-table-container">
+    <mat-table [dataSource]="purchaseServiceContributionLines" class="cmd-mb-2">
+      <!-- Service Column-->
+      <ng-container matColumnDef="service">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.SERVICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.type }}
+        </mat-cell>
+      </ng-container>
+      <!-- Quantity Column-->
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.QUANTITY" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.quantity | number }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="servicePrice">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.price | number: "1.2-2" }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="observation">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.comments }}
+        </mat-cell>
+      </ng-container>
+      <!-- Status Column-->
+      <ng-container matColumnDef="actions" stickyEnd>
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon
+            (click)="deleteService(element)"
+            svgIcon="europair_trash"
+            [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
+            [matTooltipClass]="'europair-tooltip'"
+          ></mat-icon>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="servicesColumnsToDisplay"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: servicesColumnsToDisplay"
+      ></mat-row>
+    </mat-table>
+  </div>
   <button
     *ngIf="isVisibleButtonNewPurchaseService; else purchaseFormTemplate"
     color="primary"
@@ -382,96 +395,104 @@
       {{ "COMMON.SAVE" | translate | titlecase }}
     </button>
   </form>
-  <mat-table [dataSource]="saleRotationContributionLines" class="cmd-mb-2">
-    <!-- Rotation Column-->
-    <ng-container matColumnDef="rotation">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.ROTATION" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.rotation }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="price">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.PRICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        <core-editable (update)="updateSalePrice(index, 'price')">
-          <ng-template appViewMode>
-            {{ element.price | number: "1.2-2" }}
-          </ng-template>
-          <ng-template appEditMode>
-            <input
-              type="number"
-              [formControl]="getControl(salePriceControls, index, 'price')"
-              appFocusable
-              appEditOnEnter
-            />
-          </ng-template>
-        </core-editable>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row
-      *matHeaderRowDef="rotationsColumnsToDisplay"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: rotationsColumnsToDisplay"></mat-row>
-  </mat-table>
-  <mat-table [dataSource]="saleServiceContributionLines" class="cmd-mb-2">
-    <!-- Service Column-->
-    <ng-container matColumnDef="service">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.SERVICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        {{ element.type }}
-      </mat-cell>
-    </ng-container>
-    <!-- Quantity Column-->
-    <ng-container matColumnDef="quantity">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.QUANTITY" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.quantity | number }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="servicePrice">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.PRICE" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.price | number: "1.2-2" }}
-      </mat-cell>
-    </ng-container>
-    <!-- Price Column-->
-    <ng-container matColumnDef="observation">
-      <mat-header-cell *matHeaderCellDef>
-        {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element; let index = index">
-        {{ element.comments }}
-      </mat-cell>
-    </ng-container>
-    <!-- Status Column-->
-    <ng-container matColumnDef="actions" stickyEnd>
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-icon
-          (click)="deleteService(element)"
-          svgIcon="europair_trash"
-          [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
-          [matTooltipClass]="'europair-tooltip'"
-        ></mat-icon>
-      </mat-cell>
-    </ng-container>
-    <mat-header-row
-      *matHeaderRowDef="servicesColumnsToDisplay"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: servicesColumnsToDisplay"></mat-row>
-  </mat-table>
+  <div class="responsive-table-container">
+    <mat-table [dataSource]="saleRotationContributionLines" class="cmd-mb-2">
+      <!-- Rotation Column-->
+      <ng-container matColumnDef="rotation">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.ROTATION" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.rotation }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <core-editable (update)="updateSalePrice(index, 'price')">
+            <ng-template appViewMode>
+              {{ element.price | number: "1.2-2" }}
+            </ng-template>
+            <ng-template appEditMode>
+              <input
+                type="number"
+                [formControl]="getControl(salePriceControls, index, 'price')"
+                appFocusable
+                appEditOnEnter
+              />
+            </ng-template>
+          </core-editable>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="rotationsColumnsToDisplay"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: rotationsColumnsToDisplay"
+      ></mat-row>
+    </mat-table>
+  </div>
+  <div class="responsive-table-container">
+    <mat-table [dataSource]="saleServiceContributionLines" class="cmd-mb-2">
+      <!-- Service Column-->
+      <ng-container matColumnDef="service">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.SERVICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.type }}
+        </mat-cell>
+      </ng-container>
+      <!-- Quantity Column-->
+      <ng-container matColumnDef="quantity">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.QUANTITY" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.quantity | number }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="servicePrice">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.price | number: "1.2-2" }}
+        </mat-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="observation">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "CONTRIBUTIONS.OBSERVATIONS" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          {{ element.comments }}
+        </mat-cell>
+      </ng-container>
+      <!-- Status Column-->
+      <ng-container matColumnDef="actions" stickyEnd>
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon
+            (click)="deleteService(element)"
+            svgIcon="europair_trash"
+            [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
+            [matTooltipClass]="'europair-tooltip'"
+          ></mat-icon>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="servicesColumnsToDisplay"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: servicesColumnsToDisplay"
+      ></mat-row>
+    </mat-table>
+  </div>
   <button
     *ngIf="isVisibleButtonNewSaleService; else saleFormTemplate"
     color="primary"

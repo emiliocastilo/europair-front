@@ -1,5 +1,5 @@
 <core-page-bar [pageTitle]="'CONTACTS.PAGE_TITLE' | translate"></core-page-bar>
-<div class="table-container additional-services-table">
+<div class="responsive-table-container">
   <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
     <ng-container matColumnDef="code">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -45,6 +45,7 @@
     </ng-container>
     <mat-header-row *matHeaderRowDef="columnToDisplay"></mat-header-row>
     <mat-row *matRowDef="let element; columns: columnToDisplay" class="element-row"
+    (touchend)="goToDetail(element)"
     (dblclick)="goToDetail(element)"></mat-row>
   </mat-table>
 </div>
