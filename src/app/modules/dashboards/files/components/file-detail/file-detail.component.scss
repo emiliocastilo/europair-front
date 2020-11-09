@@ -1,3 +1,5 @@
+@import "variables";
+
 $label-width: 200px;
 $status-width: 150px;
 $actions-width: 150px;
@@ -266,4 +268,11 @@ $other-columns-width: 120px;
 .button-row {
   display: flex;
   justify-content: space-between;
+}
+
+@media #{$medium-and-down} {
+  .mat-table-sticky {
+    position: relative !important;
+    right: 0 !important;
+  }
 }
