@@ -252,15 +252,15 @@
         >
           <ng-container
             inputErrors
-            *ngIf="hasControlAnyError(purchaseServiceForm, 'type')"
-          >
-            <span
-              *ngIf="
-                hasControlSpecificError(purchaseServiceForm, 'type', 'required')
-              "
+            *ngIf="hasControlAnyError(purchaseServiceForm, 'type')">
+            <span *ngIf="hasControlSpecificError(purchaseServiceForm, 'type', 'required')"
               class="helper-text"
-              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate"
-            >
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate">
+            </span>
+            <span
+              *ngIf="hasControlSpecificError(purchaseServiceForm, 'type', 'serviceRepeated')"
+              class="helper-text"
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.REPETEAD_SERVICE' | translate">
             </span>
           </ng-container>
         </core-select>
@@ -544,15 +544,16 @@
         >
           <ng-container
             inputErrors
-            *ngIf="hasControlAnyError(saleServiceForm, 'type')"
-          >
+            *ngIf="hasControlAnyError(saleServiceForm, 'type')">
             <span
-              *ngIf="
-                hasControlSpecificError(saleServiceForm, 'type', 'required')
-              "
+              *ngIf="hasControlSpecificError(saleServiceForm, 'type', 'required')"
               class="helper-text"
-              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate"
-            >
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.SERVICE_REQ' | translate">
+            </span>
+            <span
+              *ngIf="hasControlSpecificError(saleServiceForm, 'type', 'serviceRepeated')"
+              class="helper-text"
+              [attr.data-error]="'CONTRIBUTIONS.ERRORS.REPETEAD_SERVICE' | translate">
             </span>
           </ng-container>
         </core-select>

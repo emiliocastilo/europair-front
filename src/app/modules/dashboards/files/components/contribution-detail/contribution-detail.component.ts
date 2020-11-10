@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -234,8 +236,21 @@ export class ContributionDetailComponent implements OnInit {
       .subscribe((lines) => {
         const flightLines = this.getFlightLines(lines);
         this.purchaseServiceContributionLines = this.getServicesLines(lines);
-        this.purchaseRotationLinesTotalAmount = this.getTotalAmount(flightLines);
-        this.purchaseServiceLinesTotalAmount = this.getTotalAmount(this.purchaseServiceContributionLines);
+        this.purchaseServiceForm
+          .get('type')
+          .setValidators([
+            Validators.required,
+            this.getTypeServicesNotRepeatedValidator(
+              this.purchaseServiceContributionLines
+            ),
+          ]);
+        this.purchaseServiceForm.get('type').updateValueAndValidity();
+        this.purchaseRotationLinesTotalAmount = this.getTotalAmount(
+          flightLines
+        );
+        this.purchaseServiceLinesTotalAmount = this.getTotalAmount(
+          this.purchaseServiceContributionLines
+        );
         this.purchaseRotationContributionLines = this.createRotationsLines(
           flightLines
         );
@@ -252,9 +267,22 @@ export class ContributionDetailComponent implements OnInit {
       .subscribe((lines) => {
         const flightLines = this.getFlightLines(lines);
         this.saleServiceContributionLines = this.getServicesLines(lines);
+        this.saleServiceForm
+          .get('type')
+          .setValidators([
+            Validators.required,
+            this.getTypeServicesNotRepeatedValidator(
+              this.saleServiceContributionLines
+            ),
+          ]);
+        this.saleServiceForm.get('type').updateValueAndValidity();
         this.saleRotationLinesTotalAmount = this.getTotalAmount(flightLines);
-        this.saleServiceLinesTotalAmount = this.getTotalAmount(this.saleServiceContributionLines);
-        this.saleRotationContributionLines = this.createRotationsLines(flightLines);
+        this.saleServiceLinesTotalAmount = this.getTotalAmount(
+          this.saleServiceContributionLines
+        );
+        this.saleRotationContributionLines = this.createRotationsLines(
+          flightLines
+        );
         this.salePriceControls = new FormArray(
           this.saleRotationContributionLines.map(this.createPriceControls)
         );
@@ -265,17 +293,19 @@ export class ContributionDetailComponent implements OnInit {
     return lines.reduce(this.totalAmountReducer, 0);
   }
 
-  private totalAmountReducer = (totalAmount: number, line: ContributionLine): number => line.price? totalAmount + line.price : totalAmount;
+  private totalAmountReducer = (
+    totalAmount: number,
+    line: ContributionLine
+  ): number => (line.price ? totalAmount + line.price : totalAmount);
 
   private createRotationsLines(
     lines: ContributionLine[]
   ): RotationContributionLine[] {
-    return lines
-      .map((line: ContributionLine) => ({
-        contributionLine: line,
-        rotation: this.createRotationLabel(line),
-        price: line.price,
-      }));
+    return lines.map((line: ContributionLine) => ({
+      contributionLine: line,
+      rotation: this.createRotationLabel(line),
+      price: line.price,
+    }));
   }
 
   private createRotationLabel(line: ContributionLine): string {
@@ -283,7 +313,9 @@ export class ContributionDetailComponent implements OnInit {
   }
 
   private getFlightLines(lines: ContributionLine[]) {
-    return lines.filter((line: ContributionLine) => line.type === ServiceType.FLIGHT);
+    return lines.filter(
+      (line: ContributionLine) => line.type === ServiceType.FLIGHT
+    );
   }
 
   private getServicesLines(lines: ContributionLine[]): ContributionLine[] {
@@ -576,5 +608,16 @@ export class ContributionDetailComponent implements OnInit {
 
   private unmaskPrice(price: string): number {
     return +price?.replace(/\./g, '')?.replace(',', '.') ?? 0;
+  }
+
+  private getTypeServicesNotRepeatedValidator(
+    lines: ContributionLine[]
+  ): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      console.log(lines);
+      return lines.find((line) => line.type === control.value)
+        ? { serviceRepeated: { value: control.value } }
+        : null;
+    };
   }
 }

@@ -718,6 +718,7 @@
     "SALES_COPY": "Copiar en ventas",
     "ERRORS": {
       "SERVICE_REQ": "Debe indicar un servicio",
+      "REPETEAD_SERVICE": "El servicio ya está añadido",
       "QUANTITY_REQ": "Debe de indicar una cantidad",
       "PRICE_REQ": "Debe indicar un importe"
     }
