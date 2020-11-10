@@ -144,7 +144,7 @@
                 Fecha inicio
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.startDate }}
+                {{ element.startDate | date: 'dd/MM/yyyy' }}
               </mat-cell>
             </ng-container>
 
@@ -154,7 +154,7 @@
                 Fecha Fin
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.endDate }}
+                {{ element.endDate | date: 'dd/MM/yyyy' }}
               </mat-cell>
             </ng-container>
 
