@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
@@ -7,12 +7,20 @@ import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Aircraft, AircraftBase, AircraftObservation } from '../models/Aircraft.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AircraftTableAdapterService {
-  constructor() {}
+  
+  private datePipe: DatePipe;
+
+  constructor(
+    @Inject(LOCALE_ID) locale: string
+  ) {
+    this.datePipe = new DatePipe(locale);
+  }
 
   public getAircraftColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -166,7 +174,7 @@ export class AircraftTableAdapterService {
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.productionYear));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.outsideUpgradeYear));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.quantity));
-      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.insuranceEndDate));
+      aircraftRow.pushColumn(new ColumnDataModel('text', this.datePipe.transform(aircraft.insuranceEndDate, 'dd/MM/yyyy' ) ));
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));
       aircraftRow.setAuditParams(aircraft);
       aircraftTableData.push(aircraftRow);

@@ -265,7 +265,7 @@
                         {{ 'SEARCH_AIRCRAFT.DATE_AOC' | translate}}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        {{ element.operatorAocLastRevisionDate }}
+                        {{ element.operatorAocLastRevisionDate | date: 'dd/MM/yyyy'  }}
                     </mat-cell>
                 </ng-container>
 

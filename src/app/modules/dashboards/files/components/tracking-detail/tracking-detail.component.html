@@ -83,7 +83,7 @@
               <mat-header-cell *matHeaderCellDef>
                 Fecha salida
               </mat-header-cell>
-              <mat-cell *matCellDef="let element"></mat-cell>
+              <mat-cell *matCellDef="let element">{{ element.departureDate | date: 'dd/MM/yyyy' }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="departureTime">
@@ -95,7 +95,7 @@
               <mat-header-cell *matHeaderCellDef>
                 Fecha llegada
               </mat-header-cell>
-              <mat-cell *matCellDef="let element"></mat-cell>
+              <mat-cell *matCellDef="let element">{{ element.arrivalDate | date: 'dd/MM/yyyy' }}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="arrivalTime">
