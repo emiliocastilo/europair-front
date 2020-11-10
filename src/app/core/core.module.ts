@@ -35,6 +35,7 @@ import { MatTooltipDirective } from './directives/mat-tooltip.directive';
 import { TableAuditTooltipDirective } from './directives/table-audit-tooltip.directive';
 import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { ConfirmOperationDialogComponent } from './components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { InfoDialogComponent } from './components/dialogs/info-dialog/info-dialog.component';
 import { EditableComponent } from './components/editable/editable.component';
 import { ViewModeDirective } from './components/editable/view-mode.directive';
 import { EditModeDirective } from './components/editable/edit-mode.directive';
@@ -77,6 +78,7 @@ import { HeaderStickyDirective } from './directives/header-sticky.directive';
     TranslatedSnackBarComponent,
     AutocompleteComponent,
     ConfirmOperationDialogComponent,
+    InfoDialogComponent,
     EditableComponent,
     ViewModeDirective,
     EditModeDirective,
