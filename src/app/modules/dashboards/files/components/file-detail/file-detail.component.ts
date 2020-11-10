@@ -383,16 +383,6 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
-  /**
-  private obtainAdditionalServices(routeId: number, flightId: number): void {
-    this.additionalServicesService.getAdditionalServices(this.fileData.id, routeId, flightId).subscribe((data: Page<Services>) => {
-      this.dataSource = new MatTableDataSource(data.content);
-      this.dataSource.sort = this.sort;
-      this.resultsLength = data.totalElements;
-      this.pageSize = data.size;
-    });
-  }*/
-
   public returnToFileList() {
     // Remove file-detail related queryparams before navigate to file list
     this.router.navigate(['files'], {
@@ -694,6 +684,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         this.contributionService
           .deleteContribution(this.fileData.id, fileRoute.id, contribution)
           .pipe(
+            tap(() => this.loadFileRoutes(this.fileData)),
             switchMap((_) => this.getFileRouteContributionData$(fileRoute.id))
           )
           .subscribe((contributions: Contribution[]) =>
