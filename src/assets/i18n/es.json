@@ -50,7 +50,8 @@
     "SAVE_ORDER": "Guardar orden",
     "CONFIRM_OPERATION": "Confirmar Operación",
     "SEARCH_FILTERS": "Filtros de búsqueda",
-    "TOTAL": "Total"
+    "TOTAL": "Total",
+    "ACEPT": "Aceptar"
   },
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
@@ -635,6 +636,7 @@
     },
     "NEW_FILE": "Nuevo Expediente",
     "GENERATE_PLANING": "Generar planning",
+    "GENERATE_PLANING_CONFIRM": "El planning se ha generado correctamente.",
     "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
     "MSG_CONFIRM_OPERATION": "¿Está seguro que deseas notificar operación confirmada?",
     "OPERATION_TYPE": "Tipo operación",

@@ -1,0 +1,13 @@
+@import "variables";
+
+.mat-raised-button.mat-primary:not(:disabled) {
+  background-color: $europair-color-blue-dark-1;
+  &:focus {
+    background-color: lighten($europair-color-blue-dark-1, 30%);
+  }
+}
+
+.mat-dialog-content {
+  padding-top: 2em;
+  padding-bottom: 2em;
+}

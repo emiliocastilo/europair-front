@@ -57,6 +57,7 @@ import { Contact, OperationType } from '../../../masters/contacts/models/contact
 import { ContactsService } from '../../../masters/contacts/services/contact.service';
 import { IntegrationOfficeService } from '../../services/integration-office.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { InfoDialogComponent } from 'src/app/core/components/dialogs/info-dialog/info-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -552,7 +553,15 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public generatePlanning(): void {
-    this.integrationOfficeService.generatePlanning(this.fileData).subscribe();
+    this.integrationOfficeService.generatePlanning(this.fileData).subscribe(() => this.matDialog.open(
+      InfoDialogComponent,
+      {
+        data: {
+          title: 'FILES.GENERATE_PLANING',
+          message: 'FILES.GENERATE_PLANING_CONFIRM',
+        },
+      }
+    ));
   }
 
   public onConfirmOperation(): void {
