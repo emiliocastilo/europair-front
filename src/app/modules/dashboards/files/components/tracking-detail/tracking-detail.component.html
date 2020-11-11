@@ -2,16 +2,9 @@
 </core-page-bar>
 
 <div class="row">
-  <core-select
-    class="col s12 l4"
-    [items]="routes"
-    [placeholder]="'FILES.ADDITIONAL_SERVICES.ROUTES_PLACEHOLDER' | translate"
-    [searchable]="true"
-    [itemDescription]="'label'"
-    [itemValue]="'id'"
-    [(ngModel)]="routeId"
-    (selectedValueEvent)="obtainRotation($event)"
-  >
+  <core-select class="col s12 l4" [items]="routes"
+    [placeholder]="'FILES.ADDITIONAL_SERVICES.ROUTES_PLACEHOLDER' | translate" [searchable]="true"
+    [itemDescription]="'label'" [itemValue]="'id'" [(ngModel)]="routeId" (selectedValueEvent)="obtainRotation($event)">
   </core-select>
 </div>
 
@@ -23,32 +16,16 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      <ng-container
-        *ngIf="(isSmallScreen | async).matches; else mobileTemplate"
-      >
+      <ng-container *ngIf="(isSmallScreen | async).matches; else mobileTemplate">
         <div class="row cmd-mt-2">
-          <core-select
-            class="col s12 l3"
-            [items]="rotations"
-            [itemValue]="'id'"
-            [(ngModel)]="rotationId"
-            [placeholder]="'FLIGHT_TRACKING.ROTATIONS_PLACEHOLDER' | translate"
-            [itemDescription]="'label'"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            (selectedValueEvent)="obtainFlights($event)"
-          >
+          <core-select class="col s12 l3" [items]="rotations" [itemValue]="'id'" [(ngModel)]="rotationId"
+            [placeholder]="'FLIGHT_TRACKING.ROTATIONS_PLACEHOLDER' | translate" [itemDescription]="'label'"
+            [notFoundText]="'COMMON.NOT_FOUND' | translate" (selectedValueEvent)="obtainFlights($event)">
           </core-select>
 
-          <core-select
-            class="col s12 l3"
-            [itemValue]="'id'"
-            [(ngModel)]="flightId"
-            [items]="flights"
-            [placeholder]="'FLIGHT_TRACKING.FLIGHTS_PLACEHOLDER' | translate"
-            [itemDescription]="'description'"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            (selectedValueEvent)="selectFlight($event)"
-          >
+          <core-select class="col s12 l3" [itemValue]="'id'" [(ngModel)]="flightId" [items]="flights"
+            [placeholder]="'FLIGHT_TRACKING.FLIGHTS_PLACEHOLDER' | translate" [itemDescription]="'description'"
+            [notFoundText]="'COMMON.NOT_FOUND' | translate" (selectedValueEvent)="selectFlight($event)">
           </core-select>
         </div>
       </ng-container>
@@ -59,10 +36,7 @@
               <mat-header-cell *matHeaderCellDef> Rotación </mat-header-cell>
 
               <mat-cell *matCellDef="let element" class="parent-route">
-                <mat-icon
-                  class="expand-icon"
-                  [class.active]="expandedElement === element"
-                >
+                <mat-icon class="expand-icon" [class.active]="expandedElement === element">
                   expand_more
                 </mat-icon>
                 {{ element?.label }}
@@ -195,42 +169,27 @@
                     </mat-cell>
                   </ng-container>
 
-                  <mat-row
-                    *matRowDef="let element; columns: columnsToDisplay"
-                    (click)="selectFlight(element.id)"
-                  ></mat-row>
+                  <mat-row *matRowDef="let element; columns: columnsToDisplay" (click)="selectFlight(element.id)">
+                  </mat-row>
                 </mat-table>
               </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true">
             </mat-header-row>
-            <mat-row
-              *matRowDef="let element; columns: columnsToDisplay"
-              class="element-row"
-              [class.expanded-row]="expandedElement === element"
-              (click)="expandRow(element)"
-            ></mat-row>
+            <mat-row *matRowDef="let element; columns: columnsToDisplay" class="element-row"
+              [class.expanded-row]="expandedElement === element" (click)="expandRow(element)"></mat-row>
 
-            <mat-row
-              class="detail-row"
-              *matRowDef="let element; columns: ['expandedDetail']"
-              [@detailExpand]="
+            <mat-row class="detail-row" *matRowDef="let element; columns: ['expandedDetail']" [@detailExpand]="
                 element == expandedElement ? 'expanded' : 'collapsed'
-              "
-              style="overflow: hidden"
-            ></mat-row>
+              " style="overflow: hidden"></mat-row>
           </mat-table>
         </div>
       </ng-template>
     </ng-template>
   </mat-expansion-panel>
 
-  <mat-expansion-panel
-    *ngIf="flightId"
-    class="app-expansion-panel"
-    expanded="true"
-  >
+  <mat-expansion-panel *ngIf="flightId" class="app-expansion-panel" expanded="true">
     <mat-expansion-panel-header class="cmd-mb-2">
       <mat-panel-title>
         {{ "FLIGHT_TRACKING.FLIGHTS_DETAIL" | translate | sentenceCase }}
@@ -239,157 +198,83 @@
     <ng-template matExpansionPanelContent>
       <form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
         <div class="row cmd-mb-0">
-          <core-select
-            [label]="'FLIGHT.ORIGIN_AIRPORT' | translate"
-            [items]="originAirports$ | async"
-            [minTermLength]="1"
-            [loading]="originAirportsLoading"
-            class="col s12 l3 cmd-mb-1"
-            [typeToSearchText]="
+          <core-select [label]="'FLIGHT.ORIGIN_AIRPORT' | translate" [items]="originAirports$ | async"
+            [minTermLength]="1" [loading]="originAirportsLoading" class="col s12 l3 cmd-mb-1" [typeToSearchText]="
               'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
-            "
-            [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
-            [hasErrors]="hasControlAnyError('origin')"
-            [typeahead]="originAirportsInput$"
-            [searchable]="true"
-            [itemDescription]="'iataCode'"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            formControlName="origin"
-          >
+            " [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate" [hasErrors]="hasControlAnyError('origin')"
+            [typeahead]="originAirportsInput$" [searchable]="true" [itemDescription]="'iataCode'"
+            [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="origin">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('origin')">
-                <span
-                  *ngIf="hasControlSpecificError('origin', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="
+                <span *ngIf="hasControlSpecificError('origin', 'required')" class="helper-text" [attr.data-error]="
                     'ROTATIONS.ERRORS.ORIGIN_AIRPORT' | translate
-                  "
-                >
+                  ">
                 </span>
               </ng-container>
             </ng-container>
           </core-select>
 
-          <core-select
-            [label]="'FLIGHT.DESTINATION_AIRPORT' | translate"
-            [items]="destinationAirports$ | async"
-            [minTermLength]="1"
-            [loading]="destinationAirportsLoading"
-            class="col s12 l3 cmd-mb-1"
-            [typeToSearchText]="
+          <core-select [label]="'FLIGHT.DESTINATION_AIRPORT' | translate" [items]="destinationAirports$ | async"
+            [minTermLength]="1" [loading]="destinationAirportsLoading" class="col s12 l3 cmd-mb-1" [typeToSearchText]="
               'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
-            "
-            [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
-            [hasErrors]="hasControlAnyError('destination')"
-            [typeahead]="destinationAirportsInput$"
-            [searchable]="true"
-            [itemDescription]="'iataCode'"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            formControlName="destination"
-          >
+            " [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+            [hasErrors]="hasControlAnyError('destination')" [typeahead]="destinationAirportsInput$" [searchable]="true"
+            [itemDescription]="'iataCode'" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+            formControlName="destination">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('destination')">
-                <span
-                  *ngIf="hasControlSpecificError('destination', 'required')"
-                  class="helper-text"
-                  [attr.data-error]="
+                <span *ngIf="hasControlSpecificError('destination', 'required')" class="helper-text" [attr.data-error]="
                     'ROTATIONS.ERRORS.DESTINATION_AIRPORT' | translate
-                  "
-                >
+                  ">
                 </span>
               </ng-container>
             </ng-container>
           </core-select>
 
-          <core-select
-            class="col s12 l3 cmd-mb-1"
-            [label]="'FLIGHT_TRACKING.SLOT' | translate"
-            [placeholder]="'FLIGHT_TRACKING.SLOT_PLACEHOLDER' | translate"
-            [items]="commonStatus"
-            [itemDescription]="'label'"
-            [itemValue]="'label'"
-            formControlName="slot"
-          >
+          <core-select class="col s12 l3 cmd-mb-1" [label]="'FLIGHT_TRACKING.SLOT' | translate"
+            [placeholder]="'FLIGHT_TRACKING.SLOT_PLACEHOLDER' | translate" [items]="commonStatus"
+            [itemDescription]="'label'" [itemValue]="'label'" formControlName="slot">
           </core-select>
 
-          <core-select
-            class="col s12 l3 cmd-mb-1"
-            [items]="commonStatus"
+          <core-select class="col s12 l3 cmd-mb-1" [items]="commonStatus"
             [label]="'FLIGHT_TRACKING.PARKING' | translate"
-            [placeholder]="'FLIGHT_TRACKING.PARKING_PLACEHOLDER' | translate"
-            [itemDescription]="'label'"
-            [itemValue]="'label'"
-            formControlName="parking"
-          >
+            [placeholder]="'FLIGHT_TRACKING.PARKING_PLACEHOLDER' | translate" [itemDescription]="'label'"
+            [itemValue]="'label'" formControlName="parking">
           </core-select>
         </div>
 
         <div class="row cmd-mb-0">
-          <app-input
-            [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate"
-            type="date"
-            formControlName="departureDate"
-            class="col s12 l3"
-          >
-            <ng-container
-              inputErrors
-              *ngIf="hasControlAnyError('departureDate')"
-            >
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('departureDate', 'required')"
-              >
+          <app-input [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate" type="date" formControlName="departureDate"
+            class="col s12 l3">
+            <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureDate', 'required')">
                 {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
 
-          <app-input
-            [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate"
-            type="time"
-            formControlName="departureTime"
-            class="col s12 l3"
-          >
-            <ng-container
-              inputErrors
-              *ngIf="hasControlAnyError('departureTime')"
-            >
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('departureTime', 'required')"
-              >
+          <app-input [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate" type="time" formControlName="departureTime"
+            class="col s12 l3">
+            <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureTime', 'required')">
                 {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
 
-          <app-input
-            [prefix]="'ROTATIONS.ARRIVAL_DATE' | translate"
-            type="date"
-            formControlName="arrivalDate"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'ROTATIONS.ARRIVAL_DATE' | translate" type="date" formControlName="arrivalDate"
+            class="col s12 l3">
             <ng-container inputErrors *ngIf="hasControlAnyError('arrivalDate')">
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('arrivalDate', 'required')"
-              >
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalDate', 'required')">
                 {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
 
-          <app-input
-            [prefix]="'ROTATIONS.ARRIVAL_TIME' | translate"
-            type="time"
-            formControlName="arrivalTime"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'ROTATIONS.ARRIVAL_TIME' | translate" type="time" formControlName="arrivalTime"
+            class="col s12 l3">
             <ng-container inputErrors *ngIf="hasControlAnyError('arrivalTime')">
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('arrivalTime', 'required')"
-              >
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalTime', 'required')">
                 {{ "ROTATIONS.ERRORS.ARRIVAL_TIME" | translate }}
               </mat-error>
             </ng-container>
@@ -397,81 +282,59 @@
         </div>
 
         <div class="row cmd-mb-0">
-          <app-input
-            [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate"
-            [hasErrors]="hasControlAnyError('seatsF')"
-            [defaultValue]="'0'"
-            type="number"
-            formControlName="seatsF"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_DATE' | translate" type="date" formControlName="realDepartureDate"
+            class="col s12 l3">
+          </app-input>
+
+          <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_TIME' | translate" type="time" formControlName="realDepartureTime"
+            class="col s12 l3">
+          </app-input>
+
+          <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_DATE' | translate" type="date" formControlName="realArrivalDate"
+            class="col s12 l3">
+          </app-input>
+
+          <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_TIME' | translate" type="time" formControlName="realArrivalTime"
+            class="col s12 l3">
+          </app-input>
+        </div>
+
+        <div class="row cmd-mb-0">
+          <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate" [hasErrors]="hasControlAnyError('seatsF')"
+            [defaultValue]="'0'" type="number" formControlName="seatsF" class="col s12 l3">
             <ng-container inputErrors>
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('seatsF', 'min')"
-              >
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsF', 'min')">
                 {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
-          <app-input
-            [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate"
-            [hasErrors]="hasControlAnyError('seatsC')"
-            [defaultValue]="'0'"
-            type="number"
-            formControlName="seatsC"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate" [hasErrors]="hasControlAnyError('seatsC')"
+            [defaultValue]="'0'" type="number" formControlName="seatsC" class="col s12 l3">
             <ng-container inputErrors>
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('seatsC', 'min')"
-              >
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsC', 'min')">
                 {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
-          <app-input
-            [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate"
-            [hasErrors]="hasControlAnyError('seatsY')"
-            [defaultValue]="'0'"
-            type="number"
-            formControlName="seatsY"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate" [hasErrors]="hasControlAnyError('seatsY')"
+            [defaultValue]="'0'" type="number" formControlName="seatsY" class="col s12 l3">
             <ng-container inputErrors>
-              <mat-error
-                class="ep-error-msg"
-                *ngIf="hasControlSpecificError('seatsY', 'min')"
-              >
+              <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsY', 'min')">
                 {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
               </mat-error>
             </ng-container>
           </app-input>
 
-          <app-input
-            [prefix]="'FLIGHT_TRACKING.FLIGHT_NUMBER' | translate"
-            formControlName="flightNumber"
-            class="col s12 l3"
-          >
+          <app-input [prefix]="'FLIGHT_TRACKING.FLIGHT_NUMBER' | translate" formControlName="flightNumber"
+            class="col s12 l3">
           </app-input>
         </div>
 
         <div class="row">
-          <button
-            color="primary"
-            class="col s12 l2 cmd-mb-1"
-            (click)="navigateBack()"
-            mat-raised-button
-          >
+          <button color="primary" class="col s12 l2 cmd-mb-1" (click)="navigateBack()" mat-raised-button>
             {{ "COMMON.CANCEL" | translate | sentenceCase }}
           </button>
-          <button
-            color="primary"
-            class="col s12 l2 offset-l8 cmd-mb-1"
-            type="submit"
-            mat-raised-button
-          >
+          <button color="primary" class="col s12 l2 offset-l8 cmd-mb-1" type="submit" mat-raised-button>
             {{ "COMMON.SAVE" | translate | sentenceCase }}
           </button>
         </div>
