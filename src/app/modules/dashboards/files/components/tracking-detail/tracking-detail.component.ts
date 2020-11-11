@@ -13,6 +13,7 @@ import {
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, Provider } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { concat, Observable, of, Subject } from 'rxjs';
 import {
@@ -23,6 +24,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
+import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
 import { Airport } from '../../../masters/regions/models/airport';
@@ -81,6 +83,10 @@ export class TrackingDetailComponent implements OnInit {
     departureTime: ['', Validators.required],
     arrivalDate: ['', Validators.required],
     arrivalTime: ['', Validators.required],
+    realDepartureDate: [''],
+    realDepartureTime: [''],
+    realArrivalDate: [''],
+    realArrivalTime: [''],
     seatsF: ['', Validators.min(0)],
     seatsC: ['', Validators.min(0)],
     seatsY: ['', Validators.min(0)],
@@ -118,6 +124,7 @@ export class TrackingDetailComponent implements OnInit {
     private readonly airportsService: AirportsService,
     private readonly fileRouteService: FileRoutesService,
     private readonly flightService: FlightService,
+    private readonly matDialog: MatDialog,
     private readonly breakpointObserver: BreakpointObserver
   ) {}
 
@@ -228,6 +235,8 @@ export class TrackingDetailComponent implements OnInit {
       const {
         departureTime: departureDateTime,
         arrivalTime: arrivalDateTime,
+        realDepartureTime: realDepartureDateTime,
+        realArrivalTime: realArrivalDateTime,
         ...flightWithoutDepartureTime
       } = flight;
       const [departureDate, departureTime] =
@@ -238,12 +247,24 @@ export class TrackingDetailComponent implements OnInit {
         typeof arrivalDateTime === 'string'
           ? arrivalDateTime.split(' ')
           : [null, null];
+      const [realDepartureDate, realDepartureTime] =
+        typeof realDepartureDateTime === 'string'
+          ? realDepartureDateTime.split(' ')
+          : [null, null];
+      const [realArrivalDate, realArrivalTime] =
+        typeof realArrivalDateTime === 'string'
+          ? realArrivalDateTime.split(' ')
+          : [null, null];
       this.flightForm.patchValue({
         ...flightWithoutDepartureTime,
         departureDate,
         departureTime,
         arrivalDate,
         arrivalTime,
+        realDepartureDate,
+        realDepartureTime,
+        realArrivalDate,
+        realArrivalTime
       });
     } else {
       this.flightForm.reset();
@@ -282,12 +303,42 @@ export class TrackingDetailComponent implements OnInit {
       this.flightForm.markAllAsTouched();
       return;
     }
+    const msgConfirmation: string = this.getConfirmationMsg();
+    if (msgConfirmation !== '') {
+      const confirmOperationRef = this.matDialog.open(
+        ConfirmOperationDialogComponent,
+        {
+          data: {
+            title: 'FLIGHT_TRACKING.CONFIRM_UPDATE_FLIGHT',
+            message: msgConfirmation/*,
+            translationParams: {
+              type: service.type,
+              price: service.price,
+            },*/
+          },
+        }
+      );
+      confirmOperationRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.updateFlight();
+        }
+      });
+    } else {
+      this.updateFlight();
+    }
+  }
 
+
+  private updateFlight() {
     const {
       departureTime,
       departureDate,
       arrivalDate,
       arrivalTime,
+      realDepartureTime,
+      realDepartureDate,
+      realArrivalDate,
+      realArrivalTime,
       origin,
       destination,
       ...flightData
@@ -297,6 +348,8 @@ export class TrackingDetailComponent implements OnInit {
       ...flightData,
       departureTime: departureDate + ' ' + departureTime,
       arrivalTime: arrivalDate + ' ' + arrivalTime,
+      realDepartureTime: realDepartureDate + ' ' + realDepartureTime,
+      realArrivalTime: realArrivalDate + ' ' + realArrivalTime,
       originId: origin.id,
       destinationId: destination.id,
     };
@@ -306,6 +359,38 @@ export class TrackingDetailComponent implements OnInit {
       .subscribe(() => {
         this.obtainFlights(this.rotationId);
       });
+  }
+  private getConfirmationMsg(): string {
+    const confirmationSeats: boolean = this.needUpdateSeatsConfirmation();
+    const confirmationDatetime: boolean = this.needUpdateDatetimeConfirmation();
+    let confirmationMsg: string = '';
+
+    if (confirmationDatetime || confirmationSeats) {
+      if (confirmationDatetime && confirmationSeats) {
+        confirmationMsg = 'FLIGHT_TRACKING.CONFIRM_UPDATE_FLIGHT_MSG';
+      } else {
+        confirmationMsg = confirmationDatetime ? 'FLIGHT_TRACKING.CONFIRM_UPDATE_FLIGHT_MSG_DATE' : 'FLIGHT_TRACKING.CONFIRM_UPDATE_FLIGHT_MSG_SEAT';
+      }
+    }
+
+    return confirmationMsg;
+  }
+
+  private needUpdateDatetimeConfirmation(): boolean {
+    return this.flightForm.get('departureTime').touched ||
+    this.flightForm.get('departureDate').touched ||
+    this.flightForm.get('arrivalDate').touched ||
+    this.flightForm.get('arrivalTime').touched ||
+    this.flightForm.get('realDepartureTime').touched ||
+    this.flightForm.get('realDepartureDate').touched ||
+    this.flightForm.get('realArrivalDate').touched ||
+    this.flightForm.get('realArrivalTime').touched;
+  }
+
+  private needUpdateSeatsConfirmation(): boolean {
+    return  this.flightForm.get('seatsC').touched ||
+      this.flightForm.get('seatsF').touched ||
+      this.flightForm.get('seatsY').touched;
   }
 
   public hasControlAnyError(controlName: string): boolean {

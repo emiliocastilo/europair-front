@@ -694,7 +694,11 @@
       "ARRIVAL_BEFORE_DEPARTURE": "La fecha de llegada no puede ser anterior a la de salida",
       "MIN_VALUE_0": "El valor debe de ser númerico y positivo.",
       "TIME_ZONE": "Debe indicar una zona horaria"
-    }
+    },
+    "REAL_DEPARTURE_DATE": "Fecha real salida",
+    "REAL_DEPARTURE_TIME": "Hora real salida",
+    "REAL_ARRIVAL_DATE": "Fecha real llegada",
+    "REAL_ARRIVAL_TIME": "Hora real llegada"
   },
   "CONTRIBUTIONS": {
     "TITLE": "Detalle cotización",
@@ -743,7 +747,11 @@
     "FLIGHTS_DETAIL": "Detalle del vuelo",
     "PARKING": "Parking",
     "SLOT": "Slot",
-    "FLIGHT_NUMBER": "Nº Vuelo"
+    "FLIGHT_NUMBER": "Nº Vuelo",
+    "CONFIRM_UPDATE_FLIGHT": "Modificar vuelo",
+    "CONFIRM_UPDATE_FLIGHT_MSG": "¿Estas seguro que quieres modificar la fecha y asientos del vuelo?",
+    "CONFIRM_UPDATE_FLIGHT_MSG_DATE": "¿Estas seguro que quieres modificar la fecha del vuelo?",
+    "CONFIRM_UPDATE_FLIGHT_MSG_SEAT": "¿Estas seguro que quieres modificar los asientos del vuelo?"
   },
   "FREQUENCIES": {
     "UNITS": {
