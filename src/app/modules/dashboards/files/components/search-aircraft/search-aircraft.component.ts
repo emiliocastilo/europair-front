@@ -145,7 +145,7 @@ export class SearchAircraftComponent implements OnInit {
     this.filterExpanded = true;
     this.tableExpanded = false;
     this.seatFilterType = this.itemsSelectSeatFilter();
-    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'fleetType', 'subcategory', 'flightTime', 'connectionFlights', 'insuranceDate', 'airport', 'category', 'quantity', 'seats', 'bedsAndStretchers', 'maximumLoad', 'observations'];
+    this.columnsToDisplay = ['selection', 'operator', 'dateAOC', 'fleetType', 'flightTime', 'connectionFlights', 'insuranceDate', 'airport', 'quantity', 'seats', 'category', 'subcategory', 'bedsAndStretchers', 'maximumLoad', 'observations'];
   }
 
   private itemsSelectSeatFilter(): Array<{value: string, description: string}> {
