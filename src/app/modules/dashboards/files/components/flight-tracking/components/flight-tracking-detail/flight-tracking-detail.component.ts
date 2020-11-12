@@ -193,7 +193,7 @@ export class FlightTrackingDetailComponent implements OnInit {
   }
 
   public navigateBack() {
-    this.router.navigate(['files/tracking']);
+    this.router.navigate(['files/flight-tracking']);
   }
 
   public saveFlight() {

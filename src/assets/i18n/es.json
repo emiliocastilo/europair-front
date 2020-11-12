@@ -22,6 +22,7 @@
     "FILES": {
       "TITLE": "Expedientes",
       "LIST": "Listado",
+      "ROUTES_TRACKING": "Seguimiento de rutas",
       "FLIGHT_TRACKING": "Seguimiento de vuelo"
     },
     "CONFIGURATION": {
