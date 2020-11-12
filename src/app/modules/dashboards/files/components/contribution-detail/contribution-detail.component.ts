@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -53,8 +55,8 @@ export class ContributionDetailComponent implements OnInit {
   @ViewChild('purchasePanel') purchasePanel: MatExpansionPanel;
   @ViewChild('salePanel') salePanel: MatExpansionPanel;
   public fileId: number;
-  private routeId: number;
-  private contributionId: number;
+  public routeId: number;
+  public contributionId: number;
   public contribution: Contribution;
   private rotationsLabelMap: Map<number, string> = new Map();
   public purchasePriceControls: FormArray;
@@ -67,7 +69,7 @@ export class ContributionDetailComponent implements OnInit {
   public saleRotationLinesTotalAmount: number = 0;
   public saleServiceContributionLines: ContributionLine[] = [];
   public saleServiceLinesTotalAmount: number = 0;
-  public rotationsColumnsToDisplay = ['rotation', 'price'];
+  public rotationsColumnsToDisplay = ['rotation', 'price', 'actions'];
   public servicesColumnsToDisplay = [
     'service',
     'quantity',
@@ -131,7 +133,7 @@ export class ContributionDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getRouteInfo();
     this.loadSelectData();
-    // this.controlSubscribes();
+    this.controlSubscribes();
     this.onChangeContributionState();
   }
 
@@ -234,8 +236,21 @@ export class ContributionDetailComponent implements OnInit {
       .subscribe((lines) => {
         const flightLines = this.getFlightLines(lines);
         this.purchaseServiceContributionLines = this.getServicesLines(lines);
-        this.purchaseRotationLinesTotalAmount = this.getTotalAmount(flightLines);
-        this.purchaseServiceLinesTotalAmount = this.getTotalAmount(this.purchaseServiceContributionLines);
+        this.purchaseServiceForm
+          .get('type')
+          .setValidators([
+            Validators.required,
+            this.getTypeServicesNotRepeatedValidator(
+              this.purchaseServiceContributionLines
+            ),
+          ]);
+        this.purchaseServiceForm.get('type').updateValueAndValidity();
+        this.purchaseRotationLinesTotalAmount = this.contributionLineService.getTotalPrice(
+          flightLines
+        );
+        this.purchaseServiceLinesTotalAmount = this.contributionLineService.getTotalPrice(
+          this.purchaseServiceContributionLines
+        );
         this.purchaseRotationContributionLines = this.createRotationsLines(
           flightLines
         );
@@ -252,30 +267,36 @@ export class ContributionDetailComponent implements OnInit {
       .subscribe((lines) => {
         const flightLines = this.getFlightLines(lines);
         this.saleServiceContributionLines = this.getServicesLines(lines);
-        this.saleRotationLinesTotalAmount = this.getTotalAmount(flightLines);
-        this.saleServiceLinesTotalAmount = this.getTotalAmount(this.saleServiceContributionLines);
-        this.saleRotationContributionLines = this.createRotationsLines(flightLines);
+        this.saleServiceForm
+          .get('type')
+          .setValidators([
+            Validators.required,
+            this.getTypeServicesNotRepeatedValidator(
+              this.saleServiceContributionLines
+            ),
+          ]);
+        this.saleServiceForm.get('type').updateValueAndValidity();
+        this.saleRotationLinesTotalAmount = this.contributionLineService.getTotalPrice(flightLines);
+        this.saleServiceLinesTotalAmount = this.contributionLineService.getTotalPrice(
+          this.saleServiceContributionLines
+        );
+        this.saleRotationContributionLines = this.createRotationsLines(
+          flightLines
+        );
         this.salePriceControls = new FormArray(
           this.saleRotationContributionLines.map(this.createPriceControls)
         );
       });
   }
 
-  private getTotalAmount(lines: ContributionLine[]) {
-    return lines.reduce(this.totalAmountReducer, 0);
-  }
-
-  private totalAmountReducer = (totalAmount: number, line: ContributionLine): number => line.price? totalAmount + line.price : totalAmount;
-
   private createRotationsLines(
     lines: ContributionLine[]
   ): RotationContributionLine[] {
-    return lines
-      .map((line: ContributionLine) => ({
-        contributionLine: line,
-        rotation: this.createRotationLabel(line),
-        price: line.price,
-      }));
+    return lines.map((line: ContributionLine) => ({
+      contributionLine: line,
+      rotation: this.createRotationLabel(line),
+      price: line.price,
+    }));
   }
 
   private createRotationLabel(line: ContributionLine): string {
@@ -283,7 +304,9 @@ export class ContributionDetailComponent implements OnInit {
   }
 
   private getFlightLines(lines: ContributionLine[]) {
-    return lines.filter((line: ContributionLine) => line.type === ServiceType.FLIGHT);
+    return lines.filter(
+      (line: ContributionLine) => line.type === ServiceType.FLIGHT
+    );
   }
 
   private getServicesLines(lines: ContributionLine[]): ContributionLine[] {
@@ -330,33 +353,49 @@ export class ContributionDetailComponent implements OnInit {
     }));
   }
 
-  // private controlSubscribes() {
-  //   this.purchaseContributionForm
-  //     .get('purchasePrice')
-  //     .valueChanges.subscribe((value) =>
-  //       this.setTaxesPrice(this.purchaseContributionForm, value)
-  //     );
-  //   this.saleContributionForm
-  //     .get('salesPrice')
-  //     .valueChanges.subscribe((value) =>
-  //       this.setTaxesPrice(this.saleContributionForm, value)
-  //     );
-  // }
+  private controlSubscribes() {
+    this.purchaseContributionForm
+      .get('purchasePrice')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPrice(this.purchaseContributionForm, value)
+      );
+      this.purchaseContributionForm
+      .get('taxes')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPriceOnChangeTaxes(this.purchaseContributionForm, value, 'purchasePrice')
+      );
+    this.saleContributionForm
+      .get('salesPrice')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPrice(this.saleContributionForm, value)
+      );
+      this.saleContributionForm
+      .get('taxes')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPriceOnChangeTaxes(this.saleContributionForm, value, 'salesPrice')
+      );
+  }
 
-  // private setTaxesPrice(form: FormGroup, stringValue: string) {
-  //   const totalPrice = Number.parseInt(stringValue);
-  //   const taxes = Number.parseInt(form.get('taxes').value);
-  //   form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
-  // }
+  private setTaxesPriceOnChangeTaxes(form: FormGroup, stringValue: string, formControlName: string) {
+    const totalPrice = this.unmaskPrice(form.get(formControlName).value);
+    const taxes = Number.parseInt(stringValue);
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+  }
 
-  // private getTaxesPrice(totalPrice: number, taxes: number) {
-  //   if (taxes && totalPrice) {
-  //     const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
-  //     return taxesPriceValue.toFixed(2);
-  //   } else {
-  //     return 0;
-  //   }
-  // }
+  private setTaxesPrice(form: FormGroup, stringValue: string) {
+    const totalPrice = this.unmaskPrice(stringValue);
+    const taxes = Number.parseInt(form.get('taxes').value);
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+  }
+
+  private getTaxesPrice(totalPrice: number, taxes: number) {
+    if (taxes && totalPrice) {
+      const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
+      return taxesPriceValue.toFixed(2);
+    } else {
+      return 0;
+    }
+  }
 
   public updateContributionPurchaseData() {
     this.contributionService
@@ -576,5 +615,15 @@ export class ContributionDetailComponent implements OnInit {
 
   private unmaskPrice(price: string): number {
     return +price?.replace(/\./g, '')?.replace(',', '.') ?? 0;
+  }
+
+  private getTypeServicesNotRepeatedValidator(
+    lines: ContributionLine[]
+  ): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return lines.find((line) => line.type === control.value)
+        ? { serviceRepeated: { value: control.value } }
+        : null;
+    };
   }
 }

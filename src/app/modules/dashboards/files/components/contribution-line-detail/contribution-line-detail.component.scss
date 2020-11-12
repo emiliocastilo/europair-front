@@ -34,17 +34,6 @@ input:focus {
     align-items: center;
     color: #005795;
   }
-
-  .mat-expansion-panel-header-description {
-    justify-content: flex-end;
-    align-items: center;
-    color: #005795;
-    .mat-icon {
-      padding-left: 8px;
-      fill: none;
-      stroke: #005795;
-    }
-  }
 }
 
 //MAT TABLE
@@ -87,33 +76,4 @@ input:focus {
   box-sizing: border-box;
 }
 
-.mat-column-actions {
-  max-height: 23px;
-  .mat-icon {
-    cursor: pointer;
-    padding-left: 8px;
-    fill: none;
-    stroke: #005795;
-  }
-  .mat-icon.delete-icon {
-    stroke: red;
-  }
-}
-
-.warning-card {
-  // background-color: $europair-color-blue-light-2;
-  // background-color: #ffc107;
-  margin: auto 1em;
-  color: #856404;
-  background-color: #fff3cd;
-  border-color: #ffeeba;
-}
-
-.warning-msg {
-  vertical-align: middle;
-  color: #856404;
-}
-
-@include mat-table-columns(
-  ("rotation", "price", "service", "quantity", "servicePrice", "observation")
-);
+@include mat-table-columns(("flight"));

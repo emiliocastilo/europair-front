@@ -46,6 +46,13 @@ export class EditableComponent implements OnInit {
       this.mode = 'edit';
       this.editMode.next(true);
     });
+    // MOBILE
+    fromEvent(this.element, 'touchend').pipe(
+      takeUntil(this.unsubscriber$)
+    ).subscribe(() => {
+      this.mode = 'edit';
+      this.editMode.next(true);
+    });
   }
 
   private editModeHandler() {

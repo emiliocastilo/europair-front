@@ -63,7 +63,8 @@
     "SEND_CONTRIBUTION": "Enviar cotización",
     "REMOVE_CONTRIBUTION": "Eliminar cotización",
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
-    "REMOVE_FLIGHT": "Eliminar vuelo"
+    "REMOVE_FLIGHT": "Eliminar vuelo",
+    "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -417,7 +418,7 @@
       "MAIN_BASE": "Principal",
       "PLATE_NUMBER": "REG",
       "YOM": "YOM",
-      "OUTSIDE_UPGRADE_YEAR": "Año reforma exterior",
+      "OUTSIDE_UPGRADE_YEAR": "Reforma Ext",
       "QUANTITY": "Cantidad",
       "AIRPORTS": "Aeropuertos",
       "AIRPORT": "Aeropuerto",
@@ -724,6 +725,7 @@
     "SALES_COPY": "Copiar en ventas",
     "ERRORS": {
       "SERVICE_REQ": "Debe indicar un servicio",
+      "REPETEAD_SERVICE": "El servicio ya está añadido",
       "QUANTITY_REQ": "Debe de indicar una cantidad",
       "PRICE_REQ": "Debe indicar un importe"
     }
@@ -753,6 +755,13 @@
     "CONFIRM_UPDATE_FLIGHT_MSG_DATE": "¿Estas seguro que quieres modificar la fecha del vuelo?",
     "CONFIRM_UPDATE_FLIGHT_MSG_SEAT": "¿Estas seguro que quieres modificar los asientos del vuelo?"
   },
+  "LINES": {
+    "TITLE": "Detalle cotización de la rotación",
+    "ROTATION_CONTRIBUTION": "Cotización de la rotación",
+    "FLIGHT_CONTRIBUTION": "Cotización de los vuelos",
+    "FLIGHT": "Vuelo",
+    "PRICE": "Importe"
+  },
   "FREQUENCIES": {
     "UNITS": {
       "ADHOC": "ADHOC",
@@ -764,13 +773,13 @@
   },
   "DAYS": {
     "ABBREVIATION": {
-      "MONDAY": "l",
-      "TUESDAY": "m",
-      "WEDNESDAY": "x",
-      "THURSDAY": "j",
-      "FRIDAY": "v",
-      "SATURDAY": "s",
-      "SUNDAY": "d"
+      "MONDAY": "1",
+      "TUESDAY": "2",
+      "WEDNESDAY": "3",
+      "THURSDAY": "4",
+      "FRIDAY": "5",
+      "SATURDAY": "6",
+      "SUNDAY": "7"
     },
     "COMPLETE": {
       "MONDAY": "Lunes",
@@ -824,5 +833,7 @@
     "THB": "Baht de Tailandia",
     "USD": "Dólar de EE.UU.",
     "ZAR": "Rand sudáfricano"
-  }
+  },
+  "PURCHASE": "Compra",
+  "SALE": "Venta"
 }

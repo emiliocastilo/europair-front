@@ -79,6 +79,7 @@ export class AircraftListComponent implements OnInit {
     filter_quantity: [''],
     'filter_bases.airport.id': [''],
     'filter_operator.id': [''],
+    'filter_bases.airport.iataCode': [''],
     filter_removedAt: [null],
   });
   public aircraftSortForm = this.fb.group({
@@ -159,6 +160,7 @@ export class AircraftListComponent implements OnInit {
   }
 
   public onFilterAircrafts(airportFilter: ColumnFilter) {
+    console.log(airportFilter);
     this.operatorFilter[airportFilter.identifier] = airportFilter.searchTerm;
     this.filterAircraftTable();
   }
@@ -208,6 +210,10 @@ export class AircraftListComponent implements OnInit {
     const {airportId, operatorId, aircrftCode} = this.route.snapshot.queryParams;
     this.operatorFilter['filter_bases.airport.id'] = airportId ?? '';
     this.operatorFilter['filter_operator.id'] = operatorId ?? '';
-    this.operatorFilter['filter_aircraftType.code'] = aircrftCode ?? '';
+    this.operatorFilter['filter_aircraftType.code'] = aircrftCode ?? this.getDefaultValue(this.operatorFilter['filter_aircraftType.code']);
+  }
+
+  private getDefaultValue(value: string) {
+    return value ?? '';
   }
 }

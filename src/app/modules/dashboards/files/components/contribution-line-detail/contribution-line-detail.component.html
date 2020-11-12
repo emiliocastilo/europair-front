@@ -1,0 +1,93 @@
+<core-page-bar [pageTitle]="'LINES.TITLE' | translate"></core-page-bar>
+<div class="row">
+  <button
+    class="col s2 l2 cmd-mb-1"
+    color="primary"
+    mat-raised-button
+    [routerLink]="[
+      '/files',
+      fileId,
+      'routes',
+      routeId,
+      'contributions',
+      contributionId
+    ]"
+  >
+    {{ "COMMON.RETURN" | translate }}
+  </button>
+</div>
+<mat-expansion-panel class="app-expansion-panel" expanded="true">
+  <mat-expansion-panel-header class="cmd-mb-2">
+    <mat-panel-title>
+      {{ "LINES.ROTATION_CONTRIBUTION" | translate | sentenceCase }} 
+      ({{ rotationContributionLine?.lineContributionRouteType | translate }})
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <form [formGroup]="rotationForm">
+    <div class="row">
+      <app-input
+        [prefix]="'CONTRIBUTIONS.ROTATION' | translate"
+        formControlName="rotation"
+        class="col s12 l6"
+      >
+      </app-input>
+      <app-input
+        [prefix]="'CONTRIBUTIONS.PRICE' | translate"
+        formControlName="price"
+        class="col s12 l6"
+      >
+      </app-input>
+    </div>
+  </form>
+</mat-expansion-panel>
+<mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ "LINES.FLIGHT_CONTRIBUTION" | translate | sentenceCase }}
+      ({{ rotationContributionLine?.lineContributionRouteType | translate }})
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="responsive-table-container">
+    <mat-table [dataSource]="flightContributionLines" class="cmd-mb-2">
+      <!-- Rotation Column-->
+      <ng-container matColumnDef="flight">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "LINES.FLIGHT" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.rotation }}
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
+      </ng-container>
+      <!-- Price Column-->
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "LINES.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <core-editable (update)="updateFlightPrice(index, 'price')">
+            <ng-template appViewMode>
+              {{ element.price | number: "1.2-2" }}
+            </ng-template>
+            <ng-template appEditMode>
+              <input
+                type="number"
+                [formControl]="getControl(flightPriceControls, index, 'price')"
+                appFocusable
+                appEditOnEnter
+              />
+            </ng-template>
+          </core-editable>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ flightLinesTotalPrice | number: "1.2-2" }} </mat-footer-cell>
+      </ng-container>
+      <mat-header-row
+        *matHeaderRowDef="flightColumnsToDisplay"
+      ></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: flightColumnsToDisplay"
+      ></mat-row>
+      <mat-footer-row *matFooterRowDef="flightColumnsToDisplay"></mat-footer-row>
+    </mat-table>
+  </div>
+</mat-expansion-panel>
