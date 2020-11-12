@@ -22,6 +22,7 @@ export class ContributionLineService {
   private readonly filterOptions: FilterOptions = {
     filter_lineContributionRouteType: OperatorEnum.EQUALS,
     filter_removedAt: OperatorEnum.IS_NULL,
+    filter_flightId: OperatorEnum.IS_NULL,
     'filter_flight.routeId': OperatorEnum.EQUALS,
   } as const;
 
@@ -155,6 +156,7 @@ export class ContributionLineService {
       size: '1000',
       filter_lineContributionRouteType: LineContributionRouteType.PURCHASE,
       filter_removedAt: null,
+      filter_flightId: null,
       sort: 'route.endDate',
     };
   }
@@ -164,6 +166,7 @@ export class ContributionLineService {
       size: '1000',
       filter_lineContributionRouteType: LineContributionRouteType.SALE,
       filter_removedAt: null,
+      filter_flightId: null,
       sort: 'route.endDate',
     };
   }
