@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { FlightTrackingRoutingModule } from './flight-tracking-routing.module';
-import { FlightTrackingComponent } from './flight-tracking.component';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CoreModule } from 'src/app/core/core.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlightTrackingRoutingModule } from './flight-tracking-routing.module';
+import { FlightTrackingComponent } from './flight-tracking.component';
+import { FlightTrackingDetailComponent } from './components/flight-tracking-detail/flight-tracking-detail.component';
 
 @NgModule({
-  declarations: [FlightTrackingComponent],
+  declarations: [FlightTrackingComponent, FlightTrackingDetailComponent],
   imports: [
     CommonModule,
     CoreModule,
@@ -16,5 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     FlightTrackingRoutingModule,
     ReactiveFormsModule
   ],
+  providers: [DatePipe]
 })
 export class FlightTrackingModule {}

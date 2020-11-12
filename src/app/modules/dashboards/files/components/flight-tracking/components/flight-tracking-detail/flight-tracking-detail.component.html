@@ -1,0 +1,142 @@
+<core-page-bar [pageTitle]="'FLIGHT_TRACKING.TITLE' | translate">
+</core-page-bar>
+
+
+<form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
+  <div class="row cmd-mb-0">
+    <core-select [label]="'FLIGHT.ORIGIN_AIRPORT' | translate" [items]="originAirports$ | async" [minTermLength]="1"
+      [loading]="originAirportsLoading" class="col s12 l3 cmd-mb-1"
+      [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+      [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate" [hasErrors]="hasControlAnyError('origin')"
+      [typeahead]="originAirportsInput$" [searchable]="true" [itemDescription]="'iataCode'"
+      [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="origin">
+      <ng-container inputErrors>
+        <ng-container *ngIf="hasControlAnyError('origin')">
+          <span *ngIf="hasControlSpecificError('origin', 'required')" class="helper-text"
+            [attr.data-error]="'ROTATIONS.ERRORS.ORIGIN_AIRPORT' | translate">
+          </span>
+        </ng-container>
+      </ng-container>
+    </core-select>
+
+    <core-select [label]="'FLIGHT.DESTINATION_AIRPORT' | translate" [items]="destinationAirports$ | async"
+      [minTermLength]="1" [loading]="destinationAirportsLoading" class="col s12 l3 cmd-mb-1"
+      [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+      [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate" [hasErrors]="hasControlAnyError('destination')"
+      [typeahead]="destinationAirportsInput$" [searchable]="true" [itemDescription]="'iataCode'"
+      [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="destination">
+      <ng-container inputErrors>
+        <ng-container *ngIf="hasControlAnyError('destination')">
+          <span *ngIf="hasControlSpecificError('destination', 'required')" class="helper-text"
+            [attr.data-error]="'ROTATIONS.ERRORS.DESTINATION_AIRPORT' | translate">
+          </span>
+        </ng-container>
+      </ng-container>
+    </core-select>
+
+    <core-select class="col s12 l3 cmd-mb-1" [label]="'FLIGHT_TRACKING.SLOT' | translate"
+      [placeholder]="'FLIGHT_TRACKING.SLOT_PLACEHOLDER' | translate" [items]="commonStatus" [itemDescription]="'label'"
+      [itemValue]="'label'" formControlName="slot">
+    </core-select>
+
+    <core-select class="col s12 l3 cmd-mb-1" [items]="commonStatus" [label]="'FLIGHT_TRACKING.PARKING' | translate"
+      [placeholder]="'FLIGHT_TRACKING.PARKING_PLACEHOLDER' | translate" [itemDescription]="'label'"
+      [itemValue]="'label'" formControlName="parking">
+    </core-select>
+  </div>
+
+  <div class="row cmd-mb-0">
+    <app-input [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate" type="date" formControlName="departureDate"
+      class="col s12 l3">
+      <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureDate', 'required')">
+          {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate" type="time" formControlName="departureTime"
+      class="col s12 l3">
+      <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureTime', 'required')">
+          {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.ARRIVAL_DATE' | translate" type="date" formControlName="arrivalDate"
+      class="col s12 l3">
+      <ng-container inputErrors *ngIf="hasControlAnyError('arrivalDate')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalDate', 'required')">
+          {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.ARRIVAL_TIME' | translate" type="time" formControlName="arrivalTime"
+      class="col s12 l3">
+      <ng-container inputErrors *ngIf="hasControlAnyError('arrivalTime')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalTime', 'required')">
+          {{ "ROTATIONS.ERRORS.ARRIVAL_TIME" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+  </div>
+
+  <div class="row cmd-mb-0">
+    <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_DATE' | translate" type="date" formControlName="realDepartureDate"
+      class="col s12 l3">
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_TIME' | translate" type="time" formControlName="realDepartureTime"
+      class="col s12 l3">
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_DATE' | translate" type="date" formControlName="realArrivalDate"
+      class="col s12 l3">
+    </app-input>
+
+    <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_TIME' | translate" type="time" formControlName="realArrivalTime"
+      class="col s12 l3">
+    </app-input>
+  </div>
+
+  <div class="row cmd-mb-0">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_F' | translate" [hasErrors]="hasControlAnyError('seatsF')"
+      [defaultValue]="'0'" type="number" formControlName="seatsF" class="col s12 l3">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsF', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_C' | translate" [hasErrors]="hasControlAnyError('seatsC')"
+      [defaultValue]="'0'" type="number" formControlName="seatsC" class="col s12 l3">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsC', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_Y' | translate" [hasErrors]="hasControlAnyError('seatsY')"
+      [defaultValue]="'0'" type="number" formControlName="seatsY" class="col s12 l3">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('seatsY', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+
+    <app-input [prefix]="'FLIGHT_TRACKING.FLIGHT_NUMBER' | translate" formControlName="flightNumber" class="col s12 l3">
+    </app-input>
+  </div>
+
+  <div class="row">
+    <button color="primary" class="col s12 l2 cmd-mb-1" (click)="navigateBack()" mat-raised-button>
+      {{ "COMMON.CANCEL" | translate | sentenceCase }}
+    </button>
+    <button color="primary" class="col s12 l2 offset-l8 cmd-mb-1" type="submit" mat-raised-button>
+      {{ "COMMON.SAVE" | translate | sentenceCase }}
+    </button>
+  </div>
+</form>

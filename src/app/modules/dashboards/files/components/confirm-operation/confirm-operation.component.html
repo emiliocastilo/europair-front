@@ -7,7 +7,7 @@
   <form [formGroup]="operationForm">
     <div class="row  cmd-mt-1">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_REASON' | translate"
-        [hasErrors]="hasControlAnyError('flightMotive')" formControlName="flightMotive" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('flightMotive')" formControlName="flightMotive" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('flightMotive')">
             <span *ngIf="hasControlSpecificError('flightMotive', 'maxlength')" class="helper-text"
@@ -16,8 +16,10 @@
           </ng-container>
         </ng-container>
       </app-input>
+    </div>
+    <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.CONECTIONS' | translate"
-        [hasErrors]="hasControlAnyError('connections')" formControlName="connections" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('connections')" formControlName="connections" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('connections')">
             <span *ngIf="hasControlSpecificError('connections', 'maxlength')" class="helper-text"
@@ -29,7 +31,7 @@
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FLIGHT_LIMITATION' | translate"
-        [hasErrors]="hasControlAnyError('limitations')" formControlName="limitations" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('limitations')" formControlName="limitations" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('limitations')">
             <span *ngIf="hasControlSpecificError('limitations', 'maxlength')" class="helper-text"
@@ -38,8 +40,10 @@
           </ng-container>
         </ng-container>
       </app-input>
+    </div>
+    <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.FUEL' | translate" [hasErrors]="hasControlAnyError('fuel')"
-        formControlName="fixedVariableFuel" class="col s12 l6">
+        formControlName="fixedVariableFuel" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('fixedVariableFuel')">
             <span *ngIf="hasControlSpecificError('fixedVariableFuel', 'maxlength')" class="helper-text"
@@ -51,7 +55,7 @@
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.EQUIPMENT' | translate"
-        [hasErrors]="hasControlAnyError('luggage')" formControlName="luggage" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('luggage')" formControlName="luggage" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('luggage')">
             <span *ngIf="hasControlSpecificError('luggage', 'maxlength')" class="helper-text"
@@ -60,8 +64,10 @@
           </ng-container>
         </ng-container>
       </app-input>
+    </div>
+    <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_EQUIPMENT' | translate"
-        [hasErrors]="hasControlAnyError('specialLuggage')" formControlName="specialLuggage" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('specialLuggage')" formControlName="specialLuggage" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('specialLuggage')">
             <span *ngIf="hasControlSpecificError('specialLuggage', 'maxlength')" class="helper-text"
@@ -73,7 +79,7 @@
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SERVICE_ON_BOARD' | translate"
-        [hasErrors]="hasControlAnyError('onBoardService')" formControlName="onBoardService" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('onBoardService')" formControlName="onBoardService" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('onBoardService')">
             <span *ngIf="hasControlSpecificError('onBoardService', 'maxlength')" class="helper-text"
@@ -82,8 +88,10 @@
           </ng-container>
         </ng-container>
       </app-input>
+    </div>
+    <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.SPECIAL_REQUEST' | translate"
-        [hasErrors]="hasControlAnyError('specialRequests')" formControlName="specialRequests" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('specialRequests')" formControlName="specialRequests" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('specialRequests')">
             <span *ngIf="hasControlSpecificError('specialRequests', 'maxlength')" class="helper-text"
@@ -95,7 +103,7 @@
     </div>
     <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OTHER_CHARGES' | translate"
-        [hasErrors]="hasControlAnyError('otherCharges')" formControlName="otherCharges" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('otherCharges')" formControlName="otherCharges" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('otherCharges')">
             <span *ngIf="hasControlSpecificError('otherCharges', 'maxlength')" class="helper-text"
@@ -104,8 +112,10 @@
           </ng-container>
         </ng-container>
       </app-input>
+    </div>
+    <div class="row">
       <app-input [prefix]="'FILES.OPERATIONS_OBSERVATIONS.OPERATIVE' | translate"
-        [hasErrors]="hasControlAnyError('operationalInfo')" formControlName="operationalInfo" class="col s12 l6">
+        [hasErrors]="hasControlAnyError('operationalInfo')" formControlName="operationalInfo" class="col s12 l12">
         <ng-container inputErrors>
           <ng-container *ngIf="hasControlAnyError('operationalInfo')">
             <span *ngIf="hasControlSpecificError('operationalInfo', 'maxlength')" class="helper-text"
