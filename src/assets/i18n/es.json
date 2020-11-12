@@ -823,5 +823,7 @@
     "THB": "Baht de Tailandia",
     "USD": "Dólar de EE.UU.",
     "ZAR": "Rand sudáfricano"
-  }
+  },
+  "PURCHASE": "Compra",
+  "SALE": "Venta"
 }

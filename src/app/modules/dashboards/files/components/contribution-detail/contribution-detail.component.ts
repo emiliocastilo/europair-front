@@ -55,8 +55,8 @@ export class ContributionDetailComponent implements OnInit {
   @ViewChild('purchasePanel') purchasePanel: MatExpansionPanel;
   @ViewChild('salePanel') salePanel: MatExpansionPanel;
   public fileId: number;
-  private routeId: number;
-  private contributionId: number;
+  public routeId: number;
+  public contributionId: number;
   public contribution: Contribution;
   private rotationsLabelMap: Map<number, string> = new Map();
   public purchasePriceControls: FormArray;
@@ -69,7 +69,7 @@ export class ContributionDetailComponent implements OnInit {
   public saleRotationLinesTotalAmount: number = 0;
   public saleServiceContributionLines: ContributionLine[] = [];
   public saleServiceLinesTotalAmount: number = 0;
-  public rotationsColumnsToDisplay = ['rotation', 'price'];
+  public rotationsColumnsToDisplay = ['rotation', 'price', 'actions'];
   public servicesColumnsToDisplay = [
     'service',
     'quantity',
@@ -245,10 +245,10 @@ export class ContributionDetailComponent implements OnInit {
             ),
           ]);
         this.purchaseServiceForm.get('type').updateValueAndValidity();
-        this.purchaseRotationLinesTotalAmount = this.getTotalAmount(
+        this.purchaseRotationLinesTotalAmount = this.contributionLineService.getTotalPrice(
           flightLines
         );
-        this.purchaseServiceLinesTotalAmount = this.getTotalAmount(
+        this.purchaseServiceLinesTotalAmount = this.contributionLineService.getTotalPrice(
           this.purchaseServiceContributionLines
         );
         this.purchaseRotationContributionLines = this.createRotationsLines(
@@ -276,8 +276,8 @@ export class ContributionDetailComponent implements OnInit {
             ),
           ]);
         this.saleServiceForm.get('type').updateValueAndValidity();
-        this.saleRotationLinesTotalAmount = this.getTotalAmount(flightLines);
-        this.saleServiceLinesTotalAmount = this.getTotalAmount(
+        this.saleRotationLinesTotalAmount = this.contributionLineService.getTotalPrice(flightLines);
+        this.saleServiceLinesTotalAmount = this.contributionLineService.getTotalPrice(
           this.saleServiceContributionLines
         );
         this.saleRotationContributionLines = this.createRotationsLines(
@@ -288,15 +288,6 @@ export class ContributionDetailComponent implements OnInit {
         );
       });
   }
-
-  private getTotalAmount(lines: ContributionLine[]) {
-    return lines.reduce(this.totalAmountReducer, 0);
-  }
-
-  private totalAmountReducer = (
-    totalAmount: number,
-    line: ContributionLine
-  ): number => (line.price ? totalAmount + line.price : totalAmount);
 
   private createRotationsLines(
     lines: ContributionLine[]
@@ -614,7 +605,6 @@ export class ContributionDetailComponent implements OnInit {
     lines: ContributionLine[]
   ): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      console.log(lines);
       return lines.find((line) => line.type === control.value)
         ? { serviceRepeated: { value: control.value } }
         : null;

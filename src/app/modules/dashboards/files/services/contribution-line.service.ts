@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import {
   FilterOptions,
@@ -24,6 +22,7 @@ export class ContributionLineService {
   private readonly filterOptions: FilterOptions = {
     filter_lineContributionRouteType: OperatorEnum.EQUALS,
     filter_removedAt: OperatorEnum.IS_NULL,
+    'filter_flight.routeId': OperatorEnum.EQUALS,
   } as const;
 
   constructor(
@@ -72,6 +71,16 @@ export class ContributionLineService {
         filterOptions
       ),
     });
+  }
+
+  public getContributionLineById(
+    fileId: number,
+    routeId: number,
+    contributionId: number,
+    lineId: number
+  ): Observable<ContributionLine> {
+    const url: string = `${this.url}${fileId}/routes/${routeId}/contributions/${contributionId}/linecontributionroute/${lineId}`;
+    return this.http.get<ContributionLine>(url);
   }
 
   public createPurchaseContributionLine(
@@ -158,4 +167,13 @@ export class ContributionLineService {
       sort: 'route.endDate',
     };
   }
+
+  public getTotalPrice(lines: ContributionLine[]) {
+    return lines.reduce(this.totalPriceReducer, 0);
+  }
+
+  private totalPriceReducer = (
+    totalAmount: number,
+    line: ContributionLine
+  ): number => (line.price ? totalAmount + line.price : totalAmount);
 }
