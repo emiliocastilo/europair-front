@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { ColumnDataModel } from 'src/app/core/models/table/colum-data.model';
 import { ColumnHeaderSizeModel } from 'src/app/core/models/table/colum-header-size.model';
 import { ColumnHeaderModel } from 'src/app/core/models/table/column-header.model';
@@ -7,9 +7,17 @@ import { PaginationModel } from 'src/app/core/models/table/pagination/pagination
 import { RowDataModel } from 'src/app/core/models/table/row-data.model';
 import { Operator, Certification, OperatorComment } from '../models/Operator.model';
 import { ColumnActionsModel } from 'src/app/core/models/table/columns/column-actions.model';
+import { DatePipe } from '@angular/common';
 @Injectable()
 export class OperatorsTableAdapterService {
-  constructor() { }
+  
+  private datePipe: DatePipe;
+
+  constructor(
+    @Inject(LOCALE_ID) locale: string
+  ) {
+    this.datePipe = new DatePipe(locale);
+  }
 
   public getOperatorColumnsHeader(): ColumnHeaderModel[] {
     return [
@@ -101,7 +109,7 @@ export class OperatorsTableAdapterService {
       operatorRow.pushColumn(new ColumnDataModel('text', operator.iataCode));
       operatorRow.pushColumn(new ColumnDataModel('text', operator.icaoCode));
       operatorRow.pushColumn(new ColumnDataModel('text', operator.name));
-      operatorRow.pushColumn(new ColumnDataModel('text', operator.aocLastRevisionDate));
+      operatorRow.pushColumn(new ColumnDataModel('text', this.datePipe.transform(operator.aocLastRevisionDate, 'dd/MM/yyyy')));
       operatorRow.pushColumn(new ColumnDataModel('actions', actions));
       operatorRow.setAuditParams(operator);
       operatorTableData.push(operatorRow);

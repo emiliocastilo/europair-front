@@ -12,6 +12,8 @@ export interface Flight {
   operator: Operator;
   departureTime: string;
   arrivalTime: string;
+  realDepartureTime: string;
+  realArrivalTime: string;
   timeZone: string;
   origin: Airport;
   originId: number;
