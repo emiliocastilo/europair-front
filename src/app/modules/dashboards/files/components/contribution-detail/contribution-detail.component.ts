@@ -133,7 +133,7 @@ export class ContributionDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getRouteInfo();
     this.loadSelectData();
-    // this.controlSubscribes();
+    this.controlSubscribes();
     this.onChangeContributionState();
   }
 
@@ -353,33 +353,49 @@ export class ContributionDetailComponent implements OnInit {
     }));
   }
 
-  // private controlSubscribes() {
-  //   this.purchaseContributionForm
-  //     .get('purchasePrice')
-  //     .valueChanges.subscribe((value) =>
-  //       this.setTaxesPrice(this.purchaseContributionForm, value)
-  //     );
-  //   this.saleContributionForm
-  //     .get('salesPrice')
-  //     .valueChanges.subscribe((value) =>
-  //       this.setTaxesPrice(this.saleContributionForm, value)
-  //     );
-  // }
+  private controlSubscribes() {
+    this.purchaseContributionForm
+      .get('purchasePrice')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPrice(this.purchaseContributionForm, value)
+      );
+      this.purchaseContributionForm
+      .get('taxes')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPriceOnChangeTaxes(this.purchaseContributionForm, value, 'purchasePrice')
+      );
+    this.saleContributionForm
+      .get('salesPrice')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPrice(this.saleContributionForm, value)
+      );
+      this.saleContributionForm
+      .get('taxes')
+      .valueChanges.subscribe((value) =>
+        this.setTaxesPriceOnChangeTaxes(this.saleContributionForm, value, 'salesPrice')
+      );
+  }
 
-  // private setTaxesPrice(form: FormGroup, stringValue: string) {
-  //   const totalPrice = Number.parseInt(stringValue);
-  //   const taxes = Number.parseInt(form.get('taxes').value);
-  //   form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
-  // }
+  private setTaxesPriceOnChangeTaxes(form: FormGroup, stringValue: string, formControlName: string) {
+    const totalPrice = this.unmaskPrice(form.get(formControlName).value);
+    const taxes = Number.parseInt(stringValue);
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+  }
 
-  // private getTaxesPrice(totalPrice: number, taxes: number) {
-  //   if (taxes && totalPrice) {
-  //     const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
-  //     return taxesPriceValue.toFixed(2);
-  //   } else {
-  //     return 0;
-  //   }
-  // }
+  private setTaxesPrice(form: FormGroup, stringValue: string) {
+    const totalPrice = this.unmaskPrice(stringValue);
+    const taxes = Number.parseInt(form.get('taxes').value);
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+  }
+
+  private getTaxesPrice(totalPrice: number, taxes: number) {
+    if (taxes && totalPrice) {
+      const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
+      return taxesPriceValue.toFixed(2);
+    } else {
+      return 0;
+    }
+  }
 
   public updateContributionPurchaseData() {
     this.contributionService
