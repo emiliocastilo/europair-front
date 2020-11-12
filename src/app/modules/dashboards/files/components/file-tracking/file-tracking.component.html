@@ -1,0 +1,60 @@
+<core-page-bar [pageTitle]="'FILES.PAGE_TITLE_DETAIL' | translate"></core-page-bar>
+
+<div id="file-filter">
+  <h3 class="title"> {{ 'COMMON.SEARCH_FILTERS' | translate }}:</h3>
+  <form [formGroup]="fileFilterForm">
+    <div class="row">
+      <app-input [type]="'text'" [prefix]="'FILES.CODE' | translate" formControlName="filter_code" class="col s12 l4">
+      </app-input>
+      <core-select [label]="'FILES.CLIENT' | translate" [id]="'search-clients'" [items]="clients$ | async"
+        [minTermLength]="1" [loading]="clientsLoading" class="col s12 l4 cmd-pb-1"
+        [typeToSearchText]="'FILES.CLIENT_SEARCH_TEXT' | translate" [placeholder]="'FILES.SELECT_CLIENT' | translate"
+        [typeahead]="clientsInput$" [searchable]="true" [itemDescription]="'name'" [itemValue]="'id'"
+        [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="filter_clientId">
+      </core-select>
+    </div>
+  </form>
+</div>
+<div class="responsive-table-container">
+  <mat-table matSort [dataSource]="dataSource" (matSortChange)="onSortFiles($event)">
+    <!-- File ID Column -->
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES.CODE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.code }} </mat-cell>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES.DESCRIPTION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.description }} </mat-cell>
+    </ng-container>
+
+    <!-- File Status Column -->
+    <ng-container matColumnDef="status-name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES.STATUS" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"
+        [ngClass]="{'booked-blue': isBookedBlue(element), 'booked-green': isBookedGreen(element)}">
+        {{ element.status.name }} </mat-cell>
+    </ng-container>
+
+    <!-- Client Column -->
+    <ng-container matColumnDef="client-name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES.CLIENT" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{ element.client.name }} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns" (dblclick)="goToTracking(row)"
+      (touchend)="goToTracking(row)"></mat-row>
+  </mat-table>
+  <mat-paginator [length]="this.paginatorLength" [pageSize]="this.paginatorSize" [pageSizeOptions]="[10, 20, 50]"
+    (page)="onPage($event)" showFirstLastButtons></mat-paginator>
+</div>
