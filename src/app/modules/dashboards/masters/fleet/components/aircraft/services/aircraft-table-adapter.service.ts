@@ -40,9 +40,11 @@ export class AircraftTableAdapterService {
       ),
       new ColumnHeaderModel(
         'airport-header',
-        'text',
+        'search',
         'FLEET.AIRCRAFTS.AIRPORT',
-        new ColumnHeaderSizeModel('3', '1', '1')
+        new ColumnHeaderSizeModel('3', '1', '1'),
+        'filter_bases.airport.iataCode',
+        'bases.airport.iataCode'
       ),
       new ColumnHeaderModel(
         'aircraftType-header',

@@ -5,7 +5,8 @@ export interface ContributionLine {
   id: number;
   contributionId: number;
   routeId: number;
-  route: FileRoute;
+  flightId: number;
+  route?: FileRoute;
   comments: string;
   price: number;
   lineContributionRouteType: LineContributionRouteType;
