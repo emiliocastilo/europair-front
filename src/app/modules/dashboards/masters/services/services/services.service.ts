@@ -23,7 +23,7 @@ export class ServicesService {
     private searchFilterService: SearchFilterService
   ) { }
 
-  public getServices(searchFilter: SearchFilter = {}): Observable<Page<Services>> {
+  public getServices(searchFilter: SearchFilter = {}, alreadyAddedServices: Services[] = []): Observable<Page<Services>> {
     const url: string = this.mocked
       ? '/assets/mocks/services.json'
       : this.url;

@@ -28,6 +28,7 @@ export class AircraftService {
     filter_quantity: OperatorEnum.EQUALS,
     'filter_bases.airport.id': OperatorEnum.EQUALS,
     'filter_operator.id': OperatorEnum.EQUALS,
+    'filter_bases.airport.iataCode': OperatorEnum.CONTAINS,
     filter_removedAt: OperatorEnum.IS_NULL,
     } as const;
     
