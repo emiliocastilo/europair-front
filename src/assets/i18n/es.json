@@ -22,6 +22,7 @@
     "FILES": {
       "TITLE": "Expedientes",
       "LIST": "Listado",
+      "ROUTES_TRACKING": "Seguimiento de rutas",
       "FLIGHT_TRACKING": "Seguimiento de vuelo"
     },
     "CONFIGURATION": {
@@ -641,7 +642,11 @@
     "CONFIRM_OPERATION_TITLE": "Notificar operación confirmada",
     "MSG_CONFIRM_OPERATION": "¿Está seguro que deseas notificar operación confirmada?",
     "OPERATION_TYPE": "Tipo operación",
-    "CONTACT": "Contacto"
+    "CONTACT": "Contacto",
+    "ORIGIN": "Origen",
+    "DESTINATION": "Destino",
+    "DEPARTURE_DATETIME": "Fecha de salida",
+    "DEPARTURA_DATETIME": "Fecha de llegada"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

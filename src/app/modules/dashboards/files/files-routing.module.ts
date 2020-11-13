@@ -25,8 +25,8 @@ const routes: Routes = [
       {
         path: 'tracking',
         loadChildren: () =>
-          import('./components/flight-tracking/flight-tracking.module').then(
-            (m) => m.FlightTrackingModule
+          import('./components/file-tracking/file-tracking.module').then(
+            (m) => m.FileTrackingModule
           ),
       },
       {
@@ -36,6 +36,20 @@ const routes: Routes = [
             (m) => m.TrackingDetailModule
           ),
       },
+      {
+        path: 'flight-tracking',
+        loadChildren: () =>
+          import('./components/flight-tracking/flight-tracking.module').then(
+            (m) => m.FlightTrackingModule
+          ),
+      },
+    /*  {
+        path: 'flight-tracking/:fileId',
+        loadChildren: () =>
+          import('./components/tracking-detail/tracking-detail.module').then(
+            (m) => m.TrackingDetailModule
+          ),
+      },*/
       {
         path: 'search-aircraft/:fileId/:routeId',
         loadChildren: () =>
