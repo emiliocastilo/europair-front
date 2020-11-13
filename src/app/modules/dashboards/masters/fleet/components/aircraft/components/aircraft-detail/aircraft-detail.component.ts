@@ -303,7 +303,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
     this.modalDetailTitle = this.EDIT_BASE_TITLE;
     this.modeEdit = true;
     this.aircraftBaseForm.reset({
-      airport: this.aircraftBaseSelected.airport?.id,
+      airport: this.aircraftBaseSelected.airport,
       mainBase: this.aircraftBaseSelected.mainBase
     });
     this.initializeModal(this.baseDetailModal);

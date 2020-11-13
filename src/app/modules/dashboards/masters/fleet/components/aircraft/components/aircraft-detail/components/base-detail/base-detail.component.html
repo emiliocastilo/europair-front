@@ -10,28 +10,22 @@
     <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="baseForm">
         <div class="row">
-          <core-select
-            class="col s12 m6"
-            [id]="'select-airport-base'"
-            [items]="airports"
-            [itemDescription]="'name'"
-            [itemValue]="'id'"
-            [searchable]="true"
-            [placeholder]="'Seleccione una aeropuerto'"
-            [hasErrors]="hasControlAnyError('airport')"
-            formControlName="airport"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('airport')">
-                <span
-                  *ngIf="hasControlSpecificError('airport', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar un aeropuerto"
-                >
-                </span>
+          <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
+              [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
+              class="col s12 l12 cmd-mb-1"
+              [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+              [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+              [hasErrors]="hasControlAnyError('airport')" [typeahead]="airportsInput$"
+              [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+              formControlName="airport">
+              <ng-container inputErrors>
+                  <ng-container *ngIf="hasControlAnyError('airport')">
+                      <span *ngIf="hasControlSpecificError('airport', 'required')" class="helper-text"
+                          [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.AIRPORT_REQUIRED' | translate">
+                      </span>
+                  </ng-container>
               </ng-container>
-            </ng-container>
-          </core-select>
+          </app-select>
         </div>
         <div class="row">
           <core-checkbox class="waves-effect check" [id]="'main-base-checkbox'" [label]="'Principal'"
