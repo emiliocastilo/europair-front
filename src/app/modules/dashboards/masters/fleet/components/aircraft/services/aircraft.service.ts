@@ -20,8 +20,8 @@ export class AircraftService {
   private readonly filterOptions: FilterOptions = {
     'filter_operator.name': OperatorEnum.CONTAINS,
     'filter_aircraftType.code': OperatorEnum.CONTAINS,
-    'filter_aircraftType.category.name': OperatorEnum.CONTAINS,
-    'filter_aircraftType.subcategory.name': OperatorEnum.CONTAINS,
+    'filter_aircraftType.category.code': OperatorEnum.CONTAINS,
+    'filter_aircraftType.subcategory.code': OperatorEnum.CONTAINS,
     filter_plateNumber: OperatorEnum.CONTAINS,
     filter_productionYear: OperatorEnum.EQUALS,
     filter_outsideUpgradeYear: OperatorEnum.EQUALS,

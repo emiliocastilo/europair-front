@@ -117,7 +117,6 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public typeForm: FormGroup = this.fb.group({
     iataCode: new FormControl('', [
-      Validators.required,
       Validators.maxLength(3),
     ]),
     icaoCode: new FormControl('', [
@@ -129,13 +128,13 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     manufacturer: new FormControl('', Validators.required),
     category: new FormControl(null, Validators.required),
     subcategory: new FormControl(null, Validators.required),
-    flightRange: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    flightRange: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     flightRangeUnit: new FormControl(null),
-    cabinWidth: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinWidth: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     cabinWidthUnit: new FormControl(null),
-    cabinHeight: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinHeight: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     cabinHeightUnit: new FormControl(null),
-    cabinLength: new FormControl(null, [Validators.pattern('^[0-9]*$')]),
+    cabinLength: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     cabinLengthUnit: new FormControl(null),
     maxCargo: new FormControl(null),
     averageSpeed: new FormControl([]),
@@ -149,6 +148,11 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     averageSpeed: ['', Validators.required],
     averageSpeedUnit: [null, Validators.required],
   });
+
+  private averageSpeedFormDefaultValues = {
+    distanceUnit: MeasureType.NAUTIC_MILE,
+    averageSpeedUnit: MeasureType.KNOTS
+  }
 
   public observationForm = this.fb.group({
     observation: ['', Validators.required],
@@ -233,7 +237,7 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     this.modalDetailTitle = this.CREATE_SPEED_TITLE;
     this.typeSpeedSelected = null;
     this.typeSpeedSelectedCount = 0;
-    this.averageSpeedForm.reset();
+    this.averageSpeedForm.reset(this.averageSpeedFormDefaultValues);
     this.initializeModal(this.speedAverageDetailModal);
     this.modalService.openModal();
   }
@@ -338,6 +342,12 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
           this.retrieveObservations(typeId);
           this.retrieveSpeedAverages(typeId);
         });
+    } else {
+      this.typeForm.reset({ 
+        cabinWidthUnit: MeasureType.METER, 
+        cabinHeightUnit: MeasureType.METER, 
+        cabinLengthUnit: MeasureType.METER 
+      });
     }
   }
 

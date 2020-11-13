@@ -10,48 +10,36 @@
     <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="speedAverageForm">
         <div class="row">
-          <core-basic-input-text
-            [id]="'speed-fromDistance'"
-            [label]="'Desde'"
-            type="number"
-            class="col s12 m4 col-no-pad-left"
+          <app-input
+            [type]="'number'"
+            [prefix]="'Desde' | translate"
             formControlName="fromDistance"
-            [hasErrors]="hasControlAnyError('fromDistance')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('fromDistance')">
-                <span
-                  *ngIf="hasControlSpecificError('fromDistance', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar una distancia"
-                >
-                </span>
-              </ng-container>
+            class="col s12 m4 col-no-pad-left cmd-mb-1">
+            <ng-container inputErrors *ngIf="hasControlAnyError('fromDistance')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('fromDistance', 'required')">
+                {{ "Debe indicar una distancia" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
-          <core-basic-input-text
-            [id]="'speed-toDistance'"
-            [label]="'Hasta'"
-            type="number"
-            class="col s12 m4 col-no-pad-left"
+          <app-input
+            [type]="'number'"
+            [prefix]="'Hasta' | translate"
             formControlName="toDistance"
-            [hasErrors]="hasControlAnyError('toDistance')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('toDistance')">
-                <span
-                  *ngIf="hasControlSpecificError('toDistance', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar una distancia"
-                >
-                </span>
-              </ng-container>
+            class="col s12 m4 col-no-pad-left cmd-mb-1">
+            <ng-container inputErrors *ngIf="hasControlAnyError('toDistance')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('toDistance', 'required')">
+                {{ "Debe indicar una distancia" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
           <core-select
-            class="col s12 m4"
+            class="col s12 m4 cmd-mb-1"
             [items]="measureList"
             [itemDescription]="'label'"
             [itemValue]="'value'"
@@ -75,28 +63,22 @@
         </div>
 
         <div class="row">
-          <core-basic-input-text
-            [id]="'speed-averageSpeed'"
-            [label]="'Velocidad media'"
-            type="number"
-            class="col s12 m4 col-no-pad-left"
+          <app-input
+            [type]="'number'"
+            [prefix]="'Velocidad media' | translate"
             formControlName="averageSpeed"
-            [hasErrors]="hasControlAnyError('averageSpeed')"
-          >
-            <ng-container inputErrors>
-              <ng-container *ngIf="hasControlAnyError('averageSpeed')">
-                <span
-                  *ngIf="hasControlSpecificError('averageSpeed', 'required')"
-                  class="helper-text"
-                  data-error="Debe indicar una velocidad"
-                >
-                </span>
-              </ng-container>
+            class="col s12 m6 col-no-pad-left">
+            <ng-container inputErrors *ngIf="hasControlAnyError('averageSpeed')">
+              <mat-error
+                class="ep-error-msg"
+                *ngIf="hasControlSpecificError('averageSpeed', 'required')">
+                {{ "Debe indicar una velocidad" | translate }}
+              </mat-error>
             </ng-container>
-          </core-basic-input-text>
+          </app-input>
 
           <core-select
-            class="col s12 m4"
+            class="col s12 m6"
             [items]="measureSpeedList"
             [itemDescription]="'label'"
             [itemValue]="'value'"
