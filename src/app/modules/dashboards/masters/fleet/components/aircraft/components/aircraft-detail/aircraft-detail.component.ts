@@ -352,9 +352,7 @@ export class AircraftDetailComponent implements OnInit, OnDestroy {
         operator: operatorSelected,
         bases: baseSelected
       })
-      .subscribe(() => {
-        this.router.navigate(['fleet/aircraft']);
-      });
+      .subscribe();
   }
 
   private getFleetTypeSelected(): FleetType {
