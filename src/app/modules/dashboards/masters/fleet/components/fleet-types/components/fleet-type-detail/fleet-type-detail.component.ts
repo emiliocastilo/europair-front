@@ -150,6 +150,11 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     averageSpeedUnit: [null, Validators.required],
   });
 
+  private averageSpeedFormDefaultValues = {
+    distanceUnit: MeasureType.NAUTIC_MILE,
+    averageSpeedUnit: MeasureType.KNOTS
+  }
+
   public observationForm = this.fb.group({
     observation: ['', Validators.required],
   });
@@ -233,7 +238,7 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     this.modalDetailTitle = this.CREATE_SPEED_TITLE;
     this.typeSpeedSelected = null;
     this.typeSpeedSelectedCount = 0;
-    this.averageSpeedForm.reset();
+    this.averageSpeedForm.reset(this.averageSpeedFormDefaultValues);
     this.initializeModal(this.speedAverageDetailModal);
     this.modalService.openModal();
   }
