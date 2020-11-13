@@ -71,8 +71,8 @@ export class AircraftListComponent implements OnInit {
   public aircraftAdvancedSearchForm = this.fb.group({
     'filter_operator.name': [''],
     'filter_aircraftType.code': [''],
-    'filter_aircraftType.category.name': [''],
-    'filter_aircraftType.subcategory.name': [''],
+    'filter_aircraftType.category.code': [''],
+    'filter_aircraftType.subcategory.code': [''],
     filter_plateNumber: [''],
     filter_productionYear: [''],
     filter_outsideUpgradeYear: [''],

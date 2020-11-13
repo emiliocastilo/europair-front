@@ -59,16 +59,16 @@ export class AircraftTableAdapterService {
         'search',
         'FLEET.AIRCRAFTS.CATEGORY',
         new ColumnHeaderSizeModel('', '1', '1'),
-        'filter_aircraftType.category.name',
-        'aircraftType.category.name'
+        'filter_aircraftType.category.code',
+        'aircraftType.category.code'
       ),
       new ColumnHeaderModel(
         'subcategory-header',
         'search',
         'FLEET.AIRCRAFTS.SUBCATEGORY',
         new ColumnHeaderSizeModel('', '1', '1'),
-        'filter_aircraftType.subcategory.name',
-        'aircraftType.subcategory.name'
+        'filter_aircraftType.subcategory.code',
+        'aircraftType.subcategory.code'
       ),
       new ColumnHeaderModel(
         'plateNumber-header',
