@@ -5,7 +5,7 @@
     <!-- File ID Column -->
     <ng-container matColumnDef="origin">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES.CODE" | translate }}
+        {{ "FILES.ORIGIN" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.origin?.name }} </mat-cell>
     </ng-container>
@@ -13,7 +13,7 @@
     <!-- Client Column -->
     <ng-container matColumnDef="destination">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES.CLIENT" | translate }}
+        {{ "FILES.DESTINATION" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.destination?.name }} </mat-cell>
     </ng-container>
@@ -21,7 +21,7 @@
     <!-- Description Column -->
     <ng-container matColumnDef="realDepartureTime">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES.DESCRIPTION" | translate }}
+        {{ "FILES.DEPARTURE_DATETIME" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.realDepartureTime | date : 'dd/MM/yyyy HH:mm' }} </mat-cell>
     </ng-container>
@@ -29,7 +29,7 @@
     <!-- File Status Column -->
     <ng-container matColumnDef="realArrivalTime">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES.STATUS" | translate }}
+        {{ "FILES.DEPARTURA_DATETIME" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.realArrivalTime | date : 'dd/MM/yyyy HH:mm' }} </mat-cell>
     </ng-container>
