@@ -117,7 +117,6 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public typeForm: FormGroup = this.fb.group({
     iataCode: new FormControl('', [
-      Validators.required,
       Validators.maxLength(3),
     ]),
     icaoCode: new FormControl('', [
