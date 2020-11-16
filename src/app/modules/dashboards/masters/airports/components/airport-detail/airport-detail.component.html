@@ -7,7 +7,7 @@
   </core-button-bar>
   <ul class="collapsible" [appMatCollapsible]="{ state: 'open'}">
     <li>
-      <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Datos generales</div>
+      <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.GENERAL_DATA' | translate }}</div>
       <div class="collapsible-body">
         <app-airport-general-data
           [generalDataForm]="generalDataForm"
@@ -19,7 +19,7 @@
   <ng-container *ngIf="routeData?.isAirportDetail">
     <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Pistas</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.RUNWAYS' | translate }}</div>
         <div class="collapsible-body">
           <app-airport-runways></app-airport-runways>
         </div>
@@ -27,7 +27,7 @@
     </ul>
     <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Terminales</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.TERMINALS' | translate }}</div>
         <div class="collapsible-body">
           <app-airport-terminals></app-airport-terminals>
         </div>
@@ -35,7 +35,7 @@
     </ul>
     <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}" *ngIf="hasAirportSpecialConditions">
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Operadores certificados</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.CERTIFIED_OPERATORS' | translate }}</div>
         <div class="collapsible-body">
           <app-airport-certified-operators></app-airport-certified-operators>
         </div>
@@ -43,7 +43,7 @@
     </ul>
     <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Regiones</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.REGIONS' | translate }}</div>
         <div class="collapsible-body">
           <app-airport-regions></app-airport-regions>
         </div>
@@ -51,7 +51,7 @@
     </ul>
     <ul class="collapsible" [appMatCollapsible]="{ state: 'closed'}">
       <li>
-        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>Observaciones</div>
+        <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>{{ 'AIRPORTS.OBSERVATIONS' | translate }}</div>
         <div class="collapsible-body">
           <app-airport-observations></app-airport-observations>
         </div>
@@ -66,17 +66,18 @@
       <h4>Confirmar eliminación</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar el aeropuerto <b>{{airportData?.name}}</b>?</p>
+      <p [innerHTML]="'AIRPORTS.DELETE_AIRPORT_MSG' | translate: {airportName: airportData?.name} "></p>
+      <p></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteAirport()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.CONFIRM' | translate | sentenceCase}}ar</span>
     </a>
   </ng-container>
 </core-modal>

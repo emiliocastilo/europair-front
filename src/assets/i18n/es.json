@@ -52,7 +52,8 @@
     "CONFIRM_OPERATION": "Confirmar Operación",
     "SEARCH_FILTERS": "Filtros de búsqueda",
     "TOTAL": "Total",
-    "ACEPT": "Aceptar"
+    "ACEPT": "Aceptar",
+    "SEARCH": "buscar"
   },
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
@@ -99,7 +100,22 @@
     "SPECIAL_CONDITIONS": "Condiciones especiales",
     "CANARY_ISLANDS": "Islas Canarias",
     "BALEARICS": "Baleares",
-    "FLIGHT_RULES_TYPE": "Tipo de normas de vuelo"
+    "FLIGHT_RULES_TYPE": "Tipo de normas de vuelo",
+    "OBSERVATION": "Observación",
+    "CONFIRM_DELETE": "Confirmar eliminación",
+    "CONFIRM_DELETE_MSG": "Está seguro que desea eliminar el operador certificado <strong>{{ airport }}</strong>",
+    "ORDER_CODE_ASC": "Código A -> Z",
+    "ORDER_CODE_DESC": "Código Z -> A",
+    "ORDER_REGION_ASC": "Región A -> Z",
+    "ORDER_REGION_DESC": "Región Z -> A",
+    "DELETE_REGION_MSG": "¿Está seguro que desea eliminar la region <b>{{regionName}}</b>??",
+    "GENERAL_DATA": "Datos generales",
+    "RUNWAYS": "Pistas",
+    "TERMINALS": "Terminales",
+    "CERTIFIED_OPERATORS": "Operadores certificados",
+    "REGIONS": "Regiones",
+    "OBSERVATIONS": "Observaciones",
+    "DELETE_AIRPORT_MSG": "¿Está seguro que desea eliminar el aeropuerto <b>{{airportName}}</b>?"
   },
   "AIRCRAFT": {
     "NEW": "Nueva Aeronave",
@@ -312,7 +328,9 @@
     "AIRPORT_CODE": "IATA",
     "AIRPORT_NAME": "Nombre",
     "COUNTRY_CODE": "Código",
-    "COUNTRY_NAME": "Nombre"
+    "COUNTRY_NAME": "Nombre",
+    "ADD": "Añadir",
+    "ADD_REGIONS": "Añadir regiones"
   },
   "CONTACTS": {
     "PAGE_TITLE": "Contactos",
@@ -844,5 +862,8 @@
     "ZAR": "Rand sudáfricano"
   },
   "PURCHASE": "Compra",
-  "SALE": "Venta"
+  "SALE": "Venta",
+  "OBSERVATIONS": {
+    "TITLE": "Observaciones"
+  }
 }
