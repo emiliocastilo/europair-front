@@ -708,6 +708,10 @@
   },
   "CONTRIBUTIONS": {
     "TITLE": "Detalle cotización",
+    "CONTRIBUTION_DATA": "Datos cotización",
+    "OPERATOR": "Operador",
+    "AIRCRAFT_TYPE": "Tipo de avión",
+    "TOTAL_PASSENGERS": "Total pasajeros",
     "PURCHASE": "Compra",
     "SALE": "Venta",
     "TOTAL_PRICE": "Importe total",
