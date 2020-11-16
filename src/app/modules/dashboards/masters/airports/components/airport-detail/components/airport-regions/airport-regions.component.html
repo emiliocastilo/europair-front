@@ -40,7 +40,7 @@
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileAdvancedSearch()">
       <i class="material-icons">search</i>
-      <span class="full-width-btn-text">Buscar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.SEARCH' | translate | sentenceCase}}</span>
     </a>
   </ng-container>
 </core-advanced-search>
@@ -51,25 +51,25 @@
       <p>
         <label>
           <input class="with-gap" name="sort" type="radio" value="code,ASC" formControlName="sort" />
-          <span>Código A -> Z</span>
+          <span>{{ 'AIRPORTS.ORDER_CODE_ASC' | translate }}</span>
         </label>
       </p>
       <p>
         <label>
           <input class="with-gap" name="sort" type="radio" value="code,DESC" formControlName="sort" />
-          <span>Código Z -> A</span>
+          <span>{{ 'AIRPORTS.ORDER_CODE_DESC' | translate }}</span>
         </label>
       </p>
       <p>
         <label>
           <input class="with-gap" name="sort" type="radio" value="name,ASC" formControlName="sort" />
-          <span>Región A -> Z</span>
+          <span>{{ 'AIRPORTS.ORDER_REGION_ASC' | translate }}</span>
         </label>
       </p>
       <p>
         <label>
           <input class="with-gap" name="sort" type="radio" value="name,DESC" formControlName="sort" />
-          <span>Región Z -> A</span>
+          <span>{{ 'AIRPORTS.ORDER_REGION_DESC' | translate }}</span>
         </label>
       </p>
     </form>
@@ -77,7 +77,7 @@
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onMobileSort()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Aceptar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.ACEPT' | translate | sentenceCase}}</span>
     </a>
   </ng-container>
 </core-sort-menu>
@@ -85,20 +85,20 @@
 <core-modal> 
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{ 'AIRPORTS.CONFIRM_DELETE' | translate | sentenceCase}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="modal-body">
-      <p>¿Está seguro que desea eliminar la región <b>{{regionSelected?.name}}</b>?</p>
+      <p [innerHTML]="'AIRPORTS.DELETE_REGION_MSG' | translate: {regionName: regionSelected?.name} | sentenceCase"></p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteRegion()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.CONFIRM' | translate | sentenceCase}}</span>
     </a>
   </ng-container>
 </core-modal>

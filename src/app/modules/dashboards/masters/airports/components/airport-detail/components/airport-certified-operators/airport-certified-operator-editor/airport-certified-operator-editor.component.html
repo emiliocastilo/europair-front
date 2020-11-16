@@ -4,13 +4,13 @@
       <h4>{{ 'Editar certificación para ' + getTitle() }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="certification-editor cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="certifiedOperatorForm">
         <div class="row">
-          <core-basic-input-text [id]="'edit-certification-comments'" [label]="'Observación'" formControlName="comments" [hasErrors]="hasControlAnyError('comments')">
+          <core-basic-input-text [id]="'edit-certification-comments'" [label]="'AIRPORTS.OBSERVATION' | translate" formControlName="comments" [hasErrors]="hasControlAnyError('comments')">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('comments')">
                 <span *ngIf="hasControlSpecificError('comments', 'required')" class="helper-text" data-error="Debe indicar una observación">
@@ -26,7 +26,7 @@
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" 
     [ngClass]="{'disabled': !certifiedOperatorForm.valid}" (click)="onEditCertifiedOperator()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.SAVE' | translate | sentenceCase}}</span>
     </a>
   </div>
 </div>

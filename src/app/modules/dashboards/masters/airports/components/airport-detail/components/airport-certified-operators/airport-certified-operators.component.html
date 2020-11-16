@@ -34,20 +34,20 @@
 <core-modal> 
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{'AIRPORTS.CONFIRM_DELETE' | translate }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="modal-body">
-      <p>Está seguro que desea eliminar el operador certificado <b>{{ operatorSelected?.operator?.iataCode }}</b></p>
+      <p>{{'AIRPORTS.CONFIRM_DELETE_MSG' | translate: {airport: operatorSelected?.operator?.iataCode} }}</p>
     </section>
   </ng-container>
   <ng-container footer>
     <a class="btn modal-close waves-effect europair-icon-blue-1 cmd-w-100" (click)="onConfirmDeleteOperator()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.CONFIRM' | translate | sentenceCase}}</span>
     </a>
   </ng-container>
 </core-modal>

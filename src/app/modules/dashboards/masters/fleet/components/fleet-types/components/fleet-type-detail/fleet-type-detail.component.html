@@ -445,7 +445,7 @@
       <h4>Confirmar eliminación</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="modal-body">
@@ -460,7 +460,7 @@
       (click)="deleteModalAction()"
     >
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Confirmar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.SAVE' | translate | sentenceCase}}</span>
     </a>
   </ng-container>
 </core-modal>
