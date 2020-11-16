@@ -69,8 +69,8 @@
                       {{ element.name }}
                     </mat-cell>
                   </ng-container>
-                  <mat-header-row *matHeaderRowDef="columnsAirportsToDisplay"></mat-header-row>
-                  <mat-row *matRowDef="let element; columns: columnsAirportsToDisplay" class="element-row">
+                  <mat-header-row *matHeaderRowDef="columnsCountriesToDisplay"></mat-header-row>
+                  <mat-row *matRowDef="let element; columns: columnsCountriesToDisplay" class="element-row">
                   </mat-row>
                 </mat-table>
                 <mat-paginator [length]="this.resultsCountriesLength" [pageSize]="this.pageCountriesSize"
@@ -82,45 +82,28 @@
       <li>
         <div class="collapsible-header"><i
             class="material-icons">keyboard_arrow_down</i>{{'REGIONS.AIRPORTS' | translate}}</div>
-        <div class="collapsible-body"><span>
-            <section class="region-airport-detail-table">
-              <div class="responsive-table-container">
-                <mat-table [dataSource]="dataSourceAirports">
-                  <ng-container matColumnDef="selection" sticky>
-                    <mat-header-cell *matHeaderCellDef mat-header></mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                      <mat-checkbox [id]="'airport' + element.id" [color]="'primary'"
-                        [checked]="isAirportChecked(element.id)" (change)="checkAirport($event.checked, element)">
-                      </mat-checkbox>
-                    </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef mat-header>
-                      {{ 'REGIONS.AIRPORT_CODE' | translate}}
-                    </mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                      {{ element.iataCode }}
-                    </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-header>
-                      {{ 'REGIONS.AIRPORT_NAME' | translate}}
-                    </mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                      {{ element.name }}
-                    </mat-cell>
-                  </ng-container>
-                  <mat-header-row *matHeaderRowDef="columnsAirportsToDisplay"></mat-header-row>
-                  <mat-row *matRowDef="let element; columns: columnsAirportsToDisplay" class="element-row">
-                  </mat-row>
-                </mat-table>
-                <mat-paginator [length]="this.resultsAirportsLength" [pageSize]="this.pageAirportsSize"
-                  (page)="onPageAirports($event)" showFirstLastButtons></mat-paginator>
-              </div>
-            </section>
-          </span></div>
+        <div class="collapsible-body">
+          <span>
+            <form [formGroup]="regionForm">
+              <app-search-airports [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
+                [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
+                class="col s12 l12 cmd-mb-1"
+                [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
+                [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
+                [hasErrors]="hasControlAnyError('airport')" [typeahead]="airportsInput$"
+                [notFoundText]="'COMMON.NOT_FOUND' | translate"
+                formControlName="airports" [multiple]="true">
+                <ng-container inputErrors>
+                    <ng-container *ngIf="hasControlAnyError('airport')">
+                        <span *ngIf="hasControlSpecificError('airport', 'required')" class="helper-text"
+                            [attr.data-error]="'SEARCH_AIRCRAFT.ERROR.AIRPORT_REQUIRED' | translate">
+                        </span>
+                    </ng-container>
+                </ng-container>
+              </app-search-airports>
+            </form>
+          </span>
+        </div>
       </li>
     </ul>
   </div>

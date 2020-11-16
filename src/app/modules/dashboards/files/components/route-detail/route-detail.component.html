@@ -63,24 +63,10 @@
           </core-select>
         </div>
         <div class="row">
-          <core-select
-            [label]="'ROUTES.AIRPORT_SEARCHER' | translate"
-            [id]="'search-airport'"
-            [items]="airports$ | async"
-            [minTermLength]="1"
-            [loading]="airportsLoading"
-            [clearable]="false"
-            class="col s12 l8 cmd-mb-1"
-            [typeToSearchText]="
-              'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate
-            "
-            [placeholder]="'ROUTES.SELECT_AIRPORT' | translate"
-            [typeahead]="airportsInput$"
-            [searchable]="true"
-            [notFoundText]="'COMMON.NOT_FOUND' | translate"
-            [formControl]="airportsControl"
-          >
-          </core-select>
+          <app-search-airports [label]="'ROUTES.AIRPORT_SEARCHER' | translate" [id]="'search-airport'" [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
+            [clearable]="false" class="col s12 l8 cmd-mb-1" [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate" [placeholder]="'ROUTES.SELECT_AIRPORT' | translate"
+            [typeahead]="airportsInput$" [notFoundText]="'COMMON.NOT_FOUND' | translate" [formControl]="airportsControl">
+          </app-search-airports>
         </div>
         <div class="row">
           <app-input

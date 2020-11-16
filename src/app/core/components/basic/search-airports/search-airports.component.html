@@ -1,0 +1,30 @@
+<div
+  class="core-basic-select-field input-field select-field"
+  [ngClass]="{ invalid: hasErrors }"
+>
+  <label [for]="id" class="active">{{ label }}</label>
+  <ng-select
+    id="{{ id }}"
+    (ngModelChange)="changeSelect($event)"
+    [addTag]="tag"
+    [bindLabel]="'name'"
+    [items]="items"
+    [loading]="loading"
+    [minTermLength]="minTermLength"
+    [multiple]="multiple"
+    [ngModel]="value"
+    [notFoundText]="notFoundText"
+    [placeholder]="placeholder"
+    [searchFn]="customSearchFn"
+    [typeahead]="typeahead"
+    [typeToSearchText]="typeToSearchText"
+    [disabled]="isDisabled"
+    [clearable]="clearable"
+    [dropdownPosition]="dropdownPosition"
+  >
+  <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+    <div [innerHTML]="item | searchAirportSelectPipe: {term: search}"></div>
+  </ng-template>
+</ng-select>
+  <ng-content select="[inputErrors]"></ng-content>
+</div>

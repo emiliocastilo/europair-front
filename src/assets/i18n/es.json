@@ -663,8 +663,8 @@
     "CONTACT": "Contacto",
     "ORIGIN": "Origen",
     "DESTINATION": "Destino",
-    "DEPARTURE_DATETIME": "Fecha de salida",
-    "DEPARTURA_DATETIME": "Fecha de llegada"
+    "DEPARTURE_DATETIME": "Fecha ETD",
+    "DEPARTURA_DATETIME": "Hora ETA"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
