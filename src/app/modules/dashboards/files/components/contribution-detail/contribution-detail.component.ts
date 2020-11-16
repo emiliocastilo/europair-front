@@ -116,6 +116,12 @@ export class ContributionDetailComponent implements OnInit {
 
   public contributionStateControl = this.fb.control(null);
 
+  public contributionDataForm = this.fb.group({
+    operator: [{ value: '', disabled: true}],
+    aircraftType: [{ value: '', disabled: true}],
+    totalPassengers: [{ value: '', disabled: true}],
+  });
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
@@ -175,11 +181,24 @@ export class ContributionDetailComponent implements OnInit {
       .getContribution(this.fileId, this.routeId, this.contributionId)
       .pipe(
         tap((contribution) => (this.contribution = contribution)),
+        tap(this.updateContributionDataForm),
         tap(this.updateContributionStateControl)
       )
       .subscribe((contribution: Contribution) =>
         this.updateContributionForms(contribution)
       );
+  }
+
+  private updateContributionDataForm = (contribution: Contribution): void => {
+    this.contributionDataForm.setValue(this.createContributionDataFormFromContribution(contribution));
+  }
+
+  private createContributionDataFormFromContribution(contribution: Contribution) {
+    return {
+      operator: contribution.operator.name,
+      aircraftType: contribution.aircraft.aircraftType.code,
+      totalPassengers: contribution.seatingC + contribution.seatingF + contribution.seatingY
+    }
   }
 
   private updateContributionStateControl = (

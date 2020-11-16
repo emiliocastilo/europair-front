@@ -19,6 +19,36 @@
   ></app-select>
 </div>
 <mat-expansion-panel
+  class="app-expansion-panel cmd-mb-2"
+  expanded="true"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ "CONTRIBUTIONS.CONTRIBUTION_DATA" | translate | sentenceCase }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="row row-no-margin-bottom cmd-mt-2">
+    <form [formGroup]="contributionDataForm">
+      <app-input
+      [prefix]="'CONTRIBUTIONS.OPERATOR' | translate"
+      formControlName="operator"
+      class="col s12 l4 cmd-pb-1">
+      </app-input>
+      <app-input
+        [prefix]="'CONTRIBUTIONS.AIRCRAFT_TYPE' | translate"
+        formControlName="aircraftType"
+        class="col s12 l4 cmd-pb-1">
+      </app-input>
+      <app-input
+        [prefix]="'CONTRIBUTIONS.TOTAL_PASSENGERS' | translate"
+        formControlName="totalPassengers"
+        class="col s12 l4 cmd-pb-1">
+      </app-input>
+    </form>
+  </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel
   #purchasePanel
   class="app-expansion-panel cmd-mb-2"
   expanded="true"
