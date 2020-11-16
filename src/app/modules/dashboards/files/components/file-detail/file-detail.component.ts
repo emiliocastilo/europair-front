@@ -104,6 +104,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   @ViewChild('contributionsTable') contributionsTable: MatTable<any>;
   public readonly fieldMaxLength: number = 1500;
   public readonly observationMaxLength: number = 1300;
+  public readonly ROUTE_STATUS = RouteStatus;
 
   public fileData: File;
   public routes: Array<FileRoute>;
@@ -548,6 +549,23 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     // TODO: nothing yet
   }
 
+  public generateContract(routeId: number): void {
+    const confirmOperationRef = this.matDialog.open(
+      ConfirmOperationDialogComponent,
+      {
+        data: {
+          title: 'COMMON.CONFIRM_OPERATION',
+          message: 'FILES.GENERATE_CONTRACT_MSG',
+        },
+      }
+    );
+    confirmOperationRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // TODO generate contract
+      }
+    });
+  }
+
   public signFile(): void {
     // TODO: nothing yet
   }
@@ -583,7 +601,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         break;
       case FileAction.CREATE_CONTRACT:
         show =
-          this.routes?.filter((fileRoute: FileRoute) => fileRoute.status === RouteStatus.WON).length > 0;
+          this.routes?.filter((fileRoute: FileRoute) => fileRoute.routeState === RouteStatus.WON).length > 0;
         break;
       case FileAction.MODIFY_FILE:
         show = fileStatus !== FileStatusCode.CNX;

@@ -209,7 +209,7 @@
             <!-- Actions Column-->
             <ng-container matColumnDef="route-actions" stickyEnd>
               <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-              <mat-cell *matCellDef="let element">
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
                 <mat-icon
                   (click)="navigateToCopyRoute(element.id)"
                   svgIcon="europair_add_trace"
@@ -219,6 +219,11 @@
                   (click)="navigateToSearchAircraft(element.id)"
                   svgIcon="europair_plane"
                   [matTooltip]="'TOOLTIPS.SEARCH_AIRCRAFT'| translate" [matTooltipClass]="'europair-tooltip'"
+                ></mat-icon>
+                <mat-icon *ngIf="element.routeState === ROUTE_STATUS.WON"
+                  (click)="generateContract(element.id)"
+                  svgIcon="europair_document"
+                  [matTooltip]="'TOOLTIPS.GENERATE_CONTRACT'| translate" [matTooltipClass]="'europair-tooltip'"
                 ></mat-icon>
                 <mat-icon
                   (click)="deleteRoute(element.id, 'FILES.ROUTE_DELETE_MSG')"

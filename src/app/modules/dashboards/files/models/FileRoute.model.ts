@@ -8,7 +8,7 @@ export interface FileRoute {
   startDate: Date;
   endDate: Date;
   rotations: FileRoute[];
-  status?: RouteStatus;
+  routeState?: RouteStatus;
   contributions?: Contribution[];
 }
 
