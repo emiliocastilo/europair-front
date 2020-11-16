@@ -4,7 +4,7 @@
       <h4>{{ modeCreate ? 'Añadir operador certificado' : 'Modificar operador certificado'}}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
-        Cancelar
+        {{ 'COMMON.CANCEL' | translate | sentenceCase}}
       </a>
     </section>
     <section class="certification-creator cmd-mr-3 cmd-mb-3 cmd-mt-3">
@@ -33,7 +33,7 @@
       [ngClass]="{'disabled': !certifiedOperatorForm.valid || (!hasAnyAirportSelected() && modeCreate)}"
       (click)="onSaveCertifiedOperator()">
       <i class="material-icons">check_circle</i>
-      <span class="full-width-btn-text">Guardar</span>
+      <span class="full-width-btn-text">{{ 'COMMON.SAVE' | translate | sentenceCase}}</span>
     </a>
   </div>
 </div>
