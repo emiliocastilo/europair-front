@@ -58,6 +58,7 @@
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
     "SEARCH_AIRCRAFT": "Buscar aviones",
+    "GENERATE_CONTRACT": "Generar contrato",
     "REMOVE_ROUTE": "Eliminar ruta",
     "EDIT_ROTATION": "Editar rotación",
     "REMOVE_ROTATION": "Eliminar rotación",
@@ -580,6 +581,7 @@
     "ROUTES": "Rutas",
     "ROUTE_DELETE_MSG": "¿Está seguro que desea eliminar la ruta?",
     "ROTATION_DELETE_MSG": "¿Está seguro que desea eliminar la rotación?",
+    "GENERATE_CONTRACT_MSG": "¿Está seguro que desea generar el contrato?",
     "NEW_ROUTE": "Nueva ruta",
     "COPY_ROUTE": "Copiar ruta",
     "MSG_OPERATION": "¿Está seguro que desea confirmar la operación?",
