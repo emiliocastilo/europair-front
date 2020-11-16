@@ -10,13 +10,13 @@
     <section class="runway-detail-form cmd-mr-3 cmd-mb-3 cmd-mt-3">
       <form [formGroup]="baseForm">
         <div class="row">
-          <app-select [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
+          <app-search-airports [label]="'SEARCH_AIRCRAFT.AIRPORT' | translate" [id]="'search-airport'"
               [items]="airports$ | async" [minTermLength]="1" [loading]="airportsLoading"
               class="col s12 l12 cmd-mb-1"
               [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
               [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
               [hasErrors]="hasControlAnyError('airport')" [typeahead]="airportsInput$"
-              [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+              [notFoundText]="'COMMON.NOT_FOUND' | translate"
               formControlName="airport">
               <ng-container inputErrors>
                   <ng-container *ngIf="hasControlAnyError('airport')">
@@ -25,7 +25,7 @@
                       </span>
                   </ng-container>
               </ng-container>
-          </app-select>
+          </app-search-airports>
         </div>
         <div class="row">
           <core-checkbox class="waves-effect check" [id]="'main-base-checkbox'" [label]="'Principal'"

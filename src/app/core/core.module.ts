@@ -44,6 +44,8 @@ import { FocusableDirective } from './directives/focusable.directive';
 import { MaxlengthDirective } from './directives/maxlength.directive';
 import { SelectFormComponent } from './components/basic/select-form/select-form.component';
 import { HeaderStickyDirective } from './directives/header-sticky.directive';
+import { SearchAirportSelectPipe } from './pipes/search-airport-select.pipe';
+import { SearchAirportsComponent } from './components/basic/search-airports/search-airports.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { HeaderStickyDirective } from './directives/header-sticky.directive';
     SearchBarComponent,
     SelectComponent,
     SelectFormComponent,
+    SearchAirportsComponent,
     SentenceCasePipe,
+    SearchAirportSelectPipe,
     SortButtonComponent,
     SortMenuComponent,
     SwitchComponent,
@@ -115,7 +119,9 @@ import { HeaderStickyDirective } from './directives/header-sticky.directive';
     SearchBarComponent,
     SelectComponent,
     SelectFormComponent,
+    SearchAirportsComponent,
     SentenceCasePipe,
+    SearchAirportSelectPipe,
     SortMenuComponent,
     SwitchComponent,
     TableAuditTooltipDirective,

@@ -200,7 +200,7 @@
 
     <form [formGroup]="flightForm">
       <div class="row row-no-margin-bottom">
-        <core-select
+        <app-search-airports
           [label]="'ROTATIONS.ORIGIN_AIRPORT' | translate"
           [id]="'search-origin-airport'"
           [items]="airports$ | async"
@@ -211,8 +211,6 @@
           [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
           [hasErrors]="hasControlAnyError('origin')"
           [typeahead]="airportsInput$"
-          [searchable]="true"
-          [itemDescription]="'iataCode'"
           [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="origin"
         >
@@ -228,8 +226,8 @@
               </span>
             </ng-container>
           </ng-container>
-        </core-select>
-        <core-select
+        </app-search-airports>
+        <app-search-airports
           [label]="'ROTATIONS.DESTINATION_AIRPORT' | translate"
           [id]="'search-destination-airport'"
           [items]="airports$ | async"
@@ -240,8 +238,6 @@
           [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate"
           [hasErrors]="hasControlAnyError('destination')"
           [typeahead]="airportsInput$"
-          [searchable]="true"
-          [itemDescription]="'iataCode'"
           [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="destination"
         >
@@ -257,10 +253,10 @@
               </span>
             </ng-container>
           </ng-container>
-        </core-select>
+        </app-search-airports>
       </div>
       <div class="row row-no-margin-bottom">
-        <core-select
+        <app-select
           [items]="timeZones$ | async"
           [id]="'type-category'"
           [label]="'AIRPORTS.TIMEZONE' | translate"
@@ -280,7 +276,7 @@
             >
             </span>
           </ng-container>
-        </core-select>
+        </app-select>
       </div>
       <div class="row row-no-margin-bottom">
         <app-input
