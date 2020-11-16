@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FleetTypeDetailComponent } from './fleet-type-detail.component';
 import { SpeedAverageDetailComponent } from './components/speed-average-detail/speed-average-detail.component';
 import { ObservationDetailComponent } from './components/observation-detail/observation-detail.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @NgModule({
   declarations: [FleetTypeDetailComponent, SpeedAverageDetailComponent, ObservationDetailComponent],
@@ -15,6 +16,7 @@ import { ObservationDetailComponent } from './components/observation-detail/obse
     CoreModule,
     ReactiveFormsModule,
     FleetTypeDetailRoutingModule,
+    MaterialModule,
   ],
 })
 export class FleetTypeDetailModule {}

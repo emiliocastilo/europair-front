@@ -70,22 +70,9 @@
                   [id]="'aircraft-type-iataCode'"
                   [label]="'Cód. IATA' | translate | sentenceCase"
                   [maxlength]="3"
-                  [hasErrors]="hasControlAnyError('iataCode')"
                   formControlName="iataCode"
                   class="col s12 l3 cmd-mb-1"
                 >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="hasControlAnyError('iataCode')">
-                      <span
-                        *ngIf="hasControlSpecificError('iataCode', 'required')"
-                        class="helper-text"
-                        [attr.data-error]="
-                          'Debe indicar un código IATA' | translate
-                        "
-                      >
-                      </span>
-                    </ng-container>
-                  </ng-container>
                 </core-basic-input-text>
 
                 <core-basic-input-text
