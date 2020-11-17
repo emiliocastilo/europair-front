@@ -31,6 +31,9 @@ export interface Flight {
   aircraftType: FleetType;
   quantity: number;
   load?: Load;
+  paxAdult?: number;
+  paxChildren?: number;
+  paxInfants?: number;
 }
 
 // To reorder flights of a rotation
