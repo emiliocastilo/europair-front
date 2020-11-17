@@ -172,6 +172,7 @@ export class AirportsListComponent implements OnInit {
     } else {
       this.airportFilter['filter_removedAt'] = null;
     }
+    this.airportPagination = undefined;
     this.filterAirportTable();
   }
 
