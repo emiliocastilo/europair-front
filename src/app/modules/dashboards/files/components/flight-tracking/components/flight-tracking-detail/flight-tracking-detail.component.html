@@ -4,12 +4,11 @@
 
 <form [formGroup]="flightForm" (ngSubmit)="saveFlight()">
   <div class="row cmd-mb-0">
-    <core-select [label]="'FLIGHT.ORIGIN_AIRPORT' | translate" [items]="originAirports$ | async" [minTermLength]="1"
-      [loading]="originAirportsLoading" class="col s12 l3 cmd-mb-1"
+    <app-search-airports [label]="'FLIGHT.ORIGIN_AIRPORT' | translate" [items]="originAirports$ | async"
+      [minTermLength]="1" [loading]="originAirportsLoading" class="col s12 l3 cmd-mb-1"
       [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
       [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate" [hasErrors]="hasControlAnyError('origin')"
-      [typeahead]="originAirportsInput$" [searchable]="true" [itemDescription]="'iataCode'"
-      [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="origin">
+      [typeahead]="originAirportsInput$" [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="origin">
       <ng-container inputErrors>
         <ng-container *ngIf="hasControlAnyError('origin')">
           <span *ngIf="hasControlSpecificError('origin', 'required')" class="helper-text"
@@ -17,14 +16,14 @@
           </span>
         </ng-container>
       </ng-container>
-    </core-select>
+    </app-search-airports>
 
-    <core-select [label]="'FLIGHT.DESTINATION_AIRPORT' | translate" [items]="destinationAirports$ | async"
+    <app-search-airports [label]="'FLIGHT.DESTINATION_AIRPORT' | translate" [items]="destinationAirports$ | async"
       [minTermLength]="1" [loading]="destinationAirportsLoading" class="col s12 l3 cmd-mb-1"
       [typeToSearchText]="'SEARCH_AIRCRAFT.AIRPORT_SEARCH_TEXT' | translate"
       [placeholder]="'SEARCH_AIRCRAFT.SELECT_AIRPORT' | translate" [hasErrors]="hasControlAnyError('destination')"
-      [typeahead]="destinationAirportsInput$" [searchable]="true" [itemDescription]="'iataCode'"
-      [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="destination">
+      [typeahead]="destinationAirportsInput$" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+      formControlName="destination">
       <ng-container inputErrors>
         <ng-container *ngIf="hasControlAnyError('destination')">
           <span *ngIf="hasControlSpecificError('destination', 'required')" class="helper-text"
@@ -32,17 +31,17 @@
           </span>
         </ng-container>
       </ng-container>
-    </core-select>
+    </app-search-airports>
 
-    <core-select class="col s12 l3 cmd-mb-1" [label]="'FLIGHT_TRACKING.SLOT' | translate"
+    <app-select class="col s12 l3 cmd-mb-1" [label]="'FLIGHT_TRACKING.SLOT' | translate"
       [placeholder]="'FLIGHT_TRACKING.SLOT_PLACEHOLDER' | translate" [items]="commonStatus" [itemDescription]="'label'"
       [itemValue]="'label'" formControlName="slot">
-    </core-select>
+    </app-select>
 
-    <core-select class="col s12 l3 cmd-mb-1" [items]="commonStatus" [label]="'FLIGHT_TRACKING.PARKING' | translate"
+    <app-select class="col s12 l3 cmd-mb-1" [items]="commonStatus" [label]="'FLIGHT_TRACKING.PARKING' | translate"
       [placeholder]="'FLIGHT_TRACKING.PARKING_PLACEHOLDER' | translate" [itemDescription]="'label'"
       [itemValue]="'label'" formControlName="parking">
-    </core-select>
+    </app-select>
   </div>
 
   <div class="row cmd-mb-0">
@@ -128,6 +127,33 @@
     </app-input>
 
     <app-input [prefix]="'FLIGHT_TRACKING.FLIGHT_NUMBER' | translate" formControlName="flightNumber" class="col s12 l3">
+    </app-input>
+  </div>
+
+  <div class="row cmd-mb-0">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_ADULT' | translate" [hasErrors]="hasControlAnyError('paxAdult')"
+      [defaultValue]="'0'" type="number" formControlName="paxAdult" class="col s12 l3" [disabled]="true">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxAdult', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_CHILD' | translate" [hasErrors]="hasControlAnyError('paxChildren')"
+      [defaultValue]="'0'" type="number" formControlName="paxChildren" class="col s12 l3" [disabled]="true">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxChildren', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_INFANT' | translate" [hasErrors]="hasControlAnyError('paxInfants')"
+      [defaultValue]="'0'" type="number" formControlName="paxInfants" class="col s12 l3" [disabled]="true">
+      <ng-container inputErrors>
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxInfants', 'min')">
+          {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
+        </mat-error>
+      </ng-container>
     </app-input>
   </div>
 

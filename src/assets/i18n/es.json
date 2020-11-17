@@ -553,6 +553,9 @@
     "CANCEL": "Cancelar",
     "EXACT": "Búsqueda Exacta",
     "F_C": "F + C",
+    "SEAT_ADULT": "Pax adultos",
+    "SEAT_CHILD": "Pax niños",
+    "SEAT_INFANT": "Pax infantil",
     "ERROR": {
       "AIRPORT_REQUIRED": "Debes indicar un aeropuerto al seleccionar 'Aeropuertos cercanos'",
       "NEARBY_AIRPORT_REQUIRED": "Debes indicar las distancias de busqueda",
@@ -677,8 +680,8 @@
     "CONTACT": "Contacto",
     "ORIGIN": "Origen",
     "DESTINATION": "Destino",
-    "DEPARTURE_DATETIME": "Fecha de salida",
-    "DEPARTURA_DATETIME": "Fecha de llegada"
+    "DEPARTURE_DATETIME": "Fecha ETD",
+    "DEPARTURA_DATETIME": "Hora ETA"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",

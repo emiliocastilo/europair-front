@@ -52,7 +52,7 @@ export class AircraftFilter {
             result = result.append('distanceUnit', 'KILOMETER');
         }
         if (this.flightScales) {
-            result = result.append('flightScales', this.flightScalesValue.toString());
+            result = result.append('maxConnectingFlights', this.flightScalesValue.toString());
         }
         if (this.category) {
             result = result.append('categoryId', this.category.id.toString());

@@ -9,6 +9,8 @@ import { AirportsService } from '../../../airports/services/airports.service';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { PageEvent } from '@angular/material/paginator';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
+import { concat, Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-region-detail',
@@ -29,18 +31,15 @@ export class RegionDetailComponent implements OnInit {
 
   public _regionDetail: Region = { ...EMPTY_REGION };
 
-  public airportsList: Array<Airport>;
-  public dataSourceAirports: MatTableDataSource<Airport>;
-  public resultsAirportsLength: number = 0;
-  public pageAirportsSize: number = 5;
-  public columnsAirportsToDisplay: Array<string> = ['selection', 'code', 'name'];
-  public airportsSelected: Array<number>;
-  
+  public airports$: Observable<Airport[]>;
+  public airportsInput$ = new Subject<string>();
+  public airportsLoading = false;
+
+  public columnsCountriesToDisplay: Array<string> = ['selection', 'code', 'name'];
   public countriesList: Array<Country>;
   public dataSourceCountries: MatTableDataSource<Country>;
   public resultsCountriesLength: number = 0;
   public pageCountriesSize: number = 5;
-  public columnsCountriesToDisplay: Array<string> = ['selection', 'code', 'name'];
   public countriesSelected: Array<number>;
   constructor(
     private readonly countriesService: CountriesService,
@@ -52,16 +51,25 @@ export class RegionDetailComponent implements OnInit {
   }
 
   private initializeTables(): void {
-    this.refreshAirportsData({ page: '0', size: '5' });
+    this.loadAirports();
     this.refreshCountriedsData({ page: '0', size: '5' });
   }
 
-  private refreshAirportsData(searchFilter: SearchFilter = {}) {
-    this.airportsService.getAirports(searchFilter).subscribe((page: Page<Airport>) => {
-      this.dataSourceAirports = new MatTableDataSource(page.content);
-      this.resultsAirportsLength = page.totalElements;
-      this.pageAirportsSize = page.size;
-    });
+  private loadAirports(): void {
+    this.airports$ = concat(
+      of([]), // default items
+      this.airportsInput$.pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => (this.airportsLoading = true)),
+        switchMap((term: string): Observable<Airport[]> =>
+          this.airportsService.searchAirports(term).pipe(
+            map((page: Page<Airport>) => page.content),
+            catchError(() => of([])), // empty list on error
+            tap(() => (this.airportsLoading = false)))
+        )
+      )
+    );
   }
 
   private refreshCountriedsData(searchFilter: SearchFilter = {}) {
@@ -81,15 +89,6 @@ export class RegionDetailComponent implements OnInit {
       ...this._regionDetail,
       ...this.regionForm.value,
     });
-  }
-  
-  public checkAirport(checked: boolean, airport: Airport): void {
-    if (checked) {
-      this._regionDetail.airports.push(airport);
-    } else {
-      const index: number = this._regionDetail.airports.findIndex((item: Airport) => item.id === airport.id);
-      this._regionDetail.airports.splice(index, 1);
-    }
   }
 
   public checkCountry(checked: boolean, country: Country): void {
@@ -111,15 +110,6 @@ export class RegionDetailComponent implements OnInit {
     return this._regionDetail.airports.some((airport: Airport) => airport.id === airportId);
   }
 
-  
-  public onPageAirports(pageEvent: PageEvent): void {
-    this.refreshAirportsData({
-      page: pageEvent.pageIndex.toString(),
-      size: pageEvent.pageSize.toString()
-    });
-  }
-
-  
   public onPageCountries(pageEvent: PageEvent): void {
     this.refreshCountriedsData({
       page: pageEvent.pageIndex.toString(),
