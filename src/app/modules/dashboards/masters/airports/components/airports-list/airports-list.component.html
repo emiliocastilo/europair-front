@@ -5,6 +5,7 @@
   <section class="airports-table">
     <core-table [columnsHeader]="airportColumnsHeader" [columnsData]="airportsColumnsData"
       [pagination]="airportPagination"
+      (changePage)="onChangePage($event)"
       (search)="onFilterAirports($event)"
       (sortByColumn)="onSortAirports($event)"
       (selectedItems)="onAirportsSelected($event)"
