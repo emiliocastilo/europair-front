@@ -4,12 +4,12 @@
     <div class="cmd-mb-2">
       <button class="browser-default cmd-mr-2" color="primary" mat-raised-button
         (click)="returnToFileList()">
-        Volver
+        {{ "COMMON.RETURN" | translate }}
       </button>
 
       <button class="browser-default" color="primary" mat-raised-button [disabled]="!fileForm.valid"
         *ngIf="showAction(fileAction.MODIFY_FILE)" (click)="onSaveFile(routeData.isFileDetail)">
-        Guardar Expediente
+        {{ "FILES.SAVE_FILE" | translate }}
       </button>
     </div>
 
@@ -101,7 +101,7 @@
       <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2" expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ "FILES.ROUTES" | translate | sentenceCase }}
+            {{ "FILES.ROUTES.TITLE" | translate | sentenceCase }}
           </mat-panel-title>
           <mat-panel-description *ngIf="routes.expanded && showAction(fileAction.CREATE_ROUTES)">
             <a mat-button routerLink="routes/new">
@@ -117,7 +117,7 @@
             <!-- Label Column -->
             <ng-container matColumnDef="label" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Rutas Petición
+                {{ "FILES.ROUTES.PETITION_ROUTES" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element" class="parent-route">
                 <mat-icon class="expand-icon" *ngIf="element?.hasContributions"
@@ -131,7 +131,7 @@
             <!-- Frequency Column -->
             <ng-container matColumnDef="frequency">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Frecuencia
+                {{ "FILES.ROUTES.FREQUENCY" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.frequency }}
@@ -141,7 +141,7 @@
             <!-- startDate Column-->
             <ng-container matColumnDef="startDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Fecha inicio
+                {{ "FILES.ROUTES.START_DATE" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.startDate | date: 'dd/MM/yyyy' }}
@@ -151,7 +151,7 @@
             <!-- EndDate Column-->
             <ng-container matColumnDef="endDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Fecha Fin
+                {{ "FILES.ROUTES.END_DATE" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.endDate | date: 'dd/MM/yyyy' }}
@@ -161,7 +161,7 @@
             <!-- WeekDays Column-->
             <ng-container matColumnDef="frequencyDays">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Días semana
+                {{ "FILES.ROUTES.WEEKDAYS" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
@@ -171,7 +171,7 @@
             <!-- Rotations Column-->
             <ng-container matColumnDef="rotations.length">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Rotaciones
+                {{ "FILES.ROUTES.ROTATIONS_NUMBER" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.rotations.length }}
@@ -181,7 +181,7 @@
             <!-- Seats Column-->
             <ng-container matColumnDef="seats">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Asientos F/C/Y
+                {{ "FILES.ROUTES.SEATS_F_C_Y" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
@@ -191,7 +191,7 @@
             <!-- Month Day Column-->
             <ng-container matColumnDef="dayNumber">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Día del mes
+                {{ "FILES.ROUTES.MONTH_DAY" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ getFormattedMonthDays(element.frequencyDays) }}
@@ -201,14 +201,14 @@
             <!-- Status Column-->
             <ng-container matColumnDef="status" stickyEnd>
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Estado
+                {{ "FILES.ROUTES.STATUS" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{ element.routeState }} </mat-cell>
             </ng-container>
 
             <!-- Actions Column-->
             <ng-container matColumnDef="route-actions" stickyEnd>
-              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
               <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
                 <mat-icon
                   (click)="navigateToCopyRoute(element.id)"
@@ -344,6 +344,244 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ "Cotizaciones" | translate | sentenceCase }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="table-container">
+          <mat-table #contributionsTable matSort multiTemplateDataRows [dataSource]="dataSourceRouteContributions">
+            <!-- Label Column -->
+            <ng-container matColumnDef="label" sticky>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.ROUTES" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="parent-route">
+                <mat-icon class="expand-icon" *ngIf="element.rotations.length > 0"
+                  [class.active]="expandedContributions.includes(element)">
+                  expand_more
+                </mat-icon>
+                {{ element.label }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- requestTime Column -->
+            <ng-container matColumnDef="requestTime">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.REQUEST_TIME" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Operator Column-->
+            <ng-container matColumnDef="operator">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.OPERATOR" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Aircraft type-->
+            <ng-container matColumnDef="aircraftType">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.AIRCRAFT_TYPE" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total passengers Column-->
+            <ng-container matColumnDef="totalPassengers">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.TOTAL_PASSENGERS" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Purchase price Column-->
+            <ng-container matColumnDef="purchasePrice">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.PURCHASE_PRICE" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- purchaseCommissionPercent price Column-->
+            <ng-container matColumnDef="purchaseCommissionPercent">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.PURCHASE_TAXES" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Sale price Column-->
+            <ng-container matColumnDef="salesPrice">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.SALES_PRICE" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- salesCommissionPercent price Column-->
+            <ng-container matColumnDef="salesCommissionPercent">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.SALES_TAXES" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Status Column-->
+            <ng-container matColumnDef="status" stickyEnd>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "FILES.CONTRIBUTIONS.STATUS" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.routeState }} </mat-cell>
+            </ng-container>
+
+            <!-- Actions Column-->
+            <ng-container matColumnDef="contribution-actions" stickyEnd>
+              <mat-header-cell *matHeaderCellDef>
+                {{ "FILES.CONTRIBUTIONS.ACTIONS" | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+              </mat-cell>
+            </ng-container>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+              <mat-cell *matCellDef="let parentElement">
+                <mat-table [dataSource]="getContributionData(parentElement)">
+                  <!-- Label Column -->
+                  <ng-container matColumnDef="label">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky start': !isSmallScreen()}">
+                      <span class="separator"> </span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- requestTime Column -->
+                  <ng-container matColumnDef="requestTime">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.requestTime | date: 'dd/MM/yyyy' }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- operator Column-->
+                  <ng-container matColumnDef="operator">
+                    <mat-cell *matCellDef="let element">
+                      <ng-container *ngIf="element?.operator?.name?.length > 25; else operatorText">
+                        <div class="operator-container" [matTooltip]="element?.operator?.name" [matTooltipClass]="'europair-tooltip'">
+                          {{ element?.operator?.name }}
+                        </div>
+                      </ng-container>
+                      <ng-template #operatorText>
+                        <div class="operator-container">
+                          {{ element?.operator?.name }}
+                        </div>
+                      </ng-template>
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- aircraftType Column-->
+                  <ng-container matColumnDef="aircraftType">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.aircraft?.aircraftType?.code }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- totalPassengers Column-->
+                  <ng-container matColumnDef="totalPassengers">
+                    <mat-cell *matCellDef="let element">
+                      {{
+                        getTotalPassengers(element)
+                      }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- purchasePrice Column-->
+                  <ng-container matColumnDef="purchasePrice">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.purchasePrice | number }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- salesPrice Column-->
+                  <ng-container matColumnDef="purchaseCommissionPercent">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.purchaseCommissionPercent }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- salesPrice Column-->
+                  <ng-container matColumnDef="salesPrice">
+                    <mat-cell *matCellDef="let element">
+                      {{ element?.salesPrice | number }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- salesPrice Column-->
+                  <ng-container matColumnDef="salesCommissionPercent">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-last-row': !isSmallScreen()}">
+                      {{ element?.salesCommissionPercent }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Status Column-->
+                  <ng-container matColumnDef="status">
+                    <mat-cell *matCellDef="let element" [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}">
+                      {{ element?.contributionState }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <!-- Actions Column-->
+                  <ng-container matColumnDef="contribution-actions">
+                    <mat-cell
+                      *matCellDef="let element"
+                      [ngClass]="{'expanded-table-sticky end': !isSmallScreen()}"
+                    >
+                      <mat-icon
+                        (click)="navigateToContributionDetail(parentElement, element)"
+                        svgIcon="europair_edit"
+                        [matTooltip]="'TOOLTIPS.EDIT_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
+                      </mat-icon>
+                      <mat-icon *ngIf="isContributionSendable(element) "
+                        (click)="sendContribution(parentElement, element)"
+                        svgIcon="europair_feather_mail"
+                        [matTooltip]="'TOOLTIPS.SEND_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
+                      </mat-icon>
+                      <mat-icon
+                        (click)="deleteContribution(parentElement, element)"
+                        svgIcon="europair_trash"
+                        [matTooltip]="'TOOLTIPS.REMOVE_CONTRIBUTION'| translate" [matTooltipClass]="'europair-tooltip'">
+                      </mat-icon>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-row *matRowDef="let element; columns: columnsContributionsToDisplay">
+                  </mat-row>
+                </mat-table>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="columnsContributionsToDisplay; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: columnsContributionsToDisplay" class="element-row"
+              [class.expanded-row]="expandedContributions.includes(element)" 
+              (click)="expandContributionsRow(element)"></mat-row>
+            <mat-row class="detail-row" *matRowDef="let element; columns: ['expandedDetail']" [@detailExpand]="
+              expandedContributions.includes(element) ? 'expanded' : 'collapsed'
+              " style="overflow: hidden"></mat-row>
+          </mat-table>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="showAction(fileAction.SHOW_ADDITIONAL_SERVICE)"
+        class="app-expansion-panel cmd-mb-2" [expanded]="expandedQuote">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ "Contratos" | translate | sentenceCase }}
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="table-container">
