@@ -33,6 +33,8 @@ export interface Contribution {
   vatAmountOnPurchase?: number;
   vatAmountOnSale?: number;
   hasContributions?: boolean;
+  percentageAppliedOnPurchaseTax?: number;
+  percentageAppliedOnSaleTax?: number;
 }
 
 export enum ContributionStates {
