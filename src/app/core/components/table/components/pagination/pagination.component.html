@@ -1,13 +1,25 @@
 <div *ngIf="showPagination" class="pagination-wrapper">
     <ul class="pagination">
         <li *ngIf="currentPage != 1" class="waves-effect">
-            <a (click)=changePaginationWithIncrement(-1)><i class="material-icons">chevron_left</i></a>
+            <a (click)="goToFirstPage()">
+                <i class="material-icons">chevron_left</i>
+                <i class="material-icons double-arrow">chevron_left</i>
+            </a>
+        </li>
+        <li *ngIf="currentPage != 1" class="waves-effect">
+            <a (click)="changePaginationWithIncrement(-1)"><i class="material-icons">chevron_left</i></a>
         </li>
         <li *ngFor="let page of pages" class="waves-effect" [ngClass]="{'active': page == currentPage}">
             <a (click)="changePagination(page)">{{page}}</a>
         </li>
         <li *ngIf="currentPage != lastPage" class="waves-effect">
-            <a (click)=changePaginationWithIncrement(1)><i class="material-icons">chevron_right</i></a>
+            <a (click)="changePaginationWithIncrement(1)"><i class="material-icons">chevron_right</i></a>
+        </li>
+        <li *ngIf="currentPage != lastPage" class="waves-effect">
+            <a (click)="goToLastPage()">
+                <i class="material-icons">chevron_right</i>
+                <i class="material-icons double-arrow">chevron_right</i>
+            </a>
         </li>
     </ul>
 </div>
