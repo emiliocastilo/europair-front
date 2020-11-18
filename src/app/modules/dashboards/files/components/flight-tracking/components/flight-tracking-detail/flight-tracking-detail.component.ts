@@ -63,8 +63,8 @@ export class FlightTrackingDetailComponent implements OnInit {
     flightNumber: [''],
     slot: [''],
     parking: [''],
-    paxAdult: [''],
-    paxChildren: [''],
+    paxAD: [''],
+    paxCHD: [''],
     paxInfants: ['']
   });
 
