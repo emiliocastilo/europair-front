@@ -131,18 +131,18 @@
   </div>
 
   <div class="row cmd-mb-0">
-    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_ADULT' | translate" [hasErrors]="hasControlAnyError('paxAdult')"
-      [defaultValue]="'0'" type="number" formControlName="paxAdult" class="col s12 l3" [disabled]="true">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_ADULT' | translate" [hasErrors]="hasControlAnyError('paxAD')"
+      [defaultValue]="'0'" type="number" formControlName="paxAD" class="col s12 l3" [disabled]="true">
       <ng-container inputErrors>
-        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxAdult', 'min')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxAD', 'min')">
           {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
-    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_CHILD' | translate" [hasErrors]="hasControlAnyError('paxChildren')"
-      [defaultValue]="'0'" type="number" formControlName="paxChildren" class="col s12 l3" [disabled]="true">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_CHILD' | translate" [hasErrors]="hasControlAnyError('paxCHD')"
+      [defaultValue]="'0'" type="number" formControlName="paxCHD" class="col s12 l3" [disabled]="true">
       <ng-container inputErrors>
-        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxChildren', 'min')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxCHD', 'min')">
           {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
         </mat-error>
       </ng-container>

@@ -31,8 +31,8 @@ export interface Flight {
   aircraftType: FleetType;
   quantity: number;
   load?: Load;
-  paxAdult?: number;
-  paxChildren?: number;
+  paxAD?: number;
+  paxCHD?: number;
   paxInfants?: number;
 }
 
