@@ -44,6 +44,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'contracts/:contractId',
+    loadChildren: () =>
+      import('../contract-detail/contract-detail.module').then(
+        (m) => m.ContractModule
+      ),
+  },
+  {
     path: 'confirm-operation',
     loadChildren: () =>
       import('../confirm-operation/confirm-operation.module').then(

@@ -1,0 +1,75 @@
+<div class="table-container">
+  <mat-table #contractsTable matSort multiTemplateDataRows [dataSource]="dataSource">
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CODE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contractDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.ISSUE_DATE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.contractDate | date:'dd/MM/yyyy' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="signatureDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.SIGN_DATE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.signatureDate | date:'dd/MM/yyyy' }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contractType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CONTRACT_TYPE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.contractType }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="contractState">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CONTRACT_STATE_TITLE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.contractState }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="configuration">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CONFIGURATION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.configuration }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="conditions">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CONDITIONS" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.conditions }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cancelationFees">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "FILES_CONTRACT.CANCELATION_FEES" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.cancelationFees }}</mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="contract-actions" stickyEnd>
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.ACTIONS" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+            <mat-icon
+              (click)="onSelectContract(element)"
+              svgIcon="europair_plane"
+              [matTooltip]="'TOOLTIPS.EDIT_FLIGHT_LINES' | translate"
+              [matTooltipClass]="'europair-tooltip'"
+            ></mat-icon>
+      </mat-cell>
+    </ng-container> 
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+  </mat-table>
+</div>
