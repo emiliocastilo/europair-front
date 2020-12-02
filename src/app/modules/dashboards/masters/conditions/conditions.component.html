@@ -1,0 +1,55 @@
+<core-page-bar [pageTitle]="'CONTACTS.PAGE_TITLE' | translate"></core-page-bar>
+<div class="responsive-table-container">
+  <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.CODE" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.NAME" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="alias">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.ALIAS" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.alias }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="conditionType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.CONTACT_TYPE" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.conditionType }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="cmsCode">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.CMS_CODE" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.crmCode }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="phoneNumber">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.PHONE_NUMBER" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.phoneNumber }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="mail">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "CONTACTS.MAIL" | translate}}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="columnToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let element; columns: columnToDisplay" class="element-row"
+    (touchend)="goToDetail(element)"
+    (dblclick)="goToDetail(element)"></mat-row>
+  </mat-table>
+</div>
+<mat-paginator
+  [length]="resultsLength"
+  [pageSize]="pageSize"
+></mat-paginator>

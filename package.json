@@ -30,6 +30,7 @@
     "@types/materialize-css": "^1.0.8",
     "angular-oauth2-oidc": "^10.0.3",
     "materialize-css": "^1.0.0-rc.2",
+    "ngx-editor": "^5.0.0-alpha.14",
     "ngx-mask": "10.0.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
