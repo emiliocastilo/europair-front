@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
@@ -14,12 +15,26 @@ import { Flight, FlightOrder } from '../models/Flight.model';
 export class FlightService {
   private readonly mocked: boolean = environment.mock;
   private readonly url: string = `${environment.apiUrl}files/`;
-  private readonly filterOptions: FilterOptions = {} as const;
+  private readonly filterOptions: FilterOptions = {
+    'filter_route.routeState': OperatorEnum.EQUALS
+  } as const;
 
   constructor(
     private http: HttpClient,
     private searchFilterService: SearchFilterService
   ) { }
+
+  public getFlightsByFile(fileId: number, searchFilter: SearchFilter = {}): Observable<Page<Flight>> {
+    const url: string = this.mocked
+      ? '/assets/mocks/fileRoutes.json'
+      : `${this.url}${fileId}/flights`;
+    return this.http.get<Page<Flight>>(url, {
+      params: this.searchFilterService.createHttpParams(
+        searchFilter,
+        this.filterOptions
+      ),
+    });
+  }
 
   public getFlights(fileId: number, routeId: number, searchFilter: SearchFilter = {}): Observable<Page<Flight>> {
     const url: string = this.mocked

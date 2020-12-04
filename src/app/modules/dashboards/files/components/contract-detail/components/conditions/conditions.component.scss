@@ -1,0 +1,15 @@
+@import "variables";
+
+.field-colum {
+    padding: .5em .5em;
+    
+    .field-container {
+        padding: .5em .5em;
+        margin: .5em;
+        border: 2px solid $europair-color-blue-light-3;
+        label {
+            background-color: $europair-color-blue-light-1;
+            padding: 0 1em 0 .5em;
+        }
+    }
+}

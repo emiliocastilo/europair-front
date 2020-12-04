@@ -670,7 +670,8 @@
     "DESTINATION": "Destino",
     "DEPARTURE_DATETIME": "Fecha ETD",
     "DEPARTURA_DATETIME": "Hora ETA",
-    "PAGE_TITLE_FLIGHT_TRAKING": "Seguimiento de vuelo"
+    "PAGE_TITLE_FLIGHT_TRAKING": "Seguimiento de vuelo",
+    "CONTRACT_TITLE": "Contratos"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
@@ -890,5 +891,63 @@
   "SALE": "Venta",
   "OBSERVATIONS": {
     "TITLE": "Observaciones"
+  },
+  "FILES_CONTRACT": {
+    "CODE": "Código",
+    "ISSUE_DATE": "Fecha de emisión",
+    "SIGN_DATE": "Fecha de firma",
+    "OPERATIVE": "Operativa",
+    "AMOUNT": "Importe",
+    "CONFIGURATION": "Configuración",
+    "CONDITIONS": "Condiciones",
+    "CANCELATION_FEES": "Gastos de cancelación",
+    "CONTRACT_TYPE": "Tipo de contrato",
+    "CONTRACT_STATE_TITLE": "Estado del contrato",
+    "DETAIL_TITLE_SALE": "Detalle de contrato de venta: {{code}}",
+    "DETAIL_TITLE_PURCHASE": "Detalle de contrato de compra: {{code}}",
+    "GENERAL_DATA": "Datos generales",
+    "CONTRACT_LINES_TITLE": "Precios",
+    "ROUTE": "Ruta",
+    "START_DATE": "Fecha inicio",
+    "END_DATE": "Fecha fin",
+    "PRICE": "Precio",
+    "DATE": "Fecha",
+    "CLIENT": "Cliente",
+    "CONTRACT_STATE": {
+      "PENDING": "Pendiente",
+      "SIGNED": "Firmado",
+      "CANCELED": "Cancelado"
+    },
+    "PROVIDER": "Proveedor",
+    "DATE_SIGNED": "Fecha de firma",
+    "ACTIONS": "Acciones",
+    "CONTRACT_OPERATIVE_TITLE": "Operativa",
+    "ORIGIN": "Origen",
+    "DESTINATION": "Destino",
+    "DEPARTURE": "Salida",
+    "ARRIVAL": "LLegada",
+    "FLIGHT_NUMBER": "Nº de vuelo",
+    "AIRCRAFT": "Aeronave",
+    "SEATS": "Asientos",
+    "ASSIGN_CONDITIONS": "Asignar condiciones",
+    "CANCELLATIONS_FEES": "Gastos de cancelación",
+    "LANGUAGE": "Idioma",
+    "ERRORS": {
+      "REQUIRED": "Este campo es requerido"
+    },
+    "PLACEHOLDER_LANGUAGE": "Selecciona un idioma",
+    "DATE_FORMAT": "Formato de fechas",
+    "PLACEHOLDER_DATE_FORMAT": "Selecciona un formato de fechas",
+    "PLACEHOLDER_PAYMENT_CONDITIONS": "Selecciona una condicion de pago",
+    "PAYMENT_CONDITIONS": "Cond. pago",
+    "PAYMENTY_CONDITION_OBSERVATION": "Obs. Cond. pago",
+    "DEPOSIT": "Depósito",
+    "EXPIRATION": "Vencimiento",
+    "CANCELLATION_FEES": {
+      "DETAIL_PAGE_TITLE": "Gastos de cancelación",
+      "FROM_VALUE": "Desde",
+      "FROM_UNIT": "Unidades",
+      "FEE_PERCENTAGE": "% penalización"
+    }
   }
 }

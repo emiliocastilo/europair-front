@@ -164,7 +164,6 @@ export class RouteDetailComponent implements OnInit {
   }
 
   private onAirportControlChanges = (airportSelected: Airport) => {
-    debugger;
     const routeCode = this.routeForm.get('label').value;
     this.routeForm
       .get('label')
