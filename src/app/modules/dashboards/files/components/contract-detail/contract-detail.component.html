@@ -174,21 +174,54 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div class="row row-no-margin-bottom cmd-mt-2">
-    <form [formGroup]="contractDataForm">
+    <form [formGroup]="configurationDataForm">
       <div class="row">
-        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE' | translate" formControlName="contractDate" class="col s12 l4 cmd-pb-1">
-        </app-input>
-        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE_SIGNED' | translate" formControlName="contractSignDate" class="col s12 l4 cmd-pb-1">
+        <app-select class="col s12 l6" [id]="'select-file-language'" [items]="languageOptions"
+          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_LANGUAGE' | translate" [clearable]="false"
+          [label]="'FILES_CONTRACT.LANGUAGE' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="language">
+          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'language')">
+            <span *ngIf="hasControlSpecificError(configurationDataForm, 'language', 'required')" class="helper-text"
+              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
+            </span>
+          </ng-container>
+        </app-select>
+        <app-select class="col s12 l6" [id]="'select-file-date-format'" [items]="dateFormatsOptions"
+          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_DATE_FORMAT' | translate" [clearable]="false"
+          [label]="'FILES_CONTRACT.DATE_FORMAT' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="dateFormat">
+          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'dateFormat')">
+            <span *ngIf="hasControlSpecificError(configurationDataForm, 'dateFormat', 'required')" class="helper-text"
+              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
+            </span>
+          </ng-container>
+        </app-select>
+      </div>
+      <div class="row">
+        <app-select class="col s12 l6" [id]="'select-file-cod-payment'" [items]="languageOptions"
+          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_PAYMENT_CONDITIONS' | translate" [clearable]="false"
+          [label]="'FILES_CONTRACT.PAYMENT_CONDITIONS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="paymentConditions">
+          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'paymentConditions')">
+            <span *ngIf="hasControlSpecificError(configurationDataForm, 'paymentConditions', 'required')" class="helper-text"
+              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
+            </span>
+          </ng-container>
+        </app-select>
+        <app-input [prefix]="'FILES_CONTRACT.PAYMENTY_CONDITION_OBSERVATION' | translate" formControlName="paymentConditionsObservations" class="col s12 l6">
         </app-input>
       </div>
       <div class="row">
-        <app-input [prefix]="'FILES_CONTRACT.CONTRACT_STATE_TITLE' | translate" formControlName="contractState" class="col s12 l4 cmd-pb-1">
+        <app-input [prefix]="'FILES_CONTRACT.DEPOSIT' | translate" formControlName="deposit" class="col s12 l6">
         </app-input>
-        <app-input *ngIf="contract?.contractType === contractType.PURCHASE" [prefix]="'FILES_CONTRACT.PROVIDER' | translate" formControlName="provider" class="col s12 l4 cmd-pb-1">
-        </app-input>
-        <app-input *ngIf="contract?.contractType === contractType.SALE" [prefix]="'FILES_CONTRACT.CLIENT' | translate" formControlName="client" class="col s12 l4 cmd-pb-1">
+        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.EXPIRATION' | translate" formControlName="expiration" class="col s12 l6">
         </app-input>
       </div>
     </form>
   </div>
 </mat-expansion-panel>
+<div class="row">
+  <button class="col s2 l2 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
+    {{ "FILES_CONTRACT.ASSIGN_CONDITIONS" | translate }}
+  </button>
+  <button class="col s2 l2 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
+    {{ "FILES_CONTRACT.CANCELLATIONS_FEES" | translate }}
+  </button>
+</div> 

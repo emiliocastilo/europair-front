@@ -20,10 +20,10 @@ export interface Contract {
   configuration?: string;
   condition?: string;
   cancelationFees?: number;
-  fileId: number;
-  routeId: number;
-  operatorId: number;
-  aircraftId: number;
+  fileId?: number;
+  routeId?: number;
+  operatorId?: number;
+  aircraftId?: number;
   cargoAirborne?: number;
   quotedTime?: string;
   requestTime?: string;

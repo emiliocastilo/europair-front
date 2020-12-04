@@ -29,7 +29,8 @@ export class FileContractsComponent implements OnInit {
     'contractState',
     'configuration',
     'conditions',
-    'cancelationFees'
+    'cancelationFees',
+    'contractActions'
   ];
   public dataSource = new MatTableDataSource();
   public resultsLength = 0;

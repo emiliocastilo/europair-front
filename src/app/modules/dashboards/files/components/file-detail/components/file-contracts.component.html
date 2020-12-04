@@ -56,14 +56,14 @@
       <mat-cell *matCellDef="let element">{{ element.cancelationFees }}</mat-cell>
     </ng-container>
 
-     <ng-container matColumnDef="contract-actions" stickyEnd>
+     <ng-container matColumnDef="contractActions" stickyEnd>
       <mat-header-cell *matHeaderCellDef>
         {{ "FILES_CONTRACT.ACTIONS" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
             <mat-icon
               (click)="onSelectContract(element)"
-              svgIcon="europair_plane"
+              svgIcon="europair_edit"
               [matTooltip]="'TOOLTIPS.EDIT_FLIGHT_LINES' | translate"
               [matTooltipClass]="'europair-tooltip'"
             ></mat-icon>

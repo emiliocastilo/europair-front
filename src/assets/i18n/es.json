@@ -928,6 +928,26 @@
     "ARRIVAL": "LLegada",
     "FLIGHT_NUMBER": "Nº de vuelo",
     "AIRCRAFT": "Aeronave",
-    "SEATS": "Asientos"
+    "SEATS": "Asientos",
+    "ASSIGN_CONDITIONS": "Asignar condiciones",
+    "CANCELLATIONS_FEES": "Gastos de cancelación",
+    "LANGUAGE": "Idioma",
+    "ERRORS": {
+      "REQUIRED": "Este campo es requerido"
+    },
+    "PLACEHOLDER_LANGUAGE": "Selecciona un idioma",
+    "DATE_FORMAT": "Formato de fechas",
+    "PLACEHOLDER_DATE_FORMAT": "Selecciona un formato de fechas",
+    "PLACEHOLDER_PAYMENT_CONDITIONS": "Selecciona una condicion de pago",
+    "PAYMENT_CONDITIONS": "Cond. pago",
+    "PAYMENTY_CONDITION_OBSERVATION": "Obs. Cond. pago",
+    "DEPOSIT": "Depósito",
+    "EXPIRATION": "Vencimiento",
+    "CANCELLATION_FEES": {
+      "DETAIL_PAGE_TITLE": "Gastos de cancelación",
+      "FROM_VALUE": "Desde",
+      "FROM_UNIT": "Unidades",
+      "FEE_PERCENTAGE": "% penalización"
+    }
   }
 }
