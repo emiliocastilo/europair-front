@@ -1,47 +1,46 @@
-<core-page-bar [pageTitle]="'CONTACTS.PAGE_TITLE' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="'CONDITIONS.PAGE_TITLE' | translate"></core-page-bar>
+<div class="row">
+  <button color="primary" [routerLink]="'new'" mat-raised-button class="col s12 l2">
+      {{ 'CONDITIONS.NEW' | translate }}
+  </button>
+</div>
 <div class="responsive-table-container">
   <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
     <ng-container matColumnDef="code">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.CODE" | translate}}
+        {{ "CONDITIONS.CODE" | translate}}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="name">
+    <ng-container matColumnDef="title">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.NAME" | translate}}
+        {{ "CONDITIONS.TITLE" | translate}}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="alias">
+    <ng-container matColumnDef="conditionOrder">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.ALIAS" | translate}}
+        {{ "CONDITIONS.ORDER" | translate}}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.alias }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.conditionOrder }}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="conditionType">
+    <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.CONTACT_TYPE" | translate}}
+        {{ "CONDITIONS.DESCRIPTION" | translate}}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.conditionType }}</mat-cell>
+      <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="cmsCode">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.CMS_CODE" | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.crmCode }}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="phoneNumber">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.PHONE_NUMBER" | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.phoneNumber }}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="mail">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "CONTACTS.MAIL" | translate}}
-      </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon
+          (click)="deleteCondition(element)"
+          (touchend)="$event.stopPropagation()"
+          svgIcon="europair_trash"
+          [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
+          [matTooltipClass]="'europair-tooltip'"
+        ></mat-icon>
+      </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="columnToDisplay"></mat-header-row>
     <mat-row *matRowDef="let element; columns: columnToDisplay" class="element-row"

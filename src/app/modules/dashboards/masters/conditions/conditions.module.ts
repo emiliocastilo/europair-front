@@ -6,7 +6,6 @@ import { ConditionsComponent } from './conditions.component';
 import { ConditionDetailComponent } from './components/condition-detail/condition-detail.component';
 import { ConditionsRoutingModule } from './conditions-routing.module';
 import { MaterialModule } from 'src/app/material/material.module';
-import { NgxEditorModule } from 'ngx-editor';
 
 
 @NgModule({
@@ -16,8 +15,7 @@ import { NgxEditorModule } from 'ngx-editor';
     ConditionsRoutingModule,
     MaterialModule,
     CoreModule,
-    ReactiveFormsModule,
-    NgxEditorModule
+    ReactiveFormsModule
     ]
 })
 export class ConditionsModule { }

@@ -13,9 +13,9 @@ import { Condition } from '../models/conditions';
 })
 export class ConditionsService {
   private readonly mocked: boolean = environment.mock;
-  private readonly url = `${environment.apiUrl}conditions`;
+  private readonly url = `${environment.apiUrl}contract-conditions`;
   private readonly filterOptions: FilterOptions = {
-    filter_name: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS
   } as const;
 
   
@@ -38,21 +38,21 @@ export class ConditionsService {
     return this.http.get<Condition>(`${this.url}/${conditionId}`);
   }
 
-  public saveCondition(user: Condition): Observable<Condition> {
-    return user.id !== null ? this.updateCondition(user) : this.createCondition(user);
+  public saveCondition(condition: Condition): Observable<Condition> {
+    return condition.id ? this.updateCondition(condition) : this.createCondition(condition);
   }
 
-  private createCondition(user: Condition): Observable<Condition> {
-    return this.http.post<Condition>(this.url, user);
+  private createCondition(condition: Condition): Observable<Condition> {
+    return this.http.post<Condition>(this.url, condition);
   }
 
-  private updateCondition(user: Condition): Observable<Condition> {
-    const updateConditionUrl = `${this.url}/${user.id}`;
-    return this.http.put<Condition>(updateConditionUrl, user);
+  private updateCondition(condition: Condition): Observable<Condition> {
+    const updateConditionUrl = `${this.url}/${condition.id}`;
+    return this.http.put<Condition>(updateConditionUrl, condition);
   }
 
-  public removeCondition(user: Condition) {
-    const removeConditionUrl = `${this.url}/${user.id}`;
+  public removeCondition(condition: Condition) {
+    const removeConditionUrl = `${this.url}/${condition.id}`;
     return this.http.delete(removeConditionUrl);
   }
 }

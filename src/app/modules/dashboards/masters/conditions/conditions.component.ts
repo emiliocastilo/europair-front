@@ -17,11 +17,11 @@ export class ConditionsComponent implements OnInit {
   public conditions: Condition[];
   public conditionDetailTitle: string;
 
-  public columnToDisplay = ['code', 'name', 'alias', 'conditionType', 'cmsCode', 'phoneNumber', 'mail'];
+  public columnToDisplay = ['code', 'title', 'description', 'conditionOrder', 'actions'];
   public dataSource = new MatTableDataSource();
   public resultsLength: number = 0;
   public pageSize: number = 0;
-  
+
   constructor(
     private readonly conditionsService: ConditionsService,
     private readonly router: Router
@@ -37,6 +37,10 @@ export class ConditionsComponent implements OnInit {
       this.resultsLength = data.totalElements;
       this.pageSize = data.size;
     });
+  }
+
+  public deleteCondition(condition: Condition): void {
+    this.conditionsService.removeCondition(condition).subscribe(() => this.initializeConditionsTable());
   }
 
   public goToDetail(condition: Condition): void {

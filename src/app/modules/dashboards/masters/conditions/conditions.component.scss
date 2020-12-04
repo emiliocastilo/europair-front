@@ -33,5 +33,15 @@
   box-sizing: border-box;
 }
 
+.mat-column-actions {
+  max-height: 23px;
+  .mat-icon {
+    cursor: pointer;
+    padding-right: 8px;
+    fill: none;
+    stroke: red;
+  }
+}
+
 @include mat-table-columns(("code", "name", "alias", "conditionType", "cmsCode", "phoneNumber"));
  

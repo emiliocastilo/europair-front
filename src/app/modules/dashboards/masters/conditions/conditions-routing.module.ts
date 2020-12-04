@@ -5,6 +5,7 @@ import { ConditionsComponent } from './conditions.component';
 
 const routes: Routes = [
   { path: '', component: ConditionsComponent },
+  { path: 'new', component: ConditionDetailComponent},
   { path: ':id', component: ConditionDetailComponent}
 ];
 

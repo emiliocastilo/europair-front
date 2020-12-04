@@ -1,117 +1,49 @@
 <core-page-bar [pageTitle]="'CONTACTS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
 
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
-  {{ "COMMON.RETURN" | translate }}
+  {{ "COMMON.CANCEL" | translate }}
 </button>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.CODE' | translate }}</label>
-      <span>{{ condition?.code }}</span>
-    </div>
+<form [formGroup]="conditionForm">
+  <div class="row">
+      <app-input [prefix]="'CONDITIONS.CODE' | translate" formControlName="code"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('code')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('code', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'CONDITIONS.TITLE' | translate" formControlName="title"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('title')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('title', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [type]="'number'" [prefix]="'CONDITIONS.ORDER' | translate" formControlName="conditionOrder"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('conditionOrder')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('conditionOrder', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
   </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.CMS_CODE' | translate }}</label>
-      <span>{{ condition?.crmCode }}</span>
-    </div>
+  <div class="row">
+    <app-input [prefix]="'CONDITIONS.DESCRIPTION' | translate" formControlName="description"
+      class="col s12 l12 cmd-pb-1">
+      <ng-container inputErrors *ngIf="hasControlAnyError('description')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('description', 'required')">
+          {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
   </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.CONTACT_TYPE' | translate }}</label>
-      <span>{{ condition?.conditionType }}</span>
-    </div>
+  <div class="row">
+    <button color="primary" type="submit" (click)="saveCondition()" mat-raised-button
+        class="col s12 l2 offset-l10">
+        {{ 'CONDITIONS.SAVE' | translate }}
+    </button>
   </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.COMPANY_CODE' | translate }}</label>
-      <span>{{ condition?.companyCode }}</span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.NAME' | translate }}</label>
-      <span>{{ condition?.name }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.ALIAS' | translate }}</label>
-      <span>{{ condition?.alias }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.ADDRESS' | translate }}</label>
-      <span>{{ condition?.address }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.CITY' | translate }}</label>
-      <span>{{ condition?.city?.name }}</span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.POSTAL_CODE' | translate }}</label>
-      <span>{{ condition?.postalCode }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.PROVINCE' | translate }}</label>
-      <span>{{ condition?.province }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.COUNTRY' | translate }}</label>
-      <span>{{ condition?.country?.name }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.COMMON_OPERATION_TYPE' | translate }}</label>
-      <span>{{ condition?.commonOperationType }}</span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.MAIL' | translate }}</label>
-      <span>{{ condition?.email }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.PHONE_NUMBER' | translate }}</label>
-      <span>{{ condition?.phoneNumber }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.MOBILE_PHONE_NUMBER' | translate }}</label>
-      <span>{{ condition?.mobilePhoneNumber }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.FAX' | translate }}</label>
-      <span>{{ condition?.faxNumber }}</span>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div class="col s12 l12 field-colum">
-    <div class="field-container">
-      <label>{{'CONTACTS.OBSERVATION' | translate }}</label>
-      <ngx-editor ></ngx-editor>
-    </div>
-  </div>
-</div>
+</form>
