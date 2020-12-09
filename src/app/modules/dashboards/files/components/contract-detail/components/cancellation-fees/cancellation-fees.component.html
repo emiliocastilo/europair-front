@@ -1,0 +1,25 @@
+<core-page-bar [pageTitle]="'FILES_CONTRACT.CANCELLATION_FEES.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+
+<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
+  {{ "COMMON.RETURN" | translate }}
+</button>
+<div class="row" *ngFor="let cancellation of cancellationFees">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE' | translate }}</label>
+      <span>{{ cancellation?.fromValue }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT' | translate }}</label>
+      <span>{{ cancellation?.fromUnit }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE' | translate }}</label>
+      <span>{{ cancellation?.feePercentage }}</span>
+    </div>
+  </div>
+</div>

@@ -51,6 +51,8 @@ export class AirportsListComponent implements OnInit {
   private airportFilter: any = {};
   public translationParams = {};
 
+  private currentPage: number = 0;
+
   public airportAdvancedSearchForm = this.fb.group({
     filter_iataCode: [''],
     filter_icaoCode: [''],
@@ -80,20 +82,22 @@ export class AirportsListComponent implements OnInit {
 
   private obtainAirportsTable(searchFilter?: SearchFilter): void {
     this.airportsService.getAirports(searchFilter).subscribe((data: Page<Airport>) => {
-      this.airports = data.content.map((airport: Airport) => {
-        return {
-          ...airport,
-          simpleCustoms: airport.customs === CustomsType.YES
-        };
-      });
-      this.paginarDatos();
+      this.airports = data.content;
+      this.airportsColumnsData = this.airportsTableAdapterService.getAirportListTableData(this.airports);
+      if (!this.airportPagination) {
+        this.airportPagination = this.airportsTableAdapterService.getPagination();
+        this.airportPagination.lastPage = data.totalPages;
+        this.airportPagination.clientPagination = false;
+      }
     });
   }
 
-  private paginarDatos(): void {
-    this.airportsColumnsData = this.airportsTableAdapterService.getAirportListTableData(this.airports);
-    this.airportPagination = this.airportsTableAdapterService.getPagination();
-    this.airportPagination.lastPage = this.airports.length / this.airportPagination.elementsPerPage;
+
+  public onChangePage(page: number): void {
+    if (page !== this.currentPage) {
+      this.currentPage = page;
+      this.filterAirportTable();
+    }
   }
 
   public onBarButtonClicked(barButtonType: BarButtonType): void {
@@ -141,12 +145,14 @@ export class AirportsListComponent implements OnInit {
 
   public onFilterAirports(airportFilter: ColumnFilter) {
     this.airportFilter[airportFilter.identifier] = airportFilter.searchTerm;
+    this.airportPagination = undefined;
     this.filterAirportTable();
   }
 
   public onSortAirports(sortByColumn: SortByColumn) {
     const sort = sortByColumn.column + ',' + sortByColumn.order;
     this.airportSortForm.patchValue({ sort: sort });
+    this.airportPagination = undefined;
     this.filterAirportTable();
   }
 
@@ -166,6 +172,7 @@ export class AirportsListComponent implements OnInit {
     } else {
       this.airportFilter['filter_removedAt'] = null;
     }
+    this.airportPagination = undefined;
     this.filterAirportTable();
   }
 
@@ -174,7 +181,7 @@ export class AirportsListComponent implements OnInit {
     const filter = {
       ...this.airportAdvancedSearchForm.value,
       ...this.airportSortForm.value,
-      size: '30000'
+      page: this.currentPage
     };
     this.obtainAirportsTable(filter);
   }
