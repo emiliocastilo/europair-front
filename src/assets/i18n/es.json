@@ -899,7 +899,13 @@
     "OPERATIVE": "Operativa",
     "AMOUNT": "Importe",
     "CONFIGURATION": "Configuración",
-    "CONDITIONS": "Condiciones",
+    "CONDITIONS": {
+      "DETAIL_PAGE_TITLE": "Condiciones del contrato",
+      "CODE": "Código",
+      "TITLE": "Titulo",
+      "DESCRIPTION": "Descripción",
+      "ORDER": "Orden"
+    },
     "CANCELATION_FEES": "Gastos de cancelación",
     "CONTRACT_TYPE": "Tipo de contrato",
     "CONTRACT_STATE_TITLE": "Estado del contrato",
