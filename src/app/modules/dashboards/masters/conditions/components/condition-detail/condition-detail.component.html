@@ -1,0 +1,49 @@
+<core-page-bar [pageTitle]="'CONTACTS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+
+<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
+  {{ "COMMON.CANCEL" | translate }}
+</button>
+<form [formGroup]="conditionForm">
+  <div class="row">
+      <app-input [prefix]="'CONDITIONS.CODE' | translate" formControlName="code"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('code')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('code', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [prefix]="'CONDITIONS.TITLE' | translate" formControlName="title"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('title')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('title', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+      <app-input [type]="'number'" [prefix]="'CONDITIONS.ORDER' | translate" formControlName="conditionOrder"
+        class="col s12 l4 cmd-pb-1">
+        <ng-container inputErrors *ngIf="hasControlAnyError('conditionOrder')">
+          <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('conditionOrder', 'required')">
+            {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+          </mat-error>
+        </ng-container>
+      </app-input>
+  </div>
+  <div class="row">
+    <app-input [prefix]="'CONDITIONS.DESCRIPTION' | translate" formControlName="description"
+      class="col s12 l12 cmd-pb-1">
+      <ng-container inputErrors *ngIf="hasControlAnyError('description')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('description', 'required')">
+          {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+  </div>
+  <div class="row">
+    <button color="primary" type="submit" (click)="saveCondition()" mat-raised-button
+        class="col s12 l2 offset-l10">
+        {{ 'CONDITIONS.SAVE' | translate }}
+    </button>
+  </div>
+</form>

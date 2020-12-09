@@ -12,6 +12,7 @@
       "OPERATORS": "Operadores",
       "CONTACTS": "Contactos",
       "SERVICES": "Servicios",
+      "CONDITIONS": "Condiciones",
       "FLEET": {
         "TITLE": "Flota",
         "AIRCRAFT": "Flota",
@@ -891,6 +892,18 @@
   "SALE": "Venta",
   "OBSERVATIONS": {
     "TITLE": "Observaciones"
+  },
+  "CONDITIONS": {
+    "PAGE_TITLE": "Condiciones",
+    "CODE": "Código",
+    "TITLE": "Título",
+    "ORDER": "Orden",
+    "DESCRIPTION": "Descripción",
+    "ERRORS": {
+      "REQUIRED": "Este campo es requerido"
+    },
+    "SAVE": "Guardar",
+    "NEW": "Nueva condicion"
   },
   "FILES_CONTRACT": {
     "CODE": "Código",
