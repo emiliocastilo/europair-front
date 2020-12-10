@@ -4,12 +4,12 @@
     <div class="cmd-mb-2">
       <button class="browser-default cmd-mr-2" color="primary" mat-raised-button
         (click)="returnToFileList()">
-        Volver
+        {{ "COMMON.RETURN" | translate }}
       </button>
 
       <button class="browser-default" color="primary" mat-raised-button [disabled]="!fileForm.valid"
         *ngIf="showAction(fileAction.MODIFY_FILE)" (click)="onSaveFile(routeData.isFileDetail)">
-        Guardar Expediente
+        {{ "FILES.SAVE_FILE" | translate }}
       </button>
     </div>
 
@@ -101,7 +101,7 @@
       <mat-expansion-panel #routes class="app-expansion-panel cmd-mb-2" expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{ "FILES.ROUTES" | translate | sentenceCase }}
+            {{ "FILES.ROUTES.TITLE" | translate | sentenceCase }}
           </mat-panel-title>
           <mat-panel-description *ngIf="routes.expanded && showAction(fileAction.CREATE_ROUTES)">
             <a mat-button routerLink="routes/new">
@@ -117,7 +117,7 @@
             <!-- Label Column -->
             <ng-container matColumnDef="label" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Rutas Petición
+                {{ "FILES.ROUTES.PETITION_ROUTES" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element" class="parent-route">
                 <mat-icon class="expand-icon" *ngIf="element?.hasContributions"
@@ -131,7 +131,7 @@
             <!-- Frequency Column -->
             <ng-container matColumnDef="frequency">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Frecuencia
+                {{ "FILES.ROUTES.FREQUENCY" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.frequency }}
@@ -141,7 +141,7 @@
             <!-- startDate Column-->
             <ng-container matColumnDef="startDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Fecha inicio
+                {{ "FILES.ROUTES.START_DATE" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.startDate | date: 'dd/MM/yyyy' }}
@@ -151,7 +151,7 @@
             <!-- EndDate Column-->
             <ng-container matColumnDef="endDate">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Fecha Fin
+                {{ "FILES.ROUTES.END_DATE" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.endDate | date: 'dd/MM/yyyy' }}
@@ -161,7 +161,7 @@
             <!-- WeekDays Column-->
             <ng-container matColumnDef="frequencyDays">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Días semana
+                {{ "FILES.ROUTES.WEEKDAYS" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ getFormattedFrequency(element.frequencyDays) | uppercase }}
@@ -171,7 +171,7 @@
             <!-- Rotations Column-->
             <ng-container matColumnDef="rotations.length">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Rotaciones
+                {{ "FILES.ROUTES.ROTATIONS_NUMBER" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.rotations.length }}
@@ -181,7 +181,7 @@
             <!-- Seats Column-->
             <ng-container matColumnDef="seats">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Asientos F/C/Y
+                {{ "FILES.ROUTES.SEATS_F_C_Y" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ element.seatsF || 0 }}/{{ element.seatsC || 0 }}/{{ element.seatsY || 0 }}
@@ -191,7 +191,7 @@
             <!-- Month Day Column-->
             <ng-container matColumnDef="dayNumber">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Día del mes
+                {{ "FILES.ROUTES.MONTH_DAY" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
                 {{ getFormattedMonthDays(element.frequencyDays) }}
@@ -201,14 +201,14 @@
             <!-- Status Column-->
             <ng-container matColumnDef="status" stickyEnd>
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                Estado
+                {{ "FILES.ROUTES.STATUS" | translate }}
               </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{ element.routeState }} </mat-cell>
             </ng-container>
 
             <!-- Actions Column-->
             <ng-container matColumnDef="route-actions" stickyEnd>
-              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef></mat-header-cell>
               <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
                 <mat-icon
                   (click)="navigateToCopyRoute(element.id)"
