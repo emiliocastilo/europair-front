@@ -68,6 +68,8 @@
     "REMOVE_CONTRIBUTION": "Eliminar cotización",
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
+    "REMOVE_COUNTRY_FROM_REGION": "Quitar país de la región",
+    "REMOVE_AIRPORT_FROM_REGION": "Quitar aeropuerto de la región",
     "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
   },
   "AIRPORTS": {
@@ -327,7 +329,8 @@
       "NAME": "Debe indicar el nombre de la región",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     },
-    "AIRPORT_CODE": "IATA",
+    "AIRPORT_IATA": "IATA",
+    "AIRPORT_ICAO": "ICAO",
     "AIRPORT_NAME": "Nombre",
     "COUNTRY_CODE": "Código",
     "COUNTRY_NAME": "Nombre",

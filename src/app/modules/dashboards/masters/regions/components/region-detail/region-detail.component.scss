@@ -62,11 +62,20 @@
   }
 }
 
+.mat-column-actions {
+  .mat-icon {
+    cursor: pointer;
+    padding-right: 8px;
+    fill: none;
+    stroke: red;
+  }
+}
+
 .title {
   font-weight: bold;
 }
 
-@include mat-table-columns(("selection", "code", "name"));
+@include mat-table-columns(("code", "name", "iataCode", "icaoCode"));
 
 @media #{$small-and-down} {
   .modal {

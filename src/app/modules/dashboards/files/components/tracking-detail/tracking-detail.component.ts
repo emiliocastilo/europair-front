@@ -26,8 +26,8 @@ import {
 } from 'rxjs/operators';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { Airport } from '../../../masters/airports/models/airport';
 import { AirportsService } from '../../../masters/airports/services/airports.service';
-import { Airport } from '../../../masters/regions/models/airport';
 import { FileRoute, RouteStatus } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
 import { FileRoutesService } from '../../services/file-routes.service';

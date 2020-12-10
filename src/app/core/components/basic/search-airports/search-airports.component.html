@@ -21,6 +21,7 @@
     [disabled]="isDisabled"
     [clearable]="clearable"
     [dropdownPosition]="dropdownPosition"
+    [hideSelected]="hideSelected"
   >
   <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
     <div [innerHTML]="item | searchAirportSelectPipe: {term: search}"></div>

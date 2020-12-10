@@ -35,9 +35,9 @@ export class RegionsComponent implements OnInit {
   public barButtons: BarButton[];
 
   public regionForm = this.fb.group({
+    id: [null],
     code: ['', Validators.required],
     name: ['', Validators.required],
-    airports: ['']
   });
 
   constructor(
@@ -103,7 +103,6 @@ export class RegionsComponent implements OnInit {
   }
 
   public onRegionAction(action: { actionId: string; selectedItem: number }) {
-    console.log('onRegionAction', action);
     this.regionSelected = { ...this.regions[action.selectedItem] };
     this.regionTableActions[action.actionId](action.selectedItem);
   }
@@ -120,7 +119,6 @@ export class RegionsComponent implements OnInit {
   };
 
   public onConfirmDeleteRegion() {
-    console.log('REGION ELIMINADA', this.regionSelected);
     this.regionsService.deleteRegion(this.regionSelected).subscribe(() => this.initializeRegionsTable());
   }
 
@@ -142,9 +140,9 @@ export class RegionsComponent implements OnInit {
 
   private updateRegionrForm(selectedRegion: Region) {
     this.regionForm.setValue({
+      id: selectedRegion.id,
       code: selectedRegion.code,
-      name: selectedRegion.name,
-      airports: selectedRegion.airports
+      name: selectedRegion.name
     });
   }
 
