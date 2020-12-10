@@ -42,6 +42,7 @@ import { FileRoutesService } from '../../services/file-routes.service';
 import { ServicesService } from '../../../masters/services/services/services.service';
 import {
   Contribution,
+  ContributionOperations,
   ContributionStates,
   CONTRIBUTION_STATES,
 } from '../search-aircraft/models/contribution.model';
@@ -85,6 +86,7 @@ export class ContributionDetailComponent implements OnInit {
   public servicesLoading = false;
   private datePipe: DatePipe;
   public conributionStates = CONTRIBUTION_STATES;
+  public CONTRIBUTION_OPERATIONS = ContributionOperations;
 
   public purchaseServiceForm = this.fb.group({
     type: ['', Validators.required],
@@ -376,44 +378,55 @@ export class ContributionDetailComponent implements OnInit {
     this.purchaseContributionForm
       .get('purchasePrice')
       .valueChanges.subscribe((value) =>
-        this.setTaxesPrice(this.purchaseContributionForm, value)
+        this.setTaxesPrice(this.purchaseContributionForm, value, ContributionOperations.PURCHASE)
       );
       this.purchaseContributionForm
       .get('taxes')
       .valueChanges.subscribe((value) =>
-        this.setTaxesPriceOnChangeTaxes(this.purchaseContributionForm, value, 'purchasePrice')
+        this.setTaxesPriceOnChangeTaxes(this.purchaseContributionForm, value, 'purchasePrice', ContributionOperations.PURCHASE)
       );
     this.saleContributionForm
       .get('salesPrice')
       .valueChanges.subscribe((value) =>
-        this.setTaxesPrice(this.saleContributionForm, value)
+        this.setTaxesPrice(this.saleContributionForm, value, ContributionOperations.SALE)
       );
       this.saleContributionForm
       .get('taxes')
       .valueChanges.subscribe((value) =>
-        this.setTaxesPriceOnChangeTaxes(this.saleContributionForm, value, 'salesPrice')
+        this.setTaxesPriceOnChangeTaxes(this.saleContributionForm, value, 'salesPrice', ContributionOperations.SALE)
       );
   }
 
-  private setTaxesPriceOnChangeTaxes(form: FormGroup, stringValue: string, formControlName: string) {
+  private setTaxesPriceOnChangeTaxes(form: FormGroup, stringValue: string, formControlName: string, operationType: ContributionOperations) {
     const totalPrice = this.unmaskPrice(form.get(formControlName).value);
     const taxes = Number.parseInt(stringValue);
-    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes, operationType));
   }
 
-  private setTaxesPrice(form: FormGroup, stringValue: string) {
+  private setTaxesPrice(form: FormGroup, stringValue: string, operationType: ContributionOperations) {
     const totalPrice = this.unmaskPrice(stringValue);
     const taxes = Number.parseInt(form.get('taxes').value);
-    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes));
+    form.get('taxesPrice').setValue(this.getTaxesPrice(totalPrice, taxes, operationType));
   }
 
-  private getTaxesPrice(totalPrice: number, taxes: number) {
+  private getTaxesPrice(totalPrice: number, taxes: number, operationType: ContributionOperations) {
     if (taxes && totalPrice) {
-      const taxesPriceValue = totalPrice - totalPrice / (1 + taxes / 100);
+      const totalPriceUnderTaxes = this.getTotalPriceUnderTaxes(totalPrice, operationType)
+      const taxesPriceValue = totalPriceUnderTaxes - totalPriceUnderTaxes / (1 + taxes / 100);
       return taxesPriceValue.toFixed(2);
     } else {
       return 0;
     }
+  }
+
+  private getTotalPriceUnderTaxes(totalPrice: number, operationType: ContributionOperations) {
+    return  totalPrice * (this.getPercentageApplied(operationType)/100);
+  }
+
+  private getPercentageApplied(operationType: ContributionOperations) {
+    return operationType === ContributionOperations.PURCHASE? 
+    this.contribution.percentage_applied_on_purchase_tax ?? 100 : 
+    this.contribution.percentage_applied_on_sale_tax ?? 100;
   }
 
   public updateContributionPurchaseData() {
@@ -607,6 +620,10 @@ export class ContributionDetailComponent implements OnInit {
           });
       }
     });
+  }
+
+  public hasContributionPercentageApplied(operationType: ContributionOperations) {
+    return this.getPercentageApplied(operationType) !== 100;
   }
 
   public hasControlAnyError(form: FormGroup, controlName: string): boolean {

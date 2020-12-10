@@ -767,6 +767,7 @@
     "DELETE_SERVICE_MSG": "¿Está seguro que desea eliminar el servicio de tipo <b>{{ type }}</b> con importe <b>{{ price }}</b>?",
     "OVERWRITE_SALES_MSG": "¿Está seguro que desea sobreescribir la información de <b>Ventas</b> con los datos actuales de <b>Compras</b>?",
     "SALES_COPY": "Copiar en ventas",
+    "PERCENTAGE_APPLIED_MSG": "Se aplicará el IVA al {{ percentage }}% del importe",
     "ERRORS": {
       "SERVICE_REQ": "Debe indicar un servicio",
       "REPETEAD_SERVICE": "El servicio ya está añadido",
