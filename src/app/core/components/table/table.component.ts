@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 import { RowDataModel } from '../../models/table/row-data.model';
 import { ColumnHeaderModel } from '../../models/table/column-header.model';
 import { PaginationModel } from '../../models/table/pagination/pagination.model';
@@ -34,7 +34,7 @@ export class TableComponent implements OnInit {
   public iconConfig: InputTextIcon;
   public sortingByColumn: any = {};
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.iconConfig = {
@@ -43,12 +43,15 @@ export class TableComponent implements OnInit {
     };
   }
 
-  ngOnChanges(): void {
-    if (this.pagination) {
-      this.lastPage = this.pagination.initPage;
-      this.onChangePage(this.pagination.initPage);
-    } else {
-      this.onChangePage(1);
+  ngOnChanges(changes: {pagination: SimpleChange, columnsData: SimpleChange}): void {
+    if (changes.pagination) {
+      if (this.pagination) {
+        this.onChangePage(this.pagination.initPage);
+      } else {
+        this.onChangePage(1);
+      }
+    } else if (changes.columnsData && !this.pagination.clientPagination) {
+      this.columnsDataToShow = this.columnsData;
     }
   }
 
@@ -94,11 +97,8 @@ export class TableComponent implements OnInit {
     if (this.pagination) {
       this.lastPage = selectedPage;
       if (this.pagination.clientPagination) {
-        if (selectedPage == 1) {
-          this.columnsDataToShow = this.columnsData?.slice(
-            0,
-            this.pagination.elementsPerPage
-          );
+        if (selectedPage === 1) {
+          this.columnsDataToShow = this.columnsData?.slice(0, this.pagination.elementsPerPage);
         } else {
           let cutUpperLimit = selectedPage * this.pagination.elementsPerPage;
           this.columnsDataToShow = this.columnsData?.slice(
@@ -107,6 +107,7 @@ export class TableComponent implements OnInit {
           );
         }
       } else {
+        this.columnsDataToShow = this.columnsData;
         this.changePage.emit(selectedPage - 1);
       }
       this.internalSelectedItems = [];
@@ -125,7 +126,7 @@ export class TableComponent implements OnInit {
   }
 
   public onSelectAll(isSelectAll: boolean): void {
-    isSelectAll? this.selectAllRows() : this.unselectAllRows();
+    isSelectAll ? this.selectAllRows() : this.unselectAllRows();
     this.emitFilteredInternalSelectedItems(this.internalSelectedItems);
   }
 

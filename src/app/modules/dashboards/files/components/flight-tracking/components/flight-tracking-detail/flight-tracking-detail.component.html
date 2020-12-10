@@ -45,57 +45,57 @@
   </div>
 
   <div class="row cmd-mb-0">
-    <app-input [prefix]="'ROTATIONS.DEPARTURE_DATE' | translate" type="date" formControlName="departureDate"
+    <app-input [prefix]="'FLIGHT_TRACKING.DEPARTURE_DATE' | translate" type="date" formControlName="departureDate"
       class="col s12 l3">
       <ng-container inputErrors *ngIf="hasControlAnyError('departureDate')">
         <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureDate', 'required')">
-          {{ "ROTATIONS.ERRORS.DEPARTURE_DATE" | translate }}
+          {{ "FLIGHT_TRACKING.ERRORS.DEPARTURE_DATE" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.DEPARTURE_TIME' | translate" type="time" formControlName="departureTime"
+    <app-input [prefix]="'FLIGHT_TRACKING.DEPARTURE_TIME' | translate" type="time" formControlName="departureTime"
       class="col s12 l3">
       <ng-container inputErrors *ngIf="hasControlAnyError('departureTime')">
         <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('departureTime', 'required')">
-          {{ "ROTATIONS.ERRORS.DEPARTURE_TIME" | translate }}
+          {{ "FLIGHT_TRACKING.ERRORS.DEPARTURE_TIME" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.ARRIVAL_DATE' | translate" type="date" formControlName="arrivalDate"
+    <app-input [prefix]="'FLIGHT_TRACKING.ARRIVAL_DATE' | translate" type="date" formControlName="arrivalDate"
       class="col s12 l3">
       <ng-container inputErrors *ngIf="hasControlAnyError('arrivalDate')">
         <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalDate', 'required')">
-          {{ "ROTATIONS.ERRORS.ARRIVAL_DATE" | translate }}
+          {{ "FLIGHT_TRACKING.ERRORS.ARRIVAL_DATE" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.ARRIVAL_TIME' | translate" type="time" formControlName="arrivalTime"
+    <app-input [prefix]="'FLIGHT_TRACKING.ARRIVAL_TIME' | translate" type="time" formControlName="arrivalTime"
       class="col s12 l3">
       <ng-container inputErrors *ngIf="hasControlAnyError('arrivalTime')">
         <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('arrivalTime', 'required')">
-          {{ "ROTATIONS.ERRORS.ARRIVAL_TIME" | translate }}
+          {{ "FLIGHT_TRACKING.ERRORS.ARRIVAL_TIME" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
   </div>
 
   <div class="row cmd-mb-0">
-    <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_DATE' | translate" type="date" formControlName="realDepartureDate"
+    <app-input [prefix]="'FLIGHT_TRACKING.REAL_DEPARTURE_DATE' | translate" type="date" formControlName="realDepartureDate"
       class="col s12 l3">
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.REAL_DEPARTURE_TIME' | translate" type="time" formControlName="realDepartureTime"
+    <app-input [prefix]="'FLIGHT_TRACKING.REAL_DEPARTURE_TIME' | translate" type="time" formControlName="realDepartureTime"
       class="col s12 l3">
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_DATE' | translate" type="date" formControlName="realArrivalDate"
+    <app-input [prefix]="'FLIGHT_TRACKING.REAL_ARRIVAL_DATE' | translate" type="date" formControlName="realArrivalDate"
       class="col s12 l3">
     </app-input>
 
-    <app-input [prefix]="'ROTATIONS.REAL_ARRIVAL_TIME' | translate" type="time" formControlName="realArrivalTime"
+    <app-input [prefix]="'FLIGHT_TRACKING.REAL_ARRIVAL_TIME' | translate" type="time" formControlName="realArrivalTime"
       class="col s12 l3">
     </app-input>
   </div>
@@ -131,18 +131,18 @@
   </div>
 
   <div class="row cmd-mb-0">
-    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_ADULT' | translate" [hasErrors]="hasControlAnyError('paxAdult')"
-      [defaultValue]="'0'" type="number" formControlName="paxAdult" class="col s12 l3" [disabled]="true">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_ADULT' | translate" [hasErrors]="hasControlAnyError('paxAD')"
+      [defaultValue]="'0'" type="number" formControlName="paxAD" class="col s12 l3" [disabled]="true">
       <ng-container inputErrors>
-        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxAdult', 'min')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxAD', 'min')">
           {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
         </mat-error>
       </ng-container>
     </app-input>
-    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_CHILD' | translate" [hasErrors]="hasControlAnyError('paxChildren')"
-      [defaultValue]="'0'" type="number" formControlName="paxChildren" class="col s12 l3" [disabled]="true">
+    <app-input [prefix]="'SEARCH_AIRCRAFT.SEAT_CHILD' | translate" [hasErrors]="hasControlAnyError('paxCHD')"
+      [defaultValue]="'0'" type="number" formControlName="paxCHD" class="col s12 l3" [disabled]="true">
       <ng-container inputErrors>
-        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxChildren', 'min')">
+        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('paxCHD', 'min')">
           {{ "ROTATIONS.ERRORS.MIN_VALUE_0" | translate }}
         </mat-error>
       </ng-container>

@@ -200,8 +200,7 @@ export class AircraftListComponent implements OnInit {
     this.aircraftAdvancedSearchForm.patchValue(this.operatorFilter);
     const filter = {
       ...this.aircraftAdvancedSearchForm.value,
-      ...this.aircraftSortForm.value,
-      size: '30000'
+      ...this.aircraftSortForm.value
     };
     this.initializeAircraftTable(filter);
   }

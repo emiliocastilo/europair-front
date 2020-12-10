@@ -58,6 +58,8 @@ import { ContactsService } from '../../../masters/contacts/services/contact.serv
 import { IntegrationOfficeService } from '../../services/integration-office.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { InfoDialogComponent } from 'src/app/core/components/dialogs/info-dialog/info-dialog.component';
+import { ContractsService } from '../../services/contracts.service';
+import { Contract } from '../../models/Contract.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -80,8 +82,9 @@ enum FileAction {
   CREATE_CONTRACT = 'CREATE_CONTRACT',
   MODIFY_FILE = 'MODIFY_FILE',
   SIGN_FILE = 'SIGN_FILE',
+  GENERATE_PLANING = 'GENERATE_PLANING',
   SHOW_ADDITIONAL_SERVICE = 'SHOW_ADDITIONAL_SERVICE',
-  GENERATE_PLANING = 'GENERATE_PLANING'
+  SHOW_CONTRACT = 'SHOW_CONTRACT'
 }
 @Component({
   selector: 'app-file-detail',
@@ -108,6 +111,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   public fileData: File;
   public routes: Array<FileRoute>;
+  public contracts: Array<Contract>;
   public routeData$: Observable<Data>;
   public pageTitle: string;
 
@@ -212,6 +216,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fileStatusService: FileStatusService,
     private clientService: ClientsService,
     private contactService: ContactsService,
+    private contractService: ContractsService,
     private confirmOperationService: ConfirmOperationService,
     private contributionService: ContributionService,
     private readonly matDialog: MatDialog,
@@ -333,6 +338,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.loadStatus();
     this.loadFileRoutes(file);
     this.obtainOperation(file);
+    this.loadContracts(file);
   }
 
   private loadStatus(): void {
@@ -385,11 +391,17 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
       });
   }
 
+  private loadContracts(file: File): void {
+    this.contractService.searchContract(file.id).subscribe((pageContract: Page<Contract>) => {
+        this.contracts = pageContract.content;
+    });
+  }
+
   public returnToFileList() {
     // Remove file-detail related queryparams before navigate to file list
     this.router.navigate(['files'], {
-        queryParams: {...this.route.snapshot.queryParams, expandedQuote: null}, 
-        queryParamsHandling: 'merge' 
+        queryParams: {...this.route.snapshot.queryParams, expandedQuote: null},
+        queryParamsHandling: 'merge'
     });
   }
 
@@ -418,9 +430,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         if (!update) {
           this.router.navigate([`/files/${resp.id}`]);
         } else {
-          this.fileService
-            .getFileById(this.fileData.id)
-            .subscribe((resp: File) => this.getFileData(resp));
+          this.refreshFile();
         }
       });
     }
@@ -429,10 +439,12 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   public updateFileState(statusId: number): void {
     const state: FileStatus = this.statusOptions.find((status: FileStatus) => status.id === statusId);
     this.fileService.updateState(this.fileData, state).subscribe(() => {
-      this.fileService
-        .getFileById(this.fileData.id)
-        .subscribe((resp: File) => this.getFileData(resp));
+      this.refreshFile();
     })
+  }
+
+  private refreshFile() {
+    this.fileService.getFileById(this.fileData.id).subscribe((resp: File) => this.getFileData(resp));
   }
 
   public getRotationNumber(
@@ -489,11 +501,15 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToCopyRoute(routeId: number) {
-    this.router.navigate(['files', this.fileData.id,'routes' ,routeId]);
+    this.router.navigate(['files', this.fileData.id, 'routes', routeId]);
   }
 
   public navigateToSearchAircraft(id: number) {
     this.router.navigate(['/files/search-aircraft', this.fileData.id, id]);
+  }
+
+  public navigateToContractDetail(contractId: number): void {
+    this.router.navigate(['files', this.fileData.id, 'contracts', contractId]);
   }
 
   public deleteRoute(routeId: number, confirmMsg: string): void {
@@ -546,7 +562,11 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public createContract(): void {
-    // TODO: nothing yet
+    const routeIds: Array<number> = this.routes.filter((route: FileRoute) => route.routeState === RouteStatus.WON).map((route: FileRoute) => { return route.id });
+    this.contractService.generateContract(this.fileData.id, routeIds).subscribe(() => {
+      this.refreshFile();
+      this.loadContracts(this.fileData);
+    });
   }
 
   public generateContract(routeId: number): void {
@@ -600,7 +620,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
         break;
       case FileAction.CREATE_CONTRACT:
-        show =
+        show = fileStatus === FileStatusCode.SALES &&
           this.routes?.filter((fileRoute: FileRoute) => fileRoute.routeState === RouteStatus.WON).length > 0;
         break;
       case FileAction.MODIFY_FILE:
@@ -614,6 +634,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         break;
       case FileAction.GENERATE_PLANING:
         show = fileStatus === FileStatusCode.OPTIONED || fileStatus === FileStatusCode.BLUE_BOOKED || fileStatus === FileStatusCode.GREEN_BOOKED;
+        break;
+      case FileAction.SHOW_CONTRACT:
+        show = fileStatus === FileStatusCode.BLUE_BOOKED;
         break;
       default:
         show = false;

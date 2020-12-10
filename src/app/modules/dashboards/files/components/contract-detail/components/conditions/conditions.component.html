@@ -1,0 +1,31 @@
+<core-page-bar [pageTitle]="'FILES_CONTRACT.CONDITIONS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+
+<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
+  {{ "COMMON.RETURN" | translate }}
+</button>
+<div class="row">
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CONDITIONS.CODE' | translate }}</label>
+      <span>{{ condition?.code }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CONDITIONS.TITLE' | translate }}</label>
+      <span>{{ condition?.title }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CONDITIONS.DESCRIPTION' | translate }}</label>
+      <span>{{ condition?.description }}</span>
+    </div>
+  </div>
+  <div class="col s12 l3 field-colum">
+    <div class="field-container">
+      <label>{{'FILES_CONTRACT.CONDITIONS.ORDER' | translate }}</label>
+      <span>{{ condition?.conditionOrder }}</span>
+    </div>
+  </div>
+</div>

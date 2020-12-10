@@ -63,9 +63,9 @@ export class FlightTrackingDetailComponent implements OnInit {
     flightNumber: [''],
     slot: [''],
     parking: [''],
-    paxAdult: [{value: '', disabled: true}],
-    paxChildren: [{value: '', disabled: true}],
-    paxInfants: [{value: '', disabled: true}]
+    paxAD: [''],
+    paxCHD: [''],
+    paxInfants: ['']
   });
 
   // TODO: enum + i18n
