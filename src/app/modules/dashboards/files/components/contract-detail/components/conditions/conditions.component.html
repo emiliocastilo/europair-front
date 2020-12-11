@@ -3,29 +3,40 @@
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
   {{ "COMMON.RETURN" | translate }}
 </button>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.CODE' | translate }}</label>
-      <span>{{ condition?.code }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.TITLE' | translate }}</label>
-      <span>{{ condition?.title }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.DESCRIPTION' | translate }}</label>
-      <span>{{ condition?.description }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.ORDER' | translate }}</label>
-      <span>{{ condition?.conditionOrder }}</span>
-    </div>
-  </div>
+<div class="responsive-table-container">
+  <mat-table [dataSource]="contractConditionsDataSource" class="cmd-mb-2">
+    <ng-container matColumnDef="selection">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary" (click)="selectCondition($event, element)" [checked]="conditionSelected(element)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.CODE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.TITLE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.DESCRIPTION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="order">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.ORDER" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.order }}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="conditionsColumnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: conditionsColumnsToDisplay"></mat-row>
+  </mat-table>
 </div>

@@ -3,7 +3,7 @@
   <button class="col s2 l2 cmd-mb-1" color="primary" mat-raised-button [routerLink]="['/files/', fileId]">
     {{ "COMMON.RETURN" | translate }}
   </button>
-</div> 
+</div>
 <mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -13,17 +13,22 @@
   <div class="row row-no-margin-bottom cmd-mt-2">
     <form [formGroup]="contractDataForm">
       <div class="row">
-        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE' | translate" formControlName="contractDate" class="col s12 l4 cmd-pb-1">
+        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE' | translate" formControlName="contractDate"
+          class="col s12 l4 cmd-pb-1">
         </app-input>
-        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE_SIGNED' | translate" formControlName="contractSignDate" class="col s12 l4 cmd-pb-1">
+        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.DATE_SIGNED' | translate"
+          formControlName="contractSignDate" class="col s12 l4 cmd-pb-1">
         </app-input>
       </div>
       <div class="row">
-        <app-input [prefix]="'FILES_CONTRACT.CONTRACT_STATE_TITLE' | translate" formControlName="contractState" class="col s12 l4 cmd-pb-1">
+        <app-input [prefix]="'FILES_CONTRACT.CONTRACT_STATE_TITLE' | translate" formControlName="contractState"
+          class="col s12 l4 cmd-pb-1">
         </app-input>
-        <app-input *ngIf="contract?.contractType === contractType.PURCHASE" [prefix]="'FILES_CONTRACT.PROVIDER' | translate" formControlName="provider" class="col s12 l4 cmd-pb-1">
+        <app-input *ngIf="contract?.contractType === contractType.PURCHASE"
+          [prefix]="'FILES_CONTRACT.PROVIDER' | translate" formControlName="provider" class="col s12 l4 cmd-pb-1">
         </app-input>
-        <app-input *ngIf="contract?.contractType === contractType.SALE" [prefix]="'FILES_CONTRACT.CLIENT' | translate" formControlName="client" class="col s12 l4 cmd-pb-1">
+        <app-input *ngIf="contract?.contractType === contractType.SALE" [prefix]="'FILES_CONTRACT.CLIENT' | translate"
+          formControlName="client" class="col s12 l4 cmd-pb-1">
         </app-input>
       </div>
     </form>
@@ -98,56 +103,56 @@
       <mat-row *matRowDef="let row; columns: flightsColumnsToDisplay"></mat-row>
     </mat-table>
   </div>
-</mat-expansion-panel> 
+</mat-expansion-panel>
 
 <mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
- <mat-expansion-panel-header>
-   <mat-panel-title>
-     {{ "FILES_CONTRACT.CONTRACT_LINES_TITLE" | translate | sentenceCase }}
-   </mat-panel-title>
-   <mat-panel-description> </mat-panel-description>
- </mat-expansion-panel-header>
- <div class="responsive-table-container">
-   <mat-table [dataSource]="contractLinesDataSource" class="cmd-mb-2">
-     <ng-container matColumnDef="route_label">
-       <mat-header-cell *matHeaderCellDef>
-         {{ "FILES_CONTRACT.ROUTE" | translate }}
-       </mat-header-cell>
-       <mat-cell *matCellDef="let element">{{ element.route.label }}</mat-cell>
-       <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
-     </ng-container>
-     <ng-container matColumnDef="route_startDate">
-       <mat-header-cell *matHeaderCellDef>
-         {{ "FILES_CONTRACT.START_DATE" | translate }}
-       </mat-header-cell>
-       <mat-cell *matCellDef="let element">{{ element.route.startDate | date: 'dd/MM/yyyy'}}</mat-cell>
-       <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-     </ng-container>
-     <ng-container matColumnDef="route_endDate">
-       <mat-header-cell *matHeaderCellDef>
-         {{ "FILES_CONTRACT.END_DATE" | translate }}
-       </mat-header-cell>
-       <mat-cell *matCellDef="let element">{{ element.route.endDate | date: 'dd/MM/yyyy'}}</mat-cell>
-       <mat-footer-cell *matFooterCellDef></mat-footer-cell>
-     </ng-container>
-     <ng-container matColumnDef="price">
-       <mat-header-cell *matHeaderCellDef>
-         {{ "FILES_CONTRACT.PRICE" | translate }}
-       </mat-header-cell>
-       <mat-cell *matCellDef="let element; let index = index">
-         <core-editable (update)="updatePrice(index, 'price')">
-           <ng-template appViewMode>
-             {{ element.price | number: "1.2-2" }}
-           </ng-template>
-           <ng-template appEditMode>
-             <input type="number" [formControl]="getControl(priceControls, index, 'price')" appFocusable appEditOnEnter
-               [appMaxlength]="10"/>
-           </ng-template>
-         </core-editable>
-       </mat-cell>
-       <mat-footer-cell *matFooterCellDef> {{ contractLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
-     </ng-container>
-     <!--  ------------------------------------ ACTIONS ------------------------------------
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ "FILES_CONTRACT.CONTRACT_LINES_TITLE" | translate | sentenceCase }}
+    </mat-panel-title>
+    <mat-panel-description> </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="responsive-table-container">
+    <mat-table [dataSource]="contractLinesDataSource" class="cmd-mb-2">
+      <ng-container matColumnDef="route_label">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.ROUTE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.route.label }}</mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ "COMMON.TOTAL" | translate}} </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="route_startDate">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.START_DATE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.route.startDate | date: 'dd/MM/yyyy'}}</mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="route_endDate">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.END_DATE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.route.endDate | date: 'dd/MM/yyyy'}}</mat-cell>
+        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.PRICE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element; let index = index">
+          <core-editable (update)="updatePrice(index, 'price')">
+            <ng-template appViewMode>
+              {{ element.price | number: "1.2-2" }}
+            </ng-template>
+            <ng-template appEditMode>
+              <input type="number" [formControl]="getControl(priceControls, index, 'price')" appFocusable appEditOnEnter
+                [appMaxlength]="10" />
+            </ng-template>
+          </core-editable>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef> {{ contractLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
+      </ng-container>
+      <!--  ------------------------------------ ACTIONS ------------------------------------
        <ng-container matColumnDef="actions" stickyEnd>
        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
        <mat-cell *matCellDef="let element">
@@ -160,12 +165,12 @@
        </mat-cell>
        <mat-footer-cell *matFooterCellDef></mat-footer-cell>
      </ng-container> -->
-     <mat-header-row *matHeaderRowDef="contractColumnsToDisplay"></mat-header-row>
-     <mat-row *matRowDef="let row; columns: contractColumnsToDisplay"></mat-row>
-     <mat-footer-row *matFooterRowDef="contractColumnsToDisplay"></mat-footer-row>
-   </mat-table>
- </div>
-</mat-expansion-panel> 
+      <mat-header-row *matHeaderRowDef="contractColumnsToDisplay"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: contractColumnsToDisplay"></mat-row>
+      <mat-footer-row *matFooterRowDef="contractColumnsToDisplay"></mat-footer-row>
+    </mat-table>
+  </div>
+</mat-expansion-panel>
 
 <mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
   <mat-expansion-panel-header>
@@ -178,7 +183,8 @@
       <div class="row">
         <app-select class="col s12 l6" [id]="'select-file-language'" [items]="languageOptions"
           [placeholder]="'FILES_CONTRACT.PLACEHOLDER_LANGUAGE' | translate" [clearable]="false"
-          [label]="'FILES_CONTRACT.LANGUAGE' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="language">
+          [label]="'FILES_CONTRACT.LANGUAGE' | translate" [itemDescription]="'name'" [itemValue]="'id'"
+          formControlName="language">
           <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'language')">
             <span *ngIf="hasControlSpecificError(configurationDataForm, 'language', 'required')" class="helper-text"
               [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
@@ -187,7 +193,8 @@
         </app-select>
         <app-select class="col s12 l6" [id]="'select-file-date-format'" [items]="dateFormatsOptions"
           [placeholder]="'FILES_CONTRACT.PLACEHOLDER_DATE_FORMAT' | translate" [clearable]="false"
-          [label]="'FILES_CONTRACT.DATE_FORMAT' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="dateFormat">
+          [label]="'FILES_CONTRACT.DATE_FORMAT' | translate" [itemValue]="'name'" [itemDescription]="'description'"
+          formControlName="timezone">
           <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'dateFormat')">
             <span *ngIf="hasControlSpecificError(configurationDataForm, 'dateFormat', 'required')" class="helper-text"
               [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
@@ -196,23 +203,31 @@
         </app-select>
       </div>
       <div class="row">
-        <app-select class="col s12 l6" [id]="'select-file-cod-payment'" [items]="languageOptions"
+        <app-select class="col s12 l6" [id]="'select-file-cod-payment'" [items]="paymentConditionOptions"
           [placeholder]="'FILES_CONTRACT.PLACEHOLDER_PAYMENT_CONDITIONS' | translate" [clearable]="false"
-          [label]="'FILES_CONTRACT.PAYMENT_CONDITIONS' | translate" [itemDescription]="'name'" [itemValue]="'id'" formControlName="paymentConditions">
+          [label]="'FILES_CONTRACT.PAYMENT_CONDITIONS' | translate" [itemDescription]="'code'" [itemValue]="'id'"
+          formControlName="paymentConditions">
           <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'paymentConditions')">
-            <span *ngIf="hasControlSpecificError(configurationDataForm, 'paymentConditions', 'required')" class="helper-text"
-              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
+            <span *ngIf="hasControlSpecificError(configurationDataForm, 'paymentConditions', 'required')"
+              class="helper-text" [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
             </span>
           </ng-container>
         </app-select>
-        <app-input [prefix]="'FILES_CONTRACT.PAYMENTY_CONDITION_OBSERVATION' | translate" formControlName="paymentConditionsObservations" class="col s12 l6">
+        <app-input [prefix]="'FILES_CONTRACT.PAYMENTY_CONDITION_OBSERVATION' | translate"
+          formControlName="paymentConditionsObservations" class="col s12 l6">
         </app-input>
       </div>
       <div class="row">
-        <app-input [prefix]="'FILES_CONTRACT.DEPOSIT' | translate" formControlName="deposit" class="col s12 l6">
+        <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.DEPOSIT' | translate" formControlName="deposit" class="col s12 l6">
         </app-input>
-        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.EXPIRATION' | translate" formControlName="expiration" class="col s12 l6">
+        <app-input [type]="'date'" [prefix]="'FILES_CONTRACT.EXPIRATION' | translate" formControlName="depositExpirationDate"
+          class="col s12 l6">
         </app-input>
+      </div>
+      <div class="row">
+        <button class="col s12 l1 offset-l10" color="primary" mat-raised-button (click)="saveConfiguration()">
+          {{ "COMMON.SAVE" | translate | sentenceCase }}
+        </button>
       </div>
     </form>
   </div>
@@ -224,4 +239,4 @@
   <button class="col s2 l2 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
     {{ "FILES_CONTRACT.CANCELLATIONS_FEES" | translate }}
   </button>
-</div> 
+</div>

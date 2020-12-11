@@ -966,7 +966,8 @@
       "DETAIL_PAGE_TITLE": "Gastos de cancelación",
       "FROM_VALUE": "Desde",
       "FROM_UNIT": "Unidades",
-      "FEE_PERCENTAGE": "% penalización"
+      "FEE_PERCENTAGE": "% penalización",
+      "ADD": "Añadir gasto de cancelación"
     }
   }
 }

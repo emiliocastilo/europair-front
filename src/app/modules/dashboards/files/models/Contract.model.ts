@@ -1,6 +1,8 @@
 import { Aircraft } from '../../masters/fleet/components/aircraft/models/Aircraft.model';
 import { Operator } from '../../masters/operators/models/Operator.model';
 import { ServiceType } from '../../masters/services/models/services.model';
+import { ContractCondition } from '../components/contract-detail/models/contract-condition.model';
+import { ContractConfiguration } from '../components/contract-detail/models/contract-configuration.model';
 import { Client, Provider } from './File.model';
 import { FileRoute } from './FileRoute.model';
 
@@ -17,37 +19,12 @@ export interface Contract {
   provider?: Provider;
   client?: Client;
   amount?: string;
-  configuration?: string;
+  contractConfiguration?: ContractConfiguration;
   condition?: string;
   cancelationFees?: number;
   fileId?: number;
   routeId?: number;
-  operatorId?: number;
-  aircraftId?: number;
-  cargoAirborne?: number;
-  quotedTime?: string;
-  requestTime?: string;
-  purchaseComments?: string;
-  purchasePrice?: number;
-  purchaseCommissionPercent?: number;
-  salesComments?: string;
-  salesPrice?: number;
-  salesCommissionPercent?: number;
-  salesPricewithoutIVA?: boolean;
-  includedIva?: boolean;
-  exchangeBuyType?: { code: string; description: string };
-  currency?: CurrencyEnum;
-  currencyOnSale?: CurrencyEnum;
-  operator?: Operator;
-  aircraft?: Aircraft;
-  seatingC?: number;
-  seatingF?: number;
-  seatingY?: number;
-  purchaseVATMsg?: string;
-  saleVATMsg?: string;
-  vatAmountOnPurchase?: number;
-  vatAmountOnSale?: number;
-  hasContracts?: boolean;
+  conditions?: Array<ContractCondition>
 }
 
 export enum ContractType {

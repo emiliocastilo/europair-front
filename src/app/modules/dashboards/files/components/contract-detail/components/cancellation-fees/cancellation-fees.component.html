@@ -1,25 +1,30 @@
 <core-page-bar [pageTitle]="'FILES_CONTRACT.CANCELLATION_FEES.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
-
-<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
-  {{ "COMMON.RETURN" | translate }}
-</button>
-<div class="row" *ngFor="let cancellation of cancellationFees">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE' | translate }}</label>
-      <span>{{ cancellation?.fromValue }}</span>
-    </div>
+<div class="row">
+  <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
+    {{ "COMMON.RETURN" | translate }}
+  </button>
+  <button color="primary" color="primary" class="cmd-mb-2" mat-raised-button>
+    {{ "COMMON.SAVE" | translate |sentenceCase }}
+  </button>
+</div>
+  <div class="row" *ngFor="let cancellationGroup of cancellationFeesForm?.controls; let i = index">
+    <form [formGroup]="cancellationGroup">
+      <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE' | translate" formControlName="fromValue"
+        class="col s12 l4">
+      </app-input>
+      <app-input [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT' | translate" formControlName="fromUnit"
+        class="col s12 l3">
+      </app-input>
+      <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE' | translate" formControlName="feePercentage"
+        class="col s12 l3">
+      </app-input>
+      <button color="primary" color="primary" class="col s12 l2" (click)="deleteForm(i)" mat-raised-button>
+        {{ "COMMON.DELETE" | translate |sentenceCase }}
+      </button>
+    </form>
   </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT' | translate }}</label>
-      <span>{{ cancellation?.fromUnit }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE' | translate }}</label>
-      <span>{{ cancellation?.feePercentage }}</span>
-    </div>
-  </div>
+<div class="row">
+  <button color="primary" color="primary" class="cmd-mb-2" (click)="addLineForm()" mat-raised-button>
+    {{ "FILES_CONTRACT.CANCELLATION_FEES.ADD" | translate }}
+  </button>
 </div>

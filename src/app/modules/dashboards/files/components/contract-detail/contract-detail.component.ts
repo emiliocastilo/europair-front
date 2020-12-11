@@ -4,13 +4,19 @@ import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { TimeZone } from 'src/app/core/models/base/time-zone';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
 import { Contract, ContractLine, ContractType } from '../../models/Contract.model';
 import { FileRoute, RouteStatus } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
 import { ContractLineService } from '../../services/contract-line.service';
 import { ContractsService } from '../../services/contracts.service';
 import { FlightService } from '../../services/flight.service';
+import { ContractCondition } from './models/contract-condition.model';
+import { ContractConfiguration } from './models/contract-configuration.model';
+import { ContractConditionsService } from './services/contract-condition.service';
+import { ContractConfigurationService } from './services/contract-configuration.service';
 
 @Component({
   selector: 'app-contract-detail',
@@ -23,8 +29,9 @@ export class ContractDetailComponent implements OnInit {
   public contractId: number;
   public contract: Contract;
   public fileRoutes: Array<FileRoute>;
-  public languageOptions: Array<{ id: number, name: string }> = [];
-  public dateFormatsOptions: Array<{ id: number, name: string }> = [];
+  public languageOptions: Array<string> = ['Español', 'Ingles'];
+  public dateFormatsOptions: Array<TimeZone> = [];
+  public paymentConditionOptions: Array<ContractCondition> = [];
   public paymentConditionsOptions: Array<{ id: number, name: string }> = [];
 
   private datePipe: DatePipe;
@@ -48,11 +55,11 @@ export class ContractDetailComponent implements OnInit {
 
   public configurationDataForm = this.fb.group({
     language: [''],
-    dateFormat: [''],
+    timezone: [''],
     paymentConditions: [''],
     paymentConditionsObservations: [''],
     deposit: [''],
-    expiration: ['']
+    depositExpirationDate: ['']
   });
 
   constructor(
@@ -61,8 +68,11 @@ export class ContractDetailComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly translateService: TranslateService,
     private readonly contractsService: ContractsService,
+    private readonly contractsConditionService: ContractConditionsService,
+    private readonly contractconfigurationService: ContractConfigurationService,
     private readonly contractLineService: ContractLineService,
     private readonly flightService: FlightService,
+    private readonly timeSerivce: TimeConversionService,
     @Inject(LOCALE_ID) locale: string
   ) {
     this.datePipe = new DatePipe(locale);
@@ -70,6 +80,9 @@ export class ContractDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getContractInfo();
+    this.obtainTimeZone();
+    this.obtainContractsConditions();
+    this.updateChangesContract();
   }
 
   private getContractInfo() {
@@ -99,28 +112,35 @@ export class ContractDetailComponent implements OnInit {
         this.contract = contract;
         this.title = `FILES_CONTRACT.DETAIL_TITLE_${contract.contractType}`;
         this.contractDataForm.patchValue({
-          contractDate: this.datePipe.transform(contract.contractDate, 'yyyy-MM-dd'),
-          contractSignDate: this.datePipe.transform(contract.signatureDate, 'yyyy-MM-dd'),
+          contractDate: this.datePipe.transform(contract.contractDate, 'yyyy-MM-dd') ?? '',
+          contractSignDate: this.datePipe.transform(contract.signatureDate, 'yyyy-MM-dd') ?? '',
           contractState: this.translateService.instant(`FILES_CONTRACT.CONTRACT_STATE.${contract.contractState}`),
           provider: contract.provider?.name,
           client: contract.client?.name
-        });
+        }, {emitEvent: false});
+        this.configurationDataForm.patchValue({...contract.contractConfiguration});
         this.contractLinesDataSource = new MatTableDataSource<ContractLine>(contract.contractLines);
         this.refreshLinesData();
-        this.updateChangesContract();
       });
+  }
+
+  private obtainTimeZone(): void {
+    this.timeSerivce.getTimeZones().subscribe((timeZones: TimeZone[]) => this.dateFormatsOptions = timeZones)
+  }
+  private obtainContractsConditions(): void {
+    this.contractsConditionService.getContractConditions().subscribe((pageConditions: Page<ContractCondition>) => this.paymentConditionOptions = pageConditions.content);
   }
 
   private updateChangesContract(): void {
     this.contractDataForm.get('contractDate').valueChanges.subscribe((value: string) => {
-      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: value}).subscribe(() => this.loadContract());
+      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
-    this.contractDataForm.get('signatureDate').valueChanges.subscribe((value: string) => {
-      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: value}).subscribe(() => this.loadContract());
+    this.contractDataForm.get('contractSignDate').valueChanges.subscribe((value: string) => {
+      this.contractsService.updateContract(this.fileId, { id: this.contract.id, signatureDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
   }
 
-  private refreshLinesData() {
+  private refreshLinesData(): void {
     this.contractLinesTotalAmount = this.contractLineService.getTotalPrice(this.contract.contractLines);
     this.priceControls = new FormArray(
       this.contract.contractLines.map(this.createPriceControls)
@@ -134,11 +154,7 @@ export class ContractDetailComponent implements OnInit {
   public updatePrice(index: number, field: string) {
     const control = this.getControl(this.priceControls, index, field);
     if (control.valid && control.dirty) {
-      this.contractLineService
-        .updateContractLine(
-          this.fileId,
-          this.getContractLinePriceUpdated(this.contract.contractLines[index], control)
-        )
+      this.contractLineService.updateContractLine(this.fileId, this.contractId, this.getContractLinePriceUpdated(this.contract.contractLines[index], control))
         .subscribe((_) => this.refreshScreenData());
     }
   }
@@ -148,6 +164,18 @@ export class ContractDetailComponent implements OnInit {
       ...contractLine,
       price: control.value,
     };
+  }
+
+  public saveConfiguration(): void {
+    const paymentConditionsId: number = this.configurationDataForm.value.paymentConditions;
+    const contracConfiguration: ContractConfiguration = {
+      id: this.contract.contractConfiguration?.id,
+      ...this.configurationDataForm.value,
+      paymentConditionsId
+    };
+    delete contracConfiguration.paymentConditions;
+    this.contractconfigurationService.saveContractConfiguration(this.fileId, this.contractId, contracConfiguration)
+      .subscribe(() => this.refreshScreenData());
   }
 
   public assignConditions(): void {
