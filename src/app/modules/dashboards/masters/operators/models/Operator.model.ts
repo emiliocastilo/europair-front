@@ -1,5 +1,5 @@
 import { Audit } from 'src/app/core/models/audit/audit';
-import { Airport } from '../../regions/models/airport';
+import { Airport } from '../../airports/models/airport';
 import { Fleet } from '../../fleet/models/fleet';
 
 export interface Operator extends Audit {

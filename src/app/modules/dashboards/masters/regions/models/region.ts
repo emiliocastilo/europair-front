@@ -1,4 +1,4 @@
-import { Airport } from './airport';
+import { Airport } from '../../airports/models/airport';
 import { Country } from '../../countries/models/country';
 
 export interface Region {

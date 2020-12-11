@@ -31,6 +31,7 @@ export class SearchAirportsComponent implements ControlValueAccessor {
   @Input() public notFoundText: string = 'No items found';
   @Input() public dropdownPosition: 'bottom' | 'top' | 'auto' = 'auto';
   @Input() public clearable = true;
+  @Input() public hideSelected = false;
 
   @Output() selectedValueEvent: EventEmitter<any> = new EventEmitter();
 

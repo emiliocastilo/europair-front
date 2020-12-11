@@ -13,6 +13,9 @@ import { ModalComponent } from 'src/app/core/components/modal/modal.component';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-regions',
@@ -27,17 +30,18 @@ export class RegionsComponent implements OnInit {
 
   public regionColumnsHeader: ColumnHeaderModel[] = [];
   public regionColumnsData: RowDataModel[] = [];
-  public regionColumnsPagination: PaginationModel;
+  public regionPagination: PaginationModel;
   public regions: Region[];
   public regionSelected: Region = EMPTY_REGION;
   public regionDetailTitle: string;
+  private regionFilter: any = { page: 0 };
 
   public barButtons: BarButton[];
 
   public regionForm = this.fb.group({
+    id: [null],
     code: ['', Validators.required],
     name: ['', Validators.required],
-    airports: ['']
   });
 
   constructor(
@@ -50,7 +54,7 @@ export class RegionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtainTranslateText();
-    this.initializeRegionsTable();
+    this.initializeRegionsTable(this.regionFilter);
     this.initializeTablesColumnsHeader();
   }
 
@@ -70,14 +74,17 @@ export class RegionsComponent implements OnInit {
     this.regionColumnsHeader = this.regionsTableAdapterService.getRegionColumnsHeader();
   }
 
-  private initializeRegionsTable() {
-    this.regionsService.getRegions().subscribe((data: Page<Region>) => this.getRegionTableData(data.content));
+  private initializeRegionsTable(searchFilter?: SearchFilter) {
+    this.regionsService.getRegions(searchFilter).subscribe((data: Page<Region>) => this.getRegionTableData(data));
   }
 
-  private getRegionTableData = (regions: Region[]) => {
-    this.regions = regions;
-    this.regionColumnsData = this.regionsTableAdapterService.getRegionTableDataFromRegions(regions);
-    this.regionColumnsPagination = this.initializeClientTablePagination(this.regionColumnsData);
+  private getRegionTableData = (page: Page<Region>) => {
+    this.regions = page.content;
+    this.regionColumnsData = this.regionsTableAdapterService.getRegionTableDataFromRegions(this.regions);
+    if (!this.regionPagination || this.regionPagination.lastPage !== page.totalPages) {
+      this.regionPagination = this.regionsTableAdapterService.getPagination();
+      this.regionPagination.lastPage = page.totalPages;
+    }
   };
 
   private initializeModal(modalContainer: ElementRef) {
@@ -102,8 +109,29 @@ export class RegionsComponent implements OnInit {
     this.barButtonActions[barButtonType]();
   }
 
+  public onChangePage(page: number): void {
+    console.log('PAGE', page, this.regionPagination);
+    if (page !== this.regionFilter['page']) {
+      this.regionFilter['page'] = page;
+      this.filterRegionTable();
+    }
+  }
+
+  public onFilterRegions(regionFilter: ColumnFilter) {
+    this.regionFilter[regionFilter.identifier] = regionFilter.searchTerm;
+    this.filterRegionTable();
+  }
+
+  public onSortRegions(sortByColumn: SortByColumn) {
+    this.regionFilter['sort'] = sortByColumn.column + ',' + sortByColumn.order;
+    this.filterRegionTable();
+  }
+
+  private filterRegionTable(): void {
+    this.initializeRegionsTable(this.regionFilter);
+  }
+
   public onRegionAction(action: { actionId: string; selectedItem: number }) {
-    console.log('onRegionAction', action);
     this.regionSelected = { ...this.regions[action.selectedItem] };
     this.regionTableActions[action.actionId](action.selectedItem);
   }
@@ -120,13 +148,12 @@ export class RegionsComponent implements OnInit {
   };
 
   public onConfirmDeleteRegion() {
-    console.log('REGION ELIMINADA', this.regionSelected);
-    this.regionsService.deleteRegion(this.regionSelected).subscribe(() => this.initializeRegionsTable());
+    this.regionsService.deleteRegion(this.regionSelected).subscribe(() => this.filterRegionTable());
   }
 
   public onSaveRegion(newRegion: Region) {
     const saveRegion: Observable<Region> = newRegion.id === null ? this.regionsService.addRegion(newRegion) : this.regionsService.editRegion(newRegion);
-    saveRegion.subscribe((region: Region) => this.initializeRegionsTable());
+    saveRegion.subscribe((region: Region) => this.filterRegionTable());
   }
 
   private regionTableActions = {
@@ -142,17 +169,9 @@ export class RegionsComponent implements OnInit {
 
   private updateRegionrForm(selectedRegion: Region) {
     this.regionForm.setValue({
+      id: selectedRegion.id,
       code: selectedRegion.code,
-      name: selectedRegion.name,
-      airports: selectedRegion.airports
+      name: selectedRegion.name
     });
-  }
-
-  private initializeClientTablePagination(
-    model: RowDataModel[]
-  ): PaginationModel {
-    const pagination = this.regionsTableAdapterService.getPagination();
-    pagination.lastPage = model.length / pagination.elementsPerPage;
-    return pagination;
   }
 }
