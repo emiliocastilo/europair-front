@@ -8,7 +8,10 @@
   <core-table
     [columnsHeader]="regionColumnsHeader"
     [columnsData]="regionColumnsData"
-    [pagination]="regionColumnsPagination"
+    [pagination]="regionPagination"
+    (changePage)="onChangePage($event)"
+    (search)="onFilterRegions($event)"
+    (sortByColumn)="onSortRegions($event)"
     (executeActionEmitter)="onRegionAction($event)">
   </core-table>
 </section>

@@ -24,15 +24,19 @@ export class RegionsTableAdapterService {
       ),
       new ColumnHeaderModel(
         'region-code-header',
-        'text',
+        'search',
         'REGIONS.CODE',
-        new ColumnHeaderSizeModel('3', '3', '3')
+        new ColumnHeaderSizeModel('3', '3', '3'),
+        'filter_code',
+        'code'
       ),
       new ColumnHeaderModel(
         'region-name-header',
-        'text',
+        'search',
         'REGIONS.NAME',
-        new ColumnHeaderSizeModel('6', '6', '6')
+        new ColumnHeaderSizeModel('6', '6', '6'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -64,6 +68,11 @@ export class RegionsTableAdapterService {
   }
 
   public getPagination() {
-    return new PaginationModel(true, 1, 3, 5, 10);
+    const clientPagination: boolean = false;
+    const initPage: number = 1;
+    const visiblePages: number = 4;
+    const lastPage: number = 1;
+    const elementsPerPage: number = 20;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
 }

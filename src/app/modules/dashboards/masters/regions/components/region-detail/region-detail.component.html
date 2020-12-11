@@ -11,7 +11,7 @@
       <form [formGroup]="regionForm">
         <div class="row">
           <core-basic-input-text [id]="'region-code'" [label]="'REGIONS.CODE' | translate" formControlName="code"
-            [hasErrors]="hasControlAnyError('code')">
+            [hasErrors]="hasControlAnyError('code')" [maxlength]="'4'">
             <ng-container inputErrors>
               <ng-container *ngIf="hasControlAnyError('code')">
                 <span *ngIf="hasControlSpecificError('code', 'required')" class="helper-text"

@@ -4,6 +4,9 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { environment } from 'src/environments/environment';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +14,20 @@ import { environment } from 'src/environments/environment';
 export class RegionsService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}regions`;
+  private readonly filterOptions: FilterOptions = {
+    filter_code: OperatorEnum.CONTAINS,
+    filter_name: OperatorEnum.CONTAINS,
+    } as const;
 
-  constructor(private readonly httpClient: HttpClient) { }
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly searchFilterService: SearchFilterService) { }
 
-  public getRegions(): Observable<Page<Region>> {
+  public getRegions(searchFilter: SearchFilter = {}): Observable<Page<Region>> {
     const url: string = this.mocked ? '/assets/mocks/regions.json' : this.url;
-    return this.httpClient.get<Page<Region>>(url);
+    return this.httpClient.get<Page<Region>>(url, {
+      params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions)
+    });
   }
 
   public addRegion(region: Region): Observable<Region> {
