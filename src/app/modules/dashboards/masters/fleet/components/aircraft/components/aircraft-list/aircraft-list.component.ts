@@ -75,7 +75,7 @@ export class AircraftListComponent implements OnInit {
     'filter_aircraftType.subcategory.code': [''],
     filter_plateNumber: [''],
     filter_productionYear: [''],
-    filter_outsideUpgradeYear: [''],
+    filter_insideUpgradeYear: [''],
     filter_quantity: [''],
     'filter_bases.airport.id': [''],
     'filter_operator.id': [''],
