@@ -59,7 +59,7 @@ export class TasksTableAdapterService implements OnDestroy {
   }
 
   public getPagination() {
-    return new PaginationModel(true, 1, 3, 5, 10);
+    return new PaginationModel(true, 1, 3, 1, 10);
   }
 
   public getTaskTableDataFromTasks(tasks: Task[]): RowDataModel[] {

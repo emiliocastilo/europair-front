@@ -11,6 +11,7 @@
       [columnsData]="roleColumnsData"
       [pagination]="rolePagination"
       (selectedItem)="onRoleSelected($event)"
+      (selectedItems)="onRolesSelected($event)"
       (executeActionEmitter)="onRoleAction($event)">
     </core-table>
   </section>
@@ -29,7 +30,7 @@
   [taskColumnsData]="roleDetailTaskColumnsData"
   [tasks]="tasks"
   [roleDetail]="roleSelected"
-  [pagination]="taskPagination"
+  [pagination]="roleDetailTaskPagination"
   (saveRole)="onSaveRole($event)">
 </app-role-detail>
 
