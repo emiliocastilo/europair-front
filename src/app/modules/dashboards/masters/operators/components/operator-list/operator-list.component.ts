@@ -43,13 +43,13 @@ export class OperatorListComponent implements OnInit {
 
   public operatorColumnsHeader: ColumnHeaderModel[] = [];
   public operatorColumnsData: RowDataModel[] = [];
-  public operatorColumnsPagination: PaginationModel;
+  public operatorPagination: PaginationModel;
 
   public operatorDetailTitle: string;
   public operators: Operator[] = [];
   public selectedItems: number[] = [];
   public translationParams = {};
-  private operatorFilter = {};
+  private operatorFilter = { page: 0 };
 
 
   private barButtonActions = {
@@ -67,6 +67,7 @@ export class OperatorListComponent implements OnInit {
     filter_icaoCode: [''],
     filter_name: [''],
     filter_removedAt: [null],
+    page: [0]
   });
   public operatorSortForm = this.fb.group({
     sort: [''],
@@ -114,14 +115,15 @@ export class OperatorListComponent implements OnInit {
     });
   }
 
-  private getOperatorTableData(operators: Page<Operator>) {
-    this.operators = operators.content;
+  private getOperatorTableData(page: Page<Operator>) {
+    this.operators = page.content;
     this.operatorColumnsData = this.operatorTableAdapter.getOperatorTableDataFromOperators(
-      operators.content
+      this.operators
     );
-    this.operatorColumnsPagination = this.initializeClientTablePagination(
-      this.operatorColumnsData
-    );
+    if (!this.operatorPagination || this.operatorPagination.lastPage !== page.totalPages) {
+      this.operatorPagination = this.operatorTableAdapter.getPagination();
+      this.operatorPagination.lastPage = page.totalPages;
+    }
   }
 
   private disableOperator(selectedItem: number) {
@@ -147,6 +149,13 @@ export class OperatorListComponent implements OnInit {
 
   public onBarButtonClicked(barButtonType: BarButtonType) {
     this.barButtonActions[barButtonType].bind(this)();
+  }
+
+  public onChangePage(page: number): void {
+    if (page !== this.operatorFilter['page']) {
+      this.operatorFilter['page'] = page;
+      this.filterOperatorTable();
+    }
   }
 
   public onSearch(value: string): void {
@@ -178,20 +187,11 @@ export class OperatorListComponent implements OnInit {
     console.log('DELETING OPERATORS ', this.selectedItems.map(item => this.operators[item].id));
   }
 
-  private initializeClientTablePagination(
-    model: RowDataModel[]
-  ): PaginationModel {
-    const pagination = this.operatorTableAdapter.getPagination();
-    pagination.lastPage = model.length / pagination.elementsPerPage;
-    return pagination;
-  }
-
   private filterOperatorTable(): void {
     this.operatorAdvancedSearchForm.patchValue(this.operatorFilter);
     const filter = {
       ...this.operatorAdvancedSearchForm.value,
-      ...this.operatorSortForm.value,
-      size: '30000'
+      ...this.operatorSortForm.value
     };
     this.initializeOperatorsTable(filter);
   }
