@@ -12,6 +12,9 @@ import { CityTableAdapterService } from './services/city-table-adapter.service';
 import { PaginationModel } from 'src/app/core/models/table/pagination/pagination.model';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { TranslateService } from '@ngx-translate/core';
+import { ColumnFilter } from 'src/app/core/models/table/columns/column-filter';
+import { SortByColumn } from 'src/app/core/models/table/sort-button/sort-by-column';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 
 @Component({
   selector: 'app-cities',
@@ -25,7 +28,6 @@ export class CitiesComponent implements OnInit {
   @ViewChild(ModalComponent, { static: true, read: ElementRef })
   private readonly confirmDeleteModal: ElementRef;
 
-  public userData = { userName: 'Usuario', userRole: 'Administrador' };
   public cityColumnsHeader: Array<ColumnHeaderModel>;
   public citiesColumnsData: Array<RowDataModel>;
   public citiesSelectedCount = 0;
@@ -34,6 +36,7 @@ export class CitiesComponent implements OnInit {
   public barButtons: BarButton[];
   public cityDetailTitle: string;
   public citySelected: City = EMPTY_CITY;
+  private cityFilter: any = { page: 0 };
 
   private selectedItem: number;
   private cities: Array<City>;
@@ -52,7 +55,8 @@ export class CitiesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtainTranslateText();
-    this.initializeCityTable();
+    this.initializeTablesColumnsHeader();
+    this.initializeCityTable(this.cityFilter);
   }
 
   private obtainTranslateText() {
@@ -67,13 +71,18 @@ export class CitiesComponent implements OnInit {
     });
   }
 
-  private initializeCityTable(): void {
+  private initializeTablesColumnsHeader() {
     this.cityColumnsHeader = this.cityTableAdapterService.getCityColumnsHeader();
-    this.citiesService.getCities({size: '30000'}).subscribe((data: Page<City>) => {
-      this.cities = data.content;
+  }
+
+  private initializeCityTable(searchFilter?: SearchFilter): void {
+    this.citiesService.getCities(searchFilter).subscribe((page: Page<City>) => {
+      this.cities = page.content;
       this.citiesColumnsData = this.cityTableAdapterService.getCityTableData(this.cities);
-      this.cityPagination = this.cityTableAdapterService.getPagination();
-      this.cityPagination.lastPage = this.cities.length / this.cityPagination.elementsPerPage;
+      if (!this.cityPagination || this.cityPagination.lastPage !== page.totalPages) {
+        this.cityPagination = this.cityTableAdapterService.getPagination();
+        this.cityPagination.lastPage = page.totalPages;
+      }
     });
   }
 
@@ -84,7 +93,7 @@ export class CitiesComponent implements OnInit {
     } else {
       city$ = this.citiesService.editCity(city);
     }
-    city$.subscribe((data: City) => this.initializeCityTable());
+    city$.subscribe((data: City) => this.filterCityTable());
   }
 
   public getCities(): Array<City> {
@@ -106,6 +115,28 @@ export class CitiesComponent implements OnInit {
     this.modalService.initializeModal(modalContainer, {
       dismissible: false,
     });
+  }
+
+  public onChangePage(page: number): void {
+    console.log('PAGE', page, this.cityPagination);
+    if (page !== this.cityFilter['page']) {
+      this.cityFilter['page'] = page;
+      this.filterCityTable();
+    }
+  }
+
+  public onFilterCities(regionFilter: ColumnFilter) {
+    this.cityFilter[regionFilter.identifier] = regionFilter.searchTerm;
+    this.filterCityTable();
+  }
+
+  public onSortCities(sortByColumn: SortByColumn) {
+    this.cityFilter['sort'] = sortByColumn.column + ',' + sortByColumn.order;
+    this.filterCityTable();
+  }
+
+  private filterCityTable(): void {
+    this.initializeCityTable(this.cityFilter);
   }
 
   public onCitySelected(selectedIndex: number): void {
@@ -137,7 +168,7 @@ export class CitiesComponent implements OnInit {
 
   public onConfirmDeleteCity(): void {
     this.citiesService.deleteCity(this.cities[this.selectedItem]).subscribe(() => {
-      this.initializeCityTable();
+      this.filterCityTable();
     });
   }
 }

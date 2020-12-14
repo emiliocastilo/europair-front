@@ -155,6 +155,10 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
     }
   }
 
+  public isCountrySpainSelected(): boolean {
+    return this.generalDataForm.get('country')?.value?.code === 'ES';
+  }
+
   public hasControlAnyError(controlName: string): boolean {
     const control = this.generalDataForm.get(controlName);
     return control && control.invalid && (control.dirty || control.touched);

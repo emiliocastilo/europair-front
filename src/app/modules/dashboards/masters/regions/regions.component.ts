@@ -110,7 +110,6 @@ export class RegionsComponent implements OnInit {
   }
 
   public onChangePage(page: number): void {
-    console.log('PAGE', page, this.regionPagination);
     if (page !== this.regionFilter['page']) {
       this.regionFilter['page'] = page;
       this.filterRegionTable();

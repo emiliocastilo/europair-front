@@ -33,6 +33,7 @@ export class RolesComponent implements OnInit {
   public roleDetailTaskColumnsData: RowDataModel[] = [];
   public rolePagination: PaginationModel;
   public taskPagination: PaginationModel;
+  public roleDetailTaskPagination: PaginationModel;
   public rolesSelectedCount = 0;
   private roles: Role[];
   public tasks: Task[];
@@ -75,7 +76,10 @@ export class RolesComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtainTranslateText();
+    this.initializeTablesPagination();
+    this.initializeRoleTableHeaders();
     this.initializeRoleTable();
+    this.initializeTaskTableHeaders();
     this.initializeTaskTable();
   }
 
@@ -91,29 +95,38 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  private initializeRoleTable() {
+  private initializeTablesPagination() {
+    this.taskPagination = this.rolesTableAdapterService.getPagination();
+    this.roleDetailTaskPagination = this.rolesTableAdapterService.getPagination();
+    this.rolePagination = this.rolesTableAdapterService.getPagination();
+  }
+
+  private initializeRoleTableHeaders() {
     this.roleColumnsHeader = this.rolesTableAdapterService.getRoleColumnsHeader();
+  }
+
+  private initializeRoleTable() {
     this.rolesService.getRoles().subscribe((roles) => {
       this.roles = roles['content'];
       this.roleColumnsData = this.rolesTableAdapterService.getRoleTableDataFromRoles(
         roles['content']
       );
-      this.rolePagination = this.rolesTableAdapterService.getPagination();
-      this.rolePagination.lastPage = this.roles.length / this.rolePagination.elementsPerPage
+      this.rolePagination = {...this.rolePagination, lastPage: this.roles.length / this.rolePagination.elementsPerPage};
       if (this.selectedItem >= 0) {
         this.onRoleSelected(this.selectedItem);
       }
     });
   }
 
-  private initializeTaskTable() {
+  private initializeTaskTableHeaders() {
     this.taskColumnsHeader = this.rolesTableAdapterService.getTaskColumnsHeader();
+  }
+
+  private initializeTaskTable() {
     this.taskService
       .getTasks()
       .subscribe((tasks) => {
         this.tasks = tasks['content']
-        this.taskPagination = this.rolesTableAdapterService.getPagination();
-        this.taskPagination.lastPage = this.tasks.length / this.taskPagination.elementsPerPage;
       });
   }
 
@@ -129,6 +142,10 @@ export class RolesComponent implements OnInit {
       true,
       'assigned-editable-'
     );
+    this.roleDetailTaskPagination = {
+      ...this.roleDetailTaskPagination, 
+      lastPage: this.roleDetailTaskColumnsData.length / this.roleDetailTaskPagination.elementsPerPage
+    };
     this.initializeModal(this.roleDetailModal);
   }
 
@@ -139,13 +156,22 @@ export class RolesComponent implements OnInit {
   }
 
   public onRoleSelected(selectedIndex: number) {
-    this.selectedItem = selectedIndex;
-    this.taskColumnsData = this.rolesTableAdapterService.getTasksOfRole(
-      this.tasks,
-      this.roles[selectedIndex],
-      false,
-      'assigned-'
-    );
+  }
+
+  public onRolesSelected(selectedIndexes: number[]) {
+    console.log(selectedIndexes);
+    if(selectedIndexes.length !== 1) {
+      this.taskColumnsData = [];
+    } else {
+      this.selectedItem = selectedIndexes[0];
+      this.taskColumnsData = this.rolesTableAdapterService.getTasksOfRole(
+        this.tasks,
+        this.roles[this.selectedItem],
+        false,
+        'assigned-'
+      );
+    }
+    this.taskPagination = {...this.taskPagination, lastPage: this.taskColumnsData.length / this.taskPagination.elementsPerPage};
   }
 
   public onRoleAction(action: { actionId: string; selectedItem: number }) {

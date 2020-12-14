@@ -16,8 +16,9 @@ export class CitiesService {
   private readonly url = `${environment.apiUrl}cities`;
   private readonly filterOptions: FilterOptions = {
     filter_name: OperatorEnum.CONTAINS,
-    'filter_country.id': OperatorEnum.EQUALS,
-    size: OperatorEnum.EMPTY
+    filter_code: OperatorEnum.CONTAINS,
+    'filter_country.name': OperatorEnum.CONTAINS,
+    'filter_country.id': OperatorEnum.EQUALS
   } as const;
 
   constructor(private readonly httpClient: HttpClient, private searchFilterService: SearchFilterService) { }

@@ -50,7 +50,7 @@ export class TableComponent implements OnInit {
       } else {
         this.onChangePage(1);
       }
-    } else if (changes.columnsData && !this.pagination.clientPagination) {
+    } else if (changes.columnsData && !this.pagination?.clientPagination) {
       this.columnsDataToShow = this.columnsData;
     }
   }

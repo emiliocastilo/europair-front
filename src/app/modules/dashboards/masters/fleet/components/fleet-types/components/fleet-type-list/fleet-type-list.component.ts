@@ -56,6 +56,8 @@ export class FleetTypeListComponent implements OnInit {
   public typeAdvancedSearchForm = this.fb.group({
     filter_code: [''],
     filter_description: [''],
+    filter_iataCode: [''],
+    filter_icaoCode: [''],
     'filter_category.name': [''],
     'filter_subcategory.name': [''],
     filter_flightRange: [''],

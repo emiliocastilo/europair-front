@@ -7,7 +7,8 @@
   <core-table
     [columnsHeader]="operatorColumnsHeader"
     [columnsData]="operatorColumnsData"
-    [pagination]="operatorColumnsPagination"
+    [pagination]="operatorPagination"
+    (changePage)="onChangePage($event)"
     (search)="onFilterOperators($event)"
     (sortByColumn)="onSortOperators($event)"
     (selectedItems)="onOperatorsSelected($event)"

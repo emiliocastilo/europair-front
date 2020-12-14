@@ -24,7 +24,7 @@ export class AircraftService {
     'filter_aircraftType.subcategory.code': OperatorEnum.CONTAINS,
     filter_plateNumber: OperatorEnum.CONTAINS,
     filter_productionYear: OperatorEnum.EQUALS,
-    filter_outsideUpgradeYear: OperatorEnum.EQUALS,
+    filter_insideUpgradeYear: OperatorEnum.EQUALS,
     filter_quantity: OperatorEnum.EQUALS,
     'filter_bases.airport.id': OperatorEnum.EQUALS,
     'filter_operator.id': OperatorEnum.EQUALS,

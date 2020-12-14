@@ -8,6 +8,7 @@ import { SearchFilter, FilterOptions } from 'src/app/core/models/search/search-f
 import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { filter } from 'rxjs/operators';
+import { Page } from 'src/app/core/models/table/pagination/page';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +25,9 @@ export class TasksService {
     });
   }
 
-  public getScreens(searchFilter: SearchFilter = {}): Observable<Screen[]> {
+  public getScreens(searchFilter: SearchFilter = {}): Observable<Page<Screen>> {
     const url = environment.apiUrl + 'screens';
-    return this.http.get<Screen[]>(url, {
+    return this.http.get<Page<Screen>>(url, {
       params: this.searchFilterService.createHttpParams(searchFilter, this.filterOptions),
     });
   }

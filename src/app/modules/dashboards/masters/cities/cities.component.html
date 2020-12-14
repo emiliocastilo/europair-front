@@ -4,7 +4,13 @@
 </core-button-bar>
 <section class="cities-tables-container cmd-mt-1">
   <section class="cities-table">
-    <core-table [columnsHeader]="cityColumnsHeader" [columnsData]="citiesColumnsData" [pagination]="cityPagination"
+    <core-table 
+      [columnsHeader]="cityColumnsHeader"
+      [columnsData]="citiesColumnsData" 
+      [pagination]="cityPagination"
+      (changePage)="onChangePage($event)"
+      (search)="onFilterCities($event)"
+      (sortByColumn)="onSortCities($event)"
       (selectedItem)="onCitySelected($event)" (executeActionEmitter)="onCityAction($event)">
     </core-table>
   </section>
