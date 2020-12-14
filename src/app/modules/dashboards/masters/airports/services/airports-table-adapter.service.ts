@@ -118,7 +118,7 @@ export class AirportsTableAdapterService {
   }
 
   public getPagination() {
-    const clientPagination: boolean = true;
+    const clientPagination: boolean = false;
     const initPage: number = 1;
     const visiblePages: number = 4;
     const lastPage: number = 5;
