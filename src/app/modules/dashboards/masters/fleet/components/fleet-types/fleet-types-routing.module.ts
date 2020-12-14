@@ -21,7 +21,7 @@ const routes: Routes = [
           import(
             './components/fleet-type-detail/fleet-type-detail.module'
           ).then((m) => m.FleetTypeDetailModule),
-        data: { title: 'Nuevo Tipo', isFleetTypeDetail: false },
+        data: { title: 'FLEET.TYPES.NEW', isFleetTypeDetail: false },
       },
       {
         path: ':typeId',
@@ -29,7 +29,7 @@ const routes: Routes = [
           import(
             './components/fleet-type-detail/fleet-type-detail.module'
           ).then((m) => m.FleetTypeDetailModule),
-        data: { title: 'Detalles Tipo', isFleetTypeDetail: true },
+        data: { title: 'FLEET.TYPES.DETAIL', isFleetTypeDetail: true },
       },
     ],
   },

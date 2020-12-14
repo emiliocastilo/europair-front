@@ -15,9 +15,9 @@
       "CONDITIONS": "Condiciones",
       "FLEET": {
         "TITLE": "Flota",
-        "AIRCRAFT": "Flota",
-        "CATEGORIES": "Categorías",
-        "TYPES": "Tipos"
+        "AIRCRAFT": "Flotas",
+        "CATEGORIES": "Categorías avión",
+        "TYPES": "Modelos avión"
       }
     },
     "FILES": {
@@ -385,7 +385,7 @@
   },
   "FLEET": {
     "CATEGORIES": {
-      "PAGE_TITLE": "Categorías",
+      "PAGE_TITLE": "Categorías avión",
       "CREATE_CATEGORY": "Crear categoría",
       "EDIT_CATEGORY": "Editar categoría",
       "NEW_CATEGORY": "Nueva categoría",
@@ -421,7 +421,7 @@
       }
     },
     "AIRCRAFTS": {
-      "PAGE_TITLE": "Flota",
+      "PAGE_TITLE": "Flotas",
       "CREATE": "Crear aeronave",
       "VIEW_AIRCRAFT": "Detalle aeronave",
       "EDIT_AIRCRAFT": "Editar aeronave",
@@ -477,12 +477,13 @@
       }
     },
     "TYPES": {
-      "PAGE_TITLE": "Tipos",
-      "NEW": "Nuevo tipo",
+      "PAGE_TITLE": "Modelos avión",
+      "NEW": "Nuevo modelo",
+      "DETAIL": "Detalle de modelo",
       "DELETE": "Eliminar",
       "CONFIRM_DELETE": "Confirmar eliminación",
-      "MSG_DELETE": "¿Está seguro que desea eliminar el tipo <b>{{ type }}</b> ?",
-      "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes tipos?",
+      "MSG_DELETE": "¿Está seguro que desea eliminar el modelo <b>{{ type }}</b> ?",
+      "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes modelos?",
       "CODE": "Código",
       "DESCRIPTION": "Descripción",
       "CATEGORY": "Categoría",
