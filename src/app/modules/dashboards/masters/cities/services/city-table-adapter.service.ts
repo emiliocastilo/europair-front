@@ -22,21 +22,27 @@ export class CityTableAdapterService {
       ),
       new ColumnHeaderModel(
         'task-header',
-        'text',
+        'search',
         'CITIES.CODE',
-        new ColumnHeaderSizeModel('2', '2', '1')
+        new ColumnHeaderSizeModel('2', '2', '1'),
+        'filter_code',
+        'code'
       ),
       new ColumnHeaderModel(
         'task-header',
-        'text',
+        'search',
         'CITIES.CITY',
-        new ColumnHeaderSizeModel('4', '4', '4')
+        new ColumnHeaderSizeModel('4', '4', '4'),
+        'filter_name',
+        'name'
       ),
       new ColumnHeaderModel(
         'task-header',
-        'text',
+        'search',
         'CITIES.COUNTRY',
-        new ColumnHeaderSizeModel('3', '3', '4')
+        new ColumnHeaderSizeModel('3', '3', '4'),
+        'filter_country.name',
+        'country.name'
       ),
       new ColumnHeaderModel(
         'actions-header',
@@ -72,10 +78,10 @@ export class CityTableAdapterService {
   }
 
   public getPagination(){
-    const clientPagination: boolean = true;
+    const clientPagination: boolean = false;
     const initPage: number = 1;
     const visiblePages: number = 4;
-    const lastPage: number = 5;
+    const lastPage: number = 1;
     const elementsPerPage: number = 10;
     return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
