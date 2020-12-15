@@ -158,9 +158,6 @@ export class TasksComponent implements OnInit {
   private initializeScreenTable(searchFilter?: SearchFilter) {
     this.taskService.getScreens(searchFilter).subscribe((screens) => {
       this.screens = screens['content'];
-      this.screenColumnsPagination = {...this.screenColumnsPagination, 
-        lastPage: this.screens.length / this.screenColumnsPagination.elementsPerPage
-      };
       if(this.taskSelected) {
         this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
           this.screens,
