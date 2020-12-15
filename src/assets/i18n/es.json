@@ -68,6 +68,7 @@
     "REMOVE_CONTRIBUTION": "Eliminar cotización",
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
+    "REMOVE_CANCELLATION_FEE": "Eliminar gasto de cancelación",
     "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
   },
   "AIRPORTS": {
@@ -967,7 +968,14 @@
       "FROM_VALUE": "Desde",
       "FROM_UNIT": "Unidades",
       "FEE_PERCENTAGE": "% penalización",
-      "ADD": "Añadir gasto de cancelación"
+      "NEW": "Nuevo gasto de cancelación",
+      "ERRORS": {
+        "FROM_VALUE_REQ": "Debe indicar un número",
+        "FROM_VALUE_MIN": "El número debe ser positivo",
+        "FROM_UNIT_REQ": "Debe indicar unidades",
+        "FEE_PERCENTAGE_REQ": "Debe indicar un % de penalización",
+        "FEE_PERCENTAGE_MIN": "El % de penalización debe ser mayor que 0"
+      }
     }
   }
 }

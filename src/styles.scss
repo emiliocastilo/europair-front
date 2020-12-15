@@ -365,6 +365,10 @@ label {
   }
 }
 
+.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background, .mat-checkbox-checked.mat-primary .mat-checkbox-background {
+  background-color: $europair-color-blue-dark-1;
+}
+
 // MATERIALIZE CSS H4
 h4 {
   font-size: 2.28rem !important;

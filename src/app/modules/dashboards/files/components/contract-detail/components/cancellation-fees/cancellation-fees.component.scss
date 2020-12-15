@@ -59,4 +59,18 @@
   font-weight: bold;
 }
 
-@include mat-table-columns(("code", "description", "status-name"));
+.mat-column-actions {
+  max-height: 23px;
+  .mat-icon {
+    cursor: pointer;
+    padding-right: 8px;
+    fill: none;
+    stroke: red;
+  }
+}
+
+.selected-row {
+  background-color: $europair-color-blue-light-3 !important;
+}
+
+@include mat-table-columns(("selection", "fromValue", "fromUnit", "feePercentage"));

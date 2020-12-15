@@ -12,7 +12,6 @@ import { CancellationFees } from '../models/cancellation-fees.model';
   providedIn: 'root',
 })
 export class CancellationFeesService {
-  private readonly mocked: boolean = true;
   private readonly url = `${environment.apiUrl}contract-cancel-fee`;
   private readonly filterOptions: FilterOptions = {
     filter_name: OperatorEnum.CONTAINS,
@@ -26,7 +25,8 @@ export class CancellationFeesService {
   ) {}
 
   public getCancellationFees(searchFilter: SearchFilter = {}): Observable<Page<CancellationFees>> {
-    const url: string = this.mocked ? '/assets/mocks/cancellation-fees.json' : this.url;
+    // const url: string = environment.mock ? '/assets/mocks/cancellation-fees.json' : this.url;
+    const url: string = true ? '/assets/mocks/cancellation-fees.json' : this.url;
     return this.http.get<Page<CancellationFees>>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,
