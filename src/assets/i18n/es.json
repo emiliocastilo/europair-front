@@ -930,7 +930,7 @@
     "START_DATE": "Fecha inicio",
     "END_DATE": "Fecha fin",
     "PRICE": "Precio",
-    "DATE": "Fecha",
+    "EMISSION_DATE": "Fecha emisión",
     "CLIENT": "Cliente",
     "CONTRACT_STATE": {
       "PENDING": "Pendiente",
