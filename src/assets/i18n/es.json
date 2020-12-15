@@ -976,6 +976,7 @@
         "FEE_PERCENTAGE_REQ": "Debe indicar un % de penalización",
         "FEE_PERCENTAGE_MIN": "El % de penalización debe ser mayor que 0"
       }
-    }
+    },
+    "DATE": "Fecha"
   }
 }

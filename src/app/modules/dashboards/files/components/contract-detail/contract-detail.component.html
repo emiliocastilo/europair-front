@@ -1,9 +1,9 @@
 <core-page-bar [pageTitle]=" title | translate: {code: contract?.code}"></core-page-bar>
-<div class="row">
-  <button class="col s2 l2 cmd-mb-1" color="primary" mat-raised-button [routerLink]="['/files/', fileId]">
+<section class="row cmd-mb-2">
+  <button color="primary" mat-raised-button [routerLink]="['/files/', fileId]">
     {{ "COMMON.RETURN" | translate }}
   </button>
-</div>
+</section>
 <mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
   <mat-expansion-panel-header>
     <mat-panel-title>
@@ -233,10 +233,10 @@
   </div>
 </mat-expansion-panel>
 <div class="row">
-  <button class="col s2 l2 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
+  <button class="col s5 l2 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
     {{ "FILES_CONTRACT.ASSIGN_CONDITIONS" | translate }}
   </button>
-  <button class="col s2 l2 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
+  <button class="col s5 l2 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
     {{ "FILES_CONTRACT.CANCELLATIONS_FEES" | translate }}
   </button>
 </div>
