@@ -15,9 +15,9 @@
       "CONDITIONS": "Condiciones",
       "FLEET": {
         "TITLE": "Flota",
-        "AIRCRAFT": "Flota",
-        "CATEGORIES": "Categorías",
-        "TYPES": "Tipos"
+        "AIRCRAFT": "Flotas",
+        "CATEGORIES": "Categorías avión",
+        "TYPES": "Modelos avión"
       }
     },
     "FILES": {
@@ -70,6 +70,8 @@
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
     "REMOVE_CANCELLATION_FEE": "Eliminar gasto de cancelación",
+    "REMOVE_COUNTRY_FROM_REGION": "Quitar país de la región",
+    "REMOVE_AIRPORT_FROM_REGION": "Quitar aeropuerto de la región",
     "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
   },
   "AIRPORTS": {
@@ -127,7 +129,7 @@
     "BASES": "Bases",
     "OPERATOR": "operador",
     "OPERATOR_PLACEHOLDER": "Selecciona a un Operador",
-    "QUANTITY": "cantidad",
+    "QUANTITY": "unidades",
     "AIRCRAFT_TYPE": "tipo",
     "AIRCRAFT_TYPE_PLACEHOLDER": "Selecciona a un Tipo",
     "INSURANCE_END_DATE": "Caducidad del seguro",
@@ -329,7 +331,8 @@
       "NAME": "Debe indicar el nombre de la región",
       "COUNTRY": "Debe indicar el país al que pertenece la Ciudad"
     },
-    "AIRPORT_CODE": "IATA",
+    "AIRPORT_IATA": "IATA",
+    "AIRPORT_ICAO": "ICAO",
     "AIRPORT_NAME": "Nombre",
     "COUNTRY_CODE": "Código",
     "COUNTRY_NAME": "Nombre",
@@ -384,7 +387,7 @@
   },
   "FLEET": {
     "CATEGORIES": {
-      "PAGE_TITLE": "Categorías",
+      "PAGE_TITLE": "Categorías avión",
       "CREATE_CATEGORY": "Crear categoría",
       "EDIT_CATEGORY": "Editar categoría",
       "NEW_CATEGORY": "Nueva categoría",
@@ -420,7 +423,7 @@
       }
     },
     "AIRCRAFTS": {
-      "PAGE_TITLE": "Flota",
+      "PAGE_TITLE": "Flotas",
       "CREATE": "Crear aeronave",
       "VIEW_AIRCRAFT": "Detalle aeronave",
       "EDIT_AIRCRAFT": "Editar aeronave",
@@ -441,8 +444,8 @@
       "MAIN_BASE": "Principal",
       "PLATE_NUMBER": "REG",
       "YOM": "YOM",
-      "OUTSIDE_UPGRADE_YEAR": "Reforma Ext",
-      "QUANTITY": "Cantidad",
+      "INSIDE_UPGRADE_YEAR": "Reforma Int",
+      "QUANTITY": "Unidades",
       "AIRPORTS": "Aeropuertos",
       "AIRPORT": "Aeropuerto",
       "TYPE": "Tipo",
@@ -476,23 +479,48 @@
       }
     },
     "TYPES": {
-      "PAGE_TITLE": "Tipos",
-      "NEW": "Nuevo tipo",
+      "PAGE_TITLE": "Modelos avión",
+      "NEW": "Nuevo modelo",
+      "DETAIL": "Detalle de modelo",
       "DELETE": "Eliminar",
       "CONFIRM_DELETE": "Confirmar eliminación",
-      "MSG_DELETE": "¿Está seguro que desea eliminar el tipo <b>{{ type }}</b> ?",
-      "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes tipos?",
-      "CODE": "Código",
+      "MSG_DELETE": "¿Está seguro que desea eliminar el modelo <b>{{ type }}</b> ?",
+      "MSG_DELETE_MULTIPLE": "¿Está seguro que desea eliminar los siguientes modelos?",
+      "CODE": "Cód. Interno",
+      "IATA": "IATA",
+      "ICAO": "ICAO",
       "DESCRIPTION": "Descripción",
       "CATEGORY": "Categoría",
       "SUBCATEGORY": "Subcategoría",
       "FLIGHT_RANGE": "Rango vuelo",
+      "FLIGHT_RANGE_UNIT": "Unidad rango de vuelo",
+      "CABIN_WIDTH": "Ancho cabina",
+      "CABIN_HEIGHT": "Alto cabina",
+      "CABIN_LENGTH": "Largo cabina",
+      "CABIN_UNIT": "Unidad cabina",
+      "MANUFACTURER": "Fabricante",
+      "MAX_CARGO": "Carga máxima",
+      "VELOCITIES": "Velocidades",
       "FROM_DISTANCE": "Desde",
       "TO_DISTANCE": "Hasta",
       "DISTANCE_UNIT": "Unidad distancia",
       "AVERAGE_SPEED": "Velocidad media",
       "AVERAGE_SPEED_UNIT": "Unidad velocidad",
-      "OBSERVATIONS": "Observaciones"
+      "OBSERVATIONS": "Observaciones",
+      "SELECT_UNIT": "Selecciona una unidad",
+      "ERRORS": {
+        "CODE_REQ": "Debe indicar un código de tipo",
+        "ICAO_REQ": "Debe indicar un código ICAO",
+        "DESCRIPTION_REQ": "Debe indicar una descripción",
+        "CATEGORY_REQ": "Debe indicar una categoría",
+        "SUBCATEGORY_REQ": "Debe indicar una subcategoría",
+        "FLIGHT_RANGE_NUM": "El rango de vuelo debe de ser numérico",
+        "CABIN_WIDTH_NUM": "El ancho debe de ser numérico",
+        "CABIN_HEIGHT_NUM": "El alto debe de ser numérico",
+        "CABIN_LENGTH_NUM": "El largo debe de ser numérico",
+        "MANUFACTURER_REQ": "Debe indicar un fabricante",
+        "MAX_CARGO_NUM": "La carga máxima debe de ser numérica"
+      }
     }
   },
   "SEARCH_AIRCRAFT": {
@@ -578,13 +606,13 @@
     "EDIT": "Editar",
     "CONFIRM": "Notificar",
     "SAVE": "Guardar",
+    "SAVE_FILE": "Guardar expediente",
     "CONFIRM_DELETE": "Confirmar eliminación",
     "MSG_DELETE": "¿Está seguro que desea eliminar el expediente?",
     "CODE": "ID Expediente",
     "DESCRIPTION": "Descripción",
     "STATUS": "Estado",
     "CLIENT": "Cliente",
-    "ROUTES": "Rutas",
     "ROUTE_DELETE_MSG": "¿Está seguro que desea eliminar la ruta?",
     "ROTATION_DELETE_MSG": "¿Está seguro que desea eliminar la rotación?",
     "GENERATE_CONTRACT_MSG": "¿Está seguro que desea generar el contrato?",
@@ -597,6 +625,18 @@
     "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
     "SELECT_CLIENT": "Selecciona un cliente",
     "SELECT_STATUS": "Selecciona un estado",
+    "ROUTES": {
+      "TITLE": "Rutas",
+      "PETITION_ROUTES": "Rutas Petición",
+      "FREQUENCY": "Frecuencia",
+      "START_DATE": "Fecha inicio",
+      "END_DATE": "Fecha fin",
+      "WEEKDAYS": "Días semana",
+      "ROTATIONS_NUMBER": "Rotaciones",
+      "SEATS_F_C_Y": "Asientos F/C/Y",
+      "MONTH_DAY": "Día del mes",
+      "STATUS": "Estado"
+    },
     "ADDITIONAL_SERVICES": {
       "CREATE": "Añadir servicio",
       "TITLE": "Servicios adicionales",
@@ -760,6 +800,7 @@
     "DELETE_SERVICE_MSG": "¿Está seguro que desea eliminar el servicio de tipo <b>{{ type }}</b> con importe <b>{{ price }}</b>?",
     "OVERWRITE_SALES_MSG": "¿Está seguro que desea sobreescribir la información de <b>Ventas</b> con los datos actuales de <b>Compras</b>?",
     "SALES_COPY": "Copiar en ventas",
+    "PERCENTAGE_APPLIED_MSG": "Se aplicará el IVA al {{ percentage }}% del importe",
     "ERRORS": {
       "SERVICE_REQ": "Debe indicar un servicio",
       "REPETEAD_SERVICE": "El servicio ya está añadido",

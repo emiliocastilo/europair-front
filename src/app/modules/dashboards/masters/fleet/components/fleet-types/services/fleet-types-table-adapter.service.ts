@@ -30,15 +30,31 @@ export class FleetTypesTableAdapterService {
         'types-code-header',
         'search',
         'FLEET.TYPES.CODE',
-        new ColumnHeaderSizeModel('4', '1', '2'),
+        new ColumnHeaderSizeModel('4', '1', '1'),
         'filter_code',
         'code'
+      ),
+      new ColumnHeaderModel(
+        'types-iata-header',
+        'search',
+        'FLEET.TYPES.IATA',
+        new ColumnHeaderSizeModel('4', '1', '1'),
+        'filter_iataCode',
+        'iataCode'
+      ),
+      new ColumnHeaderModel(
+        'types-icao-header',
+        'search',
+        'FLEET.TYPES.ICAO',
+        new ColumnHeaderSizeModel('', '1', '1'),
+        'filter_icaoCode',
+        'icaoCode'
       ),
       new ColumnHeaderModel(
         'types-description-header',
         'search',
         'FLEET.TYPES.DESCRIPTION',
-        new ColumnHeaderSizeModel('4', '2', '2'),
+        new ColumnHeaderSizeModel('', '2', '2'),
         'filter_description',
         'description'
       ),
@@ -54,7 +70,7 @@ export class FleetTypesTableAdapterService {
         'types-subcat-header',
         'search',
         'FLEET.TYPES.SUBCATEGORY',
-        new ColumnHeaderSizeModel('', '3', '2'),
+        new ColumnHeaderSizeModel('', '2', '2'),
         'filter_subcategory.name',
         'subcategory.name'
       ),
@@ -62,7 +78,7 @@ export class FleetTypesTableAdapterService {
         'types-flight-range-header',
         'search',
         'FLEET.TYPES.FLIGHT_RANGE',
-        new ColumnHeaderSizeModel('', '2', '2'),
+        new ColumnHeaderSizeModel('', '1', '1'),
         'filter_flightRange',
         'flightRange'
       ),
@@ -146,6 +162,12 @@ export class FleetTypesTableAdapterService {
         new ColumnDataModel('checkbox', new ColumnCheckboxModel('', '', true))
       );
       fleetTypeRow.pushColumn(new ColumnDataModel('text', fleetType.code));
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.iataCode)
+      );
+      fleetTypeRow.pushColumn(
+        new ColumnDataModel('text', fleetType.icaoCode)
+      );
       fleetTypeRow.pushColumn(
         new ColumnDataModel('text', fleetType.description)
       );

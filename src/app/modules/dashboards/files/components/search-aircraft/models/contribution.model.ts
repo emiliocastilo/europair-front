@@ -33,6 +33,8 @@ export interface Contribution {
   vatAmountOnPurchase?: number;
   vatAmountOnSale?: number;
   hasContributions?: boolean;
+  percentage_applied_on_purchase_tax?: number;
+  percentage_applied_on_sale_tax?: number;
 }
 
 export enum ContributionStates {
@@ -48,3 +50,8 @@ export const CONTRIBUTION_STATES: ContributionStates[] = [
   ContributionStates.QUOTED,
   ContributionStates.SENDED,
 ];
+
+export enum ContributionOperations {
+  PURCHASE = 'PURCHASE',
+  SALE = 'SALE'
+}

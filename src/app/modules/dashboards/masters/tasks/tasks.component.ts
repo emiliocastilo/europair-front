@@ -44,6 +44,7 @@ export class TasksComponent implements OnInit {
   public taskDetailScreenColumnsHeader: ColumnHeaderModel[] = [];
   public taskColumnsPagination: PaginationModel;
   public screenColumnsPagination: PaginationModel;
+  public taskDetailScreenPagination: PaginationModel;
   public pageTitle = 'Tareas';
   public screens: Screen[];
   public tasks: Task[];
@@ -109,6 +110,7 @@ export class TasksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initializeTablesPagination();
     this.obtainTranslateText();
     this.initializeTaskTable();
     this.initializeScreenTable();
@@ -129,6 +131,12 @@ export class TasksComponent implements OnInit {
     });
   }
 
+  private initializeTablesPagination() {
+    this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
+    this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
+    this.taskDetailScreenPagination = this.taskTableAdapterService.getPagination();
+  }
+
   private initializeTableHeaders() {
     this.taskColumnsHeader = this.taskTableAdapterService.getTaskColumnsHeader();
     this.screenColumnsHeader = this.taskTableAdapterService.getScreenColumnsHeader();
@@ -141,19 +149,15 @@ export class TasksComponent implements OnInit {
       this.taskColumnsData = this.taskTableAdapterService.getTaskTableDataFromTasks(
         tasks['content']
       );
-      this.taskColumnsPagination = this.taskTableAdapterService.getPagination();
-      this.taskColumnsPagination.lastPage =
-        this.taskColumnsData.length /
-        this.taskColumnsPagination.elementsPerPage;
+      this.taskColumnsPagination = {...this.taskColumnsPagination, 
+        lastPage: this.taskColumnsData.length / this.taskColumnsPagination.elementsPerPage
+      };
     });
   }
 
   private initializeScreenTable(searchFilter?: SearchFilter) {
     this.taskService.getScreens(searchFilter).subscribe((screens) => {
       this.screens = screens['content'];
-      this.screenColumnsPagination = this.taskTableAdapterService.getPagination();
-      this.screenColumnsPagination.lastPage =
-        this.screens.length / this.screenColumnsPagination.elementsPerPage;
       if(this.taskSelected) {
         this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
           this.screens,
@@ -171,13 +175,27 @@ export class TasksComponent implements OnInit {
   ) {
     this.taskDetailTitle = taskDetailTitle;
     this.taskSelected = taskSelected;
+    this.updateTaskDetailSceenTable(this.screens);
+    this.initializeModal(this.taskDetailModal);
+  }
+
+  public onTaskDetailScreenFilterChanged(screenFilter: SearchFilter): void {
+    this.taskService.getScreens(screenFilter).subscribe((filteredScreens) => {
+      this.updateTaskDetailSceenTable(filteredScreens.content);
+    });
+  }
+
+  private updateTaskDetailSceenTable(screens: Screen[]) {
     this.taskDetailScreenColumnsData = this.taskTableAdapterService.getScreenTableDataForTask(
-      this.screens,
+      screens,
       this.taskSelected,
       true,
       'assigned-editable-'
     );
-    this.initializeModal(this.taskDetailModal);
+    this.taskDetailScreenPagination = {
+      ...this.taskDetailScreenPagination,
+      lastPage: this.taskDetailScreenColumnsData.length / this.taskDetailScreenPagination.elementsPerPage
+    }
   }
 
   private initializeModal(modalContainer: ElementRef) {
@@ -197,6 +215,10 @@ export class TasksComponent implements OnInit {
     } else {
       this.screenColumnsData = [];
     }
+    this.screenColumnsPagination = {
+      ...this.screenColumnsPagination, 
+      lastPage: this.screenColumnsData.length / this.screenColumnsPagination.elementsPerPage
+    };
   }
 
   public onTaskAction(action: { actionId: string; selectedItem: number }) {
@@ -262,10 +284,6 @@ export class TasksComponent implements OnInit {
       ...this.taskSortForm.value,
     };
     this.initializeTaskTable(filter);
-  }
-
-  public onScreenFilterChanged(screenFilter: SearchFilter): void {
-    this.initializeScreenTable(screenFilter);
   }
 
   public onOpenAdvancedSearch(): void {

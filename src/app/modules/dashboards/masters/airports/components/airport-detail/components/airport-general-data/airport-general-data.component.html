@@ -139,16 +139,18 @@
           formControlName="specialConditions">
         </core-basic-switch>
       </div>
-      <div class="col s12 l3">
-        <core-basic-switch [id]="'lugar-canarias'" [firstLabel]="'AIRPORTS.CANARY_ISLANDS' | translate"
-          formControlName="canary_islands" (changeSwitch)="changeValueIslands($event, 'canary_islands')">
-        </core-basic-switch>
-      </div>
-      <div class="col s12 l3">
-        <core-basic-switch [id]="'lugar-baleares'" [firstLabel]="'AIRPORTS.BALEARICS' | translate"
-          formControlName="balearics" (changeSwitch)="changeValueIslands($event, 'balearics')">
-        </core-basic-switch>
-      </div>
+      <ng-container *ngIf="isCountrySpainSelected()">
+        <div class="col s12 l3">
+          <core-basic-switch [id]="'lugar-canarias'" [firstLabel]="'AIRPORTS.CANARY_ISLANDS' | translate"
+            formControlName="canary_islands" (changeSwitch)="changeValueIslands($event, 'canary_islands')">
+          </core-basic-switch>
+        </div>
+        <div class="col s12 l3">
+          <core-basic-switch [id]="'lugar-baleares'" [firstLabel]="'AIRPORTS.BALEARICS' | translate"
+            formControlName="balearics" (changeSwitch)="changeValueIslands($event, 'balearics')">
+          </core-basic-switch>
+        </div>
+      </ng-container>
     </div>
   </form>
 </div>

@@ -118,6 +118,14 @@
         </mat-label>
       </mat-card>
     </div>
+    <div class="row" *ngIf="hasContributionPercentageApplied(CONTRIBUTION_OPERATIONS.PURCHASE)">
+      <mat-card class="warning-card">
+        <mat-label>
+          <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
+          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution.percentage_applied_on_purchase_tax} }}</span>
+        </mat-label>
+      </mat-card>
+    </div>
     <div class="row row-no-margin-bottom">
       <app-input
         [prefix]="'CONTRIBUTIONS.OBSERVATIONS' | translate"
@@ -427,6 +435,14 @@
         <mat-label>
           <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
           <span>{{ contribution.saleVATMsg }}</span>
+        </mat-label>
+      </mat-card>
+    </div>
+    <div class="row" *ngIf="hasContributionPercentageApplied(CONTRIBUTION_OPERATIONS.SALE)">
+      <mat-card class="warning-card">
+        <mat-label>
+          <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
+          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution.percentage_applied_on_sale_tax} }}</span>
         </mat-label>
       </mat-card>
     </div>

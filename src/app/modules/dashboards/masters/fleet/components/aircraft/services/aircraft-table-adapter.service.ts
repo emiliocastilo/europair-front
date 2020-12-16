@@ -89,10 +89,10 @@ export class AircraftTableAdapterService {
       new ColumnHeaderModel(
         'outsideUpgradeYear-header',
         'search',
-        'FLEET.AIRCRAFTS.OUTSIDE_UPGRADE_YEAR',
+        'FLEET.AIRCRAFTS.INSIDE_UPGRADE_YEAR',
         new ColumnHeaderSizeModel('', '1', '1'),
-        'filter_outsideUpgradeYear',
-        'outsideUpgradeYear'
+        'filter_insideUpgradeYear',
+        'insideUpgradeYear'
       ),
       new ColumnHeaderModel(
         'quantity-header',
@@ -174,7 +174,7 @@ export class AircraftTableAdapterService {
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.aircraftType?.subcategory?.code));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.plateNumber));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.productionYear));
-      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.outsideUpgradeYear));
+      aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.insideUpgradeYear));
       aircraftRow.pushColumn(new ColumnDataModel('text', aircraft.quantity));
       aircraftRow.pushColumn(new ColumnDataModel('text', this.datePipe.transform(aircraft.insuranceEndDate, 'dd/MM/yyyy' ) ));
       aircraftRow.pushColumn(new ColumnDataModel('actions', actions));

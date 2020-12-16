@@ -155,7 +155,11 @@ export class OperatorsTableAdapterService {
   }
 
   public getPagination() {
-    return new PaginationModel(true, 1, 3, 5, 10);
+    const clientPagination: boolean = false;
+    const initPage: number = 1;
+    const visiblePages: number = 4;
+    const lastPage: number = 1;
+    const elementsPerPage: number = 20;
+    return new PaginationModel(clientPagination, initPage, visiblePages, lastPage, elementsPerPage);
   }
-
 }

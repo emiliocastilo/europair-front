@@ -47,7 +47,7 @@
               <div class="row">
                 <core-basic-input-text
                   [id]="'aircraft-type-code'"
-                  [label]="'Código' | translate"
+                  [label]="'FLEET.TYPES.CODE' | translate"
                   [hasErrors]="hasControlAnyError('code')"
                   formControlName="code"
                   class="col s12 l3 cmd-mb-1"
@@ -58,7 +58,7 @@
                         *ngIf="hasControlSpecificError('code', 'required')"
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar un código de tipo' | translate
+                          'FLEET.TYPES.ERRORS.CODE_REQ' | translate
                         "
                       >
                       </span>
@@ -68,7 +68,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-iataCode'"
-                  [label]="'Cód. IATA' | translate | sentenceCase"
+                  [label]="'FLEET.TYPES.IATA' | translate | sentenceCase"
                   [maxlength]="3"
                   formControlName="iataCode"
                   class="col s12 l3 cmd-mb-1"
@@ -77,7 +77,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-icaoCode'"
-                  [label]="'Cód. ICAO' | translate | sentenceCase"
+                  [label]="'FLEET.TYPES.ICAO' | translate | sentenceCase"
                   [maxlength]="4"
                   [hasErrors]="hasControlAnyError('icaoCode')"
                   formControlName="icaoCode"
@@ -89,7 +89,7 @@
                         *ngIf="hasControlSpecificError('icaoCode', 'required')"
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar un código ICAO' | translate
+                          'FLEET.TYPES.ERRORS.ICAO_REQ' | translate
                         "
                       >
                       </span>
@@ -99,7 +99,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-description'"
-                  [label]="'descripción' | translate | sentenceCase"
+                  [label]="'FLEET.TYPES.DESCRIPTION' | translate | sentenceCase"
                   [hasErrors]="hasControlAnyError('description')"
                   formControlName="description"
                   class="col s12 l3"
@@ -112,7 +112,7 @@
                         "
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar una descripción' | translate
+                          'FLEET.TYPES.ERRORS.DESCRIPTION_REQ' | translate
                         "
                       >
                       </span>
@@ -126,11 +126,11 @@
                   [items]="categories"
                   [hasErrors]="hasControlAnyError('category')"
                   [id]="'type-category'"
-                  [label]="'Categoría'"
+                  [label]="'FLEET.TYPES.CATEGORY' | translate"
                   [searchable]="true"
                   [itemDescription]="'code'"
                   (selectedValueEvent)="obtainSubcategories($event)"
-                  [placeholder]="'Selecciona una categoría' | translate"
+                  [placeholder]="'SEARCH_AIRCRAFT.SELECT_CATEGORY' | translate"
                   [formControl]="this.typeForm.get('category')"
                   class="col s12 l3 cmd-mb-1"
                 >
@@ -140,7 +140,7 @@
                         *ngIf="this.typeForm.get('category').errors.required"
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar una categoría' | translate
+                          'FLEET.TYPES.ERRORS.CATEGORY_REQ' | translate
                         "
                       >
                       </span>
@@ -152,8 +152,8 @@
                   [items]="subcategories"
                   [hasErrors]="isInvalid('subcategory')"
                   [id]="'type-subcategory'"
-                  [placeholder]="getSubcategoriePlaceholder()"
-                  [label]="'Subcategoría'"
+                  [placeholder]="getSubcategoriePlaceholder() | translate"
+                  [label]="'FLEET.TYPES.SUBCATEGORY' | translate"
                   [searchable]="true"
                   [itemDescription]="'code'"
                   [formControl]="getControl('subcategory')"
@@ -164,7 +164,7 @@
                       <span
                         *ngIf="getControl('subcategory').errors.required"
                         class="helper-text"
-                        data-error="Debe indicar una subcategoría"
+                        [attr.data-error]="'FLEET.TYPES.ERRORS.SUBCATEGORY_REQ' | translate"
                       >
                       </span>
                     </ng-container>
@@ -174,22 +174,16 @@
                 <core-basic-input-text
                   class="col s12 l3 cmd-mb-1"
                   [id]="'type-range-measure-value'"
-                  [label]="'Rango de vuelo'"
+                  [label]="'FLEET.TYPES.FLIGHT_RANGE' | translate"
                   [formControl]="getControl('flightRange')"
                   [hasErrors]="isInvalid('flightRange')"
                 >
                   <ng-container inputErrors>
                     <ng-container *ngIf="isInvalid('flightRange')">
                       <span
-                        *ngIf="getControl('flightRange').errors.required"
-                        class="helper-text"
-                        data-error="Debe indicar el rango de vuelo"
-                      >
-                      </span>
-                      <span
                         *ngIf="getControl('flightRange').errors.pattern"
                         class="helper-text"
-                        data-error="El rango de vuelo debe de ser numérico"
+                        [attr.data-error]="'FLEET.TYPES.ERRORS.FLIGHT_RANGE_NUM' | translate"
                       >
                       </span>
                     </ng-container>
@@ -202,28 +196,18 @@
                   [itemDescription]="'label'" [itemValue]="'value'"
                   [hasErrors]="isInvalid('flightRangeUnit')"
                   [id]="'type-range-measure-type'"
-                  [placeholder]="'Selecciona una unidad'"
-                  [label]="'Unidad rango de vuelo'"
+                  [placeholder]="'FLEET.TYPES.SELECT_UNIT' | translate"
+                  [label]="'FLEET.TYPES.FLIGHT_RANGE_UNIT' | translate"
                   [searchable]="true"
                   [formControl]="getControl('flightRangeUnit')"
                 >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="isInvalid('flightRangeUnit')">
-                      <span
-                        *ngIf="getControl('flightRangeUnit').errors.required"
-                        class="helper-text"
-                        data-error="Debe indicar una unidad de medida"
-                      >
-                      </span>
-                    </ng-container>
-                  </ng-container>
                 </core-select>
               </div>
 
               <div class="row cmd-mb-0">
                 <core-basic-input-text
                   [id]="'aircraft-type-cabinWidth'"
-                  [label]="'Ancho cabina' | translate"
+                  [label]="'FLEET.TYPES.CABIN_WIDTH' | translate"
                   [hasErrors]="hasControlAnyError('cabinWidth')"
                   formControlName="cabinWidth"
                   class="col s12 l3 cmd-mb-1"
@@ -232,10 +216,10 @@
                     <ng-container *ngIf="hasControlAnyError('cabinWidth')">
                       <span
                         *ngIf="
-                          hasControlSpecificError('cabinWidth', 'required')
+                          hasControlSpecificError('cabinWidth', 'pattern')
                         "
                         class="helper-text"
-                        [attr.data-error]="'Debe indicar un ancho' | translate"
+                        [attr.data-error]="'FLEET.TYPES.ERRORS.CABIN_WIDTH_NUM' | translate"
                       >
                       </span>
                     </ng-container>
@@ -244,7 +228,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-cabinHeight'"
-                  [label]="'Alto cabina' | translate"
+                  [label]="'FLEET.TYPES.CABIN_HEIGHT' | translate"
                   [hasErrors]="hasControlAnyError('cabinHeight')"
                   formControlName="cabinHeight"
                   class="col s12 l3 cmd-mb-1"
@@ -253,10 +237,10 @@
                     <ng-container *ngIf="hasControlAnyError('cabinHeight')">
                       <span
                         *ngIf="
-                          hasControlSpecificError('cabinHeight', 'required')
+                          hasControlSpecificError('cabinHeight', 'pattern')
                         "
                         class="helper-text"
-                        [attr.data-error]="'Debe indicar un alto' | translate"
+                        [attr.data-error]="'FLEET.TYPES.ERRORS.CABIN_HEIGHT_NUM' | translate"
                       >
                       </span>
                     </ng-container>
@@ -265,7 +249,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-cabinLength'"
-                  [label]="'Largo cabina' | translate"
+                  [label]="'FLEET.TYPES.CABIN_LENGTH' | translate"
                   [hasErrors]="hasControlAnyError('cabinLength')"
                   formControlName="cabinLength"
                   class="col s12 l3 cmd-mb-1"
@@ -274,10 +258,10 @@
                     <ng-container *ngIf="hasControlAnyError('cabinLength')">
                       <span
                         *ngIf="
-                          hasControlSpecificError('cabinLength', 'required')
+                          hasControlSpecificError('cabinLength', 'pattern')
                         "
                         class="helper-text"
-                        [attr.data-error]="'Debe indicar un largo' | translate"
+                        [attr.data-error]="'FLEET.TYPES.ERRORS.CABIN_LENGTH_NUM' | translate"
                       >
                       </span>
                     </ng-container>
@@ -290,28 +274,18 @@
                   [itemDescription]="'label'" [itemValue]="'value'"
                   [hasErrors]="isInvalid('cabinWidthUnit')"
                   [id]="'type-range-measure-type'"
-                  [placeholder]="'Selecciona una unidad'"
-                  [label]="'Unidad cabina'"
+                  [placeholder]="'FLEET.TYPES.SELECT_UNIT' | translate"
+                  [label]="'FLEET.TYPES.CABIN_UNIT' | translate"
                   [searchable]="true"
                   [formControl]="getControl('cabinWidthUnit')"
                 >
-                  <ng-container inputErrors>
-                    <ng-container *ngIf="isInvalid('cabinWidthUnit')">
-                      <span
-                        *ngIf="getControl('cabinWidthUnit').errors.required"
-                        class="helper-text"
-                        data-error="Debe indicar una unidad de medida"
-                      >
-                      </span>
-                    </ng-container>
-                  </ng-container>
                 </core-select>
               </div>
 
               <div class="row">
                 <core-basic-input-text
                   [id]="'aircraft-type-manufacturer'"
-                  [label]="'Fabricante' | translate"
+                  [label]="'FLEET.TYPES.MANUFACTURER' | translate"
                   [hasErrors]="hasControlAnyError('manufacturer')"
                   formControlName="manufacturer"
                   class="col s12 l3 cmd-mb-1"
@@ -324,7 +298,7 @@
                         "
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar un fabricante' | translate
+                          'FLEET.TYPES.ERRORS.MANUFACTURER_REQ' | translate
                         "
                       >
                       </span>
@@ -334,7 +308,7 @@
 
                 <core-basic-input-text
                   [id]="'aircraft-type-maxCargo'"
-                  [label]="'Carga máxima' | translate"
+                  [label]="'FLEET.TYPES.MAX_CARGO' | translate"
                   [hasErrors]="hasControlAnyError('maxCargo')"
                   formControlName="maxCargo"
                   class="col s12 l3"
@@ -342,10 +316,10 @@
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('maxCargo')">
                       <span
-                        *ngIf="hasControlSpecificError('maxCargo', 'required')"
+                        *ngIf="hasControlSpecificError('maxCargo', 'pattern')"
                         class="helper-text"
                         [attr.data-error]="
-                          'Debe indicar una carga máxima' | translate
+                          'FLEET.TYPES.ERRORS.MAX_CARGO_NUM' | translate
                         "
                       >
                       </span>
@@ -367,7 +341,7 @@
       <li>
         <div class="collapsible-header">
           <i class="material-icons">keyboard_arrow_down</i>
-          {{ "Velocidades" | translate | sentenceCase }}
+          {{ "FLEET.TYPES.VELOCITIES" | translate | sentenceCase }}
         </div>
         <div class="collapsible-body">
           <span>
@@ -442,7 +416,7 @@
 <core-modal>
   <ng-container content>
     <section class="modal-header">
-      <h4>Confirmar eliminación</h4>
+      <h4>{{ 'COMMON.CONFIRM_OPERATION' | translate }}</h4>
       <a class="waves-effect btn-flat modal-close europair-button-blue-1">
         <i class="material-icons right">close</i>
         {{ 'COMMON.CANCEL' | translate | sentenceCase}}

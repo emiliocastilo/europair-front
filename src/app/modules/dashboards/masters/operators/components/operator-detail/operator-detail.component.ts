@@ -100,11 +100,11 @@ export class OperatorDetailComponent implements OnInit, OnDestroy {
 
   public operatorForm = this.fb.group({
     name: ['', [Validators.required]],
-    iataCode: ['', [Validators.required, Validators.maxLength(3)]],
-    icaoCode: ['', [Validators.required, Validators.maxLength(4)]],
-    aocLastRevisionDate: ['', [Validators.required]],
+    iataCode: ['', [Validators.maxLength(3)]],
+    icaoCode: ['', [Validators.maxLength(4)]],
+    aocLastRevisionDate: [''],
     insuranceExpirationDate: [''],
-    aocNumber: ['', [Validators.required]],
+    aocNumber: [''],
   });
 
   constructor(

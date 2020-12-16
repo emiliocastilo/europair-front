@@ -21,8 +21,8 @@
 </section>
 
 <app-task-detail [title]="taskDetailTitle" [screenColumnsHeader]="taskDetailScreenColumnsHeader"
-  [screenColumnsData]="taskDetailScreenColumnsData" [screens]="screens" [pagination]="screenColumnsPagination"
-  [taskDetail]="taskSelected" (saveTask)="onSaveTask($event)" (screenFilterChanged)="onScreenFilterChanged($event)">
+  [screenColumnsData]="taskDetailScreenColumnsData" [screens]="screens" [pagination]="taskDetailScreenPagination"
+  [taskDetail]="taskSelected" (saveTask)="onSaveTask($event)" (screenFilterChanged)="onTaskDetailScreenFilterChanged($event)">
 </app-task-detail>
 
 <core-advanced-search>

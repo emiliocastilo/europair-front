@@ -136,7 +136,7 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
     cabinHeightUnit: new FormControl(null),
     cabinLength: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     cabinLengthUnit: new FormControl(null),
-    maxCargo: new FormControl(null),
+    maxCargo: new FormControl(null, [Validators.pattern('^[0-9.,]*$')]),
     averageSpeed: new FormControl([]),
     observations: new FormControl([]),
   });
@@ -444,8 +444,8 @@ export class FleetTypeDetailComponent implements OnInit, OnDestroy {
 
   public getSubcategoriePlaceholder(): string {
     return this.getControl('category').value
-      ? 'Selecciona una subcategoría'
-      : 'Selecciona primero una categoría';
+      ? 'SEARCH_AIRCRAFT.SELECT_SUBCATEGORY'
+      : 'SEARCH_AIRCRAFT.SELECT_CATEGORY_FIRST';
   }
 
   public hasControlAnyError(controlName: string): boolean {
