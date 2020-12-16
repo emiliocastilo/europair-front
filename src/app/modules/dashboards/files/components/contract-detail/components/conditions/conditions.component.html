@@ -3,12 +3,12 @@
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
   {{ "COMMON.RETURN" | translate }}
 </button>
-<div class="responsive-table-container">
+<section class="responsive-table-container">
   <mat-table [dataSource]="contractConditionsDataSource" class="cmd-mb-2">
     <ng-container matColumnDef="selection">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-checkbox color="primary" (click)="selectCondition($event, element)" [checked]="conditionSelected(element)">
+        <mat-checkbox color="primary">
         </mat-checkbox>
       </mat-cell>
     </ng-container>
@@ -28,7 +28,9 @@
       <mat-header-cell *matHeaderCellDef>
         {{ "FILES_CONTRACT.CONDITIONS.DESCRIPTION" | translate }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+      <mat-cell *matCellDef="let element">
+        <quill-editor [ngModel]="element.description" theme="bubble" [placeholder]="''" [readOnly]="true" [modules]="{toolbar: false}"></quill-editor>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="order">
       <mat-header-cell *matHeaderCellDef>
@@ -36,7 +38,22 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.order }}</mat-cell>
     </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon
+          (click)="deleteCondition(element)"
+          (touchend)="$event.stopPropagation()"
+          svgIcon="europair_trash"
+          [matTooltip]="'TOOLTIPS.REMOVE_ADDITIONAL_SERVICE' | translate"
+          [matTooltipClass]="'europair-tooltip'"
+        ></mat-icon>
+      </mat-cell>
+    </ng-container>
     <mat-header-row *matHeaderRowDef="conditionsColumnsToDisplay"></mat-header-row>
     <mat-row *matRowDef="let row; columns: conditionsColumnsToDisplay"></mat-row>
   </mat-table>
-</div>
+</section>
+<section>
+  
+</section>

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { Condition } from '../../models/conditions';
-import { ConditionsService } from '../../services/conditions.service';
+import { ContractCondition } from 'src/app/modules/dashboards/files/components/contract-detail/models/contract-condition.model';
+import { ContractConditionsService } from 'src/app/modules/dashboards/files/components/contract-detail/services/contract-condition.service';
 
 @Component({
   selector: 'app-condition-detail',
@@ -43,7 +42,7 @@ export class ConditionDetailComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private readonly conditionsService: ConditionsService
+    private readonly conditionsService: ContractConditionsService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +52,7 @@ export class ConditionDetailComponent implements OnInit {
   private getCondition(): void {
     this.route.params.subscribe((params: Params) => {
       if (params.id) {
-        this.conditionsService.getConditionById(params.id).subscribe((condition: Condition) => {
+        this.conditionsService.getContractConditionById(params.id).subscribe((condition: ContractCondition) => {
           this.conditionForm.patchValue({ ...condition });
         });
       }
@@ -63,7 +62,7 @@ export class ConditionDetailComponent implements OnInit {
   public saveCondition(): void {
     this.conditionForm.markAllAsTouched();
     if (this.conditionForm.valid) {
-      this.conditionsService.saveCondition(this.conditionForm.value)
+      this.conditionsService.saveContractCondition(this.conditionForm.value)
         .subscribe(() => this.router.navigate([this.routeToBack()]));
     }
   }

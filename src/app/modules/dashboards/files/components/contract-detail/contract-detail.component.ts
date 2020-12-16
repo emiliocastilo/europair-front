@@ -128,7 +128,7 @@ export class ContractDetailComponent implements OnInit {
     this.timeSerivce.getTimeZones().subscribe((timeZones: TimeZone[]) => this.dateFormatsOptions = timeZones)
   }
   private obtainContractsConditions(): void {
-    this.contractsConditionService.getContractConditions().subscribe((pageConditions: Page<ContractCondition>) => this.paymentConditionOptions = pageConditions.content);
+    this.contractsConditionService.getAllContractConditions().subscribe((pageConditions: Page<ContractCondition>) => this.paymentConditionOptions = pageConditions.content);
   }
 
   private updateChangesContract(): void {

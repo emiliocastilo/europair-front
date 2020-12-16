@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Condition } from './models/conditions';
-import { ConditionsService } from './services/conditions.service';
+import { ContractCondition } from '../../files/components/contract-detail/models/contract-condition.model';
+import { ContractConditionsService } from '../../files/components/contract-detail/services/contract-condition.service';
 
 @Component({
   selector: 'app-conditions',
@@ -14,7 +14,7 @@ import { ConditionsService } from './services/conditions.service';
   styleUrls: ['./conditions.component.scss'],
 })
 export class ConditionsComponent implements OnInit {
-  public conditions: Condition[];
+  public conditions: ContractCondition[];
   public conditionDetailTitle: string;
 
   public columnToDisplay = ['code', 'title', 'description', 'conditionOrder', 'actions'];
@@ -23,7 +23,7 @@ export class ConditionsComponent implements OnInit {
   public pageSize: number = 0;
 
   constructor(
-    private readonly conditionsService: ConditionsService,
+    private readonly conditionsService: ContractConditionsService,
     private readonly router: Router
   ) { }
 
@@ -31,18 +31,18 @@ export class ConditionsComponent implements OnInit {
     this.initializeConditionsTable();
   }
   private initializeConditionsTable(searchFilter?: SearchFilter) {
-    this.conditionsService.getConditions(searchFilter).subscribe((data: Page<Condition>) => {
+    this.conditionsService.getAllContractConditions(searchFilter).subscribe((data: Page<ContractCondition>) => {
       this.dataSource = new MatTableDataSource(data.content);
       this.resultsLength = data.totalElements;
       this.pageSize = data.size;
     });
   }
 
-  public deleteCondition(condition: Condition): void {
-    this.conditionsService.removeCondition(condition).subscribe(() => this.initializeConditionsTable());
+  public deleteCondition(condition: ContractCondition): void {
+    this.conditionsService.removeContractConditions(condition).subscribe(() => this.initializeConditionsTable());
   }
 
-  public goToDetail(condition: Condition): void {
+  public goToDetail(condition: ContractCondition): void {
     this.router.navigate(['conditions', condition.id]);
   }
 
