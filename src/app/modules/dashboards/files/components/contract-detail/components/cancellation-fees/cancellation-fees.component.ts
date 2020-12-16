@@ -65,9 +65,9 @@ export class CancellationFeesComponent implements OnInit {
   public deleteCancellationFee(cancellationFee: CancellationFees) {
     const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
       data: {
-        title: 'ROTATIONS.DELETE_FLIGHT_TITLE',
-        message: 'ROTATIONS.DELETE_FLIGHT_MSG',
-        translationParams: {}
+        title: 'FILES_CONTRACT.CANCELLATION_FEES.DELETE_TITLE',
+        message: 'FILES_CONTRACT.CANCELLATION_FEES.DELETE_MSG',
+        translationParams: cancellationFee
       }
     });
     confirmOperationRef.afterClosed().subscribe(result => {

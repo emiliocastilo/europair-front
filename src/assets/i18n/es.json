@@ -967,6 +967,8 @@
     "EXPIRATION": "Vencimiento",
     "CANCELLATION_FEES": {
       "DETAIL_PAGE_TITLE": "Gastos de cancelación",
+      "DELETE_TITLE": "Confirmar elminación gasto de cancelación",
+      "DELETE_MSG": "¿Está seguro que desea eliminar el gasto de cancelación: <b>Desde {{ fromValue }} {{ fromUnit }} {{feePercentage}}% de penalización</b>?",
       "FROM_VALUE": "Desde",
       "FROM_UNIT": "Unidades",
       "FEE_PERCENTAGE": "% penalización",
