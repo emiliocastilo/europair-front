@@ -11,14 +11,34 @@ import { ConditionsService } from '../../services/conditions.service';
   styleUrls: ['./condition-detail.component.scss'],
 })
 export class ConditionDetailComponent implements OnInit {
-  public conditionId: number;
   public conditionForm = this.fb.group({
+    id: [null],
     code: ['', Validators.required],
     title: ['', Validators.required],
     conditionOrder: ['', Validators.required],
-    description: ['', Validators.required]
+    description: ['']
   });
   public doc: string;
+
+  public quillModules = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['clean'],                                         // remove formatting button
+      ['link']                         // link and image, video
+    ]
+  };
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
@@ -34,7 +54,6 @@ export class ConditionDetailComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       if (params.id) {
         this.conditionsService.getConditionById(params.id).subscribe((condition: Condition) => {
-          this.conditionId = condition.id;
           this.conditionForm.patchValue({ ...condition });
         });
       }
@@ -42,12 +61,9 @@ export class ConditionDetailComponent implements OnInit {
   }
 
   public saveCondition(): void {
+    this.conditionForm.markAllAsTouched();
     if (this.conditionForm.valid) {
-      const condition: Condition = {
-        id: this.conditionId,
-        ...this.conditionForm.value
-      };
-      this.conditionsService.saveCondition(condition)
+      this.conditionsService.saveCondition(this.conditionForm.value)
         .subscribe(() => this.router.navigate([this.routeToBack()]));
     }
   }

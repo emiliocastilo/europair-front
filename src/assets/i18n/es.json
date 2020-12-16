@@ -54,7 +54,8 @@
     "SEARCH_FILTERS": "Filtros de búsqueda",
     "TOTAL": "Total",
     "ACEPT": "Aceptar",
-    "SEARCH": "buscar"
+    "SEARCH": "buscar",
+    "PLACEHOLDER": "Inserte texto aquí.."
   },
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
@@ -896,6 +897,7 @@
   },
   "CONDITIONS": {
     "PAGE_TITLE": "Condiciones",
+    "DETAIL_PAGE_TITLE": "Detalle de condición",
     "CODE": "Código",
     "TITLE": "Título",
     "ORDER": "Orden",

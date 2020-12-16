@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { Condition } from './models/conditions';
 import { ConditionsService } from './services/conditions.service';
@@ -12,8 +14,6 @@ import { ConditionsService } from './services/conditions.service';
   styleUrls: ['./conditions.component.scss'],
 })
 export class ConditionsComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
-
   public conditions: Condition[];
   public conditionDetailTitle: string;
 
@@ -30,10 +30,9 @@ export class ConditionsComponent implements OnInit {
   ngOnInit(): void {
     this.initializeConditionsTable();
   }
-  private initializeConditionsTable() {
-    this.conditionsService.getConditions().subscribe((data: Page<Condition>) => {
+  private initializeConditionsTable(searchFilter?: SearchFilter) {
+    this.conditionsService.getConditions(searchFilter).subscribe((data: Page<Condition>) => {
       this.dataSource = new MatTableDataSource(data.content);
-      this.dataSource.sort = this.sort;
       this.resultsLength = data.totalElements;
       this.pageSize = data.size;
     });
@@ -45,5 +44,18 @@ export class ConditionsComponent implements OnInit {
 
   public goToDetail(condition: Condition): void {
     this.router.navigate(['conditions', condition.id]);
+  }
+
+  public onPage(pageEvent: PageEvent): void {
+    this.initializeConditionsTable({
+      page: pageEvent.pageIndex.toString(),
+      size: pageEvent.pageSize.toString(),
+    });
+  }
+
+  public onSort(sortOrder: Sort) {
+    this.initializeConditionsTable({
+      sort: sortOrder.active + ',' + sortOrder.direction,
+    });
   }
 }

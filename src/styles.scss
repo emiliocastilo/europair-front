@@ -1,4 +1,7 @@
 @import "variables";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
@@ -369,11 +372,15 @@ label {
   background-color: $europair-color-blue-dark-1;
 }
 
-// MATERIALIZE CSS H4
+// MATERIALIZE CSS OVERRIDE
 h4 {
   font-size: 2.28rem !important;
   line-height: 110% !important;
   margin: 1.52rem 0 0.912rem 0 !important;
+}
+
+strong {
+  font-weight: bolder !important;
 }
 
 // ROW
@@ -387,3 +394,13 @@ h4 {
   font-size: 1rem;
   text-align: center;
 }
+
+// ngx-quill-editor error CSS
+quill-editor {
+  display: block;
+  &.ng-invalid.ng-touched {
+    border: 1px solid #f44336;
+    border-width: 2px;
+  }
+}
+

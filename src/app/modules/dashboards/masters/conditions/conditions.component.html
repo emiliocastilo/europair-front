@@ -5,7 +5,7 @@
   </button>
 </div>
 <div class="responsive-table-container">
-  <mat-table matSort multiTemplateDataRows [dataSource]="dataSource">
+  <mat-table matSort (matSortChange)="onSort($event)" multiTemplateDataRows [dataSource]="dataSource">
     <ng-container matColumnDef="code">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "CONDITIONS.CODE" | translate}}
@@ -28,7 +28,9 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "CONDITIONS.DESCRIPTION" | translate}}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{ element.description }}</mat-cell>
+      <mat-cell *matCellDef="let element">
+        <quill-editor [ngModel]="element.description" theme="bubble" [placeholder]="''" [readOnly]="true" [modules]="{toolbar: false}"></quill-editor>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
@@ -51,4 +53,7 @@
 <mat-paginator
   [length]="resultsLength"
   [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 20, 50]"
+  (page)="onPage($event)"
+  showFirstLastButtons
 ></mat-paginator>

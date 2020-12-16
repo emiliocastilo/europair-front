@@ -1,7 +1,7 @@
-<core-page-bar [pageTitle]="'CONTACTS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+<core-page-bar [pageTitle]="'CONDITIONS.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
 
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
-  {{ "COMMON.CANCEL" | translate }}
+  {{ "COMMON.RETURN" | translate }}
 </button>
 <form [formGroup]="conditionForm">
   <div class="row">
@@ -31,14 +31,13 @@
       </app-input>
   </div>
   <div class="row">
-    <app-input [prefix]="'CONDITIONS.DESCRIPTION' | translate" formControlName="description"
-      class="col s12 l12 cmd-pb-1">
-      <ng-container inputErrors *ngIf="hasControlAnyError('description')">
-        <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('description', 'required')">
-          {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
-        </mat-error>
-      </ng-container>
-    </app-input>
+    <quill-editor 
+      name="editor"
+      formControlName="description"
+      [placeholder]="'COMMON.PLACEHOLDER' | translate"
+      [modules]="quillModules"
+      [styles]="{height: '100px'}">
+    </quill-editor>
   </div>
   <div class="row">
     <button color="primary" type="submit" (click)="saveCondition()" mat-raised-button
