@@ -180,42 +180,32 @@
   </mat-expansion-panel-header>
   <div class="row row-no-margin-bottom cmd-mt-2">
     <form [formGroup]="configurationDataForm">
-      <div class="row">
+      <div class="row cmd-mb-2">
         <app-select class="col s12 l6" [id]="'select-file-language'" [items]="languageOptions"
           [placeholder]="'FILES_CONTRACT.PLACEHOLDER_LANGUAGE' | translate" [clearable]="false"
           [label]="'FILES_CONTRACT.LANGUAGE' | translate" [itemDescription]="'name'" [itemValue]="'id'"
           formControlName="language">
-          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'language')">
-            <span *ngIf="hasControlSpecificError(configurationDataForm, 'language', 'required')" class="helper-text"
-              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
-            </span>
-          </ng-container>
         </app-select>
         <app-select class="col s12 l6" [id]="'select-file-date-format'" [items]="dateFormatsOptions"
-          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_DATE_FORMAT' | translate" [clearable]="false"
-          [label]="'FILES_CONTRACT.DATE_FORMAT' | translate" [itemValue]="'name'" [itemDescription]="'description'"
+          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_HOUR_FORMAT' | translate" [clearable]="false"
+          [label]="'FILES_CONTRACT.HOUR_FORMAT' | translate" [itemValue]="'name'" [itemDescription]="'description'"
           formControlName="timezone">
-          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'dateFormat')">
-            <span *ngIf="hasControlSpecificError(configurationDataForm, 'dateFormat', 'required')" class="helper-text"
-              [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
-            </span>
-          </ng-container>
+        </app-select>
+      </div>
+      <article class="europair-sub-title">Pagos</article>     
+      <div class="row cmd-mt-2">
+        <app-select class="col s12 l12" [id]="'select-file-cod-payment'" [items]="paymentConditionOptions"
+          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_PAYMENT_CONDITIONS' | translate" [clearable]="false"
+          [searchable]="true" [itemDescription]="'name'" [itemValue]="'id'"
+          [label]="'FILES_CONTRACT.PAYMENT_CONDITIONS' | translate" 
+          formControlName="paymentConditionsId">
         </app-select>
       </div>
       <div class="row">
-        <app-select class="col s12 l6" [id]="'select-file-cod-payment'" [items]="paymentConditionOptions"
-          [placeholder]="'FILES_CONTRACT.PLACEHOLDER_PAYMENT_CONDITIONS' | translate" [clearable]="false"
-          [label]="'FILES_CONTRACT.PAYMENT_CONDITIONS' | translate" [itemDescription]="'code'" [itemValue]="'id'"
-          formControlName="paymentConditions">
-          <ng-container inputErrors *ngIf="hasControlAnyError(configurationDataForm, 'paymentConditions')">
-            <span *ngIf="hasControlSpecificError(configurationDataForm, 'paymentConditions', 'required')"
-              class="helper-text" [attr.data-error]="'FILES_CONTRACT.ERRORS.REQUIRED' | translate">
-            </span>
-          </ng-container>
-        </app-select>
-        <app-input [prefix]="'FILES_CONTRACT.PAYMENTY_CONDITION_OBSERVATION' | translate"
-          formControlName="paymentConditionsObservations" class="col s12 l6">
-        </app-input>
+        <mat-form-field class="col s12 l12 europair-textarea" appearance="fill">
+          <mat-label>{{ "FILES_CONTRACT.PAYMENTY_CONDITION_OBSERVATION" | translate }}</mat-label>
+          <textarea class="browser-default" matInput rows="5" formControlName="paymentConditionsObservation"></textarea>
+        </mat-form-field>
       </div>
       <div class="row">
         <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.DEPOSIT' | translate" formControlName="deposit" class="col s12 l6">
@@ -225,8 +215,8 @@
         </app-input>
       </div>
       <div class="row">
-        <button class="col s12 l1 offset-l10" color="primary" mat-raised-button (click)="saveConfiguration()">
-          {{ "COMMON.SAVE" | translate | sentenceCase }}
+        <button class="col s5 l2 offset-l9 offset-s6" color="primary" mat-raised-button (click)="saveConfiguration()">
+          {{ "COMMON.SAVE_CONFIG" | translate }}
         </button>
       </div>
     </form>

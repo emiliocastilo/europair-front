@@ -27,17 +27,17 @@
 
   .mat-expansion-panel-header-title {
     align-items: center;
-    color: #005795;
+    color:$europair-color-blue-dark-1;
   }
 
   .mat-expansion-panel-header-description {
     justify-content: flex-end;
     align-items: center;
-    color: #005795;
+    color: $europair-color-blue-dark-1;
     .mat-icon {
       padding-left: 8px;
       fill: none;
-      stroke: #005795;
+      stroke: $europair-color-blue-dark-1;
     }
   }
 }
@@ -97,6 +97,18 @@
 
 .title {
   font-weight: bold;
+}
+
+.europair-sub-title {
+    font-size: 15px;
+    font-weight: 400;
+    color: $europair-color-blue-dark-1;
+    text-align: center;
+    border-top: 1px solid #a0b9d4;
+    background-color: #eef7ff;
+    border-bottom: 1px solid #a0b9d4;
+    padding: 1rem 0;
+    margin: 0 1rem;
 }
 
 @include mat-table-columns(("code", "description", "status-name"));

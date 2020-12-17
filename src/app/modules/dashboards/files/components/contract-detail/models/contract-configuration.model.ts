@@ -14,3 +14,8 @@ export interface ContractConfiguration {
     deposit: number;
     depositExpirationDate: string;
 }
+
+export enum ContractConfigTimezoneEnum {
+  UTC = 'UTC',
+  LOCAL = 'LOCAL'
+}

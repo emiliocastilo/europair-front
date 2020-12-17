@@ -14,6 +14,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+
 
 const modules = [
   MatAutocompleteModule,
@@ -33,6 +35,7 @@ const modules = [
   MatDialogModule,
   MatTooltipModule,
   MatCardModule,
+  MatDividerModule
 ];
 
 @NgModule({

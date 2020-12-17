@@ -41,6 +41,7 @@
     "NAME": "nombre",
     "OBSERVATIONS": "observaciones",
     "SAVE": "guardar",
+    "SAVE_CONFIG": "Guardar configuración",
     "ABBREVIATIONS": {
       "IATA_CODE": "Cód. IATA",
       "ICAO_CODE": "Cód. ICAO"
@@ -1005,8 +1006,8 @@
       "REQUIRED": "Este campo es requerido"
     },
     "PLACEHOLDER_LANGUAGE": "Selecciona un idioma",
-    "DATE_FORMAT": "Formato de fechas",
-    "PLACEHOLDER_DATE_FORMAT": "Selecciona un formato de fechas",
+    "HOUR_FORMAT": "Formato de horas",
+    "PLACEHOLDER_HOUR_FORMAT": "Selecciona un formato de horas",
     "PLACEHOLDER_PAYMENT_CONDITIONS": "Selecciona una condicion de pago",
     "PAYMENT_CONDITIONS": "Cond. pago",
     "PAYMENTY_CONDITION_OBSERVATION": "Obs. Cond. pago",

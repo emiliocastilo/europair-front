@@ -337,6 +337,16 @@ label {
   }
 }
 
+.europair-textarea{
+  & .mat-form-field-ripple{
+    background-color: #f9fcff !important;
+
+  }
+  &.mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: #cce0f2 !important;
+  }
+}
+
 .responsive-table-container {
   display: block;
   width: 100%;

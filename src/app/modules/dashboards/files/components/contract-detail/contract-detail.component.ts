@@ -15,8 +15,10 @@ import { ContractsService } from '../../services/contracts.service';
 import { FlightService } from '../../services/flight.service';
 import { ContractCondition } from './models/contract-condition.model';
 import { ContractConfiguration } from './models/contract-configuration.model';
+import { ContractPaymentCondition } from './models/contract-payment-condition';
 import { ContractConditionsService } from './services/contract-condition.service';
 import { ContractConfigurationService } from './services/contract-configuration.service';
+import { ContractPaymentConditionService } from './services/contract-payment-condition.service';
 
 @Component({
   selector: 'app-contract-detail',
@@ -31,7 +33,7 @@ export class ContractDetailComponent implements OnInit {
   public fileRoutes: Array<FileRoute>;
   public languageOptions: Array<string> = ['Español', 'Ingles'];
   public dateFormatsOptions: Array<TimeZone> = [];
-  public paymentConditionOptions: Array<ContractCondition> = [];
+  public paymentConditionOptions: Array<ContractPaymentCondition> = [];
   public paymentConditionsOptions: Array<{ id: number, name: string }> = [];
 
   private datePipe: DatePipe;
@@ -54,10 +56,11 @@ export class ContractDetailComponent implements OnInit {
   });
 
   public configurationDataForm = this.fb.group({
+    id: [null],
     language: [''],
     timezone: [''],
-    paymentConditions: [''],
-    paymentConditionsObservations: [''],
+    paymentConditionsId: [''],
+    paymentConditionsObservation: [''],
     deposit: [''],
     depositExpirationDate: ['']
   });
@@ -68,7 +71,7 @@ export class ContractDetailComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly translateService: TranslateService,
     private readonly contractsService: ContractsService,
-    private readonly contractsConditionService: ContractConditionsService,
+    private readonly contractPaymentConditionService: ContractPaymentConditionService,
     private readonly contractconfigurationService: ContractConfigurationService,
     private readonly contractLineService: ContractLineService,
     private readonly flightService: FlightService,
@@ -81,7 +84,7 @@ export class ContractDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getContractInfo();
     this.obtainTimeZone();
-    this.obtainContractsConditions();
+    this.obtainContractPaymentConditions();
     this.updateChangesContract();
   }
 
@@ -96,13 +99,7 @@ export class ContractDetailComponent implements OnInit {
   private refreshScreenData() {
     this.loadContract();
     this.loadFlightsByFile();
-  }
-
-  private loadFlightsByFile() {
-    this.flightService.getFlightsByFile(this.fileId, { 'filter_route.routeState': RouteStatus.WON })
-      .subscribe((pageFlight: Page<Flight>) => {
-        this.flightsDataSource = new MatTableDataSource<Flight>(pageFlight.content);
-      });
+    this.loadContractConfiguration();
   }
 
   private loadContract() {
@@ -124,11 +121,23 @@ export class ContractDetailComponent implements OnInit {
       });
   }
 
+  private loadFlightsByFile() {
+    this.flightService.getFlightsByFile(this.fileId, { 'filter_route.routeState': RouteStatus.WON })
+      .subscribe((pageFlight: Page<Flight>) => {
+        this.flightsDataSource = new MatTableDataSource<Flight>(pageFlight.content);
+      });
+  }
+
+  private loadContractConfiguration() {
+    this.contractconfigurationService.getContractConfiguration(this.fileId, this.contractId)
+    .subscribe(contractConfiguration => this.configurationDataForm.patchValue(contractConfiguration))
+  }
+
   private obtainTimeZone(): void {
     this.timeSerivce.getTimeZones().subscribe((timeZones: TimeZone[]) => this.dateFormatsOptions = timeZones)
   }
-  private obtainContractsConditions(): void {
-    this.contractsConditionService.getAllContractConditions().subscribe((pageConditions: Page<ContractCondition>) => this.paymentConditionOptions = pageConditions.content);
+  private obtainContractPaymentConditions(): void {
+    this.contractPaymentConditionService.getContractPaymentConditions({ size: '200' }).subscribe((pageConditions: Page<ContractPaymentCondition>) => this.paymentConditionOptions = pageConditions.content);
   }
 
   private updateChangesContract(): void {
@@ -167,14 +176,7 @@ export class ContractDetailComponent implements OnInit {
   }
 
   public saveConfiguration(): void {
-    const paymentConditionsId: number = this.configurationDataForm.value.paymentConditions;
-    const contracConfiguration: ContractConfiguration = {
-      id: this.contract.contractConfiguration?.id,
-      ...this.configurationDataForm.value,
-      paymentConditionsId
-    };
-    delete contracConfiguration.paymentConditions;
-    this.contractconfigurationService.saveContractConfiguration(this.fileId, this.contractId, contracConfiguration)
+    this.contractconfigurationService.saveContractConfiguration(this.fileId, this.contractId, this.configurationDataForm.value)
       .subscribe(() => this.refreshScreenData());
   }
 
@@ -188,15 +190,5 @@ export class ContractDetailComponent implements OnInit {
 
   public getControl(controlsArray: FormArray, index: number, fieldName: string): FormControl {
     return controlsArray.at(index).get(fieldName) as FormControl;
-  }
-
-  public hasControlAnyError(form: FormGroup, controlName: string): boolean {
-    const control = form.get(controlName);
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-
-  public hasControlSpecificError(form: FormGroup, controlName: string, errorName: string): boolean {
-    const control = form.get(controlName);
-    return control && control.hasError(errorName);
   }
 }

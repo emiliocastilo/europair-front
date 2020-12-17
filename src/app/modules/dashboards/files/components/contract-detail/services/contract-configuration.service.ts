@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Page } from 'src/app/core/models/table/pagination/page';
 import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
-import { ContractCondition } from '../models/contract-condition.model';
 import { ContractConfiguration } from '../models/contract-configuration.model';
 
 @Injectable({
@@ -26,9 +24,9 @@ export class ContractConfigurationService {
     private searchFilterService: SearchFilterService
   ) { }
 
-  public getContractConfiguration(fileId: number, contractId: number, searchFilter: SearchFilter = {}): Observable<Page<ContractCondition>> {
+  public getContractConfiguration(fileId: number, contractId: number, searchFilter: SearchFilter = {}): Observable<ContractConfiguration> {
     const url = `${this.url}/${fileId}/contracts/${contractId}/configuration`;
-    return this.http.get<Page<ContractCondition>>(url, {
+    return this.http.get<ContractConfiguration>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,
         this.filterOptions
@@ -36,19 +34,19 @@ export class ContractConfigurationService {
     });
   }
 
-  public saveContractConfiguration(fileId: number, contractId: number, contractConfiguration: ContractConfiguration): Observable<ContractCondition> {
+  public saveContractConfiguration(fileId: number, contractId: number, contractConfiguration: ContractConfiguration): Observable<ContractConfiguration> {
     return (contractConfiguration.id) ?
     this.updateContractConfiguration(fileId, contractId, contractConfiguration) :
      this.createContractConfiguration(fileId, contractId, contractConfiguration);
   }
 
-  private createContractConfiguration(fileId: number, contractId: number, contractConfiguration: ContractConfiguration): Observable<ContractCondition> {
+  private createContractConfiguration(fileId: number, contractId: number, contractConfiguration: ContractConfiguration): Observable<ContractConfiguration> {
     const url = `${this.url}/${fileId}/contracts/${contractId}/configuration`;
-    return this.http.post<ContractCondition>(url, contractConfiguration);
+    return this.http.post<ContractConfiguration>(url, contractConfiguration);
   }
 
   private updateContractConfiguration(fileId: number, contractId: number, contractConfiguration: ContractConfiguration): Observable<ContractConfiguration> {
-    const url = `${this.url}/${fileId}/contracts/${contractId}/configuration/${contractConfiguration.id}`;
+    const url = `${this.url}/${fileId}/contracts/${contractId}/configuration`;
     return this.http.put<ContractConfiguration>(url, contractConfiguration);
   }
 
