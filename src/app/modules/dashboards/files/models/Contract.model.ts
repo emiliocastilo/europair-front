@@ -1,5 +1,3 @@
-import { Aircraft } from '../../masters/fleet/components/aircraft/models/Aircraft.model';
-import { Operator } from '../../masters/operators/models/Operator.model';
 import { ServiceType } from '../../masters/services/models/services.model';
 import { ContractCondition } from '../components/contract-detail/models/contract-condition.model';
 import { ContractConfiguration } from '../components/contract-detail/models/contract-configuration.model';
@@ -35,16 +33,14 @@ export enum ContractType {
 
 export enum ContractStates {
   PENDING = 'PENDING',
-  SENDED = 'SENDED',
-  QUOTED = 'QUOTED',
-  WON = 'WON'
+  SIGNED = 'SIGNED',
+  CANCELED = 'CANCELED'
 }
 
-export const CONTRIBUTION_STATES: ContractStates[] = [
-  ContractStates.WON,
+export const CONTRACT_STATES: ContractStates[] = [
   ContractStates.PENDING,
-  ContractStates.QUOTED,
-  ContractStates.SENDED
+  ContractStates.SIGNED,
+  ContractStates.CANCELED
 ];
 
 

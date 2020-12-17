@@ -1,22 +1,22 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { debounceTime } from 'rxjs/operators';
+import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { TimeZone } from 'src/app/core/models/base/time-zone';
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
-import { Contract, ContractLine, ContractType } from '../../models/Contract.model';
+import { Contract, ContractLine, ContractStates, ContractType } from '../../models/Contract.model';
 import { FileRoute, RouteStatus } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
 import { ContractLineService } from '../../services/contract-line.service';
 import { ContractsService } from '../../services/contracts.service';
 import { FlightService } from '../../services/flight.service';
-import { ContractCondition } from './models/contract-condition.model';
-import { ContractConfiguration } from './models/contract-configuration.model';
 import { ContractPaymentCondition } from './models/contract-payment-condition';
-import { ContractConditionsService } from './services/contract-condition.service';
 import { ContractConfigurationService } from './services/contract-configuration.service';
 import { ContractPaymentConditionService } from './services/contract-payment-condition.service';
 
@@ -35,6 +35,7 @@ export class ContractDetailComponent implements OnInit {
   public dateFormatsOptions: Array<TimeZone> = [];
   public paymentConditionOptions: Array<ContractPaymentCondition> = [];
   public paymentConditionsOptions: Array<{ id: number, name: string }> = [];
+  public CONTRACT_STATES = ContractStates;
 
   private datePipe: DatePipe;
 
@@ -76,6 +77,7 @@ export class ContractDetailComponent implements OnInit {
     private readonly contractLineService: ContractLineService,
     private readonly flightService: FlightService,
     private readonly timeSerivce: TimeConversionService,
+    private readonly matDialog: MatDialog,
     @Inject(LOCALE_ID) locale: string
   ) {
     this.datePipe = new DatePipe(locale);
@@ -99,7 +101,6 @@ export class ContractDetailComponent implements OnInit {
   private refreshScreenData() {
     this.loadContract();
     this.loadFlightsByFile();
-    this.loadContractConfiguration();
   }
 
   private loadContract() {
@@ -115,7 +116,11 @@ export class ContractDetailComponent implements OnInit {
           provider: contract.provider?.name,
           client: contract.client?.name
         }, {emitEvent: false});
-        this.configurationDataForm.patchValue({...contract.contractConfiguration});
+        this.configurationDataForm.patchValue(contract.contractConfiguration);
+        if (this.isContractSigned()) {
+          this.contractDataForm.disable({emitEvent: false});
+          this.configurationDataForm.disable({emitEvent: false});
+        }
         this.contractLinesDataSource = new MatTableDataSource<ContractLine>(contract.contractLines);
         this.refreshLinesData();
       });
@@ -128,23 +133,23 @@ export class ContractDetailComponent implements OnInit {
       });
   }
 
-  private loadContractConfiguration() {
-    this.contractconfigurationService.getContractConfiguration(this.fileId, this.contractId)
-    .subscribe(contractConfiguration => this.configurationDataForm.patchValue(contractConfiguration))
-  }
-
   private obtainTimeZone(): void {
     this.timeSerivce.getTimeZones().subscribe((timeZones: TimeZone[]) => this.dateFormatsOptions = timeZones)
   }
+
   private obtainContractPaymentConditions(): void {
     this.contractPaymentConditionService.getContractPaymentConditions({ size: '200' }).subscribe((pageConditions: Page<ContractPaymentCondition>) => this.paymentConditionOptions = pageConditions.content);
   }
 
   private updateChangesContract(): void {
-    this.contractDataForm.get('contractDate').valueChanges.subscribe((value: string) => {
+    this.contractDataForm.get('contractDate').valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((value: string) => {
       this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
-    this.contractDataForm.get('contractSignDate').valueChanges.subscribe((value: string) => {
+    this.contractDataForm.get('contractSignDate').valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((value: string) => {
       this.contractsService.updateContract(this.fileId, { id: this.contract.id, signatureDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
   }
@@ -175,9 +180,29 @@ export class ContractDetailComponent implements OnInit {
     };
   }
 
+  public signContract() {
+    const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
+      data: {
+        title: 'FILES_CONTRACT.SIGN_CONTRACT_TITLE',
+        message: 'FILES_CONTRACT.SIGN_CONTRACT_MSG',
+        translationParams: { contractCode: this.contract?.code}
+      }
+    });
+    confirmOperationRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.contractsService.updateContractState(this.fileId, this.contract.id, ContractStates.SIGNED)
+          .subscribe(() => this.refreshScreenData());
+      }
+    });
+  }
+
   public saveConfiguration(): void {
     this.contractconfigurationService.saveContractConfiguration(this.fileId, this.contractId, this.configurationDataForm.value)
       .subscribe(() => this.refreshScreenData());
+  }
+
+  public isContractSigned(): boolean {
+    return this.contract?.contractState === ContractStates.SIGNED;
   }
 
   public assignConditions(): void {

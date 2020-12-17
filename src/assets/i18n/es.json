@@ -983,6 +983,9 @@
     "PRICE": "Precio",
     "EMISSION_DATE": "Fecha emisión",
     "CLIENT": "Cliente",
+    "SIGN_CONTRACT": "Firmar contrato",
+    "SIGN_CONTRACT_TITLE": "Confirmar firma de contrato",
+    "SIGN_CONTRACT_MSG": "¿Está seguro de que desea firmar el contrato <b>{{ contractCode }}?</b><br /><br /><i>Una vez firmado el contrato no podrá cambiar ningún dato del mismo, sino ha indicado una fecha de firma se tomara la fecha de hoy</i>",
     "CONTRACT_STATE": {
       "PENDING": "Pendiente",
       "SIGNED": "Firmado",

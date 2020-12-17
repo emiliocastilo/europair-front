@@ -6,7 +6,7 @@ import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-f
 import { Page } from 'src/app/core/models/table/pagination/page';
 import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 import { environment } from 'src/environments/environment';
-import { Contract } from '../models/Contract.model';
+import { Contract, ContractStates } from '../models/Contract.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +49,11 @@ export class ContractsService {
   public updateContract(fileId: number, contract: Contract): Observable<Contract> {
     const url = `${this.url}files/${fileId}/contracts/${contract.id}`;
     return this.http.put<Contract>(url, contract);
+  }
+
+  public updateContractState(fileId: number, contractId: number, newState: ContractStates) {
+    const url = `${this.url}files/${fileId}/contracts/state`;
+    return this.http.put<Contract>(url, {idList: [contractId], state: newState});
   }
 
   public deleteContract(fileId: number, contractId: number): Observable<void> {

@@ -111,4 +111,9 @@
     margin: 0 1rem;
 }
 
+.flex-button-row {
+  display: flex;
+  justify-content: space-between
+}
+
 @include mat-table-columns(("code", "description", "status-name"));

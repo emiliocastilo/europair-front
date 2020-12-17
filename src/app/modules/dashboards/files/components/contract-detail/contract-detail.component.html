@@ -1,8 +1,15 @@
 <core-page-bar [pageTitle]=" title | translate: {code: contract?.code}"></core-page-bar>
-<section class="row cmd-mb-2">
-  <button color="primary" mat-raised-button [routerLink]="['/files/', fileId]">
-    {{ "COMMON.RETURN" | translate }}
-  </button>
+<section class="flex-button-row cmd-mb-2">
+  <section>
+    <button color="primary" mat-raised-button [routerLink]="['/files/', fileId]">
+      {{ "COMMON.RETURN" | translate }}
+    </button>
+  </section>
+  <section>
+    <button color="primary" mat-raised-button (click)="signContract()">
+      {{ "FILES_CONTRACT.SIGN_CONTRACT" | translate }}
+    </button>
+  </section>
 </section>
 <mat-expansion-panel class="app-expansion-panel cmd-mb-2" expanded="true">
   <mat-expansion-panel-header>
@@ -140,7 +147,7 @@
           {{ "FILES_CONTRACT.PRICE" | translate }}
         </mat-header-cell>
         <mat-cell *matCellDef="let element; let index = index">
-          <core-editable (update)="updatePrice(index, 'price')">
+          <core-editable (update)="updatePrice(index, 'price')" *ngIf="!isContractSigned(); else noEditablePrice">
             <ng-template appViewMode>
               {{ element.price | number: "1.2-2" }}
             </ng-template>
@@ -149,6 +156,9 @@
                 [appMaxlength]="10" />
             </ng-template>
           </core-editable>
+          <ng-template #noEditablePrice>
+            {{ element.price | number: "1.2-2" }}
+          </ng-template>
         </mat-cell>
         <mat-footer-cell *matFooterCellDef> {{ contractLinesTotalAmount | number: "1.2-2" }} </mat-footer-cell>
       </ng-container>
@@ -215,7 +225,8 @@
         </app-input>
       </div>
       <div class="row">
-        <button class="col s5 l2 offset-l9 offset-s6" color="primary" mat-raised-button (click)="saveConfiguration()">
+        <button class="col s5 l2 offset-l9 offset-s6" *ngIf="!isContractSigned()"
+           color="primary" mat-raised-button (click)="saveConfiguration()">
           {{ "COMMON.SAVE_CONFIG" | translate }}
         </button>
       </div>
