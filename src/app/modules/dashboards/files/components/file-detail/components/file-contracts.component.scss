@@ -190,22 +190,21 @@ $other-columns-width: 120px;
   text-overflow: ellipsis;
 }
 
-.mat-column-route-actions,
-.mat-column-contribution-actions {
+.mat-column-contractActions{
   min-width: $actions-width;
   max-height: 23px;
-  .mat-icon:not(:last-child) {
+  .mat-icon {
     cursor: pointer;
     padding-right: 8px;
     fill: none;
     stroke: #005795;
   }
-  .mat-icon:last-child {
-    cursor: pointer;
-    padding-right: 8px;
-    fill: none;
-    stroke: red;
-  }
+  // .mat-icon:last-child {
+  //   cursor: pointer;
+  //   padding-right: 8px;
+  //   fill: none;
+  //   stroke: red;
+  // }
 }
 
 .expanded-row + .detail-row {

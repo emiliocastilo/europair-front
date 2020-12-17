@@ -74,7 +74,8 @@
     "REMOVE_CONDITION": "Eliminar condición",
     "REMOVE_COUNTRY_FROM_REGION": "Quitar país de la región",
     "REMOVE_AIRPORT_FROM_REGION": "Quitar aeropuerto de la región",
-    "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
+    "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos",
+    "EDIT_CONTRACT": "Editar contrato"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -958,6 +959,7 @@
     "OPERATIVE": "Operativa",
     "AMOUNT": "Importe",
     "CONFIGURATION": "Configuración",
+    "CONDITION": "Condiciones",
     "CONDITIONS": {
       "DETAIL_PAGE_TITLE": "Condiciones del contrato",
       "DELETE_TITLE": "Confirmar elminación gasto de cancelación",
