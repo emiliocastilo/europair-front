@@ -51,7 +51,8 @@ export class CancellationFeesComponent implements OnInit {
   }
 
   private getCancellationFees(contractId: number): void {
-    this.cancellationFeesService.getCancellationFees({ 'filter_contract.id': contractId.toString() })
+    this.hideCancellationFeeForm();
+    this.cancellationFeesService.getCancellationFees({ 'filter_contract.id': contractId.toString(), size: '100' })
     .subscribe((page: Page<CancellationFees>) => {
       this.cancellationFees = page.content;
       this.cancellationFeesDataSource = new MatTableDataSource(page.content);
@@ -72,16 +73,14 @@ export class CancellationFeesComponent implements OnInit {
     });
     confirmOperationRef.afterClosed().subscribe(result => {
       if(result) {
-        //TODO DELETE
-        // this.flightService.deleteFlight(this.fileId, this.rotationId, flight).subscribe(_ => this.refreshScreenData());
-        this.getCancellationFees(this.contractId);
+        this.cancellationFeesService.removeCancellationFees(cancellationFee)
+          .subscribe(() => this.getCancellationFees(this.contractId));
       }
     });
   }
 
   public onCancellationFeeSelected(cancellationFees: CancellationFees) {
     this.selection.toggle(cancellationFees);
-    // this.selectedFlight = this.selection.isEmpty()? undefined : flight;
     if(this.selection.isEmpty()) {
       this.hideCancellationFeeForm();
     }else {
@@ -104,8 +103,9 @@ export class CancellationFeesComponent implements OnInit {
     if(!this.cancellationFeeForm.valid) {
       return
     }
-    //TODO SAVE (CREATE OR UPDATE)
-    this.getCancellationFees(this.contractId);
+    const cancellationFee: CancellationFees = {...this.cancellationFeeForm.value, contractId: this.contractId}
+    this.cancellationFeesService.saveCancellationFees(cancellationFee)
+      .subscribe(() => this.getCancellationFees(this.contractId));
   }
 
   private hideCancellationFeeForm(): void {
