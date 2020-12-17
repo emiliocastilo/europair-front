@@ -70,6 +70,7 @@
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
     "REMOVE_CANCELLATION_FEE": "Eliminar gasto de cancelación",
+    "REMOVE_CONDITION": "Eliminar condición",
     "REMOVE_COUNTRY_FROM_REGION": "Quitar país de la región",
     "REMOVE_AIRPORT_FROM_REGION": "Quitar aeropuerto de la región",
     "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
@@ -958,10 +959,15 @@
     "CONFIGURATION": "Configuración",
     "CONDITIONS": {
       "DETAIL_PAGE_TITLE": "Condiciones del contrato",
+      "DELETE_TITLE": "Confirmar elminación gasto de cancelación",
+      "DELETE_MSG": "¿Está seguro que desea eliminar del contrato la condición: <b>código: {{ code }} título: {{ title }}</b>?",
       "CODE": "Código",
-      "TITLE": "Titulo",
+      "TITLE": "Título",
       "DESCRIPTION": "Descripción",
-      "ORDER": "Orden"
+      "ORDER": "Orden",
+      "SELECT_CONDITION": "Selecciona una condición para añadirla al contrato",
+      "GENERAL_CONDITIONS": "Condiciones generales",
+      "SELECT_SEARCH_TEXT": "Escribe título de la condición"
     },
     "CANCELATION_FEES": "Gastos de cancelación",
     "CONTRACT_TYPE": "Tipo de contrato",

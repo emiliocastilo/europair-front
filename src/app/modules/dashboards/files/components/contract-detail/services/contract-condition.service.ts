@@ -20,7 +20,7 @@ export class ContractConditionsService {
   private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}contract-conditions`;
   private readonly filterOptions: FilterOptions = {
-    filter_name: OperatorEnum.CONTAINS,
+    filter_title: OperatorEnum.CONTAINS,
     'filter_contract.id': OperatorEnum.EQUALS,
     filter_contractId: OperatorEnum.IS_NULL
   } as const;
@@ -67,6 +67,10 @@ export class ContractConditionsService {
 
   public saveContractCondition(contractCondition: ContractCondition): Observable<ContractCondition> {
     return contractCondition.id !== null ? this.updateContractCondition(contractCondition) : this.createContractCondition(contractCondition);
+  }
+
+  public saveGeneralConditionToContract(contractId: number, contractCondition: ContractCondition) {
+    return this.http.post<ContractCondition>(this.url, {...contractCondition, contractId, id: null});
   }
 
   private createContractCondition(contractCondition: ContractCondition): Observable<ContractCondition> {
