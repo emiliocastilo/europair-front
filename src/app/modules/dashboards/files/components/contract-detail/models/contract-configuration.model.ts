@@ -19,3 +19,8 @@ export enum ContractConfigTimezoneEnum {
   UTC = 'UTC',
   LOCAL = 'LOCAL'
 }
+
+export const CONTRACT_HOURS_CONFIG = [
+  {name: ContractConfigTimezoneEnum.LOCAL, description: 'Local'},
+  {name: ContractConfigTimezoneEnum.UTC, description: 'UTC'},
+] as const;

@@ -16,6 +16,7 @@ import { Flight } from '../../models/Flight.model';
 import { ContractLineService } from '../../services/contract-line.service';
 import { ContractsService } from '../../services/contracts.service';
 import { FlightService } from '../../services/flight.service';
+import { CONTRACT_HOURS_CONFIG } from './models/contract-configuration.model';
 import { ContractPaymentCondition } from './models/contract-payment-condition';
 import { ContractConfigurationService } from './services/contract-configuration.service';
 import { ContractPaymentConditionService } from './services/contract-payment-condition.service';
@@ -32,7 +33,7 @@ export class ContractDetailComponent implements OnInit {
   public contract: Contract;
   public fileRoutes: Array<FileRoute>;
   public languageOptions: Array<string> = ['Español', 'Ingles'];
-  public dateFormatsOptions: Array<TimeZone> = [];
+  public hoursFormatsOptions: any;
   public paymentConditionOptions: Array<ContractPaymentCondition> = [];
   public paymentConditionsOptions: Array<{ id: number, name: string }> = [];
   public CONTRACT_STATES = ContractStates;
@@ -76,16 +77,15 @@ export class ContractDetailComponent implements OnInit {
     private readonly contractconfigurationService: ContractConfigurationService,
     private readonly contractLineService: ContractLineService,
     private readonly flightService: FlightService,
-    private readonly timeSerivce: TimeConversionService,
     private readonly matDialog: MatDialog,
     @Inject(LOCALE_ID) locale: string
   ) {
     this.datePipe = new DatePipe(locale);
+    this.hoursFormatsOptions = CONTRACT_HOURS_CONFIG;
   }
 
   ngOnInit(): void {
     this.getContractInfo();
-    this.obtainTimeZone();
     this.obtainContractPaymentConditions();
     this.updateChangesContract();
   }
@@ -133,10 +133,6 @@ export class ContractDetailComponent implements OnInit {
       .subscribe((pageFlight: Page<Flight>) => {
         this.flightsDataSource = new MatTableDataSource<Flight>(pageFlight.content);
       });
-  }
-
-  private obtainTimeZone(): void {
-    this.timeSerivce.getTimeZones().subscribe((timeZones: TimeZone[]) => this.dateFormatsOptions = timeZones)
   }
 
   private obtainContractPaymentConditions(): void {
