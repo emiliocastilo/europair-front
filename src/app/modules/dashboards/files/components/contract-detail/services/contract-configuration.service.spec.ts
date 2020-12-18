@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ConditionsService } from './conditions.service';
-
+import { CancellationFeesService } from './cancellation-fees.service';
 
 describe('UsersService', () => {
-  let service: ConditionsService;
+  let service: CancellationFeesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ConditionsService);
+    service = TestBed.inject(CancellationFeesService);
   });
 
   it('should be created', () => {

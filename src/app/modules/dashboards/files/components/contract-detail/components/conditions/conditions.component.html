@@ -3,29 +3,117 @@
 <button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
   {{ "COMMON.RETURN" | translate }}
 </button>
-<div class="row">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.CODE' | translate }}</label>
-      <span>{{ condition?.code }}</span>
+<section class="responsive-table-container cmd-mb-2">
+  <mat-table [dataSource]="contractConditionsDataSource" class="cmd-mb-2">
+    <ng-container matColumnDef="selection">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-checkbox color="primary"
+          (click)="$event.stopPropagation()"
+          (change)="onContractConditionSelected(element)"
+          [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.CODE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.code }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.TITLE" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.title }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.DESCRIPTION" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <quill-editor [ngModel]="element.description" theme="bubble" [placeholder]="''" [readOnly]="true" [modules]="{toolbar: false}"></quill-editor>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="order">
+      <mat-header-cell *matHeaderCellDef>
+        {{ "FILES_CONTRACT.CONDITIONS.ORDER" | translate }}
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{ element.order }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon *ngIf="!isContractSigned()"
+          (click)="deleteCondition(element)"
+          (touchend)="$event.stopPropagation()"
+          svgIcon="europair_trash"
+          [matTooltip]="'TOOLTIPS.REMOVE_CONDITION' | translate"
+          [matTooltipClass]="'europair-tooltip'"
+        ></mat-icon>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="conditionsColumnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: conditionsColumnsToDisplay" 
+      (click)="onContractConditionSelected(row)"
+      [ngClass]="{ 'selected-row': selection.isSelected(row) }">
+    </mat-row>
+  </mat-table>
+</section>
+<section class="row cmd-mb-2" *ngIf="isContractConditionFormVisible">
+  <form [formGroup]="contractConditionForm">
+    <div class="row">
+        <app-input [prefix]="'CONDITIONS.CODE' | translate" formControlName="code"
+          class="col s12 l4 cmd-pb-1">
+          <ng-container inputErrors *ngIf="hasControlAnyError('code')">
+            <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('code', 'required')">
+              {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input [prefix]="'CONDITIONS.TITLE' | translate" formControlName="title"
+          class="col s12 l4 cmd-pb-1">
+          <ng-container inputErrors *ngIf="hasControlAnyError('title')">
+            <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('title', 'required')">
+              {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
+        <app-input [type]="'number'" [prefix]="'CONDITIONS.ORDER' | translate" formControlName="conditionOrder"
+          class="col s12 l4 cmd-pb-1">
+          <ng-container inputErrors *ngIf="hasControlAnyError('conditionOrder')">
+            <mat-error class="ep-error-msg" *ngIf="hasControlSpecificError('conditionOrder', 'required')">
+              {{ "CONDITIONS.ERRORS.REQUIRED" | translate }}
+            </mat-error>
+          </ng-container>
+        </app-input>
     </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.TITLE' | translate }}</label>
-      <span>{{ condition?.title }}</span>
+    <div class="row">
+      <quill-editor 
+        name="editor"
+        formControlName="description"
+        [placeholder]="'COMMON.PLACEHOLDER' | translate"
+        [modules]="quillModules"
+        [styles]="{height: '100px'}">
+      </quill-editor>
     </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.DESCRIPTION' | translate }}</label>
-      <span>{{ condition?.description }}</span>
+    <div class="row">
+      <button color="primary" type="submit" (click)="saveCondition()" mat-raised-button
+          class="col s12 l2 offset-l10">
+          {{ 'CONDITIONS.SAVE' | translate }}
+      </button>
     </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CONDITIONS.ORDER' | translate }}</label>
-      <span>{{ condition?.conditionOrder }}</span>
-    </div>
-  </div>
-</div>
+  </form>
+</section>
+<section class="row cmd-mb-2" *ngIf="!isContractSigned()">
+  <app-select [label]="'FILES_CONTRACT.CONDITIONS.GENERAL_CONDITIONS' | translate"
+    [id]="'search-airport-country'" [items]="generalConditions$ | async" [minTermLength]="1"
+    [itemDescription]="'title'"
+    [loading]="generalConditionsLoading" class="col s12 l12 cmd-mb-1"
+    [typeToSearchText]="'FILES_CONTRACT.CONDITIONS.SELECT_SEARCH_TEXT' | translate"
+    [placeholder]="'FILES_CONTRACT.CONDITIONS.SELECT_CONDITION' | translate"
+    [typeahead]="generalConditionsInput$"
+    [searchable]="true" [notFoundText]="'COMMON.NOT_FOUND' | translate"
+    [formControl]="generalConditionsControl">
+</app-select>
+</section>

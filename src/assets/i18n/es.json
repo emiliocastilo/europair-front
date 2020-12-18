@@ -41,6 +41,7 @@
     "NAME": "nombre",
     "OBSERVATIONS": "observaciones",
     "SAVE": "guardar",
+    "SAVE_CONFIG": "Guardar configuración",
     "ABBREVIATIONS": {
       "IATA_CODE": "Cód. IATA",
       "ICAO_CODE": "Cód. ICAO"
@@ -54,7 +55,8 @@
     "SEARCH_FILTERS": "Filtros de búsqueda",
     "TOTAL": "Total",
     "ACEPT": "Aceptar",
-    "SEARCH": "buscar"
+    "SEARCH": "buscar",
+    "PLACEHOLDER": "Inserte texto aquí.."
   },
   "TOOLTIPS": {
     "COPY_ROUTE": "Copiar ruta",
@@ -68,9 +70,12 @@
     "REMOVE_CONTRIBUTION": "Eliminar cotización",
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
+    "REMOVE_CANCELLATION_FEE": "Eliminar gasto de cancelación",
+    "REMOVE_CONDITION": "Eliminar condición",
     "REMOVE_COUNTRY_FROM_REGION": "Quitar país de la región",
     "REMOVE_AIRPORT_FROM_REGION": "Quitar aeropuerto de la región",
-    "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos"
+    "EDIT_FLIGHT_LINES": "Editar líneas de cotización de los vuelos",
+    "EDIT_CONTRACT": "Editar contrato"
   },
   "AIRPORTS": {
     "PAGE_TITLE": "Aeropuertos",
@@ -936,6 +941,7 @@
   },
   "CONDITIONS": {
     "PAGE_TITLE": "Condiciones",
+    "DETAIL_PAGE_TITLE": "Detalle de condición",
     "CODE": "Código",
     "TITLE": "Título",
     "ORDER": "Orden",
@@ -953,7 +959,19 @@
     "OPERATIVE": "Operativa",
     "AMOUNT": "Importe",
     "CONFIGURATION": "Configuración",
-    "CONDITIONS": "Condiciones",
+    "CONDITION": "Condiciones",
+    "CONDITIONS": {
+      "DETAIL_PAGE_TITLE": "Condiciones del contrato",
+      "DELETE_TITLE": "Confirmar elminación gasto de cancelación",
+      "DELETE_MSG": "¿Está seguro que desea eliminar del contrato la condición: <b>código: {{ code }} título: {{ title }}</b>?",
+      "CODE": "Código",
+      "TITLE": "Título",
+      "DESCRIPTION": "Descripción",
+      "ORDER": "Orden",
+      "SELECT_CONDITION": "Selecciona una condición para añadirla al contrato",
+      "GENERAL_CONDITIONS": "Condiciones generales",
+      "SELECT_SEARCH_TEXT": "Escribe título de la condición"
+    },
     "CANCELATION_FEES": "Gastos de cancelación",
     "CONTRACT_TYPE": "Tipo de contrato",
     "CONTRACT_STATE_TITLE": "Estado del contrato",
@@ -965,8 +983,11 @@
     "START_DATE": "Fecha inicio",
     "END_DATE": "Fecha fin",
     "PRICE": "Precio",
-    "DATE": "Fecha",
+    "EMISSION_DATE": "Fecha emisión",
     "CLIENT": "Cliente",
+    "SIGN_CONTRACT": "Firmar contrato",
+    "SIGN_CONTRACT_TITLE": "Confirmar firma de contrato",
+    "SIGN_CONTRACT_MSG": "¿Está seguro de que desea firmar el contrato <b>{{ contractCode }}?</b><br /><br /><i>Una vez firmado el contrato no podrá cambiar ningún dato del mismo, sino ha indicado una fecha de firma se tomara la fecha de hoy</i>",
     "CONTRACT_STATE": {
       "PENDING": "Pendiente",
       "SIGNED": "Firmado",
@@ -984,14 +1005,16 @@
     "AIRCRAFT": "Aeronave",
     "SEATS": "Asientos",
     "ASSIGN_CONDITIONS": "Asignar condiciones",
-    "CANCELLATIONS_FEES": "Gastos de cancelación",
+    "VIEW_CONDITIONS": "Ver condiciones",
+    "EDIT_CANCELLATIONS_FEES": "Editar gastos de cancelación",
+    "VIEW_CANCELLATIONS_FEES": "Ver gastos de cancelación",
     "LANGUAGE": "Idioma",
     "ERRORS": {
       "REQUIRED": "Este campo es requerido"
     },
     "PLACEHOLDER_LANGUAGE": "Selecciona un idioma",
-    "DATE_FORMAT": "Formato de fechas",
-    "PLACEHOLDER_DATE_FORMAT": "Selecciona un formato de fechas",
+    "HOUR_FORMAT": "Formato de horas",
+    "PLACEHOLDER_HOUR_FORMAT": "Selecciona un formato de horas",
     "PLACEHOLDER_PAYMENT_CONDITIONS": "Selecciona una condicion de pago",
     "PAYMENT_CONDITIONS": "Cond. pago",
     "PAYMENTY_CONDITION_OBSERVATION": "Obs. Cond. pago",
@@ -999,9 +1022,20 @@
     "EXPIRATION": "Vencimiento",
     "CANCELLATION_FEES": {
       "DETAIL_PAGE_TITLE": "Gastos de cancelación",
+      "DELETE_TITLE": "Confirmar elminación gasto de cancelación",
+      "DELETE_MSG": "¿Está seguro que desea eliminar el gasto de cancelación: <b>Desde {{ fromValue }} {{ fromUnit }} {{feePercentage}}% de penalización</b>?",
       "FROM_VALUE": "Desde",
       "FROM_UNIT": "Unidades",
-      "FEE_PERCENTAGE": "% penalización"
-    }
+      "FEE_PERCENTAGE": "% penalización",
+      "NEW": "Nuevo gasto de cancelación",
+      "ERRORS": {
+        "FROM_VALUE_REQ": "Debe indicar un número",
+        "FROM_VALUE_MIN": "El número debe ser positivo",
+        "FROM_UNIT_REQ": "Debe indicar unidades",
+        "FEE_PERCENTAGE_REQ": "Debe indicar un % de penalización",
+        "FEE_PERCENTAGE_MIN": "El % de penalización debe ser mayor que 0"
+      }
+    },
+    "DATE": "Fecha"
   }
 }

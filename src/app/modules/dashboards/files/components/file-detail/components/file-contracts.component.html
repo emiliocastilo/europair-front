@@ -44,7 +44,7 @@
 
     <ng-container matColumnDef="conditions">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES_CONTRACT.CONDITIONS" | translate }}
+        {{ "FILES_CONTRACT.CONDITION" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element">{{ element.conditions }}</mat-cell>
     </ng-container>
@@ -64,7 +64,7 @@
             <mat-icon
               (click)="onSelectContract(element)"
               svgIcon="europair_edit"
-              [matTooltip]="'TOOLTIPS.EDIT_FLIGHT_LINES' | translate"
+              [matTooltip]="'TOOLTIPS.EDIT_CONTRACT' | translate"
               [matTooltipClass]="'europair-tooltip'"
             ></mat-icon>
       </mat-cell>

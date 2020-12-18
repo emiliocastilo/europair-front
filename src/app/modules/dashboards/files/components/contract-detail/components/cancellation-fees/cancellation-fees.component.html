@@ -1,25 +1,125 @@
 <core-page-bar [pageTitle]="'FILES_CONTRACT.CANCELLATION_FEES.DETAIL_PAGE_TITLE' | translate"></core-page-bar>
+<section class="row cmd-mb-2">
+  <button color="primary" mat-raised-button [routerLink]="routeToBack()">
+    {{ "COMMON.RETURN" | translate }}
+  </button>
+</section>
+<section class="row cmd-mb-2">
+  <div class="responsive-table-container">
+    <mat-table
+      [dataSource]="cancellationFeesDataSource">
+      <!-- Selection Column-->
+      <ng-container matColumnDef="selection">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="onCancellationFeeSelected(element)"
+            [checked]="selection.isSelected(element)"
+          ></mat-checkbox>
+        </mat-cell>
+      </ng-container>
 
-<button color="primary" class="cmd-mb-2" mat-raised-button [routerLink]="routeToBack()">
-  {{ "COMMON.RETURN" | translate }}
-</button>
-<div class="row" *ngFor="let cancellation of cancellationFees">
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE' | translate }}</label>
-      <span>{{ cancellation?.fromValue }}</span>
-    </div>
+      <!-- Origin Column-->
+      <ng-container matColumnDef="fromValue">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.fromValue }}
+        </mat-cell>
+      </ng-container>
+      <!-- Destination Column-->
+      <ng-container matColumnDef="fromUnit">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.fromUnit }}
+        </mat-cell>
+      </ng-container>
+      <!-- Departure Date Column-->
+      <ng-container matColumnDef="feePercentage">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{ element.feePercentage }}
+        </mat-cell>
+      </ng-container>
+      <!-- Actions Column-->
+      <ng-container matColumnDef="actions" stickyEnd>
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="!isContractSigned()"
+            (click)="$event.stopPropagation(); deleteCancellationFee(element)"
+            svgIcon="europair_trash"
+            [matTooltip]="'TOOLTIPS.REMOVE_CANCELLATION_FEE' | translate"
+            [matTooltipClass]="'europair-tooltip'"
+          ></mat-icon>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row
+        *matRowDef="let row; columns: columnsToDisplay"
+        (click)="onCancellationFeeSelected(row)"
+        [ngClass]="{ 'selected-row': selection.isSelected(row) }"
+      ></mat-row>
+    </mat-table>
   </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT' | translate }}</label>
-      <span>{{ cancellation?.fromUnit }}</span>
-    </div>
-  </div>
-  <div class="col s12 l3 field-colum">
-    <div class="field-container">
-      <label>{{'FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE' | translate }}</label>
-      <span>{{ cancellation?.feePercentage }}</span>
-    </div>
-  </div>
-</div>
+</section>
+<section class="row cmd-mb-2" *ngIf="!isContractSigned()">
+  <button color="primary" color="primary" class="cmd-mb-2" (click)="newCancellationFee()" mat-raised-button>
+    {{ "FILES_CONTRACT.CANCELLATION_FEES.NEW" | translate }}
+  </button>
+</section>
+<section class="row cmd-mb-2" *ngIf="isCancellationFeeFormVisible">
+  <form [formGroup]="cancellationFeeForm">
+    <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FROM_VALUE' | translate" formControlName="fromValue"
+      class="col s12 l4">
+      <ng-container inputErrors *ngIf="hasControlAnyError('fromValue')">
+        <mat-error
+          class="ep-error-msg"
+          *ngIf="hasControlSpecificError('fromValue', 'required')">
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.ERRORS.FROM_VALUE_REQ" | translate }}
+        </mat-error>
+        <mat-error
+          class="ep-error-msg"
+          *ngIf="hasControlSpecificError('fromValue', 'min')">
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.ERRORS.FROM_VALUE_MIN" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FROM_UNIT' | translate" formControlName="fromUnit"
+      class="col s12 l4">
+      <ng-container inputErrors *ngIf="hasControlAnyError('fromUnit')">
+        <mat-error
+          class="ep-error-msg"
+          *ngIf="hasControlSpecificError('fromUnit', 'required')"
+        >
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.ERRORS.FROM_UNIT_REQ" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <app-input [type]="'number'" [prefix]="'FILES_CONTRACT.CANCELLATION_FEES.FEE_PERCENTAGE' | translate" formControlName="feePercentage"
+      class="col s12 l4">
+      <ng-container inputErrors *ngIf="hasControlAnyError('feePercentage')">
+        <mat-error
+          class="ep-error-msg"
+          *ngIf="hasControlSpecificError('feePercentage', 'required')">
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.ERRORS.FEE_PERCENTAGE_REQ" | translate }}
+        </mat-error>
+        <mat-error
+          class="ep-error-msg"
+          *ngIf="hasControlSpecificError('feePercentage', 'min')">
+          {{ "FILES_CONTRACT.CANCELLATION_FEES.ERRORS.FEE_PERCENTAGE_MIN" | translate }}
+        </mat-error>
+      </ng-container>
+    </app-input>
+    <button color="primary" color="primary" class="cmd-mt-2" (click)="saveCancellationFee()" mat-raised-button>
+      {{ "COMMON.SAVE" | translate | sentenceCase }}
+    </button>
+  </form>
+</section>

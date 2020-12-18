@@ -26,6 +26,7 @@ import { HttpErrorInterceptor } from './core/interceptors/http-error.interceptor
 import { HttpSuccessInterceptor } from './core/interceptors/http-success.interceptor';
 import { HttpTokenInterceptor } from './core/interceptors/http-token.interceptor';
 import { HttpSpinnerInterceptor } from './core/interceptors/http-spinner.interceptor';
+import { QuillModule } from 'ngx-quill';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -57,6 +58,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
+    QuillModule.forRoot()
   ],
   providers: [
     TranslateService,

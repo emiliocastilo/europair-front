@@ -12,7 +12,6 @@ import { CancellationFees } from '../models/cancellation-fees.model';
   providedIn: 'root',
 })
 export class CancellationFeesService {
-  private readonly mocked: boolean = environment.mock;
   private readonly url = `${environment.apiUrl}contract-cancel-fee`;
   private readonly filterOptions: FilterOptions = {
     filter_name: OperatorEnum.CONTAINS,
@@ -26,7 +25,7 @@ export class CancellationFeesService {
   ) {}
 
   public getCancellationFees(searchFilter: SearchFilter = {}): Observable<Page<CancellationFees>> {
-    const url: string = this.mocked ? '/assets/mocks/cancellationFees.json' : this.url;
+    const url: string = environment.mock ? '/assets/mocks/cancellation-fees.json' : this.url;
     return this.http.get<Page<CancellationFees>>(url, {
       params: this.searchFilterService.createHttpParams(
         searchFilter,
@@ -39,21 +38,21 @@ export class CancellationFeesService {
     return this.http.get<CancellationFees>(`${this.url}/${cancellationFeesId}`);
   }
 
-  public saveCancellationFees(user: CancellationFees): Observable<CancellationFees> {
-    return user.id !== null ? this.updateCancellationFees(user) : this.createCancellationFees(user);
+  public saveCancellationFees(cancellationFees: CancellationFees): Observable<CancellationFees> {
+    return cancellationFees.id !== null ? this.updateCancellationFees(cancellationFees) : this.createCancellationFees(cancellationFees);
   }
 
-  private createCancellationFees(user: CancellationFees): Observable<CancellationFees> {
-    return this.http.post<CancellationFees>(this.url, user);
+  private createCancellationFees(cancellationFees: CancellationFees): Observable<CancellationFees> {
+    return this.http.post<CancellationFees>(this.url, cancellationFees);
   }
 
-  private updateCancellationFees(user: CancellationFees): Observable<CancellationFees> {
-    const updateCancellationFeesUrl = `${this.url}/${user.id}`;
-    return this.http.put<CancellationFees>(updateCancellationFeesUrl, user);
+  private updateCancellationFees(cancellationFees: CancellationFees): Observable<CancellationFees> {
+    const updateCancellationFeesUrl = `${this.url}/${cancellationFees.id}`;
+    return this.http.put<CancellationFees>(updateCancellationFeesUrl, cancellationFees);
   }
 
-  public removeCancellationFees(user: CancellationFees) {
-    const removeCancellationFeesUrl = `${this.url}/${user.id}`;
+  public removeCancellationFees(cancellationFees: CancellationFees) {
+    const removeCancellationFeesUrl = `${this.url}/${cancellationFees.id}`;
     return this.http.delete(removeCancellationFeesUrl);
   }
 }

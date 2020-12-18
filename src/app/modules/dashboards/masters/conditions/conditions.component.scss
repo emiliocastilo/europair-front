@@ -43,5 +43,5 @@
   }
 }
 
-@include mat-table-columns(("code", "name", "alias", "conditionType", "cmsCode", "phoneNumber"));
+@include mat-table-columns(("code", "title", "description", "conditionOrder"));
  

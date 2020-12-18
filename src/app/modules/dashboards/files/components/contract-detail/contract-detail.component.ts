@@ -1,16 +1,25 @@
 import { DatePipe } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { debounceTime } from 'rxjs/operators';
+import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { TimeZone } from 'src/app/core/models/base/time-zone';
 import { Page } from 'src/app/core/models/table/pagination/page';
-import { Contract, ContractLine, ContractType } from '../../models/Contract.model';
+import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
+import { Contract, ContractLine, ContractStates, ContractType } from '../../models/Contract.model';
 import { FileRoute, RouteStatus } from '../../models/FileRoute.model';
 import { Flight } from '../../models/Flight.model';
 import { ContractLineService } from '../../services/contract-line.service';
 import { ContractsService } from '../../services/contracts.service';
 import { FlightService } from '../../services/flight.service';
+import { CONTRACT_HOURS_CONFIG } from './models/contract-configuration.model';
+import { ContractPaymentCondition } from './models/contract-payment-condition';
+import { ContractConfigurationService } from './services/contract-configuration.service';
+import { ContractPaymentConditionService } from './services/contract-payment-condition.service';
 
 @Component({
   selector: 'app-contract-detail',
@@ -23,9 +32,11 @@ export class ContractDetailComponent implements OnInit {
   public contractId: number;
   public contract: Contract;
   public fileRoutes: Array<FileRoute>;
-  public languageOptions: Array<{ id: number, name: string }> = [];
-  public dateFormatsOptions: Array<{ id: number, name: string }> = [];
+  public languageOptions: Array<string> = ['Español', 'Ingles'];
+  public hoursFormatsOptions: any;
+  public paymentConditionOptions: Array<ContractPaymentCondition> = [];
   public paymentConditionsOptions: Array<{ id: number, name: string }> = [];
+  public CONTRACT_STATES = ContractStates;
 
   private datePipe: DatePipe;
 
@@ -47,12 +58,13 @@ export class ContractDetailComponent implements OnInit {
   });
 
   public configurationDataForm = this.fb.group({
+    id: [null],
     language: [''],
-    dateFormat: [''],
-    paymentConditions: [''],
-    paymentConditionsObservations: [''],
+    timezone: [''],
+    paymentConditionsId: [''],
+    paymentConditionsObservation: [''],
     deposit: [''],
-    expiration: ['']
+    depositExpirationDate: ['']
   });
 
   constructor(
@@ -61,15 +73,21 @@ export class ContractDetailComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly translateService: TranslateService,
     private readonly contractsService: ContractsService,
+    private readonly contractPaymentConditionService: ContractPaymentConditionService,
+    private readonly contractconfigurationService: ContractConfigurationService,
     private readonly contractLineService: ContractLineService,
     private readonly flightService: FlightService,
+    private readonly matDialog: MatDialog,
     @Inject(LOCALE_ID) locale: string
   ) {
     this.datePipe = new DatePipe(locale);
+    this.hoursFormatsOptions = CONTRACT_HOURS_CONFIG;
   }
 
   ngOnInit(): void {
     this.getContractInfo();
+    this.obtainContractPaymentConditions();
+    this.updateChangesContract();
   }
 
   private getContractInfo() {
@@ -85,13 +103,6 @@ export class ContractDetailComponent implements OnInit {
     this.loadFlightsByFile();
   }
 
-  private loadFlightsByFile() {
-    this.flightService.getFlightsByFile(this.fileId, { 'filter_route.routeState': RouteStatus.WON })
-      .subscribe((pageFlight: Page<Flight>) => {
-        this.flightsDataSource = new MatTableDataSource<Flight>(pageFlight.content);
-      });
-  }
-
   private loadContract() {
     this.contractsService
       .getContract(this.fileId, this.contractId)
@@ -99,28 +110,49 @@ export class ContractDetailComponent implements OnInit {
         this.contract = contract;
         this.title = `FILES_CONTRACT.DETAIL_TITLE_${contract.contractType}`;
         this.contractDataForm.patchValue({
-          contractDate: this.datePipe.transform(contract.contractDate, 'yyyy-MM-dd'),
-          contractSignDate: this.datePipe.transform(contract.signatureDate, 'yyyy-MM-dd'),
+          contractDate: this.datePipe.transform(contract.contractDate, 'yyyy-MM-dd') ?? '',
+          contractSignDate: this.datePipe.transform(contract.signatureDate, 'yyyy-MM-dd') ?? '',
           contractState: this.translateService.instant(`FILES_CONTRACT.CONTRACT_STATE.${contract.contractState}`),
           provider: contract.provider?.name,
           client: contract.client?.name
-        });
+        }, {emitEvent: false});
         this.contractLinesDataSource = new MatTableDataSource<ContractLine>(contract.contractLines);
         this.refreshLinesData();
-        this.updateChangesContract();
+        if (contract.contractConfiguration) {
+          this.configurationDataForm.patchValue(contract.contractConfiguration);
+        }
+        if (this.isContractSigned()) {
+          this.contractDataForm.disable({emitEvent: false});
+          this.configurationDataForm.disable({emitEvent: false});
+        }
       });
   }
 
+  private loadFlightsByFile() {
+    this.flightService.getFlightsByFile(this.fileId, { 'filter_route.routeState': RouteStatus.WON })
+      .subscribe((pageFlight: Page<Flight>) => {
+        this.flightsDataSource = new MatTableDataSource<Flight>(pageFlight.content);
+      });
+  }
+
+  private obtainContractPaymentConditions(): void {
+    this.contractPaymentConditionService.getContractPaymentConditions({ size: '200' }).subscribe((pageConditions: Page<ContractPaymentCondition>) => this.paymentConditionOptions = pageConditions.content);
+  }
+
   private updateChangesContract(): void {
-    this.contractDataForm.get('contractDate').valueChanges.subscribe((value: string) => {
-      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: value}).subscribe(() => this.loadContract());
+    this.contractDataForm.get('contractDate').valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((value: string) => {
+      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
-    this.contractDataForm.get('signatureDate').valueChanges.subscribe((value: string) => {
-      this.contractsService.updateContract(this.fileId, { id: this.contract.id, contractDate: value}).subscribe(() => this.loadContract());
+    this.contractDataForm.get('contractSignDate').valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((value: string) => {
+      this.contractsService.updateContract(this.fileId, { id: this.contract.id, signatureDate: `${value}T00:00:00`}).subscribe(() => this.loadContract());
     });
   }
 
-  private refreshLinesData() {
+  private refreshLinesData(): void {
     this.contractLinesTotalAmount = this.contractLineService.getTotalPrice(this.contract.contractLines);
     this.priceControls = new FormArray(
       this.contract.contractLines.map(this.createPriceControls)
@@ -134,11 +166,7 @@ export class ContractDetailComponent implements OnInit {
   public updatePrice(index: number, field: string) {
     const control = this.getControl(this.priceControls, index, field);
     if (control.valid && control.dirty) {
-      this.contractLineService
-        .updateContractLine(
-          this.fileId,
-          this.getContractLinePriceUpdated(this.contract.contractLines[index], control)
-        )
+      this.contractLineService.updateContractLine(this.fileId, this.contractId, this.getContractLinePriceUpdated(this.contract.contractLines[index], control))
         .subscribe((_) => this.refreshScreenData());
     }
   }
@@ -148,6 +176,31 @@ export class ContractDetailComponent implements OnInit {
       ...contractLine,
       price: control.value,
     };
+  }
+
+  public signContract() {
+    const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
+      data: {
+        title: 'FILES_CONTRACT.SIGN_CONTRACT_TITLE',
+        message: 'FILES_CONTRACT.SIGN_CONTRACT_MSG',
+        translationParams: { contractCode: this.contract?.code}
+      }
+    });
+    confirmOperationRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.contractsService.updateContractState(this.fileId, this.contract.id, ContractStates.SIGNED)
+          .subscribe(() => this.refreshScreenData());
+      }
+    });
+  }
+
+  public saveConfiguration(): void {
+    this.contractconfigurationService.saveContractConfiguration(this.fileId, this.contractId, this.configurationDataForm.value)
+      .subscribe(() => this.refreshScreenData());
+  }
+
+  public isContractSigned(): boolean {
+    return this.contract?.contractState === ContractStates.SIGNED;
   }
 
   public assignConditions(): void {
@@ -160,15 +213,5 @@ export class ContractDetailComponent implements OnInit {
 
   public getControl(controlsArray: FormArray, index: number, fieldName: string): FormControl {
     return controlsArray.at(index).get(fieldName) as FormControl;
-  }
-
-  public hasControlAnyError(form: FormGroup, controlName: string): boolean {
-    const control = form.get(controlName);
-    return control && control.invalid && (control.dirty || control.touched);
-  }
-
-  public hasControlSpecificError(form: FormGroup, controlName: string, errorName: string): boolean {
-    const control = form.get(controlName);
-    return control && control.hasError(errorName);
   }
 }
