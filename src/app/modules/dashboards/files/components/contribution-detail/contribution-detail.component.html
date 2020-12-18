@@ -122,7 +122,7 @@
       <mat-card class="warning-card">
         <mat-label>
           <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
-          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution.percentage_applied_on_purchase_tax} }}</span>
+          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution?.percentage_applied_on_purchase_tax} }}</span>
         </mat-label>
       </mat-card>
     </div>
@@ -442,7 +442,7 @@
       <mat-card class="warning-card">
         <mat-label>
           <mat-icon matPrefix class="warning-msg">error_outline</mat-icon>
-          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution.percentage_applied_on_sale_tax} }}</span>
+          <span>{{ 'CONTRIBUTIONS.PERCENTAGE_APPLIED_MSG' | translate:{ percentage: contribution?.percentage_applied_on_sale_tax} }}</span>
         </mat-label>
       </mat-card>
     </div>
