@@ -6,7 +6,12 @@
     </button>
   </section>
   <section>
-    <button color="primary" mat-raised-button (click)="signContract()">
+    <button class="cmd-ml-1" *ngIf="isContractSigned()"
+      color="primary" mat-raised-button (click)="copyContract()">
+      {{ "FILES_CONTRACT.COPY_CONTRACT" | translate }}
+    </button>
+    <button class="cmd-ml-1" *ngIf="!isContractSigned()"
+      color="primary" mat-raised-button (click)="signContract()">
       {{ "FILES_CONTRACT.SIGN_CONTRACT" | translate }}
     </button>
   </section>

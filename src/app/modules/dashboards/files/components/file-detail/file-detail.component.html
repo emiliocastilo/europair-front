@@ -584,7 +584,10 @@
           </mat-panel-title>
           <mat-panel-description *ngIf="contractsExpansionPanel.expanded"></mat-panel-description>
         </mat-expansion-panel-header>
-        <app-file-contracts [contracts]="contracts" (contractDetail)="navigateToContractDetail($event)"></app-file-contracts>
+        <app-file-contracts [contracts]="contracts" 
+          (contractDetail)="navigateToContractDetail($event)"
+          (copyContract)="onCopyContract($event)">
+        </app-file-contracts>
       </mat-expansion-panel>
 
       <mat-expansion-panel #additionalServices class="cmd-mb-2" *ngIf="showAction(fileAction.SHOW_ADDITIONAL_SERVICE)">

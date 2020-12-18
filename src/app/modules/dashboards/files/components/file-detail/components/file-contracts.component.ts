@@ -3,7 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Data } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Contract } from '../../../models/Contract.model';
+import { Contract, ContractStates } from '../../../models/Contract.model';
 
 @Component({
   selector: 'app-file-contracts',
@@ -14,6 +14,7 @@ export class FileContractsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('contractsTable') contractsTable: MatTable<any>;
   @Output() contractDetail: EventEmitter<number> = new EventEmitter();
+  @Output() copyContract: EventEmitter<Contract> = new EventEmitter();
   @Input() set contracts(contracts: Array<Contract>) {
     this.dataSource =  new MatTableDataSource(contracts);
   }
@@ -44,5 +45,13 @@ export class FileContractsComponent implements OnInit {
 
   public onSelectContract(contract: Contract): void {
     this.contractDetail.emit(contract.id);
+  }
+
+  public isContractSigned(contract: Contract): boolean {
+    return contract?.contractState === ContractStates.SIGNED;
+  }
+
+  public onCopyContract(contract: Contract) {
+    this.copyContract.emit(contract);
   }
 }

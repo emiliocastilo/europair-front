@@ -512,6 +512,22 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.router.navigate(['files', this.fileData.id, 'contracts', contractId]);
   }
 
+  public onCopyContract(contract: Contract) {
+    const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
+      data: {
+        title: 'FILES_CONTRACT.COPY_CONTRACT_TITLE',
+        message: 'FILES_CONTRACT.COPY_CONTRACT_MSG',
+        translationParams: { contractCode: contract?.code}
+      }
+    });
+    confirmOperationRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.contractService.copyContract(this.fileData.id, contract.id)
+          .subscribe((copyContractId) => this.router.navigate((['files', this.fileData.id, 'contracts', copyContractId])));
+      }
+    });
+  }
+
   public deleteRoute(routeId: number, confirmMsg: string): void {
     const confirmOperationRef = this.matDialog.open(
       ConfirmOperationDialogComponent,
