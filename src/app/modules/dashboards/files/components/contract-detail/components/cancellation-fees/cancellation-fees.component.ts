@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { Contract, ContractStates } from '../../../../models/Contract.model';
+import { ContractsService } from '../../../../services/contracts.service';
 import { CancellationFees } from '../../models/cancellation-fees.model';
 import { CancellationFeesService } from '../../services/cancellation-fees.service';
 
@@ -16,8 +18,9 @@ import { CancellationFeesService } from '../../services/cancellation-fees.servic
 })
 export class CancellationFeesComponent implements OnInit {
   public cancellationFees: Array<CancellationFees>;
-  public contractId: number;
   public fileId: number;
+  public contractId: number;
+  public contract: Contract;
   public isCancellationFeeFormVisible: boolean = false;
 
   public cancellationFeesDataSource = new MatTableDataSource<CancellationFees>();
@@ -36,6 +39,7 @@ export class CancellationFeesComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly cancellationFeesService: CancellationFeesService,
     private readonly matDialog: MatDialog,
+    private readonly contractsService: ContractsService
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +50,17 @@ export class CancellationFeesComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.fileId = +params.fileId;
       this.contractId = +params.contractId;
-      this.getCancellationFees(this.contractId);
+      this.getContract();
     });
+  }
+
+  private getContract() {
+    this.contractsService
+      .getContract(this.fileId, this.contractId)
+      .subscribe((contract: Contract) => {
+        this.contract = contract;
+        this.getCancellationFees(this.contractId);
+      });
   }
 
   private getCancellationFees(contractId: number): void {
@@ -81,7 +94,7 @@ export class CancellationFeesComponent implements OnInit {
 
   public onCancellationFeeSelected(cancellationFees: CancellationFees) {
     this.selection.toggle(cancellationFees);
-    if(this.selection.isEmpty()) {
+    if(this.isContractSigned() || this.selection.isEmpty()) {
       this.hideCancellationFeeForm();
     }else {
       this.updateCancellationFeeForm(cancellationFees);
@@ -114,6 +127,10 @@ export class CancellationFeesComponent implements OnInit {
 
   private showCancellationFeeForm(): void {
     this.isCancellationFeeFormVisible = true;
+  }
+
+  public isContractSigned(): boolean {
+    return this.contract?.contractState === ContractStates.SIGNED;
   }
 
   public hasControlAnyError(controlName: string): boolean {

@@ -233,11 +233,21 @@
     </form>
   </div>
 </mat-expansion-panel>
-<div class="row">
-  <button class="col s5 l2 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
-    {{ "FILES_CONTRACT.ASSIGN_CONDITIONS" | translate }}
+<div class="row" *ngIf="isContractSigned(); else assignButtons">
+  <button class="col s5 l3 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
+    {{ "FILES_CONTRACT.VIEW_CONDITIONS" | translate }}
   </button>
-  <button class="col s5 l2 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
-    {{ "FILES_CONTRACT.CANCELLATIONS_FEES" | translate }}
+  <button class="col s5 l3 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
+    {{ "FILES_CONTRACT.VIEW_CANCELLATIONS_FEES" | translate }}
   </button>
 </div>
+<ng-template #assignButtons>
+  <div class="row">
+    <button class="col s5 l3 cmd-m-1" color="primary" mat-raised-button (click)="assignConditions()">
+      {{ "FILES_CONTRACT.ASSIGN_CONDITIONS" | translate }}
+    </button>
+    <button class="col s5 l3 cmd-m-1" color="primary" mat-raised-button (click)="cancellationsFees()">
+      {{ "FILES_CONTRACT.EDIT_CANCELLATIONS_FEES" | translate }}
+    </button>
+  </div>
+</ng-template>

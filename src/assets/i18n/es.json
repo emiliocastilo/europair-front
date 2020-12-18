@@ -1005,7 +1005,9 @@
     "AIRCRAFT": "Aeronave",
     "SEATS": "Asientos",
     "ASSIGN_CONDITIONS": "Asignar condiciones",
-    "CANCELLATIONS_FEES": "Gastos de cancelación",
+    "VIEW_CONDITIONS": "Ver condiciones",
+    "EDIT_CANCELLATIONS_FEES": "Editar gastos de cancelación",
+    "VIEW_CANCELLATIONS_FEES": "Ver gastos de cancelación",
     "LANGUAGE": "Idioma",
     "ERRORS": {
       "REQUIRED": "Este campo es requerido"

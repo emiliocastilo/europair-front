@@ -9,6 +9,8 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } f
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { Contract, ContractStates } from '../../../../models/Contract.model';
+import { ContractsService } from '../../../../services/contracts.service';
 import { ContractCondition } from '../../models/contract-condition.model';
 import { ContractConditionsService } from '../../services/contract-condition.service';
 @Component({
@@ -19,6 +21,7 @@ import { ContractConditionsService } from '../../services/contract-condition.ser
 export class ContractConditionComponent implements OnInit {
   public fileId: number;
   public contractId: number;
+  public contract: Contract;
   private conditionsFilter: SearchFilter = {};
   public isContractConditionFormVisible: boolean = false;
   public contractConditionForm = this.fb.group({
@@ -62,6 +65,7 @@ export class ContractConditionComponent implements OnInit {
     private readonly contractConditionsService: ContractConditionsService,
     private readonly fb: FormBuilder,
     private readonly matDialog: MatDialog,
+    private readonly contractsService: ContractsService
   ) { }
 
   ngOnInit(): void {
@@ -74,8 +78,17 @@ export class ContractConditionComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.fileId = +params.fileId;
       this.contractId = +params.contractId;
-      this.getContractConditions();
+      this.getContract();
     });
+  }
+
+  private getContract() {
+    this.contractsService
+      .getContract(this.fileId, this.contractId)
+      .subscribe((contract: Contract) => {
+        this.contract = contract;
+        this.getContractConditions();
+      });
   }
 
   private getContractConditions(searchFilter?: SearchFilter) {
@@ -143,7 +156,7 @@ export class ContractConditionComponent implements OnInit {
 
   public onContractConditionSelected(contractCondition: ContractCondition) {
     this.selection.toggle(contractCondition);
-    if(this.selection.isEmpty()) {
+    if(this.isContractSigned() || this.selection.isEmpty()) {
       this.hideCancellationFeeForm();
     }else {
       this.updateContractConditionForm(contractCondition);
@@ -166,6 +179,10 @@ export class ContractConditionComponent implements OnInit {
   private filterContractConditionsTable() {
     this.hideCancellationFeeForm();
     this.getContractConditions(this.conditionsFilter);
+  }
+
+  public isContractSigned(): boolean {
+    return this.contract?.contractState === ContractStates.SIGNED;
   }
 
   public hasControlAnyError(controlName: string): boolean {

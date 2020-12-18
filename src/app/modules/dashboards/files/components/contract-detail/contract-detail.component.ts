@@ -116,13 +116,15 @@ export class ContractDetailComponent implements OnInit {
           provider: contract.provider?.name,
           client: contract.client?.name
         }, {emitEvent: false});
-        this.configurationDataForm.patchValue(contract.contractConfiguration);
+        this.contractLinesDataSource = new MatTableDataSource<ContractLine>(contract.contractLines);
+        this.refreshLinesData();
+        if (contract.contractConfiguration) {
+          this.configurationDataForm.patchValue(contract.contractConfiguration);
+        }
         if (this.isContractSigned()) {
           this.contractDataForm.disable({emitEvent: false});
           this.configurationDataForm.disable({emitEvent: false});
         }
-        this.contractLinesDataSource = new MatTableDataSource<ContractLine>(contract.contractLines);
-        this.refreshLinesData();
       });
   }
 

@@ -44,7 +44,7 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef> </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon
+        <mat-icon *ngIf="!isContractSigned()"
           (click)="deleteCondition(element)"
           (touchend)="$event.stopPropagation()"
           svgIcon="europair_trash"
@@ -105,7 +105,7 @@
     </div>
   </form>
 </section>
-<section class="row cmd-mb-2">
+<section class="row cmd-mb-2" *ngIf="!isContractSigned()">
   <app-select [label]="'FILES_CONTRACT.CONDITIONS.GENERAL_CONDITIONS' | translate"
     [id]="'search-airport-country'" [items]="generalConditions$ | async" [minTermLength]="1"
     [itemDescription]="'title'"

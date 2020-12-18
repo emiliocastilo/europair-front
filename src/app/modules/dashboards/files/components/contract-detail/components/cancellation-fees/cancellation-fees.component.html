@@ -52,7 +52,7 @@
       <ng-container matColumnDef="actions" stickyEnd>
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <mat-icon
+          <mat-icon *ngIf="!isContractSigned()"
             (click)="$event.stopPropagation(); deleteCancellationFee(element)"
             svgIcon="europair_trash"
             [matTooltip]="'TOOLTIPS.REMOVE_CANCELLATION_FEE' | translate"
@@ -70,7 +70,7 @@
     </mat-table>
   </div>
 </section>
-<section class="row cmd-mb-2">
+<section class="row cmd-mb-2" *ngIf="!isContractSigned()">
   <button color="primary" color="primary" class="cmd-mb-2" (click)="newCancellationFee()" mat-raised-button>
     {{ "FILES_CONTRACT.CANCELLATION_FEES.NEW" | translate }}
   </button>
