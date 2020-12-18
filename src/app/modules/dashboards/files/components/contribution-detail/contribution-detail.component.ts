@@ -425,8 +425,8 @@ export class ContributionDetailComponent implements OnInit {
 
   private getPercentageApplied(operationType: ContributionOperations) {
     return operationType === ContributionOperations.PURCHASE? 
-    this.contribution.percentage_applied_on_purchase_tax ?? 100 : 
-    this.contribution.percentage_applied_on_sale_tax ?? 100;
+    this.contribution?.percentage_applied_on_purchase_tax ?? 100 : 
+    this.contribution?.percentage_applied_on_sale_tax ?? 100;
   }
 
   public updateContributionPurchaseData() {
