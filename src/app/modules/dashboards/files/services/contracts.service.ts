@@ -51,9 +51,14 @@ export class ContractsService {
     return this.http.put<Contract>(url, contract);
   }
 
-  public updateContractState(fileId: number, contractId: number, newState: ContractStates) {
+  public updateContractState(fileId: number, contractId: number, newState: ContractStates): Observable<Contract> {
     const url = `${this.url}files/${fileId}/contracts/state`;
     return this.http.put<Contract>(url, {idList: [contractId], state: newState});
+  }
+
+  public copyContract(fileId: number, contractId: number): Observable<void> {
+    const url = `${this.url}files/${fileId}/contracts/${contractId}/copy`;
+    return this.http.post<void>(url, {});
   }
 
   public deleteContract(fileId: number, contractId: number): Observable<void> {

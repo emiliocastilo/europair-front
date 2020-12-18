@@ -124,8 +124,16 @@ export class ContractDetailComponent implements OnInit {
         if (this.isContractSigned()) {
           this.contractDataForm.disable({emitEvent: false});
           this.configurationDataForm.disable({emitEvent: false});
+        } else {
+          this.enableUpdatableData();
         }
       });
+  }
+
+  private enableUpdatableData() {
+    this.contractDataForm.get('contractDate').enable({emitEvent: false});
+    this.contractDataForm.get('contractSignDate').enable({emitEvent: false});
+    this.configurationDataForm.enable({emitEvent: false});
   }
 
   private loadFlightsByFile() {
@@ -190,6 +198,22 @@ export class ContractDetailComponent implements OnInit {
       if(result) {
         this.contractsService.updateContractState(this.fileId, this.contract.id, ContractStates.SIGNED)
           .subscribe(() => this.refreshScreenData());
+      }
+    });
+  }
+
+  public copyContract() {
+    const confirmOperationRef = this.matDialog.open(ConfirmOperationDialogComponent, {
+      data: {
+        title: 'FILES_CONTRACT.COPY_CONTRACT_TITLE',
+        message: 'FILES_CONTRACT.COPY_CONTRACT_MSG',
+        translationParams: { contractCode: this.contract?.code}
+      }
+    });
+    confirmOperationRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.contractsService.copyContract(this.fileId, this.contract.id)
+          .subscribe((copyContractId) => this.router.navigate((['files', this.fileId, 'contracts', copyContractId])));
       }
     });
   }

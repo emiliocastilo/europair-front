@@ -67,6 +67,12 @@
               [matTooltip]="'TOOLTIPS.EDIT_CONTRACT' | translate"
               [matTooltipClass]="'europair-tooltip'"
             ></mat-icon>
+            <mat-icon *ngIf="isContractSigned(element)"
+              (click)="onCopyContract(element)"
+              svgIcon="europair_add_trace"
+              [matTooltip]="'TOOLTIPS.COPY_CONTRACT' | translate"
+              [matTooltipClass]="'europair-tooltip'"
+            ></mat-icon>
       </mat-cell>
     </ng-container> 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
