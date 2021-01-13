@@ -21,7 +21,8 @@ export class FilesService {
     filter_code: OperatorEnum.CONTAINS,
     filter_statusId: OperatorEnum.EQUALS,
     'filter_status.code': OperatorEnum.EQUALS,
-    filter_clientId: OperatorEnum.EQUALS
+    filter_clientId: OperatorEnum.EQUALS,
+    filter_createdBy: OperatorEnum.CONTAINS
   } as const;
 
   constructor(

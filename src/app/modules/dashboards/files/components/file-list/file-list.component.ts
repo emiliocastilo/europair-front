@@ -37,6 +37,7 @@ export class FileListComponent implements OnInit {
     'description',
     'status-name',
     'client-name',
+    'commercial'
   ];
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;
@@ -51,6 +52,7 @@ export class FileListComponent implements OnInit {
     filter_code: [''],
     filter_statusId: [''],
     filter_clientId: [''],
+    filter_createdBy: ['']
   });
 
   constructor(

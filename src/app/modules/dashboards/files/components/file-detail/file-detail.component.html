@@ -81,6 +81,8 @@
               [prefix]="'FILES.CLIENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="name"
               formControlName="client">
             </app-autocomplete>
+
+            <app-input [prefix]="'FILES.COMMERCIAL' | translate" formControlName="commercial" class="col s12 l4"></app-input>
           </div>
           <div class="row">
             <app-select class="col s12 l4" [id]="'select-file-operation-type'" [items]="operationsType" [dropdownPosition]="'top'"

@@ -1,7 +1,8 @@
 import { HttpLoaderFactory } from 'src/app/app.module';
+import { Audit } from 'src/app/core/models/audit/audit';
 import { Country } from '../../masters/countries/models/country';
 
-export interface File {
+export interface File extends Audit {
   id?: number;
   code?: string;
   description?: string;

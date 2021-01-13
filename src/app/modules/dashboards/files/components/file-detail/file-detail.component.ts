@@ -177,6 +177,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     clientId: ['', Validators.required],
     contact: ['', Validators.required],
     contactId: ['', Validators.required],
+    commercial: [{ value: '', disabled: true }],
     statusId: ['', this.validatorRequiredEditMode.bind(this)],
     operationType: ['', this.validatorRequiredEditMode.bind(this)]
   });
@@ -333,6 +334,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.fileForm.patchValue({
       ...file,
       status: file.status?.id,
+      commercial: file.createdBy
     });
 
     this.loadStatus();
