@@ -597,7 +597,10 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     );
     confirmOperationRef.afterClosed().subscribe((result) => {
       if (result) {
-        // TODO generate contract
+        this.contractService.generateContract(this.fileData.id, [routeId]).subscribe(() => {
+          this.refreshFile();
+          this.loadContracts(this.fileData);
+        });
       }
     });
   }
@@ -633,7 +636,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         show = fileStatus === FileStatusCode.GREEN_BOOKED;
         break;
       case FileAction.CREATE_ROUTES:
-        show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
+        //show = fileStatus === FileStatusCode.NEW_REQUEST || fileStatus === FileStatusCode.SALES;
+        show = fileStatus !== FileStatusCode.CNX;
         break;
       case FileAction.CREATE_CONTRACT:
         show = fileStatus === FileStatusCode.SALES &&
