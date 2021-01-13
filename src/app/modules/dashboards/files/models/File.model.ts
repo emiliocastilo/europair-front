@@ -19,6 +19,7 @@ export interface File {
   providerId?: number;
   salePersonId?: number;
   saleAgentId?: number;
+  updatedAfterContractSigned?: boolean;
 }
 
 export interface FileStatus {
