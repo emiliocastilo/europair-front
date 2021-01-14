@@ -627,8 +627,10 @@
     "CREATE_CONTRACT": "Crear Contrato",
     "SING_FILE": "Firmar Expediente",
     "CLIENT_SEARCH_TEXT": "Escriba nombre cliente",
+    "SALE_AGENT_SEARCH_TEXT": "Escriba el nombre del comercial",
     "SELECT_CLIENT": "Selecciona un cliente",
     "SELECT_STATUS": "Selecciona un estado",
+    "SELECT_SALE_AGENT": "Selecciona un comercial",
     "ROUTES": {
       "TITLE": "Rutas",
       "PETITION_ROUTES": "Rutas Petición",

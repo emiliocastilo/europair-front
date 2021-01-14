@@ -15,6 +15,8 @@ import {
 } from 'rxjs/operators';
 import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { User } from '../../../masters/users/models/user';
+import { UsersService } from '../../../masters/users/services/users.service';
 import {
   Client,
   File,
@@ -47,12 +49,16 @@ export class FileListComponent implements OnInit {
   public clientsInput$ = new Subject<string>();
   public clientsLoading = false;
   private selectedClient$ = new BehaviorSubject<Client[]>([]);
+  public saleAgents$: Observable<User[]>;
+  public saleAgentsInput$ = new Subject<string>();
+  public saleAgentsLoading = false;
+  private selectedSaleAgent$ = new BehaviorSubject<User[]>([]);
 
   public fileFilterForm: FormGroup = this.fb.group({
     filter_code: [''],
     filter_statusId: [''],
     filter_clientId: [''],
-    filter_createdBy: ['']
+    filter_saleAgentId: ['']
   });
 
   constructor(
@@ -61,6 +67,7 @@ export class FileListComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly fileStatusService: FileStatusService,
     private readonly clientsService: ClientsService,
+    private readonly usersService: UsersService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -130,6 +137,7 @@ export class FileListComponent implements OnInit {
   private getSelectsData(): void {
     this.loadFileStatus();
     this.loadClients();
+    this.loadSaleAgents();
   }
 
   private loadFileStatus(): void {
@@ -157,6 +165,28 @@ export class FileListComponent implements OnInit {
     );
   }
 
+  private loadSaleAgents(): void {
+    this.saleAgents$ = merge(
+      this.selectedSaleAgent$.asObservable(),
+      this.saleAgentsInput$.pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        tap(() => (this.saleAgentsLoading = true)),
+        switchMap(
+          (term: string): Observable<User[]> =>
+            this.usersService.getUsers({
+              filter_username: term,
+              filter_internalUser: 'true'
+             }).pipe(
+              map((page: Page<User>) => page.content),
+              catchError(() => of([])), // empty list on error
+              tap(() => (this.saleAgentsLoading = false))
+            )
+        )
+      )
+    );
+  }
+
   private fileFilterFormValueChangesSubscribe(): void {
     this.fileFilterForm.valueChanges
       .pipe(debounceTime(400), map(this.createSearchFilter))
@@ -172,6 +202,9 @@ export class FileListComponent implements OnInit {
       filter_clientId: this.getSearchFilterNullableValue(
         formValue.filter_clientId
       ),
+      filter_saleAgentId: this.getSearchFilterNullableValue(
+        formValue.filter_saleAgentId
+      )
     };
   };
 

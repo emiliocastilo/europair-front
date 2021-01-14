@@ -4,16 +4,29 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Page } from 'src/app/core/models/table/pagination/page';
+import { FilterOptions, SearchFilter } from 'src/app/core/models/search/search-filter';
+import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
+import { SearchFilterService } from 'src/app/core/services/search-filter.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   private readonly url = `${environment.apiUrl}users`;
-  constructor(private http: HttpClient) {}
+  private readonly filterOptions: FilterOptions = {
+    filter_username: OperatorEnum.CONTAINS,
+    filter_internalUser: OperatorEnum.EQUALS
+  } as const;
+  constructor(
+    private http: HttpClient,
+    private searchFilterService: SearchFilterService
+  ) {}
 
-  public getUsers(): Observable<Page<User>> {
-    return this.http.get<Page<User>>(this.url);
+  public getUsers(searchFilter: SearchFilter = {}): Observable<Page<User>> {
+    return this.http.get<Page<User>>(this.url, {
+      params: this.searchFilterService.createHttpParams(
+        searchFilter, this.filterOptions)
+    });
   }
 
   public saveUser(user: User): Observable<User> {

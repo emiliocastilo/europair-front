@@ -12,6 +12,7 @@ export interface User extends Audit {
   timeZone: string;
   roles: Role[];
   tasks: Task[];
+  internalUser?: boolean;
 }
 
 export const EMPTY_USER: User = {

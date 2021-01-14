@@ -22,7 +22,7 @@ export class FilesService {
     filter_statusId: OperatorEnum.EQUALS,
     'filter_status.code': OperatorEnum.EQUALS,
     filter_clientId: OperatorEnum.EQUALS,
-    filter_createdBy: OperatorEnum.CONTAINS
+    filter_saleAgentId: OperatorEnum.EQUALS
   } as const;
 
   constructor(

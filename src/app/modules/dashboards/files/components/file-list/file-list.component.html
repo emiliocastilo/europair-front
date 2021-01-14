@@ -43,12 +43,23 @@
           formControlName="filter_clientId"
         >
         </core-select>
-      <app-input
-        [type]="'text'"
-        [prefix]="'FILES.COMMERCIAL' | translate"
-        formControlName="filter_createdBy"
-        class="col s12 l3">
-      </app-input>
+      <core-select
+          [label]="'FILES.COMMERCIAL' | translate"
+          [id]="'search-sale-agents'"
+          [items]="saleAgents$ | async"
+          [minTermLength]="1"
+          [loading]="saleAgentsLoading"
+          class="col s12 l3 cmd-pb-1"
+          [typeToSearchText]="'FILES.SALE_AGENT_SEARCH_TEXT' | translate"
+          [placeholder]="'FILES.SELECT_SALE_AGENT' | translate"
+          [typeahead]="saleAgentsInput$"
+          [searchable]="true"
+          [itemDescription]="'username'"
+          [itemValue]="'id'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate"
+          formControlName="filter_saleAgentId"
+        >
+        </core-select>
     </div>
   </form>
 </div>
@@ -96,7 +107,7 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         {{ "FILES.COMMERCIAL" | translate }}
       </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{ element.createdBy }} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{ element.saleAgent ? element.saleAgent?.username : element.createdBy }} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
