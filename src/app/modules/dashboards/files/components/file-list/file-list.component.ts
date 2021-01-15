@@ -39,7 +39,7 @@ export class FileListComponent implements OnInit {
     'description',
     'status-name',
     'client-name',
-    'commercial'
+    'sale-agent'
   ];
   public paginatorLength: number = 0;
   public paginatorSize: number = 0;

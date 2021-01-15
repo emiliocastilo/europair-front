@@ -14,17 +14,17 @@
     </div>
 
     <div class="cmd-mb-2">
-      <button *ngIf="showAction(fileAction.CONFIRM_OPERATION)" color="primary" 
+      <button *ngIf="showAction(fileAction.CONFIRM_OPERATION)" color="primary"
         (click)="navigateConfirmOperation()" mat-raised-button>
         {{ "FILES.CONFIRM_OPERATION" | translate }}
       </button>
 
-      <button *ngIf="showAction(fileAction.CREATE_CONTRACT)" color="primary" 
+      <button *ngIf="showAction(fileAction.CREATE_CONTRACT)" color="primary"
         (click)="createContract()" mat-raised-button>
         {{ "FILES.CREATE_CONTRACT" | translate }}
       </button>
 
-      <button *ngIf="showAction(fileAction.SIGN_FILE)" color="primary" 
+      <button *ngIf="showAction(fileAction.SIGN_FILE)" color="primary"
         (click)="signFile()" mat-raised-button>
         {{ "FILES.SING_FILE" | translate }}
       </button>
@@ -82,7 +82,11 @@
               formControlName="client">
             </app-autocomplete>
 
-            <app-input [prefix]="'FILES.COMMERCIAL' | translate" formControlName="commercial" class="col s12 l4"></app-input>
+            <app-autocomplete class="col s12 l4" [options]="saleAgentOptions$ | async"
+              [prefix]="'FILES.SALE_AGENT' | translate" [lengthToTriggerSearch]="0" optionValue="id" optionLabel="username"
+              formControlName="saleAgent">
+            </app-autocomplete>
+
           </div>
           <div class="row">
             <app-select class="col s12 l4" [id]="'select-file-operation-type'" [items]="operationsType" [dropdownPosition]="'top'"
@@ -317,7 +321,7 @@
                         svgIcon="europair_edit"
                         [matTooltip]="'TOOLTIPS.EDIT_ROTATION'| translate" [matTooltipClass]="'europair-tooltip'"
                       ></mat-icon>
-                      <mat-icon                       
+                      <mat-icon
                         (click)="deleteRoute(element.id, 'FILES.ROTATION_DELETE_MSG')"
                         svgIcon="europair_trash"
                         [matTooltip]="'TOOLTIPS.REMOVE_ROTATION'| translate" [matTooltipClass]="'europair-tooltip'"
@@ -570,7 +574,7 @@
 
             <mat-header-row *matHeaderRowDef="columnsContributionsToDisplay; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let element; columns: columnsContributionsToDisplay" class="element-row"
-              [class.expanded-row]="expandedContributions.includes(element)" 
+              [class.expanded-row]="expandedContributions.includes(element)"
               (click)="expandContributionsRow(element)"></mat-row>
             <mat-row class="detail-row" *matRowDef="let element; columns: ['expandedDetail']" [@detailExpand]="
               expandedContributions.includes(element) ? 'expanded' : 'collapsed'
@@ -586,7 +590,7 @@
           </mat-panel-title>
           <mat-panel-description *ngIf="contractsExpansionPanel.expanded"></mat-panel-description>
         </mat-expansion-panel-header>
-        <app-file-contracts [contracts]="contracts" 
+        <app-file-contracts [contracts]="contracts"
           (contractDetail)="navigateToContractDetail($event)"
           (copyContract)="onCopyContract($event)">
         </app-file-contracts>

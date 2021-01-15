@@ -37,6 +37,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Observable, of } from 'rxjs';
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   map,
@@ -60,6 +61,8 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { InfoDialogComponent } from 'src/app/core/components/dialogs/info-dialog/info-dialog.component';
 import { ContractsService } from '../../services/contracts.service';
 import { Contract } from '../../models/Contract.model';
+import { UsersService } from '../../../masters/users/services/users.service';
+import { User } from '../../../masters/users/models/user';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -177,7 +180,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     clientId: ['', Validators.required],
     contact: ['', Validators.required],
     contactId: ['', Validators.required],
-    commercial: [{ value: '', disabled: true }],
+    saleAgent: [''],
+    saleAgentId: [''],
     statusId: ['', this.validatorRequiredEditMode.bind(this)],
     operationType: ['', this.validatorRequiredEditMode.bind(this)]
   });
@@ -200,6 +204,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   private fileStatusList: FileStatus[];
   public operationsType: OperationType[] = [];
   public clientOptions$: Observable<Client[]>;
+  public saleAgentOptions$: Observable<User[]>;
   public contactOptions$: Observable<Client[]>;
 
   public matcher = new FileErrorStateMatcher();
@@ -216,6 +221,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     private fileRoutesService: FileRoutesService,
     private fileStatusService: FileStatusService,
     private clientService: ClientsService,
+    private userService: UsersService,
     private contactService: ContactsService,
     private contractService: ContractsService,
     private confirmOperationService: ConfirmOperationService,
@@ -229,6 +235,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadClients();
+    this.loadSaleAgents();
     this.loadContacts();
     this.loadOperationType();
     this.obtainParams();
@@ -253,6 +260,23 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
           this.clientOptions$ = term ? this.getFilteredClients(term) : of([]);
         } else {
           this.fileForm.get('clientId').setValue(term.id);
+        }
+      });
+  }
+
+  private loadSaleAgents(): void {
+    this.fileForm
+      .get('saleAgent')
+      .valueChanges.pipe(
+        startWith(''),
+        debounceTime(500),
+        distinctUntilChanged()
+      )
+      .subscribe((term) => {
+        if (typeof term === 'string') {
+          this.saleAgentOptions$ = term ? this.getFilteredSaleAgents(term) : of([]);
+        } else {
+          this.fileForm.get('saleAgentId').setValue(term.id);
         }
       });
   }
@@ -291,6 +315,17 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
           );
         })
       )
+    );
+  }
+
+  private getFilteredSaleAgents(term: string): Observable<User[]> {
+    const filter = {
+      filter_username: term,
+      filter_internalUser: 'true'
+    };
+    return this.userService.getUsers(filter).pipe(
+      map((page: Page<User>) => page.content),
+      catchError(() => of([])), // empty list on error
     );
   }
 
@@ -334,7 +369,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     this.fileForm.patchValue({
       ...file,
       status: file.status?.id,
-      commercial: file.createdBy
+      saleAgent: file.saleAgent ? file.saleAgent : { username: file.createdBy }
     });
 
     this.loadStatus();
@@ -416,17 +451,13 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
       const file: File = {
         id: this.fileData?.id,
-        clientId: this.fileForm.get('clientId').value,
-        description: this.fileForm.get('description').value,
-        statusId: this.fileForm.get('statusId').value,
-        contactId: this.fileForm.get('contactId').value,
-        providerId: 1,
-        salePersonId: 1,
-        saleAgentId: 1,
-        operationType: this.fileForm.get('operationType').value || 'COMMERCIAL',
+        clientId: this.fileData.clientId,
+        description: this.fileData.description,
+        statusId: this.fileData.statusId,
+        contactId: this.fileData.contactId,
+        saleAgentId: this.fileData.saleAgentId,
+        operationType: this.fileData.operationType || 'COMMERCIAL',
       };
-
-      console.log('SAVING FILE', file);
 
       this.fileService.saveFile(file).subscribe((resp) => {
         if (!update) {
@@ -482,9 +513,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return frequencyDays.filter(frequencyDay => frequencyDay.monthDay !== null).reduce(this.monthDayReducer, '');
   }
 
-  private monthDayReducer = (monthDaysFormatted: string, frequencyDay: FrequencyDay): string => 
+  private monthDayReducer = (monthDaysFormatted: string, frequencyDay: FrequencyDay): string =>
     monthDaysFormatted !== ''? `${monthDaysFormatted},${frequencyDay.monthDay}` : `${frequencyDay.monthDay}`;
-  
+
 
   public runAction(
     event: Event,

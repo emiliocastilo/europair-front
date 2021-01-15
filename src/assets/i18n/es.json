@@ -715,7 +715,7 @@
     "MSG_CONFIRM_OPERATION": "¿Está seguro que deseas notificar operación confirmada?",
     "OPERATION_TYPE": "Tipo operación",
     "CONTACT": "Contacto",
-    "COMMERCIAL": "Comercial",
+    "SALE_AGENT": "Comercial",
     "ORIGIN": "Origen",
     "DESTINATION": "Destino",
     "DEPARTURE_DATETIME": "Fecha ETD",

@@ -44,7 +44,7 @@
         >
         </core-select>
       <core-select
-          [label]="'FILES.COMMERCIAL' | translate"
+          [label]="'FILES.SALE_AGENT' | translate"
           [id]="'search-sale-agents'"
           [items]="saleAgents$ | async"
           [minTermLength]="1"
@@ -102,10 +102,10 @@
       <mat-cell *matCellDef="let element"> {{ element.client.name }} </mat-cell>
     </ng-container>
 
-    <!-- Commercial Column -->
-    <ng-container matColumnDef="commercial">
+    <!-- Sale Agent Column -->
+    <ng-container matColumnDef="sale-agent">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
-        {{ "FILES.COMMERCIAL" | translate }}
+        {{ "FILES.SALE_AGENT" | translate }}
       </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{ element.saleAgent ? element.saleAgent?.username : element.createdBy }} </mat-cell>
     </ng-container>

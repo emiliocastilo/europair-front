@@ -1,6 +1,7 @@
 import { HttpLoaderFactory } from 'src/app/app.module';
 import { Audit } from 'src/app/core/models/audit/audit';
 import { Country } from '../../masters/countries/models/country';
+import { User } from '../../masters/users/models/user';
 
 export interface File extends Audit {
   id?: number;
@@ -10,8 +11,8 @@ export interface File extends Audit {
   client?: Client;
   contact?: Contact;
   provider?: Provider;
-  salePerson?: string;
-  saleAgent?: string;
+  salePerson?: User;
+  saleAgent?: User;
   operationType?: string;
   observation?: string;
   statusId?: number;
