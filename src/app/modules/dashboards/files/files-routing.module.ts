@@ -65,6 +65,14 @@ const routes: Routes = [
           ),
         data: { title: 'Detalles Expediente', isFileDetail: true },
       },
+      {
+        path: 'audit/:fileId',
+        loadChildren: () =>
+          import('./components/file-audit/file-audit.module').then(
+            (m) => m.FileAuditModule
+          ),
+        data: { title: 'Audit-X Expediente' },
+      },
     ],
   },
 ];

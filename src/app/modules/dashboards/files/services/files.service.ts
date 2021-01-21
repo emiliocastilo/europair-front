@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BaseAudit } from 'src/app/core/models/audit/base-audit';
 import { OperatorEnum } from 'src/app/core/models/search/operators-enum';
 import {
   FilterOptions,
@@ -73,5 +74,10 @@ export class FilesService {
   public removeFile(file: File) {
     const removeFileUrl = `${this.url}/${file.id}`;
     return this.http.delete(removeFileUrl);
+  }
+
+  public getFileAudit(fileId: number): Observable<BaseAudit[]> {
+    const fileAuditUrl = `${this.url}/${fileId}/audit`;
+    return this.http.get<BaseAudit[]>(fileAuditUrl);
   }
 }
