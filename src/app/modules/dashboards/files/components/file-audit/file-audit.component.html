@@ -1,5 +1,5 @@
 <core-page-bar [pageTitle]="'FILES.PAGE_TITLE_AUDIT' | translate"></core-page-bar>
-<div class="button-row">
+<div class="row">
       <button class="browser-default cmd-mr-2" color="primary" mat-raised-button
         (click)="returnToFileList()">
         {{ "COMMON.RETURN" | translate }}
@@ -17,7 +17,7 @@
           [items]="users$ | async"
           [minTermLength]="1"
           [loading]="usersLoading"
-          class="col s12 l3 cmd-pb-1"
+          class="col s12 l4 cmd-pb-1"
           [typeToSearchText]="'FILES.AUDIT.USER_SEARCH_TEXT' | translate"
           [placeholder]="'FILES.AUDIT.SELECT_USER' | translate"
           [typeahead]="usersInput$"
@@ -27,23 +27,25 @@
           [notFoundText]="'COMMON.NOT_FOUND' | translate"
           formControlName="filter_user"
         ></core-select>
-      <core-select class="col s12 l3 " [id]="'select-rev-type'" [items]="revTypeSelect"
+      <core-select class="col s12 l2 " [id]="'select-rev-type'" [items]="revTypeSelect"
         [placeholder]="'FILES.AUDIT.REVTYPE' | translate" [label]="'FILES.AUDIT.REVTYPE' | translate"
         formControlName="filter_revType">
       </core-select>
+            <app-input [prefix]="'FILES.AUDIT.CHANGES' | translate" formControlName="filter_changes" class="col s12 l4">
+            </app-input>
     </div>
         <div class="row">
           <app-input
             [type]="'datetime-local'"
             [prefix]="'FILES.AUDIT.START_DATE' | translate"
             formControlName="filter_startDate"
-            class="col s12 l4"
+            class="col s12 l3"
           ></app-input>
           <app-input
             [type]="'datetime-local'"
             [prefix]="'FILES.AUDIT.END_DATE' | translate"
             formControlName="filter_endDate"
-            class="col s12 l4"
+            class="col s12 l3"
           ></app-input>
         </div>
   </form>
