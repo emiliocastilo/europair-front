@@ -1,12 +1,12 @@
+import { ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Data, Params, Router } from '@angular/router';
-import { BehaviorSubject, concat, merge, Observable, of, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BehaviorSubject, merge, Observable, of, Subject } from 'rxjs';
 import {
-  audit,
   catchError,
   debounceTime,
   distinctUntilChanged,
@@ -32,19 +32,21 @@ export class FileAuditComponent implements OnInit {
   // Table Properties
   public dataSource = new MatTableDataSource<BaseAudit>();
   public displayedColumns = [
-    'rev-type',
+    'revType',
     'datetime',
     'user',
     'changes'
   ];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
   public revTypeSelect = [
     'ADD',
     'UPDATE',
     'DELETE'
   ];
 
-  public paginatorLength: number = 0;
-  public paginatorSize: number = 0;
   private fileAuditData: BaseAudit[];
   public users$: Observable<User[]>;
   public usersInput$ = new Subject<string>();
@@ -129,6 +131,8 @@ export class FileAuditComponent implements OnInit {
 
   private updateTableData = (fileAudit: BaseAudit[]): void => {
     this.dataSource = new MatTableDataSource<BaseAudit>(fileAudit);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   };
 
   public auditMatchesFilter(auditData: BaseAudit): boolean {
@@ -143,11 +147,11 @@ export class FileAuditComponent implements OnInit {
     const endDateFilter: Date = this.auditFilterForm.get('filter_endDate').value;
     if (startDateFilter && endDateFilter) {
       dataMatch = dataMatch &&
-        (auditData.datetime.getTime() >= startDateFilter.getTime() && auditData.datetime.getTime() <= endDateFilter.getTime());
+        (auditData.datetime >= startDateFilter && auditData.datetime <= endDateFilter);
     } else if (startDateFilter) {
-      dataMatch = dataMatch && auditData.datetime.getTime() >= startDateFilter.getTime();
+      dataMatch = dataMatch && auditData.datetime >= startDateFilter;
     } else if (endDateFilter) {
-      dataMatch = dataMatch && auditData.datetime.getTime() <= endDateFilter.getTime();
+      dataMatch = dataMatch && auditData.datetime <= endDateFilter;
     }
 
     const revTypeFilter: RevType = this.auditFilterForm.get('filter_revType').value;
@@ -176,29 +180,9 @@ export class FileAuditComponent implements OnInit {
   private auditFilterFormValueChangesSubscribe(): void {
     this.auditFilterForm.valueChanges
       .pipe(debounceTime(400))
-      //.pipe(debounceTime(400), map(this.createSearchFilter))
-      //.subscribe((searchFilter) => this.refreshScreenData(searchFilter));
       .subscribe(() => this.filterAuditData());
   }
 
   // Table functions end
-
-
-  public onSort(sort?: Sort): void {
-    /*
-    this.refreshScreenData({
-      sort: `${sort.active.replace('-', '.')},${sort.direction}`,
-    });
-    */
-  }
-
-  public onPage(pageEvent: PageEvent): void {
-    /*
-    this.refreshScreenData({
-      page: pageEvent.pageIndex.toString(),
-      size: pageEvent.pageSize.toString(),
-    });
-    */
-  }
 
 }
