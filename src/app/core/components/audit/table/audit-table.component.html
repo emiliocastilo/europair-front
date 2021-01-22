@@ -1,0 +1,77 @@
+<ng-container>
+
+  <!-- Table filters -->
+  <div id="audit-filter">
+    <h3 class="title"> {{ 'COMMON.SEARCH_FILTERS' | translate }}:</h3>
+    <form [formGroup]="auditFilterForm">
+      <div class="row">
+        <core-select [label]="'AUDIT.USER' | translate" [id]="'search-users'" [items]="users$ | async"
+          [minTermLength]="1" [loading]="usersLoading" class="col s12 l4 cmd-pb-1"
+          [typeToSearchText]="'AUDIT.USER_SEARCH_TEXT' | translate" [placeholder]="'AUDIT.SELECT_USER' | translate"
+          [typeahead]="usersInput$" [searchable]="true" [itemDescription]="'username'" [itemValue]="'username'"
+          [notFoundText]="'COMMON.NOT_FOUND' | translate" formControlName="filter_user"></core-select>
+        <core-select class="col s12 l2 " [id]="'select-rev-type'" [items]="revTypeSelect"
+          [placeholder]="'AUDIT.REVTYPE' | translate" [label]="'AUDIT.REVTYPE' | translate"
+          [itemDescription]="'label' | translate" [itemValue]="'value'" formControlName="filter_revType">
+        </core-select>
+        <app-input [prefix]="'AUDIT.CHANGES' | translate" formControlName="filter_changes" class="col s12 l4">
+        </app-input>
+      </div>
+      <div class="row">
+        <app-input [type]="'datetime-local'" [prefix]="'AUDIT.START_DATE' | translate"
+          formControlName="filter_startDate" class="col s12 l3"></app-input>
+        <app-input [type]="'datetime-local'" [prefix]="'AUDIT.END_DATE' | translate" formControlName="filter_endDate"
+          class="col s12 l3"></app-input>
+      </div>
+    </form>
+  </div>
+
+  <!-- Table body -->
+  <div class="responsive-table-container">
+    <mat-table matSort [dataSource]="dataSource">
+      <!-- User Column -->
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "AUDIT.USER" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.user }} </mat-cell>
+      </ng-container>
+
+      <!-- RevType Column -->
+      <ng-container matColumnDef="revType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "AUDIT.REVTYPE" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ ('AUDIT.' + element.revType) | translate }} </mat-cell>
+      </ng-container>
+
+      <!-- Datetime Column -->
+      <ng-container matColumnDef="datetime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ "AUDIT.DATETIME" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.datetime | date: 'dd-MM-yyyy hh:mm:ss' }} </mat-cell>
+      </ng-container>
+
+      <!-- Changes Column -->
+      <ng-container matColumnDef="changes">
+        <mat-header-cell *matHeaderCellDef>
+          {{ "AUDIT.CHANGES" | translate }}
+        </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <ng-container *ngFor="let change of element.changes; let i = index">
+            {{
+            (i > 0 ? ', ' : '') +
+            (change.propertyName | translate) + ': ' +
+            (change.oldValue ? change.oldValue : '') + ' -> ' + (change.newValue ? change.newValue : '')
+            }}
+          </ng-container>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+</ng-container>

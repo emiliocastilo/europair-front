@@ -46,6 +46,7 @@ import { SelectFormComponent } from './components/basic/select-form/select-form.
 import { HeaderStickyDirective } from './directives/header-sticky.directive';
 import { SearchAirportSelectPipe } from './pipes/search-airport-select.pipe';
 import { SearchAirportsComponent } from './components/basic/search-airports/search-airports.component';
+import { AuditTableComponent } from './components/audit/table/audit-table.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { SearchAirportsComponent } from './components/basic/search-airports/sear
     SwitchComponent,
     TableAuditTooltipDirective,
     TableComponent,
+    AuditTableComponent,
     TopBarComponent,
     TranslatedSnackBarComponent,
     AutocompleteComponent,
@@ -126,6 +128,7 @@ import { SearchAirportsComponent } from './components/basic/search-airports/sear
     SwitchComponent,
     TableAuditTooltipDirective,
     TableComponent,
+    AuditTableComponent,
     TopBarComponent,
     TranslateModule,
     EditableComponent,

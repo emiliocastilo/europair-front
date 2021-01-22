@@ -722,23 +722,7 @@
     "DEPARTURE_DATETIME": "Fecha ETD",
     "DEPARTURA_DATETIME": "Hora ETA",
     "PAGE_TITLE_FLIGHT_TRAKING": "Seguimiento de vuelo",
-    "CONTRACT_TITLE": "Contratos",
-    "AUDIT": {
-      "USER": "Usuario",
-      "USER_SEARCH_TEXT": "Escriba el nombre del usuario",
-      "SELECT_USER": "Selecciona un usuario",
-      "REVTYPE": "Tipo",
-      "DATETIME": "Fecha y hora",
-      "CHANGES": "Cambios",
-      "ADD": "Añadido",
-      "UPDATE": "Modificado",
-      "DELETE": "Eliminado",
-      "START_DATE": "Fecha inicio",
-      "END_DATE": "Fecha fin"
-
-
-
-    }
+    "CONTRACT_TITLE": "Contratos"
   },
   "ROUTES": {
     "ROUTE_CODE": "Cód. Ruta",
@@ -1061,5 +1045,18 @@
       }
     },
     "DATE": "Fecha"
+  },
+  "AUDIT": {
+    "USER": "Usuario",
+    "USER_SEARCH_TEXT": "Escriba el nombre del usuario",
+    "SELECT_USER": "Selecciona un usuario",
+    "REVTYPE": "Tipo",
+    "DATETIME": "Fecha y hora",
+    "CHANGES": "Cambios",
+    "ADD": "Añadido",
+    "UPDATE": "Modificado",
+    "DELETE": "Eliminado",
+    "START_DATE": "Fecha inicio",
+    "END_DATE": "Fecha fin"
   }
 }
