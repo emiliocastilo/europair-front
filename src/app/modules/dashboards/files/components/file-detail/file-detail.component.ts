@@ -5,11 +5,11 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { BreakpointObserver } from '@angular/cdk/layout';
 import {
-  Component,
+  AfterViewInit, Component,
   OnInit,
-  ViewChild,
-  AfterViewInit
+  ViewChild
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,21 +20,12 @@ import {
   ValidationErrors,
   Validators
 } from '@angular/forms';
-import {
-  FileRoute,
-  DAYS_LIST,
-  FrequencyDay,
-  RouteStatus,
-  StandardWeekDays
-} from '../../models/FileRoute.model';
-import { FilesService } from '../../services/files.service';
-import { Page } from 'src/app/core/models/table/pagination/page';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FileRoutesService } from '../../services/file-routes.service';
 import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -43,26 +34,34 @@ import {
   map,
   startWith,
   switchMap,
-  tap,
+  tap
 } from 'rxjs/operators';
-import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
-import { FileStatusService } from '../../services/file-status.service';
-import { ClientsService } from '../../services/clients.service';
-import { ContributionService } from '../../services/contribution.service';
-import { Contribution, ContributionStates } from '../search-aircraft/models/contribution.model';
-import { MatDialog } from '@angular/material/dialog';
 import { ConfirmOperationDialogComponent } from 'src/app/core/components/dialogs/confirm-operation-dialog/confirm-operation-dialog.component';
+import { InfoDialogComponent } from 'src/app/core/components/dialogs/info-dialog/info-dialog.component';
+import { Page } from 'src/app/core/models/table/pagination/page';
 import { environment } from 'src/environments/environment';
-import { ConfirmOperationService } from '../../services/confirm-operation.service';
 import { Contact, OperationType } from '../../../masters/contacts/models/contact';
 import { ContactsService } from '../../../masters/contacts/services/contact.service';
-import { IntegrationOfficeService } from '../../services/integration-office.service';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { InfoDialogComponent } from 'src/app/core/components/dialogs/info-dialog/info-dialog.component';
-import { ContractsService } from '../../services/contracts.service';
-import { Contract } from '../../models/Contract.model';
-import { UsersService } from '../../../masters/users/services/users.service';
 import { User } from '../../../masters/users/models/user';
+import { UsersService } from '../../../masters/users/services/users.service';
+import { Contract } from '../../models/Contract.model';
+import { Client, ConfirmOperation, File, FileStatus, FileStatusCode } from '../../models/File.model';
+import {
+  DAYS_LIST, FileRoute,
+
+  FrequencyDay,
+  RouteStatus,
+  StandardWeekDays
+} from '../../models/FileRoute.model';
+import { ClientsService } from '../../services/clients.service';
+import { ConfirmOperationService } from '../../services/confirm-operation.service';
+import { ContractsService } from '../../services/contracts.service';
+import { ContributionService } from '../../services/contribution.service';
+import { FileRoutesService } from '../../services/file-routes.service';
+import { FileStatusService } from '../../services/file-status.service';
+import { FilesService } from '../../services/files.service';
+import { IntegrationOfficeService } from '../../services/integration-office.service';
+import { Contribution, ContributionStates } from '../search-aircraft/models/contribution.model';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class FileErrorStateMatcher implements ErrorStateMatcher {
@@ -211,6 +210,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
 
   private isFileDetail: boolean;
   private fileContributionsMap: Map<number, Contribution[]> = new Map();
+  public fileId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -359,6 +359,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         )
         .subscribe((file: File) => {
           this.getFileData(file);
+          this.fileId = file.id;
         });
     }
   };
@@ -457,6 +458,8 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         contactId: this.fileData.contactId,
         saleAgentId: this.fileData.saleAgentId,
         operationType: this.fileData.operationType || 'COMMERCIAL',
+        salePersonId: this.fileData.salePersonId || 1, // ToDo: change hardcoded value for input
+        providerId: this.fileData.providerId || 1 // ToDo: change hardcoded value for input
       };
 
       this.fileService.saveFile(file).subscribe((resp) => {
@@ -831,5 +834,9 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
     return (
       contribution.seatingC + contribution.seatingF + contribution.seatingY
     );
+  }
+
+  public goToAudit(): void {
+          this.router.navigate([`/files/audit/${this.fileId}`]);
   }
 }

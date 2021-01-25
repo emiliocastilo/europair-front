@@ -722,6 +722,7 @@
     "DEPARTURE_DATETIME": "Fecha ETD",
     "DEPARTURA_DATETIME": "Hora ETA",
     "PAGE_TITLE_FLIGHT_TRAKING": "Seguimiento de vuelo",
+    "AUDIT_BUTTON": "Ver auditoría",
     "CONTRACT_TITLE": "Contratos"
   },
   "ROUTES": {

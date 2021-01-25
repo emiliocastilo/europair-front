@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseAudit } from 'src/app/core/models/audit/base-audit';
@@ -16,6 +17,7 @@ export class FileAuditComponent implements OnInit {
   constructor(
     private readonly fileService: FilesService,
     private readonly router: Router,
+    private readonly location: Location,
     private readonly route: ActivatedRoute
   ) { }
 
@@ -35,12 +37,15 @@ export class FileAuditComponent implements OnInit {
     this.fileService.getFileAudit(fileId).subscribe((auditData: BaseAudit[]) => this.fileAuditData = auditData);
   };
 
-  public returnToFileList() {
+  public returnButton() {
     // Remove file-detail related queryparams before navigate to file list
+    this.location.back();
+    /*
     this.router.navigate(['files'], {
       queryParams: { ...this.route.snapshot.queryParams, expandedQuote: null },
       queryParamsHandling: 'merge'
     });
+    */
   }
 
 }

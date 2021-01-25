@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
-import { BehaviorSubject, merge, Observable, of, Subject } from "rxjs";
+import { TranslateService } from "@ngx-translate/core";
+import { BehaviorSubject, forkJoin, merge, Observable, of, Subject } from "rxjs";
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from "rxjs/operators";
 import { AuditChanges, BaseAudit, RevType } from "src/app/core/models/audit/base-audit";
 import { Page } from "src/app/core/models/table/pagination/page";
@@ -30,11 +31,7 @@ export class AuditTableComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public revTypeSelect = [
-    { value: 'ADD', label: 'AUDIT.ADD' },
-    { value: 'UPDATE', label: 'AUDIT.UPDATE' },
-    { value: 'DELETE', label: 'AUDIT.DELETE' }
-  ];
+  public revTypeSelect = [];
   public users$: Observable<User[]>;
   public usersInput$ = new Subject<string>();
   public usersLoading = false;
@@ -50,10 +47,12 @@ export class AuditTableComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private translateService: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.getRevTypeSelect();
     this.loadUsers();
     this.auditFilterFormValueChangesSubscribe();
   }
@@ -137,6 +136,20 @@ export class AuditTableComponent implements OnInit, OnChanges {
     this.auditFilterForm.valueChanges
       .pipe(debounceTime(400))
       .subscribe(() => this.filterAuditData());
+  }
+
+  private getRevTypeSelect(): void {
+    forkJoin({
+      revTypeAdd: this.translateService.get('AUDIT.ADD'),
+      revTypeUpdate: this.translateService.get('AUDIT.UPDATE'),
+      revTypeDelete: this.translateService.get('AUDIT.DELETE')
+    }).subscribe((data: { revTypeAdd: string, revTypeUpdate: string, revTypeDelete: string }) => {
+      this.revTypeSelect = [
+        { value: 'ADD', label: data.revTypeAdd },
+        { value: 'UPDATE', label: data.revTypeUpdate },
+        { value: 'DELETE', label: data.revTypeDelete }
+      ];
+    });
   }
 
 }

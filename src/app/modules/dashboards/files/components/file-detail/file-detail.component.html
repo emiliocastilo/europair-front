@@ -7,9 +7,14 @@
         {{ "COMMON.RETURN" | translate }}
       </button>
 
-      <button class="browser-default" color="primary" mat-raised-button [disabled]="!fileForm.valid"
+      <button class="browser-default cmd-mr-2" color="primary" mat-raised-button [disabled]="!fileForm.valid"
         *ngIf="showAction(fileAction.MODIFY_FILE)" (click)="onSaveFile(routeData.isFileDetail)">
         {{ "FILES.SAVE_FILE" | translate }}
+      </button>
+
+      <button class="browser-default cmd-mr-2" color="primary" mat-raised-button [disabled]="!fileId"
+       (click)="goToAudit()" *ngIf="fileId">
+        {{ "FILES.AUDIT_BUTTON" | translate }}
       </button>
     </div>
 
