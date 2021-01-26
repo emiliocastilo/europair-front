@@ -66,7 +66,7 @@
     "EDIT_ROTATION": "Editar rotación",
     "REMOVE_ROTATION": "Eliminar rotación",
     "EDIT_CONTRIBUTION": "Editar cotización",
-    "SEND_CONTRIBUTION": "Enviar cotización",
+    "SEND_CONTRIBUTION": "Pedir disponibilidad",
     "REMOVE_CONTRIBUTION": "Eliminar cotización",
     "REMOVE_ADDITIONAL_SERVICE": "Eliminar servicio adicional",
     "REMOVE_FLIGHT": "Eliminar vuelo",
@@ -645,7 +645,7 @@
       "CREATE": "Añadir servicio",
       "TITLE": "Servicios adicionales",
       "NEW": "Nuevo servicio",
-      "ACTIONS": "Aciones",
+      "ACTIONS": "Acciones",
       "OBSERVATION": "Observación",
       "DESCRIPTION": "Descripción",
       "QUANTITY": "Cantidad",
@@ -696,7 +696,7 @@
       "SALES_PRICE": "Precio venta",
       "SALES_TAXES": "% Impuestos venta",
       "STATUS": "Estado",
-      "ACTIONS": "Aciones"
+      "ACTIONS": "Acciones"
     },
     "ERRORS": {
       "CODE": "Debe indicar un ID de Expediente",

@@ -39,7 +39,7 @@ export interface Contribution {
 
 export enum ContributionStates {
   PENDING = 'PENDING',
-  SENDED = 'SENDED',
+  SENT = 'SENT',
   QUOTED = 'QUOTED',
   WON = 'WON',
 }
@@ -48,7 +48,7 @@ export const CONTRIBUTION_STATES: ContributionStates[] = [
   ContributionStates.WON,
   ContributionStates.PENDING,
   ContributionStates.QUOTED,
-  ContributionStates.SENDED,
+  ContributionStates.SENT,
 ];
 
 export enum ContributionOperations {
