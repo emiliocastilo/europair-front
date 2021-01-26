@@ -45,9 +45,9 @@
     </ng-template>
   </mat-expansion-panel>
 
+  <div #flightsAux></div>
   <mat-expansion-panel
     #flightPanel
-    class="cmd-mb-3"
     expanded="true"
     *ngIf="this.paginatorLength > 0"
   >
@@ -182,7 +182,6 @@
         *ngIf="isFlightDataReorderer"
         type="button"
         color="primary"
-        class="cmd-mb-2"
         mat-raised-button
         (click)="reorderFlights()"
       >
