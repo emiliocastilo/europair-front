@@ -1041,5 +1041,15 @@
       }
     },
     "DATE": "Fecha"
+  },
+  "ERRORS": {
+    "CODES": {
+      "AIRPORT_NOT_FOUND": "No se ha encontrado el aeropuerto con ese identificador",
+      "AIRPORT_NEW_WITH_ID": "Error al crear aeropuerto, no debe indicarse ningún identificador",
+      "AIRPORT_IATA_NOT_FOUND": "No se ha encontrado el aeropuerto con ese IATA",
+      "AIRPORT_NO_COORDINATES": "Uno de los aeropuertos no tiene los datos de coordenadas necesarios para calcular la distancia",
+      "AIRPORT_IATA_DUPLICATE": "Ya existe un aeropuerto con ese código IATA",
+      "AIRPORT_ICAO_DUPLICATE": "Ya existe un aeropuerto con ese código ICAO"
+    }
   }
 }
