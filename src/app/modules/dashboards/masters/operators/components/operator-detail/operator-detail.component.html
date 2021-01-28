@@ -69,7 +69,7 @@
                   </ng-container>
                 </core-basic-input-text>
 
-                <core-basic-input-text [id]="'operator-name'" [label]="'COMMON.NAME' | translate | sentenceCase"
+                <core-basic-input-text [id]="'operator-name'" [label]="('COMMON.NAME' | translate | sentenceCase) + ' *'"
                   [hasErrors]="hasControlAnyError('name')" class="col s12 l6" formControlName="name">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('name')">
