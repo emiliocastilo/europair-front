@@ -1,16 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Region, EMPTY_REGION } from '../../models/region';
-import { Country } from '../../../countries/models/country';
 import { MatTableDataSource } from '@angular/material/table';
-import { CountriesService } from '../../../countries/services/countries.service';
-import { AirportsService } from '../../../airports/services/airports.service';
-import { Page } from 'src/app/core/models/table/pagination/page';
-import { PageEvent } from '@angular/material/paginator';
-import { SearchFilter } from 'src/app/core/models/search/search-filter';
 import { concat, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap, switchMap, map, catchError } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { Page } from 'src/app/core/models/table/pagination/page';
 import { Airport } from '../../../airports/models/airport';
+import { AirportsService } from '../../../airports/services/airports.service';
+import { Country } from '../../../countries/models/country';
+import { CountriesService } from '../../../countries/services/countries.service';
+import { EMPTY_REGION, Region } from '../../models/region';
 
 @Component({
   selector: 'app-region-detail',
@@ -122,7 +120,7 @@ export class RegionDetailComponent implements OnInit {
   };
 
   private isCountryAlreadyAdded(countrySelected: Country): boolean {
-    return !!this.dataSourceAirports.data.find(country => country.id === countrySelected.id);
+    return !!this.dataSourceCountries.data.find(country => country.id === countrySelected.id);
   }
 
   private airportsControlValueChangesSubscribe(): void {

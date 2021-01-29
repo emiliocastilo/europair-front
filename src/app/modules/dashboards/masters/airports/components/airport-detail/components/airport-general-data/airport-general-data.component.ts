@@ -23,7 +23,7 @@ import { CitiesService } from 'src/app/modules/dashboards/masters/cities/service
 import { City } from 'src/app/modules/dashboards/masters/cities/models/city';
 import { Country } from 'src/app/modules/dashboards/masters/countries/models/country';
 import { FlightRulesType, CustomsType } from '../../../../models/airport';
-import { MeasureType, MEASURE_LIST } from 'src/app/core/models/base/measure';
+import { MeasureType } from 'src/app/core/models/base/measure';
 import { TranslateService } from '@ngx-translate/core';
 import { TimeConversionService } from 'src/app/core/services/time-conversion.service';
 import { TimeZone } from 'src/app/core/models/base/time-zone';
@@ -54,6 +54,8 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
 
   private unsubscriber$: Subject<void> = new Subject();
 
+  private elevationUnits: MeasureType[] = [MeasureType.FOOT, MeasureType.METER];
+
   constructor(
     private countriesService: CountriesService,
     private citiesServices: CitiesService,
@@ -69,7 +71,7 @@ export class AirportGeneralDataComponent implements OnInit, OnDestroy {
     this.translateService
       .get('MEASURES.UNITS')
       .subscribe((data: Array<string>) => {
-        this.measureList = MEASURE_LIST.map((measureValue: string) => {
+        this.measureList = this.elevationUnits.map((measureValue: string) => {
           return {
             label: data[measureValue],
             value: MeasureType[measureValue],
