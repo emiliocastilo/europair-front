@@ -13,8 +13,7 @@ export class HttpResponseHandlerService {
   public manageError(error: HttpErrorResponse) {
 
     let errorMsg: string = error.error.message;
-    // ToDo: acabar traduccion de todos los errores y poner mensaje genérico para errores no controlados.
-    let errorLabel = errorMsg;
+    let errorLabel = 'ERRORS.CODES.UNKNOWN_ERROR';;
 
     if (errorMsg.startsWith('[')) {
       let errorCode: string = errorMsg.slice(1, 4);
