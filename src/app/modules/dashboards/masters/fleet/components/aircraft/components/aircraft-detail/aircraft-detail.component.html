@@ -42,7 +42,7 @@
                   [itemDescription]="selectItemDescription"
                   [items]="operators"
                   [itemValue]="selectItemValue"
-                  [label]="'AIRCRAFT.OPERATOR' | translate | sentenceCase"
+                  [label]="('AIRCRAFT.OPERATOR' | translate | sentenceCase) + ' *'"
                   [placeholder]="'AIRCRAFT.OPERATOR_PLACEHOLDER' | translate"
                   [searchable]="true"
                   [multiple]="false"
@@ -62,7 +62,7 @@
                 </core-select>
 
                 <core-basic-input-text [id]="'aircraft-quantity'" [type]="'number'"
-                  [label]="'AIRCRAFT.QUANTITY' | translate | sentenceCase" [hasErrors]="hasControlAnyError('quantity')"
+                  [label]="('AIRCRAFT.QUANTITY' | translate | sentenceCase) + ' *'" [hasErrors]="hasControlAnyError('quantity')"
                   formControlName="quantity" class="col s12 l4 cmd-mb-1">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('quantity')">
@@ -79,7 +79,7 @@
               <div class="row">
                 <core-select [items]="aircraftTypes" [itemValue]="selectItemValue"
                   [itemDescription]="selectItemDescriptionFleetType" [hasErrors]="hasControlAnyError('aircraftType')" [id]="'id'"
-                  [label]="'Tipo'" [searchable]="true" [placeholder]="'AIRCRAFT.AIRCRAFT_TYPE_PLACEHOLDER' | translate"
+                  [label]="('AIRCRAFT.AIRCRAFT_TYPE' | translate | sentenceCase) + ' *'" [searchable]="true" [placeholder]="'AIRCRAFT.AIRCRAFT_TYPE_PLACEHOLDER' | translate"
                   [formControl]="this.aircraftForm.get('aircraftType')" class="col s12 l4 cmd-mb-1">
                   <ng-container inputErrors>
                     <ng-container *ngIf="hasControlAnyError('aircraftType')">

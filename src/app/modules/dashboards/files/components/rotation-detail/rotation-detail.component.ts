@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
@@ -75,6 +75,8 @@ export class RotationDetailComponent implements OnInit {
     beds: ['', Validators.min(0)],
     stretchers: ['', Validators.min(0)],
   }, { validators: endDateNotBeforeStartDateValidator('departureDate', 'arrivalDate')});
+
+  @ViewChild('flightsAux') flightAuxScrollElement: ElementRef;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -319,6 +321,8 @@ export class RotationDetailComponent implements OnInit {
 
   private showFlightData(): void {
     this.isFlightDataVisible = true;
+    // Scroll flight form into view
+    setTimeout(() => this.flightAuxScrollElement.nativeElement.scrollIntoView({behavior: 'smooth'}), 300);
   }
 
   private hideFlightData(): void {

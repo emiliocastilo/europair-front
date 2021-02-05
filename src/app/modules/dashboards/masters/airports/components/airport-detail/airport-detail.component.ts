@@ -111,12 +111,15 @@ export class AirportDetailComponent implements OnInit, OnDestroy {
         iataCode: this.generalDataForm.get('iataCode').value.toUpperCase(),
         icaoCode: this.generalDataForm.get('icaoCode').value.toUpperCase(),
         customs: this.generalDataForm.get('simpleCustoms').value ? CustomsType.YES : CustomsType.NO,
-        simpleCustoms: undefined
+        simpleCustoms: undefined,
+        timeZone: this.generalDataForm.get('timeZone').value ? this.generalDataForm.get('timeZone').value : null,
+        latitude: (this.generalDataForm.get('latitude').value as string).replace(',', '.'),
+        longitude: (this.generalDataForm.get('longitude').value as string).replace(',', '.')
       };
       console.log('SAVING AIRPORT', this.airportData);
       this.airportsService
         .addAirport(this.airportData)
-        .subscribe((aiport) => this.router.navigate(['airports', aiport.id]));
+        .subscribe((airport) => this.router.navigate(['airports', airport.id]));
     } else {
       this.generalDataForm.markAllAsTouched();
     }

@@ -815,7 +815,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
         window.open(`${environment.powerAppUrl.sendContribution}?contributionId=${contribution.id}`);
         if (contribution.contributionState === ContributionStates.PENDING) {
           this.contributionService
-          .updateContributionsState(contribution.fileId, contribution.routeId, contribution, ContributionStates.SENDED)
+          .updateContributionsState(contribution.fileId, contribution.routeId, contribution, ContributionStates.SENT)
           .subscribe(() => this.expandContributionsRow(fileRoute));
         }
       }
@@ -823,7 +823,7 @@ export class FileDetailComponent implements OnInit, AfterViewInit {
   }
 
   public isContributionSendable({ contributionState }: Contribution): boolean {
-    return contributionState === ContributionStates.PENDING || contributionState === ContributionStates.SENDED;
+    return contributionState === ContributionStates.PENDING || contributionState === ContributionStates.SENT;
   }
 
   public hasRouteContributions(route: FileRoute) {
